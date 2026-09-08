@@ -1,0 +1,123 @@
+/* ============================================
+   PRODUCTS PAGE - HERO SECTION
+   ============================================ */
+
+.products-hero {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.products-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.products-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.25) 0%,
+        rgba(0, 0, 0, 0.35) 100%
+    );
+}
+
+.products-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #FFFFFF;
+    max-width: 720px;
+    padding: 0 24px;
+}
+
+.products-breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 24px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.products-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.products-breadcrumb a:hover {
+    opacity: 0.8;
+}
+
+.products-hero-heading {
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -2px;
+    margin: 0 0 20px 0;
+    line-height: 1.1;
+}
+
+.products-hero-description {
+    font-size: 17px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .products-hero {
+        height: 450px;
+    }
+    
+    .products-hero-heading {
+        font-size: 52px;
+        letter-spacing: -1.5px;
+    }
+    
+    .products-hero-description {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .products-hero {
+        height: 400px;
+    }
+    
+    .products-hero-content {
+        padding: 0 20px;
+    }
+    
+    .products-breadcrumb {
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+    
+    .products-hero-heading {
+        font-size: 42px;
+        letter-spacing: -1px;
+        margin-bottom: 16px;
+    }
+    
+    .products-hero-description {
+        font-size: 15px;
+    }
+}

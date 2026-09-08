@@ -1,0 +1,120 @@
+/* ============================================
+   PRODUCTS - EDITORIAL SECTION
+   ============================================ */
+
+.products-editorial {
+    background: #F5F2EA;
+    padding: 100px 24px;
+}
+
+.products-editorial-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.products-editorial-image {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.products-editorial-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8B5A5A;
+    margin-bottom: 20px;
+}
+
+.products-editorial-heading {
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1D1D1B;
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+}
+
+.products-editorial-description {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #6F6F6A;
+    margin-bottom: 36px;
+}
+
+.products-editorial-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #1D1D1B;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 250ms ease;
+}
+
+.products-editorial-button:hover {
+    background: #2D2D2B;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.products-editorial-button svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 250ms ease;
+}
+
+.products-editorial-button:hover svg {
+    transform: translateX(4px);
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .products-editorial {
+        padding: 80px 24px;
+    }
+    
+    .products-editorial-container {
+        gap: 60px;
+    }
+    
+    .products-editorial-heading {
+        font-size: 32px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .products-editorial {
+        padding: 60px 16px;
+    }
+    
+    .products-editorial-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    
+    .products-editorial-image {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .products-editorial-heading {
+        font-size: 28px;
+    }
+    
+    .products-editorial-description {
+        font-size: 15px;
+    }
+}
