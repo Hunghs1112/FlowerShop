@@ -1,7 +1,7 @@
 <aside class="admin-sidebar" id="adminSidebar">
     <div class="admin-sidebar-header">
         <h2 class="admin-logo">
-            <a href="{{ route('admin.dashboard') }}" style="color: inherit; text-decoration: none;">
+            <a href="{{ route('admin.dashboard') }}">
                 Lâm Nhiên Thảo Admin
             </a>
         </h2>
@@ -84,8 +84,8 @@
         </ul>
     </nav>
 
-    <div style="padding: var(--space-4); border-top: 1px solid var(--color-border); margin-top: auto;">
-        <a href="{{ route('home') }}" class="admin-nav-link" style="justify-content: center;">
+    <div class="admin-sidebar-footer">
+        <a href="{{ locale_route('home') }}" class="admin-nav-link">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
             </svg>

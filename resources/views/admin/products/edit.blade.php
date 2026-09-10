@@ -142,7 +142,7 @@
                             </div>
                         @endif
 
-                        <div class="form-group" style="margin-top: {{ $product->productImages->count() > 0 ? 'var(--space-6)' : '0' }};">
+                        <div class="form-group {{ $product->productImages->count() > 0 ? 'form-group--has-images' : 'form-group--no-images' }}">
                             <label class="form-label">Thêm Hình Ảnh Mới</label>
                             <input type="file" name="images[]" multiple accept="image/*" 
                                    class="form-input" onchange="previewImages(this)">
@@ -187,103 +187,6 @@
     </form>
 </div>
 
-@push('styles')
-<style>
-    .admin-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--space-6);
-    }
-    
-    .admin-title {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-bold);
-    }
-    
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-4);
-    }
-    
-    .image-preview-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: var(--space-3);
-        margin-top: var(--space-4);
-    }
-    
-    .image-preview-item {
-        position: relative;
-        aspect-ratio: 1;
-        border-radius: var(--radius-md);
-        overflow: hidden;
-        border: 1px solid var(--color-border);
-    }
-    
-    .image-preview-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .image-badge {
-        position: absolute;
-        top: var(--space-2);
-        left: var(--space-2);
-        padding: var(--space-1) var(--space-2);
-        background-color: var(--color-accent-cool);
-        color: white;
-        font-size: var(--font-size-xs);
-        font-weight: var(--font-semibold);
-        border-radius: var(--radius-sm);
-    }
-    
-    .image-delete {
-        position: absolute;
-        bottom: var(--space-2);
-        right: var(--space-2);
-        padding: var(--space-1) var(--space-2);
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        font-size: var(--font-size-xs);
-        border-radius: var(--radius-sm);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: var(--space-1);
-    }
-    
-    .existing-images {
-        margin-bottom: var(--space-4);
-    }
-    
-    .form-help {
-        display: block;
-        margin-top: var(--space-2);
-        font-size: var(--font-size-sm);
-        color: var(--color-text-secondary);
-    }
-    
-    .alert {
-        padding: var(--space-4);
-        border-radius: var(--radius-md);
-        margin-bottom: var(--space-6);
-    }
-    
-    .alert-danger {
-        background-color: #fee;
-        border: 1px solid #fcc;
-        color: #c00;
-    }
-    
-    .alert ul {
-        margin: 0;
-        padding-left: var(--space-5);
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script>

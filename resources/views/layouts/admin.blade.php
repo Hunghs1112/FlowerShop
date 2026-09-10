@@ -12,9 +12,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    @php
+        function adminCssv(string $path): string {
+            $full = public_path($path);
+            $v = file_exists($full) ? filemtime($full) : time();
+            return asset($path) . '?v=' . $v;
+        }
+    @endphp
+    <link rel="stylesheet" href="{{ adminCssv('css/fonts.css') }}">
+    <link rel="stylesheet" href="{{ adminCssv('css/theme.css') }}">
+    <link rel="stylesheet" href="{{ adminCssv('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ adminCssv('css/admin-pages.css') }}">
+    <link rel="stylesheet" href="{{ adminCssv('css/admin/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ adminCssv('css/admin/forms.css') }}">
+    <link rel="stylesheet" href="{{ adminCssv('css/components/notification.css') }}">
     
     @stack('styles')
 </head>
@@ -40,7 +51,7 @@
 
                 @if($errors->any())
                     <div class="admin-alert error">
-                        <ul style="margin: 0; padding-left: 1.5rem;">
+                        <ul>
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach

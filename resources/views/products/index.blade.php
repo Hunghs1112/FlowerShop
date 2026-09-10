@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tất cả sản phẩm')
+@section('title', __('messages.products.page_title'))
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/products/hero.css') }}">
@@ -15,19 +15,19 @@
 <!-- Hero Banner -->
 <section class="products-hero">
     <img 
-        src="{{ asset('images/products/hero-banner.jpg') }}" 
-        alt="Tất cả sản phẩm"
+        src="{{ asset('images/products/hero-banner.jpg') }}"
+        alt="{{ __('messages.products.page_title') }}"
         class="products-hero-image"
     >
     <div class="products-hero-overlay"></div>
     <div class="products-hero-content">
         <div class="products-breadcrumb">
-            <a href="{{ route('home') }}">Trang chủ</a>
+            <a href="{{ locale_route('home') }}">{{ __('messages.products.breadcrumb_home') }}</a>
             <span>/</span>
-            <span>Tất cả sản phẩm</span>
+            <span>{{ __('messages.products.breadcrumb_all') }}</span>
         </div>
-        <h1 class="products-hero-heading">Tất cả sản phẩm</h1>
-        <p class="products-hero-description">Khám phá những bó hoa tươi được tuyển chọn mỗi ngày, mang vẻ đẹp tự nhiên và cảm xúc đến mọi khoảnh khắc.</p>
+        <h1 class="products-hero-heading">{{ __('messages.products.page_title') }}</h1>
+        <p class="products-hero-description">{{ __('messages.products.page_subtitle') }}</p>
     </div>
 </section>
 
@@ -38,9 +38,9 @@
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
             </svg>
-            Bộ lọc
+            {{ __('messages.products.filter') }}
         </button>
-        <span class="products-count">{{ $products->total() }} sản phẩm</span>
+        <span class="products-count">{!! str_replace(':count', $products->total(), __('messages.products.products_count')) !!}</span>
     </div>
     
     <div class="products-toolbar-right">
@@ -49,13 +49,13 @@
                 <span>Sắp xếp: <span id="sortLabel">
                     @php
                         $sortLabels = [
-                            'latest'      => 'Mặc định',
-                            'newest'      => 'Mới nhất',
-                            'bestseller'  => 'Bán chạy nhất',
-                            'price-asc'   => 'Giá thấp → cao',
-                            'price-desc'  => 'Giá cao → thấp',
+                            'latest'      => __('messages.products.sort_default'),
+                            'newest'      => __('messages.products.sort_newest'),
+                            'bestseller'  => __('messages.products.sort_bestseller'),
+                            'price-asc'   => __('messages.products.sort_price_asc'),
+                            'price-desc'  => __('messages.products.sort_price_desc'),
                         ];
-                        echo $sortLabels[request('sort_by', 'latest')] ?? 'Mặc định';
+                        echo $sortLabels[request('sort_by', 'latest')] ?? __('messages.products.sort_default');
                     @endphp
                 </span></span>
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,15 +64,15 @@
             </button>
             <div class="products-sort-menu" id="sortMenu">
                 <a class="products-sort-item {{ request('sort_by', 'latest') === 'latest' ? 'active' : '' }}"
-                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'latest', 'page' => null]) }}">Mặc định</a>
+                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'latest', 'page' => null]) }}">{{ __('messages.products.sort_default') }}</a>
                 <a class="products-sort-item {{ request('sort_by') === 'newest' ? 'active' : '' }}"
-                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'newest', 'page' => null]) }}">Mới nhất</a>
+                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'newest', 'page' => null]) }}">{{ __('messages.products.sort_newest') }}</a>
                 <a class="products-sort-item {{ request('sort_by') === 'bestseller' ? 'active' : '' }}"
-                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'bestseller', 'page' => null]) }}">Bán chạy nhất</a>
+                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'bestseller', 'page' => null]) }}">{{ __('messages.products.sort_bestseller') }}</a>
                 <a class="products-sort-item {{ request('sort_by') === 'price-asc' ? 'active' : '' }}"
-                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'price-asc', 'page' => null]) }}">Giá thấp → cao</a>
+                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'price-asc', 'page' => null]) }}">{{ __('messages.products.sort_price_asc') }}</a>
                 <a class="products-sort-item {{ request('sort_by') === 'price-desc' ? 'active' : '' }}"
-                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'price-desc', 'page' => null]) }}">Giá cao → thấp</a>
+                   href="{{ request()->fullUrlWithQuery(['sort_by' => 'price-desc', 'page' => null]) }}">{{ __('messages.products.sort_price_desc') }}</a>
             </div>
         </div>
     </div>
@@ -80,11 +80,11 @@
 
 <!-- Filter Sidebar -->
 <!-- Filter Sidebar — wraps in a real form so Apply submits to controller -->
-<form id="filterForm" method="GET" action="{{ route('products.index') }}" style="display:contents">
+<form id="filterForm" method="GET" action="{{ locale_route('products.index') }}" style="display:contents">
 <div class="products-filter-overlay" id="filterOverlay"></div>
 <aside class="products-filter-sidebar" id="filterSidebar">
     <div class="products-filter-header">
-        <h3 class="products-filter-title">Bộ lọc</h3>
+            <h3 class="products-filter-title">{{ __('messages.products.filter') }}</h3>
         <button type="button" class="products-filter-close" id="filterClose">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -94,8 +94,8 @@
     
     <div class="products-filter-body">
         <!-- Danh mục từ DB -->
-        <div class="products-filter-group">
-            <h4 class="products-filter-group-title">Danh mục</h4>
+                <div class="products-filter-group">
+            <h4 class="products-filter-group-title">{{ __('messages.products.filter_category') }}</h4>
             <div class="products-filter-options">
                 @foreach($categories as $cat)
                 <label class="products-filter-option">
@@ -111,15 +111,15 @@
         </div>
 
         <!-- Khoảng giá -->
-        <div class="products-filter-group">
-            <h4 class="products-filter-group-title">Khoảng giá</h4>
+                <div class="products-filter-group">
+            <h4 class="products-filter-group-title">{{ __('messages.products.filter_price') }}</h4>
             <div class="products-filter-options">
                 @php
                     $priceRanges = [
-                        'under-500k' => 'Dưới 500.000đ',
-                        '500k-1m'    => '500.000đ – 1.000.000đ',
-                        '1m-2m'      => '1.000.000đ – 2.000.000đ',
-                        'over-2m'    => 'Trên 2.000.000đ',
+                        'under-500k' => __('messages.products.price_under_500k'),
+                        '500k-1m'    => __('messages.products.price_500k_1m'),
+                        '1m-2m'      => __('messages.products.price_1m_2m'),
+                        'over-2m'    => __('messages.products.price_over_2m'),
                     ];
                     $activePriceRange = request('price_range');
                 @endphp
@@ -137,20 +137,19 @@
         </div>
 
         <!-- Tìm kiếm -->
-        <div class="products-filter-group">
-            <h4 class="products-filter-group-title">Tìm kiếm</h4>
+                <div class="products-filter-group">
+            <h4 class="products-filter-group-title">{{ __('messages.products.filter_search') }}</h4>
             <input type="text"
                    name="search"
                    value="{{ request('search') }}"
-                   placeholder="Tên sản phẩm..."
-                   class="products-filter-search-input"
-                   style="width:100%;padding:8px 12px;border:1px solid var(--color-border);border-radius:6px;font-size:14px;">
+                   placeholder="{{ __('messages.products.filter_search_placeholder') }}"
+                   class="products-filter-search-input">
         </div>
     </div>
     
     <div class="products-filter-footer">
-        <button type="button" class="products-filter-clear" id="filterClear">Xóa bộ lọc</button>
-        <button type="submit" class="products-filter-apply" id="filterApply">Áp dụng</button>
+        <button type="button" class="products-filter-clear" id="filterClear">{{ __('messages.products.clear_filters') }}</button>
+        <button type="submit" class="products-filter-apply" id="filterApply">{{ __('messages.products.apply_filters') }}</button>
     </div>
 </aside>
 </form>
@@ -160,36 +159,10 @@
     <div class="products-grid-container">
         <div class="products-grid" id="productsGrid">
             @forelse($products as $product)
-            <a href="{{ route('products.show', $product->slug) }}" class="product-card">
-                <div class="product-card-image-wrapper">
-                    <img 
-                        src="{{ $product->getPrimaryImageUrl() }}" 
-                        alt="{{ $product->name }}"
-                        class="product-card-image"
-                        loading="lazy"
-                    >
-                    
-                    <button class="product-card-wishlist" aria-label="Thêm vào yêu thích" data-product-id="{{ $product->id }}">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                        </svg>
-                    </button>
-                    
-                    <div class="product-card-overlay">
-                        <span class="product-card-view-button">Xem chi tiết</span>
-                    </div>
-                </div>
-                
-                <span class="product-card-category">{{ $product->category->name ?? 'Hoa tươi' }}</span>
-                <h3 class="product-card-name">{{ $product->name }}</h3>
-                
-                <div class="product-card-price-wrapper">
-                    <span class="product-card-price">{{ number_format($product->price, 0, ',', '.') }}đ</span>
-                </div>
-            </a>
+            <x-product-card :product="$product" />
             @empty
             <div class="products-empty">
-                <p>Không tìm thấy sản phẩm nào.</p>
+                <p>{{ __('messages.products.no_products') }}</p>
             </div>
             @endforelse
         </div>
@@ -249,12 +222,12 @@
             class="products-editorial-image"
         >
         
-        <div class="products-editorial-content">
+            <div class="products-editorial-content">
             <div class="products-editorial-eyebrow">FLOWER JOURNAL</div>
-            <h2 class="products-editorial-heading">Không chỉ là một bó hoa, mà là một câu chuyện.</h2>
-            <p class="products-editorial-description">Mỗi bó hoa được {{ $siteSettings['site_name'] ?? 'Lâm Nhiên Thảo' }} tuyển chọn và phối hợp từ những cành hoa tươi đẹp nhất, dành riêng cho những khoảnh khắc đáng nhớ.</p>
-            <a href="{{ route('blog.index') }}" class="products-editorial-button">
-                Khám phá câu chuyện
+            <h2 class="products-editorial-heading">{{ __('messages.products.editorial_title') }}</h2>
+            <p class="products-editorial-description">{{ __('messages.products.editorial_desc') }}</p>
+            <a href="{{ locale_route('blog.index') }}" class="products-editorial-button">
+                {{ __('messages.products.editorial_cta') }}
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
@@ -292,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Clear filters — navigate to clean products page
     filterClear.addEventListener('click', function() {
-        window.location.href = '{{ route('products.index') }}';
+        window.location.href = '{{ locale_route('products.index') }}';
     });
 
     // Sort dropdown toggle
@@ -310,16 +283,6 @@ document.addEventListener('DOMContentLoaded', function() {
             sortToggle.classList.remove('active');
             sortMenu.classList.remove('active');
         }
-    });
-
-    // Wishlist toggle
-    const wishlistButtons = document.querySelectorAll('.product-card-wishlist');
-    wishlistButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.classList.toggle('active');
-        });
     });
 });
 </script>

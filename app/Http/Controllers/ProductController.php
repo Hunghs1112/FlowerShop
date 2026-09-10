@@ -79,14 +79,16 @@ class ProductController extends Controller
 
     public function show(string $identifier)
     {
-        // Try to find by ID first (if numeric), otherwise by slug
+        // Try to find by ID first (if numeric), otherwise by slug (EN or VI)
         if (is_numeric($identifier)) {
             $product = Product::where('id', $identifier)
                 ->active()
                 ->with(['productImages', 'category'])
                 ->firstOrFail();
         } else {
+            // Support both EN and VI slugs
             $product = Product::where('slug', $identifier)
+                ->orWhere('slug_en', $identifier)
                 ->active()
                 ->with(['productImages', 'category'])
                 ->firstOrFail();

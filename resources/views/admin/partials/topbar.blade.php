@@ -29,7 +29,7 @@
         </div>
 
         <!-- Logout -->
-        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+        <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" class="btn btn-secondary btn-sm" title="Đăng Xuất">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,14 +40,3 @@
     </div>
 </div>
 
-<style>
-    .hide-mobile {
-        display: none;
-    }
-    
-    @media (min-width: 640px) {
-        .hide-mobile {
-            display: inline;
-        }
-    }
-</style>

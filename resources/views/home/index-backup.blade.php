@@ -29,7 +29,7 @@
                     Những bó hoa tươi được tuyển chọn kỹ lưỡng,
                     gói ghém trọn vẹn tình cảm dành cho người bạn yêu thương.
                 </p>
-                <a href="{{ route('products.index') }}" class="hero-cta">
+                <a href="{{ locale_route('products.index') }}" class="hero-cta">
                     Khám phá hoa tươi
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -48,7 +48,7 @@
                     Khám phá những giống hoa nhập khẩu được tuyển chọn
                     và chăm sóc cẩn thận để giữ trọn vẻ đẹp tự nhiên.
                 </p>
-                <a href="{{ route('categories.index') }}" class="hero-cta">
+                <a href="{{ locale_route('categories.index') }}" class="hero-cta">
                     Khám phá hoa nhập khẩu
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -67,7 +67,7 @@
                     Những thiết kế hoa dành riêng cho sinh nhật,
                     kỷ niệm, tình yêu và những khoảnh khắc đáng nhớ.
                 </p>
-                <a href="{{ route('products.index') }}?category=special" class="hero-cta">
+                <a href="{{ locale_route('products.index') }}?category=special" class="hero-cta">
                     Chọn hoa cho dịp đặc biệt
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -123,7 +123,7 @@
         <!-- Products Grid -->
         <div class="products-grid" id="productsGrid">
             <!-- Product 1 -->
-            <a href="{{ route('products.show', 1) }}" class="product-card">
+            <a href="{{ locale_route('products.show', 1) }}" class="product-card">
                 <div class="product-image-container">
                     <img 
                         src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&q=80" 
@@ -155,7 +155,7 @@
                     
                     <!-- Action Overlay (desktop hover only) -->
                     <div class="product-action-overlay">
-                        <a href="{{ route('products.show', 1) }}" class="product-action-btn">
+                        <a href="{{ locale_route('products.show', 1) }}" class="product-action-btn">
                             Xem chi tiết
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -175,7 +175,7 @@
             </a>
 
             <!-- Product 2 -->
-            <a href="{{ route('products.show', 2) }}" class="product-card">
+            <a href="{{ locale_route('products.show', 2) }}" class="product-card">
                 <div class="product-image-container">
                     <img 
                         src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&q=80" 
@@ -204,7 +204,7 @@
                     </button>
                     
                     <div class="product-action-overlay">
-                        <a href="{{ route('products.show', 2) }}" class="product-action-btn">
+                        <a href="{{ locale_route('products.show', 2) }}" class="product-action-btn">
                             Xem chi tiết
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -224,7 +224,7 @@
             </a>
 
             <!-- Product 3 -->
-            <a href="{{ route('products.show', 3) }}" class="product-card">
+            <a href="{{ locale_route('products.show', 3) }}" class="product-card">
                 <div class="product-image-container">
                     <img 
                         src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&q=80" 
@@ -253,7 +253,7 @@
                     </button>
                     
                     <div class="product-action-overlay">
-                        <a href="{{ route('products.show', 3) }}" class="product-action-btn">
+                        <a href="{{ locale_route('products.show', 3) }}" class="product-action-btn">
                             Xem chi tiết
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -273,7 +273,7 @@
             </a>
 
             <!-- Product 4 -->
-            <a href="{{ route('products.show', 4) }}" class="product-card">
+            <a href="{{ locale_route('products.show', 4) }}" class="product-card">
                 <div class="product-image-container">
                     <img 
                         src="https://images.unsplash.com/photo-1535332371349-a5d229f49cb5?w=600&q=80" 
@@ -302,7 +302,7 @@
                     </button>
                     
                     <div class="product-action-overlay">
-                        <a href="{{ route('products.show', 4) }}" class="product-action-btn">
+                        <a href="{{ locale_route('products.show', 4) }}" class="product-action-btn">
                             Xem chi tiết
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -324,7 +324,7 @@
 
         <!-- View All Button -->
         <div class="products-footer">
-            <a href="{{ route('products.index') }}" class="products-view-all">
+            <a href="{{ locale_route('products.index') }}" class="products-view-all">
                 Xem tất cả sản phẩm
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -349,7 +349,7 @@
         </div>
 
         <div class="section-action">
-            <a href="{{ route('products.index') }}" class="btn btn-primary">
+            <a href="{{ locale_route('products.index') }}" class="btn btn-primary">
                 View All Products
             </a>
         </div>
@@ -370,7 +370,7 @@
                 <article class="post-card">
                     @if($post->image_url)
                         <div class="post-card-image">
-                            <a href="{{ route('blog.show', $post->slug) }}">
+                            <a href="{{ locale_route('blog.show', $post->slug) }}">
                                 <img src="{{ $post->image_url }}" alt="{{ $post->title }}">
                             </a>
                         </div>
@@ -382,7 +382,7 @@
                             </span>
                         </div>
                         <h3 class="post-card-title">
-                            <a href="{{ route('blog.show', $post->slug) }}">
+                            <a href="{{ locale_route('blog.show', $post->slug) }}">
                                 {{ $post->title }}
                             </a>
                         </h3>
@@ -395,7 +395,7 @@
         </div>
 
         <div class="section-action">
-            <a href="{{ route('blog.index') }}" class="btn btn-outline">
+            <a href="{{ locale_route('blog.index') }}" class="btn btn-outline">
                 Read More Articles
             </a>
         </div>
@@ -511,7 +511,7 @@
         <!-- Left Side - Image Cards -->
         <div class="categories-images">
             <!-- Category Card 1 - Roses -->
-            <a href="{{ route('products.index', ['category' => 'roses']) }}" class="category-image-card">
+            <a href="{{ locale_route('products.index', ['category' => 'roses']) }}" class="category-image-card">
                 <img 
                     src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80" 
                     alt="Hoa hồng cao cấp"
@@ -525,7 +525,7 @@
             </a>
             
             <!-- Category Card 2 - Imported Flowers -->
-            <a href="{{ route('products.index', ['category' => 'imported']) }}" class="category-image-card">
+            <a href="{{ locale_route('products.index', ['category' => 'imported']) }}" class="category-image-card">
                 <img 
                     src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&q=80" 
                     alt="Hoa nhập khẩu cao cấp"
@@ -547,7 +547,7 @@
             
             <ul class="categories-list">
                 <li class="category-list-item">
-                    <a href="{{ route('products.index', ['category' => 'fresh-flowers']) }}" class="category-list-link">
+                    <a href="{{ locale_route('products.index', ['category' => 'fresh-flowers']) }}" class="category-list-link">
                         <span class="category-list-name">Hoa tươi</span>
                         <div class="category-list-arrow">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -558,7 +558,7 @@
                 </li>
                 
                 <li class="category-list-item">
-                    <a href="{{ route('products.index', ['category' => 'imported']) }}" class="category-list-link">
+                    <a href="{{ locale_route('products.index', ['category' => 'imported']) }}" class="category-list-link">
                         <span class="category-list-name">Hoa nhập khẩu</span>
                         <div class="category-list-arrow">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -569,7 +569,7 @@
                 </li>
                 
                 <li class="category-list-item">
-                    <a href="{{ route('products.index', ['category' => 'bouquet']) }}" class="category-list-link">
+                    <a href="{{ locale_route('products.index', ['category' => 'bouquet']) }}" class="category-list-link">
                         <span class="category-list-name">Bó hoa</span>
                         <div class="category-list-arrow">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -580,7 +580,7 @@
                 </li>
                 
                 <li class="category-list-item">
-                    <a href="{{ route('products.index', ['category' => 'box']) }}" class="category-list-link">
+                    <a href="{{ locale_route('products.index', ['category' => 'box']) }}" class="category-list-link">
                         <span class="category-list-name">Hộp hoa</span>
                         <div class="category-list-arrow">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -591,7 +591,7 @@
                 </li>
                 
                 <li class="category-list-item">
-                    <a href="{{ route('products.index', ['category' => 'wedding']) }}" class="category-list-link">
+                    <a href="{{ locale_route('products.index', ['category' => 'wedding']) }}" class="category-list-link">
                         <span class="category-list-name">Hoa cưới</span>
                         <div class="category-list-arrow">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -602,7 +602,7 @@
                 </li>
                 
                 <li class="category-list-item">
-                    <a href="{{ route('products.index', ['category' => 'seasonal']) }}" class="category-list-link">
+                    <a href="{{ locale_route('products.index', ['category' => 'seasonal']) }}" class="category-list-link">
                         <span class="category-list-name">Hoa theo mùa</span>
                         <div class="category-list-arrow">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">

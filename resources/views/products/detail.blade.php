@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $product->name)
+@section('title', $product->display_name)
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/product-detail.css') }}">
@@ -11,15 +11,15 @@
 <!-- Breadcrumb -->
 <div class="container">
     <nav class="breadcrumb">
-        <a href="{{ route('home') }}">Trang chủ</a>
+        <a href="{{ locale_route('home') }}">Trang chủ</a>
         <span>/</span>
-        <a href="{{ route('products.index') }}">Sản phẩm</a>
+        <a href="{{ locale_route('products.index') }}">Sản phẩm</a>
         @if($product->category)
             <span>/</span>
-            <a href="{{ route('products.index') }}?categories[]={{ $product->category->id }}">{{ $product->category->name }}</a>
+            <a href="{{ locale_route('products.index') }}?categories[]={{ $product->category->id }}">{{ $product->category->name }}</a>
         @endif
         <span>/</span>
-        <span>{{ $product->name }}</span>
+        <span>{{ $product->display_name }}</span>
     </nav>
 </div>
 
@@ -37,7 +37,7 @@
                             data-index="{{ $index }}"
                             aria-label="Ảnh {{ $index + 1 }}">
                         <img src="{{ asset('storage/' . $image->image_path) }}"
-                             alt="{{ $product->name }} ảnh {{ $index + 1 }}"
+                             alt="{{ $product->display_name }} ảnh {{ $index + 1 }}"
                              loading="lazy">
                     </button>
                 @empty
@@ -52,12 +52,12 @@
                 @forelse($product->productImages as $index => $image)
                     <div class="gallery-slide {{ $index === 0 ? 'active' : '' }}" data-index="{{ $index }}">
                         <img src="{{ asset('storage/' . $image->image_path) }}"
-                             alt="{{ $product->name }}"
+                             alt="{{ $product->display_name }}"
                              loading="{{ $index === 0 ? 'eager' : 'lazy' }}">
                     </div>
                 @empty
                     <div class="gallery-slide active" data-index="0">
-                        <img src="{{ $product->getPrimaryImageUrl() }}" alt="{{ $product->name }}" loading="eager">
+                        <img src="{{ $product->getPrimaryImageUrl() }}" alt="{{ $product->display_name }}" loading="eager">
                     </div>
                 @endforelse
 
@@ -101,7 +101,7 @@
             @endif
 
             <!-- Product Title -->
-            <h1 class="product-title">{{ $product->name }}</h1>
+            <h1 class="product-title">{{ $product->display_name }}</h1>
 
             <!-- Rating -->
             <div class="rating">
@@ -136,7 +136,7 @@
             <div class="stock">{{ $product->stock }} sản phẩm có sẵn</div>
 
             <!-- Quantity + Add to Cart -->
-            <form action="{{ route('cart.add') }}" method="POST">
+            <form action="{{ locale_route('cart.add') }}" method="POST">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <div class="cart-actions">
@@ -193,7 +193,7 @@
                     </button>
                     <div class="accordion-content">
                         @if($product->short_description)
-                            <p>{{ $product->short_description }}</p>
+                            <p>{{ $product->display_short_description }}</p>
                         @else
                             <p>{{ $product->name }} - Hoa tươi nhập khẩu cao cấp, được chăm sóc và bảo quản tốt nhất để giữ độ tươi lâu.</p>
                         @endif
@@ -272,12 +272,9 @@
         </div>
         <div class="products-grid">
             @forelse($recommendedProducts as $recommendedProduct)
-                <a href="{{ route('products.show', $recommendedProduct->slug ?? $recommendedProduct->id) }}" class="product-card">
+                <a href="{{ locale_route('products.show', $recommendedProduct->display_slug ?? $recommendedProduct->id) }}" class="product-card">
                     <div class="product-card-image">
                         <img src="{{ $recommendedProduct->getPrimaryImageUrl() }}" alt="{{ $recommendedProduct->name }}">
-                        @if($recommendedProduct->is_featured)
-                            <div class="product-card-badge">Nổi bật</div>
-                        @endif
                     </div>
                     <div class="product-card-content">
                         <div class="product-card-category">{{ $recommendedProduct->category->name ?? 'Hoa tươi' }}</div>
@@ -312,12 +309,9 @@
         </div>
         <div class="products-grid-small">
             @forelse($recentlyViewed as $viewedProduct)
-                <a href="{{ route('products.show', $viewedProduct->slug ?? $viewedProduct->id) }}" class="product-card">
+                <a href="{{ locale_route('products.show', $viewedProduct->display_slug ?? $viewedProduct->id) }}" class="product-card">
                     <div class="product-card-image">
                         <img src="{{ $viewedProduct->getPrimaryImageUrl() }}" alt="{{ $viewedProduct->name }}">
-                        @if($viewedProduct->is_featured)
-                            <div class="product-card-badge">Nổi bật</div>
-                        @endif
                     </div>
                     <div class="product-card-content">
                         <div class="product-card-category">{{ $viewedProduct->category->name ?? 'Hoa tươi' }}</div>
@@ -432,10 +426,10 @@
 
     function quickOrder(productId) {
         @auth
-            window.location.href = '{{ route("checkout.index") }}';
+            window.location.href = '{{ locale_route("checkout.index") }}';
         @else
             alert('Vui lòng đăng nhập để đặt hàng nhanh');
-            window.location.href = '{{ route("login") }}';
+            window.location.href = '{{ locale_route("login") }}';
         @endauth
     }
 

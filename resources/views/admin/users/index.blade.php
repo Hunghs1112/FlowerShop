@@ -98,47 +98,4 @@
     </div>
 </div>
 
-@push('styles')
-<style>
-    .admin-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--space-6);
-    }
-    
-    .admin-title {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-bold);
-    }
-    
-    .admin-filters {
-        display: flex;
-        gap: var(--space-3);
-        flex-wrap: wrap;
-    }
-    
-    .table-product-name {
-        font-weight: var(--font-semibold);
-        margin-bottom: var(--space-1);
-    }
-    
-    .table-actions {
-        display: flex;
-        gap: var(--space-2);
-    }
-    
-    .inline-form {
-        display: inline;
-    }
-    
-    .text-center {
-        text-align: center;
-    }
-    
-    .text-secondary {
-        color: var(--color-text-secondary);
-    }
-</style>
-@endpush
 @endsection

@@ -80,54 +80,74 @@
 /* Wishlist Button */
 .product-card-wishlist {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 42px;
-    height: 42px;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border: 1.5px solid rgba(0, 0, 0, 0.06);
+    background: #FFFFFF;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 3;
-    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(200, 90, 84, 0);
+    transform: scale(0.85);
     opacity: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
 
-.product-card:hover .product-card-wishlist {
+.product-card:hover .product-card-wishlist,
+.product-card-wishlist.active {
     opacity: 1;
+    transform: scale(1);
 }
 
 .product-card-wishlist:hover {
-    background: #FFFFFF;
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.12);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.product-card-wishlist:active {
+    transform: scale(0.94);
 }
 
 .product-card-wishlist svg {
-    width: 20px;
-    height: 20px;
-    stroke: #333;
-    transition: all 220ms ease;
-}
-
-.product-card:hover .product-card-wishlist {
-    opacity: 1;
-    background-color: rgba(255, 255, 255, 0.95);
+    width: 16px;
+    height: 16px;
+    stroke: #555;
+    fill: none;
+    stroke-width: 2;
+    transition: stroke 160ms ease, fill 160ms ease;
+    display: block;
+    pointer-events: none;
 }
 
 .product-card-wishlist:hover svg {
-    stroke: #B83A3A;
-    fill: #B83A3A;
+    stroke: #C85A54;
+}
+
+.product-card-wishlist.active {
+    box-shadow: 0 1px 4px rgba(200, 90, 84, 0.25), 0 0 0 0 rgba(200, 90, 84, 0);
 }
 
 .product-card-wishlist.active svg {
-    fill: #B83A3A;
-    stroke: #B83A3A;
+    fill: #C85A54;
+    stroke: #C85A54;
+}
+
+/* Pop animation khi click */
+@keyframes wishlist-pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.28); }
+    70%  { transform: scale(0.92); }
+    100% { transform: scale(1); }
+}
+
+.product-card-wishlist.pop {
+    animation: wishlist-pop 300ms cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
 }
 
 /* Overlay */

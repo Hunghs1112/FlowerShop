@@ -23,12 +23,13 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect admin to admin dashboard, others to home
+            // Redirect admin to admin dashboard, others to home (with locale)
             if (Auth::user()->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'));
             }
 
-            return redirect()->intended(route('home'));
+            $locale = app()->getLocale();
+            return redirect()->intended(route('home', ['locale' => $locale]));
         }
 
         return back()->withErrors([
@@ -43,6 +44,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        $locale = app()->getLocale();
+        return redirect()->route('home', ['locale' => $locale]);
     }
 }

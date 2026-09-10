@@ -121,7 +121,8 @@
         }
 
         // Show loading state
-        productsGrid.innerHTML = '<div class="products-loading">Đang tải sản phẩm...</div>';
+        const loadingText = document.querySelector('[data-i18n="loading"]')?.dataset.i18nValue || 'Loading...';
+        productsGrid.innerHTML = `<div class="products-loading">${loadingText}</div>`;
 
         // Build URL
         const url = new URL('/api/products', window.location.origin);

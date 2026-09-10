@@ -28,7 +28,9 @@ class CategoryController extends Controller
 
     public function show(string $slug, Request $request)
     {
+        // Support both EN and VI slugs
         $category = Category::where('slug', $slug)
+            ->orWhere('slug_en', $slug)
             ->active()
             ->with(['children'])
             ->firstOrFail();

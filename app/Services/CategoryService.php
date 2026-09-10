@@ -42,9 +42,9 @@ class CategoryService
 
         while ($current) {
             array_unshift($breadcrumb, [
-                'name' => $current->name,
-                'slug' => $current->slug,
-                'url' => route('category.show', $current->slug),
+                'name' => $current->display_name,
+                'slug' => $current->display_slug,
+                'url' => route('categories.show', $current->display_slug),
             ]);
             $current = $current->parent;
         }

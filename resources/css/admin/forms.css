@@ -1,0 +1,54 @@
+/* ============================================
+   ADMIN FORMS — image previews, form actions
+   ============================================ */
+
+/* Existing image thumbnail (categories, posts, settings) */
+.existing-image {
+    margin-top: var(--space-3, 0.75rem);
+}
+
+.existing-image img {
+    display: block;
+    max-width: 200px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border, #e5e7eb);
+}
+
+/* Posts form: larger preview */
+.admin-card .existing-image img.post-thumbnail {
+    max-width: 400px;
+}
+
+/* Settings logo preview */
+.existing-image img.site-logo-preview {
+    max-width: 200px;
+    margin-top: 0.5rem;
+}
+
+/* Form actions footer */
+.form-actions {
+    margin-top: var(--space-6, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3, 0.75rem);
+}
+
+/* Product edit: add-images section spacing when images already exist */
+.form-group--has-images {
+    margin-top: var(--space-6, 1.5rem);
+}
+
+.form-group--no-images {
+    margin-top: 0;
+}
+
+/* Topbar logout form — display inline */
+.admin-topbar-right form {
+    display: inline;
+}
+
+/* Admin error list */
+.admin-alert.error ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}

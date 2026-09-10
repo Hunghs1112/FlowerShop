@@ -91,19 +91,3 @@
         </div>
 </div>
 
-@push('styles')
-<style>
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-4);
-    }
-    
-    .form-help {
-        display: block;
-        margin-top: var(--space-2);
-        font-size: var(--font-size-sm);
-        color: var(--color-text-secondary);
-    }
-</style>
-@endpush

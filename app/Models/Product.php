@@ -99,4 +99,31 @@ class Product extends Model
         }
         return $this->favorites()->where('user_id', $userId)->exists();
     }
+
+    // ── Locale-aware accessors ──────────────────────────────────────────
+    // Returns English version if available and locale is 'en', otherwise falls back to Vietnamese
+
+    public function getDisplayNameAttribute(): string
+    {
+        if (app()->getLocale() === 'en' && $this->name_en) {
+            return $this->name_en;
+        }
+        return $this->name;
+    }
+
+    public function getDisplayShortDescriptionAttribute(): ?string
+    {
+        if (app()->getLocale() === 'en' && $this->short_description_en) {
+            return $this->short_description_en;
+        }
+        return $this->short_description;
+    }
+
+    public function getDisplaySlugAttribute(): string
+    {
+        if (app()->getLocale() === 'en' && $this->slug_en) {
+            return $this->slug_en;
+        }
+        return $this->slug;
+    }
 }

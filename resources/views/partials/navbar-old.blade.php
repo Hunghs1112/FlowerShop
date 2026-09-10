@@ -86,11 +86,6 @@
             </button>
 
             <!-- Wishlist -->
-            <a href="{{ route('favorites.index') }}" class="navbar-action-btn" title="Yêu thích" aria-label="Yêu thích">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                </svg>
-            </a>
 
             <!-- Cart -->
             <a href="{{ route('cart.index') }}" class="navbar-action-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
@@ -120,9 +115,6 @@
                         </a>
                         <a href="{{ route('checkout.success') }}" class="navbar-dropdown-item">
                             Đơn hàng
-                        </a>
-                        <a href="{{ route('favorites.index') }}" class="navbar-dropdown-item">
-                            Yêu thích
                         </a>
                         @if(auth()->user()->isAdmin())
                             <div class="navbar-dropdown-divider"></div>
@@ -171,7 +163,6 @@
                 <div style="height: 1px; background-color: var(--color-border); margin: var(--space-4) 0;"></div>
                 <li><a href="{{ route('profile.show') }}">Tài khoản của tôi</a></li>
                 <li><a href="{{ route('checkout.success') }}">Đơn hàng</a></li>
-                <li><a href="{{ route('favorites.index') }}">Yêu thích</a></li>
                 @if(auth()->user()->isAdmin())
                     <li><a href="{{ route('admin.dashboard') }}">Quản trị</a></li>
                 @endif

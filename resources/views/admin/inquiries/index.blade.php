@@ -92,43 +92,4 @@
     </div>
 </div>
 
-@push('styles')
-<style>
-    .table-user-name {
-        font-weight: var(--font-semibold);
-        margin-bottom: var(--space-1);
-    }
-    
-    .badge-sm {
-        font-size: var(--font-size-xs);
-        padding: 2px var(--space-2);
-    }
-    
-    .status-form {
-        display: inline;
-    }
-    
-    .badge-select {
-        padding: var(--space-1) var(--space-2);
-        border: none;
-        border-radius: var(--radius-sm);
-        font-size: var(--font-size-xs);
-        font-weight: var(--font-semibold);
-        cursor: pointer;
-        color: white;
-    }
-    
-    .badge-select.badge-new {
-        background-color: var(--color-accent-cool);
-    }
-    
-    .badge-select.badge-contacted {
-        background-color: var(--color-accent-warm);
-    }
-    
-    .badge-select.badge-completed {
-        background-color: var(--color-success);
-    }
-</style>
-@endpush
 @endsection

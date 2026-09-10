@@ -15,17 +15,15 @@
         <div class="hero-content">
             {{-- Slide 01 --}}
             <div class="hero-slide active" data-slide="0">
-                <span class="hero-label">HOA TƯƠI MỖI NGÀY</span>
+                <span class="hero-label">{{ __('messages.home.hero1_label') }}</span>
                 <h1 class="hero-title">
-                    Trao hoa,<br>
-                    trao những điều đẹp nhất
+                    {{ __('messages.home.hero1_title') }}
                 </h1>
                 <p class="hero-description">
-                    Những bó hoa tươi được tuyển chọn kỹ lưỡng,
-                    gói ghém trọn vẹn tình cảm dành cho người bạn yêu thương.
+                    {{ __('messages.home.hero1_desc') }}
                 </p>
-                <a href="{{ route('products.index') }}" class="hero-cta">
-                    Khám phá hoa tươi
+                <a href="{{ locale_route('products.index') }}" class="hero-cta">
+                    {{ __('messages.home.hero1_cta') }}
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
@@ -34,17 +32,15 @@
 
             {{-- Slide 02 --}}
             <div class="hero-slide" data-slide="1">
-                <span class="hero-label">HOA NHẬP KHẨU</span>
+                <span class="hero-label">{{ __('messages.home.hero2_label') }}</span>
                 <h1 class="hero-title">
-                    Vẻ đẹp tinh tế<br>
-                    từ những mùa hoa trên thế giới
+                    {{ __('messages.home.hero2_title') }}
                 </h1>
                 <p class="hero-description">
-                    Khám phá những giống hoa nhập khẩu được tuyển chọn
-                    và chăm sóc cẩn thận để giữ trọn vẻ đẹp tự nhiên.
+                    {{ __('messages.home.hero2_desc') }}
                 </p>
-                <a href="{{ route('categories.index') }}" class="hero-cta">
-                    Khám phá hoa nhập khẩu
+                <a href="{{ locale_route('categories.index') }}" class="hero-cta">
+                    {{ __('messages.home.hero2_cta') }}
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
@@ -53,17 +49,15 @@
 
             {{-- Slide 03 --}}
             <div class="hero-slide" data-slide="2">
-                <span class="hero-label">DỊCH VỤ ĐẶC BIỆT</span>
+                <span class="hero-label">{{ __('messages.home.hero3_label') }}</span>
                 <h1 class="hero-title">
-                    Thiết kế riêng<br>
-                    theo phong cách của bạn
+                    {{ __('messages.home.hero3_title') }}
                 </h1>
                 <p class="hero-description">
-                    Đội ngũ florist chuyên nghiệp sẵn sàng tư vấn và thiết kế
-                    những bó hoa độc đáo, phù hợp với mọi dịp đặc biệt.
+                    {{ __('messages.home.hero3_desc') }}
                 </p>
-                <a href="{{ route('products.index') }}" class="hero-cta">
-                    Tư vấn thiết kế
+                <a href="{{ locale_route('products.index') }}" class="hero-cta">
+                    {{ __('messages.home.hero3_cta') }}
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>

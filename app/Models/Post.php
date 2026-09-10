@@ -41,6 +41,10 @@ class Post extends Model
         if (!$this->thumbnail) {
             return 'https://via.placeholder.com/800x600/E5E7EB/6B7280?text=No+Image';
         }
+        // Already an absolute URL (e.g. Unsplash, http/https)
+        if (str_starts_with($this->thumbnail, 'http://') || str_starts_with($this->thumbnail, 'https://')) {
+            return $this->thumbnail;
+        }
         return asset('storage/' . $this->thumbnail);
     }
 }

@@ -57,7 +57,7 @@
                 @if(isset($post) && $post->featured_image)
                     <div class="existing-image">
                         <h3 class="form-label">Hình Ảnh Nổi Bật Hiện Tại</h3>
-                        <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" style="max-width: 400px; border-radius: 8px;">
+                        <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="post-thumbnail">
                     </div>
                 @endif
             </div>
@@ -124,32 +124,6 @@
         </div>
 </div>
 
-@push('styles')
-<style>
-    .image-preview {
-        margin-top: var(--space-4);
-    }
-    
-    .image-preview img {
-        max-width: 400px;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--color-border);
-    }
-    
-    .existing-image {
-        margin-top: var(--space-6);
-        padding-top: var(--space-6);
-        border-top: 1px solid var(--color-border);
-    }
-    
-    .form-help {
-        display: block;
-        margin-top: var(--space-2);
-        font-size: var(--font-size-sm);
-        color: var(--color-text-secondary);
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script>

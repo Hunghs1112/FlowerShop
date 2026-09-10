@@ -9,10 +9,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <h3 class="brand-value-heading">Hoa tươi được tuyển chọn mỗi ngày</h3>
-                <p class="brand-value-description">Chúng tôi lựa chọn những bông hoa đẹp nhất từ các nhà vườn uy tín để đảm bảo độ tươi và vẻ đẹp tự nhiên.</p>
+                <h3 class="brand-value-heading">{{ __('messages.home.values_fresh_title') }}</h3>
+                <p class="brand-value-description">{{ __('messages.home.values_fresh_desc') }}</p>
             </div>
-            
+
             {{-- Value 2 - Careful Delivery --}}
             <div class="brand-value-item">
                 <div class="brand-value-icon">
@@ -20,10 +20,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
                     </svg>
                 </div>
-                <h3 class="brand-value-heading">Gói hoa chỉn chu, giao tận tay</h3>
-                <p class="brand-value-description">Mỗi bó hoa được thiết kế và đóng gói cẩn thận trước khi trao đến người bạn yêu thương.</p>
+                <h3 class="brand-value-heading">{{ __('messages.home.values_delivery_title') }}</h3>
+                <p class="brand-value-description">{{ __('messages.home.values_delivery_desc') }}</p>
             </div>
-            
+
             {{-- Value 3 - Natural Beauty --}}
             <div class="brand-value-item">
                 <div class="brand-value-icon">
@@ -31,8 +31,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                     </svg>
                 </div>
-                <h3 class="brand-value-heading">Đẹp tự nhiên, trọn vẹn cảm xúc</h3>
-                <p class="brand-value-description">Ưu tiên hoa theo mùa, vật liệu thân thiện và những thiết kế giữ trọn vẻ đẹp tự nhiên của hoa.</p>
+                <h3 class="brand-value-heading">{{ __('messages.home.values_natural_title') }}</h3>
+                <p class="brand-value-description">{{ __('messages.home.values_natural_desc') }}</p>
             </div>
         </div>
     </div>

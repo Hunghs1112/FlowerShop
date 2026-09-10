@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Đăng nhập')
+@section('title', __('messages.auth.login_title'))
 
 @section('content')
 <div class="auth-page">
@@ -15,14 +15,14 @@
 
             {{-- Header --}}
             <div class="auth-header">
-                <h1 class="auth-title">Chào mừng trở lại</h1>
-                <p class="auth-subtitle">Đăng nhập vào tài khoản của bạn</p>
+                <h1 class="auth-title">{{ __('messages.auth.welcome_back') }}</h1>
+                <p class="auth-subtitle">{{ __('messages.auth.login_subtitle') }}</p>
             </div>
 
             {{-- Success Message --}}
             @if(session('status'))
                 <div class="auth-alert success">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px; flex-shrink: 0;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="auth-icon-sm" width="20" height="20">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span>{{ session('status') }}</span>
@@ -32,7 +32,7 @@
             {{-- Error Messages --}}
             @if($errors->any())
                 <div class="auth-alert error">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px; flex-shrink: 0;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="auth-icon-sm" width="20" height="20">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span><strong>Đăng nhập thất bại:</strong> {{ $errors->first() }}</span>
@@ -40,11 +40,11 @@
             @endif
 
             {{-- Login Form --}}
-            <form method="POST" action="{{ route('login') }}" class="auth-form">
+            <form method="POST" action="{{ locale_route('login') }}" class="auth-form">
                 @csrf
 
                 <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label">{{ __('messages.auth.email') }}</label>
                     <input 
                         type="email" 
                         id="email" 
@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password" class="form-label">Mật khẩu</label>
+                    <label for="password" class="form-label">{{ __('messages.auth.password') }}</label>
                     <input 
                         type="password" 
                         id="password" 
@@ -83,12 +83,12 @@
                         class="form-checkbox"
                         {{ old('remember') ? 'checked' : '' }}
                     >
-                    <label for="remember" class="form-checkbox-label">Ghi nhớ đăng nhập</label>
+                    <label for="remember" class="form-checkbox-label">{{ __('messages.auth.remember_me') }}</label>
                 </div>
 
                 <div class="auth-actions">
                     <button type="submit" class="auth-button">
-                        Đăng nhập
+                        {{ __('messages.auth.login_btn') }}
                     </button>
                 </div>
             </form>
@@ -96,8 +96,8 @@
             {{-- Forgot Password --}}
             @if(Route::has('password.request'))
                 <div class="auth-footer">
-                    <a href="{{ route('password.request') }}" class="auth-footer-link">
-                        Quên mật khẩu?
+                    <a href="{{ locale_route('password.request') }}" class="auth-footer-link">
+                        {{ __('messages.auth.forgot_password') }}
                     </a>
                 </div>
             @endif
@@ -107,7 +107,7 @@
                 <svg fill="currentColor" viewBox="0 0 24 24">
                     <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                <p>Tài khoản khách hàng được tạo bởi quản trị viên. Vui lòng liên hệ nếu bạn cần tài khoản mới.</p>
+                <p>{{ __('messages.auth.admin_note') }}</p>
             </div>
         </div>
     </div>

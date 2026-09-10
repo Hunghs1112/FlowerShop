@@ -67,16 +67,6 @@
         </div>
 </div>
 
-@push('styles')
-<style>
-    .form-help {
-        display: block;
-        margin-top: var(--space-2);
-        font-size: var(--font-size-sm);
-        color: var(--color-text-secondary);
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script>

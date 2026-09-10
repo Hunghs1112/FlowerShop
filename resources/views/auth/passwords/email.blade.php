@@ -20,7 +20,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('password.email') }}" class="auth-form">
+        <form method="POST" action="{{ locale_route('password.email') }}" class="auth-form">
             @csrf
 
             <div class="form-group">
@@ -39,7 +39,7 @@
         </form>
 
         <div class="auth-links">
-            <a href="{{ route('login') }}">Quay lại đăng nhập</a>
+            <a href="{{ locale_route('login') }}">Quay lại đăng nhập</a>
         </div>
     </div>
 </div>

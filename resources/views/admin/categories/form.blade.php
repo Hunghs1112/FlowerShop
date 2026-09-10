@@ -65,7 +65,7 @@
                 @if(isset($category) && $category->image)
                     <div class="existing-image">
                         <h3 class="form-label">Hình Ảnh Hiện Tại</h3>
-                        <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" style="max-width: 200px; border-radius: 8px;">
+                        <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
                     </div>
                 @endif
 
@@ -93,32 +93,6 @@
         </div>
 </div>
 
-@push('styles')
-<style>
-    .image-preview {
-        margin-top: var(--space-4);
-    }
-    
-    .image-preview img {
-        max-width: 200px;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--color-border);
-    }
-    
-    .existing-image {
-        margin-top: var(--space-6);
-        padding-top: var(--space-6);
-        border-top: 1px solid var(--color-border);
-    }
-    
-    .form-help {
-        display: block;
-        margin-top: var(--space-2);
-        font-size: var(--font-size-sm);
-        color: var(--color-text-secondary);
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script>

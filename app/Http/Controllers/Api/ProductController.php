@@ -45,7 +45,6 @@ class ProductController extends Controller
                     'secondary_image' => $product->productImages->count() > 1 ? $product->productImages[1]->image_url : null,
                     'category' => $product->category?->name,
                     'url' => route('products.show', $product),
-                    'is_favorited' => auth()->check() && $product->favorites()->where('user_id', auth()->id())->exists(),
                 ];
             }),
         ]);

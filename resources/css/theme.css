@@ -3,12 +3,15 @@
 :root {
     /* Base Colors - Clean & Elegant */
     --color-white: #FFFFFF;
+    --color-bg: #FFFFFF;
     --color-bg-primary: #FFFFFF;
     --color-bg-secondary: #FAFAFA;
     --color-bg-tertiary: #F5F5F5;
     --color-bg-accent: #FFF8F5;
+    --color-bg-dark: #EEEEEE;
     
     /* Text Colors */
+    --color-text: #222222;
     --color-text-primary: #222222;
     --color-text-secondary: #777777;
     --color-text-muted: #999999;
@@ -33,6 +36,10 @@
     --color-accent-tertiary: #8B5A5A;      /* Burgundy - for emphasis */
     --color-accent-tertiary-dark: #6F4848;
     --color-accent-tertiary-light: #C9A5A5;
+    
+    /* Color shortcuts for specific use cases */
+    --color-accent-cool: #7CA4C7;          /* Blue for info/links */
+    --color-accent-warm: #D4A5A5;          /* Warm rose for prices/highlights */
     
     /* Functional Colors */
     --color-success: #7CAA7D;

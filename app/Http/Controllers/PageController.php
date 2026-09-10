@@ -46,7 +46,7 @@ class PageController extends Controller
             'status' => 'new',
         ]);
 
-        return redirect()->back()->with('success', 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất.');
+        return redirect()->back()->with('success', __('messages.contact.send_success'));
     }
 
     public function policy(string $slug)
@@ -54,6 +54,14 @@ class PageController extends Controller
         $page = Page::where('slug', $slug)
             ->active()
             ->firstOrFail();
+
+        // Use English title if locale is EN
+        if (app()->getLocale() === 'en' && $page->title_en) {
+            $page->title = $page->title_en;
+        }
+        if (app()->getLocale() === 'en' && $page->content_en) {
+            $page->content = $page->content_en;
+        }
 
         return view('pages.policy', compact('page'));
     }

@@ -13,7 +13,7 @@
     height="400px"
 />
 
-<div class="container" style="padding: var(--space-8) var(--space-4);">
+<div class="container page-wrapper">
     <div class="about-layout">
 
         {{-- Nếu có trang "gioi-thieu" trong DB thì dùng nội dung đó --}}
@@ -24,8 +24,8 @@
         @else
             {{-- Fallback: nội dung tĩnh --}}
             <div class="content-section">
-                <h2>Chào mừng đến với {{ $siteInfo['site_name'] ?? 'Lâm Nhiên Thảo' }}</h2>
-                <p>{{ $siteInfo['about'] ?? 'Chúng tôi đam mê mang đến vẻ đẹp của hoa tươi và hoa nhập khẩu đến mọi dịp đặc biệt.' }}</p>
+                <h2>Chào mừng đến với {{ $siteInfo['site_name'] ?? $siteSettings['site_name'] ?? config('app.name') }}</h2>
+                <p>{{ $siteInfo['about'] ?? $siteSettings['site_description'] ?? 'Chúng tôi đam mê mang đến vẻ đẹp của hoa tươi và hoa nhập khẩu đến mọi dịp đặc biệt.' }}</p>
             </div>
 
             <div class="content-section">
@@ -127,8 +127,8 @@
                 @endif
             </div>
 
-            <div style="margin-top: var(--space-6);">
-                <a href="{{ route('contact') }}" class="btn btn-primary">Gửi tin nhắn cho chúng tôi</a>
+            <div class="contact-cta-wrapper">
+                <a href="{{ locale_route('contact') }}" class="btn btn-primary">Gửi tin nhắn cho chúng tôi</a>
             </div>
         </div>
 
@@ -136,154 +136,3 @@
 </div>
 @endsection
 
-@push('styles')
-<style>
-    .about-layout {
-        max-width: 860px;
-        margin: 0 auto;
-    }
-
-    /* Nội dung từ DB */
-    .page-body-content {
-        font-size: var(--font-size-base);
-        line-height: 1.85;
-        color: var(--color-text-secondary);
-        margin-bottom: var(--space-16);
-        white-space: pre-line;
-    }
-
-    /* Sections tĩnh */
-    .content-section {
-        margin-bottom: var(--space-12);
-    }
-
-    .content-section h2 {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-bold);
-        margin-bottom: var(--space-4);
-        color: var(--color-text);
-    }
-
-    .content-section p {
-        line-height: 1.8;
-        color: var(--color-text-secondary);
-        margin-bottom: var(--space-4);
-    }
-
-    .content-section ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .content-section li {
-        padding: var(--space-3) 0;
-        padding-left: var(--space-6);
-        position: relative;
-        line-height: 1.7;
-        color: var(--color-text-secondary);
-    }
-
-    .content-section li::before {
-        content: '→';
-        position: absolute;
-        left: 0;
-        color: var(--color-accent-cool);
-        font-weight: bold;
-    }
-
-    /* Values grid */
-    .values-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-6);
-        margin-bottom: var(--space-16);
-    }
-
-    @media (max-width: 640px) {
-        .values-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .value-card {
-        padding: var(--space-6);
-        background-color: var(--color-bg-secondary);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-    }
-
-    .value-icon {
-        width: 52px;
-        height: 52px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--color-accent-cool);
-        color: white;
-        border-radius: var(--radius-md);
-        margin-bottom: var(--space-4);
-    }
-
-    .value-card h3 {
-        font-size: var(--font-size-lg);
-        font-weight: var(--font-semibold);
-        margin-bottom: var(--space-2);
-        color: var(--color-text);
-    }
-
-    .value-card p {
-        font-size: var(--font-size-sm);
-        line-height: 1.7;
-        color: var(--color-text-secondary);
-        margin: 0;
-    }
-
-    /* Contact */
-    .contact-section h2 {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-bold);
-        margin-bottom: var(--space-6);
-        color: var(--color-text);
-    }
-
-    .contact-info {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-3);
-    }
-
-    .contact-item {
-        display: flex;
-        align-items: center;
-        gap: var(--space-4);
-        padding: var(--space-4) var(--space-5);
-        background-color: var(--color-bg-secondary);
-        border-radius: var(--radius-md);
-        border: 1px solid var(--color-border);
-    }
-
-    .contact-item svg {
-        flex-shrink: 0;
-        color: var(--color-accent-cool);
-    }
-
-    .contact-label {
-        font-size: var(--font-size-xs);
-        font-weight: var(--font-semibold);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--color-text-secondary);
-        margin-bottom: var(--space-1);
-    }
-
-    .contact-value {
-        font-size: var(--font-size-base);
-        color: var(--color-text);
-        text-decoration: none;
-    }
-
-    .contact-value:hover {
-        color: var(--color-accent-cool);
-    }
-</style>
-@endpush

@@ -297,3 +297,8 @@
         font-size: 15px;
     }
 }
+
+/* Inline icon helpers */
+.auth-icon-sm {
+    flex-shrink: 0;
+}

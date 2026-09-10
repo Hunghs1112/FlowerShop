@@ -56,7 +56,7 @@
                         <small class="form-help">Kích thước khuyến nghị: 200x60px</small>
                         @if(isset($settings['site_logo']))
                             <div class="existing-image">
-                                <img src="{{ asset('storage/' . $settings['site_logo']) }}" alt="Logo" style="max-width: 200px; margin-top: 1rem;">
+                                <img src="{{ asset('storage/' . $settings['site_logo']) }}" alt="Logo" class="site-logo-preview">
                             </div>
                         @endif
                     </div>
@@ -136,6 +136,24 @@
                         <input type="url" name="instagram_url" value="{{ old('instagram_url', $settings['instagram_url'] ?? '') }}" 
                                class="form-input @error('instagram_url') error @enderror" placeholder="https://instagram.com/...">
                         @error('instagram_url')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">TikTok</label>
+                        <input type="url" name="tiktok_url" value="{{ old('tiktok_url', $settings['tiktok_url'] ?? '') }}" 
+                               class="form-input @error('tiktok_url') error @enderror" placeholder="https://tiktok.com/@...">
+                        @error('tiktok_url')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Zalo</label>
+                        <input type="url" name="zalo_url" value="{{ old('zalo_url', $settings['zalo_url'] ?? '') }}" 
+                               class="form-input @error('zalo_url') error @enderror" placeholder="https://zalo.me/...">
+                        @error('zalo_url')
                             <span class="form-error">{{ $message }}</span>
                         @enderror
                     </div>
@@ -250,7 +268,7 @@
             </div>
         </div>
 
-        <div class="form-actions" style="margin-top: 2rem;">
+        <div class="form-actions">
             <button type="submit" class="btn btn-primary">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -261,48 +279,4 @@
     </form>
 </div>
 
-@push('styles')
-<style>
-    .admin-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--space-6);
-    }
-    
-    .admin-title {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-bold);
-    }
-    
-    .settings-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-6);
-    }
-    
-    @media (max-width: 1024px) {
-        .settings-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-    
-    .form-help {
-        display: block;
-        margin-top: var(--space-2);
-        font-size: var(--font-size-sm);
-        color: var(--color-text-secondary);
-    }
-    
-    .existing-image img {
-        border-radius: var(--radius-md);
-        border: 1px solid var(--color-border);
-    }
-    
-    .form-actions {
-        display: flex;
-        justify-content: flex-end;
-    }
-</style>
-@endpush
 @endsection
