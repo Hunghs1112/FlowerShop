@@ -257,7 +257,8 @@ php artisan serve
 
 - URL prefix routing (/vi/ and /en/) ✅
 - SetLocale middleware (auto-detect browser locale) ✅
-- Language switcher in navbar ✅
+- Language switcher in navbar (desktop + mobile) ✅
+- Enhanced language switcher with improved visibility ✅
 - Session-based persistence ✅
 - Translation files (lang/vi/ and lang/en/) ✅
 - All views use translation keys ✅
@@ -265,6 +266,21 @@ php artisan serve
 - Product/Category display_name accessors ✅
 - Admin panel (Vietnamese only) ✅
 - README documentation ✅
+
+### Recent Updates (Sep 10, 2026)
+
+**🔧 Fixed `locale_route()` function error**
+- Problem: "Call to undefined function locale_route()" error on /vi route
+- Solution: Regenerated Composer autoload files in Docker container
+- Fixed by running: `composer dump-autoload` and `php artisan optimize:clear`
+
+**🎨 Enhanced Language Switcher**
+- Improved visual design with better contrast and hover effects
+- Added box-shadow and transform animations
+- Responsive design for mobile devices
+- Mobile menu now includes language switcher at the top
+- Different styles for scrolled/non-scrolled navbar state
+- Flag emoji size increased for better visibility
 
 ## 📧 Support
 

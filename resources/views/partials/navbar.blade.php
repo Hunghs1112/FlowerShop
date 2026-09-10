@@ -187,6 +187,11 @@
 
     {{-- ─── Mobile Menu ─────────────────────────────────── --}}
     <div class="navbar-mobile-menu" id="mobileMenu">
+        {{-- Language Switcher for Mobile --}}
+        <div class="mobile-lang-switcher">
+            <x-language-switcher />
+        </div>
+        
         <ul class="navbar-mobile-nav">
             <li><a href="{{ locale_route('home') }}">{{ __('messages.nav.home') }}</a></li>
 

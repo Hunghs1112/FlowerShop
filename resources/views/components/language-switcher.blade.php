@@ -24,6 +24,7 @@
 </div>
 
 <style>
+/* Tối giản, hòa hợp với theme Dusty Rose */
 .lang-switcher {
     display: flex;
     align-items: center;
@@ -34,41 +35,52 @@
     align-items: center;
     gap: 4px;
     padding: 6px 10px;
-    border-radius: 6px;
+    border-radius: var(--radius-md);
     font-size: 13px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.85);
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.2s ease;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
 }
 
 .lang-switcher-btn:hover {
-    background: rgba(255, 255, 255, 0.22);
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--color-accent-primary);
+    border-color: var(--color-accent-primary-light);
+    background: var(--color-bg-secondary);
 }
 
 .lang-switcher-flag {
     font-size: 14px;
     line-height: 1;
+    opacity: 0.8;
 }
 
 .lang-switcher-label {
     font-size: 12px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03em;
 }
 
 /* Mobile responsive */
+@media (max-width: 768px) {
+    .lang-switcher-btn {
+        padding: 6px 8px;
+        gap: 3px;
+    }
+}
+
 @media (max-width: 480px) {
     .lang-switcher-label {
         display: none;
     }
     .lang-switcher-btn {
-        padding: 6px 8px;
+        padding: 6px;
+    }
+    .lang-switcher-flag {
+        font-size: 16px;
     }
 }
 </style>
