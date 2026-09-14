@@ -55,16 +55,18 @@ if (!function_exists('localized_url')) {
         $segments = explode('/', $path);
         $supportedLocales = ['vi', 'en'];
 
-        if (in_array($segments[0] ?? '', $supportedLocales, true)) {
+        // If first segment is a locale, replace it
+        if (isset($segments[0]) && in_array($segments[0], $supportedLocales, true)) {
             $segments[0] = $locale;
+            $newPath = '/' . implode('/', $segments);
+            
+            // Preserve query string
             $qs = $request->getQueryString();
-            return '/' . implode('/', $segments) . ($qs ? '?' . $qs : '');
+            return url($newPath . ($qs ? '?' . $qs : ''));
         }
 
-        if ($fallbackRoute) {
-            return app(UrlGenerator::class)->route($fallbackRoute, ['locale' => $locale], false);
-        }
-        return '/' . $locale;
+        // No locale in URL — fallback to home with new locale
+        return url('/' . $locale);
     }
 }
 

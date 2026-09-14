@@ -73,53 +73,29 @@ if (!function_exists('locale_route')) {
 
 /**
  * localized_url() — Get URL for language switcher.
- * Generates proper URL for target locale by rebuilding route with locale-specific paths.
+ * Generates proper URL for target locale by replacing the locale segment in current path.
  *
- * Example: /vi/danh-muc/valentine → /en/categories/valentine
+ * Example: /vi/danh-muc/valentine → /en/danh-muc/valentine
  */
 if (!function_exists('localized_url')) {
     function localized_url(string $locale, ?string $fallbackRoute = null): string
     {
         $request = request();
-        $route = $request->route();
-        
-        // If we have a named route, rebuild it with new locale
-        if ($route && $routeName = $route->getName()) {
-            $params = $route->parameters();
-            
-            // Temporarily switch locale to generate correct URL
-            $currentLocale = app()->getLocale();
-            app()->setLocale($locale);
-            
-            try {
-                // Rebuild route with new locale
-                $url = locale_route($routeName, $params, true);
-                app()->setLocale($currentLocale);
-                
-                // Preserve query string
-                $qs = $request->getQueryString();
-                return $url . ($qs ? '?' . $qs : '');
-            } catch (\Exception $e) {
-                app()->setLocale($currentLocale);
-            }
-        }
-        
-        // Fallback: just change prefix (may not work perfectly for all cases)
         $path = $request->path();
         $segments = explode('/', $path);
         $supportedLocales = ['vi', 'en'];
 
-        if (in_array($segments[0] ?? '', $supportedLocales, true)) {
+        // If first segment is a locale, replace it
+        if (isset($segments[0]) && in_array($segments[0], $supportedLocales, true)) {
             $segments[0] = $locale;
+            $newPath = '/' . implode('/', $segments);
+            
+            // Preserve query string
             $qs = $request->getQueryString();
-            return '/' . implode('/', $segments) . ($qs ? '?' . $qs : '');
+            return url($newPath . ($qs ? '?' . $qs : ''));
         }
 
-        // No locale in URL — build from fallback route
-        if ($fallbackRoute) {
-            return app(UrlGenerator::class)->route($fallbackRoute, ['locale' => $locale], false);
-        }
-
-        return '/' . $locale;
+        // No locale in URL — fallback to home with new locale
+        return url('/' . $locale);
     }
 }

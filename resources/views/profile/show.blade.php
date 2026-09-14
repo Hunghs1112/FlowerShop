@@ -7,7 +7,7 @@
     title="{{ __('messages.profile.page_title') }}"
     description="{{ __('messages.profile.page_desc') }}"
     :breadcrumbs="[
-        ['label' => __('messages.nav.home'), 'url' => route('home')],
+        ['label' => __('messages.nav.home'), 'url' => locale_route('home')],
         ['label' => __('messages.nav.account')]
     ]"
     height="350px"

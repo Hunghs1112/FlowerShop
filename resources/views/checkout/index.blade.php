@@ -7,8 +7,8 @@
     title="{{ __('messages.checkout.page_title') }}"
     description="{{ __('messages.checkout.page_desc') }}"
     :breadcrumbs="[
-        ['label' => __('messages.nav.home'), 'url' => route('home')],
-        ['label' => __('messages.cart.page_title'), 'url' => route('cart.index')],
+        ['label' => __('messages.nav.home'), 'url' => locale_route('home')],
+        ['label' => __('messages.cart.page_title'), 'url' => locale_route('cart.index')],
         ['label' => __('messages.checkout.page_title')]
     ]"
     height="350px"

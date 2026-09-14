@@ -7,7 +7,7 @@
     title="Về chúng tôi"
     description="Câu chuyện về chúng tôi và sứ mệnh mang vẻ đẹp hoa tươi đến mọi nhà"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => route('home')],
+        ['label' => 'Trang chủ', 'url' => locale_route('home')],
         ['label' => 'Về chúng tôi']
     ]"
     height="400px"

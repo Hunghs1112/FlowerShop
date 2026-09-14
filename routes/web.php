@@ -108,6 +108,9 @@ Route::prefix('{locale}')->where(['locale' => 'vi|en'])->middleware('web')->grou
     });
 });
 
+// Language Switcher (no locale prefix)
+Route::get('/locale/{locale}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
+
 // API (no locale prefix)
 Route::get('/api/products', [ApiProductController::class, 'getProducts'])->name('api.products');
 

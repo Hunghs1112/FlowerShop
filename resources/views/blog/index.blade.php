@@ -7,7 +7,7 @@
     title="{{ __('messages.blog.page_title') }}"
     description="{{ __('messages.blog.page_subtitle') }}"
     :breadcrumbs="[
-        ['label' => __('messages.nav.home'), 'url' => route('home')],
+        ['label' => __('messages.nav.home'), 'url' => locale_route('home')],
         ['label' => __('messages.blog.page_title')]
     ]"
     image="images/products/hero-banner.jpg"

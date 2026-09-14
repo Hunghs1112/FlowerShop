@@ -7,7 +7,7 @@
     title="{{ __('messages.cart.page_title') }}"
     description="{{ __('messages.cart.page_subtitle') ?? 'Xem lại các sản phẩm bạn đã chọn trước khi thanh toán' }}"
     :breadcrumbs="[
-        ['label' => __('messages.nav.home'), 'url' => route('home')],
+        ['label' => __('messages.nav.home'), 'url' => locale_route('home')],
         ['label' => __('messages.cart.page_title')]
     ]"
     height="350px"
