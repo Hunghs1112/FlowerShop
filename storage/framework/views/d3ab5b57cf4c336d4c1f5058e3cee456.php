@@ -7,6 +7,7 @@
 
     <title><?php echo $__env->yieldContent('title', $siteSettings['site_name'] ?? config('app.name')); ?> - <?php echo e($siteSettings['site_name'] ?? config('app.name')); ?></title>
 
+    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
