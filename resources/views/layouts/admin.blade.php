@@ -10,16 +10,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    {{-- Tailwind CDN (for development / preview) --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    {{-- Compiled CSS (auto-detect from manifest.json) --}}
-    @if(isset($viteCss))
-    <link rel="stylesheet" href="{{ asset($viteCss) }}">
-    @endif
-
-    @stack('styles')
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="admin-layout">

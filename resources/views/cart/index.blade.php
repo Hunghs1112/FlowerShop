@@ -20,11 +20,11 @@
         <div class="checkout-layout">
             <!-- Cart Items -->
             <div class="checkout-main">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Sản phẩm trong giỏ ({{ $cartItems->count() }})</h2>
+                <div class="cart-items-card">
+                    <div class="cart-card-header">
+                        <h2 class="cart-card-title">Sản phẩm trong giỏ ({{ $cartItems->count() }})</h2>
                     </div>
-                    <div class="card-body">
+                    <div class="cart-card-body">
                         @foreach($cartItems as $item)
                             <div class="cart-item">
                                 <div class="cart-item-image">
@@ -40,7 +40,7 @@
                                         <p class="cart-item-category">{{ $item->product->category->name }}</p>
                                     @endif
                                     @if($item->product->stock <= 0)
-                                        <span class="badge badge-danger">Hết hàng</span>
+                                        <span class="badge badge-error">Hết hàng</span>
                                     @elseif($item->product->stock < $item->quantity)
                                         <span class="badge badge-warning">Chỉ còn {{ $item->product->stock }}</span>
                                     @endif
@@ -68,7 +68,7 @@
                                     <form action="{{ route('cart.destroy', $item->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-icon" title="Xóa" aria-label="Xóa">
+                                        <button type="submit" class="btn-remove" title="Xóa" aria-label="Xóa">
                                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                             </svg>
@@ -81,57 +81,72 @@
                 </div>
 
                 <div class="cart-actions">
-                    <a href="{{ route('products.index') }}" class="btn btn-outline">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
-                        Tiếp tục mua sắm
-                    </a>
-                    <form action="{{ route('cart.clear') }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-secondary" onclick="return confirm('Xóa tất cả sản phẩm khỏi giỏ hàng?')">
-                            Xóa giỏ hàng
-                        </button>
-                    </form>
+                    <div class="cart-actions-left">
+                        <a href="{{ route('products.index') }}" class="btn btn-outline">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            Tiếp tục mua sắm
+                        </a>
+                    </div>
+                    <div class="cart-actions-right">
+                        <form action="{{ route('cart.clear') }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-secondary" onclick="return confirm('Xóa tất cả sản phẩm khỏi giỏ hàng?')">
+                                Xóa giỏ hàng
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
             <!-- Order Summary -->
             <div class="checkout-sidebar">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Tổng cộng</h2>
+                <div class="order-summary-card">
+                    <div class="summary-card-header">
+                        <div class="checkout-card-icon">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="summary-card-title">Tổng cộng</h2>
                     </div>
-                    <div class="card-body">
+                    <div class="summary-card-body">
                         <div class="summary-row">
-                            <span>Tạm tính ({{ $cartItems->count() }} sản phẩm)</span>
+                            <span class="summary-label">Tạm tính ({{ $cartItems->count() }} sản phẩm)</span>
                             <span class="summary-value">{{ number_format($total, 0, ',', '.') }}₫</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Phí vận chuyển</span>
+                            <span class="summary-value">Tính khi đặt</span>
                         </div>
                         <div class="summary-row summary-total">
-                            <span>Tổng cộng</span>
+                            <span class="summary-label">Tổng cộng</span>
                             <span class="summary-value">{{ number_format($total, 0, ',', '.') }}₫</span>
                         </div>
-                        <a href="{{ route('checkout.index') }}" class="btn btn-primary btn-lg btn-block">
+                        <a href="{{ route('checkout.index') }}" class="btn btn-primary btn-lg checkout-btn">
                             Thanh toán
                         </a>
-                        <p class="checkout-note">
+                        <div class="checkout-note">
                             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            Chúng tôi sẽ liên hệ xác nhận đơn hàng sau khi bạn đặt.
-                        </p>
+                            <span>Chúng tôi sẽ liên hệ xác nhận đơn hàng sau khi bạn đặt.</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     @else
         <div class="empty-cart">
-            <svg width="120" height="120" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
-            <h2>Giỏ hàng trống</h2>
-            <p>Hãy chọn những sản phẩm yêu thích của bạn!</p>
+            <div class="empty-cart-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+            </div>
+            <h2 class="empty-cart-title">Giỏ hàng trống</h2>
+            <p class="empty-cart-description">Hãy chọn những sản phẩm yêu thích của bạn!</p>
             <a href="{{ route('products.index') }}" class="btn btn-primary btn-lg">
                 Xem sản phẩm
             </a>

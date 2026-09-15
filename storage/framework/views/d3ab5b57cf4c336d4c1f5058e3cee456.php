@@ -10,52 +10,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <?php
-        // Cache busting: append file modification time as query string
-        function cssv(string $path): string {
-            $full = public_path($path);
-            $v = file_exists($full) ? filemtime($full) : time();
-            return asset($path) . '?v=' . $v;
-        }
-    ?>
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="<?php echo e(cssv('css/fonts.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/theme.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/layout-fixes.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/navbar.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/navbar-dropdown.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/footer.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/home.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/hero.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/page-hero.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/products-section.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/products/card.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/categories-section.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/brand-values-section.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/partners-section.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/inspiration-section.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/instagram-section.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/products.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/products/filter.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/products/toolbar.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/products/hero.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/products/pagination.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/products/grid.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/product-detail.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/blog.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/auth.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/account.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/pages.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/cart.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/checkout.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/categories.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/zalo-info.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/components.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(cssv('css/components/notification.css')); ?>">
-    
-    <?php echo $__env->yieldPushContent('styles'); ?>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <?php echo $__env->make('partials.navbar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
@@ -76,8 +31,6 @@
                 cartBadge.style.display = count > 0 ? 'flex' : 'none';
             }
         }
-
-        // Favorite toggle helper — removed
 
         // Add to cart helper
         function addToCart(productId, quantity = 1) {
@@ -111,7 +64,7 @@
             }, 3000);
         }
     </script>
-    
+
     <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 </html>

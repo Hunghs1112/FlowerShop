@@ -102,11 +102,11 @@
             <!-- Rating -->
             <div class="rating">
                 <div class="rating-stars">
-                    <span class="star">☆</span>
-                    <span class="star">☆</span>
-                    <span class="star">☆</span>
-                    <span class="star">☆</span>
-                    <span class="star">☆</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
                     <span class="rating-value">(0.0)</span>
                 </div>
                 <span class="rating-count">(0) đánh giá</span>
@@ -142,6 +142,9 @@
                         <button type="button" class="qty-btn" onclick="increaseQty({{ $product->stock }})">+</button>
                     </div>
                     <button type="submit" class="btn-add-cart" {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
                         Thêm vào giỏ
                     </button>
                 </div>
@@ -185,7 +188,11 @@
                 <div class="accordion-item">
                     <button class="accordion-header">
                         <span>Ưu điểm nổi bật</span>
-                        <div class="accordion-icon">+</div>
+                        <div class="accordion-icon">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
                     </button>
                     <div class="accordion-content">
                         @if($product->short_description)
@@ -206,7 +213,11 @@
                 <div class="accordion-item">
                     <button class="accordion-header">
                         <span>Ý nghĩa & Dịp tặng</span>
-                        <div class="accordion-icon">+</div>
+                        <div class="accordion-icon">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
                     </button>
                     <div class="accordion-content">
                         @if($product->description)
@@ -227,7 +238,11 @@
                 <div class="accordion-item">
                     <button class="accordion-header">
                         <span>Hướng dẫn bảo quản</span>
-                        <div class="accordion-icon">+</div>
+                        <div class="accordion-icon">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
                     </button>
                     <div class="accordion-content">
                         <ol>
@@ -244,7 +259,11 @@
                 <div class="accordion-item">
                     <button class="accordion-header">
                         <span>Chính sách đổi trả</span>
-                        <div class="accordion-icon">+</div>
+                        <div class="accordion-icon">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
                     </button>
                     <div class="accordion-content">
                         <p>Chúng tôi cam kết chất lượng hoa tươi 100%. Nếu hoa không đúng mô tả hoặc có vấn đề về chất lượng, quý khách vui lòng liên hệ ngay trong vòng 2 giờ kể từ khi nhận hàng để được hỗ trợ đổi/trả hoặc hoàn tiền.</p>
@@ -443,13 +462,11 @@
                 // Close all accordion items
                 document.querySelectorAll('.accordion-item').forEach(i => {
                     i.classList.remove('active');
-                    i.querySelector('.accordion-icon').textContent = '+';
                 });
                 
                 // Open clicked item if it was closed
                 if (!isActive) {
                     item.classList.add('active');
-                    icon.textContent = '−';
                 }
             });
         });

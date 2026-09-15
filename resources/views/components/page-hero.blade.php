@@ -6,7 +6,7 @@
     'height' => '400px'
 ])
 
-<section class="page-hero" style="--hero-height: {{ $height }}">
+<section class="page-hero">
     @if($image)
         <img 
             src="{{ asset($image) }}" 
