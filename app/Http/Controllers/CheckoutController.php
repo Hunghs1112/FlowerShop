@@ -40,6 +40,17 @@ class CheckoutController extends Controller
     }
 
     /**
+     * Display checkout success page
+     */
+    public function success(Inquiry $inquiry = null)
+    {
+        $zaloId = $this->settingService->get('zalo_id');
+        $zaloQr = $this->settingService->get('zalo_qr');
+        $bannerKey = 'checkout';
+        return view('checkout.success', compact('inquiry', 'zaloId', 'zaloQr', 'bannerKey'));
+    }
+
+    /**
      * Process checkout order
      * 
      * Test cases covered:
@@ -112,64 +123,6 @@ class CheckoutController extends Controller
         $this->cartService->clearCart();
 
         // Get Zalo info for success page
-        $zaloId = $this->settingService->get('zalo_id');
-        $zaloQr = $this->settingService->get('zalo_qr');
-        $bannerKey = 'checkout';
-        return view('checkout.success', compact('inquiry', 'zaloId', 'zaloQr', 'bannerKey'));
-    }
-
-    /**
-     * Quick order (single product)
-     */
-    public function quickOrder(Request $request)
-    {
-        $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20|regex:/^[0-9\+\-\s]+$/',
-            'email' => 'nullable|email|max:255',
-            'zalo_id' => 'nullable|string|max:255',
-            'message' => 'nullable|string|max:1000',
-        ]);
-
-        $product = \App\Models\Product::findOrFail($validated['product_id']);
-
-        $inquiry = Inquiry::create([
-            'user_id' => auth()->id(),
-            'name' => strip_tags($validated['name']),
-            'phone' => strip_tags($validated['phone']),
-            'email' => isset($validated['email']) ? filter_var($validated['email'], FILTER_SANITIZE_EMAIL) : null,
-            'zalo_id' => isset($validated['zalo_id']) ? strip_tags($validated['zalo_id']) : null,
-            'product_ids' => [$validated['product_id']],
-            'message' => isset($validated['message']) ? strip_tags($validated['message']) : null,
-            'status' => 'new',
-        ]);
-
-        $orderItems = [
-            [
-                'name' => $product->name,
-                'quantity' => 1,
-                'price' => $product->price,
-                'subtotal' => $product->price,
-            ],
-        ];
-        $total = $product->price;
-
-        $orderData = [
-            'order_id' => $inquiry->id,
-            'customer_name' => $inquiry->name,
-            'customer_phone' => $inquiry->phone,
-            'customer_email' => $inquiry->email,
-            'customer_zalo_id' => $inquiry->zalo_id,
-            'message' => $inquiry->message,
-            'items' => $orderItems,
-            'total' => $total,
-            'created_at' => now()->format('d/m/Y H:i'),
-        ];
-
-        // Send notifications
-        $this->sendNotifications($inquiry, $orderItems, $total, $orderData);
-
         $zaloId = $this->settingService->get('zalo_id');
         $zaloQr = $this->settingService->get('zalo_qr');
         $bannerKey = 'checkout';

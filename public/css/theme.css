@@ -1,0 +1,68 @@
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* Design Tokens / Theme Variables */
+:root {
+  /* Font */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Primary Colors */
+  --color-primary: #d4a5a5;
+  --color-primary-dark: #b88b8b;
+  --color-primary-light: #e8d5d5;
+
+  /* Secondary Colors */
+  --color-secondary: #a8b5a0;
+  --color-secondary-dark: #8e9b87;
+  --color-secondary-light: #d8e0d4;
+
+  /* Tertiary */
+  --color-tertiary: #8b5a5a;
+  --color-tertiary-dark: #6f4848;
+  --color-tertiary-light: #c9a5a5;
+
+  /* General Colors */
+  --color-cool: #7ca4c7;
+  --color-warm: #d4a5a5;
+
+  /* Text Colors */
+  --color-text-primary: #1a1a1a;
+  --color-text: #333;
+  --color-text-secondary: #555;
+  --color-text-muted: #888;
+  --color-text-light: #999;
+  --color-text-placeholder: #aaa;
+
+  /* Background Colors */
+  --color-bg-primary: #fff;
+  --color-bg-secondary: #f8f8f8;
+  --color-bg-tertiary: #f0f0f0;
+  --color-bg-dark: #1a1a1a;
+  --color-bg-darker: #2d2d2d;
+
+  /* Border Colors */
+  --color-border: #e5e5e5;
+  --color-border-light: #f0f0f0;
+  --color-border-medium: #ddd;
+  --color-border-dark: #ccc;
+
+  /* Semantic Colors */
+  --color-success: #7caa7d;
+  --color-error: #d47373;
+  --color-warning: #e0b85f;
+  --color-info: #7ca4c7;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 #0000000d;
+  --shadow-md: 0 4px 6px -1px #0000001a;
+  --shadow-lg: 0 10px 15px -3px #0000001a;
+  --shadow-xl: 0 20px 25px -5px #0000001a;
+}

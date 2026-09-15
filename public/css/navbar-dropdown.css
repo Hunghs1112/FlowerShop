@@ -1,0 +1,62 @@
+/* Navbar Dropdown Menus */
+.navbar-dropdown {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  min-width: 220px;
+  padding: 0.75rem;
+  transition: all 0.3s;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translateY(10px);
+  box-shadow: 0 10px 40px #0000001f;
+}
+
+.navbar-nav-item.dropdown-active .navbar-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.navbar-dropdown-item {
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 1rem;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: block;
+}
+
+.navbar-dropdown-item:hover {
+  color: var(--color-primary);
+  background: #d4a5a51a;
+}
+
+.navbar-dropdown-divider {
+  background: var(--color-border);
+  height: 1px;
+  margin: 0.5rem 0;
+}
+
+.navbar-dropdown-btn {
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  color: var(--color-error);
+  background: 0 0;
+  border: none;
+  font-size: 0.9375rem;
+}
+
+.navbar-dropdown-btn:hover {
+  background: #d453531a;
+}
+
+.navbar-logout-form {
+  margin: 0;
+}

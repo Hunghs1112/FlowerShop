@@ -1,0 +1,57 @@
+/* Partners Section */
+.partners-section {
+  background: var(--color-bg-primary);
+  padding: 4rem 0;
+}
+
+.partners-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.partners-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.partners-heading {
+  color: var(--color-tertiary);
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.partners-subheading {
+  color: var(--color-text-muted);
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.partners-logos {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  display: flex;
+}
+
+.partner-logo-item {
+  opacity: 0.6;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  transition: opacity 0.3s;
+  display: flex;
+}
+
+.partner-logo-item:hover {
+  opacity: 1;
+}
+
+.partner-logo-text {
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  font-size: 1.125rem;
+  font-weight: 700;
+}

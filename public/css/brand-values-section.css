@@ -1,0 +1,139 @@
+/* Brand Values Section */
+.brand-values-section {
+  background: var(--color-secondary-light, #d8e0d4);
+  padding: 5rem 0;
+}
+
+.brand-values-section.bg-gradient {
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, #e8d5d54d 100%);
+  padding: 5rem 0;
+}
+
+.brand-values-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.brand-values-container.max-1200 {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.brand-values-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  display: grid;
+}
+
+.brand-value-item {
+  text-align: center;
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 2rem;
+  transition: all 0.3s;
+  display: flex;
+}
+
+.brand-value-item:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-8px);
+}
+
+.brand-value-icon {
+  background: linear-gradient(135deg, var(--color-primary-light, #e8d5d5), var(--color-primary));
+  border-radius: var(--radius-full);
+  justify-content: center;
+  align-items: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s;
+  display: flex;
+}
+
+.brand-value-item:hover .brand-value-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.brand-value-icon svg {
+  width: 36px;
+  height: 36px;
+  color: var(--color-tertiary);
+}
+
+.brand-value-icon.bg-light {
+  background: var(--color-primary-light);
+  width: 64px;
+  height: 64px;
+}
+
+.brand-value-icon.bg-light svg {
+  width: 32px;
+  height: 32px;
+}
+
+.brand-value-heading {
+  color: var(--color-tertiary);
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.brand-value-description {
+  color: var(--color-text-secondary);
+  max-width: 280px;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.brand-value-description.max-280 {
+  max-width: 280px;
+}
+
+.brand-value-description.full {
+  max-width: none;
+}
+
+/* Simple version without backgrounds */
+.brand-value-item.text-center-only {
+  text-align: center;
+  padding: 2rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.brand-value-item.text-center-only:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.brand-value-item.text-center-only:hover .brand-value-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+  .brand-values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-values-section {
+    padding: 3rem 0;
+  }
+
+  .brand-values-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .brand-value-item {
+    padding: 2rem 1.5rem;
+  }
+}

@@ -1,0 +1,112 @@
+/* Search Modal Styles */
+.search-modal {
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10vh;
+  transition: all 0.3s;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.search-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-modal-backdrop {
+  background: #00000080;
+  position: absolute;
+  inset: 0;
+}
+
+.search-modal-content {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 90%;
+  max-width: 600px;
+  max-height: 70vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(-20px);
+  transition: transform 0.3s;
+}
+
+.search-modal.active .search-modal-content {
+  transform: translateY(0);
+}
+
+.search-modal-header {
+  border-bottom: 1px solid var(--color-border-light);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-modal-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.125rem;
+  padding: 0.5rem;
+}
+
+.search-modal-input:focus {
+  outline: none;
+}
+
+.search-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.search-modal-close:hover {
+  background: var(--color-bg-secondary);
+}
+
+.search-modal-body {
+  padding: 1rem;
+}
+
+.search-modal-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.search-modal-result {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.search-modal-result:hover {
+  background: var(--color-bg-secondary);
+}
+
+.search-modal-result-image {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.search-modal-empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-muted);
+}

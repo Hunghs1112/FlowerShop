@@ -8,7 +8,6 @@ use App\Models\Setting;
 use App\Services\BannerService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\File;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -77,22 +76,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('navCategories', $navCategories);
         });
 
-        View::composer('*', function ($view) {
-            static $viteCss = null;
-            if ($viteCss === null) {
-                $manifestPath = public_path('build/manifest.json');
-                if (File::exists($manifestPath)) {
-                    $manifest = json_decode(File::get($manifestPath), true);
-                    if (isset($manifest['resources/css/app.css'])) {
-                        $viteCss = 'build/' . $manifest['resources/css/app.css']['file'];
-                    }
-                }
-                if (!$viteCss) {
-                    $viteCss = 'build/assets/app-CmLk-Bc2.css';
-                }
-            }
-            $view->with('viteCss', $viteCss);
-        });
+        // Share pages for navbar
         View::composer('*', function ($view) {
             static $navPages = null;
             if ($navPages === null) {

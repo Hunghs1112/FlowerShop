@@ -1,0 +1,184 @@
+/* Zalo Info Card */
+.zalo-info-card {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 2px 12px #00000014;
+}
+
+.zalo-info-header {
+  border-bottom: 1px solid var(--color-border-light);
+  background: linear-gradient(135deg, #0068ff1a, #0068ff0d);
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  display: flex;
+}
+
+.zalo-info-header svg {
+  flex-shrink: 0;
+}
+
+.zalo-title {
+  color: var(--color-tertiary);
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.zalo-subtitle {
+  color: var(--color-text-muted);
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.zalo-info-content {
+  padding: 1.5rem;
+}
+
+.zalo-benefits {
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+}
+
+.zalo-benefits .benefit-item {
+  color: var(--color-text-secondary);
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  display: flex;
+}
+
+.zalo-benefits .benefit-item svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+.zalo-qr-section {
+  text-align: center;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+}
+
+.zalo-qr-label {
+  color: var(--color-text-muted);
+  margin: 0 0 1rem;
+  font-size: 0.8125rem;
+}
+
+.zalo-qr-code img {
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-primary);
+  width: 150px;
+  height: 150px;
+  padding: 0.5rem;
+}
+
+.btn-zalo {
+  color: var(--color-bg-primary);
+  border-radius: var(--radius-full);
+  background: #0068ff;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+}
+
+.btn-zalo:hover {
+  background: #0052cc;
+  transform: translateY(-1px);
+}
+
+.btn-zalo svg {
+  width: 20px;
+  height: 20px;
+}
+
+.zalo-how-to {
+  margin-top: 1rem;
+}
+
+.zalo-how-to details {
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.zalo-how-to summary {
+  color: var(--color-tertiary);
+  cursor: pointer;
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.zalo-how-to summary:hover {
+  background: var(--color-bg-tertiary);
+}
+
+.how-to-content {
+  color: var(--color-text-muted);
+  padding: 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.how-to-content ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.how-to-content li {
+  margin-bottom: 0.5rem;
+}
+
+.how-to-content .note {
+  border-radius: var(--radius-md);
+  background: #d4a5a51a;
+  margin-top: 1rem;
+  padding: 0.75rem;
+}
+
+/* Compact Zalo Info */
+.zalo-info-compact {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  box-shadow: 0 2px 8px #0000000f;
+}
+
+.zalo-info-compact svg {
+  flex-shrink: 0;
+}
+
+.zalo-compact-text strong {
+  color: var(--color-tertiary);
+  margin-bottom: 0.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  display: block;
+}
+
+.zalo-compact-text p {
+  color: var(--color-text-muted);
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}

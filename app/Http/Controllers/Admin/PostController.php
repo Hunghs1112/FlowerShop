@@ -58,9 +58,10 @@ class PostController extends Controller
         }
 
         if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+            $validated['thumbnail'] = $request->file('featured_image')->store('posts', 'public');
         }
 
+        $validated['is_published'] = $validated['status'] === 'published';
         $validated['author_id'] = auth()->id();
 
         Post::create($validated);
@@ -93,11 +94,13 @@ class PostController extends Controller
         }
 
         if ($request->hasFile('featured_image')) {
-            if ($post->featured_image) {
-                Storage::disk('public')->delete($post->featured_image);
+            if ($post->thumbnail) {
+                Storage::disk('public')->delete($post->thumbnail);
             }
-            $validated['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+            $validated['thumbnail'] = $request->file('featured_image')->store('posts', 'public');
         }
+
+        $validated['is_published'] = $validated['status'] === 'published';
 
         $post->update($validated);
 
@@ -107,8 +110,8 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        if ($post->featured_image) {
-            Storage::disk('public')->delete($post->featured_image);
+        if ($post->thumbnail) {
+            Storage::disk('public')->delete($post->thumbnail);
         }
 
         $post->delete();

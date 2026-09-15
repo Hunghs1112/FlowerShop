@@ -13,7 +13,7 @@ class ProfileController extends Controller
         $user = auth()->user();
         $inquiries = $user->inquiries()->latest()->paginate(10);
 
-        return view('account.profile', compact('user', 'inquiries'));
+        return view('profile.show', compact('user', 'inquiries'));
     }
 
     public function update(Request $request)

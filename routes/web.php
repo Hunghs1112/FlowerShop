@@ -11,11 +11,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuickOrderController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
 use App\Http\Controllers\Api\SearchController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // ============================================================
-// Customer-facing routes (Vietnamese only)
+// Customer-facing routes
 // ============================================================
 
 // Home
@@ -62,7 +61,9 @@ Route::post('/password/email', [App\Http\Controllers\Auth\ForgotPasswordControll
 Route::get('/password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
 
+// ============================================================
 // Authenticated routes
+// ============================================================
 Route::middleware(['auth'])->group(function () {
     // Checkout
     Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
@@ -75,30 +76,35 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/tai-khoan/mat-khau', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 
-// API
+// ============================================================
+// API routes
+// ============================================================
 Route::get('/api/products', [ApiProductController::class, 'getProducts'])->name('api.products');
 Route::get('/api/search', [SearchController::class, 'autocomplete'])->name('api.search.autocomplete');
 
-// Utility: Clear all caches
+// ============================================================
+// Utility routes
+// ============================================================
 Route::get('/setup-clear', function () {
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
     return response('<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>');
 })->name('setup.clear');
 
-// Admin routes (no locale prefix)
+// ============================================================
+// Admin routes
+// ============================================================
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
 
     Route::get('inquiries', [\App\Http\Controllers\Admin\InquiryController::class, 'index'])->name('inquiries.index');
     Route::get('inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'show'])->name('inquiries.show');
     Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\InquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
-
-    Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
-    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
-    Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
 
     Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');

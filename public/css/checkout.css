@@ -1,0 +1,262 @@
+/* Checkout Page */
+.checkout-layout {
+  grid-template-columns: 1fr 400px;
+  align-items: start;
+  gap: 2rem;
+  display: grid;
+}
+
+.checkout-main {
+  flex-direction: column;
+  gap: 1.5rem;
+  display: flex;
+}
+
+.checkout-sidebar {
+  top: calc(var(--navbar-height, 70px) + 2rem);
+  position: sticky;
+}
+
+.checkout-note {
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  background: #7ca4c71a;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  display: flex;
+}
+
+.checkout-note svg {
+  color: var(--color-info);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.checkout-info {
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  display: flex;
+}
+
+.info-item {
+  border-radius: var(--radius-md);
+  background: #7caa7d1a;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  display: flex;
+}
+
+.info-item svg {
+  color: var(--color-success);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.info-item strong {
+  color: var(--color-tertiary);
+  margin-bottom: 0.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  display: block;
+}
+
+.info-item p {
+  color: var(--color-text-muted);
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.checkout-submit {
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  display: flex;
+}
+
+/* Zalo QR in Checkout */
+.zalo-qr {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  display: flex;
+}
+
+.zalo-qr img {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  max-width: 120px;
+}
+
+.zalo-qr p {
+  color: var(--color-text-light);
+  text-align: center;
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+/* Success Page */
+.success-container {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.success-icon {
+  background: linear-gradient(135deg, #7caa7d26, #7caa7d0d);
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 2rem;
+  animation: 0.5s ease-out success-pop;
+  display: inline-flex;
+}
+
+@keyframes success-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.success-icon svg {
+  color: var(--color-success);
+  animation: 0.5s ease-out 0.2s both success-check;
+}
+
+@keyframes success-check {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.success-title {
+  color: var(--color-tertiary);
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.success-message {
+  color: var(--color-text-muted);
+  margin: 0 0 2.5rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.success-details {
+  text-align: left;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+}
+
+.detail-card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  text-align: left;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  transition: all 0.2s;
+  display: flex;
+}
+
+.detail-card:hover {
+  border-color: #d4a5a54d;
+  box-shadow: 0 4px 12px #0000000d;
+}
+
+.detail-card svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.detail-card h3 {
+  color: var(--color-tertiary);
+  margin: 0 0 0.375rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.detail-card p {
+  color: var(--color-text-muted);
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.success-actions {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  display: flex;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-sidebar {
+    order: -1;
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .checkout-submit {
+    flex-direction: column;
+  }
+
+  .checkout-submit .btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .success-container {
+    padding: 2rem 1rem;
+  }
+
+  .success-title {
+    font-size: 1.5rem;
+  }
+
+  .success-message {
+    font-size: 1rem;
+  }
+
+  .success-actions {
+    flex-direction: column;
+  }
+
+  .success-actions .btn {
+    width: 100%;
+  }
+}
