@@ -11,50 +11,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    @php
-        // Cache busting: append file modification time as query string
-        function cssv(string $path): string {
-            $full = public_path($path);
-            $v = file_exists($full) ? filemtime($full) : time();
-            return asset($path) . '?v=' . $v;
-        }
-    @endphp
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ cssv('css/fonts.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/theme.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/layout-fixes.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/navbar-dropdown.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/footer.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/home.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/hero.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/page-hero.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/products-section.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/products/card.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/categories-section.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/brand-values-section.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/partners-section.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/inspiration-section.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/instagram-section.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/products.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/products/filter.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/products/toolbar.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/products/hero.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/products/pagination.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/products/grid.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/product-detail.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/blog.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/auth.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/account.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/pages.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/cart.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/checkout.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/categories.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/zalo-info.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/components.css') }}">
-    <link rel="stylesheet" href="{{ cssv('css/components/notification.css') }}">
-    
+    {{-- Tailwind CDN (for development / preview) --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    {{-- Compiled CSS (auto-detect from manifest.json) --}}
+    @if(isset($viteCss))
+    <link rel="stylesheet" href="{{ asset($viteCss) }}">
+    @endif
+
     @stack('styles')
 </head>
 <body>
@@ -76,8 +40,6 @@
                 cartBadge.style.display = count > 0 ? 'flex' : 'none';
             }
         }
-
-        // Favorite toggle helper — removed
 
         // Add to cart helper
         function addToCart(productId, quantity = 1) {
@@ -111,7 +73,7 @@
             }, 3000);
         }
     </script>
-    
+
     @stack('scripts')
 </body>
 </html>

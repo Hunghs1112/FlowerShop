@@ -10,23 +10,15 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Styles -->
-    @php
-        function adminCssv(string $path): string {
-            $full = public_path($path);
-            $v = file_exists($full) ? filemtime($full) : time();
-            return asset($path) . '?v=' . $v;
-        }
-    @endphp
-    <link rel="stylesheet" href="{{ adminCssv('css/fonts.css') }}">
-    <link rel="stylesheet" href="{{ adminCssv('css/theme.css') }}">
-    <link rel="stylesheet" href="{{ adminCssv('css/admin.css') }}">
-    <link rel="stylesheet" href="{{ adminCssv('css/admin-pages.css') }}">
-    <link rel="stylesheet" href="{{ adminCssv('css/admin/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ adminCssv('css/admin/forms.css') }}">
-    <link rel="stylesheet" href="{{ adminCssv('css/components/notification.css') }}">
-    
+
+    {{-- Tailwind CDN (for development / preview) --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    {{-- Compiled CSS (auto-detect from manifest.json) --}}
+    @if(isset($viteCss))
+    <link rel="stylesheet" href="{{ asset($viteCss) }}">
+    @endif
+
     @stack('styles')
 </head>
 <body>
@@ -69,13 +61,12 @@
         // Mobile sidebar toggle
         const menuToggle = document.querySelector('.admin-menu-toggle');
         const sidebar = document.querySelector('.admin-sidebar');
-        
+
         if (menuToggle && sidebar) {
             menuToggle.addEventListener('click', () => {
                 sidebar.classList.toggle('active');
             });
 
-            // Close sidebar when clicking outside on mobile
             document.addEventListener('click', (e) => {
                 if (window.innerWidth < 1024) {
                     if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
@@ -135,7 +126,7 @@
             return isValid;
         }
     </script>
-    
+
     @stack('scripts')
 </body>
 </html>
