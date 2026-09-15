@@ -21,7 +21,9 @@ class PostController extends Controller
             ->latest('published_at')
             ->paginate(9);
 
-        return view('blog.index', compact('posts', 'search'));
+        $bannerKey = 'blog';
+
+        return view('blog.index', compact('posts', 'search', 'bannerKey'));
     }
 
     public function show(string $slug)
@@ -38,6 +40,8 @@ class PostController extends Controller
             ->limit(3)
             ->get();
 
-        return view('blog.show', compact('post', 'relatedPosts'));
+        $bannerKey = 'blog';
+
+        return view('blog.show', compact('post', 'relatedPosts', 'bannerKey'));
     }
 }

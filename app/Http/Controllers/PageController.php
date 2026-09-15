@@ -17,13 +17,15 @@ class PageController extends Controller
     {
         $siteInfo  = $this->settingService->getSiteInfo();
         $introPage = Page::where('slug', 'gioi-thieu')->active()->first();
-        return view('pages.about', compact('siteInfo', 'introPage'));
+        $bannerKey = 'about';
+        return view('pages.about', compact('siteInfo', 'introPage', 'bannerKey'));
     }
 
     public function contact()
     {
         $siteInfo = $this->settingService->getSiteInfo();
-        return view('pages.contact', compact('siteInfo'));
+        $bannerKey = 'contact';
+        return view('pages.contact', compact('siteInfo', 'bannerKey'));
     }
 
     public function contactSubmit(Request $request)
@@ -46,7 +48,7 @@ class PageController extends Controller
             'status' => 'new',
         ]);
 
-        return redirect()->back()->with('success', __('messages.contact.send_success'));
+        return redirect()->back()->with('success', 'Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.');
     }
 
     public function policy(string $slug)
@@ -54,15 +56,7 @@ class PageController extends Controller
         $page = Page::where('slug', $slug)
             ->active()
             ->firstOrFail();
-
-        // Use English title if locale is EN
-        if (app()->getLocale() === 'en' && $page->title_en) {
-            $page->title = $page->title_en;
-        }
-        if (app()->getLocale() === 'en' && $page->content_en) {
-            $page->content = $page->content_en;
-        }
-
-        return view('pages.policy', compact('page'));
+        $bannerKey = 'about';
+        return view('pages.policy', compact('page', 'bannerKey'));
     }
 }

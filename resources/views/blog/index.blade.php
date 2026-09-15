@@ -1,24 +1,24 @@
 @extends('layouts.app')
 
-@section('title', __('messages.blog.page_title'))
+@section('title', 'Bài viết')
 
 @section('content')
 <x-page-hero 
-    title="{{ __('messages.blog.page_title') }}"
-    description="{{ __('messages.blog.page_subtitle') }}"
+    title="Bài viết"
+    description="Khám phá những câu chuyện thú vị về hoa, cách chăm sóc và cảm hứng trang trí"
     :breadcrumbs="[
-        ['label' => __('messages.nav.home'), 'url' => locale_route('home')],
-        ['label' => __('messages.blog.page_title')]
+        ['label' => 'Trang chủ', 'url' => route('home')],
+        ['label' => 'Bài viết']
     ]"
-    image="images/products/hero-banner.jpg"
+    :image="$siteBanners['blog'] ?? null"
     height="420px"
 />
 
 <div class="container page-wrapper">
     <!-- Search Bar -->
     <div class="blog-search">
-        <form method="GET" action="{{ locale_route('blog.index') }}" class="search-form">
-            <input type="text" name="search" placeholder="{{ __('messages.blog.search_placeholder') }}" 
+        <form method="GET" action="{{ route('blog.index') }}" class="search-form">
+            <input type="text" name="search" placeholder="Tìm kiếm bài viết..." 
                    value="{{ request('search') }}" class="search-input">
             <button type="submit" class="search-btn">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,7 +34,7 @@
             @foreach($posts as $post)
                 <article class="post-card">
                     <div class="post-card-image">
-                        <a href="{{ locale_route('blog.show', $post->slug) }}">
+                        <a href="{{ route('blog.show', $post->slug) }}">
                             @if($post->thumbnail)
                                 <img src="{{ $post->image_url }}" alt="{{ $post->title }}">
                             @else
@@ -59,12 +59,12 @@
                                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
-                                {{ $post->getReadingTime() }} {{ __('messages.blog.min_read') }}
+                                {{ $post->getReadingTime() }} phút đọc
                             </span>
                         </div>
                         
                         <h2 class="post-card-title">
-                            <a href="{{ locale_route('blog.show', $post->slug) }}">
+                            <a href="{{ route('blog.show', $post->slug) }}">
                                 {{ $post->title }}
                             </a>
                         </h2>
@@ -73,8 +73,8 @@
                             {{ Str::limit($post->excerpt, 150) }}
                         </p>
                         
-                        <a href="{{ locale_route('blog.show', $post->slug) }}" class="post-card-link">
-                            {{ __('messages.blog.read_more') }}
+                        <a href="{{ route('blog.show', $post->slug) }}" class="post-card-link">
+                            Xem thêm
                             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                             </svg>
@@ -93,10 +93,10 @@
             <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            <h3>{{ __('messages.blog.no_posts') }}</h3>
-            <p>{{ request('search') ? __('messages.blog.try_different_keyword') : __('messages.blog.no_posts') }}</p>
+            <h3>Không có bài viết nào</h3>
+            <p>{{ request('search') ? 'Thử tìm kiếm với từ khóa khác' : 'Hiện chưa có bài viết nào.' }}</p>
             @if(request('search'))
-                <a href="{{ locale_route('blog.index') }}" class="btn btn-primary">{{ __('messages.common.back') }}</a>
+                <a href="{{ route('blog.index') }}" class="btn btn-primary">Quay lại</a>
             @endif
         </div>
     @endif

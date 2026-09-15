@@ -8,13 +8,16 @@ use Illuminate\Support\Collection;
 class CategoryService
 {
     /**
-     * Get all active categories with their children
+     * Get all active categories with their children and product counts
      */
     public function getActiveCategories(): Collection
     {
         return Category::active()
             ->topLevel()
             ->with(['children' => function ($query) {
+                $query->active();
+            }])
+            ->withCount(['products' => function ($query) {
                 $query->active();
             }])
             ->orderBy('sort_order')

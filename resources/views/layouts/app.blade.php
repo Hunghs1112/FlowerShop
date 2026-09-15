@@ -38,6 +38,12 @@
     <link rel="stylesheet" href="{{ cssv('css/inspiration-section.css') }}">
     <link rel="stylesheet" href="{{ cssv('css/instagram-section.css') }}">
     <link rel="stylesheet" href="{{ cssv('css/products.css') }}">
+    <link rel="stylesheet" href="{{ cssv('css/products/filter.css') }}">
+    <link rel="stylesheet" href="{{ cssv('css/products/toolbar.css') }}">
+    <link rel="stylesheet" href="{{ cssv('css/products/hero.css') }}">
+    <link rel="stylesheet" href="{{ cssv('css/products/pagination.css') }}">
+    <link rel="stylesheet" href="{{ cssv('css/products/grid.css') }}">
+    <link rel="stylesheet" href="{{ cssv('css/product-detail.css') }}">
     <link rel="stylesheet" href="{{ cssv('css/blog.css') }}">
     <link rel="stylesheet" href="{{ cssv('css/auth.css') }}">
     <link rel="stylesheet" href="{{ cssv('css/account.css') }}">

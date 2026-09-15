@@ -140,6 +140,70 @@ php artisan migrate
 | `resources/views/components/language-switcher.blade.php` | Navbar switcher button |
 | `routes/web.php` | All routes under `{locale}` prefix |
 
+## 📧 Email & Zalo Notifications
+
+The system sends email and Zalo notifications when orders are placed.
+
+### Configuration
+
+Edit `.env` file:
+
+```env
+# Gmail SMTP Configuration
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=xxxx xxxx xxxx xxxx (16-char app password)
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your-email@gmail.com
+MAIL_FROM_NAME="Lâm Nhiên Thảo"
+
+# Admin email for order notifications
+MAIL_ADMIN_EMAIL=admin@example.com
+MAIL_NOTIFICATIONS_ENABLED=true
+
+# Zalo OA Configuration
+ZALO_OA_ID=your-zalo-oa-id
+ZALO_ACCESS_TOKEN=your-zalo-access-token
+ZALO_ADMIN_PHONE=0912345678
+```
+
+### Gmail Setup
+
+1. Enable 2-Factor Authentication on your Google account
+2. Go to https://myaccount.google.com/apppasswords
+3. Generate an App Password for "Mail"
+4. Use the 16-character App Password (no spaces) in `MAIL_PASSWORD`
+
+**Note:** Gmail has a limit of 500 emails per day.
+
+### Zalo OA Setup
+
+1. Create Official Account at https://oa.zalo.me
+2. Go to Zalo Developer Portal: https://developers.zalo.me
+3. Create an app and get your OA ID
+4. Get access token with 'send message' permission
+5. Set admin phone to receive order notifications
+
+### Features
+
+- ✅ Customer confirmation email (if email provided)
+- ✅ Admin notification email
+- ✅ Zalo notification to admin
+- ✅ Graceful degradation (order still saves if notifications fail)
+- ✅ HTML injection prevention
+- ✅ Input sanitization
+
+### Test Cases Covered
+
+- Happy path: email/Zalo sent successfully
+- Invalid SMTP credentials: error logged, order still saves
+- Gmail rate limit: handled gracefully
+- Invalid email: validation prevents submission
+- HTML injection: sanitized via `e()` helper
+- Double-click: idempotency via unique order ID
+
 ## 🔐 Test Accounts
 
 **Admin**

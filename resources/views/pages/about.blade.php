@@ -7,9 +7,10 @@
     title="Về chúng tôi"
     description="Câu chuyện về chúng tôi và sứ mệnh mang vẻ đẹp hoa tươi đến mọi nhà"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => locale_route('home')],
+        ['label' => 'Trang chủ', 'url' => route('home')],
         ['label' => 'Về chúng tôi']
     ]"
+    :image="$siteBanners['about'] ?? null"
     height="400px"
 />
 
@@ -128,11 +129,10 @@
             </div>
 
             <div class="contact-cta-wrapper">
-                <a href="{{ locale_route('contact') }}" class="btn btn-primary">Gửi tin nhắn cho chúng tôi</a>
+                <a href="{{ route('contact') }}" class="btn btn-primary">Gửi tin nhắn cho chúng tôi</a>
             </div>
         </div>
 
     </div>
 </div>
 @endsection
-

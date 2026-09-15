@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         // Apply SetLocale middleware to all web routes
-        $middleware->web(prepend: [\App\Http\Middleware\SetLocale::class]);
+        // Removed: SetLocale middleware (bilingual feature removed)
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

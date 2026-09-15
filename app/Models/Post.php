@@ -45,6 +45,7 @@ class Post extends Model
         if (str_starts_with($this->thumbnail, 'http://') || str_starts_with($this->thumbnail, 'https://')) {
             return $this->thumbnail;
         }
-        return asset('storage/' . $this->thumbnail);
+        // Relative path → asset()
+        return asset($this->thumbnail);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
@@ -76,6 +77,49 @@ class Product extends Model
             ->orderBy('latest_arrival_date', 'desc');
     }
 
+    /**
+     * Scope for search - searches in name and short_description
+     * Uses full-text like search with sanitized input
+     */
+    public function scopeSearch($query, ?string $searchTerm): Builder
+    {
+        if (empty($searchTerm)) {
+            return $query;
+        }
+
+        // Escape special regex characters and prepare search term
+        $escapedTerm = preg_replace('/[%_]/', '\\$0', $searchTerm);
+        
+        return $query->where(function (Builder $q) use ($escapedTerm) {
+            $q->where('name', 'like', '%' . $escapedTerm . '%')
+              ->orWhere('short_description', 'like', '%' . $escapedTerm . '%');
+        });
+    }
+
+    /**
+     * Scope for price range filtering
+     */
+    public function scopePriceRange($query, ?float $minPrice, ?float $maxPrice): Builder
+    {
+        if ($minPrice !== null && $minPrice > 0) {
+            $query->where('price', '>=', $minPrice);
+        }
+        
+        if ($maxPrice !== null && $maxPrice > 0) {
+            $query->where('price', '<=', $maxPrice);
+        }
+        
+        return $query;
+    }
+
+    /**
+     * Scope for sorting by name A-Z
+     */
+    public function scopeSortByName($query, string $direction = 'asc'): Builder
+    {
+        return $query->orderBy('name', $direction);
+    }
+
     // Helpers
     public function getPrimaryImage(): ?string
     {
@@ -89,41 +133,18 @@ class Product extends Model
         if (!$imagePath) {
             return 'https://via.placeholder.com/400x400/E5E7EB/6B7280?text=No+Image';
         }
+        // Use storage path for images stored in storage/app/public
         return asset('storage/' . $imagePath);
     }
 
-    public function isFavoritedBy($userId): bool
-    {
-        if (!$userId) {
-            return false;
-        }
-        return $this->favorites()->where('user_id', $userId)->exists();
-    }
+    // Display helpers (locale-aware — simplified since bilingual feature was removed)
+    public function getDisplayNameAttribute(): string { return $this->name; }
+    public function getDisplayShortDescriptionAttribute(): ?string { return $this->short_description; }
+    public function getDisplaySlugAttribute(): string { return $this->slug; }
 
-    // ── Locale-aware accessors ──────────────────────────────────────────
-    // Returns English version if available and locale is 'en', otherwise falls back to Vietnamese
-
-    public function getDisplayNameAttribute(): string
+    public function isFavoritedBy($user): bool
     {
-        if (app()->getLocale() === 'en' && $this->name_en) {
-            return $this->name_en;
-        }
-        return $this->name;
-    }
-
-    public function getDisplayShortDescriptionAttribute(): ?string
-    {
-        if (app()->getLocale() === 'en' && $this->short_description_en) {
-            return $this->short_description_en;
-        }
-        return $this->short_description;
-    }
-
-    public function getDisplaySlugAttribute(): string
-    {
-        if (app()->getLocale() === 'en' && $this->slug_en) {
-            return $this->slug_en;
-        }
-        return $this->slug;
+        if (!$user) return false;
+        return $this->favorites()->where('user_id', $user->id)->exists();
     }
 }

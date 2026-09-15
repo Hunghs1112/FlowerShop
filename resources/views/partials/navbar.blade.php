@@ -2,7 +2,7 @@
     <div class="navbar-container">
 
         {{-- ─── Logo ─────────────────────────────────────────── --}}
-        <a href="{{ locale_route('home') }}" class="navbar-logo">
+        <a href="{{ route('home') }}" class="navbar-logo">
             <svg class="navbar-logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
             </svg>
@@ -14,14 +14,14 @@
 
             {{-- Trang chủ --}}
             <li class="navbar-nav-item">
-                <a href="{{ locale_route('home') }}" class="navbar-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                <a href="{{ route('home') }}" class="navbar-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
                     {{ __('messages.nav.home') }}
                 </a>
             </li>
 
             {{-- Sản phẩm — Mega Menu (danh mục từ DB) --}}
             <li class="navbar-nav-item" data-dropdown="mega">
-                <a href="{{ locale_route('products.index') }}" class="navbar-nav-link {{ request()->routeIs('products.*') || request()->routeIs('categories.*') ? 'active' : '' }}">
+                <a href="{{ route('products.index') }}" class="navbar-nav-link {{ request()->routeIs('products.*') || request()->routeIs('categories.*') ? 'active' : '' }}">
                     {{ __('messages.nav.products') }}
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -43,7 +43,7 @@
                                 </h3>
                                 <div class="mega-menu-links">
                                     @foreach($chunk as $navCat)
-                                        <a href="{{ locale_route('categories.show', $navCat->display_slug) }}" class="mega-menu-link">{{ $navCat->display_name }}</a>
+                                        <a href="{{ route('categories.show', $navCat->display_slug) }}" class="mega-menu-link">{{ $navCat->display_name }}</a>
                                     @endforeach
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                             <div class="mega-menu-column">
                                 <h3 class="mega-menu-heading">{{ __('messages.nav.products') }}</h3>
                                 <div class="mega-menu-links">
-                                    <a href="{{ locale_route('products.index') }}" class="mega-menu-link">{{ __('messages.nav.all_products') }}</a>
+                                    <a href="{{ route('products.index') }}" class="mega-menu-link">{{ __('messages.nav.all_products') }}</a>
                                 </div>
                             </div>
                         @endif
@@ -61,9 +61,9 @@
                         <div class="mega-menu-column">
                             <h3 class="mega-menu-heading">{{ __('messages.nav.view_by') ?? 'Xem theo' }}</h3>
                             <div class="mega-menu-links">
-                                <a href="{{ locale_route('products.index', ['sort_by' => 'newest']) }}" class="mega-menu-link">{{ __('messages.nav.new_flowers') }}</a>
-                                <a href="{{ locale_route('products.index', ['sort_by' => 'bestseller']) }}" class="mega-menu-link">{{ __('messages.nav.best_sellers') }}</a>
-                                <a href="{{ locale_route('products.index') }}" class="mega-menu-link">{{ __('messages.nav.all_products') }}</a>
+                                <a href="{{ route('products.index', ['sort_by' => 'newest']) }}" class="mega-menu-link">{{ __('messages.nav.new_flowers') }}</a>
+                                <a href="{{ route('products.index', ['sort_by' => 'bestseller']) }}" class="mega-menu-link">{{ __('messages.nav.best_sellers') }}</a>
+                                <a href="{{ route('products.index') }}" class="mega-menu-link">{{ __('messages.nav.all_products') }}</a>
                             </div>
                         </div>
 
@@ -76,7 +76,7 @@
                             >
                             <div class="mega-menu-featured-overlay">
                                 <div class="mega-menu-featured-title">{{ __('messages.nav.new_bst') }}</div>
-                                <a href="{{ locale_route('products.index', ['sort_by' => 'newest']) }}" class="mega-menu-featured-link">
+                                <a href="{{ route('products.index', ['sort_by' => 'newest']) }}" class="mega-menu-featured-link">
                                     {{ __('messages.nav.explore') }}
                                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -91,7 +91,7 @@
 
             {{-- Góc cảm hứng — link thẳng, không dropdown hardcode --}}
             <li class="navbar-nav-item">
-                <a href="{{ locale_route('blog.index') }}" class="navbar-nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}">
+                <a href="{{ route('blog.index') }}" class="navbar-nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}">
                     {{ __('messages.nav.blog') }}
                 </a>
             </li>
@@ -107,7 +107,7 @@
                 </a>
                 <div class="navbar-dropdown">
                     @foreach($navPages as $navPage)
-                        <a href="{{ locale_route('policy', $navPage->slug) }}" class="navbar-dropdown-item">{{ $navPage->title }}</a>
+                        <a href="{{ route('policy', $navPage->slug) }}" class="navbar-dropdown-item">{{ $navPage->title }}</a>
                     @endforeach
                 </div>
             </li>
@@ -115,7 +115,7 @@
 
             {{-- Liên hệ --}}
             <li class="navbar-nav-item">
-                <a href="{{ locale_route('contact') }}" class="navbar-nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">
+                <a href="{{ route('contact') }}" class="navbar-nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">
                     {{ __('messages.nav.contact') }}
                 </a>
             </li>
@@ -125,9 +125,6 @@
         {{-- ─── Right Actions ──────────────────────────────── --}}
         <div class="navbar-actions">
 
-            {{-- Language Switcher --}}
-            <x-language-switcher />
-
             {{-- Search --}}
             <button class="navbar-action-btn" id="searchToggle" title="{{ __('messages.nav.search') }}" aria-label="{{ __('messages.nav.search') }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,7 +133,7 @@
             </button>
 
             {{-- Cart --}}
-            <a href="{{ locale_route('cart.index') }}" class="navbar-action-btn" title="{{ __('messages.nav.cart') }}" aria-label="{{ __('messages.nav.cart') }}">
+            <a href="{{ route('cart.index') }}" class="navbar-action-btn" title="{{ __('messages.nav.cart') }}" aria-label="{{ __('messages.nav.cart') }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
@@ -156,20 +153,20 @@
                                 <span>{{ Str::limit(auth()->user()->name, 10) }}</span>
                             </button>
                             <div class="navbar-dropdown" id="userMenuDropdown">
-                                <a href="{{ locale_route('profile.show') }}" class="navbar-dropdown-item">{{ __('messages.nav.account') }}</a>
+                                <a href="{{ route('profile.show') }}" class="navbar-dropdown-item">{{ __('messages.nav.account') }}</a>
                                 @if(auth()->user()->isAdmin())
                                     <div class="navbar-dropdown-divider"></div>
                                     <a href="{{ route('admin.dashboard') }}" class="navbar-dropdown-item">{{ __('messages.nav.admin') }}</a>
                                 @endif
                                 <div class="navbar-dropdown-divider"></div>
-                                <form action="{{ locale_route('logout') }}" method="POST" class="navbar-logout-form">
+                                <form action="{{ route('logout') }}" method="POST" class="navbar-logout-form">
                                     @csrf
                                     <button type="submit" class="navbar-dropdown-item navbar-dropdown-btn">{{ __('messages.nav.logout') }}</button>
                                 </form>
                             </div>
                         </div>
                     @else
-                        <a href="{{ locale_route('login') }}" class="navbar-action-btn" title="{{ __('messages.nav.login') }}" aria-label="{{ __('messages.nav.login') }}">
+                        <a href="{{ route('login') }}" class="navbar-action-btn" title="{{ __('messages.nav.login') }}" aria-label="{{ __('messages.nav.login') }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
@@ -187,13 +184,9 @@
 
     {{-- ─── Mobile Menu ─────────────────────────────────── --}}
     <div class="navbar-mobile-menu" id="mobileMenu">
-        {{-- Language Switcher for Mobile --}}
-        <div class="mobile-lang-switcher">
-            <x-language-switcher />
-        </div>
-        
+
         <ul class="navbar-mobile-nav">
-            <li><a href="{{ locale_route('home') }}">{{ __('messages.nav.home') }}</a></li>
+            <li><a href="{{ route('home') }}">{{ __('messages.nav.home') }}</a></li>
 
             {{-- Sản phẩm accordion --}}
             <li class="navbar-mobile-accordion-item">
@@ -206,15 +199,15 @@
                 <div class="navbar-mobile-accordion-content">
                     <div class="navbar-mobile-accordion-links">
                         @foreach($navCategories->take(8) as $navCat)
-                            <a href="{{ locale_route('categories.show', $navCat->display_slug) }}" class="navbar-mobile-accordion-link">{{ $navCat->display_name }}</a>
+                            <a href="{{ route('categories.show', $navCat->display_slug) }}" class="navbar-mobile-accordion-link">{{ $navCat->display_name }}</a>
                         @endforeach
-                        <a href="{{ locale_route('products.index') }}" class="navbar-mobile-accordion-link">{{ __('messages.nav.all_products') }}</a>
+                        <a href="{{ route('products.index') }}" class="navbar-mobile-accordion-link">{{ __('messages.nav.all_products') }}</a>
                     </div>
                 </div>
             </li>
 
             {{-- Góc cảm hứng --}}
-            <li><a href="{{ locale_route('blog.index') }}">{{ __('messages.nav.blog') }}</a></li>
+            <li><a href="{{ route('blog.index') }}">{{ __('messages.nav.blog') }}</a></li>
 
             {{-- Thông tin accordion từ DB pages --}}
             @if($navPages->isNotEmpty())
@@ -228,7 +221,7 @@
                 <div class="navbar-mobile-accordion-content">
                     <div class="navbar-mobile-accordion-links">
                         @foreach($navPages as $navPage)
-                            <a href="{{ locale_route('policy', $navPage->slug) }}" class="navbar-mobile-accordion-link">{{ $navPage->title }}</a>
+                            <a href="{{ route('policy', $navPage->slug) }}" class="navbar-mobile-accordion-link">{{ $navPage->title }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -236,24 +229,24 @@
             @endif
 
             {{-- Liên hệ --}}
-            <li><a href="{{ locale_route('contact') }}">{{ __('messages.nav.contact') }}</a></li>
+            <li><a href="{{ route('contact') }}">{{ __('messages.nav.contact') }}</a></li>
 
             @auth
                 <div class="mobile-menu-divider"></div>
-                <li><a href="{{ locale_route('profile.show') }}">{{ __('messages.nav.account') }}</a></li>
+                <li><a href="{{ route('profile.show') }}">{{ __('messages.nav.account') }}</a></li>
                 @if(auth()->user()->isAdmin())
                     <li><a href="{{ route('admin.dashboard') }}">{{ __('messages.nav.admin') }}</a></li>
                 @endif
                 <div class="mobile-menu-divider"></div>
                 <li>
-                    <form action="{{ locale_route('logout') }}" method="POST" class="navbar-logout-form">
+                    <form action="{{ route('logout') }}" method="POST" class="navbar-logout-form">
                         @csrf
                         <button type="submit" class="mobile-menu-logout-btn">{{ __('messages.nav.logout') }}</button>
                     </form>
                 </li>
             @else
                 <div class="mobile-menu-divider"></div>
-                <li><a href="{{ locale_route('login') }}">{{ __('messages.nav.login') }}</a></li>
+                <li><a href="{{ route('login') }}">{{ __('messages.nav.login') }}</a></li>
             @endauth
         </ul>
     </div>

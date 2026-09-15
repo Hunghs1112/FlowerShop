@@ -11,25 +11,85 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Birthday', 'description' => 'Beautiful flowers for birthday celebrations', 'icon' => '🎂'],
-            ['name' => 'Wedding', 'description' => 'Elegant flowers for weddings and ceremonies', 'icon' => '💒'],
-            ['name' => 'Grand Opening', 'description' => 'Impressive flowers for business openings', 'icon' => '🎊'],
-            ['name' => 'Congratulations', 'description' => 'Flowers to celebrate achievements', 'icon' => '🎉'],
-            ['name' => 'Anniversary', 'description' => 'Romantic flowers for anniversaries', 'icon' => '💕'],
-            ['name' => 'Sympathy', 'description' => 'Respectful flowers for condolences', 'icon' => '🕊️'],
-            ['name' => 'Valentine', 'description' => 'Romantic flowers for Valentine\'s Day', 'icon' => '❤️'],
-            ['name' => 'Mother\'s Day', 'description' => 'Special flowers for mothers', 'icon' => '👩'],
+            [
+                'name' => 'Sinh Nhật',
+                'slug' => 'sinh-nhat',
+                'description' => 'Bó hoa tươi đẹp dành cho ngày sinh nhật, mang đến niềm vui và bất ngờ cho người thân',
+                'icon' => '🎂',
+                'image' => 'images/categories/sinh-nhat-birthday-flowers.jpg',
+                'sort_order' => 1,
+            ],
+            [
+                'name' => 'Khai Trương',
+                'slug' => 'khai-truong',
+                'description' => 'Giỏ hoa, bó hoa khai trương sang trọng, mang lại may mắn và thành công cho doanh nghiệp',
+                'icon' => '🎊',
+                'image' => 'images/categories/khai-truong-grand-opening.jpg',
+                'sort_order' => 2,
+            ],
+            [
+                'name' => 'Cưới Hỏi',
+                'slug' => 'cuoi-hoi',
+                'description' => 'Hoa cầu kỳ, hoa cầm tay và trang trí đám cưới tinh tế, làm đẹp cho ngày trọng đại',
+                'icon' => '💒',
+                'image' => 'images/categories/cuoi-hoi-wedding-flowers.jpg',
+                'sort_order' => 3,
+            ],
+            [
+                'name' => 'Chúc Mừng',
+                'slug' => 'chuc-mung',
+                'description' => 'Hoa chúc mừng thành công, vinh danh, tân gia - gửi đến lời chúc tốt đẹp nhất',
+                'icon' => '🎉',
+                'image' => 'images/categories/chuc-mung-congratulations.jpg',
+                'sort_order' => 4,
+            ],
+            [
+                'name' => 'Tình Yêu',
+                'slug' => 'tinh-yeu',
+                'description' => 'Hoa hồng lãng mạn và những bó hoa tình yêu ngọt ngào dành cho người bạn yêu thương',
+                'icon' => '💕',
+                'image' => 'images/categories/tinh-yeu-romantic-roses.jpg',
+                'sort_order' => 5,
+            ],
+            [
+                'name' => 'Hoa Nhập Khẩu',
+                'slug' => 'hoa-nhap-khau',
+                'description' => 'Hoa nhập khẩu cao cấp từ Ecuador, Hà Lan, Nhật Bản - đẳng cấp và sang trọng',
+                'icon' => '🌹',
+                'image' => 'images/categories/hoa-nhap-khau-imported-flowers.jpg',
+                'sort_order' => 6,
+            ],
+            [
+                'name' => 'Hoa Tươi Mới',
+                'slug' => 'hoa-tuoi-moi',
+                'description' => 'Hoa tươi theo mùa, nhập mới mỗi ngày từ vườn hoa địa phương và vùng trồng uy tín',
+                'icon' => '🌷',
+                'image' => 'images/categories/hoa-tuoi-moi-fresh-flowers.jpg',
+                'sort_order' => 7,
+            ],
+            [
+                'name' => 'Lan Hồ Điệp',
+                'slug' => 'lan-ho-diep',
+                'description' => 'Chậu lan hồ điệp cao cấp, tượng trưng cho sự sang trọng và phú quý, trưng bày lâu dài',
+                'icon' => '🪻',
+                'image' => 'images/categories/lan-ho-diep-orchid.jpg',
+                'sort_order' => 8,
+            ],
         ];
 
-        foreach ($categories as $index => $category) {
-            Category::create([
-                'name' => $category['name'],
-                'slug' => Str::slug($category['name']),
-                'description' => $category['description'],
-                'icon' => $category['icon'],
-                'sort_order' => $index + 1,
-                'is_active' => true,
-            ]);
+        foreach ($categories as $cat) {
+            Category::updateOrCreate(
+                ['slug' => $cat['slug']],
+                [
+                    'name' => $cat['name'],
+                    'slug' => $cat['slug'],
+                    'description' => $cat['description'],
+                    'icon' => $cat['icon'],
+                    'image' => $cat['image'] ?? null,
+                    'sort_order' => $cat['sort_order'],
+                    'is_active' => true,
+                ]
+            );
         }
     }
 }

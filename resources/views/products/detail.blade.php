@@ -2,21 +2,17 @@
 
 @section('title', $product->display_name)
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/product-detail.css') }}">
-@endpush
-
 @section('content')
-
+    
 <!-- Breadcrumb -->
 <div class="container">
     <nav class="breadcrumb">
-        <a href="{{ locale_route('home') }}">Trang chủ</a>
+        <a href="{{ route('home') }}">Trang chủ</a>
         <span>/</span>
-        <a href="{{ locale_route('products.index') }}">Sản phẩm</a>
+        <a href="{{ route('products.index') }}">Sản phẩm</a>
         @if($product->category)
             <span>/</span>
-            <a href="{{ locale_route('products.index') }}?categories[]={{ $product->category->id }}">{{ $product->category->name }}</a>
+            <a href="{{ route('products.index') }}?categories[]={{ $product->category->id }}">{{ $product->category->name }}</a>
         @endif
         <span>/</span>
         <span>{{ $product->display_name }}</span>
@@ -136,7 +132,7 @@
             <div class="stock">{{ $product->stock }} sản phẩm có sẵn</div>
 
             <!-- Quantity + Add to Cart -->
-            <form action="{{ locale_route('cart.add') }}" method="POST">
+            <form action="{{ route('cart.add') }}" method="POST">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <div class="cart-actions">
@@ -272,7 +268,7 @@
         </div>
         <div class="products-grid">
             @forelse($recommendedProducts as $recommendedProduct)
-                <a href="{{ locale_route('products.show', $recommendedProduct->display_slug ?? $recommendedProduct->id) }}" class="product-card">
+                <a href="{{ route('products.show', $recommendedProduct->display_slug ?? $recommendedProduct->id) }}" class="product-card">
                     <div class="product-card-image">
                         <img src="{{ $recommendedProduct->getPrimaryImageUrl() }}" alt="{{ $recommendedProduct->name }}">
                     </div>
@@ -309,7 +305,7 @@
         </div>
         <div class="products-grid-small">
             @forelse($recentlyViewed as $viewedProduct)
-                <a href="{{ locale_route('products.show', $viewedProduct->display_slug ?? $viewedProduct->id) }}" class="product-card">
+                <a href="{{ route('products.show', $viewedProduct->display_slug ?? $viewedProduct->id) }}" class="product-card">
                     <div class="product-card-image">
                         <img src="{{ $viewedProduct->getPrimaryImageUrl() }}" alt="{{ $viewedProduct->name }}">
                     </div>
@@ -426,10 +422,10 @@
 
     function quickOrder(productId) {
         @auth
-            window.location.href = '{{ locale_route("checkout.index") }}';
+            window.location.href = '{{ route("checkout.index") }}';
         @else
             alert('Vui lòng đăng nhập để đặt hàng nhanh');
-            window.location.href = '{{ locale_route("login") }}';
+            window.location.href = '{{ route("login") }}';
         @endauth
     }
 

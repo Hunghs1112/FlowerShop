@@ -16,10 +16,20 @@ class Setting extends Model
     // Static helper method to get settings
     public static function get(string $key, $default = null)
     {
-        return Cache::remember("setting_{$key}", 3600, function () use ($key, $default) {
-            $setting = self::where('key', $key)->first();
-            return $setting ? $setting->value : $default;
-        });
+        try {
+            return Cache::remember("setting_{$key}", 3600, function () use ($key, $default) {
+                $setting = self::where('key', $key)->first();
+                return $setting ? $setting->value : $default;
+            });
+        } catch (\Exception $e) {
+            // Fallback: try direct DB query without cache
+            try {
+                $setting = self::where('key', $key)->first();
+                return $setting ? $setting->value : $default;
+            } catch (\Exception $e2) {
+                return $default;
+            }
+        }
     }
 
     // Static helper method to set settings

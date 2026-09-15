@@ -1,14 +1,14 @@
 {{-- Product Card Component --}}
 <div class="product-card">
     <div class="product-card-image">
-        <a href="{{ locale_route('products.show', $product->display_slug) }}">
+        <a href="{{ route('products.show', $product->display_slug) }}">
             <img src="{{ $product->getPrimaryImageUrl() }}" alt="{{ $product->display_name }}">
         </a>
     </div>
 
     <div class="product-card-body">
         <h3 class="product-card-title">
-            <a href="{{ locale_route('products.show', $product->display_slug) }}">
+            <a href="{{ route('products.show', $product->display_slug) }}">
                 {{ $product->display_name }}
             </a>
         </h3>

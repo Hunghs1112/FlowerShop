@@ -3,16 +3,16 @@
     <div class="inspiration-container">
         {{-- Header --}}
         <div class="inspiration-header">
-            <div class="inspiration-eyebrow">{{ __('messages.home.inspiration_eyebrow') ?? 'GÓC NHỎ CỦA CHÚNG TÔI' }}</div>
-            <h2 class="inspiration-heading">{{ __('messages.home.inspiration_title') }}</h2>
-            <p class="inspiration-description">{{ __('messages.home.inspiration_subtitle') }}</p>
+            <div class="inspiration-eyebrow">GÓC NHỎ CỦA CHÚNG TÔI</div>
+            <h2 class="inspiration-heading">Bài viết & Cảm hứng</h2>
+            <p class="inspiration-description">Khám phá những câu chuyện thú vị về hoa, cách chăm sóc và những ý tưởng trang trí độc đáo.</p>
         </div>
         
         {{-- Blog Grid --}}
         @if(isset($latestPosts) && $latestPosts->count() > 0)
         <div class="inspiration-grid">
             @foreach($latestPosts as $post)
-            <a href="{{ locale_route('blog.show', $post->slug) }}" class="blog-card">
+            <a href="{{ route('blog.show', $post->slug) }}" class="blog-card">
                 <div class="blog-card-image-container">
                     <img 
                         src="{{ $post->image_url }}" 
@@ -20,13 +20,13 @@
                         class="blog-card-image"
                         loading="lazy"
                     >
-                    <span class="blog-card-category">{{ __('messages.blog.post_label') ?? 'Bài viết' }}</span>
+                    <span class="blog-card-category">Bài viết</span>
                 </div>
                 <div class="blog-card-content">
                     <h3 class="blog-card-title">{{ $post->title }}</h3>
                     <p class="blog-card-excerpt">{{ Str::limit($post->excerpt ?? $post->content, 100) }}</p>
                         <span class="blog-card-link">
-                            {{ __('messages.blog.read_more') }}
+                            Xem thêm
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
@@ -39,8 +39,8 @@
         
         {{-- View All Button --}}
         <div class="inspiration-footer">
-            <a href="{{ locale_route('blog.index') }}" class="inspiration-view-all">
-                {{ __('messages.common.view_all') }}
+            <a href="{{ route('blog.index') }}" class="inspiration-view-all">
+                Xem tất cả
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>

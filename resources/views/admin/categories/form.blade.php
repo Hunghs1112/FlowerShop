@@ -1,98 +1,134 @@
-<div class="form-container">
+<div style="display: grid; grid-template-columns: 1fr 320px; gap: 24px;">
+    {{-- Main Content --}}
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+        {{-- Basic Info --}}
         <div class="admin-card">
             <div class="admin-card-header">
-                <h2 class="admin-card-title">Thông Tin Danh Mục</h2>
+                <h2 class="admin-card-title">
+                    <div class="admin-card-title-icon">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                    </div>
+                    Thông Tin Danh Mục
+                </h2>
             </div>
             <div class="admin-card-body">
-                <div class="form-group">
-                    <label class="form-label required">Tên Danh Mục</label>
-                    <input type="text" name="name" value="{{ old('name', $category->name ?? '') }}" 
-                           class="form-input @error('name') error @enderror" required>
-                    @error('name')
-                        <span class="form-error">{{ $message }}</span>
-                    @enderror
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tên Danh Mục <span style="color: var(--admin-error);">*</span></label>
+                        <input type="text" name="name" value="{{ old('name', $category->name ?? '') }}" 
+                               style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;" 
+                               required>
+                    </div>
+
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Slug <span style="color: var(--admin-error);">*</span></label>
+                        <input type="text" name="slug" value="{{ old('slug', $category->slug ?? '') }}" 
+                               id="slugInput"
+                               style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống sẽ tự động tạo từ tên</small>
+                    </div>
+
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Danh Mục Cha</label>
+                        <select name="parent_id" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;">
+                            <option value="">Không có (Danh mục gốc)</option>
+                            @foreach($categories ?? [] as $cat)
+                                @if(!isset($category) || $cat->id !== $category->id)
+                                    <option value="{{ $cat->id }}" {{ old('parent_id', $category->parent_id ?? '') == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả</label>
+                        <textarea name="description" rows="4" 
+                                  style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('description', $category->description ?? '') }}</textarea>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-label required">Slug</label>
-                    <input type="text" name="slug" value="{{ old('slug', $category->slug ?? '') }}" 
-                           class="form-input @error('slug') error @enderror" required>
-                    <small class="form-help">Để trống sẽ tự động tạo từ tên danh mục</small>
-                    @error('slug')
-                        <span class="form-error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Danh Mục Cha</label>
-                    <select name="parent_id" class="form-input @error('parent_id') error @enderror">
-                        <option value="">Không có (Danh mục gốc)</option>
-                        @foreach($categories ?? [] as $cat)
-                            @if(!isset($category) || $cat->id !== $category->id)
-                                <option value="{{ $cat->id }}" 
-                                    {{ old('parent_id', $category->parent_id ?? '') == $cat->id ? 'selected' : '' }}>
-                                    {{ $cat->name }}
-                                </option>
-                            @endif
-                        @endforeach
-                    </select>
-                    @error('parent_id')
-                        <span class="form-error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Mô Tả</label>
-                    <textarea name="description" rows="4" 
-                              class="form-input @error('description') error @enderror">{{ old('description', $category->description ?? '') }}</textarea>
-                    @error('description')
-                        <span class="form-error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Hình Ảnh Danh Mục</label>
-                    <input type="file" name="image" accept="image/*" 
-                           class="form-input" onchange="previewImage(this)">
-                    <small class="form-help">Kích thước đề xuất: 800x800px</small>
-                    @error('image')
-                        <span class="form-error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div id="imagePreview" class="image-preview"></div>
-
+        {{-- Image --}}
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title">
+                    <div class="admin-card-title-icon">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    Hình Ảnh
+                </h2>
+            </div>
+            <div class="admin-card-body">
                 @if(isset($category) && $category->image)
-                    <div class="existing-image">
-                        <h3 class="form-label">Hình Ảnh Hiện Tại</h3>
-                        <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 8px;">Hình Ảnh Hiện Tại</label>
+                        <div style="width: 120px; height: 120px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);">
+                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                     </div>
                 @endif
 
-                <div class="form-group">
-                    <label class="form-checkbox">
-                        <input type="checkbox" name="is_active" value="1" 
-                            {{ old('is_active', $category->is_active ?? true) ? 'checked' : '' }}>
-                        <span>Kích hoạt</span>
-                    </label>
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">{{ isset($category) && $category->image ? 'Thay Đổi Hình Ảnh' : 'Hình Ảnh' }}</label>
+                    <input type="file" name="image" accept="image/*" id="imageInput" onchange="previewImage(this)"
+                           style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
+                    <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước đề xuất: 800x800px</small>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Thứ Tự Hiển Thị</label>
-                    <input type="number" name="order" value="{{ old('order', $category->order ?? 0) }}" 
-                           class="form-input" min="0">
-                    <small class="form-help">Số nhỏ hơn sẽ hiển thị trước</small>
+                <div id="imagePreview" style="margin-top: 16px;"></div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Sidebar --}}
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+        {{-- Status --}}
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title">
+                    <div class="admin-card-title-icon">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    Trạng Thái
+                </h2>
+            </div>
+            <div class="admin-card-body">
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" name="is_active" value="1" {{ old('is_active', $category->is_active ?? true) ? 'checked' : '' }}
+                               style="width: 20px; height: 20px; accent-color: var(--admin-accent);">
+                        <span style="font-size: 14px; font-weight: 500;">Kích hoạt</span>
+                    </label>
+
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Thứ Tự Hiển Thị</label>
+                        <input type="number" name="order" value="{{ old('order', $category->order ?? 0) }}" 
+                               style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
+                               min="0">
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Số nhỏ hơn hiển thị trước</small>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary btn-block">
-                {{ isset($category) ? 'Cập Nhật' : 'Tạo Danh Mục' }}
-            </button>
-        </div>
+        {{-- Submit --}}
+        <button type="submit" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 15px;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ isset($category) ? 'Cập Nhật Danh Mục' : 'Tạo Danh Mục' }}
+        </button>
+    </div>
 </div>
-
 
 @push('scripts')
 <script>
@@ -103,9 +139,10 @@ function previewImage(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            preview.appendChild(img);
+            const div = document.createElement('div');
+            div.style.cssText = 'width: 120px; height: 120px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);';
+            div.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            preview.appendChild(div);
         };
         reader.readAsDataURL(input.files[0]);
     }
@@ -113,23 +150,17 @@ function previewImage(input) {
 
 // Auto-generate slug from name
 document.querySelector('input[name="name"]')?.addEventListener('input', function(e) {
-    const slugInput = document.querySelector('input[name="slug"]');
+    const slugInput = document.getElementById('slugInput');
     if (!slugInput.dataset.manual) {
         slugInput.value = e.target.value
             .toLowerCase()
-            .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
-            .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
-            .replace(/[ìíịỉĩ]/g, 'i')
-            .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
-            .replace(/[ùúụủũưừứựửữ]/g, 'u')
-            .replace(/[ỳýỵỷỹ]/g, 'y')
-            .replace(/đ/g, 'd')
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-+|-+$/g, '');
     }
 });
 
-document.querySelector('input[name="slug"]')?.addEventListener('input', function() {
+document.getElementById('slugInput')?.addEventListener('input', function() {
     this.dataset.manual = 'true';
 });
 </script>

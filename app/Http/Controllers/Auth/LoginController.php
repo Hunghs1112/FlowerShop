@@ -23,17 +23,16 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect admin to admin dashboard, others to home (with locale)
+            // Redirect admin to admin dashboard, others to home
             if (Auth::user()->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'));
             }
 
-            $locale = app()->getLocale();
-            return redirect()->intended(route('home', ['locale' => $locale]));
+            return redirect()->intended(route('home'));
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Thông tin đăng nhập không chính xác.',
         ])->onlyInput('email');
     }
 
@@ -44,7 +43,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        $locale = app()->getLocale();
-        return redirect()->route('home', ['locale' => $locale]);
+        return redirect()->route('home');
     }
 }

@@ -14,6 +14,7 @@ class Category extends Model
         'slug',
         'description',
         'icon',
+        'image',
         'sort_order',
         'is_active',
     ];
@@ -63,31 +64,10 @@ class Category extends Model
         return implode(' > ', $path);
     }
 
-    // ── Locale-aware accessors ──────────────────────────────────────────
-
-    public function getDisplayNameAttribute(): string
-    {
-        if (app()->getLocale() === 'en' && $this->name_en) {
-            return $this->name_en;
-        }
-        return $this->name;
-    }
-
-    public function getDisplayDescriptionAttribute(): ?string
-    {
-        if (app()->getLocale() === 'en' && $this->description_en) {
-            return $this->description_en;
-        }
-        return $this->description;
-    }
-
-    public function getDisplaySlugAttribute(): string
-    {
-        if (app()->getLocale() === 'en' && $this->slug_en) {
-            return $this->slug_en;
-        }
-        return $this->slug;
-    }
+    // Display helpers (locale-aware — simplified since bilingual feature was removed)
+    public function getDisplayNameAttribute(): string { return $this->name; }
+    public function getDisplayDescriptionAttribute(): ?string { return $this->description; }
+    public function getDisplaySlugAttribute(): string { return $this->slug; }
 
     public function getImageUrlAttribute(): string
     {

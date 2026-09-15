@@ -4,16 +4,16 @@
         {{-- Left Side - Image Cards (first 2 categories from DB) --}}
         <div class="categories-images">
             @foreach($categories->take(2) as $catCard)
-            <a href="{{ locale_route('categories.show', $catCard->display_slug) }}" class="category-image-card">
-                @if($catCard->icon)
+            <a href="{{ route('categories.show', $catCard->display_slug) }}" class="category-image-card">
+                @if($catCard->image)
                     <img
-                        src="{{ asset('storage/' . $catCard->icon) }}"
+                        src="{{ asset($catCard->image) }}"
                         alt="{{ $catCard->display_name }}"
                         loading="lazy"
                     >
                 @else
                     <img
-                        src="{{ asset('images/categories/category-' . $loop->iteration . '.jpg') }}"
+                        src="{{ asset('images/categories/' . $catCard->slug . '.jpg') }}"
                         alt="{{ $catCard->display_name }}"
                         loading="lazy"
                     >
@@ -21,7 +21,7 @@
                 <div class="category-image-overlay"></div>
                 <div class="category-image-content">
                     <h3 class="category-image-title">{{ Str::upper($catCard->display_name) }}</h3>
-                    <p class="category-image-count">{{ $catCard->products_count ?? $catCard->products()->count() }}+ {{ Str::lower(__('messages.categories.product_count')) }}</p>
+                    <p class="category-image-count">{{ $catCard->products_count ?? $catCard->products()->count() }}+ sản phẩm</p>
                 </div>
             </a>
             @endforeach
@@ -29,14 +29,14 @@
 
         {{-- Right Side - Content --}}
         <div class="categories-content">
-            <span class="categories-label">{{ __('messages.home.categories_title') }}</span>
-            <h2 class="categories-heading">{{ __('messages.home.categories_title') }}</h2>
+            <span class="categories-label">DANH MỤC SẢN PHẨM</span>
+            <h2 class="categories-heading">Khám phá bộ sưu tập</h2>
             <div class="categories-heading-decoration"></div>
 
             <ul class="categories-list">
                 @foreach($categories as $cat)
                     <li class="category-list-item">
-                        <a href="{{ locale_route('categories.show', $cat->display_slug) }}" class="category-list-link">
+                        <a href="{{ route('categories.show', $cat->display_slug) }}" class="category-list-link">
                             <span class="category-list-name">{{ $cat->display_name }}</span>
                             <div class="category-list-arrow">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">

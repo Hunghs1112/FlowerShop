@@ -1,15 +1,16 @@
 @extends('layouts.app')
 
-@section('title', __('messages.contact.page_title'))
+@section('title', 'Liên hệ')
 
 @section('content')
 <x-page-hero 
-    title="{{ __('messages.contact.page_title') }}"
-    description="{{ __('messages.contact.page_subtitle') }}"
+    title="Liên hệ"
+    description="Chúng tôi luôn sẵn sàng lắng nghe bạn"
     :breadcrumbs="[
-        ['label' => __('messages.nav.home'), 'url' => locale_route('home')],
-        ['label' => __('messages.nav.contact')]
+        ['label' => 'Trang chủ', 'url' => route('home')],
+        ['label' => 'Liên hệ']
     ]"
+    :image="$siteBanners['contact'] ?? null"
     height="400px"
 />
 
@@ -19,7 +20,7 @@
         <div class="contact-form-wrapper">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">{{ __('messages.contact.form_title') }}</h2>
+                    <h2 class="card-title">Gửi tin nhắn</h2>
                 </div>
                 <div class="card-body">
                     @if(session('success'))
@@ -28,11 +29,11 @@
                         </div>
                     @endif
 
-                    <form action="{{ locale_route('contact.submit') }}" method="POST">
+                    <form action="{{ route('contact.submit') }}" method="POST">
                         @csrf
 
                         <div class="form-group">
-                            <label for="name" class="form-label required">{{ __('messages.contact.name') }}</label>
+                            <label for="name" class="form-label required">Họ và tên</label>
                             <input type="text" id="name" name="name" 
                                    value="{{ old('name') }}" 
                                    class="form-input @error('name') error @enderror" required>
@@ -43,7 +44,7 @@
 
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="phone" class="form-label required">{{ __('messages.contact.phone') }}</label>
+                                <label for="phone" class="form-label required">Số điện thoại</label>
                                 <input type="tel" id="phone" name="phone" 
                                        value="{{ old('phone') }}" 
                                        class="form-input @error('phone') error @enderror" required>
@@ -53,7 +54,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="email" class="form-label">{{ __('messages.contact.email_optional') }}</label>
+                                <label for="email" class="form-label">Email (tùy chọn)</label>
                                 <input type="email" id="email" name="email" 
                                        value="{{ old('email') }}" 
                                        class="form-input @error('email') error @enderror">
@@ -64,28 +65,28 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="zalo_id" class="form-label">{{ __('messages.contact.zalo_id') }}</label>
+                            <label for="zalo_id" class="form-label">Zalo ID</label>
                             <input type="text" id="zalo_id" name="zalo_id" 
                                    value="{{ old('zalo_id') }}" 
                                    class="form-input @error('zalo_id') error @enderror"
-                                   placeholder="{{ __('messages.contact.zalo_placeholder') }}">
+                                   placeholder="VD: 0901234567">
                             @error('zalo_id')
                                 <span class="form-error">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <label for="message" class="form-label required">{{ __('messages.contact.message') }}</label>
+                            <label for="message" class="form-label required">Nội dung</label>
                             <textarea id="message" name="message" rows="6" 
                                       class="form-input @error('message') error @enderror" 
-                                      required placeholder="{{ __('messages.contact.message_placeholder') }}">{{ old('message') }}</textarea>
+                                      required placeholder="Nhập nội dung tin nhắn của bạn...">{{ old('message') }}</textarea>
                             @error('message')
                                 <span class="form-error">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-lg btn-block">
-                            {{ __('messages.contact.send') }}
+                            Gửi tin nhắn
                         </button>
                     </form>
                 </div>
@@ -96,11 +97,11 @@
         <div class="contact-info-wrapper">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">{{ __('messages.contact.info_title') }}</h2>
+                    <h2 class="card-title">Thông tin liên hệ</h2>
                 </div>
                 <div class="card-body">
                     <p class="contact-intro">
-                        {{ __('messages.contact.intro') }}
+                        Hãy liên hệ với chúng tôi nếu bạn có bất kỳ câu hỏi nào. Chúng tôi luôn sẵn sàng hỗ trợ bạn.
                     </p>
 
                     <div class="contact-methods">
@@ -112,7 +113,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3>{{ __('messages.contact.phone_label') }}</h3>
+                                    <h3>Điện thoại</h3>
                                     <p>{{ $siteInfo['phone'] }}</p>
                                 </div>
                             </div>
@@ -126,7 +127,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3>{{ __('messages.contact.email_label') }}</h3>
+                                    <h3>Email</h3>
                                     <p>{{ $siteInfo['email'] }}</p>
                                 </div>
                             </div>
@@ -141,7 +142,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3>{{ __('messages.contact.address_label') }}</h3>
+                                    <h3>Địa chỉ</h3>
                                     <p>{{ $siteInfo['address'] }}</p>
                                 </div>
                             </div>
@@ -150,10 +151,10 @@
 
                     @if($siteInfo['zalo_qr'])
                         <div class="zalo-section">
-                            <h3>{{ __('messages.contact.zalo_title') }}</h3>
+                            <h3>Liên hệ qua Zalo</h3>
                             <div class="zalo-qr">
                                 <img src="{{ asset('storage/' . $siteInfo['zalo_qr']) }}" alt="Mã QR Zalo">
-                                <p>{{ __('messages.contact.zalo_scan') }}</p>
+                                <p>Quét mã để liên hệ nhanh</p>
                             </div>
                         </div>
                     @endif
@@ -163,4 +164,3 @@
     </div>
 </div>
 @endsection
-

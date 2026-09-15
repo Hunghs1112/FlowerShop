@@ -2,29 +2,20 @@
 
 @section('title', $category->display_name)
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/products/hero.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/products/toolbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/products/filter.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/products/grid.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/products/card.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/products/pagination.css') }}">
-@endpush
-
 @section('content')
 <!-- Hero Banner -->
 <section class="products-hero">
     <img 
-        src="{{ $category->image ?? asset('images/categories/category-show-default.jpg') }}" 
+        src="{{ $category->image ? asset($category->image) : ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg')) }}" 
         alt="{{ $category->display_name }}"
         class="products-hero-image"
     >
     <div class="products-hero-overlay"></div>
     <div class="products-hero-content">
         <div class="products-breadcrumb">
-            <a href="{{ locale_route('home') }}">{{ __('messages.nav.home') }}</a>
+            <a href="{{ route('home') }}">Trang chủ</a>
             <span>/</span>
-            <a href="{{ locale_route('categories.index') }}">{{ __('messages.categories.index_title') ?? 'Danh mục' }}</a>
+            <a href="{{ route('categories.index') }}">Danh mục</a>
             @foreach($breadcrumb as $item)
             <span>/</span>
             @if($loop->last)
@@ -45,10 +36,10 @@
 @if($category->children && $category->children->count() > 0)
 <section class="subcategories-bar">
     <div class="subcategories-inner">
-        <h3 class="subcategories-title">{{ __('messages.categories.subcategories_title') ?? 'Danh mục con' }}</h3>
+        <h3 class="subcategories-title">Danh mục con</h3>
         <div class="subcategories-list">
             @foreach($category->children as $child)
-            <a href="{{ locale_route('categories.show', $child->slug) }}" class="subcategory-link">
+            <a href="{{ route('categories.show', $child->slug) }}" class="subcategory-link">
                 {{ $child->display_name }}
             </a>
             @endforeach
@@ -64,20 +55,20 @@
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
             </svg>
-            {{ __('messages.products.filter') }}
+            Lọc
         </button>
-        <span class="products-count">{!! str_replace(':count', $products->total(), __('messages.products.products_count')) !!}</span>
+        <span class="products-count">Hiển thị {{ $products->total() }} sản phẩm</span>
     </div>
     
     <div class="products-toolbar-right">
         <div class="products-sort-dropdown">
             <button class="products-sort-button" id="sortToggle">
-                <span>{{ __('messages.products.sort') }}: <span id="sortLabel">
+                <span>Sắp xếp: <span id="sortLabel">
                     @switch($filters['sort_by'] ?? 'latest')
-                        @case('price_asc') {{ __('messages.products.sort_price_asc') }} @break
-                        @case('price_desc') {{ __('messages.products.sort_price_desc') }} @break
-                        @case('name') {{ __('messages.products.sort_name_az') ?? 'Tên A-Z' }} @break
-                        @default {{ __('messages.products.sort_newest') }}
+                        @case('price_asc') Giá: Thấp đến cao @break
+                        @case('price_desc') Giá: Cao đến thấp @break
+                        @case('name') Tên A-Z @break
+                        @default Mới nhất
                     @endswitch
                 </span></span>
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,10 +76,10 @@
                 </svg>
             </button>
             <div class="products-sort-menu" id="sortMenu">
-                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'latest']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? 'latest') === 'latest' ? 'active' : '' }}">{{ __('messages.products.sort_newest') }}</a>
-                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'price_asc']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'price_asc' ? 'active' : '' }}">{{ __('messages.products.sort_price_asc') }}</a>
-                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'price_desc']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'price_desc' ? 'active' : '' }}">{{ __('messages.products.sort_price_desc') }}</a>
-                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'name']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'name' ? 'active' : '' }}">{{ __('messages.products.sort_name_az') ?? 'Tên A-Z' }}</a>
+                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'latest']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? 'latest') === 'latest' ? 'active' : '' }}">Mới nhất</a>
+                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'price_asc']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'price_asc' ? 'active' : '' }}">Giá: Thấp đến cao</a>
+                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'price_desc']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'price_desc' ? 'active' : '' }}">Giá: Cao đến thấp</a>
+                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'name']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'name' ? 'active' : '' }}">Tên A-Z</a>
             </div>
         </div>
     </div>
@@ -98,7 +89,7 @@
 <div class="products-filter-overlay" id="filterOverlay"></div>
 <aside class="products-filter-sidebar" id="filterSidebar">
     <div class="products-filter-header">
-        <h3 class="products-filter-title">{{ __('messages.products.filter') }}</h3>
+        <h3 class="products-filter-title">Lọc</h3>
         <button class="products-filter-close" id="filterClose">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -106,16 +97,16 @@
         </button>
     </div>
     
-    <form action="{{ locale_route('categories.show', $category->slug) }}" method="GET" id="filterForm">
+    <form action="{{ route('categories.show', $category->slug) }}" method="GET" id="filterForm">
         <div class="products-filter-body">
             <!-- Khoảng giá -->
             <div class="products-filter-group">
-                <h4 class="products-filter-group-title">{{ __('messages.products.filter_price') }}</h4>
+                <h4 class="products-filter-group-title">Khoảng giá</h4>
                 <div class="products-filter-options">
                     <div class="filter-price-group">
-                        <input type="number" name="min_price" placeholder="{{ __('messages.products.price_from') ?? 'Từ' }}" value="{{ $filters['min_price'] ?? '' }}"
+                        <input type="number" name="min_price" placeholder="Từ" value="{{ $filters['min_price'] ?? '' }}"
                                class="filter-price-input">
-                        <input type="number" name="max_price" placeholder="{{ __('messages.products.price_to') ?? 'Đến' }}" value="{{ $filters['max_price'] ?? '' }}"
+                        <input type="number" name="max_price" placeholder="Đến" value="{{ $filters['max_price'] ?? '' }}"
                                class="filter-price-input">
                     </div>
                 </div>
@@ -125,14 +116,14 @@
             <div class="products-filter-group">
                 <label class="products-filter-option">
                     <input type="checkbox" name="in_stock" value="1" {{ ($filters['in_stock'] ?? false) ? 'checked' : '' }} class="products-filter-checkbox">
-                    <span class="products-filter-label">{{ __('messages.products.in_stock_only') ?? 'Chỉ hiển thị sản phẩm còn hàng' }}</span>
+                    <span class="products-filter-label">Chỉ hiển thị sản phẩm còn hàng</span>
                 </label>
             </div>
         </div>
         
         <div class="products-filter-footer">
-            <a href="{{ locale_route('categories.show', $category->slug) }}" class="products-filter-clear">{{ __('messages.products.clear_filters') }}</a>
-            <button type="submit" class="products-filter-apply">{{ __('messages.products.apply_filters') }}</button>
+            <a href="{{ route('categories.show', $category->slug) }}" class="products-filter-clear">Đặt lại</a>
+            <button type="submit" class="products-filter-apply">Áp dụng</button>
         </div>
     </form>
 </aside>
@@ -145,7 +136,7 @@
             <x-product-card :product="$product" />
             @empty
             <div class="products-empty">
-                <p>{{ __('messages.products.no_products') }}</p>
+                <p>Không có sản phẩm nào.</p>
             </div>
             @endforelse
         </div>

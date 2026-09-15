@@ -7,9 +7,10 @@
     :title="$page->title"
     :description="$page->excerpt ?? 'Thông tin quan trọng về chính sách của chúng tôi'"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => locale_route('home')],
+        ['label' => 'Trang chủ', 'url' => route('home')],
         ['label' => $page->title]
     ]"
+    :image="$siteBanners['about'] ?? null"
     height="350px"
 />
 
@@ -21,4 +22,3 @@
     </div>
 </div>
 @endsection
-

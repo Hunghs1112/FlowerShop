@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('title', __('messages.categories.page_title'))
+@section('title', 'Danh mục sản phẩm')
 
 
 @section('content')
 <!-- Hero Banner -->
 <section class="categories-hero">
     <img
-        src="{{ asset('images/categories/category-hero.jpg') }}"
-        alt="{{ __('messages.categories.page_title') }}"
+        src="{{ $siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg') }}"
+        alt="Danh mục sản phẩm"
         class="categories-hero-image"
     >
     <div class="categories-hero-overlay"></div>
     <div class="categories-hero-content">
-        <h1 class="categories-hero-heading">{{ __('messages.categories.page_title') }}</h1>
-        <p class="categories-hero-description">{{ __('messages.categories.page_desc') }}</p>
+        <h1 class="categories-hero-heading">Danh mục sản phẩm</h1>
+        <p class="categories-hero-description">Khám phá các danh mục hoa tươi đa dạng của chúng tôi</p>
     </div>
 </section>
 
@@ -22,7 +22,7 @@
 <section class="categories-index-section">
     <div class="categories-index-grid">
         @forelse($categories as $category)
-        <a href="{{ locale_route('categories.show', $category->display_slug) }}" class="category-card">
+        <a href="{{ route('categories.show', $category->display_slug) }}" class="category-card">
             <img
                 src="{{ $category->image ?? asset('images/categories/category-default.jpg') }}"
                 alt="{{ $category->display_name }}"
@@ -30,12 +30,12 @@
             >
             <div class="category-card-overlay">
                 <h3 class="category-card-name">{{ $category->display_name }}</h3>
-                <p class="category-card-count">{!! str_replace(':count', $category->products_count ?? 0, __('messages.categories.product_count')) !!}</p>
+                <p class="category-card-count">{{ $category->products_count ?? 0 }} sản phẩm</p>
             </div>
         </a>
         @empty
         <div class="categories-empty">
-            <p>{{ __('messages.categories.no_categories') }}</p>
+            <p>Không có danh mục nào.</p>
         </div>
         @endforelse
     </div>

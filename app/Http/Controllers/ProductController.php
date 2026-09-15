@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilterProductRequest;
 use App\Models\Product;
 use App\Services\ProductService;
 use App\Services\CategoryService;
@@ -14,69 +15,61 @@ class ProductController extends Controller
         protected CategoryService $categoryService
     ) {}
 
-    public function index(Request $request)
+    /**
+     * Display product listing with filters and search
+     */
+    public function index(FilterProductRequest $request)
     {
-        // Resolve category IDs from various input formats:
-        // - ?categories[]=1&categories[]=2  (array of IDs — from filter sidebar)
-        // - ?category=some-slug             (single slug — from navbar/footer links)
-        $categoryIds = $request->input('categories', []);
-
-        if (empty($categoryIds) && $request->filled('category')) {
-            $slugOrId = $request->input('category');
-            $found = \App\Models\Category::active()
-                ->where('slug', $slugOrId)
-                ->orWhere('id', is_numeric($slugOrId) ? $slugOrId : 0)
-                ->first();
-            if ($found) {
-                $categoryIds = [$found->id];
-            }
-        }
-
-        // Map sort_by values from the sort dropdown to the service's expected keys
-        $sortMap = [
-            'newest'     => 'latest',
-            'bestseller' => 'best_selling',
-            'price-asc'  => 'price_asc',
-            'price-desc' => 'price_desc',
-            'default'    => 'latest',
-        ];
-        $rawSort = $request->input('sort_by', 'latest');
-        $sortBy = $sortMap[$rawSort] ?? $rawSort;
-
-        // Map price range aliases to actual min/max values
-        $minPrice = $request->input('min_price');
-        $maxPrice = $request->input('max_price');
-        if ($request->filled('price_range')) {
-            switch ($request->input('price_range')) {
-                case 'under-500k':  $maxPrice = 500000; break;
-                case '500k-1m':     $minPrice = 500000;  $maxPrice = 1000000; break;
-                case '1m-2m':       $minPrice = 1000000; $maxPrice = 2000000; break;
-                case 'over-2m':     $minPrice = 2000000; break;
-            }
-        }
-
+        // Build filters array from validated request
         $filters = [
-            'category_ids' => $categoryIds,
-            'min_price'    => $minPrice,
-            'max_price'    => $maxPrice,
-            'in_stock'     => $request->boolean('in_stock'),
-            'search'       => $request->input('search'),
-            'sort_by'      => $sortBy,
-            'per_page'     => 12,
+            'category_ids' => $request->getCategoryIds(),
+            'min_price' => $request->getPriceRange()['min'],
+            'max_price' => $request->getPriceRange()['max'],
+            'in_stock' => $request->boolean('in_stock'),
+            'search' => $request->getSearchQuery(),
+            'sort_by' => $request->getSortOption(),
+            'per_page' => 12,
         ];
 
-        $products   = $this->productService->filterProducts($filters);
+        // Get filtered products
+        $products = $this->productService->filterProducts($filters);
+        
+        // Get categories for filter sidebar with product counts
         $categories = $this->categoryService->getActiveCategories();
-
+        
         // Active category for display in hero
         $activeCategory = null;
+        $categoryIds = $filters['category_ids'];
         if (!empty($categoryIds)) {
             $activeCategory = \App\Models\Category::find($categoryIds[0]);
         }
+        
+        // Get active filter chips for display
+        $activeFilterChips = $request->getActiveFilterChips();
+        
+        // Check if this is an AJAX request for autocomplete results
+        if ($request->wantsJson() && $request->has('autocomplete')) {
+            return response()->json([
+                'success' => true,
+                'data' => $this->productService->autocomplete($request->getSearchQuery() ?? ''),
+            ]);
+        }
 
-        return view('products.index', compact('products', 'categories', 'filters', 'activeCategory'));
+        $bannerKey = 'products';
+
+        return view('products.index', compact(
+            'products', 
+            'categories', 
+            'filters', 
+            'activeCategory', 
+            'bannerKey',
+            'activeFilterChips'
+        ));
     }
 
+    /**
+     * Display a single product
+     */
     public function show(string $identifier)
     {
         // Try to find by ID first (if numeric), otherwise by slug (EN or VI)
@@ -118,14 +111,21 @@ class ProductController extends Controller
         return view('products.detail', compact('product', 'recommendedProducts', 'recentlyViewed'));
     }
 
+    /**
+     * API endpoint for product search (autocomplete)
+     */
     public function search(Request $request)
     {
         $query = $request->input('q', '');
         
+        // Minimum 2 characters
         if (strlen($query) < 2) {
             return response()->json(['products' => []]);
         }
-
+        
+        // Sanitize
+        $query = trim(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $query));
+        
         $products = $this->productService->search($query, 10);
 
         return response()->json(['products' => $products]);

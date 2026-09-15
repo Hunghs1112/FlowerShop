@@ -23,7 +23,9 @@ class CategoryController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('categories.index', compact('categories'));
+        $bannerKey = 'categories';
+
+        return view('categories.index', compact('categories', 'bannerKey'));
     }
 
     public function show(string $slug, Request $request)
@@ -50,6 +52,8 @@ class CategoryController extends Controller
         $products = $this->productService->filterProducts($filters);
         $breadcrumb = $this->categoryService->getBreadcrumb($category);
 
-        return view('categories.show', compact('category', 'products', 'breadcrumb', 'filters'));
+        $bannerKey = 'categories';
+
+        return view('categories.show', compact('category', 'products', 'breadcrumb', 'filters', 'bannerKey'));
     }
 }

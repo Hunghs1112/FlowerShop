@@ -14,7 +14,7 @@
             <p>Nhập mật khẩu mới của bạn</p>
         </div>
 
-        <form method="POST" action="{{ locale_route('password.update') }}" class="auth-form">
+        <form method="POST" action="{{ route('password.update') }}" class="auth-form">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
 
@@ -47,7 +47,7 @@
         </form>
 
         <div class="auth-links">
-            <a href="{{ locale_route('login') }}">Quay lại đăng nhập</a>
+            <a href="{{ route('login') }}">Quay lại đăng nhập</a>
         </div>
     </div>
 </div>

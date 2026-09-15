@@ -19,6 +19,8 @@ class HomeController extends Controller
         $categories = $this->categoryService->getActiveCategories();
         $latestPosts = Post::published()->latest('published_at')->limit(3)->get();
 
-        return view('home.index', compact('featuredProducts', 'categories', 'latestPosts'));
+        $bannerKey = 'home';
+
+        return view('home.index', compact('featuredProducts', 'categories', 'latestPosts', 'bannerKey'));
     }
 }

@@ -11,10 +11,10 @@ class ZaloService
     protected string $accessToken;
     protected string $apiEndpoint = 'https://openapi.zalo.me/v3.0/oa';
 
-    public function __construct()
+    public function __construct(protected NotificationService $notificationService)
     {
-        $this->oaId = config('services.zalo.oa_id', '');
-        $this->accessToken = config('services.zalo.access_token', '');
+        $this->oaId = $this->notificationService->getZaloOaId() ?? '';
+        $this->accessToken = $this->notificationService->getZaloAccessToken() ?? '';
     }
 
     /**
@@ -22,6 +22,11 @@ class ZaloService
      */
     public function sendTextMessage(string $userId, string $message): bool
     {
+        if (!$this->notificationService->isZaloEnabled()) {
+            Log::debug('Zalo notifications are disabled');
+            return false;
+        }
+
         if (empty($this->accessToken) || empty($userId)) {
             Log::warning('Zalo: Missing access token or user ID');
             return false;
@@ -105,7 +110,12 @@ class ZaloService
      */
     public function notifyAdminNewOrder(array $orderData): bool
     {
-        $adminPhone = config('services.zalo.admin_phone');
+        if (!$this->notificationService->isZaloEnabled()) {
+            Log::debug('Zalo notifications are disabled');
+            return false;
+        }
+
+        $adminPhone = $this->notificationService->getZaloAdminPhone();
         
         if (empty($adminPhone)) {
             Log::warning('Zalo: Admin phone not configured');

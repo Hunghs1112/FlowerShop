@@ -10,111 +10,76 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuickOrderController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
+use App\Http\Controllers\Api\SearchController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Redirect root → /vi (default locale)
-Route::redirect('/', '/vi');
-
 // ============================================================
-// Customer-facing routes — prefixed by locale (/vi/ or /en/)
-// Middleware SetLocale handles locale detection from URL
+// Customer-facing routes (Vietnamese only)
 // ============================================================
-Route::prefix('{locale}')->where(['locale' => 'vi|en'])->middleware('web')->group(function () {
 
-    // Home
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+// Home
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    // Products - Vietnamese
-    Route::get('/san-pham', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/san-pham/{product}', [ProductController::class, 'show'])->name('products.show');
-    // Products - English
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{product}', [ProductController::class, 'show']);
+// Products
+Route::get('/san-pham', [ProductController::class, 'index'])->name('products.index');
+Route::get('/san-pham/{product}', [ProductController::class, 'show'])->name('products.show');
 
-    // Categories - Vietnamese
-    Route::get('/danh-muc', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/danh-muc/{category}', [CategoryController::class, 'show'])->name('categories.show');
-    // Categories - English
-    Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{category}', [CategoryController::class, 'show']);
+// Categories
+Route::get('/danh-muc', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/danh-muc/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
-    // Blog - Vietnamese
-    Route::get('/bai-viet', [PostController::class, 'index'])->name('blog.index');
-    Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show');
-    // Blog - English
-    Route::get('/blog', [PostController::class, 'index']);
-    Route::get('/blog/{post}', [PostController::class, 'show']);
+// Blog
+Route::get('/bai-viet', [PostController::class, 'index'])->name('blog.index');
+Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show');
 
-    // Pages - Vietnamese
-    Route::get('/ve-chung-toi', [PageController::class, 'about'])->name('about');
-    Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
-    Route::post('/lien-he', [PageController::class, 'contactSubmit'])->name('contact.submit');
-    Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
-    // Pages - English
-    Route::get('/about', [PageController::class, 'about']);
-    Route::get('/contact', [PageController::class, 'contact']);
-    Route::post('/contact', [PageController::class, 'contactSubmit']);
-    Route::get('/page/{slug}', [PageController::class, 'policy']);
+// Pages
+Route::get('/ve-chung-toi', [PageController::class, 'about'])->name('about');
+Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
+Route::post('/lien-he', [PageController::class, 'contactSubmit'])->name('contact.submit');
+Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
-    // Cart - Vietnamese
-    Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/gio-hang/them', [CartController::class, 'add'])->name('cart.add');
-    Route::patch('/gio-hang/{cartItem}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/gio-hang/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
-    Route::delete('/gio-hang', [CartController::class, 'clear'])->name('cart.clear');
-    // Cart - English
-    Route::get('/cart', [CartController::class, 'index']);
-    Route::post('/cart/add', [CartController::class, 'add']);
-    Route::patch('/cart/{cartItem}', [CartController::class, 'update']);
-    Route::delete('/cart/{cartItem}', [CartController::class, 'destroy']);
-    Route::delete('/cart', [CartController::class, 'clear']);
+// Cart
+Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
+Route::post('/gio-hang/them', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/gio-hang/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/gio-hang/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::delete('/gio-hang', [CartController::class, 'clear'])->name('cart.clear');
 
-    // Quick order - Vietnamese
-    Route::post('/dat-hang-nhanh', [QuickOrderController::class, 'store'])->name('quick-order.store');
-    // Quick order - English
-    Route::post('/quick-order', [QuickOrderController::class, 'store']);
+// Quick order
+Route::post('/dat-hang-nhanh', [QuickOrderController::class, 'store'])->name('quick-order.store');
 
-    // Auth (same for both languages)
-    Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-    Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+// Auth
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
-    // Password Reset
-    Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-    Route::post('/password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-    Route::get('/password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-    Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
+// Password Reset
+Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
 
-    // Authenticated routes
-    Route::middleware(['auth'])->group(function () {
-        // Checkout - Vietnamese
-        Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
-        Route::post('/thanh-toan', [CheckoutController::class, 'store'])->name('checkout.store');
-        Route::get('/thanh-toan/thanh-cong', [CheckoutController::class, 'success'])->name('checkout.success');
-        // Checkout - English
-        Route::get('/checkout', [CheckoutController::class, 'index']);
-        Route::post('/checkout', [CheckoutController::class, 'store']);
-        Route::get('/checkout/success', [CheckoutController::class, 'success']);
+// Authenticated routes
+Route::middleware(['auth'])->group(function () {
+    // Checkout
+    Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/thanh-toan', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/thanh-toan/thanh-cong', [CheckoutController::class, 'success'])->name('checkout.success');
 
-        // Profile - Vietnamese
-        Route::get('/tai-khoan', [ProfileController::class, 'show'])->name('profile.show');
-        Route::patch('/tai-khoan', [ProfileController::class, 'update'])->name('profile.update');
-        Route::patch('/tai-khoan/mat-khau', [ProfileController::class, 'updatePassword'])->name('profile.password');
-        // Profile - English
-        Route::get('/account', [ProfileController::class, 'show']);
-        Route::patch('/account', [ProfileController::class, 'update']);
-        Route::patch('/account/password', [ProfileController::class, 'updatePassword']);
-    });
+    // Profile
+    Route::get('/tai-khoan', [ProfileController::class, 'show'])->name('profile.show');
+    Route::patch('/tai-khoan', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/tai-khoan/mat-khau', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 
-// Language Switcher (no locale prefix)
-Route::get('/locale/{locale}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
-
-// API (no locale prefix)
+// API
 Route::get('/api/products', [ApiProductController::class, 'getProducts'])->name('api.products');
+Route::get('/api/search', [SearchController::class, 'autocomplete'])->name('api.search.autocomplete');
 
-// Utility: Clear all caches (view, config, route, bootstrap, cache)
+// Utility: Clear all caches
 Route::get('/setup-clear', function () {
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
     return response('<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>');

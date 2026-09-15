@@ -15,8 +15,8 @@ class CartController extends Controller
     {
         $cartItems = $this->cartService->getCartItems();
         $total = $this->cartService->getTotal();
-
-        return view('cart.index', compact('cartItems', 'total'));
+        $bannerKey = 'cart';
+        return view('cart.index', compact('cartItems', 'total', 'bannerKey'));
     }
 
     public function add(Request $request)

@@ -4,25 +4,25 @@
         <div class="footer-main">
             <!-- Column 1 - Contact from DB settings -->
             <div class="footer-column">
-                <h3 class="footer-column-heading">{{ __('messages.footer.contact') }}</h3>
+                <h3 class="footer-column-heading">Liên hệ</h3>
 
                 @if(!empty($siteSettings['phone']))
                 <div class="footer-contact-item">
-                    <div class="footer-contact-label">{{ __('messages.footer.hotline') }}</div>
+                    <div class="footer-contact-label">Hotline</div>
                     <a href="tel:{{ preg_replace('/\D/', '', $siteSettings['phone']) }}" class="footer-contact-value footer-contact-phone">{{ $siteSettings['phone'] }}</a>
                 </div>
                 @endif
 
                 @if(!empty($siteSettings['email']))
                 <div class="footer-contact-item">
-                    <div class="footer-contact-label">{{ __('messages.footer.email_label') }}</div>
+                    <div class="footer-contact-label">Email</div>
                     <a href="mailto:{{ $siteSettings['email'] }}" class="footer-contact-value">{{ $siteSettings['email'] }}</a>
                 </div>
                 @endif
 
                 @if(!empty($siteSettings['address']))
                 <div class="footer-contact-item">
-                    <div class="footer-contact-label">{{ __('messages.footer.address_label') }}</div>
+                    <div class="footer-contact-label">Địa chỉ</div>
                     <span class="footer-contact-value">{{ $siteSettings['address'] }}</span>
                 </div>
                 @endif
@@ -53,7 +53,7 @@
                     @if(!empty($siteSettings['zalo_url']))
                     <a href="{{ $siteSettings['zalo_url'] }}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Zalo">
                         <svg viewBox="0 0 24 24">
-                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.445 16.295c-.222.37-.605.59-1.02.59H7.56c-.413 0-.797-.22-1.02-.59a1.18 1.18 0 0 1-.02-1.18l.845-1.56a5.94 5.94 0 0 1-.91-3.14C6.455 7.1 9.02 4.5 12 4.5s5.545 2.6 5.545 5.915c0 1.17-.33 2.26-.91 3.14l.845 1.56c.22.37.21.82-.035 1.18zM9.03 10.08c0-.27.22-.49.49-.49h.98c.27 0 .49.22.49.49v2.94c0 .27-.22.49-.49.49h-.98c-.27 0-.49-.22-.49-.49v-2.94zm3.49 2.94c0 .27-.22.49-.49.49h-.98c-.27 0-.49-.22-.49-.49v-2.94c0-.27.22-.49.49-.49h.98c.27 0 .49.22.49.49v2.94zm1.48-2.94c0-.27.22-.49.49-.49h.98c.27 0 .49.22.49.49v2.94c0 .27-.22.49-.49.49h-.98c-.27 0-.49-.22-.49-.49v-2.94z"/>
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.445 16.295c-.222.37-.605.59-1.02.59H7.56c-.413 0-.797-.22-1.02-.59a1.18 1.18 0 0 1-.02-1.18l.845-1.56a5.94 5.94 0 0 1-.91-3.14C6.455 7.1 9.02 4.5 12 4.5s5.545 2.6 5.545 5.915c0 1.17-.33 2.26-.91 3.14l.845 1.56c.22.37.21.82-.035 1.18zM9.03 10.08c0-.27.22-.49.49-.49h.98c.27 0 .49.22.49.49v2.94c0 .27-.22.49-.49.49h-.98c-.27 0-.49-.22-.49-.49v-2.94zm3.49 2.94c0 .27-.22.49-.49.49h-.98c-.27 0-.49-.22-.49-.49v-2.94c0-.27.22-.49.49-.49h.98c.27 0 .49.22.49.49v2.94zm1.48-2.94c0 .27-.22.49-.49.49h.98c.27 0 .49-.22.49-.49v-2.94c0-.27-.22-.49-.49-.49h-.98c-.27 0-.49.22-.49.49v2.94z"/>
                         </svg>
                     </a>
                     @endif
@@ -69,47 +69,47 @@
 
             <!-- Column 2 - Categories from DB -->
             <div class="footer-column">
-                <h3 class="footer-column-heading">{{ __('messages.nav.categories') }}</h3>
+                <h3 class="footer-column-heading">Danh mục</h3>
                 <nav class="footer-links">
                     @foreach($navCategories as $footerCat)
-                        <a href="{{ locale_route('categories.show', $footerCat->display_slug) }}" class="footer-link">{{ $footerCat->display_name }}</a>
+                        <a href="{{ route('categories.show', $footerCat->display_slug) }}" class="footer-link">{{ $footerCat->display_name }}</a>
                     @endforeach
                     @if($navCategories->isEmpty())
-                        <a href="{{ locale_route('products.index') }}" class="footer-link">{{ __('messages.nav.all_products') }}</a>
+                        <a href="{{ route('products.index') }}" class="footer-link">Tất cả sản phẩm</a>
                     @endif
                 </nav>
             </div>
 
             <!-- Column 3 - Pages từ DB -->
             <div class="footer-column">
-                <h3 class="footer-column-heading">{{ __('messages.footer.info') }}</h3>
+                <h3 class="footer-column-heading">Thông tin</h3>
                 <nav class="footer-links">
                     @foreach($navPages as $footerPage)
-                        <a href="{{ locale_route('policy', $footerPage->slug) }}" class="footer-link">{{ $footerPage->title }}</a>
+                        <a href="{{ route('policy', $footerPage->slug) }}" class="footer-link">{{ $footerPage->title }}</a>
                     @endforeach
-                    <a href="{{ locale_route('contact') }}" class="footer-link">{{ __('messages.nav.contact') }}</a>
+                    <a href="{{ route('contact') }}" class="footer-link">Liên hệ</a>
                 </nav>
             </div>
 
             <!-- Column 4 - Newsletter -->
             <div class="footer-column">
-                <h3 class="footer-column-heading">{{ __('messages.footer.newsletter') }}</h3>
-                <p class="footer-newsletter-description">{{ __('messages.footer.newsletter_desc') }}</p>
+                <h3 class="footer-column-heading">Bản tin</h3>
+                <p class="footer-newsletter-description">Đăng ký nhận tin khuyến mãi và cập nhật mới nhất từ chúng tôi.</p>
 
                 <form class="footer-newsletter-form" action="#" method="POST">
                     @csrf
                     <input
                         type="email"
                         name="email"
-                        placeholder="{{ __('messages.footer.email_placeholder') }}"
+                        placeholder="Nhập email của bạn"
                         class="footer-newsletter-input"
                         required
                     >
-                    <button type="submit" class="footer-newsletter-button">{{ __('messages.footer.subscribe') }}</button>
+                    <button type="submit" class="footer-newsletter-button">Đăng ký</button>
                 </form>
 
                 <p class="footer-newsletter-consent">
-                    {{ __('messages.footer.privacy_consent', ['policy' => $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? $navPages->firstWhere('slug', 'chinh-sach-bao-mat')->title : __('messages.footer.privacy')]) }}
+                    Bằng việc đăng ký, bạn đồng ý với <a href="{{ $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? route('policy', 'chinh-sach-bao-mat') : '#' }}">{{ $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? $navPages->firstWhere('slug', 'chinh-sach-bao-mat')->title : 'Chính sách bảo mật' }}</a>
                 </p>
             </div>
         </div>
@@ -126,7 +126,7 @@
             <div class="footer-bottom-right">
                 <nav class="footer-bottom-links">
                     @foreach($navPages->take(3) as $bottomPage)
-                        <a href="{{ locale_route('policy', $bottomPage->slug) }}" class="footer-bottom-link">{{ $bottomPage->title }}</a>
+                        <a href="{{ route('policy', $bottomPage->slug) }}" class="footer-bottom-link">{{ $bottomPage->title }}</a>
                     @endforeach
                 </nav>
             </div>

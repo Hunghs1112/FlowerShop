@@ -1,0 +1,86 @@
+{
+  "timestamp": "2026-09-15T11:31:08.744898",
+  "base_url": "http://localhost:8000",
+  "login_email": "admin@lamnhienthao.vn",
+  "pages_tested": [
+    {
+      "path": "/admin",
+      "url": "http://localhost:8000/admin",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/categories",
+      "url": "http://localhost:8000/admin/categories",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/categories/create",
+      "url": "http://localhost:8000/admin/categories/create",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/inquiries",
+      "url": "http://localhost:8000/admin/inquiries",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/pages",
+      "url": "http://localhost:8000/admin/pages",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/pages/create",
+      "url": "http://localhost:8000/admin/pages/create",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/posts",
+      "url": "http://localhost:8000/admin/posts",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/posts/create",
+      "url": "http://localhost:8000/admin/posts/create",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/products",
+      "url": "http://localhost:8000/admin/products",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/products/create",
+      "url": "http://localhost:8000/admin/products/create",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/settings",
+      "url": "http://localhost:8000/admin/settings",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/users",
+      "url": "http://localhost:8000/admin/users",
+      "has_errors": false,
+      "error_count": 0
+    },
+    {
+      "path": "/admin/users/create",
+      "url": "http://localhost:8000/admin/users/create",
+      "has_errors": false,
+      "error_count": 0
+    }
+  ],
+  "all_errors": []
+}

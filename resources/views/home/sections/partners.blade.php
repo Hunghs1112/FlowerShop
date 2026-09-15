@@ -3,13 +3,13 @@
     <div class="partners-container">
         {{-- Header --}}
         <div class="partners-header">
-            <h2 class="partners-heading">{{ __('messages.home.partners_title') }}</h2>
-            <p class="partners-subheading">{{ __('messages.home.partners_subtitle') }}</p>
+            <h2 class="partners-heading">Đối tác của chúng tôi</h2>
+            <p class="partners-subheading">Hân hạnh được hợp tác với các thương hiệu uy tín</p>
         </div>
         
         {{-- Logo Showcase --}}
         <div class="partners-logos">
-            @foreach([__('messages.partners.partner1'), __('messages.partners.partner2'), __('messages.partners.partner3'), __('messages.partners.partner4'), __('messages.partners.partner5')] as $partner)
+            @foreach(['Florist Pro', 'BloomBox', 'FlowerWorld', 'PetalMall', 'Fresh Blooms'] as $partner)
             <div class="partner-logo-item">
                 <div class="partner-logo-text">{{ $partner }}</div>
             </div>

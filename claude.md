@@ -2,6 +2,37 @@
 
 ## 核心原则
 
+### 0. CSS 规则（最高优先级 - 用户明确要求）
+
+- ✅ **Web CSS thuần (plain CSS) - 这是唯一源**
+- ✅ **No Tailwind, no PostCSS plugin, no preprocessor**
+- ✅ **Layout (`layouts/app.blade.php`) chỉ load `asset('css/app.css')`**
+- ✅ **`public/css/app.css` 是所有 CSS 的合并源文件**
+- ✅ **Build: chạy `powershell build-css.ps1` để consolidate tất cả CSS**
+- ❌ **Không thêm Tailwind, Bootstrap, hay bất kỳ CSS framework nào**
+- ❌ **Không dùng `@import 'tailwindcss'`, `@layer`, `@apply`**
+- ❌ **Không tạo file CSS mới ngoài `public/css/` mà chưa được include trong build script**
+
+**Cấu trúc thư mục CSS:**
+```
+public/css/
+├── app.css                ← FILE CHÍNH (consolidated, không touch trực tiếp)
+├── theme.css              ← Design tokens (color, spacing, typography)
+├── components.css         ← Buttons, forms, cards, modal
+├── navbar.css             ← Top navigation
+├── footer.css             ← Footer
+├── hero.css, home.css     ← Home page sections
+├── products/              ← Product pages subcomponents
+└── admin.css              ← Admin layout (riêng)
+```
+
+**Quy tắc chỉnh sửa CSS:**
+1. **Mọi thay đổi CSS** → sửa file gốc trong `public/css/`
+2. **Sau khi sửa** → chạy `powershell build-css.ps1` để regenerate `app.css`
+3. **Không sửa trực tiếp `app.css`** (file này được build tự động, sẽ bị ghi đè)
+4. **Mobile-first**: Viết CSS cho mobile trước, dùng `min-width` media queries
+5. **Breakpoints chuẩn**: `640px` (tablet), `1024px` (desktop), `1280px` (large desktop)
+
 ### 1. 不要过度生成文档
 - ❌ **禁止**：在完成任务后自动创建总结文档、清单、README 等
 - ❌ **禁止**：生成用户没有明确要求的 `.md` 文件

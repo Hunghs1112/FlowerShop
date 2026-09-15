@@ -3,8 +3,8 @@
     {{-- Background Image - Fixed for all slides --}}
     <div class="hero-background">
         <img 
-            src="{{ asset('images/hero/hero-bg.jpg') }}" 
-            alt="Premium Fresh Flowers" 
+            src="{{ $siteBanners['home'] ?? asset('images/banners/home-hero.jpg') }}"
+            alt="Premium Fresh Flowers"
             class="hero-background-image"
             loading="eager"
         >
@@ -15,15 +15,15 @@
         <div class="hero-content">
             {{-- Slide 01 --}}
             <div class="hero-slide active" data-slide="0">
-                <span class="hero-label">{{ __('messages.home.hero1_label') }}</span>
+                <span class="hero-label">HOA TƯƠI CAO CẤP</span>
                 <h1 class="hero-title">
-                    {{ __('messages.home.hero1_title') }}
+                    Tạo Khoảnh Khắc Đặc Biệt
                 </h1>
                 <p class="hero-description">
-                    {{ __('messages.home.hero1_desc') }}
+                    Khám phá bộ sưu tập hoa tươi nhập khẩu cao cấp, được chăm sóc tỉ mỉ để mang đến vẻ đẹp rực rỡ cho mọi dịp.
                 </p>
-                <a href="{{ locale_route('products.index') }}" class="hero-cta">
-                    {{ __('messages.home.hero1_cta') }}
+                <a href="{{ route('products.index') }}" class="hero-cta">
+                    Khám phá ngay
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
@@ -32,15 +32,15 @@
 
             {{-- Slide 02 --}}
             <div class="hero-slide" data-slide="1">
-                <span class="hero-label">{{ __('messages.home.hero2_label') }}</span>
+                <span class="hero-label">BỘ SƯU TẬP MỚI</span>
                 <h1 class="hero-title">
-                    {{ __('messages.home.hero2_title') }}
+                    Hoa Tươi Cho Mọi Dịp
                 </h1>
                 <p class="hero-description">
-                    {{ __('messages.home.hero2_desc') }}
+                    Từ sinh nhật, kỷ niệm đến những lời chúc yêu thương - chúng tôi có hoa phù hợp cho mọi khoảnh khắc.
                 </p>
-                <a href="{{ locale_route('categories.index') }}" class="hero-cta">
-                    {{ __('messages.home.hero2_cta') }}
+                <a href="{{ route('categories.index') }}" class="hero-cta">
+                    Xem danh mục
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
@@ -49,15 +49,15 @@
 
             {{-- Slide 03 --}}
             <div class="hero-slide" data-slide="2">
-                <span class="hero-label">{{ __('messages.home.hero3_label') }}</span>
+                <span class="hero-label">GIAO HÀNG NHANH</span>
                 <h1 class="hero-title">
-                    {{ __('messages.home.hero3_title') }}
+                    Giao Tận Tay Người Nhận
                 </h1>
                 <p class="hero-description">
-                    {{ __('messages.home.hero3_desc') }}
+                    Dịch vụ giao hoa nhanh chóng chỉ trong 2-4 giờ, đảm bảo hoa tươi rực khi đến tay người nhận.
                 </p>
-                <a href="{{ locale_route('products.index') }}" class="hero-cta">
-                    {{ __('messages.home.hero3_cta') }}
+                <a href="{{ route('products.index') }}" class="hero-cta">
+                    Đặt ngay
                     <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
