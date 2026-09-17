@@ -74,6 +74,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tai-khoan', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/tai-khoan', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/tai-khoan/mat-khau', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    // Favorites
+    Route::get('/yeu-thich', [\App\Http\Controllers\FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/yeu-thich', [\App\Http\Controllers\FavoriteController::class, 'store'])->name('favorites.store');
+    Route::delete('/yeu-thich/{id}', [\App\Http\Controllers\FavoriteController::class, 'destroy'])->name('favorites.destroy');
+
+    // Chat
+    Route::get('/chat', [\App\Http\Controllers\ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/messages', [\App\Http\Controllers\ChatController::class, 'messages'])->name('chat.messages');
+    Route::get('/chat/poll', [\App\Http\Controllers\ChatController::class, 'poll'])->name('chat.poll');
+    Route::get('/chat/unread-count', [\App\Http\Controllers\ChatController::class, 'unreadCount'])->name('chat.unread-count');
+    Route::post('/chat/send', [\App\Http\Controllers\ChatController::class, 'store'])->name('chat.send');
 });
 
 // ============================================================
@@ -102,10 +114,54 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
 
+    // AJAX Auto-save endpoints for Products
+    Route::patch('products/{product}/update-field', [\App\Http\Controllers\Admin\ProductController::class, 'updateField'])->name('products.updateField');
+    Route::post('products/{product}/upload-file', [\App\Http\Controllers\Admin\ProductController::class, 'uploadFile'])->name('products.uploadFile');
+    Route::delete('products/{product}/images/{image}', [\App\Http\Controllers\Admin\ProductController::class, 'deleteImage'])->name('products.deleteImage');
+    Route::post('products/{product}/images/{image}/set-primary', [\App\Http\Controllers\Admin\ProductController::class, 'setPrimaryImage'])->name('products.setPrimaryImage');
+
+    // AJAX Auto-save endpoints for Categories
+    Route::patch('categories/{category}/update-field', [\App\Http\Controllers\Admin\CategoryController::class, 'updateField'])->name('categories.updateField');
+    Route::post('categories/{category}/upload-image', [\App\Http\Controllers\Admin\CategoryController::class, 'uploadImage'])->name('categories.uploadImage');
+    Route::delete('categories/{category}/image', [\App\Http\Controllers\Admin\CategoryController::class, 'deleteImage'])->name('categories.deleteImage');
+
+    // AJAX Auto-save endpoints for Posts
+    Route::patch('posts/{post}/update-field', [\App\Http\Controllers\Admin\PostController::class, 'updateField'])->name('posts.updateField');
+    Route::post('posts/{post}/upload-thumbnail', [\App\Http\Controllers\Admin\PostController::class, 'uploadThumbnail'])->name('posts.uploadThumbnail');
+    Route::delete('posts/{post}/thumbnail', [\App\Http\Controllers\Admin\PostController::class, 'deleteThumbnail'])->name('posts.deleteThumbnail');
+
+    // AJAX Auto-save endpoints for Pages
+    Route::patch('pages/{page}/update-field', [\App\Http\Controllers\Admin\PageController::class, 'updateField'])->name('pages.updateField');
+
+    // AJAX Auto-save endpoints for Users
+    Route::patch('users/{user}/update-field', [\App\Http\Controllers\Admin\UserController::class, 'updateField'])->name('users.updateField');
+
+    // AJAX Auto-save endpoint for Settings
+    Route::patch('settings/update-field', [\App\Http\Controllers\Admin\SettingController::class, 'updateField'])->name('settings.updateField');
+    Route::post('settings/upload-logo', [\App\Http\Controllers\Admin\SettingController::class, 'uploadLogo'])->name('settings.uploadLogo');
+    Route::post('settings/upload-banner/{key}', [\App\Http\Controllers\Admin\SettingController::class, 'uploadBanner'])->name('settings.uploadBanner');
+    Route::delete('settings/logo', [\App\Http\Controllers\Admin\SettingController::class, 'deleteLogo'])->name('settings.deleteLogo');
+    Route::delete('settings/banner/{key}', [\App\Http\Controllers\Admin\SettingController::class, 'deleteBanner'])
+        ->where('key', '[a-z]+')
+        ->name('settings.deleteBanner');
+
     Route::get('inquiries', [\App\Http\Controllers\Admin\InquiryController::class, 'index'])->name('inquiries.index');
     Route::get('inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'show'])->name('inquiries.show');
     Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\InquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
 
     Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+    // Delete endpoints for logo + banner (AJAX + regular form post).
+    Route::delete('settings/logo', [\App\Http\Controllers\Admin\SettingController::class, 'deleteLogo'])->name('settings.deleteLogo');
+    Route::delete('settings/banner/{key}', [\App\Http\Controllers\Admin\SettingController::class, 'deleteBanner'])
+        ->where('key', '[a-z]+')
+        ->name('settings.deleteBanner');
+
+    // Chat management
+    Route::get('chats', [\App\Http\Controllers\Admin\ChatController::class, 'index'])->name('chats.index');
+    Route::get('chats/poll', [\App\Http\Controllers\Admin\ChatController::class, 'poll'])->name('chats.poll');
+    Route::get('chats/unread-count', [\App\Http\Controllers\Admin\ChatController::class, 'unreadCount'])->name('chats.unreadCount');
+    Route::post('chats/send', [\App\Http\Controllers\Admin\ChatController::class, 'store'])->name('chats.send');
+    Route::post('chats/mark-as-read', [\App\Http\Controllers\Admin\ChatController::class, 'markAsRead'])->name('chats.markAsRead');
+    Route::get('chats/{userId}', [\App\Http\Controllers\Admin\ChatController::class, 'show'])->name('chats.show');
 });

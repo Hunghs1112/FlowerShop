@@ -19,6 +19,9 @@
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tiêu Đề <span style="color: var(--admin-error);">*</span></label>
                         <input type="text" name="title" value="{{ old('title', $page->title ?? '') }}" 
                                id="titleInput"
+                               class="auto-save-input"
+                               data-entity="pages"
+                               data-id="{{ $page->id }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;" 
                                required>
                     </div>
@@ -27,6 +30,9 @@
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Slug <span style="color: var(--admin-error);">*</span></label>
                         <input type="text" name="slug" value="{{ old('slug', $page->slug ?? '') }}" 
                                id="slugInput"
+                               class="auto-save-input"
+                               data-entity="pages"
+                               data-id="{{ $page->id }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ví dụ: chinh-sach-bao-mat, dieu-khoan-dich-vu</small>
                     </div>
@@ -34,8 +40,13 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội Dung <span style="color: var(--admin-error);">*</span></label>
                         <textarea name="content" rows="15" 
+                                  id="contentEditor"
+                                  class="auto-save-input"
+                                  data-entity="pages"
+                                  data-id="{{ $page->id }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;" 
                                   required>{{ old('content', $page->content ?? '') }}</textarea>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ctrl+Enter để lưu ngay</small>
                     </div>
                 </div>
             </div>
@@ -59,7 +70,11 @@
             <div class="admin-card-body">
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                     <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                        <input type="checkbox" name="is_active" value="1" {{ old('is_active', $page->is_active ?? true) ? 'checked' : '' }}
+                        <input type="checkbox" name="is_active" value="1" 
+                               {{ old('is_active', $page->is_active ?? true) ? 'checked' : '' }}
+                               class="auto-save-checkbox"
+                               data-entity="pages"
+                               data-id="{{ $page->id }}"
                                style="width: 20px; height: 20px; accent-color: var(--admin-accent);">
                         <span style="font-size: 14px; font-weight: 500;">Kích hoạt</span>
                     </label>
@@ -84,25 +99,33 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tiêu Đề Meta</label>
                         <input type="text" name="meta_title" value="{{ old('meta_title', $page->meta_title ?? '') }}" 
+                               class="auto-save-input"
+                               data-entity="pages"
+                               data-id="{{ $page->id }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                     </div>
 
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả Meta</label>
                         <textarea name="meta_description" rows="3" 
+                                  class="auto-save-input"
+                                  data-entity="pages"
+                                  data-id="{{ $page->id }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('meta_description', $page->meta_description ?? '') }}</textarea>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Submit --}}
+        @if(!isset($isEdit) || !$isEdit)
+        {{-- Submit Button - ONLY for create pages --}}
         <button type="submit" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 15px;">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             {{ isset($page) ? 'Cập Nhật' : 'Tạo Trang' }}
         </button>
+        @endif
     </div>
 </div>
 

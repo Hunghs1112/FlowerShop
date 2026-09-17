@@ -15,37 +15,6 @@
 
 <div class="container page-wrapper">
     <div class="account-layout">
-        <!-- Account Sidebar -->
-        <aside class="account-sidebar">
-            <div class="account-user">
-                <div class="account-avatar">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
-                </div>
-                <div class="account-user-info">
-                    <h3>{{ auth()->user()->name }}</h3>
-                    <p>{{ auth()->user()->email }}</p>
-                </div>
-            </div>
-
-            <nav class="account-nav">
-                <a href="{{ route('profile.show') }}" class="account-nav-item active">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
-                    Hồ sơ
-                </a>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="account-nav-item">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                        </svg>
-                        Đăng xuất
-                    </button>
-                </form>
-            </nav>
-        </aside>
-
         <!-- Account Main Content -->
         <div class="account-main">
             <!-- Profile Information -->

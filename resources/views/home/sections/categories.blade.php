@@ -1,52 +1,45 @@
 {{-- Categories Discovery Section --}}
 <section class="categories-section">
-    <div class="categories-container">
-        {{-- Left Side - Image Cards (first 2 categories from DB) --}}
-        <div class="categories-images">
-            @foreach($categories->take(2) as $catCard)
-            <a href="{{ route('categories.show', $catCard->display_slug) }}" class="category-image-card">
-                @if($catCard->image)
-                    <img
-                        src="{{ asset($catCard->image) }}"
-                        alt="{{ $catCard->display_name }}"
-                        loading="lazy"
-                    >
-                @else
-                    <img
-                        src="{{ asset('images/categories/' . $catCard->slug . '.jpg') }}"
-                        alt="{{ $catCard->display_name }}"
-                        loading="lazy"
-                    >
-                @endif
-                <div class="category-image-overlay"></div>
-                <div class="category-image-content">
-                    <h3 class="category-image-title">{{ Str::upper($catCard->display_name) }}</h3>
-                    <p class="category-image-count">{{ $catCard->products_count ?? $catCard->products()->count() }}+ sản phẩm</p>
-                </div>
-            </a>
-            @endforeach
+    <div class="container">
+        <div class="categories-section-header">
+            <span class="categories-section-label">Danh mục sản phẩm</span>
+            <h2 class="categories-section-title">Khám Phá Bộ Sưu Tập</h2>
         </div>
 
-        {{-- Right Side - Content --}}
-        <div class="categories-content">
-            <span class="categories-label">DANH MỤC SẢN PHẨM</span>
-            <h2 class="categories-heading">Khám phá bộ sưu tập</h2>
-            <div class="categories-heading-decoration"></div>
-
-            <ul class="categories-list">
-                @foreach($categories as $cat)
-                    <li class="category-list-item">
-                        <a href="{{ route('categories.show', $cat->display_slug) }}" class="category-list-link">
-                            <span class="category-list-name">{{ $cat->display_name }}</span>
-                            <div class="category-list-arrow">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                </svg>
-                            </div>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+        <div class="categories-grid">
+            @foreach($categories->take(6) as $index => $category)
+                <a href="{{ route('categories.show', $category->display_slug) }}" class="category-card">
+                    @if($category->image)
+                        <img
+                            src="{{ $category->image_url }}"
+                            alt="{{ $category->display_name }}"
+                            class="category-card-image"
+                            loading="lazy"
+                        >
+                    @else
+                        <img
+                            src="{{ asset('images/categories/placeholder.jpg') }}"
+                            alt="{{ $category->display_name }}"
+                            class="category-card-image"
+                            loading="lazy"
+                        >
+                    @endif
+                    
+                    <div class="category-card-overlay"></div>
+                    
+                    <div class="category-card-content">
+                        <h3 class="category-card-title">{{ $category->display_name }}</h3>
+                        <span class="category-card-count">{{ $category->products_count ?? $category->products()->count() }} sản phẩm</span>
+                        <span class="category-card-link">
+                            <span>Khám phá</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                                <polyline points="12 5 19 12 12 19"/>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+            @endforeach
         </div>
     </div>
 </section>

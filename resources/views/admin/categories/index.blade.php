@@ -117,10 +117,6 @@
         </div>
     </div>
     
-    @if($categories->hasPages())
-        <div class="admin-card-footer" style="display: flex; justify-content: center; padding: 16px;">
-            {{ $categories->links() }}
-        </div>
-    @endif
+    </div>
 </div>
 @endsection

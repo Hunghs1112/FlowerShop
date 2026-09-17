@@ -1,6 +1,6 @@
 <div class="admin-topbar">
     <div class="admin-topbar-left">
-        <button class="admin-menu-toggle" id="adminMenuToggle" aria-label="Toggle Menu">
+        <button class="admin-menu-toggle" id="adminMenuToggle" aria-label="Mở menu" aria-controls="adminSidebar" aria-expanded="false">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
@@ -22,25 +22,6 @@
                 </svg>
                 <span class="badge"></span>
             </button>
-        </div>
-
-        <!-- Quick Add -->
-        <a href="{{ route('admin.products.create') }}" class="btn btn-primary btn-sm" title="Thêm Sản Phẩm">
-            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            <span>Thêm Sản Phẩm</span>
-        </a>
-
-        <!-- User Menu -->
-        <div class="admin-user-menu">
-            <div class="admin-user-avatar">
-                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-            </div>
-            <div class="admin-user-info">
-                <span class="admin-user-name">{{ auth()->user()->name }}</span>
-                <span class="admin-user-role">Quản trị viên</span>
-            </div>
         </div>
 
         <!-- Logout -->

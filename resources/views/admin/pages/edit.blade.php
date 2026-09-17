@@ -3,10 +3,15 @@
 @section('page-title', 'Sửa Trang')
 
 @section('content')
-<div class="admin-page-header">
+<div class="admin-page-header" style="margin-bottom: 32px;">
     <div class="admin-page-header-left">
         <h1 class="admin-page-title">Sửa Trang</h1>
-        <p class="admin-page-subtitle">Cập nhật nội dung trang</p>
+        <p class="admin-page-subtitle">
+            <span style="display: inline-flex; align-items: center; gap: 6px;">
+                <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></span>
+                Tự động lưu đã bật
+            </span>
+        </p>
     </div>
     <div class="admin-page-actions">
         <a href="{{ route('admin.pages.index') }}" class="btn btn-secondary">
@@ -18,9 +23,11 @@
     </div>
 </div>
 
-<form action="{{ route('admin.pages.update', $page) }}" method="POST">
-    @csrf
-    @method('PUT')
-    @include('admin.pages.form')
-</form>
+<div id="page-form" data-entity="pages" data-id="{{ $page->id }}">
+    @include('admin.pages.form', ['isEdit' => true])
+</div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin-auto-save.js') }}"></script>
+@endpush

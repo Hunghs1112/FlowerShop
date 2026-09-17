@@ -1,25 +1,6 @@
-@extends('layouts.admin')
-
-@section('page-title', isset($product) ? 'Edit Product' : 'Create Product')
-
-@section('content')
-<div class="admin-content">
-    <div class="admin-header">
-        <h1 class="admin-title">{{ isset($product) ? 'Edit Product' : 'Create Product' }}</h1>
-        <a href="{{ route('admin.products.index') }}" class="btn btn-outline">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-            </svg>
-            Back
-        </a>
-    </div>
-
-    <form action="{{ isset($product) ? route('admin.products.update', $product) : route('admin.products.store') }}" 
-          method="POST" enctype="multipart/form-data">
-        @csrf
-        @if(isset($product))
-            @method('PUT')
-        @endif
+@php
+$isEdit = isset($isEdit) ? $isEdit : false;
+@endphp
 
 <div class="form-container">
                 <div class="admin-card">
@@ -30,7 +11,10 @@
                         <div class="form-group">
                             <label class="form-label required">Product Name</label>
                             <input type="text" name="name" value="{{ old('name', $product->name ?? '') }}" 
-                                   class="form-input @error('name') error @enderror" required>
+                                   class="form-input auto-save-input @error('name') error @enderror"
+                                   data-entity="products"
+                                   data-id="{{ $product->id ?? '' }}"
+                                   required>
                             @error('name')
                                 <span class="form-error">{{ $message }}</span>
                             @enderror
@@ -38,7 +22,10 @@
 
                         <div class="form-group">
                             <label class="form-label required">Category</label>
-                            <select name="category_id" class="form-input @error('category_id') error @enderror" required>
+                            <select name="category_id" class="form-input auto-save-select @error('category_id') error @enderror"
+                                    data-entity="products"
+                                    data-id="{{ $product->id ?? '' }}"
+                                    required>
                                 <option value="">Select Category</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" 
@@ -56,7 +43,10 @@
                             <div class="form-group">
                                 <label class="form-label required">Price (₫)</label>
                                 <input type="number" name="price" value="{{ old('price', $product->price ?? '') }}" 
-                                       class="form-input @error('price') error @enderror" required min="0">
+                                       class="form-input auto-save-input @error('price') error @enderror"
+                                       data-entity="products"
+                                       data-id="{{ $product->id ?? '' }}"
+                                       required min="0">
                                 @error('price')
                                     <span class="form-error">{{ $message }}</span>
                                 @enderror
@@ -65,7 +55,10 @@
                             <div class="form-group">
                                 <label class="form-label required">Stock</label>
                                 <input type="number" name="stock" value="{{ old('stock', $product->stock ?? 0) }}" 
-                                       class="form-input @error('stock') error @enderror" required min="0">
+                                       class="form-input auto-save-input @error('stock') error @enderror"
+                                       data-entity="products"
+                                       data-id="{{ $product->id ?? '' }}"
+                                       required min="0">
                                 @error('stock')
                                     <span class="form-error">{{ $message }}</span>
                                 @enderror
@@ -75,7 +68,9 @@
                         <div class="form-group">
                             <label class="form-label">Short Description</label>
                             <textarea name="short_description" rows="3" 
-                                      class="form-input @error('short_description') error @enderror">{{ old('short_description', $product->short_description ?? '') }}</textarea>
+                                      class="form-input auto-save-input @error('short_description') error @enderror"
+                                      data-entity="products"
+                                      data-id="{{ $product->id ?? '' }}">{{ old('short_description', $product->short_description ?? '') }}</textarea>
                             @error('short_description')
                                 <span class="form-error">{{ $message }}</span>
                             @enderror
@@ -91,7 +86,11 @@
                         <div class="form-group">
                             <label class="form-label">Upload Images</label>
                             <input type="file" name="images[]" multiple accept="image/*" 
-                                   class="form-input" onchange="previewImages(this)">
+                                   class="form-input auto-save-file"
+                                   data-entity="products"
+                                   data-id="{{ $product->id ?? '' }}"
+                                   data-upload-url="{{ isset($product) ? route('admin.products.uploadFile', $product) : '' }}"
+                                   onchange="previewImages(this)">
                             <small class="form-help">Upload multiple images. First image will be primary.</small>
                         </div>
 
@@ -106,11 +105,10 @@
                                             <img src="{{ asset('storage/' . $image->image_path) }}" alt="Sản phẩm">
                                             @if($image->is_primary)
                                                 <span class="image-badge">Ảnh chính</span>
+                                            @else
+                                                <button type="button" class="btn btn-xs" onclick="setPrimaryProductImage({{ $product->id }}, {{ $image->id }}, this)">Đặt chính</button>
                                             @endif
-                                            <label class="image-delete">
-                                                <input type="checkbox" name="delete_images[]" value="{{ $image->id }}">
-                                                <span>Xóa</span>
-                                            </label>
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteProductImage({{ $product->id }}, {{ $image->id }}, this)">Xóa</button>
                                         </div>
                                     @endforeach
                                 </div>
@@ -127,7 +125,10 @@
                         <div class="form-group">
                             <label class="form-checkbox">
                                 <input type="checkbox" name="is_active" value="1" 
-                                    {{ old('is_active', $product->is_active ?? true) ? 'checked' : '' }}>
+                                    {{ old('is_active', $product->is_active ?? true) ? 'checked' : '' }}
+                                    class="auto-save-checkbox"
+                                    data-entity="products"
+                                    data-id="{{ $product->id ?? '' }}">
                                 <span>Kích hoạt</span>
                             </label>
                         </div>
@@ -135,24 +136,28 @@
                         <div class="form-group">
                             <label class="form-checkbox">
                                 <input type="checkbox" name="is_featured" value="1" 
-                                    {{ old('is_featured', $product->is_featured ?? false) ? 'checked' : '' }}>
+                                    {{ old('is_featured', $product->is_featured ?? false) ? 'checked' : '' }}
+                                    class="auto-save-checkbox"
+                                    data-entity="products"
+                                    data-id="{{ $product->id ?? '' }}">
                                 <span>Sản phẩm nổi bật</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
+                @if(!$isEdit)
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary btn-block">
                         {{ isset($product) ? 'Cập Nhật Sản Phẩm' : 'Tạo Sản Phẩm' }}
                     </button>
                 </div>
+                @endif
             </div>
-    </form>
-</div>
 
-
+@if($isEdit)
 @push('scripts')
+<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 <script>
 function previewImages(input) {
     const preview = document.getElementById('imagePreview');
@@ -179,6 +184,32 @@ function previewImages(input) {
         });
     }
 }
+
+// Set primary image
+window.setPrimaryProductImage = async function(productId, imageId, button) {
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    
+    try {
+        const response = await fetch(`/admin/products/${productId}/images/${imageId}/set-primary`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrf,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            Toast.success('Đã đặt làm ảnh chính');
+            setTimeout(() => location.reload(), 500);
+        } else {
+            Toast.error('Lỗi khi đặt ảnh chính');
+        }
+    } catch (err) {
+        console.error(err);
+        Toast.error('Lỗi kết nối');
+    }
+};
 </script>
 @endpush
-@endsection
+@endif

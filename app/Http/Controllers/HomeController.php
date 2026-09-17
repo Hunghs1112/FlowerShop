@@ -15,12 +15,14 @@ class HomeController extends Controller
 
     public function index()
     {
-        $featuredProducts = $this->productService->getFeaturedProducts(8);
+        $bestsellingProducts = $this->productService->getBestsellingProducts(8);
         $categories = $this->categoryService->getActiveCategories();
         $latestPosts = Post::published()->latest('published_at')->limit(3)->get();
+        $siteSettings = [
+            'site_name' => config('app.name', 'Lâm Nhiên Thảo'),
+            'instagram_url' => 'https://instagram.com/lamnhienthao'
+        ];
 
-        $bannerKey = 'home';
-
-        return view('home.index', compact('featuredProducts', 'categories', 'latestPosts', 'bannerKey'));
+        return view('home.index', compact('bestsellingProducts', 'categories', 'latestPosts', 'siteSettings'));
     }
 }

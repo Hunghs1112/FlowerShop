@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'Bảng Điều Khiển') - Quản Trị</title>
@@ -15,6 +15,9 @@
 </head>
 <body>
     <div class="admin-layout">
+        {{-- Sidebar overlay (mobile only) --}}
+        <div class="admin-sidebar-overlay" id="adminSidebarOverlay" aria-hidden="true"></div>
+
         @include('admin.partials.sidebar')
 
         <div class="admin-main">
@@ -49,24 +52,90 @@
     </div>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/admin-auto-save.js') }}"></script>
     <script>
-        // Mobile sidebar toggle
-        const menuToggle = document.querySelector('.admin-menu-toggle');
-        const sidebar = document.querySelector('.admin-sidebar');
+        // ======================================================================
+        // Mobile sidebar toggle (responsive)
+        // ======================================================================
+        (function() {
+            const menuToggle = document.querySelector('.admin-menu-toggle');
+            const sidebar = document.querySelector('.admin-sidebar');
+            const overlay = document.querySelector('.admin-sidebar-overlay');
+            const sidebarClose = document.querySelector('.admin-sidebar-close');
+            const mqDesktop = window.matchMedia('(min-width: 1024px)');
 
-        if (menuToggle && sidebar) {
-            menuToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('active');
-            });
+            function openSidebar() {
+                if (!sidebar) return;
+                sidebar.classList.add('active');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                if (menuToggle) menuToggle.setAttribute('aria-expanded', 'true');
+            }
 
-            document.addEventListener('click', (e) => {
-                if (window.innerWidth < 1024) {
-                    if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                        sidebar.classList.remove('active');
-                    }
+            function closeSidebar() {
+                if (!sidebar) return;
+                sidebar.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+            }
+
+            function toggleSidebar() {
+                if (!sidebar) return;
+                if (sidebar.classList.contains('active')) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
+            }
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+
+            if (sidebarClose) {
+                sidebarClose.addEventListener('click', closeSidebar);
+            }
+
+            // Close on ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
                 }
             });
-        }
+
+            // Close sidebar when navigating to a new page on mobile
+            if (sidebar) {
+                sidebar.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        if (!mqDesktop.matches) {
+                            // small delay so navigation feels responsive
+                            setTimeout(closeSidebar, 100);
+                        }
+                    });
+                });
+            }
+
+            // Reset state when crossing breakpoint
+            function handleBreakpoint(e) {
+                if (e.matches && sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                }
+            }
+
+            if (mqDesktop.addEventListener) {
+                mqDesktop.addEventListener('change', handleBreakpoint);
+            } else if (mqDesktop.addListener) {
+                mqDesktop.addListener(handleBreakpoint);
+            }
+        })();
 
         // Confirm delete actions
         function confirmDelete(formId, itemName = 'mục') {

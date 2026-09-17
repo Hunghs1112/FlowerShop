@@ -6,7 +6,7 @@
 <!-- Hero Banner -->
 <section class="products-hero">
     <img 
-        src="{{ $category->image ? asset($category->image) : ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg')) }}" 
+        src="{{ $category->image ? $category->image_url : ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg')) }}" 
         alt="{{ $category->display_name }}"
         class="products-hero-image"
     >
@@ -140,13 +140,6 @@
             </div>
             @endforelse
         </div>
-        
-        <!-- Pagination -->
-        @if($products->hasPages())
-        <nav class="products-pagination" aria-label="Phân trang sản phẩm">
-            {{ $products->links() }}
-        </nav>
-        @endif
     </div>
 </section>
 

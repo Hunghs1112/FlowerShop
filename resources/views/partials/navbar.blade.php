@@ -3,9 +3,7 @@
 
         {{-- ─── Logo ─────────────────────────────────────────── --}}
         <a href="{{ route('home') }}" class="navbar-logo">
-            <svg class="navbar-logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-            </svg>
+            <img src="{{ asset('images/logo.jpg') }}" alt="{{ $siteSettings['site_name'] ?? config('app.name') }}" class="navbar-logo-img">
             <span class="navbar-logo-text">{{ $siteSettings['site_name'] ?? config('app.name') }}</span>
         </a>
 
@@ -31,23 +29,17 @@
                 <div class="navbar-mega-menu">
                     <div class="mega-menu-grid">
 
-                        {{-- Cột danh mục từ DB --}}
+                        {{-- Tất cả danh mục trong 1 cột --}}
                         @if($navCategories->isNotEmpty())
-                            @foreach($navCategories->chunk(ceil($navCategories->count() / 3)) as $chunkIndex => $chunk)
                             <div class="mega-menu-column">
-                                <h3 class="mega-menu-heading">
-                                    @if($chunkIndex === 0) {{ __('messages.nav.categories') }}
-                                    @elseif($chunkIndex === 1) {{ __('messages.nav.explore') }}
-                                    @else {{ __('messages.nav.collections') }}
-                                    @endif
-                                </h3>
+                                <h3 class="mega-menu-heading">{{ __('messages.nav.categories') }}</h3>
                                 <div class="mega-menu-links">
-                                    @foreach($chunk as $navCat)
+                                    @foreach($navCategories as $navCat)
                                         <a href="{{ route('categories.show', $navCat->display_slug) }}" class="mega-menu-link">{{ $navCat->display_name }}</a>
                                     @endforeach
+                                    <a href="{{ route('products.index') }}" class="mega-menu-link">{{ __('messages.nav.all_products') }}</a>
                                 </div>
                             </div>
-                            @endforeach
                         @else
                             <div class="mega-menu-column">
                                 <h3 class="mega-menu-heading">{{ __('messages.nav.products') }}</h3>
@@ -56,16 +48,6 @@
                                 </div>
                             </div>
                         @endif
-
-                        {{-- Cột "Xem theo" — filter cố định hợp lệ --}}
-                        <div class="mega-menu-column">
-                            <h3 class="mega-menu-heading">{{ __('messages.nav.view_by') ?? 'Xem theo' }}</h3>
-                            <div class="mega-menu-links">
-                                <a href="{{ route('products.index', ['sort_by' => 'newest']) }}" class="mega-menu-link">{{ __('messages.nav.new_flowers') }}</a>
-                                <a href="{{ route('products.index', ['sort_by' => 'bestseller']) }}" class="mega-menu-link">{{ __('messages.nav.best_sellers') }}</a>
-                                <a href="{{ route('products.index') }}" class="mega-menu-link">{{ __('messages.nav.all_products') }}</a>
-                            </div>
-                        </div>
 
                         {{-- Featured image --}}
                         <div class="mega-menu-featured">
@@ -126,14 +108,23 @@
         <div class="navbar-actions">
 
             {{-- Search --}}
-            <button class="navbar-action-btn" id="searchToggle" title="{{ __('messages.nav.search') }}" aria-label="{{ __('messages.nav.search') }}">
+            <button class="navbar-action-btn navbar-search-btn" id="searchToggle" title="{{ __('messages.nav.search') }}" aria-label="{{ __('messages.nav.search') }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
             </button>
 
+            {{-- Favorites (Wishlist) --}}
+            @auth
+                <a href="{{ route('favorites.index') }}" class="navbar-action-btn" title="Yêu thích" aria-label="Yêu thích">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </a>
+            @endauth
+
             {{-- Cart --}}
-            <a href="{{ route('cart.index') }}" class="navbar-action-btn" title="{{ __('messages.nav.cart') }}" aria-label="{{ __('messages.nav.cart') }}">
+            <a href="{{ route('cart.index') }}" class="navbar-action-btn navbar-cart-btn" title="{{ __('messages.nav.cart') }}" aria-label="{{ __('messages.nav.cart') }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
@@ -166,24 +157,54 @@
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="navbar-action-btn" title="{{ __('messages.nav.login') }}" aria-label="{{ __('messages.nav.login') }}">
+                        <a href="{{ route('login') }}" class="navbar-action-btn navbar-auth-btn" title="{{ __('messages.nav.login') }}" aria-label="{{ __('messages.nav.login') }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
                 </a>
             @endauth
 
-            {{-- Mobile Toggle --}}
-            <button class="navbar-mobile-toggle" id="mobileMenuToggle" aria-label="Menu" aria-expanded="false">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
+            {{-- Mobile Toggle (CSS-based hamburger for crisp icon + animation) --}}
+            <button class="navbar-mobile-toggle" id="mobileMenuToggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
+                <span class="hamburger-icon" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
             </button>
         </div>
     </div>
 
-    {{-- ─── Mobile Menu ─────────────────────────────────── --}}
-    <div class="navbar-mobile-menu" id="mobileMenu">
+</nav>
+
+{{-- ─── Mobile Menu (sibling of <nav>, NOT inside it, so position:fixed uses viewport) ─── --}}
+<div class="navbar-mobile-menu" id="mobileMenu">
+
+        {{-- Mobile Actions (cart, favorites, search-like quick links) --}}
+        <ul class="mobile-menu-actions">
+            <li>
+                <a href="{{ route('cart.index') }}" class="mobile-menu-action-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                    </svg>
+                    <span>{{ __('messages.nav.cart') }}</span>
+                    @php $cartCount = session('cart') ? count(session('cart')) : 0; @endphp
+                    @if($cartCount > 0)
+                        <span class="mobile-menu-badge">{{ $cartCount }}</span>
+                    @endif
+                </a>
+            </li>
+            @auth
+                <li>
+                    <a href="{{ route('favorites.index') }}" class="mobile-menu-action-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                        <span>{{ __('messages.nav.favorites') ?? 'Yêu thích' }}</span>
+                    </a>
+                </li>
+            @endauth
+        </ul>
 
         <ul class="navbar-mobile-nav">
             <li><a href="{{ route('home') }}">{{ __('messages.nav.home') }}</a></li>

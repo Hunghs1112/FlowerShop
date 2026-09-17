@@ -8,7 +8,7 @@
 @endphp
 
 <article class="product-card">
-<a href="{{ route('products.show', $product->display_slug) }}" class="product-card__full-link" aria-label="{{ $product->display_name }}">
+    <a href="{{ route('products.show', $product->display_slug) }}" class="product-card__full-link" aria-label="{{ $product->display_name }}">
         <div class="product-card__image-wrap">
             {{-- Primary image --}}
             <img
@@ -16,6 +16,8 @@
                 alt="{{ $product->display_name }}"
                 class="product-card__image product-card__image--primary"
                 loading="lazy"
+                width="300"
+                height="375"
             >
 
             {{-- Secondary image (on hover) --}}
@@ -25,6 +27,8 @@
                     alt="{{ $product->display_name }}"
                     class="product-card__image product-card__image--secondary"
                     loading="lazy"
+                    width="300"
+                    height="375"
                 >
             @endif
 
@@ -35,15 +39,14 @@
                 </span>
             @endif
 
-            {{-- Wishlist button (inside image-wrap for absolute positioning) --}}
+            {{-- Wishlist button --}}
             <button
                 class="product-card__wishlist {{ $product->isFavoritedBy(auth()->user()) ? 'active' : '' }}"
                 aria-label="Yêu thích"
                 title="Yêu thích"
                 data-product-id="{{ $product->id }}"
-                onclick="event.stopPropagation();"
             >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="{{ $product->isFavoritedBy(auth()->user()) ? '#C85A54' : 'none' }}" stroke="{{ $product->isFavoritedBy(auth()->user()) ? '#C85A54' : 'currentColor' }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="{{ $product->isFavoritedBy(auth()->user()) ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
             </button>
@@ -52,7 +55,7 @@
             <div class="product-card__overlay">
                 <span class="product-card__cta">
                     <span>Xem chi tiết</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"/>
                         <polyline points="12 5 19 12 12 19"/>
                     </svg>
@@ -76,5 +79,5 @@
                 </span>
             </div>
         </div>
-</a>
+    </a>
 </article>

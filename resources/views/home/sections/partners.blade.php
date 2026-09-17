@@ -1,17 +1,17 @@
 {{-- Partners Section --}}
 <section class="partners-section">
-    <div class="partners-container">
+    <div class="container">
         {{-- Header --}}
-        <div class="partners-header">
-            <h2 class="partners-heading">Đối tác của chúng tôi</h2>
-            <p class="partners-subheading">Hân hạnh được hợp tác với các thương hiệu uy tín</p>
+        <div class="partners-section-header">
+            <span class="partners-section-label">Đối tác tin cậy</span>
+            <h2 class="partners-section-title">Hợp Tác Cùng Phát Triển</h2>
         </div>
         
         {{-- Logo Showcase --}}
-        <div class="partners-logos">
-            @foreach(['Florist Pro', 'BloomBox', 'FlowerWorld', 'PetalMall', 'Fresh Blooms'] as $partner)
-            <div class="partner-logo-item">
-                <div class="partner-logo-text">{{ $partner }}</div>
+        <div class="partners-grid">
+            @foreach(['Florist Pro', 'BloomBox', 'FlowerWorld', 'PetalMall', 'Fresh Blooms', 'GreenLeaf'] as $partner)
+            <div class="partner-item">
+                <span class="partner-name">{{ $partner }}</span>
             </div>
             @endforeach
         </div>

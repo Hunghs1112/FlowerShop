@@ -107,10 +107,6 @@
         </div>
     </div>
     
-    @if($pages->hasPages())
-        <div class="admin-card-footer" style="display: flex; justify-content: center; padding: 16px;">
-            {{ $pages->links() }}
-        </div>
-    @endif
+    </div>
 </div>
 @endsection

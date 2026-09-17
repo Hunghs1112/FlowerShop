@@ -56,8 +56,8 @@
                     @forelse($posts as $post)
                         <tr>
                             <td>
-                                @if($post->featured_image)
-                                    <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="table-image">
+                                @if($post->thumbnail)
+                                    <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="table-image">
                                 @else
                                     <div class="table-image" style="width: 56px; height: 56px; background: var(--admin-bg-content); display: flex; align-items: center; justify-content: center; border-radius: var(--admin-radius-md);">
                                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24" style="color: var(--admin-text-muted);">
@@ -121,10 +121,6 @@
         </div>
     </div>
     
-    @if($posts->hasPages())
-        <div class="admin-card-footer" style="display: flex; justify-content: center; padding: 16px;">
-            {{ $posts->links() }}
-        </div>
-    @endif
+    </div>
 </div>
 @endsection

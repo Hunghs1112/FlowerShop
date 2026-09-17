@@ -14,13 +14,29 @@ class ProductSeeder extends Seeder
     {
         $categories = Category::all()->keyBy('slug');
 
-        // Available images (verified > 10KB)
-        $availableImages = [
-            'products/flowers-4.jpg',
-            'products/flowers-4-new.jpg',
-            'misc/featured-2.jpg',
-            'misc/featured-2-new.jpg',
+        // Available product images (verified existing in public/images/products/)
+        $productImages = [
+            'hoa-hong-do-ecuador.jpg',
+            'hoa-hong-phot-ohara.jpg',
+            'hoa-tulip.jpg',
+            'hoa-mau-don.jpg',
+            'hoa-ly-trang.jpg',
+            'hoa-huong-duong.jpg',
+            'hoa-cam-chuong.jpg',
+            'hoa-cam-tu-cau.jpg',
+            'flowers-1.jpg',
+            'flowers-2.jpg',
+            'flowers-3.jpg',
+            'flowers-4.jpg',
+            'flowers-5.jpg',
+            'flowers-6.jpg',
+            'roses.jpg',
         ];
+
+        // Helper function to get image path
+        $getImage = function($filename) {
+            return 'images/products/' . $filename;
+        };
 
         $products = [
             // ─── Hoa Nhập Khẩu ───
@@ -33,8 +49,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hoa hồng đỏ nhập khẩu Ecuador, cánh hoa to tròn, thân dài 70cm. Biểu tượng tình yêu nồng nàn, thích hợp làm quà tặng sang trọng cho các dịp đặc biệt.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-hong-do-ecuador.jpg', 'primary' => true],
-                    ['path' => 'images/products/roses.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-hong-do-ecuador.jpg'), 'primary' => true],
+                    ['path' => $getImage('roses.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -46,8 +62,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hoa hồng Ohara Nhật Bản màu phớt pastel thanh lịch, cánh hoa xoắn tròn đặc trưng, hương thơm nhẹ nhàng. Bó hoa sang trọng dành cho người đặc biệt.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-hong-phot-ohara.jpg', 'primary' => true],
-                    ['path' => 'images/products/flowers-1.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-hong-phot-ohara.jpg'), 'primary' => true],
+                    ['path' => $getImage('flowers-1.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -59,8 +75,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hoa tulip nhập khẩu Hà Lan phối nhiều màu sắc tươi sáng. Tulip tượng trưng cho tình yêu hoàn hảo và sự lạc quan, tươi mới mỗi ngày.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-tulip.jpg', 'primary' => true],
-                    ['path' => 'images/products/flowers-2.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-tulip.jpg'), 'primary' => true],
+                    ['path' => $getImage('flowers-2.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -72,8 +88,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hoa mẫu đơn cao cấp nhập khẩu, cánh hoa nhiều lớp mịn màng, màu sắc rực rỡ. Biểu tượng của phú quý, thịnh vượng và may mắn.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-mau-don.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-hong-phot-ohara.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-mau-don.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-hong-phot-ohara.jpg'), 'primary' => false],
                 ],
             ],
             // ─── Hoa Tươi Mới ───
@@ -86,8 +102,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hoa ly trắng đài hoa to, cánh hoa mềm mại, hương thơm đặc trưng. Biểu tượng của sự thuần khiết, thanh lịch và tinh khiết — phù hợp cho mọi dịp.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-ly-trang.jpg', 'primary' => true],
-                    ['path' => 'images/products/flowers-3.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-ly-trang.jpg'), 'primary' => true],
+                    ['path' => $getImage('flowers-3.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -99,8 +115,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hoa hướng dương tươi sáng rực rỡ, biểu tượng của sự tích cực, năng lượng và niềm vui. Món quà hoàn hảo để chúc mừng thành công.',
                 'is_featured' => false,
                 'images' => [
-                    ['path' => 'images/products/hoa-huong-duong.jpg', 'primary' => true],
-                    ['path' => 'images/products/flowers-5.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-huong-duong.jpg'), 'primary' => true],
+                    ['path' => $getImage('flowers-5.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -112,8 +128,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hoa cẩm chướng đa sắc màu, giữ tươi lâu trên 10 ngày, phù hợp cho nhiều dịp từ sinh nhật đến kỷ niệm. Hoa mang ý nghĩa về sự yêu thương bền lâu.',
                 'is_featured' => false,
                 'images' => [
-                    ['path' => 'images/products/hoa-cam-chuong.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-tulip.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-cam-chuong.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-tulip.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -125,8 +141,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hoa cẩm tú cầu màu xanh tím đặc biệt, cụm hoa tròn đầy kiểu dáng sang trọng. Biểu tượng của sự thịnh vượng, thành công và lòng biết ơn.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-cam-tu-cau.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-hong-do-ecuador.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-cam-tu-cau.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-hong-do-ecuador.jpg'), 'primary' => false],
                 ],
             ],
             // ─── Lan Hồ Điệp ───
@@ -139,8 +155,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Chậu lan hồ điệp trắng tinh khôi 7-9 bông, chậu gốm cao cấp. Thích hợp làm quà tặng tân gia, khai trương, biếu ông bà. Trưng bày được 2-3 tháng.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/flowers-6.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-hong-do-ecuador.jpg', 'primary' => false],
+                    ['path' => $getImage('flowers-6.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-hong-do-ecuador.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -152,8 +168,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Chậu lan hồ điệp màu hồng phớt thanh lịch, 9-12 bông, chậu sứ trắng cao cấp. Món quà sang trọng cho mẹ, vợ, người yêu.',
                 'is_featured' => false,
                 'images' => [
-                    ['path' => 'images/products/hoa-hong-phot-ohara.jpg', 'primary' => true],
-                    ['path' => 'images/products/flowers-3.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-hong-phot-ohara.jpg'), 'primary' => true],
+                    ['path' => $getImage('flowers-3.jpg'), 'primary' => false],
                 ],
             ],
             // ─── Sinh Nhật ───
@@ -166,8 +182,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Bó hoa sinh nhật hỗn hợp nhiều loại hoa tươi theo mùa, bao bì giấy kraft đẹp mắt, kèm thiệp chúc mừng. Món quà hoàn hảo cho ngày sinh nhật đáng nhớ.',
                 'is_featured' => false,
                 'images' => [
-                    ['path' => 'images/products/flowers-5.jpg', 'primary' => true],
-                    ['path' => 'images/products/flowers-2.jpg', 'primary' => false],
+                    ['path' => $getImage('flowers-5.jpg'), 'primary' => true],
+                    ['path' => $getImage('flowers-2.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -179,8 +195,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Giỏ hoa sinh nhật phối hợp hoa hồng đỏ và hoa baby trắng nhẹ nhàng. Giỏ mây tre trang nhã, thích hợp tặng bạn bè, đồng nghiệp.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/roses.jpg', 'primary' => true],
-                    ['path' => 'images/products/flowers-3.jpg', 'primary' => false],
+                    ['path' => $getImage('roses.jpg'), 'primary' => true],
+                    ['path' => $getImage('flowers-3.jpg'), 'primary' => false],
                 ],
             ],
             // ─── Khai Trương ───
@@ -193,8 +209,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Giỏ hoa khai trương phối hợp nhiều loại hoa cao cấp với tông màu vàng - đỏ may mắn. Biểu tượng của sự thành công, phát đạt và thịnh vượng.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/flowers-2.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-huong-duong.jpg', 'primary' => false],
+                    ['path' => $getImage('flowers-2.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-huong-duong.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -206,8 +222,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Bó hoa khai trương nổi bật với hoa hướng dương rực rỡ, kết hợp hoa cẩm chướng và lá xanh. Màu vàng tượng trưng cho tiền bạc và thành công.',
                 'is_featured' => false,
                 'images' => [
-                    ['path' => 'images/products/hoa-huong-duong.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-cam-chuong.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-huong-duong.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-cam-chuong.jpg'), 'primary' => false],
                 ],
             ],
             // ─── Cưới Hỏi ───
@@ -220,8 +236,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Bó hoa cầm tay cô dâu phong cách hiện đại, phối hoa hồng phớt và gardenia, dây lụa mềm mại. Tinh tế, lãng mạn cho ngày trọng đại.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-hong-phot-ohara.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-mau-don.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-hong-phot-ohara.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-mau-don.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -233,8 +249,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Giỏ hoa trắng trang trí đám cưới sang trọng, gồm hoa hồng trắng, cẩm tú cầu và hoa mẫu đơn. Thiết kế tinh xảo cho tiệc cưới, lễ hội.',
                 'is_featured' => false,
                 'images' => [
-                    ['path' => 'images/products/hoa-ly-trang.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-mau-don.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-ly-trang.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-mau-don.jpg'), 'primary' => false],
                 ],
             ],
             // ─── Chúc Mừng ───
@@ -247,8 +263,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Giỏ hoa chúc mừng phối hoa hướng dương và hoa cúc vàng rực rỡ, kèm lá xanh tươi tắn. Món quà hoàn hảo để chúc mừng thành công, vinh danh.',
                 'is_featured' => false,
                 'images' => [
-                    ['path' => 'images/products/hoa-huong-duong.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-cam-chuong.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-huong-duong.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-cam-chuong.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -260,8 +276,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Bó hoa tân gia phối hoa ly trắng thanh lịch và hoa đồng tiền vàng tươi sáng. Mang đến lời chúc về sự thịnh vượng và bình an cho ngôi nhà mới.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-ly-trang.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-huong-duong.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-ly-trang.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-huong-duong.jpg'), 'primary' => false],
                 ],
             ],
             // ─── Tình Yêu ───
@@ -274,8 +290,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Hộp hoa hồng sáp cao cấp 99 bông màu đỏ burgundy sang trọng. Giữ mãi không tàn, quà tặng ý nghĩa dành cho người bạn yêu thương nhất.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/roses.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-hong-phot-ohara.jpg', 'primary' => false],
+                    ['path' => $getImage('roses.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-hong-phot-ohara.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -287,8 +303,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Bó hoa hồng đỏ 36 bông Ecuador thân dài, gói giấy kraft đỏ sang trọng. Món quà tình yêu kinh điển, không thể thiếu cho ngày kỷ niệm.',
                 'is_featured' => true,
                 'images' => [
-                    ['path' => 'images/products/hoa-hong-do-ecuador.jpg', 'primary' => true],
-                    ['path' => 'images/products/roses.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-hong-do-ecuador.jpg'), 'primary' => true],
+                    ['path' => $getImage('roses.jpg'), 'primary' => false],
                 ],
             ],
             [
@@ -300,8 +316,8 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Bó hoa hồng phớt nhạt kết hợp hoa baby trắng tinh khôi, dây ruy băng lụa hồng. Bó hoa ngọt ngào dành cho Valentine, kỷ niệm tháng ngày yêu nhau.',
                 'is_featured' => false,
                 'images' => [
-                    ['path' => 'images/products/hoa-hong-phot-ohara.jpg', 'primary' => true],
-                    ['path' => 'images/products/hoa-ly-trang.jpg', 'primary' => false],
+                    ['path' => $getImage('hoa-hong-phot-ohara.jpg'), 'primary' => true],
+                    ['path' => $getImage('hoa-ly-trang.jpg'), 'primary' => false],
                 ],
             ],
         ];

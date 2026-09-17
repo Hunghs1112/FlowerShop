@@ -100,10 +100,6 @@
         </div>
     </div>
     
-    @if($inquiries->hasPages())
-        <div class="admin-card-footer" style="display: flex; justify-content: center; padding: 16px;">
-            {{ $inquiries->links() }}
-        </div>
-    @endif
+    </div>
 </div>
 @endsection

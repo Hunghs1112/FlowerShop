@@ -17,6 +17,7 @@ class Category extends Model
         'image',
         'sort_order',
         'is_active',
+        'order',
     ];
 
     protected $casts = [
@@ -71,9 +72,21 @@ class Category extends Model
 
     public function getImageUrlAttribute(): string
     {
-        if (!$this->icon) {
+        if (!$this->image) {
             return 'https://via.placeholder.com/400x300/E5E7EB/6B7280?text=Category';
         }
-        return asset('storage/' . $this->icon);
+
+        // Absolute URL (http/https) — return as-is
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
+        // If path already starts with /storage/ or /images/, treat as a public asset path
+        if (str_starts_with($this->image, '/storage/') || str_starts_with($this->image, '/images/')) {
+            return asset(ltrim($this->image, '/'));
+        }
+
+        // Default: stored in the public disk under storage/app/public/
+        return asset('storage/' . $this->image);
     }
 }

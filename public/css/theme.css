@@ -1,68 +1,132 @@
-/* Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+/* ==========================================================================
+   Premium Botanical Theme - Design Tokens
+   Color System, Spacing, Typography, Shadows
+   ========================================================================== */
 
-/* Design Tokens / Theme Variables */
 :root {
-  /* Font */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    /* === PRIMARY COLORS === */
+    --color-primary: #3F5A45;              /* Botanical sage green */
+    --color-primary-dark: #2E4434;
+    --color-primary-light: #71856F;
+    --color-primary-lighter: #A3B8A1;
+    
+    /* === SECONDARY & ACCENT === */
+    --color-secondary: #B58C67;            /* Warm terracotta */
+    --color-secondary-dark: #9A7556;
+    --color-secondary-light: #D4B89A;
+    
+    --color-accent: #A85C55;               /* Dusty rose */
+    --color-accent-dark: #8F4A44;
+    --color-accent-light: #C98B85;
+    
+    /* === BACKGROUNDS === */
+    --color-cream: #F7F4ED;                /* Main body background */
+    --color-cream-dark: #EEE9DD;
+    --color-cream-darker: #E5DFD0;
+    
+    --color-sage: #DDE4D8;                 /* Soft botanical background */
+    --color-botanical: #E8EEE3;
+    --color-botanical-pale: #F2F5F0;
+    
+    --color-white: #FFFFFF;
+    --color-black: #20241F;
+    
+    /* === TEXT COLORS === */
+    --color-text: #343832;                 /* Primary text */
+    --color-text-light: #73786F;           /* Secondary text */
+    --color-text-lighter: #9B9F98;         /* Tertiary text */
+    --color-text-placeholder: #AAB2AC;
+    
+    /* === BORDERS === */
+    --color-border: #DDDCD3;
+    --color-border-light: #E8E7DE;
+    --color-border-lighter: #F0EFE6;
+    
+    /* === STATUS COLORS === */
+    --color-success: #587A5C;
+    --color-warning: #B58A4B;
+    --color-error: #A6534E;
+    --color-info: #6B8B9E;
+    
+    /* === SPACING SCALE === */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 96px;
+    --space-10: 128px;
+    --space-11: 160px;
+    
+    /* === CONTAINER === */
+    --container-width: 1280px;
+    --container-padding: 24px;
+    --container-padding-desktop: 48px;
+    
+    /* === BORDER RADIUS === */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --radius-full: 999px;
+    
+    /* === SHADOWS === */
+    --shadow-xs: 0 1px 2px rgba(32, 36, 31, .04);
+    --shadow-sm: 0 2px 10px rgba(32, 36, 31, .06);
+    --shadow-md: 0 8px 30px rgba(32, 36, 31, .08);
+    --shadow-lg: 0 16px 48px rgba(32, 36, 31, .10);
+    --shadow-botanical: 0 4px 16px rgba(63, 90, 69, .08);
+    
+    /* === TRANSITIONS === */
+    --transition-fast: .2s ease;
+    --transition-normal: .35s ease;
+    --transition-slow: .5s ease;
+    
+    /* === Z-INDEX === */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+    
+    /* === BREAKPOINTS (for reference in media queries) === */
+    --breakpoint-mobile: 767px;
+    --breakpoint-tablet: 1024px;
+    --breakpoint-desktop: 1280px;
+}
 
-  /* Primary Colors */
-  --color-primary: #d4a5a5;
-  --color-primary-dark: #b88b8b;
-  --color-primary-light: #e8d5d5;
-
-  /* Secondary Colors */
-  --color-secondary: #a8b5a0;
-  --color-secondary-dark: #8e9b87;
-  --color-secondary-light: #d8e0d4;
-
-  /* Tertiary */
-  --color-tertiary: #8b5a5a;
-  --color-tertiary-dark: #6f4848;
-  --color-tertiary-light: #c9a5a5;
-
-  /* General Colors */
-  --color-cool: #7ca4c7;
-  --color-warm: #d4a5a5;
-
-  /* Text Colors */
-  --color-text-primary: #1a1a1a;
-  --color-text: #333;
-  --color-text-secondary: #555;
-  --color-text-muted: #888;
-  --color-text-light: #999;
-  --color-text-placeholder: #aaa;
-
-  /* Background Colors */
-  --color-bg-primary: #fff;
-  --color-bg-secondary: #f8f8f8;
-  --color-bg-tertiary: #f0f0f0;
-  --color-bg-dark: #1a1a1a;
-  --color-bg-darker: #2d2d2d;
-
-  /* Border Colors */
-  --color-border: #e5e5e5;
-  --color-border-light: #f0f0f0;
-  --color-border-medium: #ddd;
-  --color-border-dark: #ccc;
-
-  /* Semantic Colors */
-  --color-success: #7caa7d;
-  --color-error: #d47373;
-  --color-warning: #e0b85f;
-  --color-info: #7ca4c7;
-
-  /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 24px;
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 #0000000d;
-  --shadow-md: 0 4px 6px -1px #0000001a;
-  --shadow-lg: 0 10px 15px -3px #0000001a;
-  --shadow-xl: 0 20px 25px -5px #0000001a;
+/* === ADMIN DARK THEME === */
+/* Modern dark interface tokens for admin panel */
+:root {
+    /* Admin Dark Colors */
+    --color-bg-primary: #064E3B;           /* Dark botanical green background */
+    --color-bg-secondary: #065F46;
+    --color-surface-primary: #065F46;      /* Card/surface background */
+    --color-surface-secondary: #047857;
+    
+    /* Admin Text */
+    --color-text-primary: #F8FAFC;         /* Primary text on dark */
+    --color-text-secondary: #CBD5E1;       /* Secondary text */
+    --color-text-tertiary: #94A3B8;        /* Tertiary/muted text */
+    
+    /* Admin Borders */
+    --admin-border: #D1D5DB;               /* Visible input borders */
+    --admin-radius-md: 8px;                /* Border radius for inputs */
+    --admin-font-mono: 'Consolas', 'Monaco', monospace;
+    --color-border-subtle: #10B981;        /* Subtle borders - green botanical */
+    --color-border-strong: #14B8A6;        /* Strong borders */
+    
+    /* Admin Accents */
+    --color-accent-primary: #38BDF8;       /* Sky blue - primary actions */
+    --color-accent-secondary: #F59E0B;     /* Amber - secondary actions */
+    --color-accent-success: #10B981;       /* Emerald */
+    --color-accent-warning: #F59E0B;       /* Amber */
+    --color-accent-error: #EF4444;         /* Red */
+    --color-accent-info: #3B82F6;          /* Blue */
 }

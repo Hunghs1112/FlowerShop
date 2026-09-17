@@ -1,0 +1,85 @@
+/* ==========================================================================
+   Filter Chips Section
+   ========================================================================== */
+
+.filter-chips-section {
+    padding: var(--space-5) 0;
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.filter-chips-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+}
+
+.filter-chips {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.filter-chips-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-light);
+}
+
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.875rem;
+    color: var(--color-text);
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.filter-chip:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary);
+    color: var(--color-primary-dark);
+}
+
+.filter-chip-text {
+    line-height: 1;
+}
+
+.filter-chip-remove {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.filter-chip-clear {
+    color: var(--color-error);
+    border-color: var(--color-error);
+    background-color: rgba(166, 83, 78, 0.05);
+}
+
+.filter-chip-clear:hover {
+    background-color: rgba(166, 83, 78, 0.1);
+    border-color: var(--color-error);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 767px) {
+    .filter-chips-container {
+        padding: 0 var(--space-4);
+    }
+    
+    .filter-chips {
+        gap: var(--space-2);
+    }
+    
+    .filter-chip {
+        padding: var(--space-1) var(--space-2);
+        font-size: 0.8125rem;
+    }
+}

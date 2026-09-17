@@ -59,6 +59,18 @@ class User extends Authenticatable
         return $this->hasMany(Inquiry::class);
     }
 
+    public function chatMessages(): HasMany
+    {
+        return $this->hasMany(ChatMessage::class);
+    }
+
+    public function unreadMessages(): HasMany
+    {
+        return $this->hasMany(ChatMessage::class)
+            ->where('is_admin', true)
+            ->where('is_read', false);
+    }
+
     // Helpers
     public function isAdmin(): bool
     {

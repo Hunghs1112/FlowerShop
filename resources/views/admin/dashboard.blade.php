@@ -8,14 +8,6 @@
         <h1 class="admin-page-title">Bảng Điều Khiển</h1>
         <p class="admin-page-subtitle">Xin chào! Chào mừng bạn quay trở lại Lâm Nhiên Thảo.</p>
     </div>
-    <div class="admin-page-actions">
-        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Thêm Sản Phẩm
-        </a>
-    </div>
 </div>
 
 {{-- Stats Grid --}}
@@ -104,13 +96,13 @@
                         <tbody>
                             @foreach($recentInquiries as $inquiry)
                                 <tr>
-                                    <td><span class="text-mono">#{{ $inquiry->id }}</span></td>
-                                    <td>
+                                    <td data-label="ID"><span class="text-mono">#{{ $inquiry->id }}</span></td>
+                                    <td data-label="Khách Hàng">
                                         <div style="font-weight: 600;">{{ $inquiry->name }}</div>
                                     </td>
-                                    <td class="text-mono">{{ $inquiry->phone }}</td>
-                                    <td>{{ count($inquiry->product_ids ?? []) }} sản phẩm</td>
-                                    <td>
+                                    <td data-label="Điện Thoại" class="text-mono">{{ $inquiry->phone }}</td>
+                                    <td data-label="Sản Phẩm">{{ count($inquiry->product_ids ?? []) }} sản phẩm</td>
+                                    <td data-label="Trạng Thái">
                                         @php
                                             $statusMap = [
                                                 'pending' => ['class' => 'badge-warning', 'label' => 'Chờ xử lý'],
@@ -121,7 +113,7 @@
                                         @endphp
                                         <span class="badge {{ $status['class'] }}">{{ $status['label'] }}</span>
                                     </td>
-                                    <td class="text-muted">{{ $inquiry->created_at->format('d/m, H:i') }}</td>
+                                    <td data-label="Ngày" class="text-muted">{{ $inquiry->created_at->format('d/m, H:i') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

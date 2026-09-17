@@ -86,4 +86,86 @@
             <span class="hero-counter-total">03</span>
         </div>
     </div>
+
+    {{-- Scroll Down Button --}}
+    <button class="hero-scroll-btn" id="heroScrollBtn" aria-label="Cuộn xuống">
+        <svg class="hero-scroll-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+    </button>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.querySelectorAll('.hero-slide');
+    const indicators = document.querySelectorAll('.hero-indicator');
+    const counterCurrent = document.querySelector('.hero-counter-current');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    const slideInterval = 5000; // 5 seconds
+    let autoplayTimer;
+
+    function goToSlide(index) {
+        // Remove active from all slides and indicators
+        slides.forEach(slide => slide.classList.remove('active'));
+        indicators.forEach(indicator => {
+            indicator.classList.remove('active');
+            const progress = indicator.querySelector('.hero-indicator-progress');
+            progress.style.width = '0';
+        });
+
+        // Add active to current slide and indicator
+        slides[index].classList.add('active');
+        indicators[index].classList.add('active');
+        
+        // Update counter
+        counterCurrent.textContent = String(index + 1).padStart(2, '0');
+        
+        currentSlide = index;
+        
+        // Reset autoplay timer
+        clearTimeout(autoplayTimer);
+        startAutoplay();
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % totalSlides;
+        goToSlide(next);
+    }
+
+    function startAutoplay() {
+        autoplayTimer = setTimeout(nextSlide, slideInterval);
+    }
+
+    // Indicator click handlers
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            goToSlide(index);
+        });
+    });
+
+    // Start autoplay
+    startAutoplay();
+    
+    // Pause on hover
+    const heroSection = document.getElementById('heroSection');
+    heroSection.addEventListener('mouseenter', () => {
+        clearTimeout(autoplayTimer);
+    });
+    
+    heroSection.addEventListener('mouseleave', () => {
+        startAutoplay();
+    });
+
+    // Scroll down button
+    const scrollBtn = document.getElementById('heroScrollBtn');
+    if (scrollBtn) {
+        scrollBtn.addEventListener('click', () => {
+            const nextSection = heroSection.nextElementSibling;
+            if (nextSection) {
+                nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+});
+</script>

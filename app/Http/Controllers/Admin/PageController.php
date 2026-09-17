@@ -58,6 +58,65 @@ class PageController extends Controller
             ->with('success', 'Tạo trang thành công');
     }
 
+    // ============================================================
+    // AJAX: Update single field
+    // ============================================================
+    public function updateField(Request $request, Page $page)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        // Validate field name to prevent mass assignment
+        $allowedFields = [
+            'title', 'slug', 'content', 'is_active',
+            'meta_title', 'meta_description'
+        ];
+
+        if (!in_array($field, $allowedFields)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trường không hợp lệ'
+            ], 422);
+        }
+
+        // Validate specific fields
+        $rules = [
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
+            'content' => 'required|string',
+            'is_active' => 'boolean',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
+        ];
+
+        $validator = \Illuminate\Support\Facades\Validator::make([$field => $value], [
+            $field => $rules[$field] ?? 'nullable'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first($field),
+                'errors' => $validator->errors()->toArray()
+            ], 422);
+        }
+
+        // Handle boolean fields
+        if ($field === 'is_active') {
+            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+        }
+
+        $page->update([$field => $value]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã lưu ' . $field,
+            'data' => [
+                $field => $page->$field
+            ]
+        ]);
+    }
+
     public function edit(Page $page)
     {
         return view('admin.pages.edit', compact('page'));

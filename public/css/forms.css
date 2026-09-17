@@ -1,0 +1,327 @@
+/* ==========================================================================
+   Form System - Botanical Input Styling
+   ========================================================================== */
+
+/* === FORM GROUP === */
+.form-group {
+    margin-bottom: var(--space-5);
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* === LABELS === */
+.form-label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.form-label-required::after {
+    content: '*';
+    color: var(--color-error);
+    margin-left: var(--space-1);
+}
+
+/* === TEXT INPUTS === */
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    outline: none;
+}
+
+.form-input {
+    height: 48px;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: var(--color-text-placeholder);
+}
+
+.form-input:hover,
+.form-textarea:hover,
+.form-select:hover {
+    border-color: var(--color-primary-light);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(63, 90, 69, 0.1);
+}
+
+.form-input:disabled,
+.form-textarea:disabled,
+.form-select:disabled {
+    background-color: var(--color-cream-darker);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* === TEXTAREA === */
+.form-textarea {
+    min-height: 120px;
+    resize: vertical;
+    padding-block: var(--space-3);
+}
+
+/* === SELECT === */
+.form-select {
+    height: 48px;
+    padding-right: var(--space-7);
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23343832' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--space-4) center;
+    appearance: none;
+    cursor: pointer;
+}
+
+/* === CHECKBOX & RADIO === */
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.form-check-input {
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.form-check-input[type="radio"] {
+    border-radius: 50%;
+}
+
+.form-check-input:hover {
+    border-color: var(--color-primary);
+}
+
+.form-check-input:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='10' viewBox='0 0 12 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L4.5 8.5L11 1.5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.form-check-input[type="radio"]:checked {
+    background-image: url("data:image/svg+xml,%3Csvg width='8' height='8' viewBox='0 0 8 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='4' r='4' fill='white'/%3E%3C/svg%3E");
+}
+
+.form-check-label {
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    cursor: pointer;
+    user-select: none;
+}
+
+/* === INPUT SIZES === */
+.input-sm,
+.form-input-sm {
+    height: 40px;
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+}
+
+.input-sm:hover,
+.form-input-sm:hover {
+    border-color: var(--color-primary-light);
+}
+
+.input-sm:focus,
+.form-input-sm:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(63, 90, 69, 0.1);
+}
+
+.form-input-lg {
+    height: 56px;
+    padding: var(--space-4) var(--space-5);
+    font-size: 1.0625rem;
+}
+
+/* === INPUT STATES === */
+.form-input-error,
+.form-textarea-error,
+.form-select-error {
+    border-color: var(--color-error);
+}
+
+.form-input-error:focus,
+.form-textarea-error:focus,
+.form-select-error:focus {
+    box-shadow: 0 0 0 3px rgba(166, 83, 78, 0.1);
+}
+
+.form-input-success {
+    border-color: var(--color-success);
+}
+
+.form-input-success:focus {
+    box-shadow: 0 0 0 3px rgba(88, 122, 92, 0.1);
+}
+
+/* === HELP TEXT === */
+.form-help {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+}
+
+.form-error {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: 0.8125rem;
+    color: var(--color-error);
+}
+
+/* === INPUT GROUP === */
+.input-group {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.input-group .form-input {
+    flex: 1;
+}
+
+.input-group-prepend,
+.input-group-append {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-4);
+    background-color: var(--color-botanical-pale);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-light);
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.input-group-prepend {
+    border-right: none;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.input-group-append {
+    border-left: none;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.input-group .form-input:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.input-group .form-input:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* === SEARCH INPUT === */
+.input-search {
+    padding-left: var(--space-7);
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 12C9.76142 12 12 9.76142 12 7C12 4.23858 9.76142 2 7 2C4.23858 2 2 4.23858 2 7C2 9.76142 4.23858 12 7 12Z' stroke='%2373786F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 14L10.5 10.5' stroke='%2373786F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left var(--space-4) center;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 767px) {
+    .form-input,
+    .form-select {
+        height: 44px;
+    }
+
+    .form-input-lg {
+        height: 52px;
+    }
+}
+
+/* Auth forms: enforce explicit colors so text stays readable on cream/white surfaces */
+.auth-form-panel .form-label,
+.auth-card .form-label {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.auth-form-panel .form-input,
+.auth-form-panel .form-textarea,
+.auth-form-panel .form-select,
+.auth-card .form-input,
+.auth-card .form-textarea,
+.auth-card .form-select {
+    color: var(--color-text);
+    background-color: var(--color-white);
+}
+
+.auth-form-panel .form-input::placeholder,
+.auth-form-panel .form-textarea::placeholder,
+.auth-card .form-input::placeholder,
+.auth-card .form-textarea::placeholder {
+    color: var(--color-text-placeholder);
+    opacity: 1;
+}
+
+.auth-form-panel .form-checkbox-label,
+.auth-card .form-checkbox-label {
+    color: var(--color-text);
+}
+
+.auth-form-panel .auth-subtitle,
+.auth-card .auth-subtitle {
+    color: var(--color-text-light);
+}
+
+/* Mobile fixes: tighten form spacing + ensure label/input colors stay readable */
+@media (max-width: 767px) {
+    .auth-form-panel .form-group,
+    .auth-card .form-group {
+        margin-bottom: var(--space-3);
+    }
+
+    .auth-form-panel .form-label,
+    .auth-card .form-label {
+        color: var(--color-text);
+        font-weight: 500;
+    }
+
+    .auth-form-panel .form-input,
+    .auth-form-panel .form-textarea,
+    .auth-form-panel .form-select,
+    .auth-card .form-input,
+    .auth-card .form-textarea,
+    .auth-card .form-select {
+        color: var(--color-text);
+        background-color: var(--color-white);
+    }
+}

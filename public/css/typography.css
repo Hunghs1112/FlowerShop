@@ -1,0 +1,223 @@
+/* ==========================================================================
+   Typography - Headings, Body Text, Editorial Style
+   ========================================================================== */
+
+/* === FONT IMPORTS === */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* === HEADINGS (Playfair Display - Editorial Serif) === */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+}
+
+h1 {
+    font-size: 3.5rem;           /* 56px */
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: 2.5rem;           /* 40px */
+    letter-spacing: -0.01em;
+}
+
+h3 {
+    font-size: 1.75rem;          /* 28px */
+}
+
+h4 {
+    font-size: 1.25rem;          /* 20px */
+    font-weight: 500;
+}
+
+h5 {
+    font-size: 1.125rem;         /* 18px */
+    font-weight: 500;
+}
+
+h6 {
+    font-size: 1rem;             /* 16px */
+    font-weight: 600;
+}
+
+/* === BODY TEXT (Inter - Clean Sans) === */
+p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;             /* 16px */
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+}
+
+.text-sm {
+    font-size: 0.875rem;         /* 14px */
+    line-height: 1.5;
+}
+
+.text-xs {
+    font-size: 0.75rem;          /* 12px */
+    line-height: 1.4;
+}
+
+.text-lg {
+    font-size: 1.125rem;         /* 18px */
+    line-height: 1.7;
+}
+
+.text-xl {
+    font-size: 1.25rem;          /* 20px */
+    line-height: 1.6;
+}
+
+/* === LABELS & SMALL TEXT === */
+label, .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;         /* 14px */
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+    display: inline-block;
+}
+
+.label-sm {
+    font-size: 0.75rem;          /* 12px */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+/* === PRICE TYPOGRAPHY === */
+.price {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;          /* 20px */
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.price-lg {
+    font-size: 1.75rem;          /* 28px */
+}
+
+.price-sm {
+    font-size: 1rem;             /* 16px */
+}
+
+.price-old {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text-lighter);
+    text-decoration: line-through;
+}
+
+/* === TEXT UTILITIES === */
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-secondary {
+    color: var(--color-secondary);
+}
+
+.text-accent {
+    color: var(--color-accent);
+}
+
+.text-light {
+    color: var(--color-text-light);
+}
+
+.text-lighter {
+    color: var(--color-text-lighter);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans {
+    font-family: 'Inter', sans-serif;
+}
+
+/* === EDITORIAL STYLE === */
+.editorial-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+}
+
+.editorial-subheading {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--color-text-light);
+    max-width: 600px;
+}
+
+.editorial-caption {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+}
+
+/* === RESPONSIVE TYPOGRAPHY === */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 2.5rem;       /* 40px */
+    }
+    
+    h2 {
+        font-size: 2rem;         /* 32px */
+    }
+    
+    h3 {
+        font-size: 1.5rem;       /* 24px */
+    }
+    
+    .editorial-heading {
+        font-size: 2.25rem;      /* 36px */
+    }
+}
+
+@media (max-width: 767px) {
+    h1 {
+        font-size: 2rem;         /* 32px */
+    }
+    
+    h2 {
+        font-size: 1.75rem;      /* 28px */
+    }
+    
+    h3 {
+        font-size: 1.375rem;     /* 22px */
+    }
+    
+    .editorial-heading {
+        font-size: 1.875rem;     /* 30px */
+    }
+    
+    .editorial-subheading {
+        font-size: 1rem;
+    }
+}

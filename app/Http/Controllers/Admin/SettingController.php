@@ -5,12 +5,99 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Services\BannerService;
+use App\Services\ImageStorageService;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
+    /** @var ImageStorageService */
+    protected $images;
+
+    public function __construct(ImageStorageService $images)
+    {
+        $this->images = $images;
+    }
+
+    // ============================================================
+    // AJAX: Update single setting field
+    // ============================================================
+    public function updateField(Request $request)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        // Validate field name
+        $allowedFields = [
+            'site_name', 'site_tagline', 'site_description', 'email', 'phone', 'address',
+            'zalo_id', 'zalo_url', 'facebook_url', 'instagram_url', 'tiktok_url',
+            'social_youtube', 'about', 'meta_title', 'meta_description', 'meta_keywords',
+            'business_hours', 'email_notification_enabled', 'zalo_notification_enabled',
+            'smtp_host', 'smtp_port', 'smtp_username', 'smtp_encryption',
+            'order_notification_email', 'contact_form_email', 'zalo_oa_id', 'zalo_access_token',
+            'google_analytics'
+        ];
+
+        if (!in_array($field, $allowedFields)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trường không hợp lệ'
+            ], 422);
+        }
+
+        // Handle checkbox fields (boolean)
+        $booleanFields = ['email_notification_enabled', 'zalo_notification_enabled'];
+        if (in_array($field, $booleanFields)) {
+            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+        }
+
+        // Handle email validation
+        if (str_contains($field, 'email') || $field === 'email') {
+            if (!empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email không hợp lệ'
+                ], 422);
+            }
+        }
+
+        // Handle URL validation
+        if (str_contains($field, 'url')) {
+            if (!empty($value) && !filter_var($value, FILTER_VALIDATE_URL)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'URL không hợp lệ'
+                ], 422);
+            }
+        }
+
+        // Handle port validation
+        if ($field === 'smtp_port') {
+            if (!empty($value) && (!is_numeric($value) || $value < 1 || $value > 65535)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Port không hợp lệ (1-65535)'
+                ], 422);
+            }
+        }
+
+        // Save to database
+        Setting::updateOrCreate(
+            ['key' => $field],
+            ['value' => $value, 'type' => 'text']
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã lưu ' . $field,
+            'data' => [
+                $field => $value
+            ]
+        ]);
+    }
+
     public function index()
     {
         $settingsData = Setting::all()->pluck('value', 'key');
@@ -25,11 +112,15 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
+        $logoMax  = (int) config('upload.limits.site_logo.max_size', 2048);
+        $bannMax  = (int) config('upload.limits.banner.max_size', 4096);
+
         $validated = $request->validate([
             'site_name' => 'required|string|max:255',
             'site_tagline' => 'nullable|string|max:255',
             'site_description' => 'nullable|string',
-            'site_logo' => 'nullable|image|max:2048',
+            // MIME whitelist: rejects .php etc. even if extension lies.
+            'site_logo' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$logoMax}",
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
@@ -46,7 +137,7 @@ class SettingController extends Controller
             'meta_keywords' => 'nullable|string|max:255',
             'google_analytics' => 'nullable|string|max:50',
             'business_hours' => 'nullable|string',
-            
+
             // Notification settings
             'email_notification_enabled' => 'nullable|boolean',
             'smtp_host' => 'nullable|string|max:255',
@@ -60,15 +151,23 @@ class SettingController extends Controller
             'zalo_oa_id' => 'nullable|string|max:100',
             'zalo_access_token' => 'nullable|string|max:500',
             'zalo_admin_phone' => 'nullable|string|max:20',
+
+            // Banner uploads – each banner gets the same MIME/size rule.
+            'banner_home'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_products'   => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_categories' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_blog'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_about'      => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_contact'    => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_cart'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_checkout'   => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
         ]);
 
-        // Handle site logo upload
+        // Handle site logo upload (in transaction so we can roll back).
+        $logoOldPath = null;
         if ($request->hasFile('site_logo')) {
-            $oldLogo = Setting::where('key', 'site_logo')->first();
-            if ($oldLogo && $oldLogo->value) {
-                Storage::disk('public')->delete($oldLogo->value);
-            }
-            $validated['site_logo'] = $request->file('site_logo')->store('settings', 'public');
+            $logoOldRow = Setting::where('key', 'site_logo')->first();
+            $logoOldPath = $logoOldRow?->value;
         }
 
         // Handle checkbox booleans - convert to proper boolean values
@@ -80,50 +179,207 @@ class SettingController extends Controller
             $validated[$field] = $request->has($field) ? 1 : 0;
         }
 
-        // Handle SMTP password separately - only update if provided
-        if (isset($validated['smtp_password']) && !empty($validated['smtp_password'])) {
-            Setting::updateOrCreate(
-                ['key' => 'smtp_password'],
-                ['value' => $validated['smtp_password'], 'type' => 'text']
-            );
-        }
-        unset($validated['smtp_password']);
-
-        // Save general settings
-        foreach ($validated as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value, 'type' => 'text']
-            );
-        }
-
-        // Handle banner image uploads
-        $bannerKeys = array_keys(BannerService::BANNER_KEYS);
-        foreach ($bannerKeys as $bannerKey) {
-            $fieldName = 'banner_' . $bannerKey;
-            if ($request->hasFile($fieldName)) {
-                // Delete old banner file
-                $oldBanner = Setting::where('key', $fieldName)->first();
-                if ($oldBanner && $oldBanner->value) {
-                    $oldPath = public_path($oldBanner->value);
-                    if (file_exists($oldPath)) {
-                        @unlink($oldPath);
-                    }
+        try {
+            DB::transaction(function () use ($request, &$validated, $logoOldPath) {
+                // ---- Logo ----
+                if ($request->hasFile('site_logo')) {
+                    $validated['site_logo'] = $this->images->upload(
+                        $request->file('site_logo'),
+                        config('upload.disks.folders.logo', 'settings'),
+                        $logoOldPath
+                    );
                 }
-                // Save new banner to public/images/banners/
-                $file = $request->file($fieldName);
-                $filename = $bannerKey . '-hero.' . $file->getClientOriginalExtension();
-                $file->move(public_path('images/banners'), $filename);
-                $path = 'images/banners/' . $filename;
 
-                Setting::updateOrCreate(
-                    ['key' => $fieldName],
-                    ['value' => $path, 'type' => 'image']
-                );
+                // ---- SMTP password (write only if non-empty) ----
+                if (!empty($validated['smtp_password'])) {
+                    Setting::updateOrCreate(
+                        ['key' => 'smtp_password'],
+                        ['value' => $validated['smtp_password'], 'type' => 'text']
+                    );
+                }
+                unset($validated['smtp_password']);
+
+                // ---- Banners (CRITICAL FIX C2: derive extension server-side) ----
+                $bannerKeys = array_keys(BannerService::BANNER_KEYS);
+                foreach ($bannerKeys as $bannerKey) {
+                    $fieldName = 'banner_' . $bannerKey;
+                    if (!$request->hasFile($fieldName)) {
+                        continue;
+                    }
+
+                    // Capture the previous banner value before we overwrite it.
+                    $oldBannerRow = Setting::where('key', $fieldName)->first();
+                    $oldBannerPath = $oldBannerRow?->value;
+
+                    // Service writes to public/images/banners/<key>-<timestamp>-<rand>.ext
+                    // using the server-side extension (NOT getClientOriginalExtension),
+                    // closing the extension bypass vulnerability.
+                    $newPath = $this->images->upload(
+                        $request->file($fieldName),
+                        'images/banners',
+                        $oldBannerPath,
+                        $bannerKey // filename prefix for predictable lookup
+                    );
+
+                    Setting::updateOrCreate(
+                        ['key' => $fieldName],
+                        ['value' => $newPath, 'type' => 'image']
+                    );
+                }
+
+                // ---- Everything else ----
+                foreach ($validated as $key => $value) {
+                    Setting::updateOrCreate(
+                        ['key' => $key],
+                        ['value' => $value, 'type' => 'text']
+                    );
+                }
+            });
+        } catch (\Throwable $e) {
+            // Best-effort cleanup of any new logo uploaded before failure.
+            if ($request->hasFile('site_logo') && !empty($validated['site_logo']) && $validated['site_logo'] !== $logoOldPath) {
+                $this->images->delete($validated['site_logo']);
             }
+            throw $e;
         }
 
         return redirect()->route('admin.settings.index')
             ->with('success', 'Cập nhật cài đặt thành công');
+    }
+
+    // ============================================================
+    // AJAX: Upload logo
+    // ============================================================
+    public function uploadLogo(Request $request)
+    {
+        $maxKb = (int) config('upload.limits.site_logo.max_size', 2048);
+
+        $request->validate([
+            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+        ]);
+
+        $logoOldPath = null;
+        $logoOldRow = Setting::where('key', 'site_logo')->first();
+        if ($logoOldRow) {
+            $logoOldPath = $logoOldRow->value;
+        }
+
+        try {
+            $path = $this->images->upload(
+                $request->file('file'),
+                config('upload.disks.folders.logo', 'settings'),
+                $logoOldPath
+            );
+
+            Setting::updateOrCreate(
+                ['key' => 'site_logo'],
+                ['value' => $path, 'type' => 'image']
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã tải lên logo',
+                'imageUrl' => asset('storage/' . $path),
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // ============================================================
+    // AJAX: Upload banner
+    // ============================================================
+    public function uploadBanner(Request $request, string $key)
+    {
+        $allowedKeys = array_keys(BannerService::BANNER_KEYS);
+        if (!in_array($key, $allowedKeys, true)) {
+            abort(404);
+        }
+
+        $maxKb = (int) config('upload.limits.banner.max_size', 4096);
+
+        $request->validate([
+            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+        ]);
+
+        $fieldName = 'banner_' . $key;
+        $oldBannerRow = Setting::where('key', $fieldName)->first();
+        $oldBannerPath = $oldBannerRow?->value;
+
+        try {
+            $path = $this->images->upload(
+                $request->file('file'),
+                'images/banners',
+                $oldBannerPath,
+                $key
+            );
+
+            Setting::updateOrCreate(
+                ['key' => $fieldName],
+                ['value' => $path, 'type' => 'image']
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã tải lên banner',
+                'imageUrl' => asset('storage/' . $path),
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * DELETE /admin/settings/logo
+     * Remove the site logo file + DB row.
+     */
+    public function deleteLogo()
+    {
+        $row = Setting::where('key', 'site_logo')->first();
+        if ($row && $row->value) {
+            $this->images->delete($row->value);
+            $row->delete();
+            // Bust the cache used by Setting::get().
+            \Cache::forget('setting_site_logo_key');
+        }
+
+        if (request()->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Đã xóa logo.']);
+        }
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Đã xóa logo.');
+    }
+
+    /**
+     * DELETE /admin/settings/banner/{key}
+     * Remove a single banner image and clear its DB setting.
+     */
+    public function deleteBanner(string $key)
+    {
+        // Whitelist the key to avoid arbitrary setting tampering.
+        $allowedKeys = array_keys(BannerService::BANNER_KEYS);
+        if (!in_array($key, $allowedKeys, true)) {
+            abort(404);
+        }
+
+        $fieldName = 'banner_' . $key;
+        $row = Setting::where('key', $fieldName)->first();
+        if ($row && $row->value) {
+            $this->images->delete($row->value);
+            $row->delete();
+            \Cache::forget("setting_{$fieldName}");
+        }
+
+        if (request()->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Đã xóa ảnh header.']);
+        }
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Đã xóa ảnh header.');
     }
 }

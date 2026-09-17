@@ -21,17 +21,17 @@
                 </svg>
                 <div>
                     <h3>Tiếp theo là gì?</h3>
-                    <p>Chúng tôi sẽ gọi điện xác nhận đơn hàng trong vài phút.</p>
+                    <p>Chúng tôi sẽ liên hệ xác nhận đơn hàng qua email hoặc tin nhắn trong thời gian sớm nhất.</p>
                 </div>
             </div>
             
             <div class="detail-card">
                 <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
                 </svg>
                 <div>
-                    <h3>Kiểm tra tin nhắn</h3>
-                    <p>Đảm bảo điện thoại và email có thể nhận tin nhắn.</p>
+                    <h3>Theo dõi đơn hàng</h3>
+                    <p>Bạn có thể nhắn tin với chúng tôi bất cứ lúc nào qua chat để theo dõi đơn hàng.</p>
                 </div>
             </div>
             
@@ -41,9 +41,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
                     <div>
-                        <h3>Inquiry Reference</h3>
-                        <p>Reference ID: <strong>#{{ $inquiry->id }}</strong></p>
-                        <p class="text-sm">Submitted on {{ $inquiry->created_at->format('M d, Y \a\t H:i') }}</p>
+                        <h3>Mã đơn hàng</h3>
+                        <p>Mã tham chiếu: <strong>#{{ $inquiry->id }}</strong></p>
+                        <p class="text-sm">Đặt lúc {{ $inquiry->created_at->format('d/m/Y H:i') }}</p>
                     </div>
                 </div>
             @endif

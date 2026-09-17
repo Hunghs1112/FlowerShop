@@ -1,3 +1,7 @@
+@php
+$isEdit = isset($isEdit) ? $isEdit : false;
+@endphp
+
 <div style="display: grid; grid-template-columns: 1fr 320px; gap: 24px;">
     {{-- Main Content --}}
     <div style="display: flex; flex-direction: column; gap: 24px;">
@@ -17,32 +21,52 @@
                 <div style="display: flex; flex-direction: column; gap: 20px;">
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tiêu Đề <span style="color: var(--admin-error);">*</span></label>
-                        <input type="text" name="title" value="{{ old('title', $post->title ?? '') }}" 
+                        <input type="text" 
+                               name="title" 
+                               value="{{ old('title', $post->title ?? '') }}" 
                                id="titleInput"
+                               class="auto-save-input"
+                               data-entity="posts"
+                               data-id="{{ $post->id ?? '' }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;" 
                                required>
                     </div>
 
                     <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Slug <span style="color: var(--admin-error);">*</span></label>
-                        <input type="text" name="slug" value="{{ old('slug', $post->slug ?? '') }}" 
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Slug</label>
+                        <input type="text" 
+                               name="slug" 
+                               value="{{ old('slug', $post->slug ?? '') }}" 
                                id="slugInput"
+                               class="auto-save-input"
+                               data-entity="posts"
+                               data-id="{{ $post->id ?? '' }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Tự động tạo từ tiêu đề nếu để trống</small>
                     </div>
 
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Trích Dẫn</label>
-                        <textarea name="excerpt" rows="3" 
+                        <textarea name="excerpt" 
+                                  rows="3" 
+                                  class="auto-save-input"
+                                  data-entity="posts"
+                                  data-id="{{ $post->id ?? '' }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('excerpt', $post->excerpt ?? '') }}</textarea>
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Tóm tắt ngắn gọn của bài viết</small>
                     </div>
 
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội Dung <span style="color: var(--admin-error);">*</span></label>
-                        <textarea name="content" rows="12" 
+                        <textarea name="content" 
+                                  rows="12" 
+                                  id="contentEditor"
+                                  class="auto-save-input"
+                                  data-entity="posts"
+                                  data-id="{{ $post->id ?? '' }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;" 
                                   required>{{ old('content', $post->content ?? '') }}</textarea>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ctrl+Enter để lưu ngay</small>
                     </div>
                 </div>
             </div>
@@ -61,18 +85,31 @@
                 </h2>
             </div>
             <div class="admin-card-body">
-                @if(isset($post) && $post->featured_image)
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 8px;">Hình Ảnh Hiện Tại</label>
+                @if(isset($post) && $post->thumbnail)
+                    <div class="thumbnail-container" style="margin-bottom: 20px; position: relative; display: inline-block;">
                         <div style="width: 100%; max-width: 300px; height: 160px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);">
-                            <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="{{ $post->image_url }}" alt="{{ $post->title }}" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
+                        <button type="button" 
+                                onclick="deletePostThumbnail({{ $post->id }}, this)"
+                                style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: rgba(239, 68, 68, 0.9); color: white; border-radius: 50%; border: 2px solid white; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+                                title="Xóa ảnh">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
                     </div>
                 @endif
 
                 <div>
-                    <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">{{ isset($post) && $post->featured_image ? 'Thay Đổi Hình Ảnh' : 'Hình Ảnh' }}</label>
-                    <input type="file" name="featured_image" accept="image/*" id="imageInput" onchange="previewImage(this)"
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">{{ isset($post) && $post->thumbnail ? 'Thay Đổi Hình Ảnh' : 'Hình Ảnh' }}</label>
+                    <input type="file" 
+                           name="thumbnail" 
+                           accept="image/*" 
+                           id="imageInput" 
+                           class="auto-save-file"
+                           data-entity="posts"
+                           data-id="{{ $post->id ?? '' }}"
+                           data-upload-url="{{ isset($post) ? route('admin.posts.uploadThumbnail', $post) : '' }}"
+                           onchange="previewImage(this)"
                            style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
                     <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước đề xuất: 1200x630px</small>
                 </div>
@@ -100,7 +137,12 @@
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Trạng Thái <span style="color: var(--admin-error);">*</span></label>
-                        <select name="status" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" required>
+                        <select name="status" 
+                                class="auto-save-select"
+                                data-entity="posts"
+                                data-id="{{ $post->id ?? '' }}"
+                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" 
+                                required>
                             <option value="draft" {{ old('status', $post->status ?? 'draft') === 'draft' ? 'selected' : '' }}>📝 Nháp</option>
                             <option value="published" {{ old('status', $post->status ?? '') === 'published' ? 'selected' : '' }}>✅ Đã xuất bản</option>
                         </select>
@@ -108,8 +150,12 @@
 
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Ngày Xuất Bản</label>
-                        <input type="datetime-local" name="published_at" 
+                        <input type="datetime-local" 
+                               name="published_at" 
                                value="{{ old('published_at', isset($post->published_at) ? $post->published_at->format('Y-m-d\TH:i') : '') }}" 
+                               class="auto-save-input"
+                               data-entity="posts"
+                               data-id="{{ $post->id ?? '' }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống để xuất bản ngay</small>
                     </div>
@@ -133,30 +179,42 @@
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tiêu Đề Meta</label>
-                        <input type="text" name="meta_title" value="{{ old('meta_title', $post->meta_title ?? '') }}" 
+                        <input type="text" 
+                               name="meta_title" 
+                               value="{{ old('meta_title', $post->meta_title ?? '') }}" 
+                               class="auto-save-input"
+                               data-entity="posts"
+                               data-id="{{ $post->id ?? '' }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                     </div>
 
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả Meta</label>
-                        <textarea name="meta_description" rows="3" 
+                        <textarea name="meta_description" 
+                                  rows="3" 
+                                  class="auto-save-input"
+                                  data-entity="posts"
+                                  data-id="{{ $post->id ?? '' }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('meta_description', $post->meta_description ?? '') }}</textarea>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Submit --}}
+        @if(!$isEdit)
+        {{-- Submit Button - ONLY for create pages --}}
         <button type="submit" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 15px;">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
-            {{ isset($post) ? 'Cập Nhật Bài Viết' : 'Tạo Bài Viết' }}
+            {{ isset($post) ? 'Cập Nhật' : 'Tạo Bài Viết' }}
         </button>
+        @endif
     </div>
 </div>
 
 @push('scripts')
+<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 <script>
 function previewImage(input) {
     const preview = document.getElementById('imagePreview');
@@ -175,6 +233,7 @@ function previewImage(input) {
 }
 
 // Auto-generate slug from title
+@if(isset($post) && $post->id)
 document.getElementById('titleInput')?.addEventListener('input', function(e) {
     const slugInput = document.getElementById('slugInput');
     if (!slugInput.dataset.manual) {
@@ -189,5 +248,6 @@ document.getElementById('titleInput')?.addEventListener('input', function(e) {
 document.getElementById('slugInput')?.addEventListener('input', function() {
     this.dataset.manual = 'true';
 });
+@endif
 </script>
 @endpush

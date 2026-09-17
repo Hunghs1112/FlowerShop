@@ -117,9 +117,9 @@
                 <div class="admin-card-body">
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tải Lên Hình Ảnh</label>
-                        <input type="file" name="images[]" multiple accept="image/*" id="imageInput" onchange="previewImages(this)"
+                        <input type="file" name="images[]" multiple accept="image/jpeg,image/png,image/gif,image/webp" id="imageInput" onchange="previewImages(this)"
                                style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
-                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Có thể chọn nhiều ảnh</small>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">jpg, png, gif, webp – tối đa {{ $maxImages ?? 10 }} ảnh, mỗi ảnh &lt; 2 MB.</small>
                     </div>
 
                     <div id="imagePreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-top: 16px;"></div>

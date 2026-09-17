@@ -3,10 +3,15 @@
 @section('page-title', 'Sửa Sản Phẩm')
 
 @section('content')
-<div class="admin-page-header">
+<div class="admin-page-header" style="margin-bottom: 32px;">
     <div class="admin-page-header-left">
         <h1 class="admin-page-title">Sửa Sản Phẩm</h1>
-        <p class="admin-page-subtitle">Cập nhật thông tin sản phẩm</p>
+        <p class="admin-page-subtitle">
+            <span style="display: inline-flex; align-items: center; gap: 6px;">
+                <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></span>
+                Tự động lưu đã bật
+            </span>
+        </p>
     </div>
     <div class="admin-page-actions">
         <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">
@@ -18,26 +23,7 @@
     </div>
 </div>
 
-@if($errors->any())
-    <div class="alert alert-error" style="margin-bottom: 24px;">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-        <div>
-            <strong>Có lỗi xảy ra:</strong>
-            <ul style="margin: 8px 0 0 0; padding-left: 20px;">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-@endif
-
-<form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-
+<form id="product-form" data-entity="products" data-id="{{ $product->id }}">
     <div style="display: grid; grid-template-columns: 1fr 320px; gap: 24px;">
         {{-- Main Content --}}
         <div style="display: flex; flex-direction: column; gap: 24px;">
@@ -57,28 +43,48 @@
                     <div style="display: flex; flex-direction: column; gap: 20px;">
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tên Sản Phẩm <span style="color: var(--admin-error);">*</span></label>
-                            <input type="text" name="name" value="{{ old('name', $product->name) }}" 
+                            <input type="text" 
+                                   name="name" 
+                                   value="{{ old('name', $product->name) }}" 
+                                   class="auto-save-input"
+                                   data-entity="products"
+                                   data-id="{{ $product->id }}"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;" 
-                                   required autofocus>
+                                   required>
                         </div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                             <div>
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Slug</label>
-                                <input type="text" name="slug" value="{{ old('slug', $product->slug) }}" 
+                                <input type="text" 
+                                       name="slug" 
+                                       value="{{ old('slug', $product->slug) }}" 
+                                       class="auto-save-input"
+                                       data-entity="products"
+                                       data-id="{{ $product->id }}"
                                        style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
                                 <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống sẽ tự tạo</small>
                             </div>
                             <div>
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mã SKU</label>
-                                <input type="text" name="sku" value="{{ old('sku', $product->sku) }}" 
+                                <input type="text" 
+                                       name="sku" 
+                                       value="{{ old('sku', $product->sku) }}" 
+                                       class="auto-save-input"
+                                       data-entity="products"
+                                       data-id="{{ $product->id }}"
                                        style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
                             </div>
                         </div>
 
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Danh Mục <span style="color: var(--admin-error);">*</span></label>
-                            <select name="category_id" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" required>
+                            <select name="category_id" 
+                                    class="auto-save-select"
+                                    data-entity="products"
+                                    data-id="{{ $product->id }}"
+                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" 
+                                    required>
                                 <option value="">Chọn danh mục</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
@@ -90,13 +96,21 @@
 
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả Ngắn</label>
-                            <textarea name="short_description" rows="3" 
+                            <textarea name="short_description" 
+                                      rows="3" 
+                                      class="auto-save-input"
+                                      data-entity="products"
+                                      data-id="{{ $product->id }}"
                                       style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('short_description', $product->short_description) }}</textarea>
                         </div>
 
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả Chi Tiết</label>
-                            <textarea name="description" rows="6" 
+                            <textarea name="description" 
+                                      rows="6" 
+                                      class="auto-save-input"
+                                      data-entity="products"
+                                      data-id="{{ $product->id }}"
                                       style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('description', $product->description) }}</textarea>
                         </div>
                     </div>
@@ -119,19 +133,29 @@
                     @if($product->productImages->count() > 0)
                         <div style="margin-bottom: 24px;">
                             <h3 style="font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 12px;">Hình Ảnh Hiện Tại</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px;">
                                 @foreach($product->productImages as $image)
-                                    <div style="position: relative; border-radius: var(--admin-radius-md); overflow: hidden; aspect-ratio: 1;">
+                                    <div class="existing-image-item" style="position: relative; border-radius: var(--admin-radius-md); overflow: hidden; aspect-ratio: 1; border: 1px solid var(--admin-border);">
                                         <img src="{{ asset('storage/' . $image->image_path) }}" alt="Sản phẩm" style="width: 100%; height: 100%; object-fit: cover;">
+
                                         @if($image->is_primary)
                                             <span style="position: absolute; top: 4px; left: 4px; background: var(--admin-accent); color: white; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px;">Chính</span>
+                                        @else
+                                            <button type="button" 
+                                                    class="btn btn-xs"
+                                                    onclick="setPrimaryProductImage({{ $product->id }}, {{ $image->id }}, this)"
+                                                    style="position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; border: none; cursor: pointer;">
+                                                Đặt chính
+                                            </button>
                                         @endif
-                                        <label style="position: absolute; bottom: 4px; right: 4px; cursor: pointer;">
-                                            <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" style="display: none;">
-                                            <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: rgba(239, 68, 68, 0.9); color: white; border-radius: 6px; font-size: 14px;">
-                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                                            </span>
-                                        </label>
+
+                                        <button type="button" 
+                                                class="delete-image-btn"
+                                                onclick="deleteProductImage({{ $product->id }}, {{ $image->id }}, this)"
+                                                style="position: absolute; bottom: 4px; right: 4px; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: rgba(239, 68, 68, 0.9); color: white; border-radius: 6px; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s ease;"
+                                                title="Xóa ảnh">
+                                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        </button>
                                     </div>
                                 @endforeach
                             </div>
@@ -140,9 +164,16 @@
 
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Thêm Hình Ảnh Mới</label>
-                        <input type="file" name="images[]" multiple accept="image/*" id="imageInput" onchange="previewImages(this)"
+                        <input type="file" 
+                               name="images"
+                               accept="image/jpeg,image/png,image/gif,image/webp" 
+                               class="auto-save-file"
+                               data-entity="products"
+                               data-id="{{ $product->id }}"
+                               data-upload-url="{{ route('admin.products.uploadFile', $product) }}"
+                               id="imageInput"
                                style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
-                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Có thể chọn nhiều ảnh</small>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">jpg, png, gif, webp – tối đa {{ $maxImages ?? 10 }} ảnh, mỗi ảnh &lt; 2 MB.</small>
                     </div>
 
                     <div id="imagePreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-top: 16px;"></div>
@@ -168,14 +199,24 @@
                     <div style="display: flex; flex-direction: column; gap: 16px;">
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Giá (₫) <span style="color: var(--admin-error);">*</span></label>
-                            <input type="number" name="price" value="{{ old('price', $product->price) }}" 
+                            <input type="number" 
+                                   name="price" 
+                                   value="{{ old('price', $product->price) }}" 
+                                   class="auto-save-input"
+                                   data-entity="products"
+                                   data-id="{{ $product->id }}"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
                                    required min="0" step="1000">
                         </div>
 
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Số Lượng <span style="color: var(--admin-error);">*</span></label>
-                            <input type="number" name="stock" value="{{ old('stock', $product->stock) }}" 
+                            <input type="number" 
+                                   name="stock" 
+                                   value="{{ old('stock', $product->stock) }}" 
+                                   class="auto-save-input"
+                                   data-entity="products"
+                                   data-id="{{ $product->id }}"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
                                    required min="0">
                         </div>
@@ -198,37 +239,42 @@
                 <div class="admin-card-body">
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                            <input type="checkbox" name="is_active" value="1" {{ old('is_active', $product->is_active) ? 'checked' : '' }}
+                            <input type="checkbox" 
+                                   name="is_active" 
+                                   value="1" 
+                                   {{ old('is_active', $product->is_active) ? 'checked' : '' }}
+                                   class="auto-save-checkbox"
+                                   data-entity="products"
+                                   data-id="{{ $product->id }}"
                                    style="width: 20px; height: 20px; accent-color: var(--admin-accent);">
                             <span style="font-size: 14px; font-weight: 500;">Kích hoạt</span>
                         </label>
 
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                            <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}
+                            <input type="checkbox" 
+                                   name="is_featured" 
+                                   value="1" 
+                                   {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}
+                                   class="auto-save-checkbox"
+                                   data-entity="products"
+                                   data-id="{{ $product->id }}"
                                    style="width: 20px; height: 20px; accent-color: var(--admin-accent);">
                             <span style="font-size: 14px; font-weight: 500;">Sản phẩm nổi bật</span>
                         </label>
                     </div>
                 </div>
             </div>
-
-            {{-- Submit --}}
-            <button type="submit" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 15px;">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                Cập Nhật Sản Phẩm
-            </button>
         </div>
     </div>
 </form>
 
 @push('scripts')
+<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 <script>
 function previewImages(input) {
     const preview = document.getElementById('imagePreview');
     preview.innerHTML = '';
-    
+
     if (input.files) {
         Array.from(input.files).forEach((file) => {
             const reader = new FileReader();
@@ -242,6 +288,33 @@ function previewImages(input) {
         });
     }
 }
+
+// Set primary image
+window.setPrimaryProductImage = async function(productId, imageId, button) {
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    
+    try {
+        const response = await fetch(`/admin/products/${productId}/images/${imageId}/set-primary`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrf,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            Toast.success('Đã đặt làm ảnh chính');
+            // Update UI - reload page to reflect changes
+            setTimeout(() => location.reload(), 500);
+        } else {
+            Toast.error('Lỗi khi đặt ảnh chính');
+        }
+    } catch (err) {
+        console.error(err);
+        Toast.error('Lỗi kết nối');
+    }
+};
 </script>
 @endpush
 @endsection

@@ -44,10 +44,8 @@ class CheckoutController extends Controller
      */
     public function success(Inquiry $inquiry = null)
     {
-        $zaloId = $this->settingService->get('zalo_id');
-        $zaloQr = $this->settingService->get('zalo_qr');
         $bannerKey = 'checkout';
-        return view('checkout.success', compact('inquiry', 'zaloId', 'zaloQr', 'bannerKey'));
+        return view('checkout.success', compact('inquiry', 'bannerKey'));
     }
 
     /**
@@ -119,14 +117,14 @@ class CheckoutController extends Controller
         // Send notifications (graceful degradation)
         $this->sendNotifications($inquiry, $orderItems, $total, $orderData);
 
+        // Create chat message for admin
+        $this->createOrderChatMessage($inquiry, $orderItems, $total);
+
         // Clear cart after successful inquiry
         $this->cartService->clearCart();
 
-        // Get Zalo info for success page
-        $zaloId = $this->settingService->get('zalo_id');
-        $zaloQr = $this->settingService->get('zalo_qr');
         $bannerKey = 'checkout';
-        return view('checkout.success', compact('inquiry', 'zaloId', 'zaloQr', 'bannerKey'));
+        return view('checkout.success', compact('inquiry', 'bannerKey'));
     }
 
     /**
@@ -249,6 +247,47 @@ class CheckoutController extends Controller
             // Already handled in ZaloService, but log here too for visibility
             Log::error('Zalo notification error', [
                 'order_id' => $orderData['order_id'],
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Create chat message for order notification to admin
+     */
+    protected function createOrderChatMessage(Inquiry $inquiry, array $orderItems, float $total): void
+    {
+        try {
+            $messageText = "🛒 *Đơn hàng mới #{$inquiry->id}*\n\n";
+            $messageText .= "👤 Khách hàng: {$inquiry->name}\n";
+            $messageText .= "📞 SĐT: {$inquiry->phone}\n";
+            
+            if ($inquiry->email) {
+                $messageText .= "📧 Email: {$inquiry->email}\n";
+            }
+            
+            $messageText .= "\n📦 Sản phẩm:\n";
+            foreach ($orderItems as $item) {
+                $messageText .= "• {$item['name']} x{$item['quantity']} = " . number_format($item['subtotal']) . "đ\n";
+            }
+            
+            $messageText .= "\n💰 Tổng cộng: " . number_format($total) . "đ";
+            
+            if ($inquiry->message) {
+                $messageText .= "\n\n💬 Lời nhắn: {$inquiry->message}";
+            }
+
+            \App\Models\ChatMessage::create([
+                'user_id' => $inquiry->user_id ?? auth()->id(),
+                'is_admin' => false, // Customer message
+                'message' => $messageText,
+                'is_read' => false,
+            ]);
+
+            Log::info('Order chat message created', ['order_id' => $inquiry->id]);
+        } catch (\Exception $e) {
+            Log::error('Failed to create order chat message', [
+                'order_id' => $inquiry->id,
                 'error' => $e->getMessage(),
             ]);
         }

@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Favorites Page
+   ========================================================================== */
+
+.favorites-section {
+    padding: var(--space-10) 0;
+    background-color: var(--color-cream);
+    min-height: 60vh;
+}
+
+/* Empty State */
+.favorites-empty {
+    text-align: center;
+    padding: var(--space-16) var(--space-6);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.favorites-empty__icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-6);
+    color: var(--color-text-light);
+    opacity: 0.5;
+}
+
+.favorites-empty__title {
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.favorites-empty__text {
+    font-size: var(--text-base);
+    color: var(--color-text-light);
+    margin-bottom: var(--space-8);
+    line-height: 1.6;
+}
+
+.favorites-empty .btn {
+    margin-top: var(--space-4);
+}
+
+/* Favorites Header */
+.favorites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.favorites-count {
+    font-size: var(--text-sm);
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+/* Pagination */
+.pagination-wrap {
+    margin-top: var(--space-10);
+}
+
+/* Product Grid - reuse from products page */
+.favorites-section .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-6);
+}
+
+@media (max-width: 640px) {
+    .favorites-section .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
+    }
+    
+    .favorites-empty {
+        padding: var(--space-10) var(--space-4);
+    }
+    
+    .favorites-empty__icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .favorites-empty__title {
+        font-size: var(--text-xl);
+    }
+}

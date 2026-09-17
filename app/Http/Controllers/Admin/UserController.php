@@ -55,6 +55,59 @@ class UserController extends Controller
             ->with('success', 'Tạo người dùng thành công');
     }
 
+    // ============================================================
+    // AJAX: Update single field
+    // ============================================================
+    public function updateField(Request $request, User $user)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        // Validate field name to prevent mass assignment
+        // NOTE: Password is NOT allowed for auto-save for security
+        $allowedFields = [
+            'name', 'email', 'phone', 'address', 'role'
+        ];
+
+        if (!in_array($field, $allowedFields)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trường không hợp lệ'
+            ], 422);
+        }
+
+        // Validate specific fields
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
+            'role' => 'required|in:admin,customer',
+        ];
+
+        $validator = \Illuminate\Support\Facades\Validator::make([$field => $value], [
+            $field => $rules[$field] ?? 'nullable'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first($field),
+                'errors' => $validator->errors()->toArray()
+            ], 422);
+        }
+
+        $user->update([$field => $value]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã lưu ' . $field,
+            'data' => [
+                $field => $user->$field
+            ]
+        ]);
+    }
+
     public function edit(User $user)
     {
         return view('admin.users.edit', compact('user'));

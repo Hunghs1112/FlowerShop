@@ -83,11 +83,6 @@
                 </article>
             @endforeach
         </div>
-
-        <!-- Pagination -->
-        <div class="pagination-wrapper">
-            {{ $posts->links() }}
-        </div>
     @else
         <div class="empty-state">
             <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">

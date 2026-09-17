@@ -23,12 +23,12 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect admin to admin dashboard, others to home
+            // Redirect admin to admin dashboard, others to home (ignore intended URL)
             if (Auth::user()->isAdmin()) {
-                return redirect()->intended(route('admin.dashboard'));
+                return redirect()->route('admin.dashboard');
             }
 
-            return redirect()->intended(route('home'));
+            return redirect()->route('home');
         }
 
         return back()->withErrors([

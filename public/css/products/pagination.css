@@ -1,113 +1,94 @@
-/* Products Pagination */
+/* ==========================================================================
+   Pagination - Botanical Style
+   ========================================================================== */
+
+.pagination,
 .products-pagination {
-  border-top: 1px solid var(--color-border-light);
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-9);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border-light);
 }
 
-.products-pagination.justify-center {
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-  margin-top: 2.5rem;
-  padding-top: 2rem;
-  display: flex;
+.pagination-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--space-3);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
 }
 
-.products-pagination.border-top-0 {
-  border-top: 1px solid #0000000d;
-  justify-content: center;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  display: flex;
+.pagination-item:hover:not(.active):not(.disabled) {
+    background-color: var(--color-botanical-pale);
+    border-color: var(--color-primary-light);
+    color: var(--color-primary);
 }
 
-.products-pagination-item {
-  background: var(--color-bg-primary);
-  border: 1px solid var(--color-border-medium);
-  border-radius: var(--radius-md);
-  min-width: 40px;
-  height: 40px;
-  color: var(--color-text);
-  justify-content: center;
-  align-items: center;
-  padding: 0 0.75rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s;
-  display: flex;
+.pagination-item.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+    pointer-events: none;
 }
 
-.products-pagination-item:hover:not(.disabled):not(.active) {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+.pagination-item.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
-.products-pagination-item.active {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
-  color: var(--color-bg-primary);
-  font-weight: 600;
+.pagination-item svg {
+    width: 20px;
+    height: 20px;
 }
 
-.products-pagination-item.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
+.pagination-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    color: var(--color-text-lighter);
 }
 
-.products-pagination-item.color-tertiary {
-  min-width: 36px;
-  height: 36px;
-  color: var(--color-tertiary);
-  background: var(--color-bg-primary);
-  border-radius: var(--radius-md);
-  border: 1px solid #e5e5e5;
-  justify-content: center;
-  align-items: center;
-  padding: 0 0.625rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.products-pagination-item.color-tertiary:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-  background: #d4a5a51a;
-}
-
-.products-pagination-item.color-tertiary.active {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
-  color: #fff;
-}
-
-.products-pagination-item.color-tertiary.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.products-pagination-item svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .products-pagination {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-  }
-
-  .products-pagination-item {
-    min-width: 36px;
-    height: 36px;
+/* === PAGINATION INFO === */
+.pagination-info {
+    text-align: center;
+    margin-top: var(--space-4);
     font-size: 0.875rem;
-  }
+    color: var(--color-text-light);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 767px) {
+    .pagination,
+    .products-pagination {
+        gap: var(--space-1);
+        margin-top: var(--space-7);
+        padding-top: var(--space-6);
+    }
+    
+    .pagination-item {
+        min-width: 40px;
+        height: 40px;
+        font-size: 0.875rem;
+    }
+    
+    .pagination-dots {
+        min-width: 40px;
+        height: 40px;
+    }
 }

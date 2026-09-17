@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Products Grid Section Container
+   ========================================================================== */
+
+.products-grid-section {
+    padding: 0 var(--space-6) var(--space-6);
+}
+
+.products-grid-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 767px) {
+    .products-grid-section {
+        padding: 0 var(--space-4) var(--space-5);
+    }
+}

@@ -104,14 +104,6 @@
     <div class="auth-form-panel">
         <div class="auth-form-wrap">
 
-            {{-- Back to home --}}
-            <a href="{{ route('home') }}" class="auth-back">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
-                </svg>
-                Về trang chủ
-            </a>
-
             <div class="auth-card">
 
                 {{-- Tabs: Login / Register --}}

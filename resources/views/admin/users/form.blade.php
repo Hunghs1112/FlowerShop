@@ -18,6 +18,9 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Họ Tên <span style="color: var(--admin-error);">*</span></label>
                         <input type="text" name="name" value="{{ old('name', $user->name ?? '') }}" 
+                               class="auto-save-input"
+                               data-entity="users"
+                               data-id="{{ $user->id ?? '' }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;" 
                                required>
                     </div>
@@ -26,6 +29,9 @@
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Email <span style="color: var(--admin-error);">*</span></label>
                             <input type="email" name="email" value="{{ old('email', $user->email ?? '') }}" 
+                                   class="auto-save-input"
+                                   data-entity="users"
+                                   data-id="{{ $user->id ?? '' }}"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
                                    required>
                         </div>
@@ -33,6 +39,9 @@
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Điện Thoại</label>
                             <input type="text" name="phone" value="{{ old('phone', $user->phone ?? '') }}" 
+                                   class="auto-save-input"
+                                   data-entity="users"
+                                   data-id="{{ $user->id ?? '' }}"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                         </div>
                     </div>
@@ -40,6 +49,9 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Địa Chỉ</label>
                         <textarea name="address" rows="3" 
+                                  class="auto-save-input"
+                                  data-entity="users"
+                                  data-id="{{ $user->id ?? '' }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('address', $user->address ?? '') }}</textarea>
                     </div>
                 </div>
@@ -49,7 +61,7 @@
 
     {{-- Sidebar --}}
     <div style="display: flex; flex-direction: column; gap: 24px;">
-        {{-- Password --}}
+        {{-- Password - NO auto-save for security --}}
         <div class="admin-card">
             <div class="admin-card-header">
                 <h2 class="admin-card-title">
@@ -81,6 +93,7 @@
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mật Khẩu Mới</label>
                             <input type="password" name="password" 
+                                   placeholder="Để trống nếu giữ nguyên"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                             <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống nếu muốn giữ mật khẩu hiện tại</small>
                         </div>
@@ -104,7 +117,12 @@
             <div class="admin-card-body">
                 <div>
                     <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Vai Trò Người Dùng <span style="color: var(--admin-error);">*</span></label>
-                    <select name="role" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" required>
+                    <select name="role" 
+                            class="auto-save-select"
+                            data-entity="users"
+                            data-id="{{ $user->id ?? '' }}"
+                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" 
+                            required>
                         <option value="customer" {{ old('role', $user->role ?? 'customer') === 'customer' ? 'selected' : '' }}>👤 Khách hàng</option>
                         <option value="admin" {{ old('role', $user->role ?? '') === 'admin' ? 'selected' : '' }}>🔐 Quản trị viên</option>
                     </select>
@@ -112,12 +130,14 @@
             </div>
         </div>
 
-        {{-- Submit --}}
+        @if(!isset($isEdit) || !$isEdit)
+        {{-- Submit Button - ONLY for create users --}}
         <button type="submit" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 15px;">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             {{ isset($user) ? 'Cập Nhật' : 'Tạo Người Dùng' }}
         </button>
+        @endif
     </div>
 </div>

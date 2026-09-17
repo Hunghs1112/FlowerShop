@@ -24,7 +24,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'khai-truong',
                 'description' => 'Giỏ hoa, bó hoa khai trương sang trọng, mang lại may mắn và thành công cho doanh nghiệp',
                 'icon' => '🎊',
-                'image' => 'images/categories/khai-truong-grand-opening.jpg',
+                'image' => 'images/misc/featured-2.jpg',
                 'sort_order' => 2,
             ],
             [
@@ -48,7 +48,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'tinh-yeu',
                 'description' => 'Hoa hồng lãng mạn và những bó hoa tình yêu ngọt ngào dành cho người bạn yêu thương',
                 'icon' => '💕',
-                'image' => 'images/categories/tinh-yeu-romantic-roses.jpg',
+                'image' => 'images/products/roses.jpg',
                 'sort_order' => 5,
             ],
             [

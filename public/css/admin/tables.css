@@ -1,0 +1,488 @@
+/* =============================================================================
+   Admin Tables - Responsive
+   ============================================================================= */
+
+.admin-table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+    background: var(--color-white);
+}
+
+.admin-table thead {
+    background: var(--color-cream-dark);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.admin-table th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    color: var(--color-text);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.admin-table tbody tr {
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.15s ease;
+}
+
+.admin-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+    background: var(--color-cream);
+}
+
+.admin-table td {
+    padding: var(--space-4);
+    color: var(--color-text);
+    vertical-align: middle;
+}
+
+.admin-table .text-mono {
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: var(--text-xs);
+    color: var(--color-text);
+}
+
+.admin-table .text-muted {
+    color: var(--color-text-light);
+}
+
+/* Table Actions */
+.table-actions {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-2);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.admin-table-actions {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-2);
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.admin-table-action {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+}
+
+.admin-table-action:hover {
+    background: var(--color-cream);
+    color: var(--color-primary);
+    border-color: var(--color-border);
+}
+
+.admin-table-action.danger:hover {
+    background: #FEF2F2;
+    color: #DC2626;
+    border-color: #FCA5A5;
+}
+
+/* Table Image Cell */
+.table-image {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+}
+
+.admin-table-image {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+}
+
+/* Table Product Cell */
+.table-product-name {
+    font-weight: 600;
+    color: var(--color-text);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.admin-table-product {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.admin-table-product-image {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.admin-table-product-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-table-product-name {
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-table-product-meta {
+    font-size: var(--text-xs);
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+/* Table Pagination */
+.admin-table-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-white);
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.admin-table-pagination-info {
+    font-size: var(--text-sm);
+    font-family: 'Inter', sans-serif;
+    color: var(--color-text);
+}
+
+.admin-table-pagination-buttons {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+/* Pagination Links */
+.admin-card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-white);
+    font-family: 'Inter', sans-serif;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+/* Admin Pagination Container - Centers and wraps pagination items */
+.admin-card-footer .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.admin-card-footer .pagination-item,
+.admin-card-footer .pagination > li > a,
+.admin-card-footer .pagination > li > span,
+.admin-card-footer a.page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: all 0.15s ease;
+    background: var(--color-white);
+}
+
+.admin-card-footer .pagination-item:hover,
+.admin-card-footer .pagination > li > a:hover,
+.admin-card-footer a.page-link:hover {
+    background: var(--color-cream);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.admin-card-footer .pagination-item.active,
+.admin-card-footer .pagination > li.active > span,
+.admin-card-footer .pagination > .active > a,
+.admin-card-footer .page-item.active .page-link,
+.admin-card-footer li.active > a {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+    pointer-events: none;
+}
+
+.admin-card-footer .pagination-item.disabled,
+.admin-card-footer .pagination > li.disabled > span,
+.admin-card-footer .pagination > .disabled > a,
+.admin-card-footer .page-item.disabled .page-link,
+.admin-card-footer li.disabled > a {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Pagination info text */
+.admin-card-footer .pagination-info,
+.admin-card-footer .showing {
+    width: 100%;
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-light);
+    margin-top: var(--space-2);
+}
+
+/* =============================================================================
+   Admin Pagination (Custom - replaces vendor views)
+   ============================================================================= */
+.admin-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+}
+
+.admin-pagination .pagination-btn,
+.admin-pagination .pagination-btn:link,
+.admin-pagination .pagination-btn:visited {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: all 0.15s ease;
+    background: var(--color-white);
+    cursor: pointer;
+}
+
+.admin-pagination .pagination-btn:hover:not(.disabled):not(.active) {
+    background: var(--color-cream);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.admin-pagination .pagination-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+    cursor: default;
+}
+
+.admin-pagination .pagination-btn.disabled,
+.admin-pagination .pagination-btn[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.admin-pagination .pagination-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    color: var(--color-text-light);
+    font-size: var(--text-sm);
+}
+
+/* =============================================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================================= */
+
+/* Tablet (< 1024px): compact table */
+@media (max-width: 1023px) {
+    .admin-table {
+        font-size: var(--text-xs);
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: var(--space-2) var(--space-3);
+    }
+}
+
+/* Mobile (< 768px): card-style stacked table */
+@media (max-width: 767px) {
+    .admin-table-wrapper {
+        border: none;
+        background: transparent;
+        overflow-x: visible;
+    }
+
+    .admin-table thead {
+        display: none;
+    }
+
+    .admin-table,
+    .admin-table tbody,
+    .admin-table tr,
+    .admin-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-table tr {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-3);
+        padding: var(--space-3);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .admin-table tbody tr:hover {
+        background: var(--color-white);
+    }
+
+    .admin-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-2) 0;
+        border-bottom: 1px solid var(--color-border-subtle, #f1f5f9);
+        text-align: right;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .admin-table td:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .admin-table td:first-child {
+        padding-top: 0;
+    }
+
+    /* Show data-label as label */
+    .admin-table td[data-label]::before {
+        content: attr(data-label);
+        font-weight: 600;
+        font-size: var(--text-xs);
+        color: var(--color-text-light);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        text-align: left;
+        flex-shrink: 0;
+        max-width: 50%;
+    }
+
+    /* When no data-label, use a fallback */
+    .admin-table td:not([data-label]) {
+        justify-content: flex-end;
+    }
+
+    /* Product cell with image */
+    .admin-table-product {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .admin-table-product-image {
+        width: 48px;
+        height: 48px;
+    }
+
+    /* Action buttons: full width on mobile */
+    .table-actions,
+    .admin-table-actions {
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    /* Image cell on its own row */
+    .admin-table td:has(.table-image),
+    .admin-table td:has(.admin-table-image) {
+        display: block;
+        text-align: center;
+        padding: var(--space-2) 0;
+    }
+
+    .admin-table td:has(.table-image)::before,
+    .admin-table td:has(.admin-table-image)::before {
+        display: none;
+    }
+
+    .table-image,
+    .admin-table-image {
+        margin: 0 auto;
+    }
+}
+
+/* Small Mobile (< 400px) */
+@media (max-width: 399px) {
+    .admin-table td[data-label]::before {
+        font-size: 10px;
+    }
+
+    .admin-table-product-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Pagination mobile responsive */
+    .admin-card-footer {
+        padding: var(--space-3);
+        gap: var(--space-2);
+    }
+
+    .admin-card-footer .pagination-item,
+    .admin-card-footer .pagination > li > a,
+    .admin-card-footer .pagination > li > span,
+    .admin-card-footer a.page-link {
+        min-width: 32px;
+        height: 32px;
+        font-size: var(--text-xs);
+        padding: 0 var(--space-1);
+    }
+}

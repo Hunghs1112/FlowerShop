@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Badge System - Minimal Botanical Style
+   ========================================================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1) var(--space-3);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+}
+
+/* === PRIMARY BADGES === */
+.badge-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.badge-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+}
+
+.badge-accent {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+}
+
+/* === STATUS BADGES === */
+.badge-success {
+    background-color: var(--color-success);
+    color: var(--color-white);
+}
+
+.badge-warning {
+    background-color: var(--color-warning);
+    color: var(--color-white);
+}
+
+.badge-error {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.badge-info {
+    background-color: var(--color-info);
+    color: var(--color-white);
+}
+
+/* === LIGHT VARIANTS === */
+.badge-primary-light {
+    background-color: rgba(63, 90, 69, 0.1);
+    color: var(--color-primary-dark);
+}
+
+.badge-secondary-light {
+    background-color: rgba(181, 140, 103, 0.1);
+    color: var(--color-secondary-dark);
+}
+
+.badge-accent-light {
+    background-color: rgba(168, 92, 85, 0.1);
+    color: var(--color-accent-dark);
+}
+
+.badge-success-light {
+    background-color: rgba(88, 122, 92, 0.1);
+    color: var(--color-success);
+}
+
+.badge-warning-light {
+    background-color: rgba(181, 138, 75, 0.1);
+    color: var(--color-warning);
+}
+
+.badge-error-light {
+    background-color: rgba(166, 83, 78, 0.1);
+    color: var(--color-error);
+}
+
+/* === OUTLINED BADGES === */
+.badge-outline {
+    background-color: transparent;
+    border: 1px solid currentColor;
+}
+
+.badge-outline-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.badge-outline-secondary {
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+/* === BADGE SIZES === */
+.badge-sm {
+    padding: 2px var(--space-2);
+    font-size: 0.625rem;
+}
+
+.badge-lg {
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.875rem;
+}
+
+/* === SPECIAL BADGES === */
+.badge-featured {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.badge-sale {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.badge-new {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+}
+
+.badge-bestseller {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+}
+
+.badge-stock-low {
+    background-color: var(--color-warning);
+    color: var(--color-white);
+}
+
+.badge-stock-out {
+    background-color: var(--color-text-lighter);
+    color: var(--color-white);
+}
+
+/* === BADGE WITH DOT === */
+.badge-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.badge-dot::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+/* === BADGE WITH ICON === */
+.badge-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.badge-icon svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* === PILL BADGE === */
+.badge-pill {
+    border-radius: var(--radius-full);
+    padding-inline: var(--space-4);
+}
+
+/* === BADGE GROUP === */
+.badge-group {
+    display: inline-flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+/* === DISCOUNT BADGE === */
+.badge-discount {
+    background: linear-gradient(135deg, var(--color-error) 0%, var(--color-accent) 100%);
+    color: var(--color-white);
+    font-weight: 700;
+    padding: var(--space-2) var(--space-3);
+}
+
+/* === NOTIFICATION BADGE === */
+.badge-notification {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1;
+    background-color: var(--color-error);
+    color: var(--color-white);
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+}
+
+.badge-notification-sm {
+    min-width: 6px;
+    height: 6px;
+    padding: 0;
+    font-size: 0;
+}

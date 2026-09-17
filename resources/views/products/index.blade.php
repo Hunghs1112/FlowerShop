@@ -3,36 +3,16 @@
 @section('title', 'Sản phẩm')
 
 @section('content')
-<!-- Hero Banner -->
-<section class="products-hero">
-    <img 
-        src="{{ $siteBanners['products'] ?? asset('images/banners/san-pham-hero.jpg') }}"
-        alt="Sản phẩm"
-        class="products-hero-image"
-    >
-    <div class="products-hero-overlay"></div>
-    <div class="products-hero-content">
-        <div class="products-breadcrumb">
-            <a href="{{ route('home') }}">Trang chủ</a>
-            <span>/</span>
-            <span>Tất cả sản phẩm</span>
-        </div>
-        <h1 class="products-hero-heading">
-            @if($activeCategory)
-                {{ $activeCategory->display_name }}
-            @else
-                Sản phẩm
-            @endif
-        </h1>
-        <p class="products-hero-description">
-            @if($activeCategory && $activeCategory->description)
-                {{ $activeCategory->description }}
-            @else
-                Khám phá bộ sưu tập hoa tươi cao cấp của chúng tôi
-            @endif
-        </p>
-    </div>
-</section>
+<!-- Page Hero - Unified Style -->
+<x-page-hero 
+    :title="$activeCategory ? $activeCategory->display_name : 'Sản phẩm'"
+    :description="$activeCategory && $activeCategory->description ? $activeCategory->description : 'Khám phá bộ sưu tập hoa tươi cao cấp của chúng tôi'"
+    :breadcrumbs="[
+        ['label' => 'Trang chủ', 'url' => route('home')],
+        ['label' => $activeCategory ? $activeCategory->display_name : 'Tất cả sản phẩm']
+    ]"
+    :image="$siteBanners['products'] ?? null"
+/>
 
 <!-- Active Filter Chips -->
 @if(!empty($activeFilterChips))
@@ -45,11 +25,18 @@
                     // Build removal URL by removing only the specific filter parameter
                     $removeParams = request()->query();
                     if ($chip['type'] === 'category') {
-                        $catIds = array_filter(explode(',', $removeParams['categories'] ?? ''), function($id) use ($chip) {
+                        // Handle both array and string formats
+                        $currentCategories = $removeParams['categories'] ?? [];
+                        if (is_string($currentCategories)) {
+                            $currentCategories = explode(',', $currentCategories);
+                        }
+                        
+                        $catIds = array_filter($currentCategories, function($id) use ($chip) {
                             return $id != $chip['value'];
                         });
+                        
                         if (!empty($catIds)) {
-                            $removeParams['categories'] = implode(',', $catIds);
+                            $removeParams['categories'] = $catIds;
                         } else {
                             unset($removeParams['categories']);
                         }
@@ -144,7 +131,7 @@
     <div class="products-filter-overlay" id="filterOverlay"></div>
     <aside class="products-filter-sidebar" id="filterSidebar" aria-label="Bộ lọc sản phẩm">
         <div class="products-filter-header">
-            <h3 class="products-filter-title">Lọc sản phẩm</h3>
+            <h3 class="products-filter-title">Bộ lọc</h3>
             <button type="button" class="products-filter-close" id="filterClose" aria-label="Đóng bộ lọc">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -320,49 +307,7 @@
                 @endforeach
             </div>
             
-            <!-- Pagination -->
-            @if($products->hasPages())
-                <nav class="products-pagination" aria-label="Phân trang sản phẩm">
-                    {{-- Prev --}}
-                    @if($products->onFirstPage())
-                        <span class="products-pagination-item disabled" aria-label="Trang trước" aria-disabled="true">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                            </svg>
-                        </span>
-                    @else
-                        <a href="{{ $products->previousPageUrl() }}" class="products-pagination-item" aria-label="Trang trước">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                            </svg>
-                        </a>
-                    @endif
-
-                    {{-- Page numbers --}}
-                    @foreach($products->links()->elements[0] ?? [] as $page => $url)
-                        @if($page == $products->currentPage())
-                            <span class="products-pagination-item active" aria-current="page">{{ $page }}</span>
-                        @else
-                            <a href="{{ $url }}" class="products-pagination-item">{{ $page }}</a>
-                        @endif
-                    @endforeach
-
-                    {{-- Next --}}
-                    @if($products->hasMorePages())
-                        <a href="{{ $products->nextPageUrl() }}" class="products-pagination-item" aria-label="Trang sau">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
-                        </a>
-                    @else
-                        <span class="products-pagination-item disabled" aria-label="Trang sau" aria-disabled="true">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
-                        </span>
-                    @endif
-                </nav>
-            @endif
+            </div>
         @endif
     </div>
 </section>

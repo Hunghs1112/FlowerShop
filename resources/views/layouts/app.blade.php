@@ -8,19 +8,77 @@
     <title>@yield('title', $siteSettings['site_name'] ?? config('app.name')) - {{ $siteSettings['site_name'] ?? config('app.name') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/chat-button.css') }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    @include('partials.navbar')
+<body class="@yield('body-class')">
+    @if(!View::hasSection('skip-navbar'))
+        @include('partials.navbar')
+    @endif
 
+    @if(!View::hasSection('skip-main-wrapper'))
     <main class="main-content">
         @yield('content')
     </main>
+    @else
+        @yield('content')
+    @endif
 
-    @include('partials.footer')
+    @if(!View::hasSection('skip-footer'))
+        @include('partials.footer')
+    @endif
+
+    {{-- Floating chat widget (visible to all non-admin users including guests) --}}
+    @if(!auth()->check() || !auth()->user()->is_admin)
+        <div class="floating-chat-container">
+                {{-- Chat window --}}
+                <div class="floating-chat-window" id="floatingChatWindow">
+                    {{-- Header --}}
+                    <div class="floating-chat-header">
+                        <div class="floating-chat-header-avatar">A</div>
+                        <div class="floating-chat-header-info">
+                            <h3 class="floating-chat-header-title">Hỗ trợ khách hàng</h3>
+                            <div class="floating-chat-header-status">Trực tuyến</div>
+                        </div>
+                    </div>
+
+                    {{-- Messages --}}
+                    <div class="floating-chat-messages" id="floatingChatMessages">
+                        <div class="floating-chat-empty">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                            </svg>
+                            <p>Chưa có tin nhắn nào.<br>Hãy gửi tin nhắn để bắt đầu trò chuyện!</p>
+                        </div>
+                    </div>
+
+                    {{-- Input form --}}
+                    <form class="floating-chat-input" id="floatingChatForm">
+                        <textarea 
+                            id="floatingChatInput" 
+                            placeholder="Nhập tin nhắn..."
+                            rows="1"
+                        ></textarea>
+                        <button type="submit" id="floatingChatSend">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                {{-- Toggle button --}}
+                <button class="floating-chat-btn" id="floatingChatBtn" aria-label="Chat hỗ trợ">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                    <span class="floating-chat-badge" id="chatUnreadBadge" style="display: none;">0</span>
+                </button>
+            </div>
+        @endif
 
     <!-- Scripts -->
     <script>
@@ -64,7 +122,265 @@
                 setTimeout(() => notification.remove(), 300);
             }, 3000);
         }
+
+        // Wishlist toggle handler - Global
+        document.addEventListener('click', function(e) {
+            const wishlistBtn = e.target.closest('.product-card__wishlist');
+            if (!wishlistBtn) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            @guest
+                showNotification('Vui lòng đăng nhập để sử dụng tính năng này', 'info');
+                setTimeout(() => {
+                    window.location.href = '{{ route("login") }}';
+                }, 1500);
+                return;
+            @endguest
+
+            const productId = wishlistBtn.dataset.productId;
+            const isActive = wishlistBtn.classList.contains('active');
+
+            // Optimistic UI update
+            wishlistBtn.classList.toggle('active');
+            const svg = wishlistBtn.querySelector('svg');
+            svg.setAttribute('fill', wishlistBtn.classList.contains('active') ? 'currentColor' : 'none');
+
+            // Send request
+            fetch('{{ route("favorites.store") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ product_id: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    // Revert on failure
+                    wishlistBtn.classList.toggle('active');
+                    svg.setAttribute('fill', wishlistBtn.classList.contains('active') ? 'currentColor' : 'none');
+                } else {
+                    showNotification(data.message, 'success');
+                    
+                    // If removed and we're on favorites page, remove the card
+                    if (isActive && window.location.pathname === '/yeu-thich') {
+                        const card = wishlistBtn.closest('.product-card');
+                        if (card) {
+                            card.style.opacity = '0';
+                            card.style.transform = 'scale(0.95)';
+                            card.style.transition = 'opacity 0.3s, transform 0.3s';
+                            setTimeout(() => {
+                                card.remove();
+                                // Reload if no products left
+                                if (document.querySelectorAll('.product-card').length === 0) {
+                                    window.location.reload();
+                                }
+                            }, 300);
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Revert on error
+                wishlistBtn.classList.toggle('active');
+                svg.setAttribute('fill', wishlistBtn.classList.contains('active') ? 'currentColor' : 'none');
+                showNotification('Có lỗi xảy ra, vui lòng thử lại', 'error');
+            });
+        });
     </script>
+
+    {{-- Floating chat widget logic (visible to all non-admin users including guests) --}}
+    @if(!auth()->check() || !auth()->user()->is_admin)
+        <script>
+        (function() {
+            const btn = document.getElementById('floatingChatBtn');
+            const badge = document.getElementById('chatUnreadBadge');
+            const chatWindow = document.getElementById('floatingChatWindow');
+            const messagesDiv = document.getElementById('floatingChatMessages');
+            const form = document.getElementById('floatingChatForm');
+            const input = document.getElementById('floatingChatInput');
+            const sendBtn = document.getElementById('floatingChatSend');
+            const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
+            const userInitial = '{{ auth()->check() ? strtoupper(mb_substr(auth()->user()->name, 0, 1, "UTF-8")) : "G" }}';
+            
+            if (!btn || !chatWindow) return;
+
+            let isOpen = false;
+            let lastMessageId = 0;
+
+            // Toggle chat window
+            btn.addEventListener('click', function() {
+                isOpen = !isOpen;
+                chatWindow.classList.toggle('open', isOpen);
+                if (isOpen) {
+                    loadMessages();
+                    input.focus();
+                }
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', function(e) {
+                if (isOpen && !chatWindow.contains(e.target) && !btn.contains(e.target)) {
+                    isOpen = false;
+                    chatWindow.classList.remove('open');
+                }
+            });
+
+            // Auto-grow textarea
+            input.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 80) + 'px';
+            });
+
+            // Load messages
+            function loadMessages() {
+                fetch('{{ route("chat.messages") }}', {
+                    headers: { 
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.messages && data.messages.length > 0) {
+                        const empty = messagesDiv.querySelector('.floating-chat-empty');
+                        if (empty) empty.remove();
+                        
+                        data.messages.forEach(msg => {
+                            appendMessage(msg.message, msg.is_admin, msg.created_at, msg.id);
+                            if (msg.id > lastMessageId) lastMessageId = msg.id;
+                        });
+                        scrollToBottom();
+                    }
+                })
+                .catch(err => console.error('[Chat] Load error:', err));
+            }
+
+            // Append message
+            function appendMessage(text, isAdmin, time, msgId) {
+                if (msgId && document.getElementById('fmsg-' + msgId)) return;
+
+                const empty = messagesDiv.querySelector('.floating-chat-empty');
+                if (empty) empty.remove();
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'floating-chat-message ' + (isAdmin ? 'admin' : 'user');
+                if (msgId) wrapper.id = 'fmsg-' + msgId;
+
+                const avatar = document.createElement('div');
+                avatar.className = 'floating-chat-message-avatar';
+                avatar.textContent = isAdmin ? 'A' : userInitial;
+
+                const bubble = document.createElement('div');
+                bubble.className = 'floating-chat-message-bubble';
+                bubble.textContent = text;
+
+                wrapper.appendChild(avatar);
+                wrapper.appendChild(bubble);
+                messagesDiv.appendChild(wrapper);
+                scrollToBottom();
+            }
+
+            // Send message
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const message = input.value.trim();
+                if (!message) return;
+                
+                // Guest users need to login first
+                if (!isLoggedIn) {
+                    alert('Vui lòng đăng nhập để gửi tin nhắn hỗ trợ');
+                    window.location.href = '{{ route("login") }}?redirect=' + encodeURIComponent(window.location.pathname);
+                    return;
+                }
+
+                sendBtn.disabled = true;
+                const originalHTML = sendBtn.innerHTML;
+                sendBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" opacity="0.25"/></svg>';
+
+                try {
+                    const response = await fetch('{{ route("chat.send") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({ message: message })
+                    });
+
+                    const data = await response.json();
+                    if (data.success && data.message) {
+                        appendMessage(data.message.message, false, data.message.created_at, data.message.id);
+                        if (data.message.id > lastMessageId) lastMessageId = data.message.id;
+                        input.value = '';
+                        input.style.height = 'auto';
+                    }
+                } catch (err) {
+                    console.error('[Chat] Send error:', err);
+                } finally {
+                    sendBtn.disabled = false;
+                    sendBtn.innerHTML = originalHTML;
+                    input.focus();
+                }
+            });
+
+            // Polling for new messages
+            setInterval(function() {
+                if (!isOpen) return;
+                
+                fetch('{{ route("chat.poll") }}?after=' + lastMessageId, {
+                    headers: { 
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.messages && data.messages.length > 0) {
+                        data.messages.forEach(msg => {
+                            appendMessage(msg.message, msg.is_admin, msg.created_at, msg.id);
+                            if (msg.id > lastMessageId) lastMessageId = msg.id;
+                        });
+                    }
+                })
+                .catch(err => console.error('[Chat] Poll error:', err));
+            }, 3000);
+
+            // Unread count
+            function updateUnreadCount() {
+                fetch('{{ route("chat.unread-count") }}', {
+                    headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
+                })
+                .then(r => r.json())
+                .then(data => {
+                    const count = data.count || 0;
+                    if (count > 0) {
+                        badge.textContent = count > 99 ? '99+' : count;
+                        badge.style.display = 'flex';
+                        btn.classList.add('has-unread');
+                    } else {
+                        badge.style.display = 'none';
+                        btn.classList.remove('has-unread');
+                    }
+                })
+                .catch(err => console.error('[Chat] Unread error:', err));
+            }
+
+            updateUnreadCount();
+            setInterval(updateUnreadCount, 10000);
+
+            function scrollToBottom() {
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        })();
+        </script>
+        @endif
 
     @stack('scripts')
 </body>
