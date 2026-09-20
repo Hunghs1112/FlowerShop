@@ -12,8 +12,8 @@
     <div class="container">
         {{-- Header --}}
         <div class="instagram-section-header">
-            <span class="instagram-section-label">Kết nối với chúng tôi</span>
-            <h2 class="instagram-section-title">{{ $siteName }} trên Instagram</h2>
+            <span class="instagram-section-label">{{ content('instagram_label', 'Kết nối với chúng tôi') }}</span>
+            <h2 class="instagram-section-title">{{ content('instagram_title', $siteName . ' trên Instagram') }}</h2>
             @if($instagramUrl)
                 <a href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" class="instagram-section-handle">{{ $instagramHandle }}</a>
             @endif
@@ -57,7 +57,7 @@
         @if($instagramUrl)
         <div class="instagram-section-footer">
             <a href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-                Theo dõi trên Instagram
+                {{ content('instagram_follow_button', 'Theo dõi trên Instagram') }}
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>

@@ -81,6 +81,40 @@ docker-compose up -d --build
 docker-compose down
 ```
 
+## 📦 Cấu Trúc Dữ Liệu
+
+### Phân Cấp Danh Mục 3 Cấp
+
+Hệ thống sử dụng cấu trúc danh mục 3 cấp:
+
+```
+Category (Danh mục chính)
+├── Subcategory (Danh mục phụ)
+│   ├── Product 1
+│   ├── Product 2
+│   └── Product 3
+└── Subcategory 2
+    └── Product 4
+```
+
+**Models:**
+- `Category` - Danh mục cấp 1 (không có parent)
+- `Subcategory` - Danh mục cấp 2 (có `category_id`)
+- `Product` - Sản phẩm (có `category_id` và `subcategory_id`)
+
+**Relationships:**
+- Category → hasMany Subcategories
+- Category → hasMany Products (thông qua subcategories)
+- Subcategory → belongsTo Category
+- Subcategory → hasMany Products
+- Product → belongsTo Category
+- Product → belongsTo Subcategory
+
+**Quản lý:**
+- Admin → Danh Mục: Quản lý danh mục cấp 1 (không có chọn parent)
+- Admin → Danh Mục Phụ: Quản lý danh mục cấp 2 (có chọn danh mục cha)
+- Admin → Sản Phẩm: Có chọn cả Category và Subcategory
+
 ## 🌍 Bilingual System (Song Ngữ)
 
 The website supports **Vietnamese (VI)** and **English (EN)** with automatic language detection.
@@ -322,6 +356,26 @@ php artisan route:list           # Show all routes
 # Storage
 php artisan storage:link         # Create storage symlink
 ```
+
+## 🎯 Giao Diện Catalog Thống Nhất (Mới!)
+
+### Tính Năng
+Gộp 3 phần quản lý (Danh mục, Danh mục phụ, Sản phẩm) vào **1 giao diện duy nhất** với tab navigation.
+
+### Truy Cập
+- **URL Admin:** `/admin/catalog`
+- **Menu:** Sidebar > Quản Lý > "Quản Lý Catalog"
+
+### Ưu Điểm
+- ✅ Tổ chức khoa học hơn - nhóm 3 phần liên quan
+- ✅ Giảm số menu items trong sidebar
+- ✅ Tab navigation với badge số lượng
+- ✅ Bộ lọc thông minh theo từng tab
+- ✅ Chuyển tab mượt mà, giữ nguyên filters
+- ✅ Responsive hoàn toàn
+
+### Chi Tiết Kỹ Thuật
+Xem file: [CATALOG_UNIFIED_IMPLEMENTATION.md](CATALOG_UNIFIED_IMPLEMENTATION.md)
 
 ## 📝 Important Notes
 

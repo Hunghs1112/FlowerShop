@@ -125,7 +125,7 @@
 
     // Generic field save function
     async function saveField(entity, id, field, value, saveUrl) {
-        const url = saveUrl || `${window.location.origin}/admin/${entity}/${id}/update-field`;
+        const url = saveUrl || `${window.location.origin}/admin/${entity}/${id}/auto-save`;
         
         try {
             const response = await fetchWithRetry(url, {
@@ -378,17 +378,21 @@
             if (!entity || !id) return;
 
             input.addEventListener('change', async (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
+                const files = Array.from(e.target.files);
+                if (!files.length) return;
 
                 // Show uploading state
                 const preview = document.getElementById('imagePreview');
                 if (preview) {
-                    preview.innerHTML = '<div style="padding: 20px; text-align: center; color: #3b82f6;">Đang tải lên...</div>';
+                    preview.innerHTML = `<div style="padding: 20px; text-align: center; color: #3b82f6;">Đang tải lên ${files.length} ảnh...</div>`;
                 }
 
                 const formData = new FormData();
-                formData.append('file', file);
+                
+                // Append all files
+                files.forEach((file, index) => {
+                    formData.append('images[]', file);
+                });
                 formData.append('field', field);
 
                 const url = uploadUrl || `${window.location.origin}/admin/${entity}/${id}/upload-file`;
@@ -406,26 +410,26 @@
 
                     if (response.ok) {
                         const data = await response.json();
-                        Toast.success(data.message || 'Đã tải lên');
+                        Toast.success(data.message || `Đã tải lên ${files.length} ảnh`);
                         
-                        // Update preview if new image URL returned
-                        if (data.imageUrl && preview) {
-                            preview.innerHTML = `<img src="${data.imageUrl}" style="width: 100%; height: auto; border-radius: 8px;">`;
-                        }
+                        // Reload page to show new images
+                        setTimeout(() => location.reload(), 800);
                         
                         // Trigger custom event
                         input.dispatchEvent(new CustomEvent('autosave', {
-                            detail: { field, file, result: { success: true, data } }
+                            detail: { field, files, result: { success: true, data } }
                         }));
                     } else {
                         const error = await response.json();
                         Toast.error(error.message || 'Lỗi khi tải lên');
                         input.value = ''; // Reset file input
+                        if (preview) preview.innerHTML = '';
                     }
                 } catch (err) {
                     console.error('Upload error:', err);
                     Toast.error('Lỗi kết nối');
                     input.value = '';
+                    if (preview) preview.innerHTML = '';
                 }
             });
         });
@@ -449,6 +453,10 @@
             case 'categories':
                 // Categories: /admin/categories/{id}/image (single image, no /images/ segment)
                 url = `${window.location.origin}/admin/categories/${entityId}/image`;
+                break;
+            case 'subcategories':
+                // Subcategories: /admin/subcategories/{id}/image (single image, no /images/ segment)
+                url = `${window.location.origin}/admin/subcategories/${entityId}/image`;
                 break;
             case 'posts':
                 // Posts: /admin/posts/{id}/thumbnail (single thumbnail, no /images/ segment)
@@ -504,6 +512,12 @@
     window.deleteCategoryImage = function(categoryId, button) {
         const container = button ? button.closest('.category-image-container') : null;
         return deleteImageNow('categories', categoryId, null, container);
+    };
+
+    // Subcategory image delete (single image per subcategory)
+    window.deleteSubcategoryImage = function(subcategoryId, button) {
+        const container = button ? button.closest('.subcategory-image-container') : null;
+        return deleteImageNow('subcategories', subcategoryId, null, container);
     };
 
     // Post thumbnail delete (single thumbnail per post)

@@ -15,6 +15,7 @@ return [
         'new_collection' => 'Bộ sưu tập mới',
         'blog' => 'Bài viết',
         'contact' => 'Liên hệ',
+        'b2c' => 'B2C',
         'information' => 'Thông tin',
         'cart' => 'Giỏ hàng',
         'account' => 'Tài khoản',

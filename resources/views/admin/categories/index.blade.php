@@ -47,7 +47,7 @@
                         <th style="width: 80px;">Hình Ảnh</th>
                         <th>Tên Danh Mục</th>
                         <th>Slug</th>
-                        <th>Danh Mục Cha</th>
+                        <th style="width: 120px;">Danh Mục Phụ</th>
                         <th style="width: 100px;">Sản Phẩm</th>
                         <th style="width: 120px;">Trạng Thái</th>
                         <th style="width: 120px;">Thao Tác</th>
@@ -71,7 +71,9 @@
                                 <div class="table-product-name">{{ $category->name }}</div>
                             </td>
                             <td class="text-mono" style="color: var(--admin-text-secondary);">{{ $category->slug }}</td>
-                            <td style="color: var(--admin-text-secondary);">{{ $category->parent->name ?? '-' }}</td>
+                            <td>
+                                <span class="badge badge-info">{{ $category->subcategories_count ?? 0 }}</span>
+                            </td>
                             <td>
                                 <span class="badge badge-secondary">{{ $category->products_count ?? 0 }}</span>
                             </td>

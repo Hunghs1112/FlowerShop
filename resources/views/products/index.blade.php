@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Sản phẩm')
+@section('title', content('products_page_title', 'Sản phẩm'))
 
 @section('content')
 <!-- Page Hero - Unified Style -->
@@ -8,8 +8,8 @@
     :title="$activeCategory ? $activeCategory->display_name : 'Sản phẩm'"
     :description="$activeCategory && $activeCategory->description ? $activeCategory->description : 'Khám phá bộ sưu tập hoa tươi cao cấp của chúng tôi'"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => route('home')],
-        ['label' => $activeCategory ? $activeCategory->display_name : 'Tất cả sản phẩm']
+        ['label' => content('breadcrumb_home', 'Trang chủ'), 'url' => route('home')],
+        ['label' => $activeCategory ? $activeCategory->display_name : content('breadcrumb_all_products', 'Tất cả sản phẩm')]
     ]"
     :image="$siteBanners['products'] ?? null"
 />
@@ -19,7 +19,7 @@
 <section class="filter-chips-section">
     <div class="filter-chips-container">
         <div class="filter-chips">
-            <span class="filter-chips-label">Đang lọc:</span>
+            <span class="filter-chips-label">{{ content('filter_chips_label', 'Đang lọc:') }}</span>
             @foreach($activeFilterChips as $chip)
                 @php
                     // Build removal URL by removing only the specific filter parameter
@@ -40,6 +40,22 @@
                         } else {
                             unset($removeParams['categories']);
                         }
+                    } elseif ($chip['type'] === 'subcategory') {
+                        // Handle subcategory removal
+                        $currentSubcategories = $removeParams['subcategories'] ?? [];
+                        if (is_string($currentSubcategories)) {
+                            $currentSubcategories = explode(',', $currentSubcategories);
+                        }
+                        
+                        $subIds = array_filter($currentSubcategories, function($id) use ($chip) {
+                            return $id != $chip['value'];
+                        });
+                        
+                        if (!empty($subIds)) {
+                            $removeParams['subcategories'] = $subIds;
+                        } else {
+                            unset($removeParams['subcategories']);
+                        }
                     } else {
                         unset($removeParams[$chip['param']]);
                     }
@@ -56,7 +72,7 @@
                 </a>
             @endforeach
             <a href="{{ route('products.index') }}" class="filter-chip filter-chip-clear">
-                <span class="filter-chip-text">Xóa tất cả</span>
+                <span class="filter-chip-text">{{ content('filter_clear_all', 'Xóa tất cả') }}</span>
             </a>
         </div>
     </div>
@@ -66,17 +82,17 @@
 <!-- Toolbar -->
 <section class="products-toolbar">
     <div class="products-toolbar-left">
-        <button class="products-filter-button" id="filterToggle" aria-label="Mở bộ lọc">
+        <button class="products-filter-button" id="filterToggle" aria-label="{{ content('filter_open_label', 'Mở bộ lọc') }}">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
             </svg>
-            Lọc
+            {{ content('filter_button', 'Lọc') }}
             @if(count($activeFilterChips ?? []) > 0)
                 <span class="filter-badge">{{ count($activeFilterChips) }}</span>
             @endif
         </button>
         <span class="products-count">
-            Hiển thị {{ $products->count() }} / {{ $products->total() }} sản phẩm
+            {{ content('products_showing', 'Hiển thị') }} {{ $products->count() }} / {{ $products->total() }} {{ content('products_suffix', 'sản phẩm') }}
         </span>
     </div>
     
@@ -174,6 +190,27 @@
                                    {{ in_array($cat->id, (array)($filters['category_ids'] ?? [])) ? 'checked' : '' }}>
                             <span class="products-filter-label">{{ $cat->name }}</span>
                             <span class="products-filter-count">({{ $cat->products_count ?? '' }})</span>
+                        </label>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Danh mục phụ -->
+            <div class="products-filter-group">
+                <h4 class="products-filter-group-title">Danh mục phụ</h4>
+                <div class="products-filter-options">
+                    @foreach($subcategories ?? [] as $subcat)
+                        <label class="products-filter-option">
+                            <input type="checkbox"
+                                   class="products-filter-checkbox"
+                                   name="subcategories[]"
+                                   value="{{ $subcat->id }}"
+                                   {{ in_array($subcat->id, (array)($filters['subcategory_ids'] ?? [])) ? 'checked' : '' }}>
+                            <span class="products-filter-label">
+                                <small style="color: var(--color-text-muted); font-size: 0.85em;">{{ $subcat->category->name }} →</small>
+                                {{ $subcat->name }}
+                            </span>
+                            <span class="products-filter-count">({{ $subcat->products_count ?? 0 }})</span>
                         </label>
                     @endforeach
                 </div>

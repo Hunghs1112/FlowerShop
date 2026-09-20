@@ -21,16 +21,16 @@ class CategoryController extends Controller
     }
 
     // ============================================================
-    // AJAX: Update single field
+    // AJAX: Auto-save single field
     // ============================================================
-    public function updateField(Request $request, Category $category)
+    public function autoSave(Request $request, Category $category)
     {
         $field = $request->input('field');
         $value = $request->input('value');
 
         // Validate field name to prevent mass assignment
         $allowedFields = [
-            'name', 'slug', 'description', 'parent_id', 'icon', 'is_active', 'sort_order'
+            'name', 'slug', 'description', 'icon', 'is_active', 'sort_order'
         ];
 
         if (!in_array($field, $allowedFields)) {
@@ -45,7 +45,6 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
-            'parent_id' => 'nullable|exists:categories,id',
             'icon' => 'nullable|string|max:50',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer',
@@ -139,7 +138,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $query = Category::with('parent')->withCount('products');
+        $query = Category::withCount(['products', 'subcategories']);
 
         if ($search = $request->input('search')) {
             $query->where('name', 'like', '%' . $search . '%');
@@ -160,11 +159,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        $categories = Category::whereNull('parent_id')
-            ->orderBy('name')
-            ->get();
-
-        return view('admin.categories.create', compact('categories'));
+        return view('admin.categories.create');
     }
 
     public function store(Request $request)
@@ -174,10 +169,7 @@ class CategoryController extends Controller
             'name'        => 'required|string|max:255',
             'slug'        => 'nullable|string|max:255|unique:categories,slug',
             'description' => 'nullable|string',
-            'parent_id'   => 'nullable|exists:categories,id',
             'icon'        => 'nullable|string|max:50',
-            // MIME whitelist via custom rule; Laravel's `image` rule alone
-            // accepts SVG which we want to block.
             'image'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'is_active'   => 'boolean',
             'sort_order'  => 'nullable|integer',
@@ -190,14 +182,10 @@ class CategoryController extends Controller
         $validated['is_active']  = $request->boolean('is_active', true);
         $validated['sort_order'] = $validated['sort_order'] ?? Category::max('sort_order') + 1;
 
-        // Wrap image upload + DB insert in a transaction. If the DB write
-        // fails after upload, we delete the orphan file in the catch.
         try {
             DB::transaction(function () use ($request, &$validated) {
                 if ($request->hasFile('image')) {
                     $file = $request->file('image');
-                    // Service validates MIME/size/extension and writes with a
-                    // safe filename. Throws ValidationException on failure.
                     $validated['image'] = $this->images->upload(
                         $file,
                         config('upload.disks.folders.category', 'categories')
@@ -207,8 +195,6 @@ class CategoryController extends Controller
                 Category::create($validated);
             });
         } catch (\Throwable $e) {
-            // If we managed to upload an image before the DB write failed,
-            // clean it up so we don't leak files on disk.
             if (!empty($validated['image'])) {
                 $this->images->delete($validated['image']);
             }
@@ -221,12 +207,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        $categories = Category::whereNull('parent_id')
-            ->where('id', '!=', $category->id)
-            ->orderBy('name')
-            ->get();
-
-        return view('admin.categories.edit', compact('category', 'categories'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     public function update(Request $request, Category $category)
@@ -236,7 +217,6 @@ class CategoryController extends Controller
             'name'        => 'required|string|max:255',
             'slug'        => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
-            'parent_id'   => 'nullable|exists:categories,id',
             'icon'        => 'nullable|string|max:50',
             'image'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'is_active'   => 'boolean',
@@ -249,7 +229,7 @@ class CategoryController extends Controller
 
         $validated['is_active'] = $request->boolean('is_active');
 
-        $oldImage = $category->image; // remember to clean up after success
+        $oldImage = $category->image;
 
         try {
             DB::transaction(function () use ($request, $category, &$validated, $oldImage) {
@@ -282,15 +262,11 @@ class CategoryController extends Controller
                 ->with('error', 'Không thể xóa danh mục đang có sản phẩm');
         }
 
-        if ($category->children()->count() > 0) {
+        if ($category->subcategories()->count() > 0) {
             return redirect()->back()
-                ->with('error', 'Không thể xóa danh mục đang có danh mục con');
+                ->with('error', 'Không thể xóa danh mục đang có danh mục phụ');
         }
 
-        // CRITICAL FIX (C1): Delete the image file before deleting the row.
-        // Previously the row was deleted but the file on disk was orphaned,
-        // accumulating dead storage over time. The service handles missing
-        // files / permission errors gracefully.
         $imagePath = $category->image;
 
         $category->delete();

@@ -49,49 +49,42 @@
                                    class="auto-save-input"
                                    data-entity="products"
                                    data-id="{{ $product->id }}"
+                                   data-save-url="{{ route('admin.products.updateField', $product) }}"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;" 
                                    required>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div>
-                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Slug</label>
-                                <input type="text" 
-                                       name="slug" 
-                                       value="{{ old('slug', $product->slug) }}" 
-                                       class="auto-save-input"
-                                       data-entity="products"
-                                       data-id="{{ $product->id }}"
-                                       style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
-                                <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống sẽ tự tạo</small>
-                            </div>
-                            <div>
-                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mã SKU</label>
-                                <input type="text" 
-                                       name="sku" 
-                                       value="{{ old('sku', $product->sku) }}" 
-                                       class="auto-save-input"
-                                       data-entity="products"
-                                       data-id="{{ $product->id }}"
-                                       style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
-                            </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Slug</label>
+                            <input type="text" 
+                                   name="slug" 
+                                   value="{{ old('slug', $product->slug) }}" 
+                                   class="auto-save-input"
+                                   data-entity="products"
+                                   data-id="{{ $product->id }}"
+                                   data-save-url="{{ route('admin.products.updateField', $product) }}"
+                                   style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
+                            <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống sẽ tự tạo</small>
                         </div>
 
                         <div>
-                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Danh Mục <span style="color: var(--admin-error);">*</span></label>
-                            <select name="category_id" 
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Danh Mục Phụ <span style="color: var(--admin-error);">*</span></label>
+                            <select name="subcategory_id" 
+                                    id="subcategorySelect"
                                     class="auto-save-select"
                                     data-entity="products"
                                     data-id="{{ $product->id }}"
+                                    data-save-url="{{ route('admin.products.updateField', $product) }}"
                                     style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" 
                                     required>
-                                <option value="">Chọn danh mục</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
+                                <option value="">-- Chọn danh mục phụ --</option>
+                                @foreach($subcategories as $subcategory)
+                                    <option value="{{ $subcategory->id }}" {{ old('subcategory_id', $product->subcategory_id) == $subcategory->id ? 'selected' : '' }}>
+                                        {{ $subcategory->category->name }} → {{ $subcategory->name }}
                                     </option>
                                 @endforeach
                             </select>
+                            <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Chọn danh mục phụ (Danh mục cha sẽ tự động được gán)</small>
                         </div>
 
                         <div>
@@ -101,6 +94,7 @@
                                       class="auto-save-input"
                                       data-entity="products"
                                       data-id="{{ $product->id }}"
+                                      data-save-url="{{ route('admin.products.updateField', $product) }}"
                                       style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('short_description', $product->short_description) }}</textarea>
                         </div>
 
@@ -111,6 +105,7 @@
                                       class="auto-save-input"
                                       data-entity="products"
                                       data-id="{{ $product->id }}"
+                                      data-save-url="{{ route('admin.products.updateField', $product) }}"
                                       style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('description', $product->description) }}</textarea>
                         </div>
                     </div>
@@ -165,13 +160,14 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Thêm Hình Ảnh Mới</label>
                         <input type="file" 
-                               name="images"
+                               name="images[]"
                                accept="image/jpeg,image/png,image/gif,image/webp" 
                                class="auto-save-file"
                                data-entity="products"
                                data-id="{{ $product->id }}"
                                data-upload-url="{{ route('admin.products.uploadFile', $product) }}"
                                id="imageInput"
+                               multiple
                                style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">jpg, png, gif, webp – tối đa {{ $maxImages ?? 10 }} ảnh, mỗi ảnh &lt; 2 MB.</small>
                     </div>
@@ -205,6 +201,7 @@
                                    class="auto-save-input"
                                    data-entity="products"
                                    data-id="{{ $product->id }}"
+                                   data-save-url="{{ route('admin.products.updateField', $product) }}"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
                                    required min="0" step="1000">
                         </div>
@@ -217,6 +214,7 @@
                                    class="auto-save-input"
                                    data-entity="products"
                                    data-id="{{ $product->id }}"
+                                   data-save-url="{{ route('admin.products.updateField', $product) }}"
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
                                    required min="0">
                         </div>
@@ -246,6 +244,7 @@
                                    class="auto-save-checkbox"
                                    data-entity="products"
                                    data-id="{{ $product->id }}"
+                                   data-save-url="{{ route('admin.products.updateField', $product) }}"
                                    style="width: 20px; height: 20px; accent-color: var(--admin-accent);">
                             <span style="font-size: 14px; font-weight: 500;">Kích hoạt</span>
                         </label>
@@ -258,6 +257,7 @@
                                    class="auto-save-checkbox"
                                    data-entity="products"
                                    data-id="{{ $product->id }}"
+                                   data-save-url="{{ route('admin.products.updateField', $product) }}"
                                    style="width: 20px; height: 20px; accent-color: var(--admin-accent);">
                             <span style="font-size: 14px; font-weight: 500;">Sản phẩm nổi bật</span>
                         </label>

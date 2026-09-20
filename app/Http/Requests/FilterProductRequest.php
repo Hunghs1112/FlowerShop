@@ -30,6 +30,10 @@ class FilterProductRequest extends FormRequest
             'categories.*' => ['integer', 'min:1'],
             'category' => ['nullable', 'string', 'max:100'],
             
+            // Subcategory filters
+            'subcategories' => ['nullable', 'array'],
+            'subcategories.*' => ['integer', 'min:1'],
+            
             // Price filters
             'min_price' => ['nullable', 'numeric', 'min:0', 'max:999999999'],
             'max_price' => ['nullable', 'numeric', 'min:0', 'max:999999999'],
@@ -238,6 +242,7 @@ class FilterProductRequest extends FormRequest
             || $this->filled('search')
             || $this->filled('categories')
             || $this->filled('category')
+            || $this->filled('subcategories')
             || $this->filled('min_price')
             || $this->filled('max_price')
             || $this->filled('price_range')
@@ -272,6 +277,20 @@ class FilterProductRequest extends FormRequest
                     'label' => $category->name,
                     'value' => $category->id,
                     'param' => 'categories',
+                ];
+            }
+        }
+        
+        // Subcategories
+        $subcategoryIds = $this->input('subcategories', []);
+        if (!empty($subcategoryIds)) {
+            $subcategories = \App\Models\Subcategory::whereIn('id', $subcategoryIds)->with('category')->get();
+            foreach ($subcategories as $subcategory) {
+                $chips[] = [
+                    'type' => 'subcategory',
+                    'label' => $subcategory->category->name . ' → ' . $subcategory->name,
+                    'value' => $subcategory->id,
+                    'param' => 'subcategories',
                 ];
             }
         }

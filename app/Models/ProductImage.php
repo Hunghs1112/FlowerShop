@@ -7,9 +7,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductImage extends Model
 {
+    protected $table = 'product_media';
+    
     protected $fillable = [
         'product_id',
         'image_path',
+        'mime_type',
+        'media_type',
+        'video_url',
+        'thumbnail_path',
         'sort_order',
         'is_primary',
     ];
@@ -17,6 +23,17 @@ class ProductImage extends Model
     protected $casts = [
         'is_primary' => 'boolean',
     ];
+
+    // Scopes
+    public function scopeImages($query)
+    {
+        return $query->where('media_type', 'image');
+    }
+
+    public function scopeVideos($query)
+    {
+        return $query->where('media_type', 'video');
+    }
 
     // Accessors
     public function getImageUrlAttribute(): string
@@ -30,6 +47,49 @@ class ProductImage extends Model
         }
         // Otherwise use storage path
         return asset('storage/' . $this->image_path);
+    }
+
+    public function getVideoUrlAttribute(): ?string
+    {
+        if ($this->media_type !== 'video') {
+            return null;
+        }
+        
+        // External URL (YouTube, Vimeo, etc.)
+        if ($this->attributes['video_url']) {
+            return $this->attributes['video_url'];
+        }
+        
+        // Local uploaded video
+        if ($this->image_path) {
+            return asset('storage/' . $this->image_path);
+        }
+        
+        return null;
+    }
+
+    public function getThumbnailUrlAttribute(): ?string
+    {
+        if ($this->thumbnail_path) {
+            return asset('storage/' . $this->thumbnail_path);
+        }
+        
+        // Default video placeholder
+        if ($this->media_type === 'video') {
+            return asset('images/video-placeholder.jpg');
+        }
+        
+        return null;
+    }
+
+    public function isVideo(): bool
+    {
+        return $this->media_type === 'video';
+    }
+
+    public function isImage(): bool
+    {
+        return $this->media_type === 'image';
     }
 
     // Relationships

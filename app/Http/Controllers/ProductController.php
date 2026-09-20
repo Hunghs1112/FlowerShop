@@ -23,6 +23,7 @@ class ProductController extends Controller
         // Build filters array from validated request
         $filters = [
             'category_ids' => $request->getCategoryIds(),
+            'subcategory_ids' => $request->input('subcategories', []),
             'min_price' => $request->getPriceRange()['min'],
             'max_price' => $request->getPriceRange()['max'],
             'in_stock' => $request->boolean('in_stock'),
@@ -36,6 +37,14 @@ class ProductController extends Controller
         
         // Get categories for filter sidebar with product counts
         $categories = $this->categoryService->getActiveCategories();
+        
+        // Get subcategories with product counts
+        $subcategories = \App\Models\Subcategory::where('is_active', true)
+            ->with('category')
+            ->withCount('products')
+            ->orderBy('category_id')
+            ->orderBy('name')
+            ->get();
         
         // Active category for display in hero
         $activeCategory = null;
@@ -59,7 +68,8 @@ class ProductController extends Controller
 
         return view('products.index', compact(
             'products', 
-            'categories', 
+            'categories',
+            'subcategories',
             'filters', 
             'activeCategory', 
             'bannerKey',
@@ -76,24 +86,30 @@ class ProductController extends Controller
         if (is_numeric($identifier)) {
             $product = Product::where('id', $identifier)
                 ->active()
-                ->with(['productImages', 'category'])
+                ->with(['productImages', 'category', 'subcategory.category'])
                 ->firstOrFail();
         } else {
             // Support both EN and VI slugs
             $product = Product::where('slug', $identifier)
                 ->orWhere('slug_en', $identifier)
                 ->active()
-                ->with(['productImages', 'category'])
+                ->with(['productImages', 'category', 'subcategory.category'])
                 ->firstOrFail();
         }
 
-        // Get recommended products (same category or featured)
+        // Get recommended products (same subcategory first, then same category, or featured)
         $recommendedProducts = Product::active()
             ->inStock()
             ->where('id', '!=', $product->id)
             ->where(function($query) use ($product) {
-                $query->where('category_id', $product->category_id)
-                      ->orWhere('is_featured', true);
+                if ($product->subcategory_id) {
+                    // Prioritize same subcategory
+                    $query->where('subcategory_id', $product->subcategory_id);
+                } else {
+                    // Fall back to category or featured
+                    $query->where('category_id', $product->category_id)
+                          ->orWhere('is_featured', true);
+                }
             })
             ->with('productImages')
             ->limit(4)

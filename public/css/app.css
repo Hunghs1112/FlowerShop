@@ -211,7 +211,7 @@ hr {
    ========================================================================== */
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Josefin Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 1.6;
@@ -280,11 +280,11 @@ hr {
    ========================================================================== */
 
 /* === FONT IMPORTS === */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-/* === HEADINGS (Playfair Display - Editorial Serif) === */
+/* === HEADINGS (Josefin Sans - Main Font) === */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Josefin Sans', Georgia, serif;
     font-weight: 400;
     line-height: 1.2;
     color: var(--color-text);
@@ -320,9 +320,9 @@ h6 {
     font-weight: 600;
 }
 
-/* === BODY TEXT (Inter - Clean Sans) === */
+/* === BODY TEXT (Josefin Sans) === */
 p {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 1rem;             /* 16px */
     line-height: 1.6;
     margin-bottom: var(--space-4);
@@ -350,7 +350,7 @@ p {
 
 /* === LABELS & SMALL TEXT === */
 label, .label {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.875rem;         /* 14px */
     font-weight: 500;
     color: var(--color-text);
@@ -367,7 +367,7 @@ label, .label {
 
 /* === PRICE TYPOGRAPHY === */
 .price {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 1.25rem;          /* 20px */
     font-weight: 600;
     color: var(--color-primary);
@@ -423,16 +423,16 @@ label, .label {
 }
 
 .font-serif {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Josefin Sans', Georgia, serif;
 }
 
 .font-sans {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 /* === EDITORIAL STYLE === */
 .editorial-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 3rem;
     font-weight: 400;
     line-height: 1.15;
@@ -441,7 +441,7 @@ label, .label {
 }
 
 .editorial-subheading {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 1.125rem;
     font-weight: 400;
     line-height: 1.7;
@@ -450,7 +450,7 @@ label, .label {
 }
 
 .editorial-caption {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.875rem;
     font-weight: 500;
     text-transform: uppercase;
@@ -658,7 +658,7 @@ label, .label {
     justify-content: center;
     gap: var(--space-2);
     padding: var(--space-4) var(--space-6);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 1rem;
     font-weight: 500;
     line-height: 1;
@@ -906,7 +906,7 @@ label, .label {
 .form-select {
     width: 100%;
     padding: var(--space-3) var(--space-4);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 1rem;
     line-height: 1.5;
     color: var(--color-text);
@@ -1248,7 +1248,7 @@ label, .label {
 }
 
 .card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     line-height: 1.3;
@@ -1432,7 +1432,7 @@ label, .label {
     align-items: center;
     justify-content: center;
     padding: var(--space-1) var(--space-3);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1;
@@ -1624,7 +1624,7 @@ label, .label {
     min-width: 18px;
     height: 18px;
     padding: 0 4px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.625rem;
     font-weight: 600;
     line-height: 1;
@@ -1841,7 +1841,7 @@ label, .label {
 }
 
 .product-card__name {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.3;
@@ -1865,7 +1865,7 @@ label, .label {
 }
 
 .product-card__price {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-primary);
@@ -2099,7 +2099,7 @@ label, .label {
     align-items: center;
     gap: var(--space-3);
     color: var(--color-primary-dark);
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 600;
     text-decoration: none;
@@ -2145,7 +2145,7 @@ label, .label {
     align-items: center;
     gap: var(--space-1);
     padding: var(--space-3) var(--space-2);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.9375rem;
     font-weight: 500;
     color: var(--color-text);
@@ -2222,7 +2222,7 @@ label, .label {
 }
 
 .mega-menu-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1rem;
     font-weight: 500;
     color: var(--color-text);
@@ -2276,7 +2276,7 @@ label, .label {
 }
 
 .mega-menu-featured-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     color: var(--color-white);
@@ -2740,11 +2740,6 @@ label, .label {
     .navbar-actions .navbar-search-btn {
         display: flex;
     }
-
-    /* === MOBILE MENU ACTIONS === */
-    .mobile-menu-actions {
-        display: none;
-    }
 }
 
 /* Desktop: hide mobile menu actions */
@@ -2757,6 +2752,7 @@ label, .label {
 /* Mobile (â‰¤ 640px): show mobile menu actions */
 @media (max-width: 640px) {
     .mobile-menu-actions {
+        display: block;
         padding: var(--space-5) var(--space-4);
         list-style: none;
         margin: 0;
@@ -2873,7 +2869,7 @@ label, .label {
 }
 
 .footer-column-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.125rem;
     font-weight: 500;
     color: var(--color-white);
@@ -2909,7 +2905,7 @@ label, .label {
 }
 
 .footer-contact-phone {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-secondary-light);
@@ -3008,7 +3004,7 @@ label, .label {
     min-width: 0;
     height: 48px;
     padding: 0 var(--space-4);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.9375rem;
     color: var(--color-text);
     background-color: var(--color-white);
@@ -3030,7 +3026,7 @@ label, .label {
 .footer-newsletter-button {
     padding: 0 var(--space-6);
     height: 48px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-white);
@@ -3352,7 +3348,7 @@ label, .label {
 
 .page-hero-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -3362,7 +3358,7 @@ label, .label {
 }
 
 .page-hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: clamp(2.5rem, 4vw, 3.5rem);
     font-weight: 400;
     line-height: 1.15;
@@ -3625,7 +3621,7 @@ label, .label {
 /* === HERO TEXT === */
 .hero-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -3640,7 +3636,7 @@ label, .label {
 }
 
 .hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 400;
     line-height: 1.1;
@@ -3654,7 +3650,7 @@ label, .label {
 }
 
 .hero-description {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 1.125rem;
     line-height: 1.7;
     color: rgba(247, 244, 237, 0.9);
@@ -3672,7 +3668,7 @@ label, .label {
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-3) var(--space-6);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-white);
@@ -3984,7 +3980,7 @@ label, .label {
 
 .products-section-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -3994,7 +3990,7 @@ label, .label {
 }
 
 .products-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2.5rem;
     font-weight: 400;
     line-height: 1.2;
@@ -4105,7 +4101,7 @@ label, .label {
 
 .categories-section-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -4115,7 +4111,7 @@ label, .label {
 }
 
 .categories-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2.5rem;
     font-weight: 400;
     line-height: 1.2;
@@ -4145,6 +4141,10 @@ label, .label {
 }
 
 .category-card:nth-child(4) {
+    grid-column: span 2;
+}
+
+.category-card:nth-child(7) {
     grid-column: span 2;
 }
 
@@ -4194,7 +4194,7 @@ label, .label {
 }
 
 .category-card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 500;
     line-height: 1.2;
@@ -4251,17 +4251,21 @@ label, .label {
     }
 
     .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 240px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 220px;
     }
 
     .category-card:nth-child(1) {
-        grid-column: span 2;
+        grid-column: span 3;
         grid-row: span 1;
     }
 
     .category-card:nth-child(4) {
         grid-column: span 1;
+    }
+
+    .category-card:nth-child(7) {
+        grid-column: span 3;
     }
 }
 
@@ -4298,6 +4302,10 @@ label, .label {
 
     .category-card:nth-child(4) {
         grid-column: span 1;
+    }
+
+    .category-card:nth-child(7) {
+        grid-column: span 2;
     }
 
     .category-card-content {
@@ -4361,7 +4369,7 @@ label, .label {
 
 .brand-values-section-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -4371,7 +4379,7 @@ label, .label {
 }
 
 .brand-values-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2.5rem;
     font-weight: 400;
     line-height: 1.2;
@@ -4410,7 +4418,7 @@ label, .label {
 }
 
 .brand-value-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 500;
     line-height: 1.3;
@@ -4486,7 +4494,7 @@ label, .label {
 
 .inspiration-section-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -4496,7 +4504,7 @@ label, .label {
 }
 
 .inspiration-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2.5rem;
     font-weight: 400;
     line-height: 1.2;
@@ -4611,7 +4619,7 @@ label, .label {
 }
 
 .inspiration-card-title a {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     line-height: 1.3;
@@ -4776,7 +4784,7 @@ label, .label {
 
 .instagram-section-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -4786,7 +4794,7 @@ label, .label {
 }
 
 .instagram-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2.5rem;
     font-weight: 400;
     line-height: 1.2;
@@ -4973,7 +4981,7 @@ label, .label {
 
 .partners-section-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -4983,7 +4991,7 @@ label, .label {
 }
 
 .partners-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2rem;
     font-weight: 400;
     line-height: 1.2;
@@ -5140,7 +5148,7 @@ label, .label {
 }
 
 .products-hero-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: clamp(2.5rem, 4vw, 3.5rem);
     font-weight: 400;
     line-height: 1.15;
@@ -5404,7 +5412,7 @@ label, .label {
 }
 
 .products-filter-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     color: var(--color-text);
@@ -5471,7 +5479,7 @@ label, .label {
 }
 
 .products-filter-group-title {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-text);
@@ -5489,7 +5497,7 @@ label, .label {
 }
 
 .filter-group-title {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-text);
@@ -6281,7 +6289,7 @@ label, .label {
 }
 
 .products-empty-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.75rem;
     font-weight: 500;
     color: var(--color-text);
@@ -6485,7 +6493,7 @@ label, .label {
     gap: var(--space-2);
     font-size: var(--text-sm);
     margin-bottom: var(--space-6);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .breadcrumb a {
@@ -6624,7 +6632,7 @@ label, .label {
 }
 
 .product-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2.5rem;
     font-weight: 500;
     line-height: 1.2;
@@ -6675,7 +6683,7 @@ label, .label {
 }
 
 .price-sale {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 2rem;
     font-weight: 700;
     color: var(--color-primary);
@@ -7072,7 +7080,7 @@ label, .label {
 }
 
 .product-accordion-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     color: var(--color-text);
@@ -7165,7 +7173,7 @@ label, .label {
 
 .product-recommended-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -7175,7 +7183,7 @@ label, .label {
 }
 
 .product-recommended-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2.5rem;
     font-weight: 400;
     line-height: 1.2;
@@ -7268,7 +7276,7 @@ label, .label {
 }
 
 .products-editorial-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2.5rem;
     font-weight: 400;
     line-height: 1.2;
@@ -7391,7 +7399,7 @@ label, .label {
 }
 
 .cart-items-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.75rem;
     font-weight: 500;
     color: var(--color-text);
@@ -7440,7 +7448,7 @@ label, .label {
 }
 
 .cart-item-name {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.125rem;
     font-weight: 500;
     color: var(--color-text);
@@ -7607,7 +7615,7 @@ label, .label {
 }
 
 .cart-summary-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 500;
     color: var(--color-text);
@@ -7702,7 +7710,7 @@ label, .label {
 }
 
 .cart-empty-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.75rem;
     font-weight: 500;
     color: var(--color-text);
@@ -7822,7 +7830,7 @@ label, .label {
 }
 
 .checkout-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 500;
     color: var(--color-text);
@@ -7905,7 +7913,7 @@ label, .label {
 }
 
 .summary-card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     color: var(--color-text);
@@ -7980,7 +7988,7 @@ label, .label {
 }
 
 .summary-item-name {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 0.9375rem;
     font-weight: 500;
     color: var(--color-text);
@@ -8178,7 +8186,7 @@ label, .label {
 }
 
 .contact-info-wrapper .card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 500;
     color: var(--color-text);
@@ -8237,7 +8245,7 @@ label, .label {
 }
 
 .contact-method h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1rem;
     font-weight: 500;
     color: var(--color-text);
@@ -8258,7 +8266,7 @@ label, .label {
 }
 
 .zalo-section h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.125rem;
     font-weight: 500;
     color: var(--color-text);
@@ -8404,7 +8412,7 @@ label, .label {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     color: var(--color-white);
     border-radius: var(--radius-full);
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     flex-shrink: 0;
@@ -8416,7 +8424,7 @@ label, .label {
 }
 
 .account-user-info h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.0625rem;
     font-weight: 500;
     color: var(--color-text);
@@ -8505,7 +8513,7 @@ label, .label {
 }
 
 .account-card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     color: var(--color-text);
@@ -8547,7 +8555,7 @@ label, .label {
 }
 
 .inquiry-id {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.0625rem;
     font-weight: 600;
     color: var(--color-primary);
@@ -9212,7 +9220,7 @@ textarea.form-input {
     width: 100%;
     padding: var(--space-4) var(--space-6) var(--space-4) var(--space-5);
     font-size: 1rem;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     background: var(--color-white);
     border: 2px solid var(--color-border);
@@ -9350,7 +9358,7 @@ textarea.form-input {
 }
 
 .post-card-title a {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.25rem;
     font-weight: 500;
     line-height: 1.3;
@@ -9416,7 +9424,7 @@ textarea.form-input {
 }
 
 .empty-state h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 500;
     color: var(--color-text);
@@ -9580,7 +9588,7 @@ textarea.form-input {
 }
 
 .auth-logo h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.75rem;
     font-weight: 500;
     color: var(--color-primary);
@@ -9593,7 +9601,7 @@ textarea.form-input {
 }
 
 .auth-header h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 500;
     color: var(--color-text);
@@ -9746,13 +9754,13 @@ textarea.form-input {
 }
 
 .auth-panel__brand-name {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.5rem;
     font-weight: 500;
 }
 
 .auth-panel__quote {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 1.75rem;
     font-weight: 400;
     line-height: 1.4;
@@ -9858,7 +9866,7 @@ textarea.form-input {
 }
 
 .auth-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: 2rem;
     font-weight: 500;
     color: var(--color-text);
@@ -10199,7 +10207,7 @@ textarea.form-input {
 }
 
 .chat-header-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: var(--text-xl);
     font-weight: 600;
     margin: 0 0 2px 0;
@@ -10407,7 +10415,7 @@ textarea.form-input {
 }
 
 .chat-empty-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', serif;
     font-size: var(--text-xl);
     font-weight: 600;
     color: var(--color-text);
@@ -10455,7 +10463,7 @@ textarea.form-input {
     border-radius: var(--radius-full);
     background: var(--color-cream);
     font-size: var(--text-base);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     transition: all var(--transition-fast);
     outline: none;
@@ -10597,7 +10605,7 @@ textarea.form-input {
     bottom: 24px;
     right: 24px;
     z-index: 9999;
-    font-family: Inter, -apple-system, sans-serif;
+    font-family: 'Josefin Sans', -apple-system, sans-serif;
 }
 
 /* Toggle button */
@@ -10998,7 +11006,7 @@ textarea.form-input {
 .admin-page-title {
     font-size: var(--text-3xl);
     font-weight: 700;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     margin: 0 0 var(--space-2) 0;
     line-height: 1.2;
@@ -11006,7 +11014,7 @@ textarea.form-input {
 
 .admin-page-subtitle {
     font-size: var(--text-base);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text-light);
     margin: 0;
     line-height: 1.5;
@@ -11080,7 +11088,7 @@ textarea.form-input {
 
 .stat-label {
     font-size: var(--text-sm);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text-light);
     margin-bottom: var(--space-1);
 }
@@ -11088,7 +11096,7 @@ textarea.form-input {
 .stat-value {
     font-size: var(--text-3xl);
     font-weight: 700;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     line-height: 1.2;
 }
@@ -11130,7 +11138,7 @@ textarea.form-input {
 .admin-card-title {
     font-size: var(--text-lg);
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     margin: 0;
     display: flex;
@@ -11863,7 +11871,7 @@ textarea.form-input {
 
 .admin-user-menu .admin-user-name {
     font-size: var(--text-sm);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     font-weight: 600;
     color: var(--color-text);
     line-height: 1.3;
@@ -11874,7 +11882,7 @@ textarea.form-input {
 
 .admin-user-menu .admin-user-role {
     font-size: var(--text-xs);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text-light);
     line-height: 1.3;
     white-space: nowrap;
@@ -11942,7 +11950,7 @@ textarea.form-input {
 .chart-title {
     font-size: var(--text-xl);
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     margin: 0;
 }
@@ -12136,7 +12144,7 @@ textarea.form-input {
     padding: var(--space-3) var(--space-4);
     text-align: left;
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     font-size: var(--text-xs);
     text-transform: uppercase;
@@ -12290,7 +12298,7 @@ textarea.form-input {
 
 .admin-table-pagination-info {
     font-size: var(--text-sm);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
 }
 
@@ -12308,7 +12316,7 @@ textarea.form-input {
     padding: var(--space-4);
     border-top: 1px solid var(--color-border);
     background: var(--color-white);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     gap: var(--space-3);
     flex-wrap: wrap;
 }
@@ -12622,7 +12630,7 @@ textarea.form-input {
 .admin-form-section-title {
     font-size: var(--text-lg);
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     margin: 0 0 var(--space-1) 0;
 }
@@ -12653,7 +12661,7 @@ textarea.form-input {
     display: block;
     font-size: var(--text-sm);
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     margin-bottom: var(--space-2);
 }
@@ -12672,7 +12680,7 @@ textarea.form-input {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     font-size: var(--text-sm);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     background: #FFFFFF;
     transition: all 0.15s ease;
@@ -12805,7 +12813,7 @@ textarea.form-input {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     font-size: var(--text-sm);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: var(--color-text);
     background: #FFFFFF;
     transition: all 0.15s ease;
@@ -12879,7 +12887,7 @@ select.input-sm {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     font-size: var(--text-sm);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     line-height: 1.5;
     color: var(--color-text);
     background: #FFFFFF;
@@ -12923,7 +12931,7 @@ select.input-sm {
     display: block;
     font-size: var(--text-sm);
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     line-height: 1.3;
     color: var(--color-text);
     margin-bottom: var(--space-2);
@@ -13100,7 +13108,7 @@ select.input-sm {
     font-weight: 600;
     color: var(--color-text-primary);
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .chat-sidebar-count {
@@ -13173,7 +13181,7 @@ select.input-sm {
     font-weight: 700;
     font-size: var(--text-sm);
     flex-shrink: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .chat-user-info {
@@ -13321,7 +13329,7 @@ select.input-sm {
     font-weight: 700;
     font-size: var(--text-base);
     flex-shrink: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .chat-header-user-info {

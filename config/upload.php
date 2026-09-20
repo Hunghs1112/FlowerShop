@@ -55,6 +55,10 @@ return [
             'max_size'  => 2048,
             'max_count' => 10,   // hard upper bound per request
         ],
+        'product_videos' => [
+            'max_size'  => 51200,  // 50 MB
+            'max_count' => 5,
+        ],
         'site_logo' => [
             'max_size'  => 2048,
             'max_count' => 1,
@@ -81,6 +85,7 @@ return [
             'category' => 'categories',
             'post'     => 'posts',
             'product'  => 'products',
+            'video'    => 'products/videos',
             'logo'     => 'settings',
             'banner'   => 'images/banners', // special: not on `public` disk
         ],

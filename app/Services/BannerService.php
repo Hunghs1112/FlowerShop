@@ -17,7 +17,7 @@ class BannerService
         'about'      => 'images/banners/about-hero.jpg',
         'contact'    => 'images/banners/contact-hero.jpg',
         'cart'       => 'images/banners/cart-hero.jpg',
-        'checkout'   => 'images/banners/checkout-hero.jpg',
+        'checkout'   => 'images/banners/checkout-hero.png',
     ];
 
     /**

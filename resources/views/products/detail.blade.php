@@ -9,12 +9,16 @@
     <div class="container">
         <!-- Breadcrumb -->
         <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="{{ route('home') }}">Trang chủ</a>
+            <a href="{{ route('home') }}">{{ content('breadcrumb_home', 'Trang chủ') }}</a>
             <span class="separator">/</span>
-            <a href="{{ route('products.index') }}">Sản phẩm</a>
+            <a href="{{ route('products.index') }}">{{ content('breadcrumb_products', 'Sản phẩm') }}</a>
             @if($product->category)
                 <span class="separator">/</span>
                 <a href="{{ route('products.index') }}?categories[]={{ $product->category->id }}">{{ $product->category->name }}</a>
+            @endif
+            @if($product->subcategory)
+                <span class="separator">/</span>
+                <span>{{ $product->subcategory->name }}</span>
             @endif
             <span class="separator">/</span>
             <span class="current">{{ $product->display_name }}</span>
@@ -25,21 +29,28 @@
             {{-- ============= LEFT: Product Gallery ============= --}}
             <div class="product-gallery">
                 @php
-                    $galleryImages = $product->productImages;
-                    if ($galleryImages->isEmpty()) {
+                    $galleryImages = $product->productImages()->images()->get();
+                    $galleryVideos = $product->productImages()->videos()->get();
+                    if ($galleryImages->isEmpty() && $galleryVideos->isEmpty()) {
                         $galleryImages = collect([
-                            (object) ['image_path' => null, 'id' => 0],
+                            (object) ['image_path' => null, 'id' => 0, 'media_type' => 'image'],
                         ]);
                     }
                     $mainImage = $galleryImages->first();
                 @endphp
 
-                {{-- Main large image --}}
+                {{-- Main large image/video --}}
                 <div class="gallery-item--main">
-                    <img src="{{ $mainImage->image_path ? asset('storage/' . $mainImage->image_path) : $product->getPrimaryImageUrl() }}"
+                    <img src="{{ $mainImage && $mainImage->image_path ? asset('storage/' . $mainImage->image_path) : $product->getPrimaryImageUrl() }}"
                          alt="{{ $product->display_name }}"
                          loading="eager"
-                         id="mainImage">
+                         id="mainImage"
+                         style="display: block;">
+                    
+                    <video id="mainVideo" controls style="display: none; width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: #000;">
+                        <source src="" type="video/mp4" id="mainVideoSource">
+                        Your browser does not support video.
+                    </video>
 
                     {{-- Discount badge --}}
                     @if($product->discount_percent)
@@ -48,14 +59,32 @@
                 </div>
 
                 {{-- Horizontal thumbnails list --}}
-                @if($galleryImages->count() > 1)
+                @if($galleryImages->count() > 1 || $galleryVideos->count() > 0)
                     <div class="gallery-thumbnails">
                         @foreach($galleryImages as $index => $image)
                             <div class="gallery-item--thumb {{ $index === 0 ? 'active' : '' }}" 
-                                 onclick="changeMainImage('{{ $image->image_path ? asset('storage/' . $image->image_path) : $product->getPrimaryImageUrl() }}', this)">
+                                 data-type="image"
+                                 onclick="changeMainMedia('{{ $image->image_path ? asset('storage/' . $image->image_path) : $product->getPrimaryImageUrl() }}', 'image', null, this)">
                                 <img src="{{ $image->image_path ? asset('storage/' . $image->image_path) : $product->getPrimaryImageUrl() }}"
                                      alt="{{ $product->display_name }}"
                                      loading="lazy">
+                            </div>
+                        @endforeach
+                        
+                        @foreach($galleryVideos as $video)
+                            <div class="gallery-item--thumb" 
+                                 data-type="video"
+                                 onclick="changeMainMedia('{{ asset('storage/' . $video->image_path) }}', 'video', '{{ $video->mime_type }}', this)">
+                                <div style="position: relative; width: 100%; height: 100%;">
+                                    <video style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                                        <source src="{{ asset('storage/' . $video->image_path) }}" type="{{ $video->mime_type }}">
+                                    </video>
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 32px; height: 32px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -69,7 +98,7 @@
                 @if($product->discount_percent)
                     <div class="info-badge">-{{ $product->discount_percent }}%</div>
                 @elseif($product->is_featured)
-                    <div class="info-badge">Nổi bật</div>
+                    <div class="info-badge">{{ content('product_featured_badge', 'Nổi bật') }}</div>
                 @endif
 
                 {{-- Product Title --}}
@@ -85,7 +114,7 @@
                         <span class="star">★</span>
                     </div>
                     <span class="rating-value">(0.0)</span>
-                    <span class="rating-count">(0) đánh giá</span>
+                    <span class="rating-count">(0) {{ content('product_reviews_suffix', 'đánh giá') }}</span>
                 </div>
 
                 {{-- Price --}}
@@ -114,7 +143,7 @@
                 @endif
 
                 {{-- Stock --}}
-                <div class="product-stock">{{ $product->stock }} sản phẩm có sẵn</div>
+                <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', 'sản phẩm có sẵn') }}</div>
 
                 {{-- Quantity + Add to Cart --}}
                 <form action="{{ route('cart.add') }}" method="POST" class="cart-form">
@@ -122,22 +151,22 @@
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <div class="cart-actions">
                         <div class="quantity-selector">
-                            <button type="button" class="qty-btn" onclick="decreaseQty()" aria-label="Giảm">−</button>
+                            <button type="button" class="qty-btn" onclick="decreaseQty()" aria-label="{{ content('product_qty_decrease', 'Giảm') }}">−</button>
                             <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $product->stock }}" readonly>
-                            <button type="button" class="qty-btn" onclick="increaseQty({{ $product->stock }})" aria-label="Tăng">+</button>
+                            <button type="button" class="qty-btn" onclick="increaseQty({{ $product->stock }})" aria-label="{{ content('product_qty_increase', 'Tăng') }}">+</button>
                         </div>
                         <button type="submit" class="btn-add-cart" {{ $product->stock <= 0 ? 'disabled' : '' }}>
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
-                            Thêm vào giỏ
+                            {{ content('product_add_to_cart', 'Thêm vào giỏ') }}
                         </button>
                     </div>
                 </form>
 
                 {{-- Buy Now --}}
                 <button type="button" class="btn-buy-now" onclick="quickOrder({{ $product->id }})" {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                    Đặt hàng nhanh
+                    {{ content('product_buy_now', 'Đặt hàng nhanh') }}
                 </button>
 
                 {{-- Accordion --}}
@@ -165,12 +194,12 @@
 {{-- ============= Recommended Products ============= --}}
 <section class="recommended" style="margin-bottom: 4rem;">
     <div class="container">
-        <h2 class="section-header">Có thể bạn cũng thích</h2>
+        <h2 class="section-header">{{ content('product_recommended_title', 'Có thể bạn cũng thích') }}</h2>
         <div class="products-grid">
             @forelse($recommendedProducts as $recommendedProduct)
                 <x-product-card :product="$recommendedProduct" />
             @empty
-                <p class="empty-text">Đang cập nhật sản phẩm...</p>
+                <p class="empty-text">{{ content('product_recommended_empty', 'Đang cập nhật sản phẩm...') }}</p>
             @endforelse
         </div>
     </div>
@@ -179,12 +208,12 @@
 {{-- ============= Recently Viewed ============= --}}
 <section class="recently-viewed" style="margin-bottom: 4rem;">
     <div class="container">
-        <h2 class="section-header">Sản phẩm đã xem gần đây</h2>
+        <h2 class="section-header">{{ content('product_recently_viewed_title', 'Sản phẩm đã xem gần đây') }}</h2>
         <div class="products-grid">
             @forelse($recentlyViewed as $viewedProduct)
                 <x-product-card :product="$viewedProduct" />
             @empty
-                <p class="empty-text">Chưa có sản phẩm đã xem.</p>
+                <p class="empty-text">{{ content('product_recently_viewed_empty', 'Chưa có sản phẩm đã xem.') }}</p>
             @endforelse
         </div>
     </div>
@@ -192,10 +221,25 @@
 
 @push('scripts')
 <script>
-    // Change main image on thumbnail click
-    function changeMainImage(src, thumbElement) {
+    // Change main media (image or video) on thumbnail click
+    function changeMainMedia(src, type, mimeType, thumbElement) {
         const mainImage = document.getElementById('mainImage');
-        mainImage.src = src;
+        const mainVideo = document.getElementById('mainVideo');
+        const mainVideoSource = document.getElementById('mainVideoSource');
+        
+        if (type === 'video') {
+            // Show video, hide image
+            mainImage.style.display = 'none';
+            mainVideo.style.display = 'block';
+            mainVideoSource.src = src;
+            mainVideoSource.type = mimeType;
+            mainVideo.load();
+        } else {
+            // Show image, hide video
+            mainVideo.style.display = 'none';
+            mainImage.style.display = 'block';
+            mainImage.src = src;
+        }
         
         // Update active state
         document.querySelectorAll('.gallery-item--thumb').forEach(thumb => {

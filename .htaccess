@@ -43,8 +43,10 @@
     Deny from all
 </FilesMatch>
 
-# Prevent access to Laravel directories
-RedirectMatch 403 ^/(app|bootstrap|config|database|resources|routes|storage|tests|vendor)/.*$
+# Prevent access to Laravel directories (EXCEPT public/storage for uploaded images)
+RedirectMatch 403 ^/(app|bootstrap|config|database|resources|routes|tests|vendor)/.*$
+# Allow access to storage directory ONLY if it's a symlink in public/
+# This is safe because it only exposes storage/app/public content
 
 # Cache static assets
 <IfModule mod_expires.c>

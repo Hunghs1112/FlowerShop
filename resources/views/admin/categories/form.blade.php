@@ -45,24 +45,6 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                     </div>
 
                     <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Danh Mục Cha</label>
-                        <select name="parent_id" 
-                                class="auto-save-select"
-                                data-entity="categories"
-                                data-id="{{ $category->id ?? '' }}"
-                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;">
-                            <option value="">Không có (Danh mục gốc)</option>
-                            @foreach($categories ?? [] as $cat)
-                                @if(!isset($category) || $cat->id !== $category->id)
-                                    <option value="{{ $cat->id }}" {{ old('parent_id', $category->parent_id ?? '') == $cat->id ? 'selected' : '' }}>
-                                        {{ $cat->name }}
-                                    </option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả</label>
                         <textarea name="description" 
                                   rows="4" 
@@ -165,6 +147,20 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                 </div>
             </div>
         </div>
+
+        @if(!isset($category) || !$category->id)
+        {{-- Submit Button (only for create mode) --}}
+        <div class="admin-card">
+            <div class="admin-card-body">
+                <button type="submit" class="btn btn-primary" style="width: 100%; height: 44px; font-size: 15px; font-weight: 600;">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Tạo Danh Mục
+                </button>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 

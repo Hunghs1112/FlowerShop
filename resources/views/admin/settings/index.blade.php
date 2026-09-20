@@ -15,7 +15,27 @@
     </div>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+{{-- Tabs Navigation --}}
+<div class="settings-tabs" style="margin-bottom: 24px;">
+    <div class="settings-tabs-nav" style="display: flex; gap: 8px; border-bottom: 2px solid var(--admin-border); padding-bottom: 0;">
+        <button class="settings-tab-btn active" data-tab="general" style="padding: 12px 20px; background: none; border: none; border-bottom: 2px solid var(--admin-primary); margin-bottom: -2px; font-weight: 600; color: var(--admin-primary); cursor: pointer; font-size: 14px;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 6px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            Cài Đặt Chung
+        </button>
+        <button class="settings-tab-btn" data-tab="banners" style="padding: 12px 20px; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; font-weight: 500; color: var(--admin-text-secondary); cursor: pointer; font-size: 14px;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 6px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            Ảnh Header Trang
+        </button>
+    </div>
+</div>
+
+{{-- Tab Content: General Settings --}}
+<div class="settings-tab-content" data-tab-content="general" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
     {{-- General Settings --}}
     <div class="admin-card">
         <div class="admin-card-header">
@@ -293,8 +313,11 @@
         </div>
     </div>
 
-    {{-- Banner Images - Full Width --}}
-    <div class="admin-card" style="grid-column: 1 / -1;">
+</div>
+
+{{-- Tab Content: Banners --}}
+<div class="settings-tab-content" data-tab-content="banners" style="display: none;">
+    <div class="admin-card">
         <div class="admin-card-header">
             <h2 class="admin-card-title">
                 <div class="admin-card-title-icon">
@@ -306,46 +329,63 @@
             </h2>
         </div>
         <div class="admin-card-body">
-            <p style="color: var(--admin-text-secondary); margin-bottom: 20px;">Kích thước khuyến nghị: 1600x600px</p>
-            <div class="banner-settings-grid">
+            <p style="color: var(--admin-text-secondary); margin-bottom: 24px; padding: 12px; background: #eff6ff; border-left: 3px solid #3b82f6; border-radius: 6px;">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 6px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <strong>Kích thước khuyến nghị:</strong> 1600×600px (tỷ lệ 8:3) | <strong>Định dạng:</strong> JPG, PNG, WEBP | <strong>Dung lượng:</strong> Tối đa 4MB
+            </p>
+            
+            <div class="banner-settings-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
                 @php
                 $bannerFields = [
-                    'home'       => ['Trang chủ', 'home'],
-                    'products'   => ['Sản phẩm', 'products'],
-                    'categories' => ['Danh mục', 'categories'],
-                    'blog'       => ['Bài viết', 'blog'],
-                    'about'      => ['Giới thiệu', 'about'],
-                    'contact'    => ['Liên hệ', 'contact'],
-                    'cart'       => ['Giỏ hàng', 'cart'],
-                    'checkout'   => ['Thanh toán', 'checkout'],
+                    'home'       => ['Trang chủ', '🏠'],
+                    'products'   => ['Sản phẩm', '🌸'],
+                    'categories' => ['Danh mục', '📁'],
+                    'blog'       => ['Bài viết', '📝'],
+                    'about'      => ['Giới thiệu', 'ℹ️'],
+                    'contact'    => ['Liên hệ', '📞'],
+                    'cart'       => ['Giỏ hàng', '🛒'],
+                    'checkout'   => ['Thanh toán', '💳'],
                 ];
                 @endphp
-                @foreach($bannerFields as $key => [$label, $slug])
-                <div class="banner-field-item">
-                    <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">{{ $label }}</label>
+                @foreach($bannerFields as $key => [$label, $icon])
+                <div class="banner-field-item" style="padding: 20px; border: 1px solid var(--admin-border); border-radius: 8px; background: #fafafa;">
+                    <label style="display: block; font-size: 14px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 12px;">
+                        <span style="font-size: 18px; margin-right: 6px;">{{ $icon }}</span>
+                        {{ $label }}
+                    </label>
+                    
+                    @if(isset($banners[$key]) && $banners[$key])
+                        <div class="banner-preview" style="margin-bottom: 12px; border: 2px solid var(--admin-border); border-radius: 8px; overflow: hidden; position: relative; background: #fff;">
+                            <img src="{{ $banners[$key] }}" alt="{{ $label }}" style="width: 100%; height: auto; display: block;">
+                            <div style="position: absolute; bottom: 8px; right: 8px; display: flex; gap: 8px;">
+                                <button type="button"
+                                        class="btn btn-secondary btn-sm js-delete-banner"
+                                        data-url="{{ route('admin.settings.deleteBanner', ['key' => $key]) }}"
+                                        data-confirm="Xóa ảnh header '{{ $label }}'?"
+                                        style="background: rgba(239, 68, 68, 0.95); color: white; padding: 6px 12px; font-size: 12px;">
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    Xóa
+                                </button>
+                            </div>
+                        </div>
+                    @else
+                        <div style="margin-bottom: 12px; padding: 40px; border: 2px dashed var(--admin-border); border-radius: 8px; text-align: center; background: #f9f9f9; color: var(--admin-text-muted);">
+                            <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 8px; opacity: 0.3;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <p style="font-size: 13px;">Chưa có ảnh</p>
+                        </div>
+                    @endif
+                    
                     <input type="file" 
                            name="banner_{{ $key }}" 
                            accept="image/*" 
                            class="settings-auto-save-banner"
                            data-field="banner_{{ $key }}"
                            data-upload-url="{{ route('admin.settings.uploadBanner', ['key' => $key]) }}"
-                           style="width: 100%;">
-                    <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">jpg, png, gif, webp – tối đa 4 MB.</small>
-                    @if(isset($banners[$key]) && $banners[$key])
-                        <div class="banner-preview" style="margin-top: 12px; max-width: 400px; border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden; position: relative;">
-                            <img src="{{ $banners[$key] }}" alt="{{ $label }}" style="width: 100%; height: auto; display: block;">
-                            <button type="button"
-                                    class="btn btn-secondary btn-sm js-delete-banner"
-                                    data-url="{{ route('admin.settings.deleteBanner', ['key' => $key]) }}"
-                                    data-confirm="Xóa ảnh header '{{ $label }}'?"
-                                    style="position: absolute; top: 8px; right: 8px;">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                                Xóa
-                            </button>
-                        </div>
-                    @else
-                        <small style="color: var(--admin-text-muted);">Chưa có ảnh</small>
-                    @endif
+                           style="width: 100%; padding: 10px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 13px; cursor: pointer;">
                 </div>
                 @endforeach
             </div>
@@ -358,6 +398,37 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
+
+    // Tab switching
+    const tabButtons = document.querySelectorAll('.settings-tab-btn');
+    const tabContents = document.querySelectorAll('.settings-tab-content');
+    
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetTab = this.dataset.tab;
+            
+            // Update button states
+            tabButtons.forEach(b => {
+                b.classList.remove('active');
+                b.style.borderBottomColor = 'transparent';
+                b.style.color = 'var(--admin-text-secondary)';
+                b.style.fontWeight = '500';
+            });
+            this.classList.add('active');
+            this.style.borderBottomColor = 'var(--admin-primary)';
+            this.style.color = 'var(--admin-primary)';
+            this.style.fontWeight = '600';
+            
+            // Update content visibility
+            tabContents.forEach(content => {
+                if (content.dataset.tabContent === targetTab) {
+                    content.style.display = targetTab === 'general' ? 'grid' : 'block';
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+        });
+    });
 
     async function handleDelete(button) {
         if (!confirm(button.dataset.confirm || 'Bạn có chắc?')) {

@@ -3,7 +3,7 @@
 
         {{-- ─── Logo ─────────────────────────────────────────── --}}
         <a href="{{ route('home') }}" class="navbar-logo">
-            <img src="{{ asset('images/logo.jpg') }}" alt="{{ $siteSettings['site_name'] ?? config('app.name') }}" class="navbar-logo-img">
+            <img src="{{ asset('images/logo.png') }}" alt="{{ $siteSettings['site_name'] ?? config('app.name') }}" class="navbar-logo-img">
             <span class="navbar-logo-text">{{ $siteSettings['site_name'] ?? config('app.name') }}</span>
         </a>
 
@@ -13,14 +13,14 @@
             {{-- Trang chủ --}}
             <li class="navbar-nav-item">
                 <a href="{{ route('home') }}" class="navbar-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
-                    {{ __('messages.nav.home') }}
+                    Trang chủ
                 </a>
             </li>
 
             {{-- Sản phẩm — Mega Menu (danh mục từ DB) --}}
             <li class="navbar-nav-item" data-dropdown="mega">
                 <a href="{{ route('products.index') }}" class="navbar-nav-link {{ request()->routeIs('products.*') || request()->routeIs('categories.*') ? 'active' : '' }}">
-                    {{ __('messages.nav.products') }}
+                    Sản phẩm
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -32,19 +32,19 @@
                         {{-- Tất cả danh mục trong 1 cột --}}
                         @if($navCategories->isNotEmpty())
                             <div class="mega-menu-column">
-                                <h3 class="mega-menu-heading">{{ __('messages.nav.categories') }}</h3>
+                                <h3 class="mega-menu-heading">Danh mục</h3>
                                 <div class="mega-menu-links">
                                     @foreach($navCategories as $navCat)
                                         <a href="{{ route('categories.show', $navCat->display_slug) }}" class="mega-menu-link">{{ $navCat->display_name }}</a>
                                     @endforeach
-                                    <a href="{{ route('products.index') }}" class="mega-menu-link">{{ __('messages.nav.all_products') }}</a>
+                                    <a href="{{ route('products.index') }}" class="mega-menu-link">Tất cả sản phẩm</a>
                                 </div>
                             </div>
                         @else
                             <div class="mega-menu-column">
-                                <h3 class="mega-menu-heading">{{ __('messages.nav.products') }}</h3>
+                                <h3 class="mega-menu-heading">Sản phẩm</h3>
                                 <div class="mega-menu-links">
-                                    <a href="{{ route('products.index') }}" class="mega-menu-link">{{ __('messages.nav.all_products') }}</a>
+                                    <a href="{{ route('products.index') }}" class="mega-menu-link">Tất cả sản phẩm</a>
                                 </div>
                             </div>
                         @endif
@@ -95,10 +95,10 @@
             </li>
             @endif
 
-            {{-- Liên hệ --}}
+            {{-- B2C --}}
             <li class="navbar-nav-item">
-                <a href="{{ route('contact') }}" class="navbar-nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">
-                    {{ __('messages.nav.contact') }}
+                <a href="{{ route('b2c') }}" class="navbar-nav-link {{ request()->routeIs('b2c') ? 'active' : '' }}">
+                    {{ __('messages.nav.b2c') ?? 'B2C' }}
                 </a>
             </li>
 
@@ -108,7 +108,7 @@
         <div class="navbar-actions">
 
             {{-- Search --}}
-            <button class="navbar-action-btn navbar-search-btn" id="searchToggle" title="{{ __('messages.nav.search') }}" aria-label="{{ __('messages.nav.search') }}">
+            <button class="navbar-action-btn navbar-search-btn" id="searchToggle" title="Tìm kiếm" aria-label="Tìm kiếm">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
@@ -124,7 +124,7 @@
             @endauth
 
             {{-- Cart --}}
-            <a href="{{ route('cart.index') }}" class="navbar-action-btn navbar-cart-btn" title="{{ __('messages.nav.cart') }}" aria-label="{{ __('messages.nav.cart') }}">
+            <a href="{{ route('cart.index') }}" class="navbar-action-btn navbar-cart-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
@@ -137,27 +137,27 @@
                     {{-- User Menu --}}
                     @auth
                         <div class="navbar-user-menu">
-                            <button class="navbar-user-toggle" id="userMenuToggle" aria-label="{{ __('messages.nav.account') }}" aria-expanded="false">
+                            <button class="navbar-user-toggle" id="userMenuToggle" aria-label="Tài khoản" aria-expanded="false">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
                                 <span>{{ Str::limit(auth()->user()->name, 10) }}</span>
                             </button>
                             <div class="navbar-dropdown" id="userMenuDropdown">
-                                <a href="{{ route('profile.show') }}" class="navbar-dropdown-item">{{ __('messages.nav.account') }}</a>
+                                <a href="{{ route('profile.show') }}" class="navbar-dropdown-item">Tài khoản</a>
                                 @if(auth()->user()->isAdmin())
                                     <div class="navbar-dropdown-divider"></div>
-                                    <a href="{{ route('admin.dashboard') }}" class="navbar-dropdown-item">{{ __('messages.nav.admin') }}</a>
+                                    <a href="{{ route('admin.dashboard') }}" class="navbar-dropdown-item">Quản trị</a>
                                 @endif
                                 <div class="navbar-dropdown-divider"></div>
                                 <form action="{{ route('logout') }}" method="POST" class="navbar-logout-form">
                                     @csrf
-                                    <button type="submit" class="navbar-dropdown-item navbar-dropdown-btn">{{ __('messages.nav.logout') }}</button>
+                                    <button type="submit" class="navbar-dropdown-item navbar-dropdown-btn">Đăng xuất</button>
                                 </form>
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="navbar-action-btn navbar-auth-btn" title="{{ __('messages.nav.login') }}" aria-label="{{ __('messages.nav.login') }}">
+                        <a href="{{ route('login') }}" class="navbar-action-btn navbar-auth-btn" title="Đăng nhập" aria-label="Đăng nhập">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
@@ -187,7 +187,7 @@
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
-                    <span>{{ __('messages.nav.cart') }}</span>
+                    <span>Giỏ hàng</span>
                     @php $cartCount = session('cart') ? count(session('cart')) : 0; @endphp
                     @if($cartCount > 0)
                         <span class="mobile-menu-badge">{{ $cartCount }}</span>
@@ -200,19 +200,19 @@
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
-                        <span>{{ __('messages.nav.favorites') ?? 'Yêu thích' }}</span>
+                        <span>Yêu thích</span>
                     </a>
                 </li>
             @endauth
         </ul>
 
         <ul class="navbar-mobile-nav">
-            <li><a href="{{ route('home') }}">{{ __('messages.nav.home') }}</a></li>
+            <li><a href="{{ route('home') }}">Trang chủ</a></li>
 
             {{-- Sản phẩm accordion --}}
             <li class="navbar-mobile-accordion-item">
                 <button class="navbar-mobile-accordion-toggle" aria-expanded="false">
-                    {{ __('messages.nav.products') }}
+                    Sản phẩm
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -222,19 +222,19 @@
                         @foreach($navCategories->take(8) as $navCat)
                             <a href="{{ route('categories.show', $navCat->display_slug) }}" class="navbar-mobile-accordion-link">{{ $navCat->display_name }}</a>
                         @endforeach
-                        <a href="{{ route('products.index') }}" class="navbar-mobile-accordion-link">{{ __('messages.nav.all_products') }}</a>
+                        <a href="{{ route('products.index') }}" class="navbar-mobile-accordion-link">Tất cả sản phẩm</a>
                     </div>
                 </div>
             </li>
 
             {{-- Góc cảm hứng --}}
-            <li><a href="{{ route('blog.index') }}">{{ __('messages.nav.blog') }}</a></li>
+            <li><a href="{{ route('blog.index') }}">Bài viết</a></li>
 
             {{-- Thông tin accordion từ DB pages --}}
             @if($navPages->isNotEmpty())
             <li class="navbar-mobile-accordion-item">
                 <button class="navbar-mobile-accordion-toggle" aria-expanded="false">
-                    {{ __('messages.nav.information') }}
+                    Thông tin
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -249,25 +249,25 @@
             </li>
             @endif
 
-            {{-- Liên hệ --}}
-            <li><a href="{{ route('contact') }}">{{ __('messages.nav.contact') }}</a></li>
+            {{-- B2C --}}
+            <li><a href="{{ route('b2c') }}">B2C</a></li>
 
             @auth
                 <div class="mobile-menu-divider"></div>
-                <li><a href="{{ route('profile.show') }}">{{ __('messages.nav.account') }}</a></li>
+                <li><a href="{{ route('profile.show') }}">Tài khoản</a></li>
                 @if(auth()->user()->isAdmin())
-                    <li><a href="{{ route('admin.dashboard') }}">{{ __('messages.nav.admin') }}</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}">Quản trị</a></li>
                 @endif
                 <div class="mobile-menu-divider"></div>
                 <li>
                     <form action="{{ route('logout') }}" method="POST" class="navbar-logout-form">
                         @csrf
-                        <button type="submit" class="mobile-menu-logout-btn">{{ __('messages.nav.logout') }}</button>
+                        <button type="submit" class="mobile-menu-logout-btn">Đăng xuất</button>
                     </form>
                 </li>
             @else
                 <div class="mobile-menu-divider"></div>
-                <li><a href="{{ route('login') }}">{{ __('messages.nav.login') }}</a></li>
+                <li><a href="{{ route('login') }}">Đăng nhập</a></li>
             @endauth
         </ul>
     </div>

@@ -11,9 +11,9 @@ class Product extends Model
 {
     protected $fillable = [
         'category_id',
+        'subcategory_id',
         'name',
         'slug',
-        'sku',
         'price',
         'stock',
         'sales_count',
@@ -35,6 +35,11 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function subcategory(): BelongsTo
+    {
+        return $this->belongsTo(Subcategory::class);
     }
 
     public function productImages(): HasMany

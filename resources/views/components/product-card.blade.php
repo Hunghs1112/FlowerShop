@@ -65,7 +65,9 @@
 
         {{-- Product Info --}}
         <div class="product-card__info">
-            @if($product->category)
+            @if($product->subcategory)
+                <span class="product-card__category">{{ $product->subcategory->name }}</span>
+            @elseif($product->category)
                 <span class="product-card__category">{{ $product->category->display_name }}</span>
             @endif
 

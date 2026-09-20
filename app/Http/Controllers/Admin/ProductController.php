@@ -32,7 +32,7 @@ class ProductController extends Controller
 
         // Validate field name to prevent mass assignment
         $allowedFields = [
-            'name', 'slug', 'sku', 'category_id', 'price', 'stock',
+            'name', 'slug', 'sku', 'category_id', 'subcategory_id', 'price', 'stock',
             'description', 'short_description', 'is_active', 'is_featured'
         ];
 
@@ -47,8 +47,8 @@ class ProductController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products,slug,' . $product->id,
-            'sku' => 'nullable|string|max:100|unique:products,sku,' . $product->id,
             'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
@@ -89,6 +89,26 @@ class ProductController extends Controller
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
         }
 
+        // Tự động gán category_id khi subcategory_id thay đổi
+        if ($field === 'subcategory_id' && !empty($value)) {
+            $subcategory = \App\Models\Subcategory::find($value);
+            if ($subcategory) {
+                $product->update([
+                    'subcategory_id' => $value,
+                    'category_id' => $subcategory->category_id
+                ]);
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đã lưu danh mục phụ và danh mục cha',
+                    'data' => [
+                        'subcategory_id' => $product->subcategory_id,
+                        'category_id' => $product->category_id
+                    ]
+                ]);
+            }
+        }
+
         $product->update([$field => $value]);
 
         return response()->json([
@@ -111,6 +131,10 @@ class ProductController extends Controller
             return $this->uploadProductImages($request, $product);
         }
 
+        if ($field === 'videos') {
+            return $this->uploadProductVideos($request, $product);
+        }
+
         return response()->json([
             'success' => false,
             'message' => 'Field không hỗ trợ'
@@ -122,50 +146,164 @@ class ProductController extends Controller
         $maxKb = (int) config('upload.limits.product_images.max_size', 2048);
         $maxCnt = (int) config('upload.limits.product_images.max_count', 10);
 
-        $request->validate([
-            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
-        ]);
+        // Check if multiple files or single file
+        $hasMultiple = $request->hasFile('images');
+        $hasSingle = $request->hasFile('file');
 
-        $currentCount = $product->productImages()->count();
-        if ($currentCount >= $maxCnt) {
+        if ($hasMultiple) {
+            $request->validate([
+                'images' => 'required|array|max:10',
+                'images.*' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+            ]);
+
+            $files = $request->file('images');
+            $currentCount = $product->productImages()->count();
+            
+            if ($currentCount + count($files) > $maxCnt) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Tối đa {$maxCnt} ảnh (hiện có {$currentCount})"
+                ], 422);
+            }
+
+            try {
+                $folder = config('upload.disks.folders.product', 'products');
+                $maxSortOrder = $product->productImages()->max('sort_order') ?? -1;
+                $uploadedImages = [];
+
+                foreach ($files as $index => $file) {
+                    $path = $this->images->upload($file, $folder, 'product_images');
+
+                    $image = ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_path' => $path,
+                        'mime_type' => $file->getMimeType(),
+                        'media_type' => 'image',
+                        'sort_order' => $maxSortOrder + $index + 1,
+                        'is_primary' => ($currentCount === 0 && $index === 0),
+                    ]);
+
+                    $uploadedImages[] = [
+                        'id' => $image->id,
+                        'path' => $path,
+                        'url' => asset('storage/' . $path),
+                        'is_primary' => $image->is_primary,
+                    ];
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đã tải lên ' . count($uploadedImages) . ' ảnh',
+                    'images' => $uploadedImages
+                ]);
+            } catch (\Throwable $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+                ], 500);
+            }
+        } elseif ($hasSingle) {
+            // Legacy single file upload
+            $request->validate([
+                'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+            ]);
+
+            $currentCount = $product->productImages()->count();
+            if ($currentCount >= $maxCnt) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Tối đa {$maxCnt} ảnh"
+                ], 422);
+            }
+
+            try {
+                $folder = config('upload.disks.folders.product', 'products');
+                $path = $this->images->upload(
+                    $request->file('file'),
+                    $folder,
+                    'product_images'
+                );
+
+                $maxSortOrder = $product->productImages()->max('sort_order') ?? -1;
+
+                $image = ProductImage::create([
+                    'product_id' => $product->id,
+                    'image_path' => $path,
+                    'mime_type' => $request->file('file')->getMimeType(),
+                    'media_type' => 'image',
+                    'sort_order' => $maxSortOrder + 1,
+                    'is_primary' => $currentCount === 0,
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đã tải lên ảnh mới',
+                    'imageUrl' => asset('storage/' . $path),
+                    'image' => [
+                        'id' => $image->id,
+                        'path' => $path,
+                        'is_primary' => $image->is_primary,
+                        'sort_order' => $image->sort_order,
+                    ]
+                ]);
+            } catch (\Throwable $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+                ], 500);
+            }
+        } else {
             return response()->json([
                 'success' => false,
-                'message' => "Tối đa {$maxCnt} ảnh"
+                'message' => 'Không tìm thấy file để tải lên'
+            ], 422);
+        }
+    }
+
+    protected function uploadProductVideos(Request $request, Product $product)
+    {
+        $maxKb = (int) config('upload.limits.product_videos.max_size', 51200); // 50MB default
+        $maxCnt = (int) config('upload.limits.product_videos.max_count', 5);
+
+        $request->validate([
+            'file' => "required|file|mimes:mp4,webm,mov,avi|max:{$maxKb}"
+        ]);
+
+        $currentVideoCount = $product->productImages()->where('media_type', 'video')->count();
+        if ($currentVideoCount >= $maxCnt) {
+            return response()->json([
+                'success' => false,
+                'message' => "Tối đa {$maxCnt} video"
             ], 422);
         }
 
         try {
-            $folder = config('upload.disks.folders.product', 'products');
-            $path = $this->images->upload(
-                $request->file('file'),
-                $folder,
-                'product_images'
-            );
+            $file = $request->file('file');
+            $path = $file->store('products/videos', 'public');
 
             $maxSortOrder = $product->productImages()->max('sort_order') ?? -1;
 
-            $image = ProductImage::create([
+            $video = ProductImage::create([
                 'product_id' => $product->id,
                 'image_path' => $path,
+                'mime_type' => $file->getMimeType(),
+                'media_type' => 'video',
                 'sort_order' => $maxSortOrder + 1,
-                'is_primary' => $currentCount === 0,
+                'is_primary' => false,
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Đã tải lên ảnh mới',
-                'imageUrl' => asset('storage/' . $path),
-                'image' => [
-                    'id' => $image->id,
-                    'path' => $path,
-                    'is_primary' => $image->is_primary,
-                    'sort_order' => $image->sort_order,
+                'video' => [
+                    'id' => $video->id,
+                    'url' => asset('storage/' . $path),
+                    'mime_type' => $video->mime_type,
                 ]
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+                'message' => 'Upload thất bại: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -183,19 +321,62 @@ class ProductController extends Controller
             ], 403);
         }
 
+        // Only allow deleting images, not videos
+        if ($image->media_type === 'video') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sử dụng endpoint xóa video'
+            ], 400);
+        }
+
         $path = $image->image_path;
         $image->delete();
         $this->images->delete($path);
 
         // Auto-set new primary if needed
-        if ($product->productImages()->count() > 0 && !$product->productImages()->where('is_primary', true)->exists()) {
-            $firstImage = $product->productImages()->orderBy('sort_order')->first();
-            $firstImage->update(['is_primary' => true]);
+        if ($product->productImages()->where('media_type', 'image')->count() > 0 && 
+            !$product->productImages()->where('is_primary', true)->exists()) {
+            $firstImage = $product->productImages()->where('media_type', 'image')->orderBy('sort_order')->first();
+            if ($firstImage) {
+                $firstImage->update(['is_primary' => true]);
+            }
         }
 
         return response()->json([
             'success' => true,
             'message' => 'Đã xóa ảnh'
+        ]);
+    }
+
+    // ============================================================
+    // AJAX: Delete product video
+    // ============================================================
+    public function deleteVideo(Product $product, ProductImage $video)
+    {
+        if ($video->product_id !== $product->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Video không thuộc sản phẩm này'
+            ], 403);
+        }
+
+        if ($video->media_type !== 'video') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Đây không phải video'
+            ], 400);
+        }
+
+        $path = $video->image_path;
+        $video->delete();
+        
+        if ($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa video'
         ]);
     }
 
@@ -243,9 +424,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::active()->orderBy('name')->get();
+        $subcategories = \App\Models\Subcategory::with('category')->where('is_active', true)->orderBy('category_id')->orderBy('name')->get();
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
-        return view('admin.products.create', compact('categories', 'maxImages'));
+        return view('admin.products.create', compact('subcategories', 'maxImages'));
     }
 
     public function store(Request $request)
@@ -256,11 +437,11 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
             'slug'        => 'nullable|string|max:255|unique:products,slug',
-            'sku'         => 'nullable|string|max:100|unique:products,sku',
-            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
             'price'       => 'required|numeric|min:0',
             'stock'       => 'required|integer|min:0',
             'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
             'is_active'   => 'boolean',
             'is_featured' => 'boolean',
             // Hard upper bound on image count + MIME whitelist per file.
@@ -270,6 +451,14 @@ class ProductController extends Controller
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
+        }
+
+        // Tự động gán category_id từ subcategory
+        if (isset($validated['subcategory_id'])) {
+            $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
+            if ($subcategory) {
+                $validated['category_id'] = $subcategory->category_id;
+            }
         }
 
         $validated['is_active']   = $request->boolean('is_active', true);
@@ -321,10 +510,10 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $product->load('productImages');
-        $categories = Category::active()->orderBy('name')->get();
+        $subcategories = \App\Models\Subcategory::with('category')->where('is_active', true)->orderBy('category_id')->orderBy('name')->get();
         $maxImages  = (int) config('upload.limits.product_images.max_count', 10);
 
-        return view('admin.products.edit', compact('product', 'categories', 'maxImages'));
+        return view('admin.products.edit', compact('product', 'subcategories', 'maxImages'));
     }
 
     public function update(Request $request, Product $product)
@@ -335,11 +524,11 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
             'slug'        => 'nullable|string|max:255|unique:products,slug,' . $product->id,
-            'sku'         => 'nullable|string|max:100|unique:products,sku,' . $product->id,
-            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
             'price'       => 'required|numeric|min:0',
             'stock'       => 'required|integer|min:0',
             'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
             'is_active'   => 'boolean',
             'is_featured' => 'boolean',
             'images'      => "nullable|array|max:{$maxCnt}",
@@ -351,6 +540,14 @@ class ProductController extends Controller
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
+        }
+
+        // Tự động gán category_id từ subcategory
+        if (isset($validated['subcategory_id'])) {
+            $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
+            if ($subcategory) {
+                $validated['category_id'] = $subcategory->category_id;
+            }
         }
 
         $validated['is_active']   = $request->boolean('is_active');

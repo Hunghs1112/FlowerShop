@@ -2,12 +2,12 @@
 <section class="categories-section">
     <div class="container">
         <div class="categories-section-header">
-            <span class="categories-section-label">Danh mục sản phẩm</span>
-            <h2 class="categories-section-title">Khám Phá Bộ Sưu Tập</h2>
+            <span class="categories-section-label">{{ content('categories_label', 'Danh mục sản phẩm') }}</span>
+            <h2 class="categories-section-title">{{ content('categories_title', 'Khám Phá Bộ Sưu Tập') }}</h2>
         </div>
 
         <div class="categories-grid">
-            @foreach($categories->take(6) as $index => $category)
+            @foreach($categories as $index => $category)
                 <a href="{{ route('categories.show', $category->display_slug) }}" class="category-card">
                     @if($category->image)
                         <img
@@ -29,9 +29,9 @@
                     
                     <div class="category-card-content">
                         <h3 class="category-card-title">{{ $category->display_name }}</h3>
-                        <span class="category-card-count">{{ $category->products_count ?? $category->products()->count() }} sản phẩm</span>
+                        <span class="category-card-count">{{ $category->products_count ?? $category->products()->count() }} {{ content('categories_products_suffix', 'sản phẩm') }}</span>
                         <span class="category-card-link">
-                            <span>Khám phá</span>
+                            <span>{{ content('categories_explore', 'Khám phá') }}</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12"/>
                                 <polyline points="12 5 19 12 12 19"/>

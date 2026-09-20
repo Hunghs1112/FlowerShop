@@ -3,10 +3,10 @@
     <div class="container">
         {{-- Header --}}
         <div class="inspiration-section-header">
-            <span class="inspiration-section-label">Góc nhỏ của chúng tôi</span>
-            <h2 class="inspiration-section-title">Bài Viết & Cảm Hứng</h2>
+            <span class="inspiration-section-label">{{ content('inspiration_label', 'Góc nhỏ của chúng tôi') }}</span>
+            <h2 class="inspiration-section-title">{{ content('inspiration_title', 'Bài Viết & Cảm Hứng') }}</h2>
             <p class="inspiration-section-description">
-                Khám phá những câu chuyện thú vị về hoa, cách chăm sóc và những ý tưởng trang trí độc đáo.
+                {{ content('inspiration_description', 'Khám phá những câu chuyện thú vị về hoa, cách chăm sóc và những ý tưởng trang trí độc đáo.') }}
             </p>
         </div>
         
@@ -24,7 +24,7 @@
                         width="600"
                         height="400"
                     >
-                    <span class="inspiration-card-badge">Bài viết</span>
+                    <span class="inspiration-card-badge">{{ content('inspiration_badge', 'Bài viết') }}</span>
                 </a>
                 <div class="inspiration-card-content">
                     <time class="inspiration-card-date">{{ $post->created_at->format('d/m/Y') }}</time>
@@ -33,7 +33,7 @@
                     </h3>
                     <p class="inspiration-card-excerpt">{{ Str::limit($post->excerpt ?? strip_tags($post->content), 120) }}</p>
                     <a href="{{ route('blog.show', $post->slug) }}" class="inspiration-card-link">
-                        Đọc tiếp
+                        {{ content('inspiration_read_more', 'Đọc tiếp') }}
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
@@ -47,7 +47,7 @@
         {{-- View All Button --}}
         <div class="inspiration-section-footer">
             <a href="{{ route('blog.index') }}" class="btn btn-outline">
-                Xem tất cả bài viết
+                {{ content('inspiration_view_all', 'Xem tất cả bài viết') }}
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>

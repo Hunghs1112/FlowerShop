@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\B2cController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuickOrderController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
 use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Admin\CatalogController;
 use Illuminate\Support\Facades\Route;
 
 // ============================================================
@@ -47,6 +49,10 @@ Route::delete('/gio-hang', [CartController::class, 'clear'])->name('cart.clear')
 
 // Quick order
 Route::post('/dat-hang-nhanh', [QuickOrderController::class, 'store'])->name('quick-order.store');
+
+// B2C landing & registration
+Route::get('/b2c', [B2cController::class, 'index'])->name('b2c');
+Route::post('/b2c', [B2cController::class, 'store'])->name('b2c.store');
 
 // Auth
 Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
@@ -108,7 +114,11 @@ Route::get('/setup-clear', function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
+    // Catalog unified management (Gộp 3 phần: Categories, Subcategories, Products)
+    Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
+
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('subcategories', \App\Http\Controllers\Admin\SubcategoryController::class);
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
     Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
@@ -118,12 +128,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('products/{product}/update-field', [\App\Http\Controllers\Admin\ProductController::class, 'updateField'])->name('products.updateField');
     Route::post('products/{product}/upload-file', [\App\Http\Controllers\Admin\ProductController::class, 'uploadFile'])->name('products.uploadFile');
     Route::delete('products/{product}/images/{image}', [\App\Http\Controllers\Admin\ProductController::class, 'deleteImage'])->name('products.deleteImage');
+    Route::delete('products/{product}/videos/{video}', [\App\Http\Controllers\Admin\ProductController::class, 'deleteVideo'])->name('products.deleteVideo');
     Route::post('products/{product}/images/{image}/set-primary', [\App\Http\Controllers\Admin\ProductController::class, 'setPrimaryImage'])->name('products.setPrimaryImage');
 
     // AJAX Auto-save endpoints for Categories
-    Route::patch('categories/{category}/update-field', [\App\Http\Controllers\Admin\CategoryController::class, 'updateField'])->name('categories.updateField');
+    Route::patch('categories/{category}/auto-save', [\App\Http\Controllers\Admin\CategoryController::class, 'autoSave'])->name('categories.autoSave');
     Route::post('categories/{category}/upload-image', [\App\Http\Controllers\Admin\CategoryController::class, 'uploadImage'])->name('categories.uploadImage');
     Route::delete('categories/{category}/image', [\App\Http\Controllers\Admin\CategoryController::class, 'deleteImage'])->name('categories.deleteImage');
+
+    // AJAX Auto-save endpoints for Subcategories
+    Route::patch('subcategories/{subcategory}/auto-save', [\App\Http\Controllers\Admin\SubcategoryController::class, 'autoSave'])->name('subcategories.autoSave');
+    Route::post('subcategories/{subcategory}/upload-image', [\App\Http\Controllers\Admin\SubcategoryController::class, 'uploadImage'])->name('subcategories.uploadImage');
+    Route::delete('subcategories/{subcategory}/image', [\App\Http\Controllers\Admin\SubcategoryController::class, 'deleteImage'])->name('subcategories.deleteImage');
 
     // AJAX Auto-save endpoints for Posts
     Route::patch('posts/{post}/update-field', [\App\Http\Controllers\Admin\PostController::class, 'updateField'])->name('posts.updateField');
@@ -135,6 +151,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // AJAX Auto-save endpoints for Users
     Route::patch('users/{user}/update-field', [\App\Http\Controllers\Admin\UserController::class, 'updateField'])->name('users.updateField');
+
+    // Content Blocks Management
+    Route::get('content-blocks', [\App\Http\Controllers\Admin\ContentBlockController::class, 'index'])->name('content-blocks.index');
+    Route::post('content-blocks/update', [\App\Http\Controllers\Admin\ContentBlockController::class, 'update'])->name('content-blocks.update');
 
     // AJAX Auto-save endpoint for Settings
     Route::patch('settings/update-field', [\App\Http\Controllers\Admin\SettingController::class, 'updateField'])->name('settings.updateField');

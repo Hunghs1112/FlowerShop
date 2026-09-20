@@ -17,7 +17,7 @@ class ProductService
     {
         return Product::active()
             ->featured()
-            ->with(['productImages', 'category'])
+            ->with(['productImages', 'category', 'subcategory'])
             ->inStock()
             ->latest()
             ->limit($limit)
@@ -31,7 +31,7 @@ class ProductService
     {
         $query = Product::active()
             ->bestSelling()
-            ->with(['productImages', 'category'])
+            ->with(['productImages', 'category', 'subcategory'])
             ->inStock();
 
         if ($categoryId) {
@@ -48,7 +48,7 @@ class ProductService
     {
         $query = Product::active()
             ->newArrival()
-            ->with(['productImages', 'category'])
+            ->with(['productImages', 'category', 'subcategory'])
             ->inStock();
 
         if ($categoryId) {
@@ -65,7 +65,7 @@ class ProductService
     {
         return Product::active()
             ->where('category_id', $categoryId)
-            ->with(['productImages', 'category'])
+            ->with(['productImages', 'category', 'subcategory'])
             ->inStock()
             ->latest()
             ->limit($limit)
@@ -88,7 +88,7 @@ class ProductService
     public function filterProducts(array $filters = []): LengthAwarePaginator
     {
         $query = Product::active()
-            ->with(['productImages', 'category']);
+            ->with(['productImages', 'category', 'subcategory']);
 
         // Category filter - include child categories if needed
         if (!empty($filters['category_ids'])) {
@@ -99,6 +99,11 @@ class ProductService
             } else {
                 $query->whereIn('category_id', $filters['category_ids']);
             }
+        }
+
+        // Subcategory filter
+        if (!empty($filters['subcategory_ids'])) {
+            $query->whereIn('subcategory_id', $filters['subcategory_ids']);
         }
 
         // Price range filter
