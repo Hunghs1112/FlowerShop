@@ -24,9 +24,24 @@ class CartController extends Controller
         $validated = $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
+            'variant_id' => 'nullable|exists:product_variants,id',
         ]);
 
-        $this->cartService->addItem($validated['product_id'], $validated['quantity']);
+        try {
+            $this->cartService->addItem(
+                $validated['product_id'], 
+                $validated['quantity'],
+                $validated['variant_id'] ?? null
+            );
+        } catch (\Exception $e) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ], 422);
+            }
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
         if ($request->wantsJson()) {
             return response()->json([

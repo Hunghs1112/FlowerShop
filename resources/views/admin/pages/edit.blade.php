@@ -29,5 +29,4 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 @endpush

@@ -59,8 +59,8 @@
                     @endif
                 </td>
                 <td data-label="Tồn Kho">
-                    @if($product->stock_quantity > 0)
-                        <span class="badge badge-success">{{ $product->stock_quantity }}</span>
+                    @if($product->stock > 0)
+                        <span class="badge badge-success">{{ $product->stock }}</span>
                     @else
                         <span class="badge badge-danger">Hết hàng</span>
                     @endif

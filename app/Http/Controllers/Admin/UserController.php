@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $query = User::query();
+        $query = User::with('vipLevel');
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -33,7 +33,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('admin.users.create');
+        $vipLevels = \App\Models\VipLevel::active()->ordered()->get();
+        return view('admin.users.create', compact('vipLevels'));
     }
 
     public function store(Request $request)
@@ -45,6 +46,7 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'role' => 'required|in:admin,customer',
+            'vip_level_id' => 'nullable|exists:vip_levels,id',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -66,7 +68,7 @@ class UserController extends Controller
         // Validate field name to prevent mass assignment
         // NOTE: Password is NOT allowed for auto-save for security
         $allowedFields = [
-            'name', 'email', 'phone', 'address', 'role'
+            'name', 'email', 'phone', 'address', 'role', 'vip_level_id'
         ];
 
         if (!in_array($field, $allowedFields)) {
@@ -83,6 +85,7 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'role' => 'required|in:admin,customer',
+            'vip_level_id' => 'nullable|exists:vip_levels,id',
         ];
 
         $validator = \Illuminate\Support\Facades\Validator::make([$field => $value], [
@@ -110,7 +113,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $vipLevels = \App\Models\VipLevel::active()->ordered()->get();
+        return view('admin.users.edit', compact('user', 'vipLevels'));
     }
 
     public function update(Request $request, User $user)
@@ -122,6 +126,7 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'role' => 'required|in:admin,customer',
+            'vip_level_id' => 'nullable|exists:vip_levels,id',
         ]);
 
         if (!empty($validated['password'])) {
@@ -136,21 +141,20 @@ class UserController extends Controller
             ->with('success', 'Cập nhật người dùng thành công');
     }
 
-    public function destroy(User $user)
+    /**
+     * Update VIP level for a user (AJAX endpoint)
+     */
+    public function updateVipLevel(Request $request, User $user)
     {
-        if ($user->id === auth()->id()) {
-            return redirect()->back()
-                ->with('error', 'Không thể xóa tài khoản của chính bạn');
-        }
+        $validated = $request->validate([
+            'vip_level_id' => 'nullable|exists:vip_levels,id',
+        ]);
 
-        if ($user->isAdmin() && User::where('role', 'admin')->count() === 1) {
-            return redirect()->back()
-                ->with('error', 'Không thể xóa admin cuối cùng');
-        }
+        $user->update(['vip_level_id' => $validated['vip_level_id']]);
 
-        $user->delete();
-
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Xóa người dùng thành công');
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã cập nhật VIP level',
+        ]);
     }
 }

@@ -108,6 +108,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                            class="auto-save-file"
                            data-entity="posts"
                            data-id="{{ $post->id ?? '' }}"
+                           data-field="thumbnail"
                            data-upload-url="{{ isset($post) ? route('admin.posts.uploadThumbnail', $post) : '' }}"
                            onchange="previewImage(this)"
                            style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
@@ -214,7 +215,6 @@ $isEdit = isset($isEdit) ? $isEdit : false;
 </div>
 
 @push('scripts')
-<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 <script>
 function previewImage(input) {
     const preview = document.getElementById('imagePreview');

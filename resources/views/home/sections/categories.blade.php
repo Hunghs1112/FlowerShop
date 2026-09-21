@@ -13,9 +13,17 @@
                         <img
                             src="{{ $category->image_url }}"
                             alt="{{ $category->display_name }}"
-                            class="category-card-image"
+                            class="category-card-image category-card-image-default"
                             loading="lazy"
                         >
+                        @if($category->hover_image)
+                            <img
+                                src="{{ $category->hover_image_url }}"
+                                alt="{{ $category->display_name }}"
+                                class="category-card-image category-card-image-hover"
+                                loading="lazy"
+                            >
+                        @endif
                     @else
                         <img
                             src="{{ asset('images/categories/placeholder.jpg') }}"

@@ -265,6 +265,19 @@
     color: var(--color-white);
 }
 
+/* Product Description */
+.product-description {
+    padding: var(--space-4) 0;
+    margin-bottom: var(--space-5);
+}
+
+.product-description p {
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    color: var(--color-text-light);
+    margin: 0;
+}
+
 /* Stock */
 .product-stock {
     font-size: var(--text-sm);

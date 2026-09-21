@@ -344,6 +344,56 @@
                 @endforeach
             </div>
             
+            <!-- Pagination -->
+            @if($products->hasPages())
+                <nav class="products-pagination" role="navigation" aria-label="Pagination">
+                    {{-- Previous Page Link --}}
+                    @if ($products->onFirstPage())
+                        <span class="pagination-item disabled" aria-disabled="true" aria-label="Trang trước">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </span>
+                    @else
+                        <a href="{{ $products->previousPageUrl() }}" class="pagination-item" rel="prev" aria-label="Trang trước">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </a>
+                    @endif
+
+                    {{-- Pagination Elements --}}
+                    @foreach ($products->links()->elements[0] ?? [] as $page => $url)
+                        @if ($page == $products->currentPage())
+                            <span class="pagination-item active" aria-current="page">{{ $page }}</span>
+                        @elseif ($url)
+                            <a href="{{ $url }}" class="pagination-item">{{ $page }}</a>
+                        @else
+                            <span class="pagination-dots">...</span>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($products->hasMorePages())
+                        <a href="{{ $products->nextPageUrl() }}" class="pagination-item" rel="next" aria-label="Trang kế">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    @else
+                        <span class="pagination-item disabled" aria-disabled="true" aria-label="Trang kế">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    @endif
+                </nav>
+                
+                <div class="pagination-info">
+                    Trang {{ $products->currentPage() }} / {{ $products->lastPage() }} 
+                    ({{ $products->total() }} sản phẩm)
+                </div>
+            @endif
             </div>
         @endif
     </div>

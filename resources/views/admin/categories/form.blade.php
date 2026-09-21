@@ -70,36 +70,75 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                 </h2>
             </div>
             <div class="admin-card-body">
-                @if(isset($category) && $category->image)
-                    <div class="category-image-container" style="margin-bottom: 20px; position: relative; display: inline-block;">
-                        <div style="width: 120px; height: 120px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);">
-                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <button type="button" 
-                                onclick="deleteCategoryImage({{ $category->id }}, this)"
-                                style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: rgba(239, 68, 68, 0.9); color: white; border-radius: 50%; border: 2px solid white; cursor: pointer; display: flex; align-items: center; justify-content: center;"
-                                title="Xóa ảnh">
-                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                        </button>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    {{-- Normal Image --}}
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 8px;">Hình Ảnh Chính</label>
+                        
+                        @if(isset($category) && $category->image)
+                            <div class="category-image-container" style="margin-bottom: 12px; position: relative; display: inline-block;">
+                                <div style="width: 120px; height: 120px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);">
+                                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <button type="button" 
+                                        onclick="deleteCategoryImage({{ $category->id }}, this)"
+                                        style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: rgba(239, 68, 68, 0.9); color: white; border-radius: 50%; border: 2px solid white; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+                                        title="Xóa ảnh">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                            </div>
+                        @endif
+
+                        <input type="file" 
+                               name="image" 
+                               accept="image/*" 
+                               id="imageInput" 
+                               class="auto-save-file"
+                               data-entity="categories"
+                               data-id="{{ $category->id ?? '' }}"
+                               data-field="image"
+                               data-upload-url="{{ isset($category) ? route('admin.categories.uploadImage', $category) : '' }}"
+                               onchange="previewImage(this, 'imagePreview')"
+                               style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước đề xuất: 800x800px</small>
+                        
+                        <div id="imagePreview" style="margin-top: 12px;"></div>
                     </div>
-                @endif
 
-                <div>
-                    <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">{{ isset($category) && $category->image ? 'Thay Đổi Hình Ảnh' : 'Hình Ảnh' }}</label>
-                    <input type="file" 
-                           name="image" 
-                           accept="image/*" 
-                           id="imageInput" 
-                           class="auto-save-file"
-                           data-entity="categories"
-                           data-id="{{ $category->id ?? '' }}"
-                           data-upload-url="{{ isset($category) ? route('admin.categories.uploadImage', $category) : '' }}"
-                           onchange="previewImage(this)"
-                           style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
-                    <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước đề xuất: 800x800px</small>
+                    {{-- Hover Image --}}
+                    <div style="padding-top: 20px; border-top: 1px solid var(--admin-border);">
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 8px;">Hình Ảnh Hover <span style="font-size: 12px; font-weight: 400; color: var(--admin-text-muted);">(Tùy chọn)</span></label>
+                        
+                        @if(isset($category) && $category->hover_image)
+                            <div class="category-hover-image-container" style="margin-bottom: 12px; position: relative; display: inline-block;">
+                                <div style="width: 120px; height: 120px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);">
+                                    <img src="{{ asset('storage/' . $category->hover_image) }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <button type="button" 
+                                        onclick="deleteCategoryHoverImage({{ $category->id }}, this)"
+                                        style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: rgba(239, 68, 68, 0.9); color: white; border-radius: 50%; border: 2px solid white; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+                                        title="Xóa ảnh hover">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                            </div>
+                        @endif
+
+                        <input type="file" 
+                               name="hover_image" 
+                               accept="image/*" 
+                               id="hoverImageInput" 
+                               class="auto-save-file"
+                               data-entity="categories"
+                               data-id="{{ $category->id ?? '' }}"
+                               data-field="hover_image"
+                               data-upload-url="{{ isset($category) ? route('admin.categories.uploadHoverImage', $category) : '' }}"
+                               onchange="previewImage(this, 'hoverImagePreview')"
+                               style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Hiển thị khi hover. Kích thước đề xuất: 800x800px</small>
+                        
+                        <div id="hoverImagePreview" style="margin-top: 12px;"></div>
+                    </div>
                 </div>
-
-                <div id="imagePreview" style="margin-top: 16px;"></div>
             </div>
         </div>
     </div>
@@ -165,10 +204,9 @@ $isEdit = isset($isEdit) ? $isEdit : false;
 </div>
 
 @push('scripts')
-<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 <script>
-function previewImage(input) {
-    const preview = document.getElementById('imagePreview');
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
     preview.innerHTML = '';
     
     if (input.files && input.files[0]) {
@@ -181,6 +219,56 @@ function previewImage(input) {
         };
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+function deleteCategoryImage(categoryId, button) {
+    if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
+    
+    fetch(`/admin/categories/${categoryId}/image`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            button.closest('.category-image-container').remove();
+            showToast('success', data.message);
+        } else {
+            showToast('error', data.message || 'Có lỗi xảy ra');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('error', 'Có lỗi xảy ra khi xóa ảnh');
+    });
+}
+
+function deleteCategoryHoverImage(categoryId, button) {
+    if (!confirm('Bạn có chắc muốn xóa ảnh hover này?')) return;
+    
+    fetch(`/admin/categories/${categoryId}/hover-image`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            button.closest('.category-hover-image-container').remove();
+            showToast('success', data.message);
+        } else {
+            showToast('error', data.message || 'Có lỗi xảy ra');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('error', 'Có lỗi xảy ra khi xóa ảnh hover');
+    });
 }
 
 // Auto-generate slug from name (only for edit mode without manual slug)

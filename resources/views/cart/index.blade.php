@@ -27,25 +27,28 @@
                     @foreach($cartItems as $item)
                         <div class="cart-item">
                             <div class="cart-item-image">
-                                <img src="{{ $item->product->getPrimaryImageUrl() }}" alt="{{ $item->product->name }}">
+                                <img src="{{ $item->getPrimaryImageUrl() }}" alt="{{ $item->getDisplayName() }}">
                             </div>
                             <div class="cart-item-info">
                                 <h3 class="cart-item-name">
                                     <a href="{{ route('products.show', $item->product->display_slug) }}">
-                                        {{ $item->product->name }}
+                                        {{ $item->getDisplayName() }}
                                     </a>
                                 </h3>
                                 @if($item->product->category)
                                     <p class="cart-item-meta">{{ $item->product->category->name }}</p>
                                 @endif
-                                @if($item->product->stock <= 0)
+                                @php
+                                    $availableStock = $item->variant ? $item->variant->stock : $item->product->stock;
+                                @endphp
+                                @if($availableStock <= 0)
                                     <span class="badge badge-error">Hết hàng</span>
-                                @elseif($item->product->stock < $item->quantity)
-                                    <span class="badge badge-warning">Chỉ còn {{ $item->product->stock }}</span>
+                                @elseif($availableStock < $item->quantity)
+                                    <span class="badge badge-warning">Chỉ còn {{ $availableStock }}</span>
                                 @endif
                             </div>
                             <div class="cart-item-price">
-                                {{ number_format($item->product->price, 0, ',', '.') }}₫
+                                {{ number_format($item->variant ? $item->variant->price : $item->product->price, 0, ',', '.') }}₫
                             </div>
                             <div class="cart-item-quantity">
                                 <form action="{{ route('cart.update', $item->id) }}" method="POST" class="quantity-form">
@@ -54,7 +57,7 @@
                                     <div class="cart-item-controls">
                                         <button type="button" class="cart-item-quantity-btn" onclick="updateCartQty(this, -1)">-</button>
                                         <input type="number" name="quantity" value="{{ $item->quantity }}" 
-                                               min="1" max="{{ $item->product->stock }}" 
+                                               min="1" max="{{ $availableStock }}" 
                                                class="cart-item-quantity-input" onchange="this.form.submit()">
                                         <button type="button" class="cart-item-quantity-btn" onclick="updateCartQty(this, 1)">+</button>
                                     </div>

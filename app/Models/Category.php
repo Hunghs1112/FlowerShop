@@ -15,6 +15,7 @@ class Category extends Model
         'description',
         'icon',
         'image',
+        'hover_image',
         'sort_order',
         'is_active',
         'order',
@@ -86,12 +87,27 @@ class Category extends Model
             return $this->image;
         }
 
+        // Clean path: remove leading slashes and always use /storage/ URL
+        return asset('storage/' . ltrim($this->image, '/'));
+    }
+
+    public function getHoverImageUrlAttribute(): ?string
+    {
+        if (!$this->hover_image) {
+            return null;
+        }
+
+        // Absolute URL (http/https) — return as-is
+        if (str_starts_with($this->hover_image, 'http://') || str_starts_with($this->hover_image, 'https://')) {
+            return $this->hover_image;
+        }
+
         // If path already starts with /storage/ or /images/, treat as a public asset path
-        if (str_starts_with($this->image, '/storage/') || str_starts_with($this->image, '/images/')) {
-            return asset(ltrim($this->image, '/'));
+        if (str_starts_with($this->hover_image, '/storage/') || str_starts_with($this->hover_image, '/images/')) {
+            return asset(ltrim($this->hover_image, '/'));
         }
 
         // Default: stored in the public disk under storage/app/public/
-        return asset('storage/' . $this->image);
+        return asset('storage/' . $this->hover_image);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\MysteryBoxRequest;
 
 class DashboardController extends Controller
 {
@@ -19,6 +20,8 @@ class DashboardController extends Controller
             'categories' => Category::count(),
             'inquiries' => Inquiry::count(),
             'new_inquiries' => Inquiry::where('status', 'new')->count(),
+            'mystery_boxes' => MysteryBoxRequest::count(),
+            'new_mystery_boxes' => MysteryBoxRequest::where('status', 'new')->count(),
             'users' => User::where('role', 'customer')->count(),
             'posts' => Post::count(),
             'published_posts' => Post::published()->count(),
@@ -29,11 +32,16 @@ class DashboardController extends Controller
             ->limit(10)
             ->get();
 
+        $recentMysteryBoxes = MysteryBoxRequest::with('user')
+            ->latest()
+            ->limit(5)
+            ->get();
+
         $lowStockProducts = Product::where('stock', '<=', 5)
             ->where('stock', '>', 0)
             ->with('category')
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentInquiries', 'lowStockProducts'));
+        return view('admin.dashboard', compact('stats', 'recentInquiries', 'recentMysteryBoxes', 'lowStockProducts'));
     }
 }

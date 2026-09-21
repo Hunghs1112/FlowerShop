@@ -14,30 +14,6 @@ class ProductSeeder extends Seeder
     {
         $categories = Category::all()->keyBy('slug');
 
-        // Available product images (verified existing in public/images/products/)
-        $productImages = [
-            'hoa-hong-do-ecuador.jpg',
-            'hoa-hong-phot-ohara.jpg',
-            'hoa-tulip.jpg',
-            'hoa-mau-don.jpg',
-            'hoa-ly-trang.jpg',
-            'hoa-huong-duong.jpg',
-            'hoa-cam-chuong.jpg',
-            'hoa-cam-tu-cau.jpg',
-            'flowers-1.jpg',
-            'flowers-2.jpg',
-            'flowers-3.jpg',
-            'flowers-4.jpg',
-            'flowers-5.jpg',
-            'flowers-6.jpg',
-            'roses.jpg',
-        ];
-
-        // Helper function to get image path
-        $getImage = function($filename) {
-            return 'images/products/' . $filename;
-        };
-
         $products = [
             // ─── Hoa Nhập Khẩu ───
             [
@@ -48,10 +24,7 @@ class ProductSeeder extends Seeder
                 'stock' => 25,
                 'short_description' => 'Hoa hồng đỏ nhập khẩu Ecuador, cánh hoa to tròn, thân dài 70cm. Biểu tượng tình yêu nồng nàn, thích hợp làm quà tặng sang trọng cho các dịp đặc biệt.',
                 'is_featured' => true,
-                'images' => [
-                    ['path' => $getImage('hoa-hong-do-ecuador.jpg'), 'primary' => true],
-                    ['path' => $getImage('roses.jpg'), 'primary' => false],
-                ],
+                'images' => [],
             ],
             [
                 'category' => 'hoa-nhap-khau',

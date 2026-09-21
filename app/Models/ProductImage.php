@@ -41,12 +41,9 @@ class ProductImage extends Model
         if (!$this->image_path) {
             return asset('images/placeholder.jpg');
         }
-        // If already starts with 'images/' or 'products/', use asset directly
-        if (str_starts_with($this->image_path, 'images/')) {
-            return asset($this->image_path);
-        }
-        // Otherwise use storage path
-        return asset('storage/' . $this->image_path);
+        // Strip legacy 'images/' prefix since storage/app/public already contains category folders
+        $path = preg_replace('#^/?images/#', '', $this->image_path);
+        return asset('storage/' . $path);
     }
 
     public function getVideoUrlAttribute(): ?string

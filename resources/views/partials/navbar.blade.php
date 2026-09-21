@@ -27,47 +27,32 @@
                 </a>
 
                 <div class="navbar-mega-menu">
-                    <div class="mega-menu-grid">
-
-                        {{-- Tất cả danh mục trong 1 cột --}}
-                        @if($navCategories->isNotEmpty())
-                            <div class="mega-menu-column">
-                                <h3 class="mega-menu-heading">Danh mục</h3>
-                                <div class="mega-menu-links">
-                                    @foreach($navCategories as $navCat)
-                                        <a href="{{ route('categories.show', $navCat->display_slug) }}" class="mega-menu-link">{{ $navCat->display_name }}</a>
-                                    @endforeach
-                                    <a href="{{ route('products.index') }}" class="mega-menu-link">Tất cả sản phẩm</a>
-                                </div>
-                            </div>
-                        @else
-                            <div class="mega-menu-column">
-                                <h3 class="mega-menu-heading">Sản phẩm</h3>
-                                <div class="mega-menu-links">
-                                    <a href="{{ route('products.index') }}" class="mega-menu-link">Tất cả sản phẩm</a>
-                                </div>
-                            </div>
-                        @endif
-
-                        {{-- Featured image --}}
-                        <div class="mega-menu-featured">
-                            <img
-                                src="{{ asset('images/navbar/navbar-featured.jpg') }}"
-                                alt="{{ __('messages.nav.new_collection') }}"
-                                class="mega-menu-featured-image"
-                            >
-                            <div class="mega-menu-featured-overlay">
-                                <div class="mega-menu-featured-title">{{ __('messages.nav.new_bst') }}</div>
-                                <a href="{{ route('products.index', ['sort_by' => 'newest']) }}" class="mega-menu-featured-link">
-                                    {{ __('messages.nav.explore') }}
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                    </svg>
+                    @if($navCategories->isNotEmpty())
+                        <div class="mega-menu-grid-simple">
+                            @foreach($navCategories as $navCat)
+                                <a href="{{ route('categories.show', $navCat->display_slug) }}" class="mega-menu-item">
+                                    {{ $navCat->display_name }}
                                 </a>
-                            </div>
+                            @endforeach
+                            
+                            {{-- Tất cả sản phẩm --}}
+                            <a href="{{ route('products.index') }}" class="mega-menu-item mega-menu-item-all">
+                                Xem tất cả sản phẩm
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
                         </div>
-
-                    </div>
+                    @else
+                        <div class="mega-menu-grid-simple">
+                            <a href="{{ route('products.index') }}" class="mega-menu-item mega-menu-item-all">
+                                Xem tất cả sản phẩm
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </li>
 
@@ -128,7 +113,11 @@
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
-                @php $cartCount = session('cart') ? count(session('cart')) : 0; @endphp
+                @php 
+                    $cartCount = auth()->check() 
+                        ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
+                        : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
+                @endphp
                 @if($cartCount > 0)
                     <span class="cart-badge">{{ $cartCount }}</span>
                 @endif
@@ -188,7 +177,11 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
                     <span>Giỏ hàng</span>
-                    @php $cartCount = session('cart') ? count(session('cart')) : 0; @endphp
+                    @php 
+                        $cartCount = auth()->check() 
+                            ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
+                            : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
+                    @endphp
                     @if($cartCount > 0)
                         <span class="mobile-menu-badge">{{ $cartCount }}</span>
                     @endif

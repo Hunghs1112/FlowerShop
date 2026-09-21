@@ -77,6 +77,17 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                 <span class="form-error">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Full Description</label>
+                            <textarea name="description" rows="6" 
+                                      class="form-input auto-save-input @error('description') error @enderror"
+                                      data-entity="products"
+                                      data-id="{{ $product->id ?? '' }}">{{ old('description', $product->description ?? '') }}</textarea>
+                            @error('description')
+                                <span class="form-error">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
@@ -91,6 +102,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                    class="form-input auto-save-file"
                                    data-entity="products"
                                    data-id="{{ $product->id ?? '' }}"
+                                   data-field="images"
                                    data-upload-url="{{ isset($product) ? route('admin.products.uploadFile', $product) : '' }}"
                                    onchange="previewImages(this)">
                             <small class="form-help">Upload multiple images. First image will be primary.</small>
@@ -131,6 +143,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                    id="videoUploadInput"
                                    data-entity="products"
                                    data-id="{{ $product->id ?? '' }}"
+                                   data-field="videos"
                                    data-upload-url="{{ isset($product) ? route('admin.products.uploadFile', $product) : '' }}"
                                    onchange="uploadVideos(this)">
                             <small class="form-help">Upload video files (MP4, WebM, MOV). Maximum 50MB per file, up to 5 videos.</small>
@@ -202,7 +215,6 @@ $isEdit = isset($isEdit) ? $isEdit : false;
 
 @if($isEdit)
 @push('scripts')
-<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 <script>
 function previewImages(input) {
     const preview = document.getElementById('imagePreview');

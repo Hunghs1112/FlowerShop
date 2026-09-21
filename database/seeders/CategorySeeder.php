@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'sinh-nhat',
                 'description' => 'Bó hoa tươi đẹp dành cho ngày sinh nhật, mang đến niềm vui và bất ngờ cho người thân',
                 'icon' => '🎂',
-                'image' => 'images/categories/sinh-nhat-birthday-flowers.jpg',
+                'image' => 'categories/sinh-nhat-birthday-flowers.jpg',
                 'sort_order' => 1,
             ],
             [
@@ -24,7 +24,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'khai-truong',
                 'description' => 'Giỏ hoa, bó hoa khai trương sang trọng, mang lại may mắn và thành công cho doanh nghiệp',
                 'icon' => '🎊',
-                'image' => 'images/misc/featured-2.jpg',
+                'image' => 'categories/category-1.jpg',
                 'sort_order' => 2,
             ],
             [
@@ -32,7 +32,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'cuoi-hoi',
                 'description' => 'Hoa cầu kỳ, hoa cầm tay và trang trí đám cưới tinh tế, làm đẹp cho ngày trọng đại',
                 'icon' => '💒',
-                'image' => 'images/categories/cuoi-hoi-wedding-flowers.jpg',
+                'image' => 'categories/cuoi-hoi-wedding-flowers.jpg',
                 'sort_order' => 3,
             ],
             [
@@ -40,7 +40,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'chuc-mung',
                 'description' => 'Hoa chúc mừng thành công, vinh danh, tân gia - gửi đến lời chúc tốt đẹp nhất',
                 'icon' => '🎉',
-                'image' => 'images/categories/chuc-mung-congratulations.jpg',
+                'image' => 'categories/chuc-mung-congratulations.jpg',
                 'sort_order' => 4,
             ],
             [
@@ -48,7 +48,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'tinh-yeu',
                 'description' => 'Hoa hồng lãng mạn và những bó hoa tình yêu ngọt ngào dành cho người bạn yêu thương',
                 'icon' => '💕',
-                'image' => 'images/products/roses.jpg',
+                'image' => 'products/roses.jpg',
                 'sort_order' => 5,
             ],
             [
@@ -56,7 +56,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'hoa-nhap-khau',
                 'description' => 'Hoa nhập khẩu cao cấp từ Ecuador, Hà Lan, Nhật Bản - đẳng cấp và sang trọng',
                 'icon' => '🌹',
-                'image' => 'images/categories/hoa-nhap-khau-imported-flowers.jpg',
+                'image' => 'categories/hoa-nhap-khau-imported-flowers.jpg',
                 'sort_order' => 6,
             ],
             [
@@ -64,7 +64,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'hoa-tuoi-moi',
                 'description' => 'Hoa tươi theo mùa, nhập mới mỗi ngày từ vườn hoa địa phương và vùng trồng uy tín',
                 'icon' => '🌷',
-                'image' => 'images/categories/hoa-tuoi-moi-fresh-flowers.jpg',
+                'image' => 'categories/hoa-tuoi-moi-fresh-flowers.jpg',
                 'sort_order' => 7,
             ],
             [
@@ -72,7 +72,7 @@ class CategorySeeder extends Seeder
                 'slug' => 'lan-ho-diep',
                 'description' => 'Chậu lan hồ điệp cao cấp, tượng trưng cho sự sang trọng và phú quý, trưng bày lâu dài',
                 'icon' => '🪻',
-                'image' => 'images/categories/lan-ho-diep-orchid.jpg',
+                'image' => 'categories/lan-ho-diep-orchid.jpg',
                 'sort_order' => 8,
             ],
         ];

@@ -121,11 +121,11 @@
                         @foreach($cartItems as $item)
                             <div class="summary-item">
                                 <div class="summary-item-image">
-                                    <img src="{{ $item->product->getPrimaryImageUrl() }}" alt="{{ $item->product->name }}">
+                                    <img src="{{ $item->getPrimaryImageUrl() }}" alt="{{ $item->getDisplayName() }}">
                                     <span class="item-quantity-badge">{{ $item->quantity }}</span>
                                 </div>
                                 <div class="summary-item-info">
-                                    <h4 class="summary-item-name">{{ $item->product->name }}</h4>
+                                    <h4 class="summary-item-name">{{ $item->getDisplayName() }}</h4>
                                     <p class="summary-item-qty">SL: {{ $item->quantity }}</p>
                                 </div>
                                 <div class="summary-item-price">

@@ -119,6 +119,41 @@ class CategoryController extends Controller
     }
 
     // ============================================================
+    // AJAX: Upload category hover image
+    // ============================================================
+    public function uploadHoverImage(Request $request, Category $category)
+    {
+        $maxKb = (int) config('upload.limits.category_image.max_size', 2048);
+
+        $request->validate([
+            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+        ]);
+
+        $oldImage = $category->hover_image;
+
+        try {
+            $path = $this->images->upload(
+                $request->file('file'),
+                config('upload.disks.folders.category', 'categories'),
+                $oldImage
+            );
+
+            $category->update(['hover_image' => $path]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã tải lên ảnh hover',
+                'imageUrl' => asset('storage/' . $path),
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // ============================================================
     // AJAX: Delete category image
     // ============================================================
     public function deleteImage(Category $category)
@@ -133,6 +168,24 @@ class CategoryController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Đã xóa ảnh'
+        ]);
+    }
+
+    // ============================================================
+    // AJAX: Delete category hover image
+    // ============================================================
+    public function deleteHoverImage(Category $category)
+    {
+        $imagePath = $category->hover_image;
+
+        if ($imagePath) {
+            $category->update(['hover_image' => null]);
+            $this->images->delete($imagePath);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa ảnh hover'
         ]);
     }
 

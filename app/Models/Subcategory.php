@@ -65,10 +65,6 @@ class Subcategory extends Model
             return $this->image;
         }
 
-        if (str_starts_with($this->image, '/storage/') || str_starts_with($this->image, '/images/')) {
-            return asset(ltrim($this->image, '/'));
-        }
-
-        return asset('storage/' . $this->image);
+        return asset('storage/' . ltrim($this->image, '/'));
     }
 }

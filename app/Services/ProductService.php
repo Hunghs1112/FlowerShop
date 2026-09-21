@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -13,13 +14,19 @@ class ProductService
     /**
      * Get featured products
      */
-    public function getFeaturedProducts(int $limit = 8): Collection
+    public function getFeaturedProducts(int $limit = 8, ?User $user = null): Collection
     {
-        return Product::active()
+        $query = Product::active()
             ->featured()
             ->with(['productImages', 'category', 'subcategory'])
-            ->inStock()
-            ->latest()
+            ->inStock();
+
+        // CRITICAL: Backend VIP filtering
+        if ($user) {
+            $query->visibleToUser($user);
+        }
+
+        return $query->latest()
             ->limit($limit)
             ->get();
     }
@@ -27,7 +34,7 @@ class ProductService
     /**
      * Get best selling products
      */
-    public function getBestSellingProducts(int $limit = 8, ?int $categoryId = null): Collection
+    public function getBestSellingProducts(int $limit = 8, ?int $categoryId = null, ?User $user = null): Collection
     {
         $query = Product::active()
             ->bestSelling()
@@ -38,13 +45,18 @@ class ProductService
             $query->where('category_id', $categoryId);
         }
 
+        // CRITICAL: Backend VIP filtering
+        if ($user) {
+            $query->visibleToUser($user);
+        }
+
         return $query->limit($limit)->get();
     }
 
     /**
      * Get new arrival products
      */
-    public function getNewArrivalProducts(int $limit = 8, ?int $categoryId = null): Collection
+    public function getNewArrivalProducts(int $limit = 8, ?int $categoryId = null, ?User $user = null): Collection
     {
         $query = Product::active()
             ->newArrival()
@@ -55,19 +67,30 @@ class ProductService
             $query->where('category_id', $categoryId);
         }
 
+        // CRITICAL: Backend VIP filtering
+        if ($user) {
+            $query->visibleToUser($user);
+        }
+
         return $query->limit($limit)->get();
     }
 
     /**
      * Get products by category
      */
-    public function getProductsByCategory(int $categoryId, int $limit = 8): Collection
+    public function getProductsByCategory(int $categoryId, int $limit = 8, ?User $user = null): Collection
     {
-        return Product::active()
+        $query = Product::active()
             ->where('category_id', $categoryId)
             ->with(['productImages', 'category', 'subcategory'])
-            ->inStock()
-            ->latest()
+            ->inStock();
+
+        // CRITICAL: Backend VIP filtering
+        if ($user) {
+            $query->visibleToUser($user);
+        }
+
+        return $query->latest()
             ->limit($limit)
             ->get();
     }
@@ -83,12 +106,18 @@ class ProductService
      *   - sort_by: sort option (latest, price_asc, price_desc, best_selling, name)
      *   - in_stock: boolean
      *   - per_page: items per page
+     *   - user: User object for VIP filtering
      * @return LengthAwarePaginator
      */
     public function filterProducts(array $filters = []): LengthAwarePaginator
     {
         $query = Product::active()
             ->with(['productImages', 'category', 'subcategory']);
+
+        // VIP Level filtering - CRITICAL: Backend enforcement
+        if (isset($filters['user'])) {
+            $query->visibleToUser($filters['user']);
+        }
 
         // Category filter - include child categories if needed
         if (!empty($filters['category_ids'])) {
@@ -186,14 +215,20 @@ class ProductService
     /**
      * Get related products
      */
-    public function getRelatedProducts(Product $product, int $limit = 4): Collection
+    public function getRelatedProducts(Product $product, int $limit = 4, ?User $user = null): Collection
     {
-        return Product::active()
+        $query = Product::active()
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->with(['productImages'])
-            ->inStock()
-            ->inRandomOrder()
+            ->inStock();
+
+        // CRITICAL: Backend VIP filtering
+        if ($user) {
+            $query->visibleToUser($user);
+        }
+
+        return $query->inRandomOrder()
             ->limit($limit)
             ->get();
     }
@@ -204,9 +239,10 @@ class ProductService
      * @param string $query Search query (should be pre-sanitized)
      * @param int $limit Maximum number of results
      * @param bool $autocomplete Whether to return results optimized for autocomplete
+     * @param User|null $user User for VIP filtering
      * @return Collection
      */
-    public function search(string $query, int $limit = 20, bool $autocomplete = false): Collection
+    public function search(string $query, int $limit = 20, bool $autocomplete = false, ?User $user = null): Collection
     {
         $query = trim($query);
         
@@ -218,6 +254,11 @@ class ProductService
         $builder = Product::active()
             ->search($query)
             ->with(['productImages', 'category']);
+
+        // CRITICAL: Backend VIP filtering
+        if ($user) {
+            $builder->visibleToUser($user);
+        }
 
         // For autocomplete, limit results but keep all needed relations
         if ($autocomplete) {
@@ -232,9 +273,9 @@ class ProductService
      * Search products optimized for autocomplete dropdown
      * Returns lighter data for faster response
      */
-    public function autocomplete(string $query, int $limit = 8): array
+    public function autocomplete(string $query, int $limit = 8, ?User $user = null): array
     {
-        $products = $this->search($query, $limit, true);
+        $products = $this->search($query, $limit, true, $user);
 
         return $products->map(function ($product) {
             // Load image for autocomplete (separate query to avoid bloating main select)

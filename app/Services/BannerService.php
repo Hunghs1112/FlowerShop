@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Banner;
 use App\Models\Setting;
 
 class BannerService
 {
     /**
-     * Danh sách các banner keys và default values
+     * Danh sách các banner keys và default values (legacy static banners)
      */
     public const BANNER_KEYS = [
         'home'       => 'images/banners/home-hero.jpg',
@@ -21,10 +22,40 @@ class BannerService
     ];
 
     /**
-     * Lấy URL của banner theo key
+     * Get banners for a specific location (for slider/multiple banners)
+     */
+    public function getForLocation(string $location)
+    {
+        try {
+            return Banner::active()
+                ->forLocation($location)
+                ->ordered()
+                ->get();
+        } catch (\Exception $e) {
+            return collect([]);
+        }
+    }
+
+    /**
+     * Get single banner URL for a location (legacy compatibility - for static page headers)
      */
     public function get(string $key): string
     {
+        // Try to get from new banner system (first active banner for this location)
+        try {
+            $banner = Banner::active()
+                ->forLocation($key)
+                ->ordered()
+                ->first();
+            
+            if ($banner) {
+                return $banner->image_url;
+            }
+        } catch (\Exception $e) {
+            // Ignore
+        }
+
+        // Fallback to settings table
         $settingKey = 'banner_' . $key;
         $value = Setting::where('key', $settingKey)->value('value');
 
@@ -37,7 +68,7 @@ class BannerService
     }
 
     /**
-     * Lấy tất cả banners
+     * Lấy tất cả banners (legacy compatibility)
      */
     public function all(): array
     {

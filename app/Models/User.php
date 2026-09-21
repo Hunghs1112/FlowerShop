@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'address',
         'role',
         'is_active',
+        'vip_level_id',
     ];
 
     protected $hidden = [
@@ -69,6 +71,11 @@ class User extends Authenticatable
         return $this->hasMany(ChatMessage::class)
             ->where('is_admin', true)
             ->where('is_read', false);
+    }
+
+    public function vipLevel(): BelongsTo
+    {
+        return $this->belongsTo(VipLevel::class);
     }
 
     // Helpers

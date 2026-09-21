@@ -381,6 +381,56 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
             
+            <!-- Pagination -->
+            <?php if($products->hasPages()): ?>
+                <nav class="products-pagination" role="navigation" aria-label="Pagination">
+                    
+                    <?php if($products->onFirstPage()): ?>
+                        <span class="pagination-item disabled" aria-disabled="true" aria-label="Trang trước">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </span>
+                    <?php else: ?>
+                        <a href="<?php echo e($products->previousPageUrl()); ?>" class="pagination-item" rel="prev" aria-label="Trang trước">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </a>
+                    <?php endif; ?>
+
+                    
+                    <?php $__currentLoopData = $products->links()->elements[0] ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page => $url): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($page == $products->currentPage()): ?>
+                            <span class="pagination-item active" aria-current="page"><?php echo e($page); ?></span>
+                        <?php elseif($url): ?>
+                            <a href="<?php echo e($url); ?>" class="pagination-item"><?php echo e($page); ?></a>
+                        <?php else: ?>
+                            <span class="pagination-dots">...</span>
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                    
+                    <?php if($products->hasMorePages()): ?>
+                        <a href="<?php echo e($products->nextPageUrl()); ?>" class="pagination-item" rel="next" aria-label="Trang kế">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    <?php else: ?>
+                        <span class="pagination-item disabled" aria-disabled="true" aria-label="Trang kế">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    <?php endif; ?>
+                </nav>
+                
+                <div class="pagination-info">
+                    Trang <?php echo e($products->currentPage()); ?> / <?php echo e($products->lastPage()); ?> 
+                    (<?php echo e($products->total()); ?> sản phẩm)
+                </div>
+            <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>

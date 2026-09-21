@@ -58,6 +58,8 @@ class CheckoutController extends Controller
      * - Invalid email: validation prevents submission
      * - HTML injection: sanitized via e() helper
      * - Double-click: idempotency via unique order
+     * - Stock validation: prevents checkout if insufficient stock
+     * - VIP authorization: prevents checkout if user lost access
      */
     public function store(Request $request)
     {
@@ -76,6 +78,29 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng trống');
         }
 
+        // CRITICAL: Validate VIP authorization for all items
+        $user = auth()->user();
+        if ($user && $user->vip_level_id) {
+            foreach ($cartItems as $item) {
+                $hasAccess = $item->product->vipLevels()->where('vip_levels.id', $user->vip_level_id)->exists();
+                if (!$hasAccess) {
+                    return redirect()->route('cart.index')->with('error', 
+                        'Bạn không còn quyền truy cập sản phẩm "' . $item->product->name . '"'
+                    );
+                }
+            }
+        }
+
+        // Validate stock availability for all items
+        foreach ($cartItems as $item) {
+            $availableStock = $item->variant ? $item->variant->stock : $item->product->stock;
+            if ($availableStock < $item->quantity) {
+                return redirect()->route('cart.index')->with('error', 
+                    'Sản phẩm "' . $item->getDisplayName() . '" không đủ số lượng (còn ' . $availableStock . ')'
+                );
+            }
+        }
+
         // Create inquiry with product IDs from cart
         $productIds = $cartItems->pluck('product_id')->toArray();
         
@@ -92,10 +117,11 @@ class CheckoutController extends Controller
 
         // Prepare order data
         $orderItems = $cartItems->map(function ($item) {
+            $price = $item->variant ? $item->variant->price : $item->product->price;
             return [
-                'name' => $item->product->name,
+                'name' => $item->getDisplayName(),
                 'quantity' => $item->quantity,
-                'price' => $item->product->price,
+                'price' => $price,
                 'subtotal' => $item->getSubtotal(),
             ];
         })->toArray();

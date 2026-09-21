@@ -27,48 +27,33 @@
                 </a>
 
                 <div class="navbar-mega-menu">
-                    <div class="mega-menu-grid">
+                    <?php if($navCategories->isNotEmpty()): ?>
+                        <div class="mega-menu-grid-simple">
+                            <?php $__currentLoopData = $navCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $navCat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <a href="<?php echo e(route('categories.show', $navCat->display_slug)); ?>" class="mega-menu-item">
+                                    <?php echo e($navCat->display_name); ?>
 
-                        
-                        <?php if($navCategories->isNotEmpty()): ?>
-                            <div class="mega-menu-column">
-                                <h3 class="mega-menu-heading">Danh mục</h3>
-                                <div class="mega-menu-links">
-                                    <?php $__currentLoopData = $navCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $navCat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <a href="<?php echo e(route('categories.show', $navCat->display_slug)); ?>" class="mega-menu-link"><?php echo e($navCat->display_name); ?></a>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <a href="<?php echo e(route('products.index')); ?>" class="mega-menu-link">Tất cả sản phẩm</a>
-                                </div>
-                            </div>
-                        <?php else: ?>
-                            <div class="mega-menu-column">
-                                <h3 class="mega-menu-heading">Sản phẩm</h3>
-                                <div class="mega-menu-links">
-                                    <a href="<?php echo e(route('products.index')); ?>" class="mega-menu-link">Tất cả sản phẩm</a>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-
-                        
-                        <div class="mega-menu-featured">
-                            <img
-                                src="<?php echo e(asset('images/navbar/navbar-featured.jpg')); ?>"
-                                alt="<?php echo e(__('messages.nav.new_collection')); ?>"
-                                class="mega-menu-featured-image"
-                            >
-                            <div class="mega-menu-featured-overlay">
-                                <div class="mega-menu-featured-title"><?php echo e(__('messages.nav.new_bst')); ?></div>
-                                <a href="<?php echo e(route('products.index', ['sort_by' => 'newest'])); ?>" class="mega-menu-featured-link">
-                                    <?php echo e(__('messages.nav.explore')); ?>
-
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                    </svg>
                                 </a>
-                            </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            
+                            
+                            <a href="<?php echo e(route('products.index')); ?>" class="mega-menu-item mega-menu-item-all">
+                                Xem tất cả sản phẩm
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
                         </div>
-
-                    </div>
+                    <?php else: ?>
+                        <div class="mega-menu-grid-simple">
+                            <a href="<?php echo e(route('products.index')); ?>" class="mega-menu-item mega-menu-item-all">
+                                Xem tất cả sản phẩm
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </li>
 
@@ -132,7 +117,11 @@
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
-                <?php $cartCount = session('cart') ? count(session('cart')) : 0; ?>
+                <?php 
+                    $cartCount = auth()->check() 
+                        ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
+                        : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
+                ?>
                 <?php if($cartCount > 0): ?>
                     <span class="cart-badge"><?php echo e($cartCount); ?></span>
                 <?php endif; ?>
@@ -192,7 +181,11 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
                     <span>Giỏ hàng</span>
-                    <?php $cartCount = session('cart') ? count(session('cart')) : 0; ?>
+                    <?php 
+                        $cartCount = auth()->check() 
+                            ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
+                            : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
+                    ?>
                     <?php if($cartCount > 0): ?>
                         <span class="mobile-menu-badge"><?php echo e($cartCount); ?></span>
                     <?php endif; ?>

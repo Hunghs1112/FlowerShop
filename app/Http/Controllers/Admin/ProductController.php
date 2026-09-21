@@ -146,15 +146,32 @@ class ProductController extends Controller
         $maxKb = (int) config('upload.limits.product_images.max_size', 2048);
         $maxCnt = (int) config('upload.limits.product_images.max_count', 10);
 
+        // Debug logging
+        \Log::info('Upload attempt', [
+            'product_id' => $product->id,
+            'has_images' => $request->hasFile('images'),
+            'has_file' => $request->hasFile('file'),
+            'all_files' => array_keys($request->allFiles()),
+            'all_keys' => array_keys($request->all())
+        ]);
+
         // Check if multiple files or single file
-        $hasMultiple = $request->hasFile('images');
+        $hasMultiple = $request->hasFile('images') || $request->has('images');
         $hasSingle = $request->hasFile('file');
 
         if ($hasMultiple) {
-            $request->validate([
-                'images' => 'required|array|max:10',
-                'images.*' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
-            ]);
+            try {
+                $request->validate([
+                    'images' => 'required|array|max:10',
+                    'images.*' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+                ]);
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                \Log::error('Validation failed', ['errors' => $e->errors()]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error: ' . json_encode($e->errors())
+                ], 422);
+            }
 
             $files = $request->file('images');
             $currentCount = $product->productImages()->count();

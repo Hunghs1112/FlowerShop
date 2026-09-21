@@ -28,29 +28,73 @@ class CartService
     {
         $identifier = $this->getCartIdentifier();
         
-        return CartItem::where($identifier)
-            ->with(['product.productImages'])
+        $items = CartItem::where($identifier)
+            ->with(['product.productImages', 'product.vipLevels', 'variant.images'])
             ->get();
+
+        // CRITICAL: Filter out products user doesn't have access to
+        $user = Auth::user();
+        if ($user && $user->vip_level_id) {
+            $items = $items->filter(function ($item) use ($user) {
+                return $item->product->vipLevels()
+                    ->where('vip_levels.id', $user->vip_level_id)
+                    ->exists();
+            });
+        }
+
+        return $items;
     }
 
     /**
      * Add item to cart
      */
-    public function addItem(int $productId, int $quantity = 1): CartItem
+    public function addItem(int $productId, int $quantity = 1, ?int $variantId = null): CartItem
     {
+        // Validate stock before adding
+        $product = Product::findOrFail($productId);
+        
+        // If variant specified, validate it belongs to the product
+        $variant = null;
+        if ($variantId) {
+            $variant = \App\Models\ProductVariant::where('id', $variantId)
+                ->where('product_id', $productId)
+                ->where('is_active', true)
+                ->firstOrFail();
+        }
+        
+        // CRITICAL: Backend VIP authorization check
+        $user = Auth::user();
+        if ($user && $user->vip_level_id) {
+            $hasAccess = $product->vipLevels()->where('vip_levels.id', $user->vip_level_id)->exists();
+            if (!$hasAccess) {
+                throw new \Exception('Bạn không có quyền thêm sản phẩm này vào giỏ hàng');
+            }
+        }
+        
         $identifier = $this->getCartIdentifier();
         
+        // Find existing cart item (same product and variant)
         $cartItem = CartItem::where($identifier)
             ->where('product_id', $productId)
+            ->where('variant_id', $variantId)
             ->first();
 
+        $newQuantity = $cartItem ? $cartItem->quantity + $quantity : $quantity;
+        
+        // Check stock availability (use variant stock if available)
+        $availableStock = $variant ? $variant->stock : $product->stock;
+        if ($availableStock < $newQuantity) {
+            throw new \Exception('Sản phẩm không đủ số lượng (còn ' . $availableStock . ')');
+        }
+
         if ($cartItem) {
-            $cartItem->quantity += $quantity;
+            $cartItem->quantity = $newQuantity;
             $cartItem->save();
         } else {
             $cartItem = CartItem::create(array_merge($identifier, [
                 'product_id' => $productId,
                 'quantity' => $quantity,
+                'variant_id' => $variantId,
             ]));
         }
 
@@ -134,6 +178,7 @@ class CartService
         foreach ($guestItems as $guestItem) {
             $userItem = CartItem::where('user_id', Auth::id())
                 ->where('product_id', $guestItem->product_id)
+                ->where('variant_id', $guestItem->variant_id)
                 ->first();
 
             if ($userItem) {

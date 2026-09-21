@@ -130,6 +130,40 @@
             </div>
         </div>
 
+        {{-- VIP Level --}}
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title">
+                    <div class="admin-card-title-icon">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                        </svg>
+                    </div>
+                    VIP Level
+                </h2>
+            </div>
+            <div class="admin-card-body">
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Cấp độ VIP</label>
+                    <select name="vip_level_id" 
+                            class="auto-save-select"
+                            data-entity="users"
+                            data-id="{{ $user->id ?? '' }}"
+                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;">
+                        <option value="">Không có VIP</option>
+                        @if(isset($vipLevels))
+                            @foreach($vipLevels as $vipLevel)
+                                <option value="{{ $vipLevel->id }}" {{ old('vip_level_id', $user->vip_level_id ?? '') == $vipLevel->id ? 'selected' : '' }}>
+                                    {{ $vipLevel->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                    <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Chọn cấp độ VIP cho người dùng này</small>
+                </div>
+            </div>
+        </div>
+
         @if(!isset($isEdit) || !$isEdit)
         {{-- Submit Button - ONLY for create users --}}
         <button type="submit" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 15px;">

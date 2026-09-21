@@ -1,0 +1,358 @@
+/* ==========================================================================
+   Mystery Box - Multi-step Form
+   ========================================================================== */
+
+.mystery-box-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-8) 0;
+}
+
+.mystery-box-content {
+    background: var(--color-white);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+}
+
+.mystery-box-intro {
+    text-align: center;
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.mystery-box-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 var(--space-3);
+}
+
+.mystery-box-intro p {
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Step Indicator */
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-8);
+    position: relative;
+}
+
+.step-indicator::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-border);
+    z-index: 0;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: var(--color-white);
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--color-text-light);
+    transition: all 0.3s ease;
+}
+
+.step-label {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.step-item.active .step-number {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.step-item.active .step-label {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.step-item.completed .step-number {
+    background: #E8F4E9;
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+/* Step Content */
+.step-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.step-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 var(--space-6);
+    text-align: center;
+}
+
+/* Selection Grid */
+.selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.selection-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.selection-card input[type="radio"],
+.selection-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--color-white);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+    min-height: 140px;
+}
+
+.selection-card:hover .card-content {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 12px rgba(63, 90, 69, 0.1);
+    transform: translateY(-2px);
+}
+
+.selection-card input:checked + .card-content {
+    background: linear-gradient(135deg, #3F5A45 0%, #5A7C5E 100%);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.selection-card input:checked + .card-content .card-title {
+    color: var(--color-white);
+}
+
+.selection-card input:checked + .card-content .card-icon {
+    color: var(--color-white);
+}
+
+.card-icon {
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+/* Color Preview */
+.color-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-border);
+    margin-bottom: var(--space-2);
+}
+
+.selection-card input:checked + .card-content .color-preview {
+    border-color: var(--color-white);
+}
+
+/* Form Groups in Step 6 */
+.step-content .form-group {
+    margin-bottom: var(--space-5);
+}
+
+/* Summary Box */
+.summary-box {
+    background: var(--color-botanical-pale);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.summary-section h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 var(--space-4);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.summary-value {
+    color: var(--color-text-light);
+    text-align: right;
+}
+
+/* Disclaimer */
+.disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: rgba(250, 204, 21, 0.1);
+    border: 1px solid rgba(250, 204, 21, 0.3);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-5);
+}
+
+.disclaimer svg {
+    flex-shrink: 0;
+    color: #F59E0B;
+    margin-top: 2px;
+}
+
+.disclaimer p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text);
+}
+
+/* Navigation Buttons */
+.step-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border-light);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .mystery-box-content {
+        padding: var(--space-5);
+    }
+
+    .step-indicator {
+        flex-wrap: wrap;
+        gap: var(--space-3);
+    }
+
+    .step-indicator::before {
+        display: none;
+    }
+
+    .step-item {
+        flex-direction: row;
+        width: calc(50% - var(--space-1));
+    }
+
+    .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+
+    .step-label {
+        font-size: 0.75rem;
+        text-align: left;
+    }
+
+    .selection-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .step-title {
+        font-size: 1.5rem;
+    }
+
+    .step-navigation {
+        flex-direction: column-reverse;
+    }
+
+    .step-navigation button {
+        width: 100%;
+    }
+
+    .summary-item {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .summary-value {
+        text-align: left;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .selection-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

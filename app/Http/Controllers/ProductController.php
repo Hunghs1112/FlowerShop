@@ -30,6 +30,7 @@ class ProductController extends Controller
             'search' => $request->getSearchQuery(),
             'sort_by' => $request->getSortOption(),
             'per_page' => 12,
+            'user' => auth()->user(), // Pass authenticated user for VIP filtering
         ];
 
         // Get filtered products
@@ -86,19 +87,33 @@ class ProductController extends Controller
         if (is_numeric($identifier)) {
             $product = Product::where('id', $identifier)
                 ->active()
-                ->with(['productImages', 'category', 'subcategory.category'])
+                ->with(['productImages', 'category', 'subcategory.category', 'variants' => function($query) {
+                    $query->where('is_active', true)->with('images');
+                }])
                 ->firstOrFail();
         } else {
             // Support both EN and VI slugs
             $product = Product::where('slug', $identifier)
                 ->orWhere('slug_en', $identifier)
                 ->active()
-                ->with(['productImages', 'category', 'subcategory.category'])
+                ->with(['productImages', 'category', 'subcategory.category', 'variants' => function($query) {
+                    $query->where('is_active', true)->with('images');
+                }])
                 ->firstOrFail();
         }
 
+        // CRITICAL: Backend VIP authorization check
+        $user = auth()->user();
+        if ($user && $user->vip_level_id) {
+            // Check if user's VIP level has access to this product
+            $hasAccess = $product->vipLevels()->where('vip_levels.id', $user->vip_level_id)->exists();
+            if (!$hasAccess) {
+                abort(404); // Product not found for this VIP level
+            }
+        }
+
         // Get recommended products (same subcategory first, then same category, or featured)
-        $recommendedProducts = Product::active()
+        $recommendedQuery = Product::active()
             ->inStock()
             ->where('id', '!=', $product->id)
             ->where(function($query) use ($product) {
@@ -111,9 +126,14 @@ class ProductController extends Controller
                           ->orWhere('is_featured', true);
                 }
             })
-            ->with('productImages')
-            ->limit(4)
-            ->get();
+            ->with('productImages');
+
+        // Apply VIP filtering to recommended products
+        if ($user) {
+            $recommendedQuery->visibleToUser($user);
+        }
+
+        $recommendedProducts = $recommendedQuery->limit(4)->get();
 
         // Get recently viewed or random products
         $recentlyViewed = Product::active()

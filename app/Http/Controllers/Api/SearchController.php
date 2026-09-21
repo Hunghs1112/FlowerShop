@@ -40,8 +40,11 @@ class SearchController extends Controller
             $query = mb_substr($query, 0, 255);
         }
         
+        // CRITICAL: Pass authenticated user for VIP filtering
+        $user = auth()->user();
+        
         try {
-            $results = $this->productService->autocomplete($query, 8);
+            $results = $this->productService->autocomplete($query, 8, $user);
             
             return response()->json([
                 'success' => true,
@@ -83,8 +86,11 @@ class SearchController extends Controller
             $query = mb_substr($query, 0, 255);
         }
         
+        // CRITICAL: Pass authenticated user for VIP filtering
+        $user = auth()->user();
+        
         try {
-            $products = $this->productService->search($query, 20);
+            $products = $this->productService->search($query, 20, false, $user);
             
             $data = $products->map(function ($product) {
                 return [

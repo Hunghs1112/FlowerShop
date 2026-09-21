@@ -21,14 +21,17 @@ class ProductController extends Controller
         $type = $request->input('type', 'best-selling');
         $categoryId = $request->input('category_id');
         $limit = $request->input('limit', 8);
+        
+        // CRITICAL: Pass authenticated user for VIP filtering
+        $user = auth()->user();
 
         $products = match($type) {
-            'best-selling' => $this->productService->getBestSellingProducts($limit, $categoryId),
-            'new-arrival' => $this->productService->getNewArrivalProducts($limit, $categoryId),
+            'best-selling' => $this->productService->getBestSellingProducts($limit, $categoryId, $user),
+            'new-arrival' => $this->productService->getNewArrivalProducts($limit, $categoryId, $user),
             'category' => $categoryId 
-                ? $this->productService->getProductsByCategory($categoryId, $limit)
+                ? $this->productService->getProductsByCategory($categoryId, $limit, $user)
                 : collect([]),
-            default => $this->productService->getBestSellingProducts($limit, $categoryId),
+            default => $this->productService->getBestSellingProducts($limit, $categoryId, $user),
         };
 
         return response()->json([

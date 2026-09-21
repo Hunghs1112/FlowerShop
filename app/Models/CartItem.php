@@ -11,6 +11,7 @@ class CartItem extends Model
         'user_id',
         'session_id',
         'product_id',
+        'variant_id',
         'quantity',
     ];
 
@@ -29,9 +30,35 @@ class CartItem extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function variant(): BelongsTo
+    {
+        return $this->belongsTo(ProductVariant::class, 'variant_id');
+    }
+
     // Helpers
     public function getSubtotal(): float
     {
-        return $this->product->price * $this->quantity;
+        // Use variant price if variant is specified, otherwise use product price
+        $price = $this->variant ? $this->variant->price : $this->product->price;
+        return $price * $this->quantity;
+    }
+    
+    public function getDisplayName(): string
+    {
+        $name = $this->product->display_name;
+        if ($this->variant) {
+            $variantName = $this->variant->name ?? $this->variant->sku;
+            $name .= ' - ' . $variantName;
+        }
+        return $name;
+    }
+    
+    public function getPrimaryImageUrl(): string
+    {
+        // Use variant image if available, otherwise use product image
+        if ($this->variant && $this->variant->images()->count() > 0) {
+            return $this->variant->getPrimaryImageUrl();
+        }
+        return $this->product->getPrimaryImageUrl();
     }
 }

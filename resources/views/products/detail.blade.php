@@ -132,8 +132,45 @@
                     @endif
                 </div>
 
-                {{-- Options: Dung tích --}}
-                @if($product->volume || $product->size)
+                {{-- Variants Selector --}}
+                @if($product->variants && $product->variants->count() > 0)
+                    <div class="product-options">
+                        <label class="options-label">Chọn phiên bản</label>
+                        <div class="options-buttons" id="variantSelector">
+                            @foreach($product->variants->where('is_active', true) as $index => $variant)
+                                @php
+                                    // Get all images with fallback to product images
+                                    $variantImages = $variant->getAllImages();
+                                    $variantImageUrls = $variantImages->map(function($img) {
+                                        $path = $img->image_path;
+                                        // Handle both ProductImage and ProductVariantImage
+                                        if (str_starts_with($path, 'images/')) {
+                                            $path = preg_replace('#^/?images/#', '', $path);
+                                        }
+                                        return asset('storage/' . $path);
+                                    })->values();
+                                @endphp
+                                <button type="button" 
+                                        class="option-btn variant-option {{ $index === 0 ? 'active' : '' }}" 
+                                        data-variant-id="{{ $variant->id }}"
+                                        data-variant-sku="{{ $variant->sku }}"
+                                        data-variant-name="{{ $variant->name ?? $variant->sku }}"
+                                        data-variant-price="{{ $variant->price ?? $product->price }}"
+                                        data-variant-stock="{{ $variant->stock ?? $product->stock }}"
+                                        data-variant-images="{{ json_encode($variantImageUrls) }}"
+                                        onclick="selectVariant(this)">
+                                    {{ $variant->name ?? $variant->sku }}
+                                    @if($variant->color)
+                                        <span style="font-size: 0.85em; color: var(--color-text-muted);">{{ $variant->color }}</span>
+                                    @endif
+                                    @if($variant->size)
+                                        <span style="font-size: 0.85em; color: var(--color-text-muted);">{{ $variant->size }}</span>
+                                    @endif
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                @elseif($product->volume || $product->size)
                     <div class="product-options">
                         <label class="options-label">Dung tích</label>
                         <div class="options-buttons">
@@ -142,20 +179,28 @@
                     </div>
                 @endif
 
+                {{-- Short Description --}}
+                @if($product->short_description)
+                    <div class="product-description">
+                        <p>{{ $product->short_description }}</p>
+                    </div>
+                @endif
+
                 {{-- Stock --}}
                 <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', 'sản phẩm có sẵn') }}</div>
 
                 {{-- Quantity + Add to Cart --}}
-                <form action="{{ route('cart.add') }}" method="POST" class="cart-form">
+                <form action="{{ route('cart.add') }}" method="POST" class="cart-form" id="cartForm">
                     @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="hidden" name="product_id" value="{{ $product->id }}" id="productIdInput">
+                    <input type="hidden" name="variant_id" value="" id="variantIdInput">
                     <div class="cart-actions">
                         <div class="quantity-selector">
                             <button type="button" class="qty-btn" onclick="decreaseQty()" aria-label="{{ content('product_qty_decrease', 'Giảm') }}">−</button>
                             <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $product->stock }}" readonly>
                             <button type="button" class="qty-btn" onclick="increaseQty({{ $product->stock }})" aria-label="{{ content('product_qty_increase', 'Tăng') }}">+</button>
                         </div>
-                        <button type="submit" class="btn-add-cart" {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                        <button type="submit" class="btn-add-cart" id="addToCartBtn" {{ $product->stock <= 0 ? 'disabled' : '' }}>
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
@@ -171,6 +216,18 @@
 
                 {{-- Accordion --}}
                 <div class="product-accordion">
+                    @if($product->description)
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-header">
+                                <span>Mô tả sản phẩm</span>
+                                <span class="accordion-icon" aria-hidden="true">+</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div>{!! nl2br(e($product->description)) !!}</div>
+                            </div>
+                        </div>
+                    @endif
+                    
                     <div class="accordion-item">
                         <button type="button" class="accordion-header">
                             <span>Chính sách đổi trả</span>
@@ -221,6 +278,128 @@
 
 @push('scripts')
 <script>
+    let currentStock = {{ $product->stock }};
+    let currentVariantImages = [];
+    let originalImages = [];
+    
+    // Store original product images on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const mainImage = document.getElementById('mainImage');
+        const thumbnails = document.querySelectorAll('.gallery-item--thumb');
+        
+        if (mainImage && mainImage.src) {
+            originalImages.push(mainImage.src);
+        }
+        
+        thumbnails.forEach(thumb => {
+            const img = thumb.querySelector('img');
+            if (img && img.src && thumb.dataset.type === 'image') {
+                if (!originalImages.includes(img.src)) {
+                    originalImages.push(img.src);
+                }
+            }
+        });
+        
+        // Set first variant as selected if exists
+        const firstVariant = document.querySelector('.variant-option');
+        if (firstVariant) {
+            selectVariant(firstVariant);
+        }
+    });
+    
+    // Select variant and update UI
+    function selectVariant(button) {
+        // Update active state
+        document.querySelectorAll('.variant-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        // Get variant data
+        const variantId = button.dataset.variantId;
+        const variantPrice = parseFloat(button.dataset.variantPrice);
+        const variantStock = parseInt(button.dataset.variantStock);
+        const variantImages = JSON.parse(button.dataset.variantImages || '[]');
+        
+        // Update hidden form inputs
+        document.getElementById('variantIdInput').value = variantId;
+        
+        // Update price display
+        const priceElement = document.querySelector('.price-sale');
+        if (priceElement) {
+            priceElement.textContent = new Intl.NumberFormat('vi-VN').format(variantPrice) + ' đ';
+        }
+        
+        // Update stock display and controls
+        currentStock = variantStock;
+        const stockElement = document.querySelector('.product-stock');
+        if (stockElement) {
+            stockElement.textContent = variantStock + ' {{ content("product_stock_suffix", "sản phẩm có sẵn") }}';
+        }
+        
+        // Update quantity max
+        const qtyInput = document.getElementById('quantity');
+        if (qtyInput) {
+            qtyInput.max = variantStock;
+            if (parseInt(qtyInput.value) > variantStock) {
+                qtyInput.value = Math.max(1, variantStock);
+            }
+        }
+        
+        // Update add to cart button state
+        const addToCartBtn = document.getElementById('addToCartBtn');
+        const buyNowBtn = document.querySelector('.btn-buy-now');
+        if (addToCartBtn) {
+            if (variantStock <= 0) {
+                addToCartBtn.disabled = true;
+                if (buyNowBtn) buyNowBtn.disabled = true;
+            } else {
+                addToCartBtn.disabled = false;
+                if (buyNowBtn) buyNowBtn.disabled = false;
+            }
+        }
+        
+        // Update gallery images - always use variant images (fallback already included in data)
+        if (variantImages.length > 0) {
+            currentVariantImages = variantImages;
+            updateGallery(variantImages);
+        }
+    }
+    
+    // Update gallery with variant images
+    function updateGallery(images) {
+        const mainImage = document.getElementById('mainImage');
+        const mainVideo = document.getElementById('mainVideo');
+        const thumbnailsContainer = document.querySelector('.gallery-thumbnails');
+        
+        // Hide video, show image
+        if (mainVideo) {
+            mainVideo.style.display = 'none';
+        }
+        if (mainImage) {
+            mainImage.style.display = 'block';
+            // Set first image as main
+            if (images.length > 0) {
+                mainImage.src = images[0];
+            }
+        }
+        
+        // Update thumbnails
+        if (thumbnailsContainer) {
+            if (images.length > 1) {
+                thumbnailsContainer.innerHTML = images.map((img, index) => `
+                    <div class="gallery-item--thumb ${index === 0 ? 'active' : ''}" 
+                         data-type="image"
+                         onclick="changeMainMedia('${img}', 'image', null, this)">
+                        <img src="${img}" alt="Product image" loading="lazy">
+                    </div>
+                `).join('');
+                thumbnailsContainer.style.display = 'grid';
+            } else {
+                // Hide thumbnails if only one image
+                thumbnailsContainer.style.display = 'none';
+            }
+        }
+    }
+
     // Change main media (image or video) on thumbnail click
     function changeMainMedia(src, type, mimeType, thumbElement) {
         const mainImage = document.getElementById('mainImage');
@@ -252,7 +431,8 @@
     function increaseQty(max) {
         const input = document.getElementById('quantity');
         const current = parseInt(input.value) || 1;
-        if (current < max) {
+        const actualMax = currentStock || max;
+        if (current < actualMax) {
             input.value = current + 1;
         }
     }
@@ -294,6 +474,12 @@
                 }
             });
         });
+        
+        // Auto-select first variant if exists
+        const firstVariant = document.querySelector('.variant-option.active');
+        if (firstVariant) {
+            selectVariant(firstVariant);
+        }
     });
 </script>
 @endpush

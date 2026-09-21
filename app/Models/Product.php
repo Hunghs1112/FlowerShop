@@ -20,6 +20,8 @@ class Product extends Model
         'latest_arrival_date',
         'description',
         'short_description',
+        'video_url',
+        'video_type',
         'is_featured',
         'is_active',
     ];
@@ -47,6 +49,11 @@ class Product extends Model
         return $this->hasMany(ProductImage::class)->orderBy('sort_order');
     }
 
+    public function variants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class)->orderBy('sort_order');
+    }
+
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class);
@@ -55,6 +62,11 @@ class Product extends Model
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
+    }
+
+    public function vipLevels()
+    {
+        return $this->belongsToMany(VipLevel::class, 'product_vip_level');
     }
 
     // Scopes
@@ -127,6 +139,28 @@ class Product extends Model
         return $query->orderBy('name', $direction);
     }
 
+    /**
+     * Scope for VIP level visibility
+     * Filters products based on user's VIP level
+     */
+    public function scopeVisibleToUser($query, $user = null): Builder
+    {
+        // If no user, return all active products (or implement guest logic)
+        if (!$user) {
+            return $query;
+        }
+
+        // If user has no VIP level, return all products (or implement default logic)
+        if (!$user->vip_level_id) {
+            return $query;
+        }
+
+        // Get products that are assigned to this VIP level
+        return $query->whereHas('vipLevels', function ($q) use ($user) {
+            $q->where('vip_levels.id', $user->vip_level_id);
+        });
+    }
+
     // Helpers
     public function getPrimaryImage(): ?string
     {
@@ -140,8 +174,9 @@ class Product extends Model
         if (!$imagePath) {
             return 'https://via.placeholder.com/400x400/E5E7EB/6B7280?text=No+Image';
         }
-        // Use storage path for images stored in storage/app/public
-        return asset('storage/' . $imagePath);
+        // Strip legacy 'images/' prefix since storage/app/public already contains category folders
+        $path = preg_replace('#^/?images/#', '', $imagePath);
+        return asset('storage/' . $path);
     }
 
     // Display helpers (locale-aware — simplified since bilingual feature was removed)

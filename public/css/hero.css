@@ -12,11 +12,26 @@
     background-color: var(--color-black);
 }
 
+/* === HERO SLIDER === */
+.hero-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 /* === HERO BACKGROUND === */
 .hero-background {
     position: absolute;
     inset: 0;
     z-index: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    pointer-events: none;
+}
+
+.hero-slide.active .hero-background,
+.hero-background.active {
+    opacity: 1;
 }
 
 .hero-background-image {
@@ -42,6 +57,7 @@
 .hero-container {
     position: relative;
     z-index: 1;
+    width: 100%;
     height: 100%;
     max-width: var(--container-width);
     margin: 0 auto;
@@ -50,32 +66,37 @@
     align-items: center;
 }
 
+.hero-content-wrapper {
+    max-width: 640px;
+    width: 100%;
+}
+
 .hero-content {
     position: relative;
-    max-width: 640px;
+    width: 100%;
+    min-height: 280px;
 }
 
 /* === HERO SLIDES === */
 .hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
                 visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
 }
 
 .hero-slide.active {
     opacity: 1;
     visibility: visible;
-    position: relative;
 }
 
 /* === HERO TEXT === */
 .hero-label {
-    display: inline-block;
+    display: block;
     font-family: 'Inter', sans-serif;
     font-size: 0.8125rem;
     font-weight: 600;
@@ -157,22 +178,18 @@
 
 /* === HERO CONTROLS === */
 .hero-controls {
-    position: absolute;
-    bottom: var(--space-8);
-    left: var(--space-6);
-    right: var(--space-6);
-    z-index: 2;
+    margin-top: var(--space-6);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-4);
-    max-width: var(--container-width);
-    margin: 0 auto;
 }
 
 /* === HERO INDICATORS === */
 .hero-indicators {
-    display: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
 }
 
 .hero-indicator {
@@ -207,7 +224,26 @@
 
 /* === HERO COUNTER === */
 .hero-counter {
-    display: none;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    font-family: 'Inter', sans-serif;
+    color: var(--color-white);
+}
+
+.hero-counter-current {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.hero-counter-separator {
+    font-size: 1rem;
+    opacity: 0.6;
+}
+
+.hero-counter-total {
+    font-size: 1rem;
+    opacity: 0.8;
 }
 
 /* === SCROLL DOWN BUTTON === */
@@ -292,10 +328,8 @@
         font-size: 1rem;
     }
 
-    .hero-controls {
-        left: var(--space-5);
-        right: var(--space-5);
-        bottom: var(--space-6);
+    .hero-content-wrapper {
+        max-width: 560px;
     }
 
     .hero-scroll-btn {
@@ -335,6 +369,7 @@
 
     .hero-content {
         max-width: 100%;
+        padding-bottom: 60px;
     }
 
     .hero-label {
@@ -369,11 +404,8 @@
         height: 16px;
     }
 
-    .hero-controls {
-        position: static;
-        margin-top: var(--space-6);
-        padding: 0;
-        bottom: var(--space-4);
+    .hero-content-wrapper {
+        max-width: 100%;
     }
 
     .hero-indicator {

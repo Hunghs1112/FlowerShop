@@ -71,12 +71,24 @@ return new class extends Migration
         // Helpful composite index for the admin gallery view: primary sort
         // orders video rows after images (or however the user wants).
         $targetTable = Schema::hasTable('product_media') ? 'product_media' : 'product_images';
-        Schema::table($targetTable, function (Blueprint $table) use ($targetTable) {
-            // Add new index if it doesn't exist
-            if (!$this->indexExists($targetTable, ['product_id', 'media_type'])) {
+        
+        // Check if index exists before attempting to create it
+        $indexName = 'product_media_product_id_media_type_index';
+        $indexExists = false;
+        
+        try {
+            $indexes = Schema::getConnection()
+                ->select("SHOW INDEX FROM {$targetTable} WHERE Key_name = '{$indexName}'");
+            $indexExists = !empty($indexes);
+        } catch (\Throwable $e) {
+            // If we can't check, assume it doesn't exist
+        }
+        
+        if (!$indexExists) {
+            Schema::table($targetTable, function (Blueprint $table) {
                 $table->index(['product_id', 'media_type']);
-            }
-        });
+            });
+        }
     }
 
     /**

@@ -40,6 +40,9 @@ class CategoryController extends Controller
         // Get all descendant category IDs for filtering
         $categoryIds = $this->categoryService->getDescendantIds($category);
 
+        // CRITICAL: Pass authenticated user for VIP filtering
+        $user = auth()->user();
+
         $filters = [
             'category_ids' => $categoryIds,
             'min_price' => $request->input('min_price'),
@@ -47,6 +50,7 @@ class CategoryController extends Controller
             'in_stock' => $request->boolean('in_stock'),
             'sort_by' => $request->input('sort_by', 'latest'),
             'per_page' => 12,
+            'user' => $user,
         ];
 
         $products = $this->productService->filterProducts($filters);

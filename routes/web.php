@@ -76,6 +76,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/thanh-toan', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/thanh-toan/thanh-cong', [CheckoutController::class, 'success'])->name('checkout.success');
 
+    // Mystery Box
+    Route::get('/hop-hoa-bi-an', [\App\Http\Controllers\MysteryBoxController::class, 'index'])->name('mystery-box.index');
+    Route::post('/hop-hoa-bi-an', [\App\Http\Controllers\MysteryBoxController::class, 'store'])->name('mystery-box.store');
+    Route::get('/hop-hoa-bi-an/thanh-cong/{request}', [\App\Http\Controllers\MysteryBoxController::class, 'success'])->name('mystery-box.success');
+
     // Profile
     Route::get('/tai-khoan', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/tai-khoan', [ProfileController::class, 'update'])->name('profile.update');
@@ -123,6 +128,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+    Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
 
     // AJAX Auto-save endpoints for Products
     Route::patch('products/{product}/update-field', [\App\Http\Controllers\Admin\ProductController::class, 'updateField'])->name('products.updateField');
@@ -131,10 +137,20 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('products/{product}/videos/{video}', [\App\Http\Controllers\Admin\ProductController::class, 'deleteVideo'])->name('products.deleteVideo');
     Route::post('products/{product}/images/{image}/set-primary', [\App\Http\Controllers\Admin\ProductController::class, 'setPrimaryImage'])->name('products.setPrimaryImage');
 
+    // Product Variants Management
+    Route::get('products/{product}/variants', [\App\Http\Controllers\Admin\ProductVariantController::class, 'index'])->name('products.variants.index');
+    Route::get('products/{product}/variants/create', [\App\Http\Controllers\Admin\ProductVariantController::class, 'create'])->name('products.variants.create');
+    Route::post('products/{product}/variants', [\App\Http\Controllers\Admin\ProductVariantController::class, 'store'])->name('products.variants.store');
+    Route::get('products/{product}/variants/{variant}/edit', [\App\Http\Controllers\Admin\ProductVariantController::class, 'edit'])->name('products.variants.edit');
+    Route::put('products/{product}/variants/{variant}', [\App\Http\Controllers\Admin\ProductVariantController::class, 'update'])->name('products.variants.update');
+    Route::delete('products/{product}/variants/{variant}', [\App\Http\Controllers\Admin\ProductVariantController::class, 'destroy'])->name('products.variants.destroy');
+
     // AJAX Auto-save endpoints for Categories
     Route::patch('categories/{category}/auto-save', [\App\Http\Controllers\Admin\CategoryController::class, 'autoSave'])->name('categories.autoSave');
     Route::post('categories/{category}/upload-image', [\App\Http\Controllers\Admin\CategoryController::class, 'uploadImage'])->name('categories.uploadImage');
     Route::delete('categories/{category}/image', [\App\Http\Controllers\Admin\CategoryController::class, 'deleteImage'])->name('categories.deleteImage');
+    Route::post('categories/{category}/upload-hover-image', [\App\Http\Controllers\Admin\CategoryController::class, 'uploadHoverImage'])->name('categories.uploadHoverImage');
+    Route::delete('categories/{category}/hover-image', [\App\Http\Controllers\Admin\CategoryController::class, 'deleteHoverImage'])->name('categories.deleteHoverImage');
 
     // AJAX Auto-save endpoints for Subcategories
     Route::patch('subcategories/{subcategory}/auto-save', [\App\Http\Controllers\Admin\SubcategoryController::class, 'autoSave'])->name('subcategories.autoSave');
@@ -148,6 +164,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // AJAX Auto-save endpoints for Pages
     Route::patch('pages/{page}/update-field', [\App\Http\Controllers\Admin\PageController::class, 'updateField'])->name('pages.updateField');
+
+    // AJAX Auto-save endpoints for Banners
+    Route::patch('banners/{banner}/update-field', [\App\Http\Controllers\Admin\BannerController::class, 'updateField'])->name('banners.updateField');
+    Route::post('banners/{banner}/upload-image', [\App\Http\Controllers\Admin\BannerController::class, 'uploadImage'])->name('banners.uploadImage');
 
     // AJAX Auto-save endpoints for Users
     Route::patch('users/{user}/update-field', [\App\Http\Controllers\Admin\UserController::class, 'updateField'])->name('users.updateField');
@@ -165,13 +185,26 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->where('key', '[a-z]+')
         ->name('settings.deleteBanner');
 
+    // Mystery Box management
+    Route::get('mystery-boxes', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'index'])->name('mystery-boxes.index');
+    Route::get('mystery-boxes/{mysteryBox}', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'show'])->name('mystery-boxes.show');
+    Route::patch('mystery-boxes/{mysteryBox}/status', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'updateStatus'])->name('mystery-boxes.updateStatus');
+
+    // VIP Levels management
+    Route::resource('vip-levels', \App\Http\Controllers\Admin\VipLevelController::class);
+    Route::post('vip-levels/{vipLevel}/products', [\App\Http\Controllers\Admin\VipLevelController::class, 'updateProducts'])->name('vip-levels.updateProducts');
+
+    // Users VIP level assignment
+    Route::post('users/{user}/vip-level', [\App\Http\Controllers\Admin\UserController::class, 'updateVipLevel'])->name('users.updateVipLevel');
+
+    // Inquiries
     Route::get('inquiries', [\App\Http\Controllers\Admin\InquiryController::class, 'index'])->name('inquiries.index');
     Route::get('inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'show'])->name('inquiries.show');
     Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\InquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
 
+    // Settings
     Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
-    // Delete endpoints for logo + banner (AJAX + regular form post).
     Route::delete('settings/logo', [\App\Http\Controllers\Admin\SettingController::class, 'deleteLogo'])->name('settings.deleteLogo');
     Route::delete('settings/banner/{key}', [\App\Http\Controllers\Admin\SettingController::class, 'deleteBanner'])
         ->where('key', '[a-z]+')
@@ -184,4 +217,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('chats/send', [\App\Http\Controllers\Admin\ChatController::class, 'store'])->name('chats.send');
     Route::post('chats/mark-as-read', [\App\Http\Controllers\Admin\ChatController::class, 'markAsRead'])->name('chats.markAsRead');
     Route::get('chats/{userId}', [\App\Http\Controllers\Admin\ChatController::class, 'show'])->name('chats.show');
+
+    // Banner management
+    Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
+    Route::patch('banners/{banner}/update-field', [\App\Http\Controllers\Admin\BannerController::class, 'updateField'])->name('banners.updateField');
+    Route::post('banners/{banner}/upload-image', [\App\Http\Controllers\Admin\BannerController::class, 'uploadImage'])->name('banners.uploadImage');
+    Route::delete('banners/{banner}/delete-image', [\App\Http\Controllers\Admin\BannerController::class, 'deleteImage'])->name('banners.deleteImage');
 });

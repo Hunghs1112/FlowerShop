@@ -47,6 +47,7 @@
                         <th>Tên</th>
                         <th>Email</th>
                         <th>Điện Thoại</th>
+                        <th style="width: 120px;">VIP Level</th>
                         <th style="width: 140px;">Vai Trò</th>
                         <th style="width: 140px;">Ngày Tham Gia</th>
                         <th style="width: 120px;">Thao Tác</th>
@@ -70,6 +71,13 @@
                             </td>
                             <td style="color: var(--admin-text-secondary);">{{ $user->email }}</td>
                             <td class="text-mono" style="color: var(--admin-text-secondary);">{{ $user->phone ?? '-' }}</td>
+                            <td>
+                                @if($user->vipLevel)
+                                    <span class="badge badge-primary">{{ $user->vipLevel->name }}</span>
+                                @else
+                                    <span style="color: var(--admin-text-tertiary); font-size: 14px;">-</span>
+                                @endif
+                            </td>
                             <td>
                                 <span class="badge {{ $user->role === 'admin' ? 'badge-accent' : 'badge-secondary' }}">
                                     {{ $user->role === 'admin' ? 'Quản trị viên' : 'Khách hàng' }}

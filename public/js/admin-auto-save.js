@@ -177,6 +177,10 @@
     // ============================================================
     function initTextInputs() {
         document.querySelectorAll('.auto-save-input').forEach(input => {
+            // Skip if already initialized
+            if (input.dataset.autoSaveInitialized === 'true') return;
+            input.dataset.autoSaveInitialized = 'true';
+
             const entity = input.dataset.entity;
             const id = input.dataset.id;
             const field = input.name;
@@ -265,6 +269,10 @@
             // Only process actual textareas (have rows attribute)
             if (textarea.tagName !== 'TEXTAREA') return;
             
+            // Skip if already initialized
+            if (textarea.dataset.autoSaveInitialized === 'true') return;
+            textarea.dataset.autoSaveInitialized = 'true';
+            
             const entity = textarea.dataset.entity;
             const id = textarea.dataset.id;
             const field = textarea.name;
@@ -322,6 +330,10 @@
     // ============================================================
     function initSelects() {
         document.querySelectorAll('.auto-save-select').forEach(select => {
+            // Skip if already initialized
+            if (select.dataset.autoSaveInitialized === 'true') return;
+            select.dataset.autoSaveInitialized = 'true';
+
             const entity = select.dataset.entity;
             const id = select.dataset.id;
             const field = select.name;
@@ -346,6 +358,10 @@
     // ============================================================
     function initCheckboxes() {
         document.querySelectorAll('.auto-save-checkbox').forEach(checkbox => {
+            // Skip if already initialized
+            if (checkbox.dataset.autoSaveInitialized === 'true') return;
+            checkbox.dataset.autoSaveInitialized = 'true';
+
             const entity = checkbox.dataset.entity;
             const id = checkbox.dataset.id;
             const field = checkbox.name;
@@ -370,9 +386,13 @@
     // ============================================================
     function initFileUploads() {
         document.querySelectorAll('.auto-save-file').forEach(input => {
+            // Skip if already initialized (prevent duplicate listeners)
+            if (input.dataset.autoSaveInitialized === 'true') return;
+            input.dataset.autoSaveInitialized = 'true';
+
             const entity = input.dataset.entity;
             const id = input.dataset.id;
-            const field = input.name;
+            const field = input.dataset.field || input.name.replace('[]', ''); // Use data-field or strip [] from name
             const uploadUrl = input.dataset.uploadUrl;
 
             if (!entity || !id) return;
@@ -380,6 +400,16 @@
             input.addEventListener('change', async (e) => {
                 const files = Array.from(e.target.files);
                 if (!files.length) return;
+
+                // Get max images from data attribute or default to 10
+                const maxImages = parseInt(input.dataset.maxImages || '10');
+                
+                // Client-side validation: check file count
+                if (files.length > maxImages) {
+                    Toast.error(`Chỉ được chọn tối đa ${maxImages} ảnh`);
+                    e.target.value = '';
+                    return;
+                }
 
                 // Show uploading state
                 const preview = document.getElementById('imagePreview');
@@ -389,7 +419,7 @@
 
                 const formData = new FormData();
                 
-                // Append all files
+                // Append all files - Laravel expects 'images[]' for array of files
                 files.forEach((file, index) => {
                     formData.append('images[]', file);
                 });
@@ -532,6 +562,10 @@
     function initSettingsAutoSave() {
         // Text inputs
         document.querySelectorAll('.settings-auto-save').forEach(input => {
+            // Skip if already initialized
+            if (input.dataset.autoSaveInitialized === 'true') return;
+            input.dataset.autoSaveInitialized = 'true';
+
             const field = input.name;
             
             input.addEventListener('input', debounce(async (e) => {
@@ -547,6 +581,10 @@
 
         // Checkboxes
         document.querySelectorAll('.settings-auto-save-checkbox').forEach(checkbox => {
+            // Skip if already initialized
+            if (checkbox.dataset.autoSaveInitialized === 'true') return;
+            checkbox.dataset.autoSaveInitialized = 'true';
+
             const field = checkbox.name;
             
             checkbox.addEventListener('change', async (e) => {

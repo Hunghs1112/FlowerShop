@@ -81,7 +81,10 @@
                 <input type="file" 
                        name="site_logo" 
                        accept="image/*" 
-                       class="settings-auto-save-file"
+                       class="auto-save-file"
+                       data-entity="settings"
+                       data-id="1"
+                       data-field="site_logo"
                        data-upload-url="{{ route('admin.settings.uploadLogo') }}"
                        style="width: 100%;">
                 <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước khuyến nghị: 200x60px. Định dạng: jpg, png, gif, webp.</small>
@@ -394,7 +397,6 @@
 </div>
 
 @push('scripts')
-<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
