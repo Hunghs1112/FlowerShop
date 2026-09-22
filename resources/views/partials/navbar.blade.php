@@ -4,7 +4,6 @@
         {{-- ─── Logo ─────────────────────────────────────────── --}}
         <a href="{{ route('home') }}" class="navbar-logo">
             <img src="{{ asset('images/logo.png') }}" alt="{{ $siteSettings['site_name'] ?? config('app.name') }}" class="navbar-logo-img">
-            <span class="navbar-logo-text">{{ $siteSettings['site_name'] ?? config('app.name') }}</span>
         </a>
 
         {{-- ─── Desktop Navigation ──────────────────────────── --}}
@@ -59,7 +58,7 @@
             {{-- Góc cảm hứng — link thẳng, không dropdown hardcode --}}
             <li class="navbar-nav-item">
                 <a href="{{ route('blog.index') }}" class="navbar-nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}">
-                    {{ __('messages.nav.blog') }}
+                    Góc cảm hứng
                 </a>
             </li>
 
@@ -67,7 +66,7 @@
             @if($navPages->isNotEmpty())
             <li class="navbar-nav-item" data-dropdown="standard">
                 <a href="#" class="navbar-nav-link">
-                    {{ __('messages.nav.information') }}
+                    Thông tin
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -83,7 +82,7 @@
             {{-- B2C --}}
             <li class="navbar-nav-item">
                 <a href="{{ route('b2c') }}" class="navbar-nav-link {{ request()->routeIs('b2c') ? 'active' : '' }}">
-                    {{ __('messages.nav.b2c') ?? 'B2C' }}
+                    B2C
                 </a>
             </li>
 

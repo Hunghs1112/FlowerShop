@@ -3,18 +3,35 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductVariantRequest;
+use App\Http\Requests\UpdateProductVariantRequest;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\ProductVariantImage;
+use App\Repositories\ProductVariantRepository;
+use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProductVariantController extends Controller
 {
+    protected ProductVariantRepository $variants;
+    protected ImageStorageService $images;
+
+    public function __construct(
+        ProductVariantRepository $variants,
+        ImageStorageService $images
+    ) {
+        $this->variants = $variants;
+        $this->images = $images;
+        
+    }
+
     public function index(Request $request, $productId)
     {
         $product = Product::findOrFail($productId);
-        $variants = $product->variants()->orderBy('sort_order')->get();
+
+        $variants = $this->variants->getActiveForProduct($productId);
         
         // If AJAX request, return JSON
         if ($request->wantsJson() || $request->ajax()) {
@@ -41,7 +58,7 @@ class ProductVariantController extends Controller
                 })
             ]);
         }
-        
+
         return view('admin.products.variants.index', compact('product', 'variants'));
     }
 
@@ -52,31 +69,16 @@ class ProductVariantController extends Controller
         return view('admin.products.variants.create', compact('product'));
     }
 
-    public function store(Request $request, $productId)
+    public function store(StoreProductVariantRequest $request, $productId)
     {
         $product = Product::findOrFail($productId);
-        
-        $validated = $request->validate([
-            'sku' => 'required|string|max:100|unique:product_variants,sku',
-            'name' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'color' => 'nullable|string|max:50',
-            'size' => 'nullable|string|max:50',
-            'price' => 'nullable|numeric|min:0',
-            'compare_at_price' => 'nullable|numeric|min:0',
-            'stock' => 'nullable|integer|min:0',
-            'weight' => 'nullable|numeric|min:0',
-            'dimensions' => 'nullable|string|max:100',
-            'is_active' => 'boolean',
-            'sort_order' => 'nullable|integer|min:0',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-        ]);
 
+        $validated = $request->validated();
         $validated['product_id'] = $productId;
-        $validated['is_active'] = $request->input('is_active', 0) ? 1 : 0;
+        $validated['is_active'] = $request->boolean('is_active', false);
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
-        $variant = ProductVariant::create($validated);
+        $variant = $this->variants->create($validated);
 
         // Handle images
         if ($request->hasFile('images')) {
@@ -120,35 +122,20 @@ class ProductVariantController extends Controller
     public function edit($productId, $id)
     {
         $product = Product::findOrFail($productId);
+
         $variant = ProductVariant::where('product_id', $productId)->findOrFail($id);
         
         return view('admin.products.variants.edit', compact('product', 'variant'));
     }
 
-    public function update(Request $request, $productId, $id)
+    public function update(UpdateProductVariantRequest $request, $productId, $id)
     {
         $product = Product::findOrFail($productId);
+
         $variant = ProductVariant::where('product_id', $productId)->findOrFail($id);
         
-        $validated = $request->validate([
-            'sku' => 'required|string|max:100|unique:product_variants,sku,' . $id,
-            'name' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'color' => 'nullable|string|max:50',
-            'size' => 'nullable|string|max:50',
-            'price' => 'nullable|numeric|min:0',
-            'compare_at_price' => 'nullable|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'weight' => 'nullable|numeric|min:0',
-            'dimensions' => 'nullable|string|max:100',
-            'is_active' => 'boolean',
-            'sort_order' => 'nullable|integer|min:0',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'delete_images' => 'nullable|array',
-            'delete_images.*' => 'exists:product_variant_images,id',
-        ]);
-
-        $validated['is_active'] = $request->has('is_active') ? 1 : 0;
+        $validated = $request->validated();
+        $validated['is_active'] = $request->boolean('is_active', false);
 
         $variant->update($validated);
 
@@ -178,6 +165,31 @@ class ProductVariantController extends Controller
             }
         }
 
+        // If AJAX request, return JSON
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Variant đã được cập nhật thành công!',
+                'variant' => [
+                    'id' => $variant->id,
+                    'sku' => $variant->sku,
+                    'name' => $variant->name,
+                    'description' => $variant->description,
+                    'color' => $variant->color,
+                    'size' => $variant->size,
+                    'price' => $variant->price,
+                    'stock' => $variant->stock,
+                    'is_active' => $variant->is_active,
+                    'compare_at_price' => $variant->compare_at_price,
+                    'weight' => $variant->weight,
+                    'dimensions' => $variant->dimensions,
+                    'sort_order' => $variant->sort_order,
+                    'primary_image_url' => $variant->getPrimaryImageUrl(),
+                    'images_count' => $variant->images()->count(),
+                ]
+            ]);
+        }
+
         return redirect()
             ->route('admin.products.variants.index', $productId)
             ->with('success', 'Variant đã được cập nhật thành công!');
@@ -186,6 +198,7 @@ class ProductVariantController extends Controller
     public function destroy(Request $request, $productId, $id)
     {
         $product = Product::findOrFail($productId);
+
         $variant = ProductVariant::where('product_id', $productId)->findOrFail($id);
         
         // Delete all images
@@ -194,7 +207,7 @@ class ProductVariantController extends Controller
             $image->delete();
         }
         
-        $variant->delete();
+        $this->variants->delete($variant->id);
 
         // If AJAX request, return JSON
         if ($request->wantsJson() || $request->ajax()) {
@@ -207,5 +220,51 @@ class ProductVariantController extends Controller
         return redirect()
             ->route('admin.products.variants.index', $productId)
             ->with('success', 'Variant đã được xóa thành công!');
+    }
+
+    public function uploadImages(Request $request, $productId, $variantId)
+    {
+        $product = Product::findOrFail($productId);
+
+        $variant = ProductVariant::where('product_id', $productId)->findOrFail($variantId);
+        
+        $validated = $request->validate([
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        $uploaded = [];
+
+        if ($request->hasFile('images')) {
+            $maxOrder = $variant->images()->max('sort_order') ?? -1;
+            
+            foreach ($request->file('images') as $index => $image) {
+                $path = $image->store('variants', 'public');
+                
+                $variantImage = ProductVariantImage::create([
+                    'product_variant_id' => $variant->id,
+                    'image_path' => $path,
+                    'sort_order' => $maxOrder + $index + 1,
+                ]);
+                
+                $uploaded[] = [
+                    'id' => $variantImage->id,
+                    'image_url' => $variantImage->image_url,
+                    'sort_order' => $variantImage->sort_order,
+                ];
+            }
+        }
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Ảnh đã được upload thành công!',
+                'images' => $uploaded,
+                'count' => count($uploaded),
+            ], 201);
+        }
+
+        return redirect()
+            ->route('admin.products.variants.index', $productId)
+            ->with('success', 'Ảnh đã được upload thành công!');
     }
 }

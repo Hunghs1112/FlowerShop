@@ -122,10 +122,6 @@
         </div>
     </div>
 
-    @if($mysteryBoxRequests->hasPages())
-        <div class="admin-card-footer">
-            {{ $mysteryBoxRequests->links() }}
-        </div>
-    @endif
+
 </div>
 @endsection

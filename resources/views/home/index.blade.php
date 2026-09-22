@@ -6,6 +6,9 @@
     {{-- Hero Section --}}
     @include('home.sections.hero')
 
+    {{-- Mystery Box Banner Section --}}
+    @include('home.sections.mystery-box-banner')
+
     {{-- Best Selling Products Section --}}
     @include('home.sections.products')
 

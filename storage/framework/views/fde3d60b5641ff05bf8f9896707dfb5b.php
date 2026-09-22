@@ -4,7 +4,6 @@
         
         <a href="<?php echo e(route('home')); ?>" class="navbar-logo">
             <img src="<?php echo e(asset('images/logo.png')); ?>" alt="<?php echo e($siteSettings['site_name'] ?? config('app.name')); ?>" class="navbar-logo-img">
-            <span class="navbar-logo-text"><?php echo e($siteSettings['site_name'] ?? config('app.name')); ?></span>
         </a>
 
         
@@ -60,8 +59,7 @@
             
             <li class="navbar-nav-item">
                 <a href="<?php echo e(route('blog.index')); ?>" class="navbar-nav-link <?php echo e(request()->routeIs('blog.*') ? 'active' : ''); ?>">
-                    <?php echo e(__('messages.nav.blog')); ?>
-
+                    Góc cảm hứng
                 </a>
             </li>
 
@@ -69,8 +67,7 @@
             <?php if($navPages->isNotEmpty()): ?>
             <li class="navbar-nav-item" data-dropdown="standard">
                 <a href="#" class="navbar-nav-link">
-                    <?php echo e(__('messages.nav.information')); ?>
-
+                    Thông tin
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -86,8 +83,7 @@
             
             <li class="navbar-nav-item">
                 <a href="<?php echo e(route('b2c')); ?>" class="navbar-nav-link <?php echo e(request()->routeIs('b2c') ? 'active' : ''); ?>">
-                    <?php echo e(__('messages.nav.b2c') ?? 'B2C'); ?>
-
+                    B2C
                 </a>
             </li>
 

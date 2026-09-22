@@ -15,7 +15,7 @@
             <tr>
                 <td data-label="Hình Ảnh">
                     @if($category->image)
-                        <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="table-image">
+                        <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="table-image">
                     @else
                         <div class="table-image" style="width: 56px; height: 56px; background: var(--admin-bg-content); display: flex; align-items: center; justify-content: center; border-radius: var(--admin-radius-md);">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24" style="color: var(--admin-text-muted);">

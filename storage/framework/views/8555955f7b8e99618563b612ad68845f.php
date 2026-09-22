@@ -144,22 +144,6 @@
 </div>
 
 
-<?php if($activeTab === 'categories' && $categories->hasPages()): ?>
-    <div style="margin-top: 24px;">
-        <?php echo e($categories->appends(['tab' => 'categories'])->links()); ?>
-
-    </div>
-<?php elseif($activeTab === 'subcategories' && $subcategories->hasPages()): ?>
-    <div style="margin-top: 24px;">
-        <?php echo e($subcategories->appends(['tab' => 'subcategories'])->links()); ?>
-
-    </div>
-<?php elseif($activeTab === 'products' && $products->hasPages()): ?>
-    <div style="margin-top: 24px;">
-        <?php echo e($products->appends(['tab' => 'products'])->links()); ?>
-
-    </div>
-<?php endif; ?>
 
 <style>
 /* Tab Navigation Styles */

@@ -205,7 +205,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 @foreach($variant->images as $image)
                 <div class="relative group">
-                    <img src="{{ asset('storage/' . $image->image_path) }}" 
+                    <img src="{{ $image->image_url }}" 
                          alt="Variant image"
                          class="w-full h-32 object-cover rounded-lg border border-slate-700">
                     <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition rounded-lg flex items-center justify-center">

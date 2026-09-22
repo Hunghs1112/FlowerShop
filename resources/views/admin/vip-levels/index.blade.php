@@ -107,10 +107,6 @@
         </div>
     </div>
     
-    @if($vipLevels->hasPages())
-        <div class="admin-card-footer">
-            {{ $vipLevels->links() }}
-        </div>
-    @endif
+
 </div>
 @endsection

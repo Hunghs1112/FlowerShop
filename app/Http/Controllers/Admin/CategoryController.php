@@ -3,21 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Responses\AjaxResponse;
 use App\Models\Category;
+use App\Repositories\CategoryRepository;
 use App\Services\ImageStorageService;
+use App\Services\AjaxFieldService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    /** @var ImageStorageService */
-    protected $images;
+    protected CategoryRepository $categories;
+    protected ImageStorageService $images;
+    protected AjaxFieldService $ajaxFieldService;
 
-    public function __construct(ImageStorageService $images)
-    {
+    public function __construct(
+        CategoryRepository $categories,
+        ImageStorageService $images,
+        AjaxFieldService $ajaxFieldService
+    ) {
+        $this->categories = $categories;
         $this->images = $images;
+        $this->ajaxFieldService = $ajaxFieldService;
+        
     }
 
     // ============================================================
@@ -25,23 +36,12 @@ class CategoryController extends Controller
     // ============================================================
     public function autoSave(Request $request, Category $category)
     {
+
         $field = $request->input('field');
         $value = $request->input('value');
 
-        // Validate field name to prevent mass assignment
-        $allowedFields = [
-            'name', 'slug', 'description', 'icon', 'is_active', 'sort_order'
-        ];
-
-        if (!in_array($field, $allowedFields)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Trường không hợp lệ'
-            ], 422);
-        }
-
-        // Validate specific fields
-        $rules = [
+        // Define allowed fields with validation rules
+        $fieldConfig = [
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
@@ -50,164 +50,34 @@ class CategoryController extends Controller
             'sort_order' => 'nullable|integer',
         ];
 
-        $validator = \Illuminate\Support\Facades\Validator::make([$field => $value], [
-            $field => $rules[$field] ?? 'nullable'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validator->errors()->first($field),
-                'errors' => $validator->errors()->toArray()
-            ], 422);
-        }
-
-        // Handle boolean fields
-        if ($field === 'is_active') {
-            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
-        }
-
-        // Auto-generate slug from name if name changed
-        if ($field === 'name' && !empty($value) && empty($category->slug)) {
-            $value = Str::slug($value);
-        }
-
-        $category->update([$field => $value]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã lưu ' . $field,
-            'data' => [
-                $field => $category->$field
-            ]
-        ]);
+        return $this->ajaxFieldService->handleAjaxFieldUpdate(
+            $category,
+            $field,
+            $value,
+            $fieldConfig
+        );
     }
-
-    // ============================================================
-    // AJAX: Upload category image
-    // ============================================================
-    public function uploadImage(Request $request, Category $category)
-    {
-        $maxKb = (int) config('upload.limits.category_image.max_size', 2048);
-
-        $request->validate([
-            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
-        ]);
-
-        $oldImage = $category->image;
-
-        try {
-            $path = $this->images->upload(
-                $request->file('file'),
-                config('upload.disks.folders.category', 'categories'),
-                $oldImage
-            );
-
-            $category->update(['image' => $path]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã tải lên ảnh mới',
-                'imageUrl' => asset('storage/' . $path),
-            ]);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    // ============================================================
-    // AJAX: Upload category hover image
-    // ============================================================
-    public function uploadHoverImage(Request $request, Category $category)
-    {
-        $maxKb = (int) config('upload.limits.category_image.max_size', 2048);
-
-        $request->validate([
-            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
-        ]);
-
-        $oldImage = $category->hover_image;
-
-        try {
-            $path = $this->images->upload(
-                $request->file('file'),
-                config('upload.disks.folders.category', 'categories'),
-                $oldImage
-            );
-
-            $category->update(['hover_image' => $path]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã tải lên ảnh hover',
-                'imageUrl' => asset('storage/' . $path),
-            ]);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    // ============================================================
-    // AJAX: Delete category image
-    // ============================================================
-    public function deleteImage(Category $category)
-    {
-        $imagePath = $category->image;
-
-        if ($imagePath) {
-            $category->update(['image' => null]);
-            $this->images->delete($imagePath);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã xóa ảnh'
-        ]);
-    }
-
-    // ============================================================
-    // AJAX: Delete category hover image
-    // ============================================================
-    public function deleteHoverImage(Category $category)
-    {
-        $imagePath = $category->hover_image;
-
-        if ($imagePath) {
-            $category->update(['hover_image' => null]);
-            $this->images->delete($imagePath);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã xóa ảnh hover'
-        ]);
-    }
-
     public function index(Request $request)
     {
+
+        $filters = [
+            'search' => $request->input('search'),
+            'is_active' => $request->input('status') === 'active' ? true :
+                          ($request->input('status') === 'inactive' ? false : null),
+        ];
+
         $query = Category::withCount(['products', 'subcategories']);
 
-        if ($search = $request->input('search')) {
-            $query->where('name', 'like', '%' . $search . '%');
+        if ($filters['search']) {
+            $query->where('name', 'like', '%' . $filters['search'] . '%');
+        }
+        if ($filters['is_active'] !== null) {
+            $query->where('is_active', $filters['is_active']);
         }
 
-        if ($status = $request->input('status')) {
-            if ($status === 'active') {
-                $query->where('is_active', true);
-            } elseif ($status === 'inactive') {
-                $query->where('is_active', false);
-            }
-        }
+        $categories = $query->orderBy('sort_order')->paginate(50);
 
-        $categories = $query->orderBy('sort_order')->paginate(20);
-
-        return view('admin.categories.index', compact('categories'));
+        return view('admin.categories.index', compact('categories', 'filters'));
     }
 
     public function create()
@@ -215,37 +85,29 @@ class CategoryController extends Controller
         return view('admin.categories.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $maxKb = (int) config('upload.limits.category_image.max_size', 2048);
-        $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'slug'        => 'nullable|string|max:255|unique:categories,slug',
-            'description' => 'nullable|string',
-            'icon'        => 'nullable|string|max:50',
-            'image'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
-            'is_active'   => 'boolean',
-            'sort_order'  => 'nullable|integer',
-        ]);
 
+        $validated = $request->validated();
+
+        // Auto-generate slug if empty
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        $validated['is_active']  = $request->boolean('is_active', true);
+        $validated['is_active'] = $request->boolean('is_active', true);
         $validated['sort_order'] = $validated['sort_order'] ?? Category::max('sort_order') + 1;
 
         try {
             DB::transaction(function () use ($request, &$validated) {
                 if ($request->hasFile('image')) {
-                    $file = $request->file('image');
                     $validated['image'] = $this->images->upload(
-                        $file,
+                        $request->file('image'),
                         config('upload.disks.folders.category', 'categories')
                     );
                 }
 
-                Category::create($validated);
+                $this->categories->create($validated);
             });
         } catch (\Throwable $e) {
             if (!empty($validated['image'])) {
@@ -263,33 +125,24 @@ class CategoryController extends Controller
         return view('admin.categories.edit', compact('category'));
     }
 
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $maxKb = (int) config('upload.limits.category_image.max_size', 2048);
-        $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'slug'        => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
-            'description' => 'nullable|string',
-            'icon'        => 'nullable|string|max:50',
-            'image'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
-            'is_active'   => 'boolean',
-            'sort_order'  => 'nullable|integer',
-        ]);
 
+        $validated = $request->validated();
+
+        // Auto-generate slug if empty
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
 
         $validated['is_active'] = $request->boolean('is_active');
-
         $oldImage = $category->image;
 
         try {
             DB::transaction(function () use ($request, $category, &$validated, $oldImage) {
                 if ($request->hasFile('image')) {
-                    $file = $request->file('image');
                     $validated['image'] = $this->images->upload(
-                        $file,
+                        $request->file('image'),
                         config('upload.disks.folders.category', 'categories'),
                         $oldImage
                     );
@@ -310,6 +163,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+
         if ($category->products()->count() > 0) {
             return redirect()->back()
                 ->with('error', 'Không thể xóa danh mục đang có sản phẩm');
@@ -321,7 +175,6 @@ class CategoryController extends Controller
         }
 
         $imagePath = $category->image;
-
         $category->delete();
 
         if ($imagePath) {

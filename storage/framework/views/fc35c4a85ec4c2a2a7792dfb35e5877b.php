@@ -16,10 +16,10 @@
             <tr>
                 <td data-label="Hình Ảnh">
                     <?php if($product->productImages->where('is_primary', true)->first()): ?>
-                        <img src="<?php echo e(asset('storage/' . $product->productImages->where('is_primary', true)->first()->image_path)); ?>" 
+                        <img src="<?php echo e($product->productImages->where('is_primary', true)->first()->image_url); ?>" 
                              alt="<?php echo e($product->name); ?>" class="table-image">
                     <?php elseif($product->productImages->first()): ?>
-                        <img src="<?php echo e(asset('storage/' . $product->productImages->first()->image_path)); ?>" 
+                        <img src="<?php echo e($product->productImages->first()->image_url); ?>" 
                              alt="<?php echo e($product->name); ?>" class="table-image">
                     <?php else: ?>
                         <div class="table-image" style="width: 56px; height: 56px; background: var(--admin-bg-content); display: flex; align-items: center; justify-content: center; border-radius: var(--admin-radius-md);">

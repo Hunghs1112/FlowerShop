@@ -16,7 +16,7 @@ class ChatController extends Controller
      */
     public function index()
     {
-        // Get users who have chat messages, with unread count and latest message
+
         $users = User::whereHas('chatMessages')
             ->withCount(['unreadMessages'])
             ->with(['chatMessages' => function ($query) {
@@ -36,6 +36,7 @@ class ChatController extends Controller
     public function show($userId)
     {
         $user = User::findOrFail($userId);
+
         $messages = ChatMessage::forUser($userId)->with('user')->get();
 
         // Mark user messages as read
@@ -56,6 +57,7 @@ class ChatController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'message' => 'required|string|max:1000',
@@ -68,7 +70,6 @@ class ChatController extends Controller
             'is_read' => false,
         ]);
 
-        // Broadcast event
         broadcast(new MessageSent($message->load('user')))->toOthers();
 
         return response()->json([
@@ -82,6 +83,7 @@ class ChatController extends Controller
      */
     public function markAsRead(Request $request): JsonResponse
     {
+
         $request->validate([
             'user_id' => 'required|exists:users,id',
         ]);
@@ -99,6 +101,7 @@ class ChatController extends Controller
      */
     public function unreadCount(): JsonResponse
     {
+
         $count = ChatMessage::where('is_admin', false)
             ->where('is_read', false)
             ->count();
@@ -111,6 +114,7 @@ class ChatController extends Controller
      */
     public function poll(Request $request): JsonResponse
     {
+
         $userId = $request->input('user_id');
         $afterId = (int) $request->input('after', 0);
 

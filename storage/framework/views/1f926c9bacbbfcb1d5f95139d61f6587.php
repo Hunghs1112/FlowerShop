@@ -7,42 +7,86 @@
 
     <title><?php echo $__env->yieldContent('title', 'Bảng Điều Khiển'); ?> - Quản Trị</title>
 
-    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/admin.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/admin/sidebar.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/admin/dashboard.css')); ?>">
+    
+    <!-- Tailwind CSS for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                            600: '#475569',
+                            500: '#64748b',
+                            400: '#94a3b8',
+                            300: '#cbd5e1',
+                            200: '#e2e8f0',
+                            100: '#f1f5f9'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <div class="admin-layout">
+<body class="dark bg-slate-900">
+    <div class="admin-layout min-h-screen bg-slate-900">
         
         <div class="admin-sidebar-overlay" id="adminSidebarOverlay" aria-hidden="true"></div>
 
         <?php echo $__env->make('admin.partials.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-        <div class="admin-main">
+        <div class="admin-main bg-slate-900 text-slate-100">
             <?php echo $__env->make('admin.partials.topbar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-            <div class="admin-content">
+            <div class="admin-content bg-slate-900">
                 <?php if(session('success')): ?>
-                    <div class="admin-alert success">
-                        <?php echo e(session('success')); ?>
-
+                    <div class="admin-alert success mb-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg backdrop-blur-sm">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <p class="text-emerald-400"><?php echo e(session('success')); ?></p>
+                        </div>
                     </div>
                 <?php endif; ?>
 
                 <?php if(session('error')): ?>
-                    <div class="admin-alert error">
-                        <?php echo e(session('error')); ?>
-
+                    <div class="admin-alert error mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg backdrop-blur-sm">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            <p class="text-red-400"><?php echo e(session('error')); ?></p>
+                        </div>
                     </div>
                 <?php endif; ?>
 
                 <?php if($errors->any()): ?>
-                    <div class="admin-alert error">
-                        <ul>
+                    <div class="admin-alert error mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg backdrop-blur-sm">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                            </svg>
+                            <span class="text-red-400 font-medium">Có lỗi xảy ra:</span>
+                        </div>
+                        <ul class="text-red-300 list-disc list-inside space-y-1">
                             <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <li><?php echo e($error); ?></li>
+                                <li class="text-sm"><?php echo e($error); ?></li>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </div>

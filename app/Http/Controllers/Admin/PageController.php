@@ -3,153 +3,140 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\HandlesAjaxFieldUpdates;
+use App\Http\Requests\StorePageRequest;
+use App\Http\Requests\UpdatePageRequest;
+use App\Http\Responses\AjaxResponse;
 use App\Models\Page;
+use App\Repositories\PageRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    public function index(Request $request)
+    use HandlesAjaxFieldUpdates;
+
+    protected PageRepository $pages;
+
+    public function __construct(PageRepository $pages)
     {
-        $query = Page::query();
+        $this->pages = $pages;
+    }
+
+    /**
+     * Display a listing of pages
+     */
+    public function index(Request $request): View
+    {
+        $query = \App\Models\Page::query();
 
         if ($search = $request->input('search')) {
-            $query->where('title', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('slug', 'like', "%{$search}%");
+            });
         }
 
-        if ($status = $request->input('status')) {
-            if ($status === 'active') {
-                $query->where('is_active', true);
-            } elseif ($status === 'inactive') {
-                $query->where('is_active', false);
+        $filters = $this->buildFilters($request);
+        foreach ($filters as $field => $value) {
+            if ($value !== null) {
+                $query->where($field, $value);
             }
         }
 
-        $pages = $query->latest()->paginate(20);
+        $pages = $query->latest()->paginate($request->input('per_page', 15));
 
-        return view('admin.pages.index', compact('pages'));
+        return view('admin.pages.index', [
+            'pages'  => $pages,
+            'search' => $request->input('search'),
+        ]);
     }
 
-    public function create()
+    /**
+     * Show the form for creating a new page
+     */
+    public function create(): View
     {
         return view('admin.pages.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created page
+     */
+    public function store(StorePageRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:pages,slug',
-            'content' => 'required|string',
-            'is_active' => 'boolean',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:500',
-        ]);
-
-        if (empty($validated['slug'])) {
-            $validated['slug'] = Str::slug($validated['title']);
-        }
-
-        $validated['is_active'] = $request->boolean('is_active', true);
-
-        Page::create($validated);
+        $page = Page::create($request->validated());
 
         return redirect()->route('admin.pages.index')
             ->with('success', 'Tạo trang thành công');
     }
 
-    // ============================================================
-    // AJAX: Update single field
-    // ============================================================
-    public function updateField(Request $request, Page $page)
-    {
-        $field = $request->input('field');
-        $value = $request->input('value');
-
-        // Validate field name to prevent mass assignment
-        $allowedFields = [
-            'title', 'slug', 'content', 'is_active',
-            'meta_title', 'meta_description'
-        ];
-
-        if (!in_array($field, $allowedFields)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Trường không hợp lệ'
-            ], 422);
-        }
-
-        // Validate specific fields
-        $rules = [
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
-            'content' => 'required|string',
-            'is_active' => 'boolean',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:500',
-        ];
-
-        $validator = \Illuminate\Support\Facades\Validator::make([$field => $value], [
-            $field => $rules[$field] ?? 'nullable'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validator->errors()->first($field),
-                'errors' => $validator->errors()->toArray()
-            ], 422);
-        }
-
-        // Handle boolean fields
-        if ($field === 'is_active') {
-            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
-        }
-
-        $page->update([$field => $value]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã lưu ' . $field,
-            'data' => [
-                $field => $page->$field
-            ]
-        ]);
-    }
-
-    public function edit(Page $page)
+    /**
+     * Show the form for editing a page
+     */
+    public function edit(Page $page): View
     {
         return view('admin.pages.edit', compact('page'));
     }
 
-    public function update(Request $request, Page $page)
+    /**
+     * Update the page
+     */
+    public function update(UpdatePageRequest $request, Page $page)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
-            'content' => 'required|string',
-            'is_active' => 'boolean',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:500',
-        ]);
-
-        if (empty($validated['slug'])) {
-            $validated['slug'] = Str::slug($validated['title']);
-        }
-
-        $validated['is_active'] = $request->boolean('is_active');
-
-        $page->update($validated);
+        $page->update($request->validated());
 
         return redirect()->route('admin.pages.index')
             ->with('success', 'Cập nhật trang thành công');
     }
 
+    /**
+     * Delete the page
+     */
     public function destroy(Page $page)
     {
         $page->delete();
 
         return redirect()->route('admin.pages.index')
             ->with('success', 'Xóa trang thành công');
+    }
+
+    /**
+     * AJAX: Update single field
+     */
+    public function updateField(Request $request, Page $page)
+    {
+        return $this->handleAjaxFieldUpdate($request, $page, [
+            'allowed_fields' => [
+                'title', 'slug', 'content', 'is_active',
+                'meta_title', 'meta_description'
+            ],
+            'rules' => [
+                'title' => 'required|string|max:255',
+                'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
+                'content' => 'required|string',
+                'is_active' => 'boolean',
+                'meta_title' => 'nullable|string|max:255',
+                'meta_description' => 'nullable|string|max:500',
+            ],
+        ]);
+    }
+
+    /**
+     * Build filters from request
+     */
+    protected function buildFilters(Request $request): array
+    {
+        $filters = [];
+
+        if ($status = $request->input('status')) {
+            if ($status === 'active') {
+                $filters['is_active'] = true;
+            } elseif ($status === 'inactive') {
+                $filters['is_active'] = false;
+            }
+        }
+
+        return $filters;
     }
 }

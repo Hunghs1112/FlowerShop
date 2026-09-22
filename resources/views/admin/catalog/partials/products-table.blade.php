@@ -16,10 +16,10 @@
             <tr>
                 <td data-label="Hình Ảnh">
                     @if($product->productImages->where('is_primary', true)->first())
-                        <img src="{{ asset('storage/' . $product->productImages->where('is_primary', true)->first()->image_path) }}" 
+                        <img src="{{ $product->productImages->where('is_primary', true)->first()->image_url }}" 
                              alt="{{ $product->name }}" class="table-image">
                     @elseif($product->productImages->first())
-                        <img src="{{ asset('storage/' . $product->productImages->first()->image_path) }}" 
+                        <img src="{{ $product->productImages->first()->image_url }}" 
                              alt="{{ $product->name }}" class="table-image">
                     @else
                         <div class="table-image" style="width: 56px; height: 56px; background: var(--admin-bg-content); display: flex; align-items: center; justify-content: center; border-radius: var(--admin-radius-md);">

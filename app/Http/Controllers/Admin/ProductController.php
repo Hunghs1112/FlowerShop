@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Http\Responses\AjaxResponse;
 use App\Models\Product;
-use App\Models\Category;
 use App\Models\ProductImage;
+use App\Repositories\ProductRepository;
 use App\Services\ImageStorageService;
+use App\Services\AjaxFieldService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -14,12 +18,19 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    /** @var ImageStorageService */
-    protected $images;
+    protected ProductRepository $products;
+    protected ImageStorageService $images;
+    protected AjaxFieldService $ajaxFieldService;
 
-    public function __construct(ImageStorageService $images)
-    {
+    public function __construct(
+        ProductRepository $products,
+        ImageStorageService $images,
+        AjaxFieldService $ajaxFieldService
+    ) {
+        $this->products = $products;
         $this->images = $images;
+        $this->ajaxFieldService = $ajaxFieldService;
+        
     }
 
     // ============================================================
@@ -27,26 +38,15 @@ class ProductController extends Controller
     // ============================================================
     public function updateField(Request $request, Product $product)
     {
+
         $field = $request->input('field');
         $value = $request->input('value');
 
-        // Validate field name to prevent mass assignment
-        $allowedFields = [
-            'name', 'slug', 'sku', 'category_id', 'subcategory_id', 'price', 'stock',
-            'description', 'short_description', 'is_active', 'is_featured'
-        ];
-
-        if (!in_array($field, $allowedFields)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Trường không hợp lệ'
-            ], 422);
-        }
-
-        // Validate specific fields
-        $rules = [
+        // Define allowed fields with validation rules
+        $fieldConfig = [
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products,slug,' . $product->id,
+            'sku' => 'nullable|string|max:100|unique:products,sku,' . $product->id,
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0',
@@ -57,67 +57,27 @@ class ProductController extends Controller
             'is_featured' => 'boolean',
         ];
 
-        $validator = \Illuminate\Support\Facades\Validator::make([$field => $value], [
-            $field => $rules[$field] ?? 'nullable'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validator->errors()->first($field),
-                'errors' => $validator->errors()->toArray()
-            ], 422);
-        }
-
-        // Auto-generate slug from name if name changed and slug is empty
-        if ($field === 'name' && empty($value)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Tên sản phẩm không được trống'
-            ], 422);
-        }
-
-        if ($field === 'name' && !empty($value)) {
-            $slugField = $request->input('slug_field');
-            if (!empty($slugField)) {
-                $product->slug = Str::slug($value);
-            }
-        }
-
-        // Handle boolean fields
-        if (in_array($field, ['is_active', 'is_featured'])) {
-            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
-        }
-
-        // Tự động gán category_id khi subcategory_id thay đổi
-        if ($field === 'subcategory_id' && !empty($value)) {
-            $subcategory = \App\Models\Subcategory::find($value);
-            if ($subcategory) {
-                $product->update([
-                    'subcategory_id' => $value,
-                    'category_id' => $subcategory->category_id
-                ]);
-                
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Đã lưu danh mục phụ và danh mục cha',
-                    'data' => [
-                        'subcategory_id' => $product->subcategory_id,
-                        'category_id' => $product->category_id
-                    ]
-                ]);
-            }
-        }
-
-        $product->update([$field => $value]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã lưu ' . $field,
-            'data' => [
-                $field => $product->$field
+        // Use AjaxFieldService for standardized handling
+        return $this->ajaxFieldService->handleAjaxFieldUpdate(
+            $product,
+            $field,
+            $value,
+            $fieldConfig,
+            [
+                'subcategory_id' => function ($product, $value) {
+                    // Auto-assign category when subcategory changes
+                    if (!empty($value)) {
+                        $subcategory = \App\Models\Subcategory::find($value);
+                        if ($subcategory) {
+                            $product->update([
+                                'subcategory_id' => $value,
+                                'category_id' => $subcategory->category_id
+                            ]);
+                        }
+                    }
+                }
             ]
-        ]);
+        );
     }
 
     // ============================================================
@@ -420,57 +380,59 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+
+        $filters = [
+            'search' => $request->input('search'),
+            'category_id' => $request->input('category_id'),
+            'is_active' => $request->input('is_active'),
+        ];
+
         $query = Product::with(['category', 'productImages']);
 
-        if ($search = $request->input('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('sku', 'like', '%' . $search . '%');
+        if ($filters['search']) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('sku', 'like', '%' . $filters['search'] . '%');
             });
         }
-
-        if ($categoryId = $request->input('category_id')) {
-            $query->where('category_id', $categoryId);
+        if ($filters['category_id']) {
+            $query->where('category_id', $filters['category_id']);
+        }
+        if ($filters['is_active'] !== null) {
+            $query->where('is_active', $filters['is_active']);
         }
 
-        $products = $query->latest()->paginate(20);
-        $categories = Category::active()->orderBy('name')->get();
+        $products = $query->latest()->paginate(15);
+        $categories = \App\Models\Category::active()->orderBy('name')->get();
 
-        return view('admin.products.index', compact('products', 'categories'));
+        return view('admin.products.index', compact('products', 'categories', 'filters'));
     }
 
     public function create()
     {
-        $subcategories = \App\Models\Subcategory::with('category')->where('is_active', true)->orderBy('category_id')->orderBy('name')->get();
+
+        $subcategories = \App\Models\Subcategory::with('category')
+            ->where('is_active', true)
+            ->orderBy('category_id')
+            ->orderBy('name')
+            ->get();
+        
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
+        
         return view('admin.products.create', compact('subcategories', 'maxImages'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $maxKb   = (int) config('upload.limits.product_images.max_size', 2048);
-        $maxCnt  = (int) config('upload.limits.product_images.max_count', 10);
 
-        $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'slug'        => 'nullable|string|max:255|unique:products,slug',
-            'subcategory_id' => 'required|exists:subcategories,id',
-            'price'       => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'description' => 'nullable|string',
-            'short_description' => 'nullable|string',
-            'is_active'   => 'boolean',
-            'is_featured' => 'boolean',
-            // Hard upper bound on image count + MIME whitelist per file.
-            'images'      => "nullable|array|max:{$maxCnt}",
-            'images.*'    => "file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
-        ]);
+        $validated = $request->validated();
 
+        // Auto-generate slug if empty
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        // Tự động gán category_id từ subcategory
+        // Auto-assign category from subcategory
         if (isset($validated['subcategory_id'])) {
             $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
             if ($subcategory) {
@@ -478,20 +440,19 @@ class ProductController extends Controller
             }
         }
 
-        $validated['is_active']   = $request->boolean('is_active', true);
+        $validated['is_active'] = $request->boolean('is_active', true);
         $validated['is_featured'] = $request->boolean('is_featured', false);
 
         $product = null;
 
         try {
             DB::transaction(function () use ($request, &$validated, &$product) {
-                $product = Product::create($validated);
+                $product = $this->products->create($validated);
 
-                // Upload each image via the centralized service. Any failure
-                // rolls back the DB insert + deletes any partial uploads.
+                // Upload images
                 if ($request->hasFile('images')) {
                     $folder = config('upload.disks.folders.product', 'products');
-                    $paths  = $this->images->uploadMany(
+                    $paths = $this->images->uploadMany(
                         $request->file('images'),
                         $folder,
                         'product_images'
@@ -508,10 +469,6 @@ class ProductController extends Controller
                 }
             });
         } catch (\Throwable $e) {
-            // uploadMany() guarantees either all succeed or it throws BEFORE
-            // writing, but if Product::create() fails after we already saved
-            // files we still need to clean up. Rollback handler above deletes
-            // any DB rows; cleanup of files happens defensively.
             if ($product) {
                 foreach ($product->productImages()->get() as $img) {
                     $this->images->delete($img->image_path);
@@ -526,40 +483,31 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+
         $product->load('productImages');
-        $subcategories = \App\Models\Subcategory::with('category')->where('is_active', true)->orderBy('category_id')->orderBy('name')->get();
-        $maxImages  = (int) config('upload.limits.product_images.max_count', 10);
+        
+        $subcategories = \App\Models\Subcategory::with('category')
+            ->where('is_active', true)
+            ->orderBy('category_id')
+            ->orderBy('name')
+            ->get();
+        
+        $maxImages = (int) config('upload.limits.product_images.max_count', 10);
 
         return view('admin.products.edit', compact('product', 'subcategories', 'maxImages'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $maxKb  = (int) config('upload.limits.product_images.max_size', 2048);
-        $maxCnt = (int) config('upload.limits.product_images.max_count', 10);
 
-        $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'slug'        => 'nullable|string|max:255|unique:products,slug,' . $product->id,
-            'subcategory_id' => 'required|exists:subcategories,id',
-            'price'       => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'description' => 'nullable|string',
-            'short_description' => 'nullable|string',
-            'is_active'   => 'boolean',
-            'is_featured' => 'boolean',
-            'images'      => "nullable|array|max:{$maxCnt}",
-            'images.*'    => "file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
-            'delete_images'   => 'nullable|array',
-            'delete_images.*' => 'exists:product_images,id',
-            'primary_image'   => 'nullable|exists:product_images,id',
-        ]);
+        $validated = $request->validated();
 
+        // Auto-generate slug if empty
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        // Tự động gán category_id từ subcategory
+        // Auto-assign category from subcategory
         if (isset($validated['subcategory_id'])) {
             $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
             if ($subcategory) {
@@ -567,7 +515,7 @@ class ProductController extends Controller
             }
         }
 
-        $validated['is_active']   = $request->boolean('is_active');
+        $validated['is_active'] = $request->boolean('is_active');
         $validated['is_featured'] = $request->boolean('is_featured');
 
         $deletedPaths = [];
@@ -577,11 +525,10 @@ class ProductController extends Controller
             DB::transaction(function () use ($request, $product, &$validated, &$deletedPaths, &$newPaths) {
                 $product->update($validated);
 
-                // ---- Delete marked images (files + DB rows in one tx) ----
+                // Delete marked images
                 if ($request->has('delete_images')) {
                     foreach ($request->input('delete_images') as $imageId) {
                         $image = ProductImage::find($imageId);
-                        // Ownership check: never delete another product's photo.
                         if ($image && $image->product_id === $product->id) {
                             $deletedPaths[] = $image->image_path;
                             $image->delete();
@@ -589,10 +536,10 @@ class ProductController extends Controller
                     }
                 }
 
-                // ---- Add new images ----
+                // Add new images
                 if ($request->hasFile('images')) {
                     $folder = config('upload.disks.folders.product', 'products');
-                    $paths  = $this->images->uploadMany(
+                    $paths = $this->images->uploadMany(
                         $request->file('images'),
                         $folder,
                         'product_images'
@@ -607,17 +554,15 @@ class ProductController extends Controller
                             'product_id' => $product->id,
                             'image_path' => $path,
                             'sort_order' => $maxSortOrder + $i + 1,
-                            // First image becomes primary only if no images
-                            // remain after deletion.
                             'is_primary' => $currentCount === 0 && $i === 0,
                         ]);
                     }
                 }
 
-                // ---- Set primary image (single source of truth) ----
+                // Set primary image
                 if ($request->filled('primary_image')) {
                     $primaryId = (int) $request->input('primary_image');
-                    $primary   = ProductImage::find($primaryId);
+                    $primary = ProductImage::find($primaryId);
                     if ($primary && $primary->product_id === $product->id) {
                         ProductImage::where('product_id', $product->id)
                             ->update(['is_primary' => false]);
@@ -626,30 +571,25 @@ class ProductController extends Controller
                 }
             });
         } catch (\Throwable $e) {
-            // Rollback already happened. Clean up any files we wrote before
-            // the transaction failed.
             foreach (array_merge($deletedPaths, $newPaths) as $p) {
                 $this->images->delete($p);
             }
             throw $e;
         }
 
-        // Files for deleted images are removed *after* the transaction so we
-        // only touch disk when the DB write succeeded. Failures here are
-        // non-fatal (orphan file is better than orphan DB row).
+        // Clean up deleted image files after transaction commits
         foreach ($deletedPaths as $path) {
             $this->images->delete($path);
         }
 
         return redirect()->route('admin.products.index')
-            ->with('success', 'Cập nhẩt sản phẩm thành công');
+            ->with('success', 'Cập nhật sản phẩm thành công');
     }
 
     public function destroy(Product $product)
     {
-        // Capture paths so we can clean up after the DB delete commits.
-        $paths = $product->productImages->pluck('image_path')->all();
 
+        $paths = $product->productImages->pluck('image_path')->all();
         $product->delete();
 
         foreach ($paths as $path) {

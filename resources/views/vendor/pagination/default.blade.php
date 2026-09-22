@@ -1,13 +1,13 @@
 @if ($paginator->hasPages())
     <nav class="admin-pagination" role="navigation" aria-label="Pagination">
         @if ($paginator->onFirstPage())
-            <span class="pagination-btn disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+            <span class="pagination-btn disabled" aria-disabled="true" aria-label="Trang trước">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
             </span>
         @else
-            <a href="{{ $paginator->previousPageUrl() }}" class="pagination-btn" rel="prev" aria-label="@lang('pagination.previous')">
+            <a href="{{ $paginator->previousPageUrl() }}" class="pagination-btn" rel="prev" aria-label="Trang trước">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
@@ -30,13 +30,13 @@
         @endforeach
 
         @if ($paginator->hasMorePages())
-            <a href="{{ $paginator->nextPageUrl() }}" class="pagination-btn" rel="next" aria-label="@lang('pagination.next')">
+            <a href="{{ $paginator->nextPageUrl() }}" class="pagination-btn" rel="next" aria-label="Trang sau">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
             </a>
         @else
-            <span class="pagination-btn disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+            <span class="pagination-btn disabled" aria-disabled="true" aria-label="Trang sau">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>

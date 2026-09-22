@@ -39,11 +39,18 @@ class Banner extends Model
             return asset('images/placeholder-banner.jpg');
         }
 
-        // If already starts with http/https, return as-is
+        // Absolute URL — return as-is
         if (str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://')) {
             return $this->image_path;
         }
 
+        // Banners are uploaded directly to public/images/banners/ (not on storage disk)
+        // DB stores paths like "images/banners/file.jpg" → serve via asset()
+        if (str_starts_with($this->image_path, 'images/')) {
+            return asset($this->image_path);
+        }
+
+        // Fallback: any record stored on the public storage disk
         return asset('storage/' . ltrim($this->image_path, '/'));
     }
 

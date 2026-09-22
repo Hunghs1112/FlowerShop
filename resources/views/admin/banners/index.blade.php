@@ -62,6 +62,9 @@
                                 <span class="badge badge-{{ $banner->is_active ? 'success' : 'secondary' }}" style="font-size: 11px;">
                                     {{ $banner->is_active ? 'Hiển thị' : 'Ẩn' }}
                                 </span>
+                                <span class="badge badge-info" style="font-size: 11px;">
+                                    {{ $banner->location ?? 'home' }}
+                                </span>
                             </div>
                             @if($banner->subtitle)
                                 <p style="margin: 0 0 8px; font-size: 13px; color: var(--admin-text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
@@ -154,6 +157,10 @@
 .badge-secondary {
     background: #e5e7eb;
     color: #6b7280;
+}
+.badge-info {
+    background: #dbeafe;
+    color: #1e40af;
 }
 .alert {
     padding: 12px 16px;

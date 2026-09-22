@@ -242,4 +242,165 @@ class ImageStorageService
             $file->getClientOriginalName() => [$message],
         ]);
     }
+
+    /**
+     * Get image URL for display in views
+     * Unified helper that handles all path types
+     */
+    public function getImageUrl(?string $path): ?string
+    {
+        if (empty($path)) {
+            return null;
+        }
+
+        // External URLs - return as-is
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Public paths (images/banners/, images/logo/) - use asset() directly
+        if (str_starts_with($path, 'images/')) {
+            return asset($path);
+        }
+
+        // Storage disk paths - prefix with storage/
+        return asset('storage/' . ltrim($path, '/'));
+    }
+
+    /**
+     * Get image path from model or request
+     * Handles null/empty gracefully
+     */
+    public function resolveImagePath($imageData): ?string
+    {
+        if ($imageData === null) {
+            return null;
+        }
+
+        if (is_string($imageData)) {
+            return $imageData ?: null;
+        }
+
+        if (is_object($imageData) && property_exists($imageData, 'image_path')) {
+            return $imageData->image_path ?: null;
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if path is a storage disk path vs public path
+     */
+    public function isStoragePath(string $path): bool
+    {
+        return !str_starts_with($path, 'images/') 
+            && !str_starts_with($path, 'http://') 
+            && !str_starts_with($path, 'https://');
+    }
+
+    /**
+     * Check if path is a public/images path
+     */
+    public function isPublicPath(string $path): bool
+    {
+        return str_starts_with($path, 'images/');
+    }
+
+    /**
+     * Check if path is an external URL
+     */
+    public function isExternalUrl(string $path): bool
+    {
+        return str_starts_with($path, 'http://') || str_starts_with($path, 'https://');
+    }
+
+    /**
+     * Batch delete files
+     * Returns count of successfully deleted files
+     */
+    public function deleteMany(array $paths): int
+    {
+        $deleted = 0;
+
+        foreach ($paths as $path) {
+            if ($this->delete($path)) {
+                $deleted++;
+            }
+        }
+
+        return $deleted;
+    }
+
+    /**
+     * Get total size of all files in a folder
+     * Useful for quota checking
+     */
+    public function getFolderSize(string $folder): int
+    {
+        try {
+            $files = Storage::disk($this->disk)->files($folder);
+            $totalSize = 0;
+
+            foreach ($files as $file) {
+                $totalSize += Storage::disk($this->disk)->size($file);
+            }
+
+            return $totalSize;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Generate unique filename
+     * Public for use in custom upload scenarios
+     */
+    public function generateFilename(string $extension, ?string $prefix = null): string
+    {
+        $extension = strtolower(ltrim($extension, '.'));
+        return ($prefix ? $prefix . '-' : '') . time() . '-' . Str::random(8) . '.' . $extension;
+    }
+
+    /**
+     * Copy file within storage
+     */
+    public function copy(string $sourcePath, string $destinationPath): bool
+    {
+        try {
+            if (Storage::disk($this->disk)->exists($sourcePath)) {
+                $content = Storage::disk($this->disk)->get($sourcePath);
+                Storage::disk($this->disk)->put($destinationPath, $content);
+                return true;
+            }
+        } catch (\Throwable $e) {
+            \Log::warning('ImageStorageService::copy failed', [
+                'source' => $sourcePath,
+                'destination' => $destinationPath,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        return false;
+    }
+
+    /**
+     * Move file within storage
+     */
+    public function move(string $sourcePath, string $destinationPath): bool
+    {
+        try {
+            if (Storage::disk($this->disk)->exists($sourcePath)) {
+                Storage::disk($this->disk)->move($sourcePath, $destinationPath);
+                return true;
+            }
+        } catch (\Throwable $e) {
+            \Log::warning('ImageStorageService::move failed', [
+                'source' => $sourcePath,
+                'destination' => $destinationPath,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        return false;
+    }
 }

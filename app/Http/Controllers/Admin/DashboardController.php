@@ -14,6 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
         $stats = [
             'products' => Product::count(),
             'active_products' => Product::active()->count(),

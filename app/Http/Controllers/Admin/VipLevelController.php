@@ -3,19 +3,36 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreVipLevelRequest;
+use App\Http\Requests\UpdateVipLevelRequest;
 use App\Models\VipLevel;
+use App\Models\Product;
+use App\Repositories\VipLevelRepository;
+use App\Services\AjaxFieldService;
 use Illuminate\Http\Request;
 
 class VipLevelController extends Controller
 {
+    protected VipLevelRepository $vipLevels;
+    protected AjaxFieldService $ajaxFieldService;
+
+    public function __construct(
+        VipLevelRepository $vipLevels,
+        AjaxFieldService $ajaxFieldService
+    ) {
+        $this->vipLevels = $vipLevels;
+        $this->ajaxFieldService = $ajaxFieldService;
+        
+    }
+
     /**
      * Display a listing of VIP levels
      */
     public function index()
     {
-        $vipLevels = VipLevel::withCount('users')
-                            ->ordered()
-                            ->paginate(20);
+        $vipLevels = VipLevel::withCount(['users', 'products'])
+            ->orderBy('priority')
+            ->get();
 
         return view('admin.vip-levels.index', compact('vipLevels'));
     }
@@ -31,18 +48,13 @@ class VipLevelController extends Controller
     /**
      * Store a newly created VIP level
      */
-    public function store(Request $request)
+    public function store(StoreVipLevelRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100|unique:vip_levels,name',
-            'description' => 'nullable|string|max:500',
-            'priority' => 'required|integer|min:0',
-            'is_active' => 'boolean',
-        ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        $validated = $request->validated();
+        $validated['is_active'] = $request->boolean('is_active', true);
 
-        VipLevel::create($validated);
+        $this->vipLevels->create($validated);
 
         return redirect()->route('admin.vip-levels.index')
                         ->with('success', 'VIP level đã được tạo thành công');
@@ -53,12 +65,13 @@ class VipLevelController extends Controller
      */
     public function edit(VipLevel $vipLevel)
     {
-        $vipLevel->load('users', 'products');
+
+        $vipLevel->load(['users', 'products']);
         
         // Get all products for assignment UI
-        $allProducts = \App\Models\Product::active()
-                                          ->orderBy('name')
-                                          ->get();
+        $allProducts = Product::active()
+                              ->orderBy('name')
+                              ->get();
         
         return view('admin.vip-levels.edit', compact('vipLevel', 'allProducts'));
     }
@@ -66,18 +79,11 @@ class VipLevelController extends Controller
     /**
      * Update the specified VIP level
      */
-    public function update(Request $request, VipLevel $vipLevel)
+    public function update(UpdateVipLevelRequest $request, VipLevel $vipLevel)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100|unique:vip_levels,name,' . $vipLevel->id,
-            'description' => 'nullable|string|max:500',
-            'priority' => 'required|integer|min:0',
-            'is_active' => 'boolean',
-            'product_ids' => 'nullable|array',
-            'product_ids.*' => 'exists:products,id',
-        ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        $validated = $request->validated();
+        $validated['is_active'] = $request->boolean('is_active');
 
         $vipLevel->update($validated);
 
@@ -95,6 +101,7 @@ class VipLevelController extends Controller
      */
     public function updateProducts(Request $request, VipLevel $vipLevel)
     {
+
         $validated = $request->validate([
             'product_ids' => 'nullable|array',
             'product_ids.*' => 'exists:products,id',
@@ -114,6 +121,7 @@ class VipLevelController extends Controller
      */
     public function destroy(VipLevel $vipLevel)
     {
+
         // Check if any users are assigned to this VIP level
         if ($vipLevel->users()->count() > 0) {
             return redirect()->back()

@@ -15,7 +15,7 @@
             <tr>
                 <td data-label="Hình Ảnh">
                     <?php if($category->image): ?>
-                        <img src="<?php echo e(asset('storage/' . $category->image)); ?>" alt="<?php echo e($category->name); ?>" class="table-image">
+                        <img src="<?php echo e($category->image_url); ?>" alt="<?php echo e($category->name); ?>" class="table-image">
                     <?php else: ?>
                         <div class="table-image" style="width: 56px; height: 56px; background: var(--admin-bg-content); display: flex; align-items: center; justify-content: center; border-radius: var(--admin-radius-md);">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24" style="color: var(--admin-text-muted);">

@@ -86,7 +86,7 @@
                         <tr>
                             <td>
                                 @if($subcategory->image)
-                                    <img src="{{ asset('storage/' . $subcategory->image) }}" alt="{{ $subcategory->name }}" class="table-image">
+                                    <img src="{{ $subcategory->image_url }}" alt="{{ $subcategory->name }}" class="table-image">
                                 @else
                                     <div class="table-image" style="width: 56px; height: 56px; background: var(--admin-bg-content); display: flex; align-items: center; justify-content: center; border-radius: var(--admin-radius-md);">
                                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24" style="color: var(--admin-text-muted);">
@@ -145,10 +145,5 @@
     </div>
 </div>
 
-{{-- Pagination --}}
-@if($subcategories->hasPages())
-    <div style="margin-top: 24px;">
-        {{ $subcategories->links() }}
-    </div>
-@endif
+
 @endsection

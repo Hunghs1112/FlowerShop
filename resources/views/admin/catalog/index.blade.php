@@ -143,20 +143,7 @@
     </div>
 </div>
 
-{{-- Pagination --}}
-@if($activeTab === 'categories' && $categories->hasPages())
-    <div style="margin-top: 24px;">
-        {{ $categories->appends(['tab' => 'categories'])->links() }}
-    </div>
-@elseif($activeTab === 'subcategories' && $subcategories->hasPages())
-    <div style="margin-top: 24px;">
-        {{ $subcategories->appends(['tab' => 'subcategories'])->links() }}
-    </div>
-@elseif($activeTab === 'products' && $products->hasPages())
-    <div style="margin-top: 24px;">
-        {{ $products->appends(['tab' => 'products'])->links() }}
-    </div>
-@endif
+
 
 <style>
 /* Tab Navigation Styles */

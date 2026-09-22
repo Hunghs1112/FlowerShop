@@ -116,7 +116,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                 <div class="image-preview-grid">
                                     @foreach($product->productImages as $image)
                                         <div class="image-preview-item">
-                                            <img src="{{ asset('storage/' . $image->image_path) }}" alt="Sản phẩm">
+                                            <img src="{{ $image->image_url }}" alt="Sản phẩm">
                                             @if($image->is_primary)
                                                 <span class="image-badge">Ảnh chính</span>
                                             @else
@@ -163,7 +163,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                     @foreach($product->productImages()->videos()->get() as $video)
                                         <div class="video-preview-item" data-video-id="{{ $video->id }}" style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px;">
                                             <video controls style="width: 100%; max-height: 200px; border-radius: 8px; background: #000;">
-                                                <source src="{{ asset('storage/' . $video->image_path) }}" type="{{ $video->mime_type }}">
+                                <source src="{{ $video->image_url }}" type="{{ $video->mime_type }}">
                                                 Your browser does not support video.
                                             </video>
                                             <button type="button" class="btn btn-danger btn-sm" onclick="deleteProductVideo({{ $product->id }}, {{ $video->id }}, this)" style="margin-top: 8px; width: 100%;">Xóa Video</button>

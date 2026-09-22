@@ -4,21 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Repositories\SettingRepository;
 use App\Services\BannerService;
 use App\Services\ImageStorageService;
-use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
-    /** @var ImageStorageService */
-    protected $images;
+    protected SettingRepository $settings;
+    protected ImageStorageService $images;
 
-    public function __construct(ImageStorageService $images)
-    {
+    public function __construct(
+        SettingRepository $settings,
+        ImageStorageService $images
+    ) {
+        $this->settings = $settings;
         $this->images = $images;
+        
     }
 
     // ============================================================
@@ -26,6 +29,7 @@ class SettingController extends Controller
     // ============================================================
     public function updateField(Request $request)
     {
+
         $field = $request->input('field');
         $value = $request->input('value');
 
@@ -83,11 +87,8 @@ class SettingController extends Controller
             }
         }
 
-        // Save to database
-        Setting::updateOrCreate(
-            ['key' => $field],
-            ['value' => $value, 'type' => 'text']
-        );
+        // Save using SettingRepository
+        $this->settings->setSetting($field, $value, 'text');
 
         return response()->json([
             'success' => true,
@@ -100,18 +101,19 @@ class SettingController extends Controller
 
     public function index()
     {
-        $settingsData = Setting::all()->pluck('value', 'key');
-        $settings = $settingsData->toArray();
+
+        $settingsData = $this->settings->getAllAsArray();
         $banners = (new BannerService)->all();
 
         // Add masked SMTP password for display
-        $settings['smtp_password_masked'] = !empty($settings['smtp_password']) ? '••••••••' : '';
+        $settingsData['smtp_password_masked'] = !empty($settingsData['smtp_password'] ?? null) ? '••••••••' : '';
 
-        return view('admin.settings.index', compact('settings', 'banners'));
+        return view('admin.settings.index', compact('settingsData', 'banners'));
     }
 
     public function update(Request $request)
     {
+
         $logoMax  = (int) config('upload.limits.site_logo.max_size', 2048);
         $bannMax  = (int) config('upload.limits.banner.max_size', 4096);
 
@@ -119,7 +121,6 @@ class SettingController extends Controller
             'site_name' => 'required|string|max:255',
             'site_tagline' => 'nullable|string|max:255',
             'site_description' => 'nullable|string',
-            // MIME whitelist: rejects .php etc. even if extension lies.
             'site_logo' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$logoMax}",
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
@@ -152,7 +153,7 @@ class SettingController extends Controller
             'zalo_access_token' => 'nullable|string|max:500',
             'zalo_admin_phone' => 'nullable|string|max:20',
 
-            // Banner uploads – each banner gets the same MIME/size rule.
+            // Banner uploads
             'banner_home'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
             'banner_products'   => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
             'banner_categories' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
@@ -163,14 +164,13 @@ class SettingController extends Controller
             'banner_checkout'   => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
         ]);
 
-        // Handle site logo upload (in transaction so we can roll back).
-        $logoOldPath = null;
+        // Handle site logo upload
+        $logoOldPath = $this->settings->getByKey('site_logo');
         if ($request->hasFile('site_logo')) {
-            $logoOldRow = Setting::where('key', 'site_logo')->first();
-            $logoOldPath = $logoOldRow?->value;
+            $logoOldPath = $logoOldPath ?: null;
         }
 
-        // Handle checkbox booleans - convert to proper boolean values
+        // Handle checkbox booleans
         $checkboxFields = [
             'email_notification_enabled',
             'zalo_notification_enabled',
@@ -192,14 +192,11 @@ class SettingController extends Controller
 
                 // ---- SMTP password (write only if non-empty) ----
                 if (!empty($validated['smtp_password'])) {
-                    Setting::updateOrCreate(
-                        ['key' => 'smtp_password'],
-                        ['value' => $validated['smtp_password'], 'type' => 'text']
-                    );
+                    $this->settings->setSetting('smtp_password', $validated['smtp_password'], 'text');
                 }
                 unset($validated['smtp_password']);
 
-                // ---- Banners (CRITICAL FIX C2: derive extension server-side) ----
+                // ---- Banners ----
                 $bannerKeys = array_keys(BannerService::BANNER_KEYS);
                 foreach ($bannerKeys as $bannerKey) {
                     $fieldName = 'banner_' . $bannerKey;
@@ -207,36 +204,24 @@ class SettingController extends Controller
                         continue;
                     }
 
-                    // Capture the previous banner value before we overwrite it.
-                    $oldBannerRow = Setting::where('key', $fieldName)->first();
-                    $oldBannerPath = $oldBannerRow?->value;
+                    $oldBannerPath = $this->settings->getByKey($fieldName);
 
-                    // Service writes to public/images/banners/<key>-<timestamp>-<rand>.ext
-                    // using the server-side extension (NOT getClientOriginalExtension),
-                    // closing the extension bypass vulnerability.
                     $newPath = $this->images->upload(
                         $request->file($fieldName),
                         'images/banners',
                         $oldBannerPath,
-                        $bannerKey // filename prefix for predictable lookup
+                        $bannerKey
                     );
 
-                    Setting::updateOrCreate(
-                        ['key' => $fieldName],
-                        ['value' => $newPath, 'type' => 'image']
-                    );
+                    $this->settings->setSetting($fieldName, $newPath, 'image');
                 }
 
                 // ---- Everything else ----
                 foreach ($validated as $key => $value) {
-                    Setting::updateOrCreate(
-                        ['key' => $key],
-                        ['value' => $value, 'type' => 'text']
-                    );
+                    $this->settings->setSetting($key, $value, 'text');
                 }
             });
         } catch (\Throwable $e) {
-            // Best-effort cleanup of any new logo uploaded before failure.
             if ($request->hasFile('site_logo') && !empty($validated['site_logo']) && $validated['site_logo'] !== $logoOldPath) {
                 $this->images->delete($validated['site_logo']);
             }
@@ -252,17 +237,14 @@ class SettingController extends Controller
     // ============================================================
     public function uploadLogo(Request $request)
     {
+
         $maxKb = (int) config('upload.limits.site_logo.max_size', 2048);
 
         $request->validate([
             'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
         ]);
 
-        $logoOldPath = null;
-        $logoOldRow = Setting::where('key', 'site_logo')->first();
-        if ($logoOldRow) {
-            $logoOldPath = $logoOldRow->value;
-        }
+        $logoOldPath = $this->settings->getByKey('site_logo');
 
         try {
             $path = $this->images->upload(
@@ -271,10 +253,7 @@ class SettingController extends Controller
                 $logoOldPath
             );
 
-            Setting::updateOrCreate(
-                ['key' => 'site_logo'],
-                ['value' => $path, 'type' => 'image']
-            );
+            $this->settings->setSetting('site_logo', $path, 'image');
 
             return response()->json([
                 'success' => true,
@@ -294,6 +273,7 @@ class SettingController extends Controller
     // ============================================================
     public function uploadBanner(Request $request, string $key)
     {
+
         $allowedKeys = array_keys(BannerService::BANNER_KEYS);
         if (!in_array($key, $allowedKeys, true)) {
             abort(404);
@@ -306,8 +286,7 @@ class SettingController extends Controller
         ]);
 
         $fieldName = 'banner_' . $key;
-        $oldBannerRow = Setting::where('key', $fieldName)->first();
-        $oldBannerPath = $oldBannerRow?->value;
+        $oldBannerPath = $this->settings->getByKey($fieldName);
 
         try {
             $path = $this->images->upload(
@@ -317,10 +296,7 @@ class SettingController extends Controller
                 $key
             );
 
-            Setting::updateOrCreate(
-                ['key' => $fieldName],
-                ['value' => $path, 'type' => 'image']
-            );
+            $this->settings->setSetting($fieldName, $path, 'image');
 
             return response()->json([
                 'success' => true,
@@ -341,12 +317,11 @@ class SettingController extends Controller
      */
     public function deleteLogo()
     {
-        $row = Setting::where('key', 'site_logo')->first();
-        if ($row && $row->value) {
-            $this->images->delete($row->value);
-            $row->delete();
-            // Bust the cache used by Setting::get().
-            \Cache::forget('setting_site_logo_key');
+
+        $logoPath = $this->settings->getByKey('site_logo');
+        if ($logoPath) {
+            $this->images->delete($logoPath);
+            $this->settings->deleteByKey('site_logo');
         }
 
         if (request()->wantsJson()) {
@@ -362,18 +337,17 @@ class SettingController extends Controller
      */
     public function deleteBanner(string $key)
     {
-        // Whitelist the key to avoid arbitrary setting tampering.
+
         $allowedKeys = array_keys(BannerService::BANNER_KEYS);
         if (!in_array($key, $allowedKeys, true)) {
             abort(404);
         }
 
         $fieldName = 'banner_' . $key;
-        $row = Setting::where('key', $fieldName)->first();
-        if ($row && $row->value) {
-            $this->images->delete($row->value);
-            $row->delete();
-            \Cache::forget("setting_{$fieldName}");
+        $bannerPath = $this->settings->getByKey($fieldName);
+        if ($bannerPath) {
+            $this->images->delete($bannerPath);
+            $this->settings->deleteByKey($fieldName);
         }
 
         if (request()->wantsJson()) {

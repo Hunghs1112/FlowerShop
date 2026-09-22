@@ -38,7 +38,7 @@ class MysteryBoxController extends Controller
             $query->whereDate('created_at', '<=', $dateTo);
         }
 
-        $mysteryBoxRequests = $query->paginate(20);
+        $mysteryBoxRequests = $query->get();
 
         // Status counts for filter tabs
         $statusCounts = [

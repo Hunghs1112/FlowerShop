@@ -130,7 +130,7 @@
                             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px;">
                                 <?php $__currentLoopData = $product->productImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="existing-image-item" style="position: relative; border-radius: var(--admin-radius-md); overflow: hidden; aspect-ratio: 1; border: 1px solid var(--admin-border);">
-                                        <img src="<?php echo e(asset('storage/' . $image->image_path)); ?>" alt="Sản phẩm" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <img src="<?php echo e($image->image_url); ?>" alt="Sản phẩm" style="width: 100%; height: 100%; object-fit: cover;">
 
                                         <?php if($image->is_primary): ?>
                                             <span style="position: absolute; top: 4px; left: 4px; background: var(--admin-accent); color: white; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px;">Chính</span>
@@ -371,11 +371,11 @@ function renderVariantsList() {
                     </div>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 6px;">
-                    <a href="/admin/products/${productId}/variants/${variant.id}/edit" class="btn btn-xs btn-secondary" title="Chỉnh sửa">
+                    <button type="button" onclick="openVariantModal(${variant.id})" class="btn btn-xs btn-secondary" title="Chỉnh sửa">
                         <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
-                    </a>
+                    </button>
                     <button type="button" onclick="deleteVariant(${variant.id})" class="btn btn-xs btn-danger" title="Xóa">
                         <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
@@ -387,39 +387,38 @@ function renderVariantsList() {
     `).join('');
 }
 
-// Open variant modal (create)
-function openVariantModal() {
+// State for variant modal
+let variantModalState = {
+    mode: 'create', // 'create' or 'edit'
+    variantId: null,
+    productId: productId
+};
+
+// Open variant modal (create or edit)
+function openVariantModal(variantId = null) {
+    variantModalState.mode = variantId ? 'edit' : 'create';
+    variantModalState.variantId = variantId;
+
+    const isEdit = variantId !== null;
+    const title = isEdit ? 'Chỉnh Sửa Variant' : 'Thêm Variant Mới';
+    const submitLabel = isEdit ? 'Cập Nhật' : 'Tạo Variant';
+
     const modalHtml = `
         <div id="variantModal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;">
             <div style="background: white; border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
                 <div style="padding: 24px; border-bottom: 1px solid var(--admin-border);">
-                    <h3 style="font-size: 18px; font-weight: 600; margin: 0;">Thêm Variant Mới</h3>
+                    <h3 style="font-size: 18px; font-weight: 600; margin: 0;">${title}</h3>
                 </div>
                 <div style="padding: 24px;">
                     <form id="variantForm" style="display: flex; flex-direction: column; gap: 16px;">
-                        <div>
-                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">SKU <span style="color: #ef4444;">*</span></label>
-                            <input type="text" name="sku" required style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: 8px; font-family: var(--admin-font-mono);">
-                            <small style="color: var(--admin-text-muted);">Mã SKU duy nhất</small>
-                        </div>
+                        <input type="hidden" name="variantId" value="${isEdit ? variantId : ''}">
                         
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Tên Variant</label>
                             <input type="text" name="name" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: 8px;">
                             <small style="color: var(--admin-text-muted);">Để trống để kế thừa tên sản phẩm</small>
                         </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                            <div>
-                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Màu sắc</label>
-                                <input type="text" name="color" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: 8px;">
-                            </div>
-                            <div>
-                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Kích thước</label>
-                                <input type="text" name="size" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: 8px;">
-                            </div>
-                        </div>
-
+                        
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                             <div>
                                 <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Giá (₫)</label>
@@ -435,59 +434,157 @@ function openVariantModal() {
 
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Mô tả ngắn</label>
-                            <textarea name="short_description" rows="2" style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: 8px; resize: vertical;"></textarea>
+                            <textarea name="description" rows="3" style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: 8px; resize: vertical;"></textarea>
                         </div>
 
-                        <div>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                                <input type="checkbox" name="is_active" value="1" checked style="width: 18px; height: 18px;">
-                                <span style="font-size: 14px; font-weight: 500;">Kích hoạt variant</span>
-                            </label>
+                        <div style="border-top: 1px solid var(--admin-border); padding-top: 16px; margin-top: 8px;">
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 12px;">Hình Ảnh</label>
+                            
+                            ${isEdit ? `
+                            <div id="variantCurrentImages" style="margin-bottom: 16px;">
+                                <!-- Ảnh hiện tại sẽ được load tại đây -->
+                            </div>
+                            ` : ''}
+                            
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Thêm Ảnh Mới</label>
+                                <input type="file" 
+                                       name="variantImages" 
+                                       id="variantImageInput"
+                                       accept="image/jpeg,image/png,image/gif,image/webp" 
+                                       multiple
+                                       style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: 8px; font-size: 13px; cursor: pointer;">
+                                <small style="color: var(--admin-text-muted);">jpg, png, gif, webp – tối đa 2 MB/ảnh</small>
+                            </div>
+                            
+                            <div id="variantImagePreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; margin-top: 12px;"></div>
                         </div>
                     </form>
                 </div>
                 <div style="padding: 16px 24px; border-top: 1px solid var(--admin-border); display: flex; gap: 12px; justify-content: flex-end;">
                     <button type="button" onclick="closeVariantModal()" class="btn btn-secondary">Hủy</button>
-                    <button type="button" onclick="saveVariant()" class="btn btn-primary">Lưu Variant</button>
+                    <button type="button" onclick="saveVariant()" class="btn btn-primary">${submitLabel}</button>
                 </div>
             </div>
         </div>
     `;
     
     document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    // Setup file input listener
+    const imageInput = document.getElementById('variantImageInput');
+    if (imageInput) {
+        imageInput.addEventListener('change', previewVariantImages);
+    }
+
+    // Nếu là edit mode, load data variant
+    if (isEdit) {
+        loadVariantDataIntoModal(variantId);
+    }
+}
+
+// Load variant data into modal for editing
+async function loadVariantDataIntoModal(variantId) {
+    const variant = currentVariants.find(v => v.id === variantId);
+    if (!variant) return;
+
+    const form = document.getElementById('variantForm');
+    if (form) {
+        form.querySelector('[name="name"]').value = variant.name || '';
+        form.querySelector('[name="price"]').value = variant.price || '';
+        form.querySelector('[name="stock"]').value = variant.stock || '';
+        form.querySelector('[name="description"]').value = variant.description || '';
+    }
+
+    // Load hiện tại ảnh
+    const imagesContainer = document.getElementById('variantCurrentImages');
+    if (imagesContainer && variant.images_count > 0) {
+        // Fetch variant images
+        const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        try {
+            const response = await fetch(`/admin/products/${productId}/variants/${variantId}`, {
+                headers: {
+                    'X-CSRF-TOKEN': csrf,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (!response.ok) return;
+            
+            // Load ảnh từ API (nếu cần chi tiết hơn)
+            // Hiện tại dùng primary_image_url từ list
+            imagesContainer.innerHTML = `
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <div style="position: relative; width: 80px; height: 80px; border-radius: 8px; overflow: hidden; border: 1px solid var(--admin-border);">
+                        <img src="${variant.primary_image_url}" alt="${variant.sku}" style="width: 100%; height: 100%; object-fit: cover;">
+                        <span style="position: absolute; top: 2px; right: 2px; background: var(--admin-accent); color: white; font-size: 10px; padding: 2px 4px; border-radius: 3px;">Chính</span>
+                    </div>
+                    <div style="flex: 1; padding-top: 8px;">
+                        <small style="color: var(--admin-text-muted);">
+                            ${variant.images_count} ảnh hiện có
+                        </small>
+                    </div>
+                </div>
+            `;
+        } catch (err) {
+            console.error('Error loading variant images:', err);
+        }
+    }
+}
+
+// Preview ảnh variant mới
+function previewVariantImages(e) {
+    const files = e.target.files;
+    const preview = document.getElementById('variantImagePreview');
+    preview.innerHTML = '';
+
+    if (files) {
+        Array.from(files).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const div = document.createElement('div');
+                div.style.cssText = `position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1; border: 1px solid var(--admin-border);`;
+                div.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                preview.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
 }
 
 // Close variant modal
 function closeVariantModal() {
     const modal = document.getElementById('variantModal');
     if (modal) modal.remove();
+    variantModalState.mode = 'create';
+    variantModalState.variantId = null;
 }
 
-// Save variant
+// Save variant (create or update)
 async function saveVariant() {
     const form = document.getElementById('variantForm');
     const formData = new FormData(form);
     const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
+    // Prepare JSON data (không dùng FormData vì cần JSON)
     const data = {
-        sku: formData.get('sku'),
         name: formData.get('name') || null,
-        color: formData.get('color') || null,
-        size: formData.get('size') || null,
         price: formData.get('price') || null,
         stock: formData.get('stock') || null,
-        short_description: formData.get('short_description') || null,
-        is_active: formData.get('is_active') ? 1 : 0,
+        description: formData.get('description') || null,
     };
 
-    if (!data.sku) {
-        Toast.error('SKU là bắt buộc');
-        return;
-    }
-
     try {
-        const response = await fetch(`/admin/products/${productId}/variants`, {
-            method: 'POST',
+        const isEdit = variantModalState.mode === 'edit';
+        const method = isEdit ? 'PUT' : 'POST';
+        const url = isEdit 
+            ? `/admin/products/${productId}/variants/${variantModalState.variantId}`
+            : `/admin/products/${productId}/variants`;
+
+        // Step 1: Lưu thông tin variant
+        const response = await fetch(url, {
+            method: method,
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': csrf,
@@ -499,13 +596,40 @@ async function saveVariant() {
 
         const result = await response.json();
 
-        if (response.ok) {
-            Toast.success(result.message || 'Đã tạo variant mới');
-            closeVariantModal();
-            loadVariants();
-        } else {
-            Toast.error(result.message || 'Lỗi khi tạo variant');
+        if (!response.ok) {
+            Toast.error(result.message || (isEdit ? 'Lỗi khi cập nhật variant' : 'Lỗi khi tạo variant'));
+            return;
         }
+
+        const variantId = isEdit ? variantModalState.variantId : result.variant.id;
+
+        // Step 2: Upload ảnh (nếu có)
+        const imageInput = document.getElementById('variantImageInput');
+        if (imageInput && imageInput.files && imageInput.files.length > 0) {
+            const imageFormData = new FormData();
+            Array.from(imageInput.files).forEach(file => {
+                imageFormData.append('images', file);
+            });
+            imageFormData.append('product_id', productId);
+            imageFormData.append('variant_id', variantId);
+
+            const imageResponse = await fetch(`/admin/products/${productId}/variants/${variantId}/upload-images`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrf,
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: imageFormData
+            });
+
+            if (!imageResponse.ok) {
+                console.warn('Warning: Ảnh upload có vấn đề nhưng variant đã được lưu');
+            }
+        }
+
+        Toast.success(result.message || (isEdit ? 'Đã cập nhật variant' : 'Đã tạo variant mới'));
+        closeVariantModal();
+        loadVariants();
     } catch (err) {
         console.error('Error saving variant:', err);
         Toast.error('Lỗi kết nối');

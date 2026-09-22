@@ -78,7 +78,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                         @if(isset($category) && $category->image)
                             <div class="category-image-container" style="margin-bottom: 12px; position: relative; display: inline-block;">
                                 <div style="width: 120px; height: 120px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);">
-                                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="{{ $category->image_url }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
                                 <button type="button" 
                                         onclick="deleteCategoryImage({{ $category->id }}, this)"
@@ -112,7 +112,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                         @if(isset($category) && $category->hover_image)
                             <div class="category-hover-image-container" style="margin-bottom: 12px; position: relative; display: inline-block;">
                                 <div style="width: 120px; height: 120px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);">
-                                    <img src="{{ asset('storage/' . $category->hover_image) }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="{{ $category->hover_image_url }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
                                 <button type="button" 
                                         onclick="deleteCategoryHoverImage({{ $category->id }}, this)"

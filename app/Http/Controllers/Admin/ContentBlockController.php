@@ -16,11 +16,10 @@ class ContentBlockController extends Controller
 {
     /**
      * Hiển thị danh sách content blocks theo groups.
-     * 
-     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
+
         // Lấy tất cả blocks
         $blocks = ContentBlock::orderBy('group')->orderBy('order')->orderBy('key')->get();
         
@@ -43,12 +42,10 @@ class ContentBlockController extends Controller
     
     /**
      * Cập nhật content block (AJAX).
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'key' => 'required|string|exists:content_blocks,key',
             'value' => 'nullable|string|max:65535',

@@ -10,21 +10,27 @@ class InquiryController extends Controller
 {
     public function index(Request $request)
     {
+
+        $filters = [
+            'status' => $request->input('status'),
+            'search' => $request->input('search'),
+        ];
+
         $query = Inquiry::with(['user', 'products']);
 
-        if ($status = $request->input('status')) {
-            $query->where('status', $status);
+        if ($filters['status']) {
+            $query->where('status', $filters['status']);
         }
 
-        if ($search = $request->input('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('phone', 'like', '%' . $search . '%')
-                  ->orWhere('email', 'like', '%' . $search . '%');
+        if ($filters['search']) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('phone', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('email', 'like', '%' . $filters['search'] . '%');
             });
         }
 
-        $inquiries = $query->latest()->paginate(20);
+        $inquiries = $query->latest()->get();
 
         $statusCounts = [
             'all' => Inquiry::count(),
@@ -34,11 +40,12 @@ class InquiryController extends Controller
             'cancelled' => Inquiry::where('status', 'cancelled')->count(),
         ];
 
-        return view('admin.inquiries.index', compact('inquiries', 'statusCounts'));
+        return view('admin.inquiries.index', compact('inquiries', 'statusCounts', 'filters'));
     }
 
     public function show(Inquiry $inquiry)
     {
+
         $inquiry->load(['user', 'products.productImages', 'products.category']);
 
         return view('admin.inquiries.show', compact('inquiry'));
@@ -46,6 +53,7 @@ class InquiryController extends Controller
 
     public function updateStatus(Request $request, Inquiry $inquiry)
     {
+
         $validated = $request->validate([
             'status' => 'required|in:new,contacted,completed,cancelled',
             'admin_notes' => 'nullable|string',

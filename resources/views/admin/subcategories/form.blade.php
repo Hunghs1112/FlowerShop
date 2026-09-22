@@ -92,7 +92,7 @@
                     <div style="position: relative;">
                         @if(isset($subcategory) && $subcategory->image)
                             <div style="margin-bottom: 12px;">
-                                <img src="{{ asset('storage/' . $subcategory->image) }}" 
+                                <img src="{{ $subcategory->image_url }}" 
                                      alt="Current image" 
                                      style="width: 100%; height: auto; border-radius: var(--admin-radius-md); border: 1px solid var(--admin-border);">
                             </div>

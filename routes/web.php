@@ -144,6 +144,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('products/{product}/variants/{variant}/edit', [\App\Http\Controllers\Admin\ProductVariantController::class, 'edit'])->name('products.variants.edit');
     Route::put('products/{product}/variants/{variant}', [\App\Http\Controllers\Admin\ProductVariantController::class, 'update'])->name('products.variants.update');
     Route::delete('products/{product}/variants/{variant}', [\App\Http\Controllers\Admin\ProductVariantController::class, 'destroy'])->name('products.variants.destroy');
+    Route::post('products/{product}/variants/{variant}/upload-images', [\App\Http\Controllers\Admin\ProductVariantController::class, 'uploadImages'])->name('products.variants.uploadImages');
 
     // AJAX Auto-save endpoints for Categories
     Route::patch('categories/{category}/auto-save', [\App\Http\Controllers\Admin\CategoryController::class, 'autoSave'])->name('categories.autoSave');
@@ -158,6 +159,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('subcategories/{subcategory}/image', [\App\Http\Controllers\Admin\SubcategoryController::class, 'deleteImage'])->name('subcategories.deleteImage');
 
     // AJAX Auto-save endpoints for Posts
+    Route::patch('posts/{post}/auto-save', [\App\Http\Controllers\Admin\PostController::class, 'autoSave'])->name('posts.autoSave');
     Route::patch('posts/{post}/update-field', [\App\Http\Controllers\Admin\PostController::class, 'updateField'])->name('posts.updateField');
     Route::post('posts/{post}/upload-thumbnail', [\App\Http\Controllers\Admin\PostController::class, 'uploadThumbnail'])->name('posts.uploadThumbnail');
     Route::delete('posts/{post}/thumbnail', [\App\Http\Controllers\Admin\PostController::class, 'deleteThumbnail'])->name('posts.deleteThumbnail');

@@ -1,21 +1,18 @@
-<aside class="admin-sidebar" id="adminSidebar" aria-label="Admin navigation">
+<aside class="admin-sidebar bg-slate-800 border-r border-slate-700 text-slate-100" id="adminSidebar" aria-label="Admin navigation">
     <!-- Logo + Mobile Close -->
-    <div class="admin-sidebar-header">
-        <a href="<?php echo e(route('admin.dashboard')); ?>" class="admin-logo">
-            <div class="admin-logo-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/>
-                    <path d="M12 6c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z"/>
-                    <circle cx="12" cy="12" r="2"/>
-                    <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+    <div class="admin-sidebar-header border-b border-slate-700 p-4">
+        <a href="<?php echo e(route('admin.dashboard')); ?>" class="admin-logo flex items-center gap-3">
+            <div class="admin-logo-icon w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
             </div>
             <div class="admin-logo-text">
-                <span class="admin-logo-title">Lâm Nhiên Thảo</span>
-                <span class="admin-logo-subtitle">Admin Panel</span>
+                <span class="admin-logo-title text-lg font-bold text-slate-100">Lâm Nhiên Thảo</span>
+                <span class="admin-logo-subtitle text-xs text-slate-400">Admin Panel</span>
             </div>
         </a>
-        <button type="button" class="admin-sidebar-close" id="adminSidebarClose" aria-label="Đóng menu">
+        <button type="button" class="admin-sidebar-close lg:hidden ml-auto p-2 rounded-lg hover:bg-slate-700 text-slate-400 hover:text-slate-200" id="adminSidebarClose" aria-label="Đóng menu">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
