@@ -100,9 +100,9 @@
 }
 
 .admin-table-action.danger:hover {
-    background: #FEF2F2;
-    color: #DC2626;
-    border-color: #FCA5A5;
+    background: rgba(166, 83, 78, 0.1);
+    color: var(--color-error);
+    border-color: rgba(166, 83, 78, 0.3);
 }
 
 /* Table Image Cell */
@@ -389,7 +389,7 @@
         align-items: center;
         gap: var(--space-3);
         padding: var(--space-2) 0;
-        border-bottom: 1px solid var(--color-border-subtle, #f1f5f9);
+        border-bottom: 1px solid var(--color-border-light);
         text-align: right;
         word-wrap: break-word;
         overflow-wrap: break-word;

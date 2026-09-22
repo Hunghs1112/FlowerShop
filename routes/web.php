@@ -152,6 +152,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('categories/{category}/image', [\App\Http\Controllers\Admin\CategoryController::class, 'deleteImage'])->name('categories.deleteImage');
     Route::post('categories/{category}/upload-hover-image', [\App\Http\Controllers\Admin\CategoryController::class, 'uploadHoverImage'])->name('categories.uploadHoverImage');
     Route::delete('categories/{category}/hover-image', [\App\Http\Controllers\Admin\CategoryController::class, 'deleteHoverImage'])->name('categories.deleteHoverImage');
+    Route::post('categories/{category}/upload-banner-image', [\App\Http\Controllers\Admin\CategoryController::class, 'uploadBannerImage'])->name('categories.uploadBannerImage');
+    Route::delete('categories/{category}/banner-image', [\App\Http\Controllers\Admin\CategoryController::class, 'deleteBannerImage'])->name('categories.deleteBannerImage');
 
     // AJAX Auto-save endpoints for Subcategories
     Route::patch('subcategories/{subcategory}/auto-save', [\App\Http\Controllers\Admin\SubcategoryController::class, 'autoSave'])->name('subcategories.autoSave');
@@ -165,6 +167,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('posts/{post}/thumbnail', [\App\Http\Controllers\Admin\PostController::class, 'deleteThumbnail'])->name('posts.deleteThumbnail');
 
     // AJAX Auto-save endpoints for Pages
+    Route::patch('pages/{page}/auto-save', [\App\Http\Controllers\Admin\PageController::class, 'autoSave'])->name('pages.autoSave');
     Route::patch('pages/{page}/update-field', [\App\Http\Controllers\Admin\PageController::class, 'updateField'])->name('pages.updateField');
 
     // AJAX Auto-save endpoints for Banners

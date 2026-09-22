@@ -124,7 +124,7 @@
     height: 40px;
     border: none;
     background: none;
-    color: var(--color-text-secondary);
+    color: var(--color-text-light);
     cursor: pointer;
     border-radius: var(--radius-md);
     display: flex;
@@ -135,8 +135,8 @@
 }
 
 .admin-topbar-btn:hover {
-    background: var(--color-bg-primary);
-    color: var(--color-text-primary);
+    background: var(--color-cream-dark);
+    color: var(--color-primary);
 }
 
 .admin-topbar-btn .badge {
@@ -219,7 +219,7 @@
 }
 
 .quick-action-card {
-    background: linear-gradient(135deg, #10B981 0%, #047857 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     color: white;
     padding: var(--space-5);
     border-radius: var(--radius-lg);
@@ -253,8 +253,8 @@
 
 /* Chart Container */
 .chart-container {
-    background: var(--color-surface-primary);
-    border: 1px solid var(--color-border-subtle);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
     margin-bottom: var(--space-6);
@@ -282,20 +282,20 @@
 
 .chart-filter-button {
     padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--color-border-strong);
+    border: 1px solid var(--color-border);
     background: none;
     border-radius: var(--radius-md);
     font-size: var(--text-sm);
-    color: var(--color-text-secondary);
+    color: var(--color-text-light);
     cursor: pointer;
     transition: all 0.15s ease;
 }
 
 .chart-filter-button:hover,
 .chart-filter-button.active {
-    background: var(--color-accent-primary);
+    background: var(--color-primary);
     color: white;
-    border-color: var(--color-accent-primary);
+    border-color: var(--color-primary);
 }
 
 /* Activity Feed */
@@ -309,7 +309,7 @@
     display: flex;
     gap: var(--space-3);
     padding: var(--space-4);
-    background: var(--color-bg-primary);
+    background: var(--color-botanical-pale);
     border-radius: var(--radius-md);
 }
 
@@ -317,7 +317,7 @@
     width: 40px;
     height: 40px;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, #10B981 0%, #047857 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -333,19 +333,19 @@
 .activity-title {
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--color-text);
     margin: 0 0 4px 0;
 }
 
 .activity-description {
     font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
+    color: var(--color-text-light);
     margin: 0;
 }
 
 .activity-time {
     font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
+    color: var(--color-text-light);
     white-space: nowrap;
 }
 

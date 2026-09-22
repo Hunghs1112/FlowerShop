@@ -8,7 +8,7 @@
 
         <div class="categories-grid">
             @foreach($categories as $index => $category)
-                <a href="{{ route('categories.show', $category->display_slug) }}" class="category-card">
+                <a href="{{ route('products.index', ['categories' => [$category->id]]) }}" class="category-card">
                     @if($category->image)
                         <img
                             src="{{ $category->image_url }}"

@@ -156,7 +156,7 @@
                     </div>
 
                     {{-- Active Status --}}
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom: 20px;">
                         <label style="display: flex; align-items: center; cursor: pointer; user-select: none;">
                             <input type="checkbox" 
                                    name="is_active" 
@@ -167,6 +167,21 @@
                         </label>
                         <small style="display: block; margin-top: 6px; color: var(--admin-text-muted); font-size: 12px;">
                             Tắt để ẩn banner khỏi trang chủ.
+                        </small>
+                    </div>
+
+                    {{-- Has Background --}}
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; cursor: pointer; user-select: none;">
+                            <input type="checkbox" 
+                                   name="has_background" 
+                                   value="1"
+                                   {{ old('has_background', $banner->has_background) ? 'checked' : '' }}
+                                   style="margin-right: 8px; width: 16px; height: 16px;">
+                            <span style="font-weight: 600; font-size: 14px;">Có nền overlay</span>
+                        </label>
+                        <small style="display: block; margin-top: 6px; color: var(--admin-text-muted); font-size: 12px;">
+                            Bỏ tick nếu banner đã có nền riêng (không cần overlay xám).
                         </small>
                     </div>
 

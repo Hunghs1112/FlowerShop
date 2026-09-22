@@ -13,14 +13,11 @@ class ProductVariant extends Model
         'sku',
         'name',
         'price',
-        'compare_at_price',
         'stock',
         'description',
         'short_description',
         'color',
         'size',
-        'weight',
-        'dimensions',
         'attributes',
         'sort_order',
         'is_active',
@@ -28,8 +25,6 @@ class ProductVariant extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        'compare_at_price' => 'decimal:2',
-        'weight' => 'decimal:2',
         'is_active' => 'boolean',
         'attributes' => 'array',
     ];

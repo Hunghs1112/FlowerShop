@@ -102,6 +102,14 @@ class PageController extends Controller
     }
 
     /**
+     * AJAX: Auto-save single field
+     */
+    public function autoSave(Request $request, Page $page)
+    {
+        return $this->updateField($request, $page);
+    }
+
+    /**
      * AJAX: Update single field
      */
     public function updateField(Request $request, Page $page)

@@ -6,7 +6,7 @@
 <!-- Hero Banner -->
 <section class="products-hero">
     <img 
-        src="{{ $category->image ? $category->image_url : ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg')) }}" 
+        src="{{ $category->banner_image ? $category->banner_image_url : ($category->image ? $category->image_url : ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg'))) }}" 
         alt="{{ $category->display_name }}"
         class="products-hero-image"
     >
@@ -57,7 +57,9 @@
             </svg>
             Lọc
         </button>
-        <span class="products-count">Hiển thị {{ $products->total() }} sản phẩm</span>
+        <span class="products-count">
+            {{ content('products_showing', 'Hiển thị') }} {{ $products->count() }} / {{ $products->total() }} {{ content('products_suffix', 'sản phẩm') }}
+        </span>
     </div>
     
     <div class="products-toolbar-right">

@@ -4,15 +4,63 @@
 
 @section('content')
 <!-- Page Hero - Unified Style -->
-<x-page-hero 
-    :title="$activeCategory ? $activeCategory->display_name : 'Sản phẩm'"
-    :description="$activeCategory && $activeCategory->description ? $activeCategory->description : 'Khám phá bộ sưu tập hoa tươi cao cấp của chúng tôi'"
-    :breadcrumbs="[
-        ['label' => content('breadcrumb_home', 'Trang chủ'), 'url' => route('home')],
-        ['label' => $activeCategory ? $activeCategory->display_name : content('breadcrumb_all_products', 'Tất cả sản phẩm')]
-    ]"
-    :image="$siteBanners['products'] ?? null"
-/>
+@if(isset($breadcrumb) && !empty($breadcrumb))
+    {{-- Category page with full breadcrumb --}}
+    <section class="products-hero">
+        <img 
+            src="{{ $bannerImage ?? ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg')) }}" 
+            alt="{{ $activeCategory->display_name ?? 'Sản phẩm' }}"
+            class="products-hero-image"
+        >
+        <div class="products-hero-overlay"></div>
+        <div class="products-hero-content">
+            <div class="products-breadcrumb">
+                <a href="{{ route('home') }}">Trang chủ</a>
+                <span>/</span>
+                <a href="{{ route('categories.index') }}">Danh mục</a>
+                @foreach($breadcrumb as $item)
+                <span>/</span>
+                @if($loop->last)
+                <span>{{ $item['name'] }}</span>
+                @else
+                <a href="{{ $item['url'] }}">{{ $item['name'] }}</a>
+                @endif
+                @endforeach
+            </div>
+            <h1 class="products-hero-heading">{{ $activeCategory->display_name ?? 'Sản phẩm' }}</h1>
+            @if(isset($activeCategory) && $activeCategory->display_description)
+            <p class="products-hero-description">{{ $activeCategory->display_description }}</p>
+            @endif
+        </div>
+    </section>
+
+    {{-- Subcategories bar for category pages --}}
+    @if(isset($category) && $category->children && $category->children->count() > 0)
+    <section class="subcategories-bar">
+        <div class="subcategories-inner">
+            <h3 class="subcategories-title">Danh mục con</h3>
+            <div class="subcategories-list">
+                @foreach($category->children as $child)
+                <a href="{{ route('categories.show', $child->slug) }}" class="subcategory-link">
+                    {{ $child->display_name }}
+                </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+@else
+    {{-- Products index page with simple hero --}}
+    <x-page-hero 
+        :title="$activeCategory ? $activeCategory->display_name : 'Sản phẩm'"
+        :description="$activeCategory && $activeCategory->description ? $activeCategory->description : 'Khám phá bộ sưu tập hoa tươi cao cấp của chúng tôi'"
+        :breadcrumbs="[
+            ['label' => content('breadcrumb_home', 'Trang chủ'), 'url' => route('home')],
+            ['label' => $activeCategory ? $activeCategory->display_name : content('breadcrumb_all_products', 'Tất cả sản phẩm')]
+        ]"
+        :image="$bannerImage ?? null"
+    />
+@endif
 
 <!-- Active Filter Chips -->
 @if(!empty($activeFilterChips))
@@ -24,6 +72,10 @@
                 @php
                     // Build removal URL by removing only the specific filter parameter
                     $removeParams = request()->query();
+                    
+                    // Determine the clear URL based on context
+                    $clearRoute = isset($category) ? route('categories.show', $category->slug) : route('products.index');
+                    
                     if ($chip['type'] === 'category') {
                         // Handle both array and string formats
                         $currentCategories = $removeParams['categories'] ?? [];
@@ -61,8 +113,13 @@
                     }
                     // Always remove page when changing filters
                     unset($removeParams['page']);
+                    
+                    // Build the remove URL based on context
+                    $removeUrl = isset($category) 
+                        ? route('categories.show', array_merge(['category' => $category->slug], $removeParams))
+                        : route('products.index', $removeParams);
                 @endphp
-                <a href="{{ route('products.index', $removeParams) }}" 
+                <a href="{{ $removeUrl }}" 
                    class="filter-chip" 
                    data-type="{{ $chip['type'] }}">
                     <span class="filter-chip-text">{!! $chip['label'] !!}</span>
@@ -71,7 +128,7 @@
                     </svg>
                 </a>
             @endforeach
-            <a href="{{ route('products.index') }}" class="filter-chip filter-chip-clear">
+            <a href="{{ $clearRoute }}" class="filter-chip filter-chip-clear">
                 <span class="filter-chip-text">{{ content('filter_clear_all', 'Xóa tất cả') }}</span>
             </a>
         </div>
@@ -142,7 +199,11 @@
 </section>
 
 <!-- Filter Sidebar -->
-<form id="filterForm" method="GET" action="{{ route('products.index') }}" class="products-filter-form">
+@php
+    $filterAction = isset($category) ? route('categories.show', $category->slug) : route('products.index');
+    $clearUrl = isset($category) ? route('categories.show', $category->slug) : route('products.index');
+@endphp
+<form id="filterForm" method="GET" action="{{ $filterAction }}" class="products-filter-form">
     <input type="hidden" name="sort_by" value="{{ request('sort_by', 'latest') }}">
     <div class="products-filter-overlay" id="filterOverlay"></div>
     <aside class="products-filter-sidebar" id="filterSidebar" aria-label="Bộ lọc sản phẩm">
@@ -182,12 +243,21 @@
                 <h4 class="products-filter-group-title">Danh mục</h4>
                 <div class="products-filter-options">
                     @foreach($categories as $cat)
+                        @php
+                            // Check if this category is selected
+                            $isChecked = false;
+                            if (isset($category) && $category->id == $cat->id) {
+                                $isChecked = true;
+                            } elseif (isset($filters['category_ids']) && in_array($cat->id, (array)$filters['category_ids'])) {
+                                $isChecked = true;
+                            }
+                        @endphp
                         <label class="products-filter-option">
                             <input type="checkbox"
                                    class="products-filter-checkbox"
                                    name="categories[]"
                                    value="{{ $cat->id }}"
-                                   {{ in_array($cat->id, (array)($filters['category_ids'] ?? [])) ? 'checked' : '' }}>
+                                   {{ $isChecked ? 'checked' : '' }}>
                             <span class="products-filter-label">{{ $cat->name }}</span>
                             <span class="products-filter-count">({{ $cat->products_count ?? '' }})</span>
                         </label>
@@ -283,7 +353,7 @@
         </div>
         
         <div class="products-filter-footer">
-            <a href="{{ route('products.index') }}" class="products-filter-clear" id="filterClear">
+            <a href="{{ $clearUrl }}" class="products-filter-clear" id="filterClear">
                 Đặt lại
             </a>
             <button type="submit" class="products-filter-apply">

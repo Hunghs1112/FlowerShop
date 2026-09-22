@@ -107,11 +107,21 @@ class CategoryController extends Controller
                     );
                 }
 
+                if ($request->hasFile('banner_image')) {
+                    $validated['banner_image'] = $this->images->upload(
+                        $request->file('banner_image'),
+                        config('upload.disks.folders.category', 'categories')
+                    );
+                }
+
                 $this->categories->create($validated);
             });
         } catch (\Throwable $e) {
             if (!empty($validated['image'])) {
                 $this->images->delete($validated['image']);
+            }
+            if (!empty($validated['banner_image'])) {
+                $this->images->delete($validated['banner_image']);
             }
             throw $e;
         }
@@ -137,9 +147,11 @@ class CategoryController extends Controller
 
         $validated['is_active'] = $request->boolean('is_active');
         $oldImage = $category->image;
+        $oldHoverImage = $category->hover_image;
+        $oldBannerImage = $category->banner_image;
 
         try {
-            DB::transaction(function () use ($request, $category, &$validated, $oldImage) {
+            DB::transaction(function () use ($request, $category, &$validated, $oldImage, $oldHoverImage, $oldBannerImage) {
                 if ($request->hasFile('image')) {
                     $validated['image'] = $this->images->upload(
                         $request->file('image'),
@@ -148,11 +160,33 @@ class CategoryController extends Controller
                     );
                 }
 
+                if ($request->hasFile('hover_image')) {
+                    $validated['hover_image'] = $this->images->upload(
+                        $request->file('hover_image'),
+                        config('upload.disks.folders.category', 'categories'),
+                        $oldHoverImage
+                    );
+                }
+
+                if ($request->hasFile('banner_image')) {
+                    $validated['banner_image'] = $this->images->upload(
+                        $request->file('banner_image'),
+                        config('upload.disks.folders.category', 'categories'),
+                        $oldBannerImage
+                    );
+                }
+
                 $category->update($validated);
             });
         } catch (\Throwable $e) {
             if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
                 $this->images->delete($validated['image']);
+            }
+            if (!empty($validated['hover_image']) && $validated['hover_image'] !== $oldHoverImage) {
+                $this->images->delete($validated['hover_image']);
+            }
+            if (!empty($validated['banner_image']) && $validated['banner_image'] !== $oldBannerImage) {
+                $this->images->delete($validated['banner_image']);
             }
             throw $e;
         }
@@ -175,13 +209,191 @@ class CategoryController extends Controller
         }
 
         $imagePath = $category->image;
+        $hoverImagePath = $category->hover_image;
+        $bannerImagePath = $category->banner_image;
         $category->delete();
 
         if ($imagePath) {
             $this->images->delete($imagePath);
         }
+        
+        if ($hoverImagePath) {
+            $this->images->delete($hoverImagePath);
+        }
+
+        if ($bannerImagePath) {
+            $this->images->delete($bannerImagePath);
+        }
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Xóa danh mục thành công');
+    }
+
+    // ============================================================
+    // AJAX: Upload category image
+    // ============================================================
+    public function uploadImage(Request $request, Category $category)
+    {
+        $request->validate([
+            'images' => 'required|array|max:1',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+        ]);
+
+        try {
+            $oldImage = $category->image;
+            
+            $imagePath = $this->images->upload(
+                $request->file('images')[0],
+                config('upload.disks.folders.category', 'categories'),
+                $oldImage
+            );
+
+            $category->update(['image' => $imagePath]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã tải ảnh lên',
+                'image_url' => $category->image_url
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải ảnh: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // ============================================================
+    // AJAX: Delete category image
+    // ============================================================
+    public function deleteImage(Category $category)
+    {
+        if (!$category->image) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Danh mục không có ảnh'
+            ], 404);
+        }
+
+        $imagePath = $category->image;
+        $category->update(['image' => null]);
+        $this->images->delete($imagePath);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa ảnh'
+        ]);
+    }
+
+    // ============================================================
+    // AJAX: Upload category hover image
+    // ============================================================
+    public function uploadHoverImage(Request $request, Category $category)
+    {
+        $request->validate([
+            'images' => 'required|array|max:1',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+        ]);
+
+        try {
+            $oldHoverImage = $category->hover_image;
+            
+            $imagePath = $this->images->upload(
+                $request->file('images')[0],
+                config('upload.disks.folders.category', 'categories'),
+                $oldHoverImage
+            );
+
+            $category->update(['hover_image' => $imagePath]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã tải ảnh hover lên',
+                'image_url' => $category->hover_image_url
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải ảnh hover: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // ============================================================
+    // AJAX: Delete category hover image
+    // ============================================================
+    public function deleteHoverImage(Category $category)
+    {
+        if (!$category->hover_image) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Danh mục không có ảnh hover'
+            ], 404);
+        }
+
+        $hoverImagePath = $category->hover_image;
+        $category->update(['hover_image' => null]);
+        $this->images->delete($hoverImagePath);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa ảnh hover'
+        ]);
+    }
+
+    // ============================================================
+    // AJAX: Upload category banner image
+    // ============================================================
+    public function uploadBannerImage(Request $request, Category $category)
+    {
+        $request->validate([
+            'images' => 'required|array|max:1',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+        ]);
+
+        try {
+            $oldBannerImage = $category->banner_image;
+            
+            $imagePath = $this->images->upload(
+                $request->file('images')[0],
+                config('upload.disks.folders.category', 'categories'),
+                $oldBannerImage
+            );
+
+            $category->update(['banner_image' => $imagePath]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã tải ảnh banner lên',
+                'image_url' => $category->banner_image_url
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải ảnh banner: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // ============================================================
+    // AJAX: Delete category banner image
+    // ============================================================
+    public function deleteBannerImage(Category $category)
+    {
+        if (!$category->banner_image) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Danh mục không có ảnh banner'
+            ], 404);
+        }
+
+        $bannerImagePath = $category->banner_image;
+        $category->update(['banner_image' => null]);
+        $this->images->delete($bannerImagePath);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa ảnh banner'
+        ]);
     }
 }

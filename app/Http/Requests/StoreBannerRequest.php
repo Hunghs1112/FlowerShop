@@ -21,6 +21,7 @@ class StoreBannerRequest extends FormRequest
             'button_link' => 'nullable|url|max:500',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
+            'has_background' => 'boolean',
         ];
     }
 
@@ -43,6 +44,7 @@ class StoreBannerRequest extends FormRequest
         // Set boolean defaults
         $this->merge([
             'is_active' => $this->boolean('is_active', true),
+            'has_background' => $this->boolean('has_background', true),
         ]);
     }
 }

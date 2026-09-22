@@ -53,6 +53,10 @@
     );
 }
 
+.hero-background.no-overlay::after {
+    content: none !important;
+}
+
 /* === HERO CONTAINER === */
 .hero-container {
     position: relative;
@@ -178,7 +182,7 @@
 
 /* === HERO CONTROLS === */
 .hero-controls {
-    margin-top: var(--space-6);
+    margin-top: 106px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

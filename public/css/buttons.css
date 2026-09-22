@@ -129,9 +129,9 @@
 }
 
 .btn-icon-danger:hover {
-    background-color: #FEF2F2;
-    border-color: #FCA5A5;
-    color: #DC2626;
+    background-color: rgba(166, 83, 78, 0.1);
+    border-color: rgba(166, 83, 78, 0.3);
+    color: var(--color-error);
 }
 
 .inline-form {

@@ -5,7 +5,7 @@
         <div class="hero-slider">
             {{-- Background Images (all backgrounds at same level for smooth transition) --}}
             @foreach($banners as $index => $banner)
-                <div class="hero-background {{ $index === 0 ? 'active' : '' }}" data-slide="{{ $index }}">
+                <div class="hero-background {{ $index === 0 ? 'active' : '' }} {{ !$banner->has_background ? 'no-overlay' : '' }}" data-slide="{{ $index }}">
                     <img 
                         src="{{ $banner->image_url }}"
                         alt="{{ $banner->title ?? 'Banner' }}"
@@ -140,7 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function goToSlide(index) {
         // Remove active from all content slides, backgrounds, and indicators
         contentSlides.forEach(slide => slide.classList.remove('active'));
-        backgrounds.forEach(bg => bg.classList.remove('active'));
+        backgrounds.forEach(bg => {
+            // Only remove 'active', keep 'no-overlay' if it exists
+            bg.classList.remove('active');
+        });
         indicators.forEach(indicator => {
             indicator.classList.remove('active');
             const progress = indicator.querySelector('.hero-indicator-progress');

@@ -184,4 +184,60 @@ class SubcategoryController extends Controller
             $fieldConfig
         );
     }
+
+    // ============================================================
+    // AJAX: Upload subcategory image
+    // ============================================================
+    public function uploadImage(Request $request, Subcategory $subcategory)
+    {
+        $request->validate([
+            'images' => 'required|array|max:1',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+        ]);
+
+        try {
+            $oldImage = $subcategory->image;
+            
+            $imagePath = $this->images->upload(
+                $request->file('images')[0],
+                config('upload.disks.folders.category', 'categories'),
+                $oldImage
+            );
+
+            $subcategory->update(['image' => $imagePath]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã tải ảnh lên',
+                'image_url' => $subcategory->image_url
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải ảnh: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // ============================================================
+    // AJAX: Delete subcategory image
+    // ============================================================
+    public function deleteImage(Subcategory $subcategory)
+    {
+        if (!$subcategory->image) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Danh mục phụ không có ảnh'
+            ], 404);
+        }
+
+        $imagePath = $subcategory->image;
+        $subcategory->update(['image' => null]);
+        $this->images->delete($imagePath);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa ảnh'
+        ]);
+    }
 }

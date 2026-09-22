@@ -138,6 +138,40 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                         
                         <div id="hoverImagePreview" style="margin-top: 12px;"></div>
                     </div>
+
+                    {{-- Banner Image --}}
+                    <div style="padding-top: 20px; border-top: 1px solid var(--admin-border);">
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 8px;">Ảnh Banner <span style="font-size: 12px; font-weight: 400; color: var(--admin-text-muted);">(Tùy chọn)</span></label>
+                        
+                        @if(isset($category) && $category->banner_image)
+                            <div class="category-banner-image-container" style="margin-bottom: 12px; position: relative; display: inline-block;">
+                                <div style="width: 240px; height: 120px; border-radius: var(--admin-radius-md); overflow: hidden; border: 1px solid var(--admin-border);">
+                                    <img src="{{ $category->banner_image_url }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <button type="button" 
+                                        onclick="deleteCategoryBannerImage({{ $category->id }}, this)"
+                                        style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: rgba(239, 68, 68, 0.9); color: white; border-radius: 50%; border: 2px solid white; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+                                        title="Xóa ảnh banner">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                            </div>
+                        @endif
+
+                        <input type="file" 
+                               name="banner_image" 
+                               accept="image/*" 
+                               id="bannerImageInput" 
+                               class="auto-save-file"
+                               data-entity="categories"
+                               data-id="{{ $category->id ?? '' }}"
+                               data-field="banner_image"
+                               data-upload-url="{{ isset($category) ? route('admin.categories.uploadBannerImage', $category) : '' }}"
+                               onchange="previewImage(this, 'bannerImagePreview')"
+                               style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Hiển thị ở trang danh mục. Kích thước đề xuất: 1920x600px</small>
+                        
+                        <div id="bannerImagePreview" style="margin-top: 12px;"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -235,14 +269,20 @@ function deleteCategoryImage(categoryId, button) {
     .then(data => {
         if (data.success) {
             button.closest('.category-image-container').remove();
-            showToast('success', data.message);
+            if (window.Toast) {
+                Toast.success(data.message);
+            }
         } else {
-            showToast('error', data.message || 'Có lỗi xảy ra');
+            if (window.Toast) {
+                Toast.error(data.message || 'Có lỗi xảy ra');
+            }
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        showToast('error', 'Có lỗi xảy ra khi xóa ảnh');
+        if (window.Toast) {
+            Toast.error('Có lỗi xảy ra khi xóa ảnh');
+        }
     });
 }
 
@@ -260,14 +300,51 @@ function deleteCategoryHoverImage(categoryId, button) {
     .then(data => {
         if (data.success) {
             button.closest('.category-hover-image-container').remove();
-            showToast('success', data.message);
+            if (window.Toast) {
+                Toast.success(data.message);
+            }
         } else {
-            showToast('error', data.message || 'Có lỗi xảy ra');
+            if (window.Toast) {
+                Toast.error(data.message || 'Có lỗi xảy ra');
+            }
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        showToast('error', 'Có lỗi xảy ra khi xóa ảnh hover');
+        if (window.Toast) {
+            Toast.error('Có lỗi xảy ra khi xóa ảnh hover');
+        }
+    });
+}
+
+function deleteCategoryBannerImage(categoryId, button) {
+    if (!confirm('Bạn có chắc muốn xóa ảnh banner này?')) return;
+    
+    fetch(`/admin/categories/${categoryId}/banner-image`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            button.closest('.category-banner-image-container').remove();
+            if (window.Toast) {
+                Toast.success(data.message);
+            }
+        } else {
+            if (window.Toast) {
+                Toast.error(data.message || 'Có lỗi xảy ra');
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (window.Toast) {
+            Toast.error('Có lỗi xảy ra khi xóa ảnh banner');
+        }
     });
 }
 

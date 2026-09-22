@@ -102,31 +102,31 @@
 }
 
 /* === ADMIN DARK THEME === */
-/* Modern dark interface tokens for admin panel */
+/* Modern botanical interface tokens for admin panel */
 :root {
-    /* Admin Dark Colors */
-    --color-bg-primary: #064E3B;           /* Dark botanical green background */
-    --color-bg-secondary: #065F46;
-    --color-surface-primary: #065F46;      /* Card/surface background */
-    --color-surface-secondary: #047857;
+    /* Admin Card Backgrounds */
+    --color-bg-primary: var(--color-botanical-pale);
+    --color-bg-secondary: var(--color-botanical);
+    --color-surface-primary: var(--color-white);
+    --color-surface-secondary: var(--color-sage);
     
-    /* Admin Text */
-    --color-text-primary: #F8FAFC;         /* Primary text on dark */
-    --color-text-secondary: #CBD5E1;       /* Secondary text */
-    --color-text-tertiary: #94A3B8;        /* Tertiary/muted text */
+    /* Admin Text (inherits from main theme) */
+    --color-text-primary: var(--color-text);
+    --color-text-secondary: var(--color-text-light);
+    --color-text-tertiary: var(--color-text-lighter);
     
     /* Admin Borders */
-    --admin-border: #D1D5DB;               /* Visible input borders */
-    --admin-radius-md: 8px;                /* Border radius for inputs */
+    --admin-border: var(--color-border);
+    --admin-radius-md: 8px;
     --admin-font-mono: 'Consolas', 'Monaco', monospace;
-    --color-border-subtle: #10B981;        /* Subtle borders - green botanical */
-    --color-border-strong: #14B8A6;        /* Strong borders */
+    --color-border-subtle: var(--color-border-light);
+    --color-border-strong: var(--color-border);
     
     /* Admin Accents */
-    --color-accent-primary: #38BDF8;       /* Sky blue - primary actions */
-    --color-accent-secondary: #F59E0B;     /* Amber - secondary actions */
-    --color-accent-success: #10B981;       /* Emerald */
-    --color-accent-warning: #F59E0B;       /* Amber */
-    --color-accent-error: #EF4444;         /* Red */
-    --color-accent-info: #3B82F6;          /* Blue */
+    --color-accent-primary: var(--color-primary);
+    --color-accent-secondary: var(--color-secondary);
+    --color-accent-success: var(--color-success);
+    --color-accent-warning: var(--color-warning);
+    --color-accent-error: var(--color-error);
+    --color-accent-info: var(--color-info);
 }

@@ -107,29 +107,6 @@
                         <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-300 mb-2">Trọng lượng (gram)</label>
-                    <input type="number" 
-                           name="weight" 
-                           value="{{ old('weight', $variant->weight) }}"
-                           step="0.01"
-                           class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
-                    @error('weight')
-                        <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-300 mb-2">Kích thước (DxRxC cm)</label>
-                    <input type="text" 
-                           name="dimensions" 
-                           value="{{ old('dimensions', $variant->dimensions) }}"
-                           class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
-                    @error('dimensions')
-                        <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
             </div>
         </div>
 
@@ -140,7 +117,7 @@
                 Giá & Tồn kho
             </h2>
 
-            <div class="grid md:grid-cols-3 gap-4">
+            <div class="grid md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-2">
                         Giá bán (VNĐ)
@@ -162,19 +139,6 @@
                             Đang dùng giá gốc: {{ number_format($product->price) }}₫
                         @endif
                     </p>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-300 mb-2">Giá so sánh (VNĐ)</label>
-                    <input type="number" 
-                           name="compare_at_price" 
-                           value="{{ old('compare_at_price', $variant->compare_at_price) }}"
-                           step="1000"
-                           min="0"
-                           class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
-                    @error('compare_at_price')
-                        <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <div>

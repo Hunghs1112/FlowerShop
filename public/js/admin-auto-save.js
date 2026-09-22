@@ -544,6 +544,48 @@
         return deleteImageNow('categories', categoryId, null, container);
     };
 
+    // Category hover image delete
+    window.deleteCategoryHoverImage = async function(categoryId, button) {
+        if (!confirm('Xóa ảnh hover này?')) return;
+
+        const url = `${window.location.origin}/admin/categories/${categoryId}/hover-image`;
+        const container = button ? button.closest('.category-hover-image-container') : null;
+        
+        try {
+            const response = await fetchWithRetry(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                Toast.success(data.message || 'Đã xóa ảnh hover');
+                
+                // Remove element from DOM
+                if (container) {
+                    container.style.transition = 'all 0.3s ease-out';
+                    container.style.opacity = '0';
+                    container.style.transform = 'scale(0.8)';
+                    setTimeout(() => container.remove(), 300);
+                }
+                
+                return { success: true, data };
+            } else {
+                const error = await response.json();
+                Toast.error(error.message || 'Lỗi khi xóa ảnh hover');
+                return { success: false, error };
+            }
+        } catch (err) {
+            console.error('Delete hover image error:', err);
+            Toast.error('Lỗi kết nối');
+            return { success: false, error: err };
+        }
+    };
+
     // Subcategory image delete (single image per subcategory)
     window.deleteSubcategoryImage = function(subcategoryId, button) {
         const container = button ? button.closest('.subcategory-image-container') : null;

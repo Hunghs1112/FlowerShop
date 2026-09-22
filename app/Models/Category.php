@@ -16,6 +16,7 @@ class Category extends Model
         'icon',
         'image',
         'hover_image',
+        'banner_image',
         'sort_order',
         'is_active',
         'order',
@@ -109,5 +110,25 @@ class Category extends Model
 
         // Default: stored in the public disk under storage/app/public/
         return asset('storage/' . $this->hover_image);
+    }
+
+    public function getBannerImageUrlAttribute(): ?string
+    {
+        if (!$this->banner_image) {
+            return null;
+        }
+
+        // Absolute URL (http/https) — return as-is
+        if (str_starts_with($this->banner_image, 'http://') || str_starts_with($this->banner_image, 'https://')) {
+            return $this->banner_image;
+        }
+
+        // If path already starts with /storage/ or /images/, treat as a public asset path
+        if (str_starts_with($this->banner_image, '/storage/') || str_starts_with($this->banner_image, '/images/')) {
+            return asset(ltrim($this->banner_image, '/'));
+        }
+
+        // Default: stored in the public disk under storage/app/public/
+        return asset('storage/' . $this->banner_image);
     }
 }

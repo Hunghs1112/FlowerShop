@@ -24,6 +24,7 @@ class UpdateCategoryRequest extends FormRequest
             'icon' => 'nullable|string|max:50',
             'image' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'hover_image' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
+            'banner_image' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ];
@@ -40,6 +41,8 @@ class UpdateCategoryRequest extends FormRequest
             'image.max' => 'Kích thước hình ảnh không được vượt quá ' . config('upload.limits.category_image.max_size', 2048) . ' KB',
             'hover_image.mimes' => 'Hình ảnh hover phải có định dạng: jpg, jpeg, png, gif, webp',
             'hover_image.max' => 'Kích thước hình ảnh hover không được vượt quá ' . config('upload.limits.category_image.max_size', 2048) . ' KB',
+            'banner_image.mimes' => 'Ảnh banner phải có định dạng: jpg, jpeg, png, gif, webp',
+            'banner_image.max' => 'Kích thước ảnh banner không được vượt quá ' . config('upload.limits.category_image.max_size', 2048) . ' KB',
         ];
     }
 

@@ -58,7 +58,7 @@
 
 .admin-form-label-required::after {
     content: '*';
-    color: #DC2626;
+    color: var(--color-error);
     margin-left: 4px;
 }
 
@@ -98,7 +98,7 @@
 
 .admin-form-error {
     font-size: var(--text-xs);
-    color: #DC2626;
+    color: var(--color-error);
     margin-top: var(--space-2);
 }
 
@@ -328,7 +328,7 @@ select.input-sm {
 }
 
 .admin-card-body label span[style*="color"] {
-    color: #DC2626;
+    color: var(--color-error);
 }
 
 .admin-card-body small {

@@ -65,7 +65,12 @@ class ProductController extends Controller
             ]);
         }
 
-        $bannerKey = 'products';
+        // Get banner image for the page
+        $bannerImage = null;
+        if ($activeCategory && $activeCategory->banner_image) {
+            // Use category banner if available
+            $bannerImage = $activeCategory->banner_image_url;
+        }
 
         return view('products.index', compact(
             'products', 
@@ -73,7 +78,7 @@ class ProductController extends Controller
             'subcategories',
             'filters', 
             'activeCategory', 
-            'bannerKey',
+            'bannerImage',
             'activeFilterChips'
         ));
     }

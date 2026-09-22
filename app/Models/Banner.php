@@ -15,10 +15,12 @@ class Banner extends Model
         'sort_order',
         'is_active',
         'location',
+        'has_background',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'has_background' => 'boolean',
     ];
 
     // Scopes
