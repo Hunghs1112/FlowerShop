@@ -19,9 +19,7 @@
 
         {{-- Nếu có trang "gioi-thieu" trong DB thì dùng nội dung đó --}}
         @if(!empty($introPage))
-            <div class="page-body-content">
-                {!! nl2br(e($introPage->content)) !!}
-            </div>
+            <x-markdown-renderer :content="$introPage->content" class="page-body-content" />
         @else
             {{-- Fallback: nội dung tĩnh --}}
             <div class="content-section">

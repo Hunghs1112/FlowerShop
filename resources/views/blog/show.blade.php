@@ -61,7 +61,7 @@
                 @endif
 
                 <div class="post-body">
-                    {!! nl2br(e($post->content)) !!}
+                    <x-markdown-renderer :content="$post->content" />
                 </div>
             </div>
         </div>

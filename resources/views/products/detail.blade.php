@@ -223,7 +223,7 @@
                                 <span class="accordion-icon" aria-hidden="true">+</span>
                             </button>
                             <div class="accordion-content">
-                                <div>{!! nl2br(e($product->description)) !!}</div>
+                                <x-markdown-renderer :content="$product->description" />
                             </div>
                         </div>
                     @endif

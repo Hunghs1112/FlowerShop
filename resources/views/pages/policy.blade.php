@@ -16,9 +16,7 @@
 
 <div class="container page-wrapper">
     <div class="page-content">
-        <div class="page-body">
-            {!! nl2br(e($page->content)) !!}
-        </div>
+        <x-markdown-renderer :content="$page->content" class="page-body" />
     </div>
 </div>
 @endsection
