@@ -126,7 +126,7 @@ class CategoryController extends Controller
             throw $e;
         }
 
-        return redirect()->route('admin.categories.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'categories'])
             ->with('success', 'Tạo danh mục thành công');
     }
 
@@ -191,7 +191,7 @@ class CategoryController extends Controller
             throw $e;
         }
 
-        return redirect()->route('admin.categories.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'categories'])
             ->with('success', 'Cập nhật danh mục thành công');
     }
 
@@ -225,7 +225,7 @@ class CategoryController extends Controller
             $this->images->delete($bannerImagePath);
         }
 
-        return redirect()->route('admin.categories.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'categories'])
             ->with('success', 'Xóa danh mục thành công');
     }
 

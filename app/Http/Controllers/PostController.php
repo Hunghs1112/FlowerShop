@@ -28,9 +28,7 @@ class PostController extends Controller
 
     public function show(string $slug)
     {
-        // Support both EN and VI slugs
         $post = Post::where('slug', $slug)
-            ->orWhere('slug_en', $slug)
             ->published()
             ->firstOrFail();
 

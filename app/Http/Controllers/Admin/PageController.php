@@ -117,7 +117,7 @@ class PageController extends Controller
         return $this->handleAjaxFieldUpdate($request, $page, [
             'allowed_fields' => [
                 'title', 'slug', 'content', 'is_active',
-                'meta_title', 'meta_description', 'header_image', 'header_image'
+                'meta_title', 'meta_description', 'header_image'
             ],
             'rules' => [
                 'title' => 'required|string|max:255',
@@ -125,8 +125,30 @@ class PageController extends Controller
                 'content' => 'required|string',
                 'is_active' => 'boolean',
                 'meta_title' => 'nullable|string|max:255',
-                'meta_description', 'header_image', 'header_image' => 'nullable|string|max:500',
+                'meta_description' => 'nullable|string|max:500',
+                'header_image' => 'nullable|string|max:500',
             ],
+        ]);
+    }
+
+    /**
+     * AJAX: Upload header image
+     */
+    public function uploadHeaderImage(Request $request, Page $page)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:4096',
+        ]);
+
+        $file = $request->file('file');
+        $filename = 'page-header-' . $page->id . '-' . time() . '.' . $file->getClientOriginalExtension();
+        $path = $file->move(public_path('images/pages'), $filename);
+
+        $page->update(['header_image' => 'images/pages/' . $filename]);
+
+        return response()->json([
+            'success' => true,
+            'url' => asset('images/pages/' . $filename),
         ]);
     }
 

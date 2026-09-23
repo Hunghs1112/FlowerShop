@@ -98,7 +98,7 @@
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tiêu Đề Meta</label>
-                        <input type="text" name="meta_title" value="{{ old('meta_title', $page->meta_title ?? '') }}" 
+                        <input type="text" name="meta_title" value="{{ old('meta_title', $page->meta_title ?? '') }}"
                                class="auto-save-input"
                                data-entity="pages"
                                data-id="{{ $page->id }}"
@@ -107,12 +107,55 @@
 
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả Meta</label>
-                        <textarea name="meta_description" rows="3" 
+                        <textarea name="meta_description" rows="3"
                                   class="auto-save-input"
                                   data-entity="pages"
                                   data-id="{{ $page->id }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('meta_description', $page->meta_description ?? '') }}</textarea>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Header Image --}}
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title">
+                    <div class="admin-card-title-icon">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    Ảnh Nền Trang
+                </h2>
+            </div>
+            <div class="admin-card-body">
+                @php
+                    $hasHeaderImage = isset($page) && $page->header_image_url;
+                @endphp
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    @if($hasHeaderImage)
+                        <div id="currentHeaderImage" style="position: relative; border-radius: 8px; overflow: hidden; border: 2px solid var(--admin-border);">
+                            <img src="{{ $page->header_image_url }}" alt="Header Image" style="width: 100%; height: 120px; object-fit: cover; display: block;">
+                            <button type="button" onclick="removeHeaderImage()" style="position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,0.7); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    @endif
+
+                    <div id="headerImageUpload" style="{{ $hasHeaderImage ? 'display: none;' : '' }}">
+                        <input type="file"
+                               name="header_image_file"
+                               accept="image/*"
+                               id="headerImageInput"
+                               onchange="uploadHeaderImage(this)"
+                               style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước đề xuất: 1600x600px hoặc 1920x800px</small>
+                    </div>
+
+                    <input type="hidden" name="header_image" value="{{ $page->header_image ?? '' }}" id="headerImageValue">
                 </div>
             </div>
         </div>
@@ -146,5 +189,59 @@ document.getElementById('titleInput')?.addEventListener('input', function(e) {
 document.getElementById('slugInput')?.addEventListener('input', function() {
     this.dataset.manual = 'true';
 });
+
+// Upload header image
+function uploadHeaderImage(input) {
+    if (!input.files || !input.files[0]) return;
+
+    const file = input.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch('{{ isset($page) ? route("admin.pages.uploadHeaderImage", $page) : "" }}', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('headerImageValue').value = data.url;
+            // Show preview
+            const previewHtml = `
+                <div id="currentHeaderImage" style="position: relative; border-radius: 8px; overflow: hidden; border: 2px solid var(--admin-border);">
+                    <img src="${data.url}" alt="Header Image" style="width: 100%; height: 120px; object-fit: cover; display: block;">
+                    <button type="button" onclick="removeHeaderImage()" style="position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,0.7); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            document.getElementById('headerImageUpload').style.display = 'none';
+            const container = document.querySelector('#headerImageUpload').parentElement;
+            // Remove old preview if exists
+            const oldPreview = document.getElementById('currentHeaderImage');
+            if (oldPreview) oldPreview.remove();
+            container.insertAdjacentHTML('afterbegin', previewHtml);
+        } else {
+            alert('Upload failed: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Upload failed. Please try again.');
+    });
+}
+
+// Remove header image
+function removeHeaderImage() {
+    document.getElementById('headerImageValue').value = '';
+    document.getElementById('currentHeaderImage')?.remove();
+    document.getElementById('headerImageUpload').style.display = 'block';
+    document.getElementById('headerImageInput').value = '';
+}
 </script>
 @endpush

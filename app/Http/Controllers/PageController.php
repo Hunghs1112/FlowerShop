@@ -17,8 +17,13 @@ class PageController extends Controller
     {
         $siteInfo  = $this->settingService->getSiteInfo();
         $introPage = Page::where('slug', 'gioi-thieu')->active()->first();
-        $bannerKey = 'about';
-        return view('pages.about', compact('siteInfo', 'introPage', 'bannerKey'));
+
+        // Use page's own header_image if set, otherwise fallback to default banner
+        $pageBanner = $introPage && $introPage->header_image_url
+            ? ['custom' => $introPage->header_image_url]
+            : [];
+
+        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner'));
     }
 
     public function contact()
@@ -56,7 +61,12 @@ class PageController extends Controller
         $page = Page::where('slug', $slug)
             ->active()
             ->firstOrFail();
-        $bannerKey = 'about';
-        return view('pages.policy', compact('page', 'bannerKey'));
+
+        // Use page's own header_image if set, otherwise fallback to default banner
+        $pageBanner = $page->header_image_url
+            ? ['custom' => $page->header_image_url]
+            : [];
+
+        return view('pages.policy', compact('page', 'pageBanner'));
     }
 }

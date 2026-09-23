@@ -477,7 +477,7 @@ class ProductController extends Controller
             throw $e;
         }
 
-        return redirect()->route('admin.products.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'products'])
             ->with('success', 'Tạo sản phẩm thành công');
     }
 
@@ -582,7 +582,7 @@ class ProductController extends Controller
             $this->images->delete($path);
         }
 
-        return redirect()->route('admin.products.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'products'])
             ->with('success', 'Cập nhật sản phẩm thành công');
     }
 
@@ -596,7 +596,7 @@ class ProductController extends Controller
             $this->images->delete($path);
         }
 
-        return redirect()->route('admin.products.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'products'])
             ->with('success', 'Xóa sản phẩm thành công');
     }
 }

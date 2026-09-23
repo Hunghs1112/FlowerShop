@@ -11,6 +11,7 @@ class Page extends Model
         'slug',
         'content',
         'is_active',
+        'header_image',
     ];
 
     protected $casts = [
@@ -21,5 +22,23 @@ class Page extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    // Accessors
+    public function getHeaderImageUrlAttribute(): ?string
+    {
+        if (!$this->header_image) {
+            return null;
+        }
+
+        if (str_starts_with($this->header_image, 'http://') || str_starts_with($this->header_image, 'https://')) {
+            return $this->header_image;
+        }
+
+        if (str_starts_with($this->header_image, 'images/')) {
+            return asset($this->header_image);
+        }
+
+        return asset('storage/' . ltrim($this->header_image, '/'));
     }
 }

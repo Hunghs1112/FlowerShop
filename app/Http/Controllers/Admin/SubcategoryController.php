@@ -96,7 +96,7 @@ class SubcategoryController extends Controller
             throw $e;
         }
 
-        return redirect()->route('admin.subcategories.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'subcategories'])
             ->with('success', 'Tạo danh mục phụ thành công');
     }
 
@@ -139,7 +139,7 @@ class SubcategoryController extends Controller
             throw $e;
         }
 
-        return redirect()->route('admin.subcategories.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'subcategories'])
             ->with('success', 'Cập nhật danh mục phụ thành công');
     }
 
@@ -158,7 +158,7 @@ class SubcategoryController extends Controller
             $this->images->delete($imagePath);
         }
 
-        return redirect()->route('admin.subcategories.index')
+        return redirect()->route('admin.catalog.index', ['tab' => 'subcategories'])
             ->with('success', 'Xóa danh mục phụ thành công');
     }
 

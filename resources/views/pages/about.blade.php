@@ -3,14 +3,14 @@
 @section('title', 'Về chúng tôi')
 
 @section('content')
-<x-page-hero 
+<x-page-hero
     title="Về chúng tôi"
     description="Câu chuyện về chúng tôi và sứ mệnh mang vẻ đẹp hoa tươi đến mọi nhà"
     :breadcrumbs="[
         ['label' => 'Trang chủ', 'url' => route('home')],
         ['label' => 'Về chúng tôi']
     ]"
-    :image="$siteBanners['about'] ?? null"
+    :image="$pageBanner['custom'] ?? $siteBanners['about'] ?? null"
     height="400px"
 />
 

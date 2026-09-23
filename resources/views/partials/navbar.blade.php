@@ -86,6 +86,13 @@
                 </a>
             </li>
 
+            {{-- Về chúng tôi --}}
+            <li class="navbar-nav-item">
+                <a href="{{ route('about') }}" class="navbar-nav-link {{ request()->routeIs('about') ? 'active' : '' }}">
+                    Về chúng tôi
+                </a>
+            </li>
+
         </ul>
 
         {{-- ─── Right Actions ──────────────────────────────── --}}
@@ -243,6 +250,9 @@
 
             {{-- B2C --}}
             <li><a href="{{ route('b2c') }}">B2C</a></li>
+
+            {{-- Về chúng tôi --}}
+            <li><a href="{{ route('about') }}">Về chúng tôi</a></li>
 
             @auth
                 <div class="mobile-menu-divider"></div>

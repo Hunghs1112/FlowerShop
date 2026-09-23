@@ -28,7 +28,7 @@ class CheckoutController extends Controller
     public function index()
     {
         $cartItems = $this->cartService->getCartItems();
-        
+
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng trống');
         }
@@ -36,7 +36,8 @@ class CheckoutController extends Controller
         $total = $this->cartService->getTotal();
         $user = auth()->user();
         $bannerKey = 'checkout';
-        return view('checkout.index', compact('cartItems', 'total', 'user', 'bannerKey'));
+        $siteInfo = $this->settingService->getSiteInfo();
+        return view('checkout.index', compact('cartItems', 'total', 'user', 'bannerKey', 'siteInfo'));
     }
 
     /**

@@ -37,7 +37,7 @@ Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show
 // Pages
 Route::get('/ve-chung-toi', [PageController::class, 'about'])->name('about');
 Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
-Route::post('/lien-he', [PageController::class, 'contactSubmit'])->name('contact.submit');
+Route::post('/lien-he', [PageController::class, 'contactSubmit'])->name('contact.store');
 Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
 // Cart
@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
     // Checkout
     Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/thanh-toan', [CheckoutController::class, 'store'])->name('checkout.store');
-    Route::get('/thanh-toan/thanh-cong', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('/thanh-toan/thanh-cong/{inquiry?}', [CheckoutController::class, 'success'])->name('checkout.success');
 
     // Mystery Box
     Route::get('/hop-hoa-bi-an', [\App\Http\Controllers\MysteryBoxController::class, 'index'])->name('mystery-box.index');
@@ -128,6 +128,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+    Route::post('pages/{page}/upload-header-image', [\App\Http\Controllers\Admin\PageController::class, 'uploadHeaderImage'])->name('pages.uploadHeaderImage');
     Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
 
     // AJAX Auto-save endpoints for Products
@@ -207,13 +208,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'show'])->name('inquiries.show');
     Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\InquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
 
-    // Settings
+    // Settings (main routes)
     Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
-    Route::delete('settings/logo', [\App\Http\Controllers\Admin\SettingController::class, 'deleteLogo'])->name('settings.deleteLogo');
-    Route::delete('settings/banner/{key}', [\App\Http\Controllers\Admin\SettingController::class, 'deleteBanner'])
-        ->where('key', '[a-z]+')
-        ->name('settings.deleteBanner');
 
     // Chat management
     Route::get('chats', [\App\Http\Controllers\Admin\ChatController::class, 'index'])->name('chats.index');
@@ -223,9 +220,4 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('chats/mark-as-read', [\App\Http\Controllers\Admin\ChatController::class, 'markAsRead'])->name('chats.markAsRead');
     Route::get('chats/{userId}', [\App\Http\Controllers\Admin\ChatController::class, 'show'])->name('chats.show');
 
-    // Banner management
-    Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
-    Route::patch('banners/{banner}/update-field', [\App\Http\Controllers\Admin\BannerController::class, 'updateField'])->name('banners.updateField');
-    Route::post('banners/{banner}/upload-image', [\App\Http\Controllers\Admin\BannerController::class, 'uploadImage'])->name('banners.uploadImage');
-    Route::delete('banners/{banner}/delete-image', [\App\Http\Controllers\Admin\BannerController::class, 'deleteImage'])->name('banners.deleteImage');
 });
