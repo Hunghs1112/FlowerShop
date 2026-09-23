@@ -28,7 +28,7 @@ class DashboardController extends Controller
             'published_posts' => Post::published()->count(),
         ];
 
-        $recentInquiries = Inquiry::with(['user', 'products'])
+        $recentInquiries = Inquiry::with('user')
             ->latest()
             ->limit(10)
             ->get();
