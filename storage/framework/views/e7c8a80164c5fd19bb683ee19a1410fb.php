@@ -20,25 +20,23 @@
                 <div class="hero-content-wrapper">
                     <div class="hero-content">
                         <?php $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <?php if($banner->hasText() || $banner->hasCta()): ?>
-                                <div class="hero-slide <?php echo e($index === 0 ? 'active' : ''); ?>" data-slide="<?php echo e($index); ?>">
-                                    <?php if($banner->title): ?>
-                                        <span class="hero-label"><?php echo e($banner->title); ?></span>
-                                    <?php endif; ?>
-                                    <?php if($banner->subtitle): ?>
-                                        <h1 class="hero-title"><?php echo e($banner->subtitle); ?></h1>
-                                    <?php endif; ?>
-                                    <?php if($banner->hasCta()): ?>
-                                        <a href="<?php echo e($banner->button_link); ?>" class="hero-cta">
-                                            <?php echo e($banner->button_text); ?>
+                            <div class="hero-slide <?php echo e($index === 0 ? 'active' : ''); ?>" data-slide="<?php echo e($index); ?>">
+                                <?php if($banner->title): ?>
+                                    <span class="hero-label"><?php echo e($banner->title); ?></span>
+                                <?php endif; ?>
+                                <?php if($banner->subtitle): ?>
+                                    <h1 class="hero-title"><?php echo e($banner->subtitle); ?></h1>
+                                <?php endif; ?>
+                                <?php if($banner->hasCta()): ?>
+                                    <a href="<?php echo e($banner->button_link); ?>" class="hero-cta">
+                                        <?php echo e($banner->button_text); ?>
 
-                                            <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                            </svg>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endif; ?>
+                                        <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                        </svg>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
 

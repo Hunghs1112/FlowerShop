@@ -20,24 +20,22 @@
                 <div class="hero-content-wrapper">
                     <div class="hero-content">
                         @foreach($banners as $index => $banner)
-                            @if($banner->hasText() || $banner->hasCta())
-                                <div class="hero-slide {{ $index === 0 ? 'active' : '' }}" data-slide="{{ $index }}">
-                                    @if($banner->title)
-                                        <span class="hero-label">{{ $banner->title }}</span>
-                                    @endif
-                                    @if($banner->subtitle)
-                                        <h1 class="hero-title">{{ $banner->subtitle }}</h1>
-                                    @endif
-                                    @if($banner->hasCta())
-                                        <a href="{{ $banner->button_link }}" class="hero-cta">
-                                            {{ $banner->button_text }}
-                                            <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                            </svg>
-                                        </a>
-                                    @endif
-                                </div>
-                            @endif
+                            <div class="hero-slide {{ $index === 0 ? 'active' : '' }}" data-slide="{{ $index }}">
+                                @if($banner->title)
+                                    <span class="hero-label">{{ $banner->title }}</span>
+                                @endif
+                                @if($banner->subtitle)
+                                    <h1 class="hero-title">{{ $banner->subtitle }}</h1>
+                                @endif
+                                @if($banner->hasCta())
+                                    <a href="{{ $banner->button_link }}" class="hero-cta">
+                                        {{ $banner->button_text }}
+                                        <svg class="hero-cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                        </svg>
+                                    </a>
+                                @endif
+                            </div>
                         @endforeach
                     </div>
 

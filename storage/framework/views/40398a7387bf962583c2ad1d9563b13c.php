@@ -44,7 +44,7 @@
     position: relative;
     width: 100%;
     padding: 60px 20px;
-    background: linear-gradient(135deg, #f3e7f0 0%, #f9f0f6 100%);
+    background: linear-gradient(135deg, #E8EEE3 0%, #DDE4D8 100%);
 }
 
 .mystery-box-banner-container {
@@ -138,20 +138,20 @@
     align-items: center;
     gap: 10px;
     padding: 14px 28px;
-    background: white;
-    color: #d92e66;
-    border-radius: 8px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: var(--radius-md);
     font-size: 15px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
-    border: 2px solid white;
+    border: 2px solid var(--color-primary);
 }
 
 .mystery-box-banner-cta:hover {
-    background: transparent;
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
     color: white;
-    border-color: white;
     transform: translateX(2px);
 }
 
