@@ -16,7 +16,7 @@ class InquiryController extends Controller
             'search' => $request->input('search'),
         ];
 
-        $query = Inquiry::with(['user', 'products']);
+        $query = Inquiry::with('user');
 
         if ($filters['status']) {
             $query->where('status', $filters['status']);
@@ -46,7 +46,7 @@ class InquiryController extends Controller
     public function show(Inquiry $inquiry)
     {
 
-        $inquiry->load(['user', 'products.productImages', 'products.category']);
+        $inquiry->load('user');
 
         return view('admin.inquiries.show', compact('inquiry'));
     }
