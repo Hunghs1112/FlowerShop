@@ -14,35 +14,24 @@
     :image="$siteBanners['blog'] ?? null"
     height="350px"
 />
-<article class="post-detail">
-    <div class="container page-content-narrow">
-        <!-- Post Header -->
-        <header class="post-header">
-            <nav class="breadcrumb">
-                <a href="{{ route('home') }}">Trang chủ</a>
-                <span class="breadcrumb-separator">/</span>
-                <a href="{{ route('blog.index') }}">Bài viết</a>
-                <span class="breadcrumb-separator">/</span>
-                <span class="breadcrumb-current">{{ Str::limit($post->title, 50) }}</span>
-            </nav>
 
-            <h1 class="post-title">{{ $post->title }}</h1>
-
-            <div class="post-meta">
-                <span class="post-meta-item">
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    {{ $post->published_at->translatedFormat('d M, Y') }}
-                </span>
-                <span class="post-meta-item">
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    {{ $post->getReadingTime() }} phút đọc
-                </span>
-            </div>
-        </header>
+<div class="container page-wrapper">
+    <div class="page-content">
+        <!-- Post Meta -->
+        <div class="post-detail-meta">
+            <span class="post-meta-item">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                {{ $post->published_at->translatedFormat('d M, Y') }}
+            </span>
+            <span class="post-meta-item">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ $post->getReadingTime() }} phút đọc
+            </span>
+        </div>
 
         <!-- Featured Image -->
         @if($post->thumbnail)
@@ -52,19 +41,7 @@
         @endif
 
         <!-- Post Content -->
-        <div class="post-content-wrapper">
-            <div class="post-content">
-                @if($post->excerpt)
-                    <div class="post-excerpt">
-                        {{ $post->excerpt }}
-                    </div>
-                @endif
-
-                <div class="post-body">
-                    <x-markdown-renderer :content="$post->content" />
-                </div>
-            </div>
-        </div>
+        <x-markdown-renderer :content="$post->content" />
 
         <!-- Related Posts -->
         @if($relatedPosts->count() > 0)
@@ -114,6 +91,5 @@
             </a>
         </div>
     </div>
-</article>
-
+</div>
 @endsection
