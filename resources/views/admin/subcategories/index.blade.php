@@ -21,7 +21,7 @@
 
 {{-- Filters --}}
 <div class="admin-filters-card">
-    <form method="GET" action="{{ route('admin.subcategories.index') }}" class="admin-filters">
+    <form method="GET" action="{{ route('admin.catalog.index', ['tab' => 'subcategories']) }}" class="admin-filters">
         <div class="filter-group">
             <input type="text" 
                    name="search" 
@@ -57,7 +57,7 @@
                 Tìm Kiếm
             </button>
             @if(request()->hasAny(['search', 'category_id', 'status']))
-                <a href="{{ route('admin.subcategories.index') }}" class="btn btn-secondary">
+                <a href="{{ route('admin.catalog.index', ['tab' => 'subcategories']) }}" class="btn btn-secondary">
                     Xóa Bộ Lọc
                 </a>
             @endif

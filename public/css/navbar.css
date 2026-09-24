@@ -685,10 +685,11 @@
         right: 4px;
     }
 
-    /* === MOBILE ACTIONS - Hide cart/user from navbar-actions === */
+    /* === MOBILE ACTIONS - Hide cart/user/favorites from navbar-actions === */
     .navbar-actions .navbar-cart-btn,
     .navbar-actions .navbar-auth-btn,
-    .navbar-actions .navbar-user-menu {
+    .navbar-actions .navbar-user-menu,
+    .navbar-actions .navbar-favorites-btn {
         display: none;
     }
 
@@ -700,6 +701,15 @@
     /* === MOBILE MENU ACTIONS === */
     .mobile-menu-actions {
         display: none;
+    }
+
+    /* Adjust search overlay for mobile navbar height */
+    .search-overlay-container {
+        padding-top: calc(56px + var(--space-6));
+    }
+
+    .search-close-btn {
+        top: calc(56px + var(--space-3));
     }
 }
 

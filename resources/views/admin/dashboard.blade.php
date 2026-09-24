@@ -141,7 +141,7 @@
                 </div>
                 Cảnh Báo Tồn Kho
             </h2>
-            <a href="{{ route('admin.products.index') }}" class="btn btn-secondary btn-sm">Tất Cả Sản Phẩm</a>
+            <a href="{{ route('admin.catalog.index', ['tab' => 'products']) }}" class="btn btn-secondary btn-sm">Tất Cả Sản Phẩm</a>
         </div>
         <div class="admin-card-body">
             @if($lowStockProducts->count() > 0)

@@ -3,7 +3,7 @@
    ========================================================================== */
 
 /* === FONT IMPORTS === */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&subset=vietnamese&display=swap');
 
 /* === HEADINGS (Playfair Display - Editorial Serif) === */
 h1, h2, h3, h4, h5, h6 {

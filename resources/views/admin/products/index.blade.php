@@ -8,6 +8,26 @@
         <h1 class="admin-page-title">Quản Lý Sản Phẩm</h1>
         <p class="admin-page-subtitle">Quản lý và cập nhật danh sách sản phẩm của cửa hàng</p>
     </div>
+    <div class="admin-page-actions">
+        <a href="{{ route('admin.products.template') }}" class="btn btn-secondary" target="_blank">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Tải Template
+        </a>
+        <a href="{{ route('admin.products.import') }}" class="btn btn-secondary">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+            </svg>
+            Import Excel
+        </a>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Thêm Sản Phẩm
+        </a>
+    </div>
 </div>
 
 {{-- Filters --}}
@@ -36,7 +56,7 @@
                 Lọc
             </button>
             @if(request()->has('search') || request()->has('category') || request()->has('status'))
-                <a href="{{ route('admin.products.index') }}" class="btn btn-secondary btn-sm">Xóa lọc</a>
+                <a href="{{ route('admin.catalog.index', ['tab' => 'products']) }}" class="btn btn-secondary btn-sm">Xóa lọc</a>
             @endif
         </form>
     </div>

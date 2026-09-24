@@ -122,6 +122,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Catalog unified management (Gộp 3 phần: Categories, Subcategories, Products)
     Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
 
+    // Catalog management - Use admin.catalog.index (unified)
+    // Individual routes still work for create/edit, but sidebar points to catalog
+    // To fully disable: comment out these resources and use catalog controller only
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
     Route::resource('subcategories', \App\Http\Controllers\Admin\SubcategoryController::class);
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
@@ -137,6 +140,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('products/{product}/images/{image}', [\App\Http\Controllers\Admin\ProductController::class, 'deleteImage'])->name('products.deleteImage');
     Route::delete('products/{product}/videos/{video}', [\App\Http\Controllers\Admin\ProductController::class, 'deleteVideo'])->name('products.deleteVideo');
     Route::post('products/{product}/images/{image}/set-primary', [\App\Http\Controllers\Admin\ProductController::class, 'setPrimaryImage'])->name('products.setPrimaryImage');
+
+    // Import Products
+    Route::get('products/import', [\App\Http\Controllers\Admin\ProductController::class, 'import'])->name('products.import');
+    Route::post('products/import', [\App\Http\Controllers\Admin\ProductController::class, 'processImport'])->name('products.processImport');
+    Route::get('products/template', [\App\Http\Controllers\Admin\ProductController::class, 'downloadTemplate'])->name('products.template');
 
     // Product Variants Management
     Route::get('products/{product}/variants', [\App\Http\Controllers\Admin\ProductVariantController::class, 'index'])->name('products.variants.index');
