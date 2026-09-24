@@ -178,10 +178,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // AJAX Auto-save endpoints for Users
     Route::patch('users/{user}/update-field', [\App\Http\Controllers\Admin\UserController::class, 'updateField'])->name('users.updateField');
 
-    // Content Blocks Management
-    Route::get('content-blocks', [\App\Http\Controllers\Admin\ContentBlockController::class, 'index'])->name('content-blocks.index');
-    Route::post('content-blocks/update', [\App\Http\Controllers\Admin\ContentBlockController::class, 'update'])->name('content-blocks.update');
-
     // AJAX Auto-save endpoint for Settings
     Route::patch('settings/update-field', [\App\Http\Controllers\Admin\SettingController::class, 'updateField'])->name('settings.updateField');
     Route::post('settings/upload-logo', [\App\Http\Controllers\Admin\SettingController::class, 'uploadLogo'])->name('settings.uploadLogo');
