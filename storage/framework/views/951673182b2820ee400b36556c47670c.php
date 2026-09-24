@@ -254,13 +254,36 @@
                             <span class="accordion-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="accordion-content">
-                            <p>Chúng tôi cam kết chất lượng sản phẩm 100%. Nếu sản phẩm có vấn đề về chất lượng hoặc không đúng mô tả, quý khách vui lòng liên hệ trong vòng 7 ngày để được đổi/trả hoặc hoàn tiền.</p>
-                            <p><strong>Điều kiện đổi trả:</strong></p>
-                            <ul>
-                                <li>Sản phẩm còn nguyên seal, chưa qua sử dụng</li>
-                                <li>Còn hóa đơn mua hàng</li>
-                                <li>Lỗi từ nhà sản xuất</li>
-                            </ul>
+                            <?php if($product->return_policy): ?>
+                                <?php if (isset($component)) { $__componentOriginal5d01bba82580f3fe260d7edec2ceb896 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5d01bba82580f3fe260d7edec2ceb896 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.markdown-renderer','data' => ['content' => $product->return_policy]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('markdown-renderer'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['content' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($product->return_policy)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5d01bba82580f3fe260d7edec2ceb896)): ?>
+<?php $attributes = $__attributesOriginal5d01bba82580f3fe260d7edec2ceb896; ?>
+<?php unset($__attributesOriginal5d01bba82580f3fe260d7edec2ceb896); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5d01bba82580f3fe260d7edec2ceb896)): ?>
+<?php $component = $__componentOriginal5d01bba82580f3fe260d7edec2ceb896; ?>
+<?php unset($__componentOriginal5d01bba82580f3fe260d7edec2ceb896); ?>
+<?php endif; ?>
+                            <?php else: ?>
+                                <p>Chúng tôi cam kết chất lượng sản phẩm 100%. Nếu sản phẩm có vấn đề về chất lượng hoặc không đúng mô tả, quý khách vui lòng liên hệ trong vòng 7 ngày để được đổi/trả hoặc hoàn tiền.</p>
+                                <p><strong>Điều kiện đổi trả:</strong></p>
+                                <ul>
+                                    <li>Sản phẩm còn nguyên seal, chưa qua sử dụng</li>
+                                    <li>Còn hóa đơn mua hàng</li>
+                                    <li>Lỗi từ nhà sản xuất</li>
+                                </ul>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
