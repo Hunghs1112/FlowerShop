@@ -38,6 +38,9 @@
                                 @if($item->product->category)
                                     <p class="cart-item-meta">{{ $item->product->category->name }}</p>
                                 @endif
+                                @if($item->variant)
+                                    <p class="cart-item-variant">{{ $item->variant->name ?? $item->variant->sku }}</p>
+                                @endif
                                 @php
                                     $availableStock = $item->variant ? $item->variant->stock : $item->product->stock;
                                 @endphp
@@ -144,15 +147,26 @@
         </div>
     @else
         <div class="cart-empty">
-            <div class="cart-empty-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
+            <div class="cart-empty-visual">
+                <div class="cart-empty-illustration">
+                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="60" cy="60" r="50" fill="#F2F5F0"/>
+                        <path d="M40 55C40 48.3726 45.3726 43 52 43H68C74.6274 43 80 48.3726 80 55V65C80 71.6274 74.6274 77 68 77H52C45.3726 77 40 71.6274 40 65V55Z" fill="#E8EEE3" stroke="#A3B8A1" stroke-width="2"/>
+                        <path d="M50 55V51C50 48.7909 51.7909 47 54 47H66C68.2091 47 70 48.7909 70 51V55" stroke="#A3B8A1" stroke-width="2"/>
+                        <path d="M50 63C50 60.7909 51.7909 59 54 59H66C68.2091 59 70 60.7909 70 63" stroke="#A3B8A1" stroke-width="2"/>
+                        <path d="M50 71C50 68.7909 51.7909 67 54 67H66C68.2091 67 70 68.7909 70 71" stroke="#A3B8A1" stroke-width="2"/>
+                        <circle cx="85" cy="40" r="15" fill="#DDE4D8" stroke="#A3B8A1" stroke-width="2"/>
+                        <path d="M78 40L82 44L92 34" stroke="#3F5A45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             </div>
             <h2 class="cart-empty-title">Giỏ hàng trống</h2>
             <p class="cart-empty-description">Hãy chọn những sản phẩm yêu thích của bạn!</p>
             <a href="{{ route('products.index') }}" class="btn btn-primary btn-lg">
-                Xem sản phẩm
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Khám phá sản phẩm
             </a>
         </div>
     @endif

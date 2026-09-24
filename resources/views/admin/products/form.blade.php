@@ -80,11 +80,24 @@ $isEdit = isset($isEdit) ? $isEdit : false;
 
                         <div class="form-group">
                             <label class="form-label">Full Description</label>
-                            <textarea name="description" rows="6" 
+                            <textarea name="description" rows="6"
                                       class="form-input auto-save-input @error('description') error @enderror"
                                       data-entity="products"
                                       data-id="{{ $product->id ?? '' }}">{{ old('description', $product->description ?? '') }}</textarea>
                             @error('description')
+                                <span class="form-error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Chính Sách Đổi Trả</label>
+                            <textarea name="return_policy" rows="6"
+                                      class="form-input auto-save-input @error('return_policy') error @enderror"
+                                      data-entity="products"
+                                      data-id="{{ $product->id ?? '' }}"
+                                      placeholder="Nhập chính sách đổi trả (hỗ trợ Markdown)">{{ old('return_policy', $product->return_policy ?? '') }}</textarea>
+                            <small class="form-help">Hỗ trợ Markdown: **bold**, *italic*, - list, > quote</small>
+                            @error('return_policy')
                                 <span class="form-error">{{ $message }}</span>
                             @enderror
                         </div>

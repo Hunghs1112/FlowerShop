@@ -20,6 +20,7 @@ class Product extends Model
         'latest_arrival_date',
         'description',
         'short_description',
+        'return_policy',
         'video_url',
         'video_type',
         'is_featured',

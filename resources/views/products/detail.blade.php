@@ -234,13 +234,17 @@
                             <span class="accordion-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="accordion-content">
-                            <p>Chúng tôi cam kết chất lượng sản phẩm 100%. Nếu sản phẩm có vấn đề về chất lượng hoặc không đúng mô tả, quý khách vui lòng liên hệ trong vòng 7 ngày để được đổi/trả hoặc hoàn tiền.</p>
-                            <p><strong>Điều kiện đổi trả:</strong></p>
-                            <ul>
-                                <li>Sản phẩm còn nguyên seal, chưa qua sử dụng</li>
-                                <li>Còn hóa đơn mua hàng</li>
-                                <li>Lỗi từ nhà sản xuất</li>
-                            </ul>
+                            @if($product->return_policy)
+                                <x-markdown-renderer :content="$product->return_policy" />
+                            @else
+                                <p>Chúng tôi cam kết chất lượng sản phẩm 100%. Nếu sản phẩm có vấn đề về chất lượng hoặc không đúng mô tả, quý khách vui lòng liên hệ trong vòng 7 ngày để được đổi/trả hoặc hoàn tiền.</p>
+                                <p><strong>Điều kiện đổi trả:</strong></p>
+                                <ul>
+                                    <li>Sản phẩm còn nguyên seal, chưa qua sử dụng</li>
+                                    <li>Còn hóa đơn mua hàng</li>
+                                    <li>Lỗi từ nhà sản xuất</li>
+                                </ul>
+                            @endif
                         </div>
                     </div>
                 </div>
