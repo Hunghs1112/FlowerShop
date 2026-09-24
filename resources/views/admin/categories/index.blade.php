@@ -31,7 +31,7 @@
             </select>
             <button type="submit" class="btn btn-primary btn-sm">Lọc</button>
             @if(request()->has('search') || request()->has('status'))
-                <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary btn-sm">Xóa lọc</a>
+                <a href="{{ route('admin.catalog.index', ['tab' => 'categories']) }}" class="btn btn-secondary btn-sm">Xóa lọc</a>
             @endif
         </form>
     </div>

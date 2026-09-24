@@ -14,7 +14,7 @@
         </p>
     </div>
     <div class="admin-page-actions">
-        <a href="{{ route('admin.subcategories.index') }}" class="btn btn-secondary">
+        <a href="{{ route('admin.catalog.index', ['tab' => 'subcategories']) }}" class="btn btn-secondary">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>

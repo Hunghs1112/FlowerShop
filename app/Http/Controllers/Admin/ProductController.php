@@ -53,6 +53,10 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string',
+            'length' => 'nullable|string|max:50',
+            'min_order_quantity' => 'nullable|integer|min:1',
+            'origin' => 'nullable|string|max:100',
+            'specification' => 'nullable|string',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ];
@@ -598,5 +602,63 @@ class ProductController extends Controller
 
         return redirect()->route('admin.catalog.index', ['tab' => 'products'])
             ->with('success', 'Xóa sản phẩm thành công');
+    }
+
+    // ============================================================
+    // Import Products from Excel
+    // ============================================================
+    public function import()
+    {
+        $subcategories = \App\Models\Subcategory::with('category')
+            ->where('is_active', true)
+            ->orderBy('category_id')
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.products.import', compact('subcategories'));
+    }
+
+    public function processImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv',
+        ]);
+
+        try {
+            $file = $request->file('file');
+
+            // Import products
+            $import = new \App\Imports\ProductImport();
+            \Maatwebsite\Excel\Facades\Excel::import($import, $file);
+
+            $successCount = $import->getSuccessCount() ?? 0;
+
+            return redirect()->route('admin.products.index')
+                ->with('success', "Đã nhập {$successCount} sản phẩm thành công");
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errorMessages = [];
+            foreach ($failures as $failure) {
+                $errorMessages[] = "Dòng {$failure->row()}: " . implode(', ', $failure->errors());
+            }
+            return redirect()->back()
+                ->with('error', 'Lỗi validation: ' . implode(' | ', $errorMessages));
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Lỗi khi import: ' . $e->getMessage());
+        }
+    }
+
+    public function downloadTemplate()
+    {
+        $subcategories = \App\Models\Subcategory::where('is_active', true)
+            ->orderBy('name')
+            ->pluck('name')
+            ->toArray();
+
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\ProductTemplateExport($subcategories),
+            'template_san_pham.xlsx'
+        );
     }
 }
