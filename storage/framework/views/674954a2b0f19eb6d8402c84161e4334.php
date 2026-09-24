@@ -6,7 +6,7 @@
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.page-hero','data' => ['title' => 'Về chúng tôi','description' => 'Câu chuyện về chúng tôi và sứ mệnh mang vẻ đẹp hoa tươi đến mọi nhà','breadcrumbs' => [
         ['label' => 'Trang chủ', 'url' => route('home')],
         ['label' => 'Về chúng tôi']
-    ],'image' => $siteBanners['about'] ?? null,'height' => '400px']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+    ],'image' => $pageBanner['custom'] ?? $siteBanners['about'] ?? null,'height' => '400px']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('page-hero'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
@@ -16,7 +16,7 @@
 <?php $component->withAttributes(['title' => 'Về chúng tôi','description' => 'Câu chuyện về chúng tôi và sứ mệnh mang vẻ đẹp hoa tươi đến mọi nhà','breadcrumbs' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute([
         ['label' => 'Trang chủ', 'url' => route('home')],
         ['label' => 'Về chúng tôi']
-    ]),'image' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($siteBanners['about'] ?? null),'height' => '400px']); ?>
+    ]),'image' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($pageBanner['custom'] ?? $siteBanners['about'] ?? null),'height' => '400px']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginala9d931d4f11b4d2850df99e991db1dca)): ?>
@@ -33,10 +33,26 @@
 
         
         <?php if(!empty($introPage)): ?>
-            <div class="page-body-content">
-                <?php echo nl2br(e($introPage->content)); ?>
-
-            </div>
+            <?php if (isset($component)) { $__componentOriginal5d01bba82580f3fe260d7edec2ceb896 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5d01bba82580f3fe260d7edec2ceb896 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.markdown-renderer','data' => ['content' => $introPage->content,'class' => 'page-body-content']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('markdown-renderer'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['content' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($introPage->content),'class' => 'page-body-content']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5d01bba82580f3fe260d7edec2ceb896)): ?>
+<?php $attributes = $__attributesOriginal5d01bba82580f3fe260d7edec2ceb896; ?>
+<?php unset($__attributesOriginal5d01bba82580f3fe260d7edec2ceb896); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5d01bba82580f3fe260d7edec2ceb896)): ?>
+<?php $component = $__componentOriginal5d01bba82580f3fe260d7edec2ceb896; ?>
+<?php unset($__componentOriginal5d01bba82580f3fe260d7edec2ceb896); ?>
+<?php endif; ?>
         <?php else: ?>
             
             <div class="content-section">

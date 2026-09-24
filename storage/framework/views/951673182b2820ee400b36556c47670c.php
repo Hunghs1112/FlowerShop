@@ -224,7 +224,26 @@
                                 <span class="accordion-icon" aria-hidden="true">+</span>
                             </button>
                             <div class="accordion-content">
-                                <div><?php echo nl2br(e($product->description)); ?></div>
+                                <?php if (isset($component)) { $__componentOriginal5d01bba82580f3fe260d7edec2ceb896 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5d01bba82580f3fe260d7edec2ceb896 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.markdown-renderer','data' => ['content' => $product->description]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('markdown-renderer'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['content' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($product->description)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5d01bba82580f3fe260d7edec2ceb896)): ?>
+<?php $attributes = $__attributesOriginal5d01bba82580f3fe260d7edec2ceb896; ?>
+<?php unset($__attributesOriginal5d01bba82580f3fe260d7edec2ceb896); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5d01bba82580f3fe260d7edec2ceb896)): ?>
+<?php $component = $__componentOriginal5d01bba82580f3fe260d7edec2ceb896; ?>
+<?php unset($__componentOriginal5d01bba82580f3fe260d7edec2ceb896); ?>
+<?php endif; ?>
                             </div>
                         </div>
                     <?php endif; ?>

@@ -87,6 +87,13 @@
                 </a>
             </li>
 
+            
+            <li class="navbar-nav-item">
+                <a href="<?php echo e(route('about')); ?>" class="navbar-nav-link <?php echo e(request()->routeIs('about') ? 'active' : ''); ?>">
+                    Về chúng tôi
+                </a>
+            </li>
+
         </ul>
 
         
@@ -244,6 +251,9 @@
 
             
             <li><a href="<?php echo e(route('b2c')); ?>">B2C</a></li>
+
+            
+            <li><a href="<?php echo e(route('about')); ?>">Về chúng tôi</a></li>
 
             <?php if(auth()->guard()->check()): ?>
                 <div class="mobile-menu-divider"></div>
