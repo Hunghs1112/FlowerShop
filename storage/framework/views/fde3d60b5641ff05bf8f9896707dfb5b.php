@@ -100,7 +100,7 @@
         <div class="navbar-actions">
 
             
-            <button class="navbar-action-btn navbar-search-btn" id="searchToggle" title="Tìm kiếm" aria-label="Tìm kiếm">
+            <button class="navbar-action-btn navbar-search-btn" id="searchToggle" title="Tìm kiếm" aria-label="Tìm kiếm" aria-expanded="false">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
@@ -108,7 +108,7 @@
 
             
             <?php if(auth()->guard()->check()): ?>
-                <a href="<?php echo e(route('favorites.index')); ?>" class="navbar-action-btn" title="Yêu thích" aria-label="Yêu thích">
+                <a href="<?php echo e(route('favorites.index')); ?>" class="navbar-action-btn navbar-favorites-btn" title="Yêu thích" aria-label="Yêu thích">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                     </svg>
@@ -172,6 +172,42 @@
     </div>
 
 </nav>
+
+
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-container">
+        <form action="<?php echo e(route('products.index')); ?>" method="GET" class="search-form" id="searchForm">
+            <div class="search-input-wrapper">
+                <svg class="search-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input
+                    type="text"
+                    name="q"
+                    class="search-input"
+                    placeholder="Tìm kiếm sản phẩm..."
+                    value="<?php echo e(request('q') ?: request('search')); ?>"
+                    autocomplete="off"
+                    aria-label="Tìm kiếm sản phẩm"
+                    id="searchInput"
+                >
+                <button type="button" class="search-clear-btn" id="searchClear" aria-label="Xóa tìm kiếm" style="display: none;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <button type="submit" class="search-submit-btn">
+                Tìm kiếm
+            </button>
+        </form>
+        <button class="search-close-btn" id="searchClose" aria-label="Đóng tìm kiếm">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+</div>
 
 
 <div class="navbar-mobile-menu" id="mobileMenu">
@@ -395,6 +431,63 @@ document.addEventListener('DOMContentLoaded', function () {
             mobileMenu.classList.remove('active');
             document.body.style.overflow = '';
             mobileToggle?.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // ── Search Overlay ────────────────────────────────────
+    const searchToggle = document.getElementById('searchToggle');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+    const searchClose = document.getElementById('searchClose');
+    const searchClear = document.getElementById('searchClear');
+
+    function openSearch() {
+        searchOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        searchToggle.setAttribute('aria-expanded', 'true');
+        searchInput?.focus();
+    }
+
+    function closeSearch() {
+        searchOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        searchToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    if (searchToggle && searchOverlay) {
+        searchToggle.addEventListener('click', openSearch);
+    }
+
+    if (searchClose) {
+        searchClose.addEventListener('click', closeSearch);
+    }
+
+    if (searchOverlay) {
+        searchOverlay.addEventListener('click', function(e) {
+            if (e.target === searchOverlay) {
+                closeSearch();
+            }
+        });
+    }
+
+    // Search input clear button
+    if (searchInput && searchClear) {
+        searchInput.addEventListener('input', function() {
+            searchClear.style.display = this.value ? 'flex' : 'none';
+        });
+
+        searchClear.addEventListener('click', function() {
+            searchInput.value = '';
+            searchInput.focus();
+            searchClear.style.display = 'none';
+        });
+    }
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchOverlay?.classList.contains('active')) {
+            closeSearch();
         }
     });
 });

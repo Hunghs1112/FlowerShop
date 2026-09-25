@@ -139,7 +139,7 @@
                 </div>
                 Cảnh Báo Tồn Kho
             </h2>
-            <a href="<?php echo e(route('admin.products.index')); ?>" class="btn btn-secondary btn-sm">Tất Cả Sản Phẩm</a>
+            <a href="<?php echo e(route('admin.catalog.index', ['tab' => 'products'])); ?>" class="btn btn-secondary btn-sm">Tất Cả Sản Phẩm</a>
         </div>
         <div class="admin-card-body">
             <?php if($lowStockProducts->count() > 0): ?>

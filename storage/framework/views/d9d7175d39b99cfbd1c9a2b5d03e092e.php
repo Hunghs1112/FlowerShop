@@ -12,7 +12,7 @@
         </p>
     </div>
     <div class="admin-page-actions">
-        <a href="<?php echo e(route('admin.products.index')); ?>" class="btn btn-secondary">
+        <a href="<?php echo e(route('admin.catalog.index', ['tab' => 'products'])); ?>" class="btn btn-secondary">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
@@ -99,13 +99,69 @@
 
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả Chi Tiết</label>
-                            <textarea name="description" 
-                                      rows="6" 
+                            <textarea name="description"
+                                      rows="6"
                                       class="auto-save-input"
                                       data-entity="products"
                                       data-id="<?php echo e($product->id); ?>"
                                       data-save-url="<?php echo e(route('admin.products.updateField', $product)); ?>"
                                       style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;"><?php echo e(old('description', $product->description)); ?></textarea>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Chiều Dài</label>
+                                <input type="text"
+                                       name="length"
+                                       value="<?php echo e(old('length', $product->length)); ?>"
+                                       class="auto-save-input"
+                                       data-entity="products"
+                                       data-id="<?php echo e($product->id); ?>"
+                                       data-save-url="<?php echo e(route('admin.products.updateField', $product)); ?>"
+                                       style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
+                                       placeholder="VD: 50cm, 60cm">
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Xuất Xứ</label>
+                                <input type="text"
+                                       name="origin"
+                                       value="<?php echo e(old('origin', $product->origin)); ?>"
+                                       class="auto-save-input"
+                                       data-entity="products"
+                                       data-id="<?php echo e($product->id); ?>"
+                                       data-save-url="<?php echo e(route('admin.products.updateField', $product)); ?>"
+                                       style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
+                                       placeholder="VD: Việt Nam, Hà Lan">
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Số Lượng Order Tối Thiểu</label>
+                                <input type="number"
+                                       name="min_order_quantity"
+                                       value="<?php echo e(old('min_order_quantity', $product->min_order_quantity ?? 1)); ?>"
+                                       class="auto-save-input"
+                                       data-entity="products"
+                                       data-id="<?php echo e($product->id); ?>"
+                                       data-save-url="<?php echo e(route('admin.products.updateField', $product)); ?>"
+                                       style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
+                                       min="1">
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Quy Cách</label>
+                                <input type="text"
+                                       name="specification"
+                                       value="<?php echo e(old('specification', $product->specification)); ?>"
+                                       class="auto-save-input"
+                                       data-entity="products"
+                                       data-id="<?php echo e($product->id); ?>"
+                                       data-save-url="<?php echo e(route('admin.products.updateField', $product)); ?>"
+                                       style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
+                                       placeholder="VD: Bó 10 bông, Hộp 20 cây">
+                            </div>
                         </div>
                     </div>
                 </div>
