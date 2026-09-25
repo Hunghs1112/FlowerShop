@@ -5,8 +5,8 @@
 @section('content')
 <div class="admin-page-header">
     <div class="admin-page-header-left">
-        <h1 class="admin-page-title">Import Sản Phẩm Từ Excel</h1>
-        <p class="admin-page-subtitle">Nhập sản phẩm hàng loạt từ file Excel</p>
+        <h1 class="admin-page-title">Import Sản Phẩm Từ CSV</h1>
+        <p class="admin-page-subtitle">Nhập sản phẩm hàng loạt từ file CSV</p>
     </div>
     <div class="admin-page-actions">
         <a href="{{ route('admin.products.template') }}" class="btn btn-secondary" target="_blank">
@@ -60,7 +60,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
                 </svg>
             </div>
-            Upload File Excel
+            Upload File CSV
         </h2>
     </div>
     <div class="admin-card-body">
@@ -69,9 +69,9 @@
 
             <div style="margin-bottom: 24px;">
                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">
-                    Chọn File Excel <span style="color: var(--admin-error);">*</span>
+                    Chọn File CSV <span style="color: var(--admin-error);">*</span>
                 </label>
-                <input type="file" name="file" accept=".xlsx,.xls,.csv"
+                <input type="file" name="file" accept=".csv"
                        style="width: 100%; height: 56px; padding: 12px 16px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
                 <small style="display: block; margin-top: 8px; color: var(--admin-text-muted);">
                     Định dạng hỗ trợ: .xlsx, .xls, .csv
@@ -80,7 +80,7 @@
 
             <div style="padding: 16px; background: var(--admin-bg-secondary); border-radius: var(--admin-radius-md); margin-bottom: 24px;">
                 <h4 style="font-size: 14px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 12px;">
-                    Cấu trúc file Excel:
+                    Cấu trúc file CSV:
                 </h4>
                 <div style="font-size: 13px; color: var(--admin-text-secondary); line-height: 1.8;">
                     <p><strong>Các trường bắt buộc:</strong></p>

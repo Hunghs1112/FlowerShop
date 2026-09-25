@@ -620,34 +620,89 @@ class ProductController extends Controller
 
     public function processImport(Request $request)
     {
-        // Check if maatwebsite/excel package is installed
-        if (!class_exists(\Maatwebsite\Excel\Facades\Excel::class)) {
-            return redirect()->back()->with('error', 'Vui lòng cài đặt package maatwebsite/excel: composer require maatwebsite/excel');
-        }
-
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls,csv',
+            'file' => 'required|file|mimes:csv,txt',
         ]);
 
         try {
             $file = $request->file('file');
+            $handle = fopen($file->getRealPath(), 'r');
+            $row = fgetcsv($handle);
 
-            // Import products
-            $import = new \App\Imports\ProductImport();
-            \Maatwebsite\Excel\Facades\Excel::import($import, $file);
+            if (!$row) {
+                fclose($handle);
+                return redirect()->back()->with('error', 'File CSV rỗng');
+            }
 
-            $successCount = $import->getSuccessCount() ?? 0;
+            // Normalize headers - remove BOM if present
+            $headers = array_map(function($h) {
+                return trim($h);
+            }, $row);
+
+            // Validate headers
+            $requiredHeaders = ['ten_san_pham', 'danh_muc', 'gia', 'ton_kho'];
+            foreach ($requiredHeaders as $required) {
+                if (!in_array($required, $headers)) {
+                    fclose($handle);
+                    return redirect()->back()->with('error', "Thiếu cột bắt buộc: {$required}");
+                }
+            }
+
+            $successCount = 0;
+            $line = 2;
+
+            while (($row = fgetcsv($handle)) !== false) {
+                $data = array_combine($headers, $row);
+
+                if (empty($data['ten_san_pham'])) {
+                    $line++;
+                    continue;
+                }
+
+                // Find subcategory
+                $subcategoryId = null;
+                $categoryId = null;
+                if (!empty($data['danh_muc'])) {
+                    $subcategory = \App\Models\Subcategory::where('name', $data['danh_muc'])->first();
+                    if ($subcategory) {
+                        $subcategoryId = $subcategory->id;
+                        $categoryId = $subcategory->category_id;
+                    }
+                }
+
+                // Generate slug
+                $slug = $data['slug'] ?? \Illuminate\Support\Str::slug($data['ten_san_pham']);
+                $existingProduct = \App\Models\Product::where('slug', $slug)->first();
+                if ($existingProduct) {
+                    $slug = $slug . '-' . time();
+                }
+
+                \App\Models\Product::create([
+                    'name' => $data['ten_san_pham'],
+                    'slug' => $slug,
+                    'sku' => $data['sku'] ?? null,
+                    'subcategory_id' => $subcategoryId,
+                    'category_id' => $categoryId,
+                    'price' => floatval($data['gia'] ?? 0),
+                    'stock' => intval($data['ton_kho'] ?? 0),
+                    'short_description' => $data['mo_ta_ngan'] ?? null,
+                    'description' => $data['mo_ta'] ?? null,
+                    'length' => $data['chieu_dai'] ?? null,
+                    'min_order_quantity' => intval($data['sl_toi_thieu'] ?? 1),
+                    'origin' => $data['xuat_xu'] ?? null,
+                    'specification' => $data['quy_cach'] ?? null,
+                    'is_active' => true,
+                    'is_featured' => false,
+                ]);
+
+                $successCount++;
+                $line++;
+            }
+
+            fclose($handle);
 
             return redirect()->route('admin.products.index')
                 ->with('success', "Đã nhập {$successCount} sản phẩm thành công");
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            $errorMessages = [];
-            foreach ($failures as $failure) {
-                $errorMessages[] = "Dòng {$failure->row()}: " . implode(', ', $failure->errors());
-            }
-            return redirect()->back()
-                ->with('error', 'Lỗi validation: ' . implode(' | ', $errorMessages));
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Lỗi khi import: ' . $e->getMessage());
@@ -656,19 +711,35 @@ class ProductController extends Controller
 
     public function downloadTemplate()
     {
-        // Check if maatwebsite/excel package is installed
-        if (!class_exists(\Maatwebsite\Excel\Facades\Excel::class)) {
-            return redirect()->back()->with('error', 'Vui lòng cài đặt package maatwebsite/excel: composer require maatwebsite/excel');
-        }
-
         $subcategories = \App\Models\Subcategory::where('is_active', true)
             ->orderBy('name')
             ->pluck('name')
             ->toArray();
 
-        return \Maatwebsite\Excel\Facades\Excel::download(
-            new \App\Exports\ProductTemplateExport($subcategories),
-            'template_san_pham.xlsx'
-        );
+        $sampleCategory = !empty($subcategories) ? $subcategories[0] : 'Tên danh mục con';
+
+        // Create CSV content
+        $headers = ['ten_san_pham', 'slug', 'sku', 'danh_muc', 'gia', 'ton_kho', 'mo_ta_ngan', 'mo_ta', 'chieu_dai', 'sl_toi_thieu', 'xuat_xu', 'quy_cach'];
+        $sampleData = [
+            'Hoa Hồng Đỏ',
+            'hoa-hong-do',
+            'HR001',
+            $sampleCategory,
+            50000,
+            100,
+            'Hoa hồng đỏ tươi, đẹp',
+            'Mô tả chi tiết về sản phẩm...',
+            '50cm',
+            10,
+            'Việt Nam',
+            'Bó 10 bông',
+        ];
+
+        $content = implode(',', $headers) . "\n" . implode(',', $sampleData);
+
+        return response($content, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="template_san_pham.csv"',
+        ]);
     }
 }
