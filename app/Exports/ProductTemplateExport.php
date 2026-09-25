@@ -2,10 +2,11 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Support\Collection;
 
-class ProductTemplateExport implements FromArray, WithHeadings
+class ProductTemplateExport implements FromCollection, WithHeadings
 {
     protected array $subcategories;
 
@@ -14,10 +15,10 @@ class ProductTemplateExport implements FromArray, WithHeadings
         $this->subcategories = $subcategories;
     }
 
-    public function array(): array
+    public function collection(): Collection
     {
         // Sample data row
-        return [
+        return collect([
             [
                 'Hoa Hồng Đỏ',
                 'hoa-hong-do',
@@ -32,7 +33,7 @@ class ProductTemplateExport implements FromArray, WithHeadings
                 'Việt Nam',
                 'Bó 10 bông',
             ]
-        ];
+        ]);
     }
 
     public function headings(): array
