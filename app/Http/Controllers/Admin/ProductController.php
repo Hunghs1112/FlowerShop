@@ -620,6 +620,11 @@ class ProductController extends Controller
 
     public function processImport(Request $request)
     {
+        // Check if maatwebsite/excel package is installed
+        if (!class_exists(\Maatwebsite\Excel\Facades\Excel::class)) {
+            return redirect()->back()->with('error', 'Vui lòng cài đặt package maatwebsite/excel: composer require maatwebsite/excel');
+        }
+
         $request->validate([
             'file' => 'required|file|mimes:xlsx,xls,csv',
         ]);
@@ -651,6 +656,11 @@ class ProductController extends Controller
 
     public function downloadTemplate()
     {
+        // Check if maatwebsite/excel package is installed
+        if (!class_exists(\Maatwebsite\Excel\Facades\Excel::class)) {
+            return redirect()->back()->with('error', 'Vui lòng cài đặt package maatwebsite/excel: composer require maatwebsite/excel');
+        }
+
         $subcategories = \App\Models\Subcategory::where('is_active', true)
             ->orderBy('name')
             ->pluck('name')
