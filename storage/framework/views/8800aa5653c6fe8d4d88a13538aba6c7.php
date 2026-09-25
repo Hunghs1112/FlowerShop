@@ -27,7 +27,7 @@ foreach ($attributes->all() as $__key => $__value) {
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 }
 
-unset($__defined_vars, $__key, $__value); ?>
+unset($__defined_vars); ?>
 
 <?php
     $primaryImage = $product->productImages()->where('is_primary', true)->first()
