@@ -1,0 +1,15 @@
+/* Site-wide typography. Keep every UI surface on the same Vietnamese-capable font. */
+body,
+body * {
+    font-family: 'Josefin Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+/* Preserve monospace where the content is intentionally technical. */
+code,
+pre,
+kbd,
+samp,
+.font-mono,
+[class*="mono"] {
+    font-family: Consolas, Monaco, 'Courier New', monospace !important;
+}
