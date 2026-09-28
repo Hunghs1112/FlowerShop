@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -27,6 +28,8 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation
             if ($subcategory) {
                 $subcategoryId = $subcategory->id;
                 $categoryId = $subcategory->category_id;
+            } else {
+                $categoryId = Category::where('name', $row['danh_muc'])->value('id');
             }
         }
 

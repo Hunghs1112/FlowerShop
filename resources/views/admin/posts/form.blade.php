@@ -112,7 +112,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                            data-upload-url="{{ isset($post) ? route('admin.posts.uploadThumbnail', $post) : '' }}"
                            onchange="previewImage(this)"
                            style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
-                    <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước đề xuất: 1200x630px</small>
+                    <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước đề xuất: 1200x630px. Ảnh mới sẽ thay ảnh hiện tại.</small>
                 </div>
 
                 <div id="imagePreview" style="margin-top: 16px;"></div>

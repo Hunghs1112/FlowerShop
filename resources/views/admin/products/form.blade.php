@@ -21,12 +21,26 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label required">Danh Mục Phụ</label>
-                            <select name="subcategory_id" id="subcategorySelect" class="form-input auto-save-select @error('subcategory_id') error @enderror"
+                            <label class="form-label required">Danh Mục Chính</label>
+                            <select name="category_id" id="categorySelect" class="form-input auto-save-select @error('category_id') error @enderror"
                                     data-entity="products"
                                     data-id="{{ $product->id ?? '' }}"
                                     required>
-                                <option value="">-- Chọn danh mục phụ --</option>
+                                <option value="">-- Chọn danh mục chính --</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id ?? '') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('category_id') <span class="form-error">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Danh Mục Phụ <span style="font-weight: 400; color: var(--admin-text-muted);">(không bắt buộc)</span></label>
+                            <select name="subcategory_id" id="subcategorySelect" class="form-input auto-save-select @error('subcategory_id') error @enderror"
+                                    data-entity="products"
+                                    data-id="{{ $product->id ?? '' }}"
+                                    >
+                                <option value="">-- Không có danh mục phụ --</option>
                                 @foreach($subcategories as $subcategory)
                                     <option value="{{ $subcategory->id }}" 
                                         data-category-id="{{ $subcategory->category_id }}"
@@ -35,7 +49,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                     </option>
                                 @endforeach
                             </select>
-                            <small class="form-help">Chọn danh mục phụ (Danh mục cha sẽ tự động được gán)</small>
+                            <small class="form-help">Có thể để trống nếu sản phẩm chỉ thuộc danh mục chính.</small>
                             @error('subcategory_id')
                                 <span class="form-error">{{ $message }}</span>
                             @enderror

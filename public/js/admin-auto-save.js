@@ -534,7 +534,7 @@
 
     // Product image delete (specific)
     window.deleteProductImage = function(productId, imageId, button) {
-        const item = button ? button.closest('.existing-image-item') : null;
+        const item = button ? button.closest('.existing-image-item, .image-preview-item') : null;
         return deleteImageNow('products', productId, imageId, item);
     };
 

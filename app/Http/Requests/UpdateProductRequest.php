@@ -21,7 +21,8 @@ class UpdateProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products,slug,' . $product->id,
-            'subcategory_id' => 'required|exists:subcategories,id',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0|max:999999999',
             'stock' => 'required|integer|min:0|max:999999',
             'description' => 'nullable|string',
@@ -45,7 +46,8 @@ class UpdateProductRequest extends FormRequest
         return [
             'name.required' => 'Tên sản phẩm là bắt buộc',
             'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự',
-            'subcategory_id.required' => 'Vui lòng chọn danh mục con',
+            'category_id.required' => 'Vui lòng chọn danh mục chính',
+            'category_id.exists' => 'Danh mục chính không tồn tại',
             'subcategory_id.exists' => 'Danh mục con không tồn tại',
             'price.required' => 'Giá sản phẩm là bắt buộc',
             'price.numeric' => 'Giá sản phẩm phải là số',

@@ -415,6 +415,8 @@ class ProductController extends Controller
     public function create()
     {
 
+        $categories = \App\Models\Category::active()->topLevel()->orderBy('name')->get();
+
         $subcategories = \App\Models\Subcategory::with('category')
             ->where('is_active', true)
             ->orderBy('category_id')
@@ -423,7 +425,7 @@ class ProductController extends Controller
         
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
         
-        return view('admin.products.create', compact('subcategories', 'maxImages'));
+        return view('admin.products.create', compact('categories', 'subcategories', 'maxImages'));
     }
 
     public function store(StoreProductRequest $request)
@@ -436,7 +438,7 @@ class ProductController extends Controller
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        // Auto-assign category from subcategory
+        // A subcategory, when present, always belongs to the selected parent category.
         if (isset($validated['subcategory_id'])) {
             $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
             if ($subcategory) {
@@ -489,6 +491,8 @@ class ProductController extends Controller
     {
 
         $product->load('productImages');
+
+        $categories = \App\Models\Category::active()->topLevel()->orderBy('name')->get();
         
         $subcategories = \App\Models\Subcategory::with('category')
             ->where('is_active', true)
@@ -498,7 +502,7 @@ class ProductController extends Controller
         
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
 
-        return view('admin.products.edit', compact('product', 'subcategories', 'maxImages'));
+        return view('admin.products.edit', compact('product', 'categories', 'subcategories', 'maxImages'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
@@ -511,7 +515,7 @@ class ProductController extends Controller
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        // Auto-assign category from subcategory
+        // A subcategory, when present, always belongs to the selected parent category.
         if (isset($validated['subcategory_id'])) {
             $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
             if ($subcategory) {
@@ -667,6 +671,8 @@ class ProductController extends Controller
                     if ($subcategory) {
                         $subcategoryId = $subcategory->id;
                         $categoryId = $subcategory->category_id;
+                    } else {
+                        $categoryId = \App\Models\Category::where('name', $data['danh_muc'])->value('id');
                     }
                 }
 
