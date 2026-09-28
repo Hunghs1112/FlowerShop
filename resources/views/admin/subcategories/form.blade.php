@@ -8,7 +8,7 @@
                         Danh Mục Cha <span style="color: #ef4444;">*</span>
                     </label>
                     <select name="category_id" 
-                            {{ isset($isEdit) && $isEdit ? 'class="auto-save-select" data-entity="subcategories" data-id="' . $subcategory->id . '"' : '' }}
+                            @if(isset($isEdit) && $isEdit) class="auto-save-select" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @endif
                             required
                             style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;">
                         <option value="">-- Chọn danh mục --</option>
@@ -30,7 +30,7 @@
                     <input type="text" 
                            name="name" 
                            value="{{ old('name', $subcategory->name ?? '') }}" 
-                           {{ isset($isEdit) && $isEdit ? 'class="auto-save-input" data-entity="subcategories" data-id="' . $subcategory->id . '"' : '' }}
+                           @if(isset($isEdit) && $isEdit) class="auto-save-input" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @endif
                            required
                            placeholder="Nhập tên danh mục phụ"
                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
@@ -44,7 +44,7 @@
                     <input type="text" 
                            name="slug" 
                            value="{{ old('slug', $subcategory->slug ?? '') }}" 
-                           {{ isset($isEdit) && $isEdit ? 'class="auto-save-input" data-entity="subcategories" data-id="' . $subcategory->id . '"' : '' }}
+                           @if(isset($isEdit) && $isEdit) class="auto-save-input" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @endif
                            placeholder="ten-danh-muc-phu (tự động tạo nếu để trống)"
                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: 'JetBrains Mono', monospace;">
                     @error('slug')
@@ -56,7 +56,7 @@
                     <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Mô Tả</label>
                     <textarea name="description" 
                               rows="4" 
-                              {{ isset($isEdit) && $isEdit ? 'class="auto-save-input" data-entity="subcategories" data-id="' . $subcategory->id . '"' : '' }}
+                              @if(isset($isEdit) && $isEdit) class="auto-save-input" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @endif
                               style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('description', $subcategory->description ?? '') }}</textarea>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                                name="is_active" 
                                value="1" 
                                {{ old('is_active', $subcategory->is_active ?? true) ? 'checked' : '' }}
-                               {{ isset($isEdit) && $isEdit ? 'class="auto-save-checkbox" data-entity="subcategories" data-id="' . $subcategory->id . '"' : '' }}
+                               @if(isset($isEdit) && $isEdit) class="auto-save-checkbox" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @endif
                                style="width: 18px; height: 18px; cursor: pointer;">
                         <span style="font-size: 14px; color: var(--admin-text-primary);">Kích hoạt danh mục phụ</span>
                     </label>
@@ -82,7 +82,7 @@
                     <input type="number" 
                            name="sort_order" 
                            value="{{ old('sort_order', $subcategory->sort_order ?? 0) }}" 
-                           {{ isset($isEdit) && $isEdit ? 'class="auto-save-input" data-entity="subcategories" data-id="' . $subcategory->id . '"' : '' }}
+                           @if(isset($isEdit) && $isEdit) class="auto-save-input" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @endif
                            min="0"
                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                 </div>
