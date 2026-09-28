@@ -57,7 +57,7 @@ class ProductController extends Controller
             'min_order_quantity' => 'nullable|integer|min:1',
             'origin' => 'nullable|string|max:100',
             'specification' => 'nullable|string',
-            'unit' => 'required|in:bó,cành',
+            'unit' => 'required|in:bông,cành,bó',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ];
@@ -416,6 +416,8 @@ class ProductController extends Controller
     public function create()
     {
 
+        $categories = \App\Models\Category::active()->topLevel()->orderBy('name')->get();
+
         $subcategories = \App\Models\Subcategory::with('category')
             ->where('is_active', true)
             ->orderBy('category_id')
@@ -438,7 +440,7 @@ class ProductController extends Controller
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        // Auto-assign category from subcategory
+        // A subcategory, when present, always belongs to the selected parent category.
         if (isset($validated['subcategory_id'])) {
             $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
             if ($subcategory) {
@@ -491,6 +493,8 @@ class ProductController extends Controller
     {
 
         $product->load('productImages');
+
+        $categories = \App\Models\Category::active()->topLevel()->orderBy('name')->get();
         
         $subcategories = \App\Models\Subcategory::with('category')
             ->where('is_active', true)
@@ -514,7 +518,7 @@ class ProductController extends Controller
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        // Auto-assign category from subcategory
+        // A subcategory, when present, always belongs to the selected parent category.
         if (isset($validated['subcategory_id'])) {
             $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
             if ($subcategory) {
@@ -670,6 +674,8 @@ class ProductController extends Controller
                     if ($subcategory) {
                         $subcategoryId = $subcategory->id;
                         $categoryId = $subcategory->category_id;
+                    } else {
+                        $categoryId = \App\Models\Category::where('name', $data['danh_muc'])->value('id');
                     }
                 }
 
@@ -694,6 +700,9 @@ class ProductController extends Controller
                     'min_order_quantity' => intval($data['sl_toi_thieu'] ?? 1),
                     'origin' => $data['xuat_xu'] ?? null,
                     'specification' => $data['quy_cach'] ?? null,
+                    'unit' => in_array($data['don_vi'] ?? '', ['bông', 'cành', 'bó'], true)
+                        ? $data['don_vi']
+                        : 'bó',
                     'is_active' => true,
                     'is_featured' => false,
                 ]);
@@ -722,7 +731,7 @@ class ProductController extends Controller
         $sampleCategory = !empty($subcategories) ? $subcategories[0] : 'Tên danh mục con';
 
         // Create CSV content
-        $headers = ['ten_san_pham', 'slug', 'sku', 'danh_muc', 'gia', 'ton_kho', 'mo_ta_ngan', 'mo_ta', 'chieu_dai', 'sl_toi_thieu', 'xuat_xu', 'quy_cach'];
+        $headers = ['ten_san_pham', 'slug', 'sku', 'danh_muc', 'gia', 'ton_kho', 'mo_ta_ngan', 'mo_ta', 'chieu_dai', 'sl_toi_thieu', 'xuat_xu', 'quy_cach', 'don_vi'];
         $sampleData = [
             'Hoa Hồng Đỏ',
             'hoa-hong-do',
@@ -736,6 +745,7 @@ class ProductController extends Controller
             10,
             'Việt Nam',
             'Bó 10 bông',
+            'bó',
         ];
 
         $content = implode(',', $headers) . "\n" . implode(',', $sampleData);

@@ -4,6 +4,28 @@ body * {
     font-family: 'Josefin Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
+/* Content entered by admins is rendered with one predictable rhythm too. */
+.markdown-content,
+.markdown-content * {
+    font-family: 'Josefin Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+.markdown-content strong,
+.markdown-content b {
+    font-weight: 700 !important;
+}
+
+.return-policy-link {
+    margin: 0 0 1rem;
+}
+
+.return-policy-link a {
+    color: var(--color-primary, #3f5a45);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 /* Preserve monospace where the content is intentionally technical. */
 code,
 pre,

@@ -135,8 +135,9 @@
                                        placeholder="VD: 10 bông, 20 cây">
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin: 12px 0 6px;">Đơn Vị Tính</label>
                                 <select name="unit" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
-                                    <option value="bó" {{ old('unit', 'bó') === 'bó' ? 'selected' : '' }}>Bó</option>
+                                    <option value="bông" {{ old('unit') === 'bông' ? 'selected' : '' }}>Bông</option>
                                     <option value="cành" {{ old('unit') === 'cành' ? 'selected' : '' }}>Cành</option>
+                                    <option value="bó" {{ old('unit', 'bó') === 'bó' ? 'selected' : '' }}>Bó</option>
                                 </select>
                             </div>
                         </div>

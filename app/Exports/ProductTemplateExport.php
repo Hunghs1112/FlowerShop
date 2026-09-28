@@ -32,6 +32,7 @@ class ProductTemplateExport implements FromCollection, WithHeadings
                 10,
                 'Việt Nam',
                 'Bó 10 bông',
+                'bó',
             ]
         ]);
     }
@@ -51,6 +52,7 @@ class ProductTemplateExport implements FromCollection, WithHeadings
             'sl_toi_thieu',
             'xuat_xu',
             'quy_cach',
+            'don_vi',
         ];
     }
 }

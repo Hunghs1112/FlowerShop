@@ -104,17 +104,9 @@
                 {{-- Product Title --}}
                 <h1 class="product-title">{{ $product->display_name }}</h1>
 
-                {{-- Rating --}}
-                <div class="product-rating">
-                    <div class="rating-stars" aria-hidden="true">
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                    </div>
-                    <span class="rating-value">(0.0)</span>
-                    <span class="rating-count">(0) {{ content('product_reviews_suffix', 'đánh giá') }}</span>
+                {{-- Product image disclaimer --}}
+                <div class="product-image-disclaimer">
+                    Sản phẩm thực nhận có thể khác với hình đại diện trên website (Nhân viên kinh doanh sẽ cập nhật thực tế khi bạn chốt đơn)
                 </div>
 
                 {{-- Price --}}
@@ -186,12 +178,6 @@
                     </div>
                 @endif
 
-                @if($product->specification)
-                    <div class="product-description" style="margin-top: 12px;">
-                        <strong>Quy cách:</strong> {{ $product->specification }} {{ $product->unit ?? 'bó' }}
-                    </div>
-                @endif
-
                 {{-- Stock --}}
                 <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', 'sản phẩm có sẵn') }}</div>
 
@@ -235,10 +221,24 @@
                     @endif
                     
                     <div class="accordion-item">
-                        <a href="{{ route('policy', 'chinh-sach-doi-tra') }}" class="accordion-header" style="text-decoration: none;">
+                        <button type="button" class="accordion-header">
                             <span>Chính sách đổi trả</span>
-                            <span class="accordion-icon" aria-hidden="true">→</span>
-                        </a>
+                            <span class="accordion-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="return-policy-link"><a href="{{ route('policy', 'huong-dan-mua-hang') }}">Xem hướng dẫn mua và đặt hàng</a></p>
+                            @if($product->return_policy)
+                                <x-markdown-renderer :content="$product->return_policy" />
+                            @else
+                                <p>Chúng tôi cam kết chất lượng sản phẩm 100%. Nếu sản phẩm có vấn đề về chất lượng hoặc không đúng mô tả, quý khách vui lòng liên hệ trong vòng 7 ngày để được đổi/trả hoặc hoàn tiền.</p>
+                                <p><strong>Điều kiện đổi trả:</strong></p>
+                                <ul>
+                                    <li>Sản phẩm còn nguyên seal, chưa qua sử dụng</li>
+                                    <li>Còn hóa đơn mua hàng</li>
+                                    <li>Lỗi từ nhà sản xuất</li>
+                                </ul>
+                            @endif
+                        </div>
                     </div>
                 </div>
         </div>

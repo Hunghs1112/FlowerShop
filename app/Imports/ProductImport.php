@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -27,6 +28,8 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation
             if ($subcategory) {
                 $subcategoryId = $subcategory->id;
                 $categoryId = $subcategory->category_id;
+            } else {
+                $categoryId = Category::where('name', $row['danh_muc'])->value('id');
             }
         }
 
@@ -55,6 +58,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation
             'min_order_quantity' => $row['sl_toi_thieu'] ?? 1,
             'origin' => $row['xuat_xu'] ?? null,
             'specification' => $row['quy_cach'] ?? null,
+            'unit' => $row['don_vi'] ?? 'bó',
             'is_active' => true,
             'is_featured' => false,
         ]);
@@ -76,6 +80,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation
             'sl_toi_thieu' => 'nullable|integer|min:1',
             'xuat_xu' => 'nullable|string|max:100',
             'quy_cach' => 'nullable|string',
+            'don_vi' => 'nullable|in:bông,cành,bó',
         ];
     }
 
