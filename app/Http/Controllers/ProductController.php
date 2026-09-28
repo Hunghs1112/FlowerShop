@@ -88,24 +88,21 @@ class ProductController extends Controller
      */
     public function show(string $identifier)
     {
-        // Try to find by ID first (if numeric), otherwise by slug (EN or VI)
-        if (is_numeric($identifier)) {
-            $product = Product::where('id', $identifier)
-                ->active()
-                ->with(['productImages', 'category', 'subcategory.category', 'variants' => function($query) {
-                    $query->where('is_active', true)->with('images');
-                }])
-                ->firstOrFail();
-        } else {
-            // Support both EN and VI slugs
-            $product = Product::where('slug', $identifier)
-                ->orWhere('slug_en', $identifier)
-                ->active()
-                ->with(['productImages', 'category', 'subcategory.category', 'variants' => function($query) {
-                    $query->where('is_active', true)->with('images');
-                }])
-                ->firstOrFail();
-        }
+        // A numeric slug is valid (for example, a product named "123").
+        // Prefer an ID match for legacy links, then fall back to either slug.
+        $product = Product::where(function ($query) use ($identifier) {
+                if (is_numeric($identifier)) {
+                    $query->where('id', $identifier);
+                }
+
+                $query->orWhere('slug', $identifier)
+                    ->orWhere('slug_en', $identifier);
+            })
+            ->active()
+            ->with(['productImages', 'category', 'subcategory.category', 'variants' => function($query) {
+                $query->where('is_active', true)->with('images');
+            }])
+            ->firstOrFail();
 
         // CRITICAL: Backend VIP authorization check
         $user = auth()->user();
