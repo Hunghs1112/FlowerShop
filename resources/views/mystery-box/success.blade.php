@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Yêu Cầu Đã Được Gửi')
+@section('title', $mysteryContent['success_page_title'])
 
 @section('content')
 <x-page-hero 
-    title="Yêu Cầu Đã Được Gửi"
-    description="Cảm ơn bạn đã tin tưởng LNT"
+    title="{{ $mysteryContent['success_page_title'] }}"
+    description="{{ $mysteryContent['success_page_description'] }}"
     :breadcrumbs="[
         ['label' => 'Trang chủ', 'url' => route('home')],
         ['label' => 'Hộp Hoa Bí Ẩn', 'url' => route('mystery-box.index')],
@@ -24,29 +24,29 @@
                 </svg>
             </div>
 
-            <h1 class="success-title">Đã Nhận Yêu Cầu Của Bạn</h1>
+            <h1 class="success-title">{{ $mysteryContent['success_title'] }}</h1>
             
             <div class="request-id">
-                <span class="request-id-label">Mã yêu cầu:</span>
+                <span class="request-id-label">{{ $mysteryContent['success_request_id_label'] }}</span>
                 <span class="request-id-value">{{ $mysteryBoxRequest->request_id }}</span>
             </div>
 
             <div class="success-message">
-                <p>LNT sẽ kiểm tra hoa và xác nhận lại với bạn trước khi chuẩn bị đơn.</p>
-                <p>Chúng tôi sẽ liên hệ với bạn qua số điện thoại <strong>{{ $mysteryBoxRequest->phone }}</strong> trong thời gian sớm nhất.</p>
+                <p>{{ $mysteryContent['success_message'] }}</p>
+                <p>{{ $mysteryContent['success_contact_message'] }} <strong>{{ $mysteryBoxRequest->phone }}</strong> trong thời gian sớm nhất.</p>
             </div>
 
             <div class="summary-box">
-                <h3>Thông Tin Yêu Cầu</h3>
+                <h3>{{ $mysteryContent['success_summary_title'] }}</h3>
                 
                 <div class="summary-grid">
                     <div class="summary-item">
-                        <span class="summary-label">Phong cách</span>
+                        <span class="summary-label">{{ $mysteryContent['success_style_label'] }}</span>
                         <span class="summary-value">{{ $mysteryBoxRequest->style }}</span>
                     </div>
 
                     <div class="summary-item">
-                        <span class="summary-label">Bảng màu</span>
+                        <span class="summary-label">{{ $mysteryContent['success_color_label'] }}</span>
                         <span class="summary-value">
                             @foreach($mysteryBoxRequest->colors as $color)
                                 <span class="color-badge">{{ $color }}</span>
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="summary-item">
-                        <span class="summary-label">Sở thích</span>
+                        <span class="summary-label">{{ $mysteryContent['success_preference_label'] }}</span>
                         <span class="summary-value">
                             @foreach($mysteryBoxRequest->preferences as $pref)
                                 <span class="pref-badge">{{ $pref }}</span>
@@ -64,18 +64,18 @@
                     </div>
 
                     <div class="summary-item">
-                        <span class="summary-label">Ngân sách</span>
+                        <span class="summary-label">{{ $mysteryContent['success_budget_label'] }}</span>
                         <span class="summary-value">{{ $mysteryBoxRequest->budget_range }}</span>
                     </div>
 
                     <div class="summary-item">
-                        <span class="summary-label">Mức độ bất ngờ</span>
+                        <span class="summary-label">{{ $mysteryContent['success_surprise_label'] }}</span>
                         <span class="summary-value">{{ $mysteryBoxRequest->surprise_level }}</span>
                     </div>
 
                     @if($mysteryBoxRequest->note)
                     <div class="summary-item full-width">
-                        <span class="summary-label">Ghi chú</span>
+                        <span class="summary-label">{{ $mysteryContent['success_note_label'] }}</span>
                         <span class="summary-value">{{ $mysteryBoxRequest->note }}</span>
                     </div>
                     @endif
@@ -87,7 +87,7 @@
                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
-                    Về trang chủ
+                    {{ $mysteryContent['success_home_label'] }}
                 </a>
             </div>
         </div>

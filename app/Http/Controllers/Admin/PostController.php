@@ -43,9 +43,25 @@ class PostController extends Controller
     // ============================================================
     public function updateField(Request $request, Post $post)
     {
-
         $field = $request->input('field');
         $value = $request->input('value');
+
+        // The editor submits a display status, while the model stores is_published.
+        if ($field === 'status') {
+            $request->validate(['value' => 'required|in:draft,published']);
+
+            $post->update([
+                'is_published' => $value === 'published',
+                'published_at' => $value === 'published'
+                    ? ($post->published_at ?? now())
+                    : null,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã lưu trạng thái bài viết',
+            ]);
+        }
 
         // Define allowed fields with validation rules
         $fieldConfig = [
@@ -151,6 +167,10 @@ class PostController extends Controller
         }
 
         $validated['is_published'] = $validated['status'] === 'published';
+        $validated['published_at'] = $validated['is_published']
+            ? ($validated['published_at'] ?? now())
+            : null;
+        unset($validated['status']);
         $validated['author_id'] = auth()->id();
 
         try {
@@ -190,6 +210,10 @@ class PostController extends Controller
         }
 
         $validated['is_published'] = $validated['status'] === 'published';
+        $validated['published_at'] = $validated['is_published']
+            ? ($validated['published_at'] ?? $post->published_at ?? now())
+            : null;
+        unset($validated['status']);
         $oldThumbnail = $post->thumbnail;
 
         try {
@@ -214,9 +238,64 @@ class PostController extends Controller
             ->with('success', 'Cập nhật bài viết thành công');
     }
 
+    public function uploadThumbnail(Request $request, Post $post)
+    {
+        $request->validate([
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'file' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'images' => 'nullable|array|max:1',
+            'images.*' => 'image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        ]);
+
+        $file = $request->file('thumbnail')
+            ?? $request->file('file')
+            ?? $request->file('images.0');
+
+        if (!$file) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vui lòng chọn một ảnh hợp lệ',
+            ], 422);
+        }
+
+        $oldThumbnail = $post->thumbnail;
+        $thumbnail = $this->images->upload(
+            $file,
+            config('upload.disks.folders.post', 'posts'),
+            $oldThumbnail
+        );
+
+        $post->update(['thumbnail' => $thumbnail]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã cập nhật ảnh đại diện',
+            'url' => $post->fresh()->image_url,
+        ]);
+    }
+
+    public function deleteThumbnail(Post $post)
+    {
+        $thumbnail = $post->thumbnail;
+
+        if (!$thumbnail) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bài viết chưa có ảnh đại diện',
+            ], 422);
+        }
+
+        $post->update(['thumbnail' => null]);
+        $this->images->delete($thumbnail);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa ảnh đại diện',
+        ]);
+    }
+
     public function destroy(Post $post)
     {
-
         $thumbnail = $post->thumbnail;
         $post->delete();
         

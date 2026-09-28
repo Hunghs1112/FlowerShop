@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Liên hệ')
+@section('title', $contactPage->title ?? 'Liên hệ')
 
 @section('content')
 <x-page-hero 
-    title="Liên hệ"
+    :title="$contactPage->title ?? 'Liên hệ'"
     description="Chúng tôi luôn sẵn sàng lắng nghe bạn"
     :breadcrumbs="[
         ['label' => 'Trang chủ', 'url' => route('home')],
         ['label' => 'Liên hệ']
     ]"
-    :image="$siteBanners['contact'] ?? null"
+    :image="$pageBanner['custom'] ?? $siteBanners['contact'] ?? null"
     height="400px"
 />
 
@@ -23,9 +23,13 @@
                     <h2 class="card-title">Thông tin liên hệ</h2>
                 </div>
                 <div class="card-body">
-                    <p class="contact-intro">
-                        Hãy liên hệ với chúng tôi nếu bạn có bất kỳ câu hỏi nào. Chúng tôi luôn sẵn sàng hỗ trợ bạn.
-                    </p>
+                    @if($contactPage?->content)
+                        <x-markdown-renderer :content="$contactPage->content" class="contact-intro markdown-content" />
+                    @else
+                        <p class="contact-intro">
+                            Hãy liên hệ với chúng tôi nếu bạn có bất kỳ câu hỏi nào. Chúng tôi luôn sẵn sàng hỗ trợ bạn.
+                        </p>
+                    @endif
 
                     <div class="contact-methods">
                         @if($siteInfo['phone'] ?? null)

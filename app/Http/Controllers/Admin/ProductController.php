@@ -57,6 +57,7 @@ class ProductController extends Controller
             'min_order_quantity' => 'nullable|integer|min:1',
             'origin' => 'nullable|string|max:100',
             'specification' => 'nullable|string',
+            'unit' => 'required|in:bó,cành',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ];
@@ -423,6 +424,7 @@ class ProductController extends Controller
             ->orderBy('name')
             ->get();
         
+        $categories = \App\Models\Category::active()->orderBy('name')->get();
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
         
         return view('admin.products.create', compact('categories', 'subcategories', 'maxImages'));
@@ -500,6 +502,7 @@ class ProductController extends Controller
             ->orderBy('name')
             ->get();
         
+        $categories = \App\Models\Category::active()->orderBy('name')->get();
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
 
         return view('admin.products.edit', compact('product', 'categories', 'subcategories', 'maxImages'));

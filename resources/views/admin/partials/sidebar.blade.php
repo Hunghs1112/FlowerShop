@@ -80,6 +80,16 @@
                 </li>
 
                 <li class="admin-nav-item">
+                    <a href="{{ route('admin.mystery-box-content.edit') }}"
+                       class="admin-nav-link {{ request()->routeIs('admin.mystery-box-content.*') ? 'active' : '' }}">
+                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m4-2a8 8 0 11-16 0 8 8 0 0116 0z"/>
+                        </svg>
+                        <span class="admin-nav-text">Nội Dung Mystery Box</span>
+                    </a>
+                </li>
+
+                <li class="admin-nav-item">
                     <a href="{{ route('admin.posts.index') }}" 
                        class="admin-nav-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
                         <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">

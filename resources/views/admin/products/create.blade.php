@@ -69,16 +69,27 @@
                         </div>
 
                         <div>
-                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Danh Mục Phụ <span style="color: var(--admin-error);">*</span></label>
-                            <select name="subcategory_id" id="subcategorySelect" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" required>
-                                <option value="">-- Chọn danh mục phụ --</option>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Danh Mục Chính <span style="color: var(--admin-error);">*</span></label>
+                            <select name="category_id" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" required>
+                                <option value="">-- Chọn danh mục chính --</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Có thể thêm sản phẩm trực tiếp vào danh mục chính.</small>
+                        </div>
+
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Danh Mục Phụ</label>
+                            <select name="subcategory_id" id="subcategorySelect" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;">
+                                <option value="">-- Không chọn danh mục phụ --</option>
                                 @foreach($subcategories as $subcategory)
                                     <option value="{{ $subcategory->id }}" {{ old('subcategory_id') == $subcategory->id ? 'selected' : '' }}>
                                         {{ $subcategory->category->name }} → {{ $subcategory->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Chọn danh mục phụ (Danh mục cha sẽ tự động được gán)</small>
+                            <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Không bắt buộc. Nếu chọn, danh mục chính sẽ tự động khớp theo danh mục phụ</small>
                         </div>
 
                         <div>
@@ -121,7 +132,12 @@
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Quy Cách</label>
                                 <input type="text" name="specification" value="{{ old('specification') }}"
                                        style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
-                                       placeholder="VD: Bó 10 bông, Hộp 20 cây">
+                                       placeholder="VD: 10 bông, 20 cây">
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin: 12px 0 6px;">Đơn Vị Tính</label>
+                                <select name="unit" style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
+                                    <option value="bó" {{ old('unit', 'bó') === 'bó' ? 'selected' : '' }}>Bó</option>
+                                    <option value="cành" {{ old('unit') === 'cành' ? 'selected' : '' }}>Cành</option>
+                                </select>
                             </div>
                         </div>
                     </div>

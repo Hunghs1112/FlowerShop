@@ -29,8 +29,13 @@ class PageController extends Controller
     public function contact()
     {
         $siteInfo = $this->settingService->getSiteInfo();
-        $bannerKey = 'contact';
-        return view('pages.contact', compact('siteInfo', 'bannerKey'));
+        $contactPage = Page::where('slug', 'lien-he')->active()->first();
+
+        $pageBanner = $contactPage?->header_image_url
+            ? ['custom' => $contactPage->header_image_url]
+            : [];
+
+        return view('pages.contact', compact('siteInfo', 'contactPage', 'pageBanner'));
     }
 
     public function contactSubmit(Request $request)
