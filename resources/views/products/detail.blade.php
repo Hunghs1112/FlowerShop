@@ -104,17 +104,9 @@
                 {{-- Product Title --}}
                 <h1 class="product-title">{{ $product->display_name }}</h1>
 
-                {{-- Rating --}}
-                <div class="product-rating">
-                    <div class="rating-stars" aria-hidden="true">
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                    </div>
-                    <span class="rating-value">(0.0)</span>
-                    <span class="rating-count">(0) {{ content('product_reviews_suffix', 'đánh giá') }}</span>
+                {{-- Product image disclaimer --}}
+                <div class="product-image-disclaimer">
+                    Sản phẩm thực nhận có thể khác với hình đại diện trên website (Nhân viên kinh doanh sẽ cập nhật thực tế khi bạn chốt đơn)
                 </div>
 
                 {{-- Price --}}

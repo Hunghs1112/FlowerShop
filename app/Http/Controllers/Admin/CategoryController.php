@@ -155,29 +155,36 @@ class CategoryController extends Controller
                 if ($request->hasFile('image')) {
                     $validated['image'] = $this->images->upload(
                         $request->file('image'),
-                        config('upload.disks.folders.category', 'categories'),
-                        $oldImage
+                        config('upload.disks.folders.category', 'categories')
                     );
                 }
 
                 if ($request->hasFile('hover_image')) {
                     $validated['hover_image'] = $this->images->upload(
                         $request->file('hover_image'),
-                        config('upload.disks.folders.category', 'categories'),
-                        $oldHoverImage
+                        config('upload.disks.folders.category', 'categories')
                     );
                 }
 
                 if ($request->hasFile('banner_image')) {
                     $validated['banner_image'] = $this->images->upload(
                         $request->file('banner_image'),
-                        config('upload.disks.folders.category', 'categories'),
-                        $oldBannerImage
+                        config('upload.disks.folders.category', 'categories')
                     );
                 }
 
                 $category->update($validated);
             });
+
+            if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
+                $this->images->delete($oldImage);
+            }
+            if (!empty($validated['hover_image']) && $validated['hover_image'] !== $oldHoverImage) {
+                $this->images->delete($oldHoverImage);
+            }
+            if (!empty($validated['banner_image']) && $validated['banner_image'] !== $oldBannerImage) {
+                $this->images->delete($oldBannerImage);
+            }
         } catch (\Throwable $e) {
             if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
                 $this->images->delete($validated['image']);
@@ -241,14 +248,15 @@ class CategoryController extends Controller
 
         try {
             $oldImage = $category->image;
+            $imagePath = null;
             
             $imagePath = $this->images->upload(
                 $request->file('images')[0],
-                config('upload.disks.folders.category', 'categories'),
-                $oldImage
+                config('upload.disks.folders.category', 'categories')
             );
 
             $category->update(['image' => $imagePath]);
+            $this->images->delete($oldImage);
 
             return response()->json([
                 'success' => true,
@@ -256,6 +264,7 @@ class CategoryController extends Controller
                 'image_url' => $category->image_url
             ]);
         } catch (\Exception $e) {
+            $this->images->delete($imagePath);
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi khi tải ảnh: ' . $e->getMessage()
@@ -297,14 +306,15 @@ class CategoryController extends Controller
 
         try {
             $oldHoverImage = $category->hover_image;
+            $imagePath = null;
             
             $imagePath = $this->images->upload(
                 $request->file('images')[0],
-                config('upload.disks.folders.category', 'categories'),
-                $oldHoverImage
+                config('upload.disks.folders.category', 'categories')
             );
 
             $category->update(['hover_image' => $imagePath]);
+            $this->images->delete($oldHoverImage);
 
             return response()->json([
                 'success' => true,
@@ -312,6 +322,7 @@ class CategoryController extends Controller
                 'image_url' => $category->hover_image_url
             ]);
         } catch (\Exception $e) {
+            $this->images->delete($imagePath);
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi khi tải ảnh hover: ' . $e->getMessage()
@@ -353,14 +364,15 @@ class CategoryController extends Controller
 
         try {
             $oldBannerImage = $category->banner_image;
+            $imagePath = null;
             
             $imagePath = $this->images->upload(
                 $request->file('images')[0],
-                config('upload.disks.folders.category', 'categories'),
-                $oldBannerImage
+                config('upload.disks.folders.category', 'categories')
             );
 
             $category->update(['banner_image' => $imagePath]);
+            $this->images->delete($oldBannerImage);
 
             return response()->json([
                 'success' => true,
@@ -368,6 +380,7 @@ class CategoryController extends Controller
                 'image_url' => $category->banner_image_url
             ]);
         } catch (\Exception $e) {
+            $this->images->delete($imagePath);
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi khi tải ảnh banner: ' . $e->getMessage()

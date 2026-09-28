@@ -82,49 +82,6 @@ class PostController extends Controller
         );
     }
 
-    /** Upload or replace a post thumbnail from the edit screen. */
-    public function uploadThumbnail(Request $request, Post $post)
-    {
-        $maxKb = (int) config('upload.limits.post_thumbnail.max_size', 2048);
-        $request->validate([
-            'file' => "required|image|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
-        ]);
-
-        try {
-            $path = $this->images->upload(
-                $request->file('file'),
-                config('upload.disks.folders.post', 'posts'),
-                $post->thumbnail,
-                'thumbnail'
-            );
-            $post->update(['thumbnail' => $path]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã cập nhật ảnh bài viết',
-                'url' => $post->fresh()->image_url,
-            ]);
-        } catch (\Throwable $e) {
-            \Log::error('Post thumbnail upload failed', ['post_id' => $post->id, 'error' => $e->getMessage()]);
-            return response()->json(['success' => false, 'message' => 'Không thể tải ảnh lên'], 500);
-        }
-    }
-
-    /** Remove a post thumbnail without deleting the post. */
-    public function deleteThumbnail(Post $post)
-    {
-        $thumbnail = $post->thumbnail;
-        $post->update(['thumbnail' => null]);
-        if ($thumbnail) {
-            $this->images->delete($thumbnail);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã xóa ảnh bài viết',
-        ]);
-    }
-
     public function index(Request $request)
     {
 

@@ -58,6 +58,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation
             'min_order_quantity' => $row['sl_toi_thieu'] ?? 1,
             'origin' => $row['xuat_xu'] ?? null,
             'specification' => $row['quy_cach'] ?? null,
+            'unit' => $row['don_vi'] ?? 'bó',
             'is_active' => true,
             'is_featured' => false,
         ]);
@@ -79,6 +80,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation
             'sl_toi_thieu' => 'nullable|integer|min:1',
             'xuat_xu' => 'nullable|string|max:100',
             'quy_cach' => 'nullable|string',
+            'don_vi' => 'nullable|in:bông,cành,bó',
         ];
     }
 
