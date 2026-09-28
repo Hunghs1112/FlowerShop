@@ -197,6 +197,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->name('settings.deleteBanner');
 
     // Mystery Box management
+    Route::get('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'edit'])->name('mystery-box-content.edit');
+    Route::put('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'update'])->name('mystery-box-content.update');
+
+    // Mystery Box management
     Route::get('mystery-boxes', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'index'])->name('mystery-boxes.index');
     Route::get('mystery-boxes/{mysteryBox}', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'show'])->name('mystery-boxes.show');
     Route::patch('mystery-boxes/{mysteryBox}/status', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'updateStatus'])->name('mystery-boxes.updateStatus');
