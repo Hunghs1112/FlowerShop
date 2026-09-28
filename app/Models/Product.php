@@ -25,6 +25,7 @@ class Product extends Model
         'min_order_quantity',
         'origin',
         'specification',
+        'unit',
         'return_policy',
         'video_url',
         'video_type',
