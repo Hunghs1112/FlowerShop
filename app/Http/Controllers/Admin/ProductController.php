@@ -421,9 +421,10 @@ class ProductController extends Controller
             ->orderBy('name')
             ->get();
         
+        $categories = \App\Models\Category::active()->orderBy('name')->get();
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
         
-        return view('admin.products.create', compact('subcategories', 'maxImages'));
+        return view('admin.products.create', compact('categories', 'subcategories', 'maxImages'));
     }
 
     public function store(StoreProductRequest $request)
@@ -496,9 +497,10 @@ class ProductController extends Controller
             ->orderBy('name')
             ->get();
         
+        $categories = \App\Models\Category::active()->orderBy('name')->get();
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
 
-        return view('admin.products.edit', compact('product', 'subcategories', 'maxImages'));
+        return view('admin.products.edit', compact('product', 'categories', 'subcategories', 'maxImages'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
