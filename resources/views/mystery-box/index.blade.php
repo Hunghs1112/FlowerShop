@@ -6,7 +6,7 @@
 <x-page-hero
     title="{{ $mysteryContent['hero_title'] }}"
     description="{{ $mysteryContent['hero_description'] }}"
-    :breadcrumbs="[['label' => 'Trang chủ', 'url' => route('home')], ['label' => 'Hộp Hoa Bí Ẩn']]"
+    :breadcrumbs="[['label' => $mysteryContent['breadcrumb_home'], 'url' => route('home')], ['label' => $mysteryContent['breadcrumb_mystery']]]"
     :image="$siteBanners['mystery-box'] ?? null"
     height="350px"
 />
@@ -103,9 +103,9 @@
                 </div>
 
                 <div class="step-navigation">
-                    <button type="button" class="btn btn-outline btn-lg" id="prevBtn" style="display:none;">Quay lại</button>
-                    <button type="button" class="btn btn-primary btn-lg" id="nextBtn">Tiếp theo</button>
-                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" style="display:none;">Xác nhận yêu cầu</button>
+                    <button type="button" class="btn btn-outline btn-lg" id="prevBtn" style="display:none;">{{ $mysteryContent['previous_label'] }}</button>
+                    <button type="button" class="btn btn-primary btn-lg" id="nextBtn">{{ $mysteryContent['next_label'] }}</button>
+                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" style="display:none;">{{ $mysteryContent['submit_label'] }}</button>
                 </div>
             </form>
         </div>
