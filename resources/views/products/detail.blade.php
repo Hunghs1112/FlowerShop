@@ -186,6 +186,12 @@
                     </div>
                 @endif
 
+                @if($product->specification)
+                    <div class="product-description" style="margin-top: 12px;">
+                        <strong>Quy cách:</strong> {{ $product->specification }} {{ $product->unit ?? 'bó' }}
+                    </div>
+                @endif
+
                 {{-- Stock --}}
                 <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', 'sản phẩm có sẵn') }}</div>
 
@@ -229,7 +235,7 @@
                     @endif
                     
                     <div class="accordion-item">
-                        <a href="{{ route('policy', 'huong-dan-mua-va-dat-hang') }}" class="accordion-header" style="text-decoration: none;">
+                        <a href="{{ route('policy', 'chinh-sach-doi-tra') }}" class="accordion-header" style="text-decoration: none;">
                             <span>Chính sách đổi trả</span>
                             <span class="accordion-icon" aria-hidden="true">→</span>
                         </a>
