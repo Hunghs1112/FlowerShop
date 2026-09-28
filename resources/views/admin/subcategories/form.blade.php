@@ -91,10 +91,16 @@
                     <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Hình Ảnh</label>
                     <div style="position: relative;">
                         @if(isset($subcategory) && $subcategory->image)
-                            <div style="margin-bottom: 12px;">
+                            <div class="subcategory-image-container" style="position: relative; display: inline-block; margin-bottom: 12px;">
                                 <img src="{{ $subcategory->image_url }}" 
                                      alt="Current image" 
                                      style="width: 100%; height: auto; border-radius: var(--admin-radius-md); border: 1px solid var(--admin-border);">
+                                <button type="button"
+                                        onclick="deleteSubcategoryImage({{ $subcategory->id }}, this)"
+                                        title="Xóa ảnh"
+                                        style="position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; background: rgba(239, 68, 68, 0.9); color: white; border: 2px solid white; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
                             </div>
                         @endif
                         <input type="file" 
