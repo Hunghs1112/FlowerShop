@@ -12,6 +12,8 @@ class MysteryBoxContentService
     {
         return [
             'hero_title' => 'Hộp Hoa Bí Ẩn',
+            'breadcrumb_home' => 'Trang chủ',
+            'breadcrumb_mystery' => 'Hộp Hoa Bí Ẩn',
             'hero_description' => 'Để LNT chọn hoa, bạn giữ lại niềm vui bất ngờ',
             'intro_title' => 'Khám Phá Điều Bất Ngờ',
             'intro_description' => 'Hãy cho chúng tôi biết một vài sở thích, LNT sẽ chuẩn bị một hộp hoa thật đặc biệt dành riêng cho bạn.',
@@ -59,6 +61,9 @@ class MysteryBoxContentService
             'success_surprise_label' => 'Mức độ bất ngờ',
             'success_note_label' => 'Ghi chú',
             'success_home_label' => 'Về trang chủ',
+            'previous_label' => 'Quay lại',
+            'next_label' => 'Tiếp theo',
+            'submit_label' => 'Xác nhận yêu cầu',
         ];
     }
 
