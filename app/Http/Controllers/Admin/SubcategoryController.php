@@ -125,13 +125,16 @@ class SubcategoryController extends Controller
                 if ($request->hasFile('image')) {
                     $validated['image'] = $this->images->upload(
                         $request->file('image'),
-                        config('upload.disks.folders.category', 'categories'),
-                        $oldImage
+                        config('upload.disks.folders.category', 'categories')
                     );
                 }
 
                 $subcategory->update($validated);
             });
+
+            if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
+                $this->images->delete($oldImage);
+            }
         } catch (\Throwable $e) {
             if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
                 $this->images->delete($validated['image']);
@@ -197,14 +200,15 @@ class SubcategoryController extends Controller
 
         try {
             $oldImage = $subcategory->image;
+            $imagePath = null;
             
             $imagePath = $this->images->upload(
                 $request->file('images')[0],
-                config('upload.disks.folders.category', 'categories'),
-                $oldImage
+                config('upload.disks.folders.category', 'categories')
             );
 
             $subcategory->update(['image' => $imagePath]);
+            $this->images->delete($oldImage);
 
             return response()->json([
                 'success' => true,
@@ -212,6 +216,7 @@ class SubcategoryController extends Controller
                 'image_url' => $subcategory->image_url
             ]);
         } catch (\Exception $e) {
+            $this->images->delete($imagePath);
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi khi tải ảnh: ' . $e->getMessage()
