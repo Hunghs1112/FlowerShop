@@ -39,18 +39,6 @@
                 </span>
             @endif
 
-            {{-- Wishlist button --}}
-            <button
-                class="product-card__wishlist {{ $product->isFavoritedBy(auth()->user()) ? 'active' : '' }}"
-                aria-label="Yêu thích"
-                title="Yêu thích"
-                data-product-id="{{ $product->id }}"
-            >
-                <svg viewBox="0 0 24 24" fill="{{ $product->isFavoritedBy(auth()->user()) ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                </svg>
-            </button>
-
             {{-- Hover overlay with CTA --}}
             <div class="product-card__overlay">
                 <span class="product-card__cta">
@@ -82,4 +70,16 @@
             </div>
         </div>
     </a>
+
+    <button
+        type="button"
+        class="product-card__wishlist {{ $product->isFavoritedBy(auth()->user()) ? 'active' : '' }}"
+        aria-label="Yêu thích"
+        title="Yêu thích"
+        data-product-id="{{ $product->id }}"
+    >
+        <svg viewBox="0 0 24 24" fill="{{ $product->isFavoritedBy(auth()->user()) ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+    </button>
 </article>
