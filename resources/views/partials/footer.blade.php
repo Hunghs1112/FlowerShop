@@ -84,7 +84,7 @@
             <div class="footer-column">
                 <h3 class="footer-column-heading">Thông tin</h3>
                 <nav class="footer-links">
-                    @foreach($navPages as $footerPage)
+                    @foreach($navPages->where('slug', '!=', 'lien-he') as $footerPage)
                         <a href="{{ route('policy', $footerPage->slug) }}" class="footer-link">{{ $footerPage->title }}</a>
                     @endforeach
                     <a href="{{ route('contact') }}" class="footer-link">Liên hệ</a>
