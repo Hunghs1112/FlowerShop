@@ -38,6 +38,7 @@ Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show
 Route::get('/ve-chung-toi', [PageController::class, 'about'])->name('about');
 Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
 Route::post('/lien-he', [PageController::class, 'contactSubmit'])->name('contact.store');
+Route::redirect('/trang/lien-he', '/lien-he');
 Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
 // Cart
