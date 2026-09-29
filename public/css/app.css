@@ -1669,6 +1669,12 @@ label, .label {
     color: inherit;
 }
 
+.product-card__full-link:focus-visible,
+.product-card__wishlist:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 3px;
+}
+
 /* === IMAGE WRAPPER === */
 .product-card__image-wrap {
     position: relative;
