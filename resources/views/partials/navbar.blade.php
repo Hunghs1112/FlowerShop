@@ -193,11 +193,6 @@
                 Tìm kiếm
             </button>
         </form>
-        <button class="search-close-btn" id="searchClose" aria-label="Đóng tìm kiếm">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
     </div>
 </div>
 
@@ -428,7 +423,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchOverlay = document.getElementById('searchOverlay');
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
-    const searchClose = document.getElementById('searchClose');
     const searchClear = document.getElementById('searchClear');
 
     function openSearch() {
@@ -446,10 +440,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (searchToggle && searchOverlay) {
         searchToggle.addEventListener('click', openSearch);
-    }
-
-    if (searchClose) {
-        searchClose.addEventListener('click', closeSearch);
     }
 
     if (searchOverlay) {

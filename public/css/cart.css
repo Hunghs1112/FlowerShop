@@ -359,8 +359,8 @@
 }
 
 .cart-empty-illustration {
-    width: 120px;
-    height: 120px;
+    width: 88px;
+    height: 88px;
     margin: 0 auto;
     animation: float 3s ease-in-out infinite;
 }
