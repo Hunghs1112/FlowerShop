@@ -132,10 +132,10 @@
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Quy Cách Đóng Gói</label>
                                 <input type="text" name="specification" value="{{ old('specification') }}"
                                        style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
-                                       placeholder="VD: 1 thùng 20 viên, 1 bó 2 bông">
+                                       placeholder="VD: 20 viên, 2 bông">
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin: 12px 0 6px;">Đơn Vị Tính</label>
                                 <input type="text" name="unit" value="{{ old('unit', 'bó') }}" required
-                                       placeholder="VD: bó, chiếc, chai, thùng"
+                                       placeholder="VD: thùng, bó, chiếc, chai"
                                        style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                             </div>
                         </div>

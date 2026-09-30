@@ -99,8 +99,8 @@
                         <li>chieu_dai - Chiều dài (VD: 50cm)</li>
                         <li>sl_toi_thieu - Số lượng order tối thiểu</li>
                         <li>xuat_xu - Xuất xứ (VD: Việt Nam)</li>
-                        <li>quy_cach - Quy cách đóng gói (VD: 1 thùng 20 viên, 1 bó 2 bông)</li>
-                        <li>don_vi - Đơn vị tính (VD: bông, chiếc, chai, thùng)</li>
+                        <li>quy_cach - Quy cách đóng gói (VD: 20 viên, 2 bông)</li>
+                        <li>don_vi - Đơn vị bao gói (VD: thùng, bó, chiếc, chai)</li>
                     </ul>
                 </div>
             </div>
