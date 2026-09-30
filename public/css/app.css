@@ -9576,7 +9576,7 @@ textarea.form-input {
 
 /* === PAGE WRAPPER === */
 .page-wrapper {
-    padding: var(--space-10) 0;
+    padding: var(--space-7) 0;
     min-height: 60vh;
 }
 
@@ -9819,7 +9819,7 @@ textarea.form-input {
 /* Tablet (â‰¤ 1024px) */
 @media (max-width: 1024px) {
     .page-wrapper {
-        padding: var(--space-8) 0;
+        padding: var(--space-7) 0;
     }
 
     .blog-grid {
@@ -9831,7 +9831,7 @@ textarea.form-input {
 /* Mobile (â‰¤ 640px) â€” compact blog card */
 @media (max-width: 640px) {
     .page-wrapper {
-        padding: var(--space-5) 0;
+        padding: var(--space-6) 0;
     }
 
     .blog-search {
@@ -9938,12 +9938,12 @@ textarea.form-input {
 /* === CMS PAGE MARKDOWN CONTENT === */
 .page-content,
 .about-layout {
-    max-width: 720px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
 .markdown-content {
-    max-width: 720px;
+    max-width: 1100px;
     overflow-wrap: anywhere;
     word-break: break-word;
 }
