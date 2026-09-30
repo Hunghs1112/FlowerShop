@@ -218,12 +218,12 @@
                     @if($product->specification || $product->length || $product->origin || $product->min_order_quantity || $product->unit)
                         <div class="accordion-item">
                             <button type="button" class="accordion-header">
-                                <span>Quy cách & thông số sản phẩm</span>
+                                <span>Quy cách đóng gói & thông số sản phẩm</span>
                                 <span class="accordion-icon" aria-hidden="true">+</span>
                             </button>
                             <div class="accordion-content">
                                 <ul class="product-spec-list">
-                                    @if($product->specification)<li><strong>Quy cách:</strong> {{ $product->specification }}</li>@endif
+                                    @if($product->specification)<li><strong>Quy cách đóng gói:</strong> {{ $product->specification }}</li>@endif
                                     @if($product->length)<li><strong>Chiều dài:</strong> {{ $product->length }}</li>@endif
                                     @if($product->origin)<li><strong>Xuất xứ:</strong> {{ $product->origin }}</li>@endif
                                     @if($product->min_order_quantity)<li><strong>Số lượng đặt tối thiểu:</strong> {{ $product->min_order_quantity }} {{ $product->unit }}</li>@endif
