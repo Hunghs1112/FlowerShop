@@ -477,8 +477,13 @@
 }
 
 .accordion-item.active .accordion-content {
-    max-height: 500px;
+    max-height: 1000px;
     padding-bottom: var(--space-5);
+}
+
+.product-spec-list {
+    list-style: none;
+    padding-left: 0 !important;
 }
 
 .accordion-content p {
