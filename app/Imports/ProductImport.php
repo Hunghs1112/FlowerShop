@@ -80,7 +80,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation
             'sl_toi_thieu' => 'nullable|integer|min:1',
             'xuat_xu' => 'nullable|string|max:100',
             'quy_cach' => 'nullable|string',
-            'don_vi' => 'nullable|in:bông,cành,bó',
+            'don_vi' => 'nullable|string|max:20',
         ];
     }
 

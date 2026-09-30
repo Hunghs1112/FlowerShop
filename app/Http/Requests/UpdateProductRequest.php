@@ -31,7 +31,7 @@ class UpdateProductRequest extends FormRequest
             'min_order_quantity' => 'nullable|integer|min:1',
             'origin' => 'nullable|string|max:100',
             'specification' => 'nullable|string',
-            'unit' => 'required|in:bông,cành,bó',
+            'unit' => 'required|string|max:20',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'images' => "nullable|array|max:{$maxCnt}",

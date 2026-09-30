@@ -100,7 +100,7 @@
                         <li>sl_toi_thieu - Số lượng order tối thiểu</li>
                         <li>xuat_xu - Xuất xứ (VD: Việt Nam)</li>
                         <li>quy_cach - Quy cách (VD: Bó 10 bông)</li>
-                        <li>don_vi - Đơn vị: bông, cành hoặc bó</li>
+                        <li>don_vi - Đơn vị tính (VD: bông, chiếc, chai, thùng)</li>
                     </ul>
                 </div>
             </div>

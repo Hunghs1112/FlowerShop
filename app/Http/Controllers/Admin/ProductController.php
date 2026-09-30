@@ -57,7 +57,7 @@ class ProductController extends Controller
             'min_order_quantity' => 'nullable|integer|min:1',
             'origin' => 'nullable|string|max:100',
             'specification' => 'nullable|string',
-            'unit' => 'required|in:bông,cành,bó',
+            'unit' => 'required|string|max:20',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ];
@@ -700,9 +700,7 @@ class ProductController extends Controller
                     'min_order_quantity' => intval($data['sl_toi_thieu'] ?? 1),
                     'origin' => $data['xuat_xu'] ?? null,
                     'specification' => $data['quy_cach'] ?? null,
-                    'unit' => in_array($data['don_vi'] ?? '', ['bông', 'cành', 'bó'], true)
-                        ? $data['don_vi']
-                        : 'bó',
+                    'unit' => trim($data['don_vi'] ?? '') ?: 'bó',
                     'is_active' => true,
                     'is_featured' => false,
                 ]);
