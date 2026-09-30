@@ -3798,8 +3798,10 @@ label, .label {
 }
 
 .hero-content-wrapper {
+    position: relative;
     max-width: 640px;
     width: 100%;
+    height: 100%;
 }
 
 .hero-content {
@@ -3909,7 +3911,10 @@ label, .label {
 
 /* === HERO CONTROLS === */
 .hero-controls {
-    margin-top: 106px;
+    position: absolute;
+    left: 0;
+    bottom: var(--space-5);
+    margin-top: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
