@@ -148,7 +148,7 @@
     @else
         <div class="cart-empty">
             <div class="cart-empty-visual">
-                <div class="cart-empty-illustration">
+                <div class="cart-empty-illustration" aria-hidden="true">
                     <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="60" cy="60" r="50" fill="#F2F5F0"/>
                         <path d="M40 55C40 48.3726 45.3726 43 52 43H68C74.6274 43 80 48.3726 80 55V65C80 71.6274 74.6274 77 68 77H52C45.3726 77 40 71.6274 40 65V55Z" fill="#E8EEE3" stroke="#A3B8A1" stroke-width="2"/>

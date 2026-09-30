@@ -703,14 +703,6 @@
         display: none;
     }
 
-    /* Adjust search overlay for mobile navbar height */
-    .search-overlay-container {
-        padding-top: calc(56px + var(--space-6));
-    }
-
-    .search-close-btn {
-        top: calc(56px + var(--space-3));
-    }
 }
 
 /* Desktop: hide mobile menu actions */
