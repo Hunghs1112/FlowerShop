@@ -223,11 +223,11 @@
                             </button>
                             <div class="accordion-content">
                                 <ul class="product-spec-list">
-                                    @if($product->specification)<li><strong>Quy cách đóng gói:</strong> {{ $product->specification }}</li>@endif
+                                    @if($product->specification)<li><strong>Quy cách đóng gói:</strong> {{ $product->specification }}{{ $product->unit ? ' / ' . $product->unit : '' }}</li>@endif
                                     @if($product->length)<li><strong>Chiều dài:</strong> {{ $product->length }}</li>@endif
                                     @if($product->origin)<li><strong>Xuất xứ:</strong> {{ $product->origin }}</li>@endif
                                     @if($product->min_order_quantity)<li><strong>Số lượng đặt tối thiểu:</strong> {{ $product->min_order_quantity }} {{ $product->unit }}</li>@endif
-                                    @if($product->unit)<li><strong>Đơn vị tính:</strong> {{ $product->unit }}</li>@endif
+                                    @if(!$product->specification && $product->unit)<li><strong>Đơn vị tính:</strong> {{ $product->unit }}</li>@endif
                                 </ul>
                             </div>
                         </div>
