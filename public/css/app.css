@@ -2675,9 +2675,10 @@ label, .label {
 
 .search-overlay-container {
     position: relative;
-    width: min(calc(100% - 32px), 700px);
-    margin-top: 96px;
-    padding: var(--space-4);
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    margin-top: 72px;
+    padding: 8px;
     background: var(--color-white);
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-lg);
@@ -2689,7 +2690,7 @@ label, .label {
 }
 
 .search-form {
-    width: 100%;
+    width: auto;
     display: flex;
     gap: var(--space-3);
     align-items: center;
@@ -2697,7 +2698,8 @@ label, .label {
 
 .search-input-wrapper {
     position: relative;
-    flex: 1;
+    width: 320px;
+    flex: none;
     display: flex;
     align-items: center;
 }
@@ -2713,10 +2715,9 @@ label, .label {
 
 .search-input {
     width: 100%;
-    padding: var(--space-4) var(--space-5);
-    padding-left: calc(var(--space-5) + 22px + var(--space-4));
-    padding-right: calc(var(--space-4) + 24px + var(--space-3));
-    font-size: 1.125rem;
+    padding: 10px 12px 10px 44px;
+    padding-right: 40px;
+    font-size: 0.9375rem;
     font-family: 'Inter', sans-serif;
     color: var(--color-text);
     background-color: var(--color-white);
@@ -2763,8 +2764,8 @@ label, .label {
 }
 
 .search-submit-btn {
-    padding: var(--space-4) var(--space-6);
-    font-size: 1rem;
+    padding: 10px 18px;
+    font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-white);
     background-color: var(--color-primary);
@@ -2783,8 +2784,9 @@ label, .label {
 /* Search overlay responsive */
 @media (max-width: 640px) {
     .search-overlay-container {
-        padding: var(--space-4);
-        margin-top: 72px;
+        width: calc(100% - 24px);
+        padding: 8px;
+        margin-top: 64px;
     }
 
     .search-form {
@@ -2798,9 +2800,8 @@ label, .label {
 
     .search-input {
         font-size: 1rem;
-        padding: var(--space-3) var(--space-4);
-        padding-left: calc(var(--space-4) + 20px + var(--space-2));
-        padding-right: calc(var(--space-3) + 24px + var(--space-2));
+        padding: 10px 12px 10px 42px;
+        padding-right: 40px;
     }
 
     .search-input-icon {
