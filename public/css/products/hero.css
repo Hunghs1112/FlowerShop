@@ -50,6 +50,10 @@
     text-align: left; /* Align left like page-hero */
 }
 
+.products-hero-content--hidden {
+    visibility: hidden;
+}
+
 .products-breadcrumb {
     display: flex;
     align-items: center;
