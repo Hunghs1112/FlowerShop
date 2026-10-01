@@ -12,6 +12,7 @@
             alt="{{ $activeCategory->display_name ?? 'Sản phẩm' }}"
             class="products-hero-image"
         >
+        @unless($activeCategory?->hide_banner_content)
         <div class="products-hero-overlay"></div>
         <div class="products-hero-content">
             <div class="products-breadcrumb">
@@ -32,6 +33,7 @@
             <p class="products-hero-description">{{ $activeCategory->display_description }}</p>
             @endif
         </div>
+        @endunless
     </section>
 
     {{-- Subcategories bar for category pages --}}
