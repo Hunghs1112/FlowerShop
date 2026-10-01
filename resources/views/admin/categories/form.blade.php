@@ -169,6 +169,16 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                onchange="previewImage(this, 'bannerImagePreview')"
                                style="width: 100%; height: 44px; padding: 8px 14px; border: 2px dashed var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; cursor: pointer;">
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Hiển thị ở trang danh mục. Kích thước đề xuất: 1920x600px</small>
+
+                        <label style="display: flex; align-items: center; margin-top: 12px; cursor: pointer; user-select: none;">
+                            <input type="checkbox"
+                                   name="hide_banner_content"
+                                   value="1"
+                                   {{ old('hide_banner_content', $category->hide_banner_content ?? false) ? 'checked' : '' }}
+                                   style="margin-right: 8px; width: 16px; height: 16px;">
+                            <span style="font-weight: 600; font-size: 14px;">Ẩn overlay và nội dung trên banner</span>
+                        </label>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Chỉ hiển thị ảnh banner, giống tùy chọn không overlay ở hero trang chủ.</small>
                         
                         <div id="bannerImagePreview" style="margin-top: 12px;"></div>
                     </div>

@@ -25,6 +25,7 @@ class UpdateCategoryRequest extends FormRequest
             'image' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'hover_image' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'banner_image' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
+            'hide_banner_content' => 'boolean',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ];
@@ -56,6 +57,7 @@ class UpdateCategoryRequest extends FormRequest
         // Set boolean defaults
         $this->merge([
             'is_active' => $this->boolean('is_active'),
+            'hide_banner_content' => $this->boolean('hide_banner_content'),
         ]);
     }
 }

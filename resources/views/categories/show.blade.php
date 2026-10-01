@@ -10,6 +10,7 @@
         alt="{{ $category->display_name }}"
         class="products-hero-image"
     >
+    @unless($category->hide_banner_content)
     <div class="products-hero-overlay"></div>
     <div class="products-hero-content">
         <div class="products-breadcrumb">
@@ -30,6 +31,7 @@
         <p class="products-hero-description">{{ $category->display_description }}</p>
         @endif
     </div>
+    @endunless
 </section>
 
 <!-- Subcategories -->
