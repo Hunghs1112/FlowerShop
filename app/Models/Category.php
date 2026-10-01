@@ -17,6 +17,7 @@ class Category extends Model
         'image',
         'hover_image',
         'banner_image',
+        'hide_banner_content',
         'sort_order',
         'is_active',
         'order',
@@ -24,6 +25,7 @@ class Category extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'hide_banner_content' => 'boolean',
     ];
 
     // Relationships
