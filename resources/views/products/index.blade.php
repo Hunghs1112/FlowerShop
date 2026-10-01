@@ -59,6 +59,7 @@
             ['label' => $activeCategory ? $activeCategory->display_name : content('breadcrumb_all_products', 'Tất cả sản phẩm')]
         ]"
         :image="$bannerImage ?? null"
+        :hide-content="$activeCategory?->hide_banner_content ?? false"
     />
 @endif
 
