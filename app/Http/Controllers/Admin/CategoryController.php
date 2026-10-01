@@ -46,6 +46,7 @@ class CategoryController extends Controller
             'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
             'icon' => 'nullable|string|max:50',
+            'hide_banner_content' => 'boolean',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer',
         ];

@@ -175,6 +175,9 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                    name="hide_banner_content"
                                    value="1"
                                    {{ old('hide_banner_content', $category->hide_banner_content ?? false) ? 'checked' : '' }}
+                                   class="auto-save-checkbox"
+                                   data-entity="categories"
+                                   data-id="{{ $category->id ?? '' }}"
                                    style="margin-right: 8px; width: 16px; height: 16px;">
                             <span style="font-weight: 600; font-size: 14px;">Ẩn overlay và nội dung trên banner</span>
                         </label>
