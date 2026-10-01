@@ -4,10 +4,11 @@
     'label' => '',
     'breadcrumbs' => [],
     'image' => null,
-    'variant' => 'default'
+    'variant' => 'default',
+    'hideContent' => false,
 ])
 
-<section class="page-hero {{ $image ? 'page-hero--with-image' : '' }} {{ $variant === 'compact' ? 'page-hero--compact' : '' }}">
+<section class="page-hero {{ $image ? 'page-hero--with-image' : '' }} {{ $variant === 'compact' ? 'page-hero--compact' : '' }} {{ $hideContent ? 'page-hero--no-overlay' : '' }}">
     @if($image)
         <div class="page-hero-background">
             <img 
@@ -19,6 +20,7 @@
         </div>
     @endif
     
+    @unless($hideContent)
     <div class="page-hero-container container">
         @if(count($breadcrumbs) > 0)
             <nav class="page-hero-breadcrumb" aria-label="Breadcrumb">
@@ -51,6 +53,7 @@
             {{ $slot }}
         </div>
     </div>
+    @endunless
     
     @if(!$image)
         <div class="page-hero-decoration">

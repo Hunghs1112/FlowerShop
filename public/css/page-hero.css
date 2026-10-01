@@ -130,6 +130,10 @@
     );
 }
 
+.page-hero--no-overlay .page-hero-background::after {
+    content: none;
+}
+
 .page-hero--with-image .page-hero-breadcrumb-link,
 .page-hero--with-image .page-hero-breadcrumb-separator,
 .page-hero--with-image .page-hero-breadcrumb-current {
