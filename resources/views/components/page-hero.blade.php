@@ -20,8 +20,7 @@
         </div>
     @endif
     
-    @unless($hideContent)
-    <div class="page-hero-container container">
+    <div class="page-hero-container container {{ $hideContent ? 'page-hero-container--hidden' : '' }}" @if($hideContent) aria-hidden="true" @endif>
         @if(count($breadcrumbs) > 0)
             <nav class="page-hero-breadcrumb" aria-label="Breadcrumb">
                 @foreach($breadcrumbs as $index => $breadcrumb)
@@ -53,7 +52,6 @@
             {{ $slot }}
         </div>
     </div>
-    @endunless
     
     @if(!$image)
         <div class="page-hero-decoration">

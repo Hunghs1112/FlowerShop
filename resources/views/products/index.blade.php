@@ -14,7 +14,8 @@
         >
         @unless($activeCategory?->hide_banner_content)
         <div class="products-hero-overlay"></div>
-        <div class="products-hero-content">
+        @endunless
+        <div class="products-hero-content {{ $activeCategory?->hide_banner_content ? 'products-hero-content--hidden' : '' }}" @if($activeCategory?->hide_banner_content) aria-hidden="true" @endif>
             <div class="products-breadcrumb">
                 <a href="{{ route('home') }}">Trang chủ</a>
                 <span>/</span>
@@ -33,7 +34,6 @@
             <p class="products-hero-description">{{ $activeCategory->display_description }}</p>
             @endif
         </div>
-        @endunless
     </section>
 
     {{-- Subcategories bar for category pages --}}
