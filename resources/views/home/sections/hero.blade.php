@@ -1,5 +1,5 @@
 {{-- Hero Section with Banner Slider --}}
-<section class="hero" id="heroSection">
+<section class="hero" id="heroSection" style="--banner-height-desktop: {{ $siteBannerSizes['home']['desktop'] }}px; --banner-height-mobile: {{ $siteBannerSizes['home']['mobile'] }}px;">
     @if($banners->isNotEmpty())
         {{-- Dynamic Banner Slider --}}
         <div class="hero-slider">

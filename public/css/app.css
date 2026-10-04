@@ -3563,6 +3563,7 @@ label, .label {
 /* === PAGE HERO WITH IMAGE === */
 .page-hero--with-image {
     padding: var(--space-11) 0;
+    min-height: var(--banner-height-desktop, 0);
     background-color: var(--color-black);
 }
 
@@ -3707,6 +3708,7 @@ label, .label {
     
     .page-hero--with-image {
         padding: var(--space-8) 0;
+        min-height: var(--banner-height-mobile, 0);
     }
     
     .page-hero--compact {
@@ -3740,9 +3742,9 @@ label, .label {
 /* === HERO BASE === */
 .hero {
     position: relative;
-    height: 85vh;
-    min-height: 600px;
-    max-height: 900px;
+    height: var(--banner-height-desktop, 85vh);
+    min-height: var(--banner-height-desktop, 600px);
+    max-height: var(--banner-height-desktop, 900px);
     overflow: hidden;
     background-color: var(--color-black);
 }
@@ -4051,8 +4053,8 @@ label, .label {
 /* Tablet (â‰¤ 1024px) */
 @media (max-width: 1024px) {
     .hero {
-        height: 75vh;
-        min-height: 500px;
+        height: var(--banner-height-desktop, 75vh);
+        min-height: var(--banner-height-desktop, 500px);
         max-height: none;
     }
 
@@ -4091,9 +4093,9 @@ label, .label {
 /* Mobile (â‰¤ 640px) â€” compact hero */
 @media (max-width: 640px) {
     .hero {
-        height: 60vh;
-        min-height: 360px;
-        max-height: 480px;
+        height: var(--banner-height-mobile, 60vh);
+        min-height: var(--banner-height-mobile, 360px);
+        max-height: var(--banner-height-mobile, 480px);
     }
 
     .hero-background::after {
@@ -4174,9 +4176,9 @@ label, .label {
 /* Very small phones (â‰¤ 380px) */
 @media (max-width: 380px) {
     .hero {
-        height: 55vh;
-        min-height: 320px;
-        max-height: 420px;
+        height: var(--banner-height-mobile, 55vh);
+        min-height: var(--banner-height-mobile, 320px);
+        max-height: var(--banner-height-mobile, 420px);
     }
 
     .hero-title {
@@ -5345,6 +5347,7 @@ label, .label {
 .products-hero {
     position: relative;
     padding: var(--space-10) 0 var(--space-9);
+    min-height: var(--banner-height-desktop, 0);
     background-color: var(--color-botanical-pale);
     overflow: hidden;
 }
@@ -5369,6 +5372,22 @@ label, .label {
     height: 100%;
     object-fit: cover;
     z-index: 0;
+}
+
+/* Image-only category banners keep their original aspect ratio. */
+.products-hero--image-only {
+    padding: 0;
+    min-height: 0;
+}
+
+.products-hero--image-only::before {
+    display: none;
+}
+
+.products-hero--image-only .products-hero-image {
+    position: relative;
+    display: block;
+    height: auto;
 }
 
 .products-hero-overlay {
@@ -5434,6 +5453,51 @@ label, .label {
     color: rgba(255, 255, 255, 0.95);
     max-width: 640px;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Category index uses the same per-page banner sizing controls. */
+.categories-hero {
+    position: relative;
+    min-height: var(--banner-height-desktop, 0);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: var(--space-10) var(--space-6);
+}
+
+.categories-hero-image,
+.categories-hero-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.categories-hero-image {
+    object-fit: cover;
+}
+
+.categories-hero-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.categories-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-width);
+    width: 100%;
+    margin: 0 auto;
+    color: var(--color-white);
+}
+
+.categories-hero-heading {
+    margin: 0 0 var(--space-3);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.categories-hero-description {
+    margin: 0;
 }
 
 /* === Subcategories Bar === */
@@ -5510,6 +5574,12 @@ label, .label {
 @media (max-width: 767px) {
     .products-hero {
         padding: var(--space-7) 0 var(--space-6);
+        min-height: var(--banner-height-mobile, 0);
+    }
+
+    .categories-hero {
+        min-height: var(--banner-height-mobile, 0);
+        padding: var(--space-7) var(--space-4);
     }
     
     .products-hero::before {

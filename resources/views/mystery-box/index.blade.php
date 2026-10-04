@@ -9,7 +9,7 @@
     :breadcrumbs="[['label' => $mysteryContent['breadcrumb_home'], 'url' => route('home')], ['label' => $mysteryContent['breadcrumb_mystery']]]"
     :image="$siteBanners['mystery-box'] ?? null"
     :hideOverlay="$siteBannerHideOverlay['mystery-box'] ?? false"
-    height="350px"
+    banner-key="mystery-box"
 />
 
 <div class="container page-wrapper">

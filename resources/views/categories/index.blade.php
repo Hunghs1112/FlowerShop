@@ -5,7 +5,7 @@
 
 @section('content')
 <!-- Hero Banner -->
-<section class="categories-hero">
+<section class="categories-hero" style="--banner-height-desktop: {{ $siteBannerSizes['categories']['desktop'] }}px; --banner-height-mobile: {{ $siteBannerSizes['categories']['mobile'] }}px;">
     <img
         src="{{ $siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg') }}"
         alt="Danh mục sản phẩm"

@@ -7,9 +7,12 @@
     'variant' => 'default',
     'hideOverlay' => false,
     'hideContent' => false,
+    'bannerKey' => null,
 ])
 
-<section class="page-hero {{ $image ? 'page-hero--with-image' : '' }} {{ $variant === 'compact' ? 'page-hero--compact' : '' }} {{ ($hideOverlay || $hideContent) ? 'page-hero--no-overlay' : '' }}">
+@php($bannerSize = $bannerKey ? ($siteBannerSizes[$bannerKey] ?? null) : null)
+
+<section class="page-hero {{ $image ? 'page-hero--with-image' : '' }} {{ $variant === 'compact' ? 'page-hero--compact' : '' }} {{ ($hideOverlay || $hideContent) ? 'page-hero--no-overlay' : '' }}" @if($bannerSize) style="--banner-height-desktop: {{ $bannerSize['desktop'] }}px; --banner-height-mobile: {{ $bannerSize['mobile'] }}px;" @endif>
     @if($image)
         <div class="page-hero-background">
             <img 
