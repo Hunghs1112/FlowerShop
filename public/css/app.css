@@ -3563,7 +3563,8 @@ label, .label {
 /* === PAGE HERO WITH IMAGE === */
 .page-hero--with-image {
     padding: var(--space-11) 0;
-    min-height: var(--banner-height-desktop, 0);
+    height: var(--banner-height-desktop, auto);
+    box-sizing: border-box;
     background-color: var(--color-black);
 }
 
@@ -3580,7 +3581,7 @@ label, .label {
 .page-hero-background-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
 }
 
@@ -3708,7 +3709,7 @@ label, .label {
     
     .page-hero--with-image {
         padding: var(--space-8) 0;
-        min-height: var(--banner-height-mobile, 0);
+        height: var(--banner-height-mobile, auto);
     }
     
     .page-hero--compact {
@@ -3774,7 +3775,7 @@ label, .label {
 .hero-background-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
 }
 
@@ -4087,6 +4088,14 @@ label, .label {
     .hero-scroll-arrow {
         width: 22px;
         height: 22px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero {
+        height: var(--banner-height-mobile, 75vh);
+        min-height: var(--banner-height-mobile, 500px);
+        max-height: var(--banner-height-mobile, none);
     }
 }
 
@@ -5347,7 +5356,8 @@ label, .label {
 .products-hero {
     position: relative;
     padding: var(--space-10) 0 var(--space-9);
-    min-height: var(--banner-height-desktop, 0);
+    height: var(--banner-height-desktop, auto);
+    box-sizing: border-box;
     background-color: var(--color-botanical-pale);
     overflow: hidden;
 }
@@ -5370,14 +5380,13 @@ label, .label {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     z-index: 0;
 }
 
-/* Image-only category banners keep their original aspect ratio. */
+/* Image-only category banners still use the configured fixed frame. */
 .products-hero--image-only {
     padding: 0;
-    min-height: 0;
 }
 
 .products-hero--image-only::before {
@@ -5385,9 +5394,9 @@ label, .label {
 }
 
 .products-hero--image-only .products-hero-image {
-    position: relative;
+    position: absolute;
     display: block;
-    height: auto;
+    height: 100%;
 }
 
 .products-hero-overlay {
@@ -5458,7 +5467,8 @@ label, .label {
 /* Category index uses the same per-page banner sizing controls. */
 .categories-hero {
     position: relative;
-    min-height: var(--banner-height-desktop, 0);
+    height: var(--banner-height-desktop, auto);
+    box-sizing: border-box;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -5474,7 +5484,7 @@ label, .label {
 }
 
 .categories-hero-image {
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .categories-hero-overlay {
@@ -5574,11 +5584,11 @@ label, .label {
 @media (max-width: 767px) {
     .products-hero {
         padding: var(--space-7) 0 var(--space-6);
-        min-height: var(--banner-height-mobile, 0);
+        height: var(--banner-height-mobile, auto);
     }
 
     .categories-hero {
-        min-height: var(--banner-height-mobile, 0);
+        height: var(--banner-height-mobile, auto);
         padding: var(--space-7) var(--space-4);
     }
     
