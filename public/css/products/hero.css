@@ -31,6 +31,21 @@
     z-index: 0;
 }
 
+/* Image-only category banners keep their original aspect ratio. */
+.products-hero--image-only {
+    padding: 0;
+}
+
+.products-hero--image-only::before {
+    display: none;
+}
+
+.products-hero--image-only .products-hero-image {
+    position: relative;
+    display: block;
+    height: auto;
+}
+
 .products-hero-overlay {
     position: absolute;
     top: 0;

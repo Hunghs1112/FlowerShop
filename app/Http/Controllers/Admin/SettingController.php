@@ -45,6 +45,8 @@ class SettingController extends Controller
         ];
         foreach (array_keys(BannerService::BANNER_KEYS) as $bannerKey) {
             $allowedFields[] = 'banner_' . $bannerKey . '_hide_overlay';
+            $allowedFields[] = 'banner_' . $bannerKey . '_height_desktop';
+            $allowedFields[] = 'banner_' . $bannerKey . '_height_mobile';
         }
 
         if (!in_array($field, $allowedFields)) {
@@ -97,6 +99,16 @@ class SettingController extends Controller
             }
         }
 
+        if (str_ends_with($field, '_height_desktop') || str_ends_with($field, '_height_mobile')) {
+            if (!is_numeric($value) || $value < 160 || $value > 1200) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Chiều cao banner phải từ 160 đến 1200px'
+                ], 422);
+            }
+            $value = (int) $value;
+        }
+
         // Save using SettingRepository
         $this->settings->setSetting($field, $value, 'text');
 
@@ -113,12 +125,14 @@ class SettingController extends Controller
     {
 
         $settingsData = $this->settings->getAllAsArray();
-        $banners = (new BannerService)->all();
+        $bannerService = new BannerService;
+        $banners = $bannerService->all();
+        $bannerSizes = $bannerService->sizes();
 
         // Add masked SMTP password for display
         $settingsData['smtp_password_masked'] = !empty($settingsData['smtp_password'] ?? null) ? '••••••••' : '';
 
-        return view('admin.settings.index', compact('settingsData', 'banners'));
+        return view('admin.settings.index', compact('settingsData', 'banners', 'bannerSizes'));
     }
 
     public function update(Request $request)

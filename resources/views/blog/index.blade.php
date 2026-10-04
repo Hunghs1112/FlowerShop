@@ -12,7 +12,7 @@
     ]"
     :image="$siteBanners['blog'] ?? null"
     :hideOverlay="$siteBannerHideOverlay['blog'] ?? false"
-    height="420px"
+    banner-key="blog"
 />
 
 <div class="container page-wrapper">

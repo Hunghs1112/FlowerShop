@@ -336,7 +336,7 @@
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 6px;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                <strong>Kích thước khuyến nghị:</strong> 1600×600px (tỷ lệ 8:3) | <strong>Định dạng:</strong> JPG, PNG, WEBP | <strong>Dung lượng:</strong> Tối đa 4MB
+                Mỗi trang có thể đặt <strong>chiều cao riêng cho desktop và mobile</strong>. Ảnh vẫn tự phủ đầy khung; hãy chọn chiều cao phù hợp với bố cục mong muốn.
             </p>
             
             <div class="banner-settings-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
@@ -391,6 +391,27 @@
                            data-field="banner_{{ $key }}"
                            data-upload-url="{{ route('admin.settings.uploadBanner', ['key' => $key]) }}"
                            style="width: 100%; padding: 10px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 13px; cursor: pointer;">
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px;">
+                        <label style="font-size: 13px; font-weight: 600; color: var(--admin-text-primary);">
+                            Cao desktop (px)
+                            <input type="number"
+                                   name="banner_{{ $key }}_height_desktop"
+                                   value="{{ $bannerSizes[$key]['desktop'] }}"
+                                   min="160" max="1200"
+                                   class="settings-auto-save"
+                                   style="width: 100%; margin-top: 6px;">
+                        </label>
+                        <label style="font-size: 13px; font-weight: 600; color: var(--admin-text-primary);">
+                            Cao mobile (px)
+                            <input type="number"
+                                   name="banner_{{ $key }}_height_mobile"
+                                   value="{{ $bannerSizes[$key]['mobile'] }}"
+                                   min="160" max="1200"
+                                   class="settings-auto-save"
+                                   style="width: 100%; margin-top: 6px;">
+                        </label>
+                    </div>
 
                     <label style="display: flex; align-items: center; margin-top: 12px; cursor: pointer; user-select: none;">
                         <input type="checkbox"

@@ -71,6 +71,14 @@ class AppServiceProvider extends ServiceProvider
             $view->with('siteBannerHideOverlay', $hideOverlay);
         });
 
+        View::composer('*', function ($view) {
+            static $sizes = null;
+            if ($sizes === null) {
+                $sizes = app(BannerService::class)->sizes();
+            }
+            $view->with('siteBannerSizes', $sizes);
+        });
+
         // Share active categories to every view (for navbar mega menu & footer)
         View::composer('*', function ($view) {
             static $navCategories = null;

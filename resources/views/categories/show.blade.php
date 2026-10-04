@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Hero Banner -->
-<section class="products-hero {{ $category->hide_banner_content ? 'products-hero--image-only' : '' }}">
+<section class="products-hero {{ $category->hide_banner_content ? 'products-hero--image-only' : '' }}" style="--banner-height-desktop: {{ $siteBannerSizes['categories']['desktop'] }}px; --banner-height-mobile: {{ $siteBannerSizes['categories']['mobile'] }}px;">
     <img 
         src="{{ $category->banner_image ? $category->banner_image_url : ($category->image ? $category->image_url : ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg'))) }}" 
         alt="{{ $category->display_name }}"
