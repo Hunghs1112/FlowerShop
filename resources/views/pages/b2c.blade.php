@@ -3,7 +3,7 @@
 @section('title', 'Đăng ký đối tác B2C')
 
 @php
-    $b2cBanner = $siteBanners['b2c'] ?? ($siteBanners['contact'] ?? null);
+$b2cBanner = $siteBanners['b2c'] ?? null;
 @endphp
 
 @section('content')
