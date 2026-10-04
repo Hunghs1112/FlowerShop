@@ -11,6 +11,7 @@
         ['label' => 'Liên hệ']
     ]"
     :image="$pageBanner['custom'] ?? $siteBanners['contact'] ?? null"
+    :hideOverlay="$pageBanner['hide_overlay'] ?? ($siteBannerHideOverlay['contact'] ?? false)"
     height="400px"
 />
 

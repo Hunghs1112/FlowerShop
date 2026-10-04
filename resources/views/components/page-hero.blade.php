@@ -5,10 +5,11 @@
     'breadcrumbs' => [],
     'image' => null,
     'variant' => 'default',
+    'hideOverlay' => false,
     'hideContent' => false,
 ])
 
-<section class="page-hero {{ $image ? 'page-hero--with-image' : '' }} {{ $variant === 'compact' ? 'page-hero--compact' : '' }} {{ $hideContent ? 'page-hero--no-overlay' : '' }}">
+<section class="page-hero {{ $image ? 'page-hero--with-image' : '' }} {{ $variant === 'compact' ? 'page-hero--compact' : '' }} {{ ($hideOverlay || $hideContent) ? 'page-hero--no-overlay' : '' }}">
     @if($image)
         <div class="page-hero-background">
             <img 

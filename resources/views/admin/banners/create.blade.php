@@ -162,18 +162,18 @@
                         </small>
                     </div>
 
-                    {{-- Has Background --}}
+                    {{-- Hide Overlay --}}
                     <div class="form-group">
                         <label style="display: flex; align-items: center; cursor: pointer; user-select: none;">
                             <input type="checkbox" 
-                                   name="has_background" 
+                                   name="hide_overlay"
                                    value="1"
-                                   {{ old('has_background', true) ? 'checked' : '' }}
+                                   {{ old('hide_overlay', false) ? 'checked' : '' }}
                                    style="margin-right: 8px; width: 16px; height: 16px;">
-                            <span style="font-weight: 600; font-size: 14px;">Có nền overlay</span>
+                            <span style="font-weight: 600; font-size: 14px;">Ẩn overlay</span>
                         </label>
                         <small style="display: block; margin-top: 6px; color: var(--admin-text-muted); font-size: 12px;">
-                            Bỏ tick nếu banner đã có nền riêng (không cần overlay xám).
+                            Bật nếu ảnh banner đã có nền riêng và không cần lớp phủ xám.
                         </small>
                     </div>
 

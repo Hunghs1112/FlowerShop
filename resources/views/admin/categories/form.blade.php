@@ -179,9 +179,9 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                    data-entity="categories"
                                    data-id="{{ $category->id ?? '' }}"
                                    style="margin-right: 8px; width: 16px; height: 16px;">
-                            <span style="font-weight: 600; font-size: 14px;">Ẩn overlay và nội dung trên banner</span>
+                            <span style="font-weight: 600; font-size: 14px;">Ẩn overlay</span>
                         </label>
-                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Chỉ hiển thị ảnh banner, giống tùy chọn không overlay ở hero trang chủ.</small>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Chỉ hiển thị ảnh banner, đồng thời ẩn nội dung phủ trên ảnh.</small>
                         
                         <div id="bannerImagePreview" style="margin-top: 12px;"></div>
                     </div>

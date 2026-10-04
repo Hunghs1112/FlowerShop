@@ -16,6 +16,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
             ['label' => 'Đăng ký B2C'],
         ]"
         :image="$b2cBanner"
+        :hideOverlay="$siteBannerHideOverlay['b2c'] ?? false"
         height="420px"
     />
 

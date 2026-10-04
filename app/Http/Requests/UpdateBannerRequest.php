@@ -22,6 +22,7 @@ class UpdateBannerRequest extends FormRequest
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
             'has_background' => 'boolean',
+            'hide_overlay' => 'boolean',
         ];
     }
 
@@ -43,7 +44,8 @@ class UpdateBannerRequest extends FormRequest
         // Set boolean defaults
         $this->merge([
             'is_active' => $this->boolean('is_active'),
-            'has_background' => $this->boolean('has_background'),
+            'hide_overlay' => $this->boolean('hide_overlay'),
+            'has_background' => !$this->boolean('hide_overlay'),
         ]);
     }
 }

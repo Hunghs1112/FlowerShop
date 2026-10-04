@@ -117,7 +117,7 @@ class PageController extends Controller
         return $this->handleAjaxFieldUpdate($request, $page, [
             'allowed_fields' => [
                 'title', 'slug', 'content', 'is_active',
-                'meta_title', 'meta_description', 'header_image'
+                'meta_title', 'meta_description', 'header_image', 'hide_header_overlay'
             ],
             'rules' => [
                 'title' => 'required|string|max:255',
@@ -127,6 +127,7 @@ class PageController extends Controller
                 'meta_title' => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',
                 'header_image' => 'nullable|string|max:500',
+                'hide_header_overlay' => 'boolean',
             ],
         ]);
     }

@@ -22,6 +22,7 @@ class StorePageRequest extends FormRequest
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'header_image' => 'nullable|string|max:500',
+            'hide_header_overlay' => 'boolean',
         ];
     }
 
@@ -47,6 +48,7 @@ class StorePageRequest extends FormRequest
         // Set boolean defaults
         $this->merge([
             'is_active' => $this->boolean('is_active', true),
+            'hide_header_overlay' => $this->boolean('hide_header_overlay'),
         ]);
     }
 }

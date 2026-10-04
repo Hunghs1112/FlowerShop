@@ -20,7 +20,7 @@ class PageController extends Controller
 
         // Use page's own header_image if set, otherwise fallback to default banner
         $pageBanner = $introPage && $introPage->header_image_url
-            ? ['custom' => $introPage->header_image_url]
+            ? ['custom' => $introPage->header_image_url, 'hide_overlay' => $introPage->hide_header_overlay]
             : [];
 
         return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner'));
@@ -32,7 +32,7 @@ class PageController extends Controller
         $contactPage = Page::where('slug', 'lien-he')->active()->first();
 
         $pageBanner = $contactPage?->header_image_url
-            ? ['custom' => $contactPage->header_image_url]
+            ? ['custom' => $contactPage->header_image_url, 'hide_overlay' => $contactPage->hide_header_overlay]
             : [];
 
         return view('pages.contact', compact('siteInfo', 'contactPage', 'pageBanner'));
@@ -69,7 +69,7 @@ class PageController extends Controller
 
         // Use page's own header_image if set, otherwise fallback to default banner
         $pageBanner = $page->header_image_url
-            ? ['custom' => $page->header_image_url]
+            ? ['custom' => $page->header_image_url, 'hide_overlay' => $page->hide_header_overlay]
             : [];
 
         return view('pages.policy', compact('page', 'pageBanner'));

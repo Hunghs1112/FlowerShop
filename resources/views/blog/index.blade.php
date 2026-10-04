@@ -11,6 +11,7 @@
         ['label' => 'Bài viết']
     ]"
     :image="$siteBanners['blog'] ?? null"
+    :hideOverlay="$siteBannerHideOverlay['blog'] ?? false"
     height="420px"
 />
 

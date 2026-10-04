@@ -349,6 +349,7 @@
                     'about'      => ['Giới thiệu', 'ℹ️'],
                     'contact'    => ['Liên hệ', '📞'],
                     'b2c'        => ['B2C', '🏪'],
+                    'mystery-box' => ['Mystery Box', '🎁'],
                     'cart'       => ['Giỏ hàng', '🛒'],
                     'checkout'   => ['Thanh toán', '💳'],
                 ];
@@ -390,6 +391,17 @@
                            data-field="banner_{{ $key }}"
                            data-upload-url="{{ route('admin.settings.uploadBanner', ['key' => $key]) }}"
                            style="width: 100%; padding: 10px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 13px; cursor: pointer;">
+
+                    <label style="display: flex; align-items: center; margin-top: 12px; cursor: pointer; user-select: none;">
+                        <input type="checkbox"
+                               name="banner_{{ $key }}_hide_overlay"
+                               value="1"
+                               {{ old('banner_' . $key . '_hide_overlay', $settingsData['banner_' . $key . '_hide_overlay'] ?? false) ? 'checked' : '' }}
+                               class="settings-auto-save-checkbox"
+                               style="margin-right: 8px; width: 16px; height: 16px;">
+                        <span style="font-weight: 600; font-size: 14px;">Ẩn overlay</span>
+                    </label>
+                    <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Chỉ hiển thị ảnh, không phủ lớp xám lên banner.</small>
                 </div>
                 @endforeach
             </div>

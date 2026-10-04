@@ -43,6 +43,9 @@ class SettingController extends Controller
             'order_notification_email', 'contact_form_email', 'zalo_oa_id', 'zalo_access_token',
             'google_analytics'
         ];
+        foreach (array_keys(BannerService::BANNER_KEYS) as $bannerKey) {
+            $allowedFields[] = 'banner_' . $bannerKey . '_hide_overlay';
+        }
 
         if (!in_array($field, $allowedFields)) {
             return response()->json([
@@ -52,7 +55,14 @@ class SettingController extends Controller
         }
 
         // Handle checkbox fields (boolean)
-        $booleanFields = ['email_notification_enabled', 'zalo_notification_enabled'];
+        $booleanFields = [
+            'email_notification_enabled',
+            'zalo_notification_enabled',
+            ...array_map(
+                fn (string $key) => 'banner_' . $key . '_hide_overlay',
+                array_keys(BannerService::BANNER_KEYS)
+            ),
+        ];
         if (in_array($field, $booleanFields)) {
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
         }

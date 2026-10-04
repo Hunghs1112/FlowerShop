@@ -11,6 +11,7 @@
         ['label' => 'Về chúng tôi']
     ]"
     :image="$pageBanner['custom'] ?? $siteBanners['about'] ?? null"
+    :hideOverlay="$pageBanner['hide_overlay'] ?? ($siteBannerHideOverlay['about'] ?? false)"
     height="400px"
 />
 
