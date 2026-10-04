@@ -12,6 +12,7 @@
         ['label' => 'Thanh toán']
     ]"
     :image="$siteBanners['checkout'] ?? null"
+    :hideOverlay="$siteBannerHideOverlay['checkout'] ?? false"
     height="350px"
 />
 

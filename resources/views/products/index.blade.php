@@ -6,13 +6,13 @@
 <!-- Page Hero - Unified Style -->
 @if(isset($breadcrumb) && !empty($breadcrumb))
     {{-- Category page with full breadcrumb --}}
-    <section class="products-hero">
+    <section class="products-hero {{ $activeCategory?->hide_banner_content ? 'products-hero--image-only' : '' }}">
         <img 
             src="{{ $bannerImage ?? ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg')) }}" 
             alt="{{ $activeCategory->display_name ?? 'Sản phẩm' }}"
             class="products-hero-image"
         >
-        @unless($activeCategory?->hide_banner_content)
+        @unless($activeCategory?->hide_banner_content || ($siteBannerHideOverlay['categories'] ?? false))
         <div class="products-hero-overlay"></div>
         @endunless
         <div class="products-hero-content {{ $activeCategory?->hide_banner_content ? 'products-hero-content--hidden' : '' }}" @if($activeCategory?->hide_banner_content) aria-hidden="true" @endif>
@@ -61,6 +61,7 @@
             ['label' => $activeCategory ? $activeCategory->display_name : content('breadcrumb_all_products', 'Tất cả sản phẩm')]
         ]"
         :image="$bannerImage ?? null"
+        :hideOverlay="$siteBannerHideOverlay['categories'] ?? false"
         :hide-content="$activeCategory?->hide_banner_content ?? false"
     />
 @endif

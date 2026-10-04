@@ -4,13 +4,13 @@
 
 @section('content')
 <!-- Hero Banner -->
-<section class="products-hero">
+<section class="products-hero {{ $category->hide_banner_content ? 'products-hero--image-only' : '' }}">
     <img 
         src="{{ $category->banner_image ? $category->banner_image_url : ($category->image ? $category->image_url : ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg'))) }}" 
         alt="{{ $category->display_name }}"
         class="products-hero-image"
     >
-    @unless($category->hide_banner_content)
+    @unless($category->hide_banner_content || ($siteBannerHideOverlay['categories'] ?? false))
     <div class="products-hero-overlay"></div>
     <div class="products-hero-content">
         <div class="products-breadcrumb">

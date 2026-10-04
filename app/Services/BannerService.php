@@ -18,6 +18,7 @@ class BannerService
         'about'      => 'images/banners/about-hero.jpg',
         'contact'    => 'images/banners/contact-hero.jpg',
         'b2c'        => 'images/banners/b2c-hero.jpg',
+        'mystery-box' => 'images/banners/mystery-box-hero.jpg',
         'cart'       => 'images/banners/cart-hero.jpg',
         'checkout'   => 'images/banners/checkout-hero.png',
     ];

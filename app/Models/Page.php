@@ -12,10 +12,12 @@ class Page extends Model
         'content',
         'is_active',
         'header_image',
+        'hide_header_overlay',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'hide_header_overlay' => 'boolean',
     ];
 
     // Scopes

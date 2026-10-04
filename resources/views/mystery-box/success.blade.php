@@ -12,6 +12,7 @@
         ['label' => 'Thành công']
     ]"
     :image="$siteBanners['mystery-box'] ?? null"
+    :hideOverlay="$siteBannerHideOverlay['mystery-box'] ?? false"
     height="350px"
 />
 

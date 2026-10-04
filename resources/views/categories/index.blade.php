@@ -11,7 +11,9 @@
         alt="Danh mục sản phẩm"
         class="categories-hero-image"
     >
+    @unless($siteBannerHideOverlay['categories'] ?? false)
     <div class="categories-hero-overlay"></div>
+    @endunless
     <div class="categories-hero-content">
         <h1 class="categories-hero-heading">Danh mục sản phẩm</h1>
         <p class="categories-hero-description">Khám phá các danh mục hoa tươi đa dạng của chúng tôi</p>

@@ -12,6 +12,7 @@
         ['label' => Str::limit($post->title, 30)]
     ]"
     :image="$siteBanners['blog'] ?? null"
+    :hideOverlay="$siteBannerHideOverlay['blog'] ?? false"
     height="350px"
 />
 

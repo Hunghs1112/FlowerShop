@@ -11,6 +11,7 @@
         ['label' => 'Giỏ hàng']
     ]"
     :image="$siteBanners['cart'] ?? null"
+    :hideOverlay="$siteBannerHideOverlay['cart'] ?? false"
     height="350px"
 />
 

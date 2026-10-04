@@ -156,6 +156,19 @@
                     </div>
 
                     <input type="hidden" name="header_image" value="{{ $page->header_image ?? '' }}" id="headerImageValue">
+
+                    <label style="display: flex; align-items: center; margin-top: 12px; cursor: pointer; user-select: none;">
+                        <input type="checkbox"
+                               name="hide_header_overlay"
+                               value="1"
+                               {{ old('hide_header_overlay', $page->hide_header_overlay ?? false) ? 'checked' : '' }}
+                               class="auto-save-checkbox"
+                               data-entity="pages"
+                               data-id="{{ $page->id ?? '' }}"
+                               style="margin-right: 8px; width: 16px; height: 16px;">
+                        <span style="font-weight: 600; font-size: 14px;">Ẩn overlay</span>
+                    </label>
+                    <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Chỉ hiển thị ảnh header, không phủ lớp xám lên banner.</small>
                 </div>
             </div>
         </div>
