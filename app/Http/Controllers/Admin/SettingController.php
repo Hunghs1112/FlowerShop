@@ -160,6 +160,7 @@ class SettingController extends Controller
             'banner_blog'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
             'banner_about'      => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
             'banner_contact'    => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_b2c'        => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
             'banner_cart'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
             'banner_checkout'   => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
         ]);

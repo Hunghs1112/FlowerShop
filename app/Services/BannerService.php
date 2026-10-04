@@ -17,6 +17,7 @@ class BannerService
         'blog'       => 'images/banners/blog-hero.jpg',
         'about'      => 'images/banners/about-hero.jpg',
         'contact'    => 'images/banners/contact-hero.jpg',
+        'b2c'        => 'images/banners/b2c-hero.jpg',
         'cart'       => 'images/banners/cart-hero.jpg',
         'checkout'   => 'images/banners/checkout-hero.png',
     ];
@@ -94,6 +95,7 @@ class BannerService
             'blog.show'      => 'blog',
             'about'          => 'about',
             'contact'        => 'contact',
+            'b2c'            => 'b2c',
             'cart.index'     => 'cart',
             'checkout.index' => 'checkout',
             'checkout.success' => 'checkout',

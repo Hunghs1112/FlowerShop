@@ -28,6 +28,7 @@ class SettingSeeder extends Seeder
             ['key' => 'banner_blog', 'value' => 'images/banners/blog-hero.jpg', 'type' => 'image'],
             ['key' => 'banner_about', 'value' => 'images/banners/about-hero.jpg', 'type' => 'image'],
             ['key' => 'banner_contact', 'value' => 'images/banners/contact-hero.jpg', 'type' => 'image'],
+            ['key' => 'banner_b2c', 'value' => 'images/banners/b2c-hero.jpg', 'type' => 'image'],
             ['key' => 'banner_cart', 'value' => 'images/banners/cart-hero.jpg', 'type' => 'image'],
             ['key' => 'banner_checkout', 'value' => 'images/banners/checkout-hero.png', 'type' => 'image'],
         ];
