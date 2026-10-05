@@ -24,7 +24,7 @@
         </div>
     @endif
     
-    <div class="page-hero-container container {{ $hideContent ? 'page-hero-container--hidden' : '' }}" @if($hideContent) aria-hidden="true" @endif>
+    <div class="page-hero-container container {{ ($hideOverlay || $hideContent) ? 'page-hero-container--hidden' : '' }}" @if($hideOverlay || $hideContent) aria-hidden="true" @endif>
         @if(count($breadcrumbs) > 0)
             <nav class="page-hero-breadcrumb" aria-label="Breadcrumb">
                 @foreach($breadcrumbs as $index => $breadcrumb)
