@@ -9,7 +9,7 @@
             <p class="origin-story__eyebrow">Our flower atlas · 09</p>
             <h1 id="originStoryTitle">Chín vùng đất,<br><em>một điểm đến</em></h1>
             <p class="origin-story__tagline">From remarkable places, to beautiful spaces.</p>
-            <p class="origin-story__lead">Lâm Nhiên Thảo tuyển chọn hoa từ những vùng trồng nổi tiếng nhất thế giới và đưa về TP. Hồ Chí Minh. Chạm vào từng điểm trên bản đồ để khám phá hành trình của mỗi loài hoa.</p>
+            <p class="origin-story__lead">Lâm Nhiên Thảo tuyển chọn hoa từ những vùng trồng nổi tiếng nhất thế giới và đưa về Hà Nội. Chạm vào từng điểm trên bản đồ để khám phá hành trình của mỗi loài hoa.</p>
 
             <p class="origin-story__hint">
                 <span aria-hidden="true"></span>
@@ -22,7 +22,7 @@
             <div class="flower-atlas__map">
                 <svg viewBox="0 0 1000 520" role="group" aria-labelledby="flowerMapTitle flowerMapDescription">
                     <title id="flowerMapTitle">Bản đồ chín vùng hoa của Lâm Nhiên Thảo</title>
-                    <desc id="flowerMapDescription">Chín đường bay kết nối các vùng trồng hoa trên thế giới về TP. Hồ Chí Minh.</desc>
+                    <desc id="flowerMapDescription">Chín đường bay kết nối các vùng trồng hoa trên thế giới về Hà Nội.</desc>
 
                     <defs>
                         <pattern id="atlasDots" width="11" height="11" patternUnits="userSpaceOnUse">
@@ -58,11 +58,11 @@
                         <path class="flight-route" data-region="new-zealand" style="--route-index:8" pathLength="1" d="M957 449 Q951 303 813 238" />
                     </g>
 
-                    <g class="hanoi-marker" aria-label="Điểm đến TP. Hồ Chí Minh">
+                    <g class="hanoi-marker" aria-label="Điểm đến Hà Nội">
                         <circle class="hanoi-marker__ring hanoi-marker__ring--one" cx="813" cy="238" r="13" />
                         <circle class="hanoi-marker__ring hanoi-marker__ring--two" cx="813" cy="238" r="13" />
                         <circle class="hanoi-marker__core" cx="813" cy="238" r="7" />
-                        <text x="830" y="229">TP. Hồ Chí Minh</text>
+                        <text x="830" y="229">Hà Nội</text>
                     </g>
 
                     <g class="flower-atlas__pins">
