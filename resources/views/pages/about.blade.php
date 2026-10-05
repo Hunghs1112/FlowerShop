@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @php
-    $categoryFor = fn (string $country) => $categories->get($country === 'vn' ? 'hoa-tuoi-moi' : 'hoa-nhap-khau');
+    $categoryFor = fn (string $country) => $flowerCategories->get($country);
     $flowers = [
         ['id' => 'cn', 'country' => 'Trung Quốc', 'flower' => 'Mao lương', 'latin' => 'Ranunculus asiaticus', 'region' => 'Vân Nam', 'coord' => '24.88°N, 102.83°E', 'image' => 'images/instagram/flowers-2.jpg'],
         ['id' => 'nl', 'country' => 'Hà Lan', 'flower' => 'Tulip', 'latin' => 'Tulipa gesneriana', 'region' => 'Aalsmeer', 'coord' => '52.26°N, 4.76°E', 'image' => 'images/products/hoa-tulip.jpg'],

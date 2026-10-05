@@ -20,7 +20,6 @@ class PageController extends Controller
     {
         $siteInfo  = $this->settingService->getSiteInfo();
         $introPage = Page::where('slug', 'gioi-thieu')->active()->first();
-
         // Use page's own header_image if set, otherwise fallback to default banner
         $pageBanner = $introPage && $introPage->header_image_url
             ? ['custom' => $introPage->header_image_url, 'hide_overlay' => $introPage->hide_header_overlay]
@@ -41,7 +40,6 @@ class PageController extends Controller
             });
             return [$country => $category ?: $categories->firstWhere('slug', $country === 'vn' ? 'hoa-tuoi-moi' : 'hoa-nhap-khau')];
         });
-
         return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowers', 'categories', 'flowerCategories'));
     }
 
