@@ -47,22 +47,22 @@
                     </g>
 
                     <g class="flower-atlas__routes" aria-hidden="true">
-                        <path class="flight-route" data-region="netherlands" style="--route-index:0" pathLength="1" d="M500 127 Q665 76 813 238" />
-                        <path class="flight-route" data-region="ecuador" style="--route-index:1" pathLength="1" d="M280 300 Q535 112 813 238" />
-                        <path class="flight-route" data-region="south-africa" style="--route-index:2" pathLength="1" d="M548 389 Q650 236 813 238" />
-                        <path class="flight-route" data-region="china" style="--route-index:3" pathLength="1" d="M773 188 Q805 201 813 238" />
-                        <path class="flight-route" data-region="japan" style="--route-index:4" pathLength="1" d="M879 174 Q835 175 813 238" />
-                        <path class="flight-route" data-region="malaysia" style="--route-index:5" pathLength="1" d="M773 306 Q782 263 813 238" />
-                        <path class="flight-route" data-region="vietnam" style="--route-index:6" pathLength="1" d="M798 274 Q820 259 813 238" />
-                        <path class="flight-route" data-region="colombia" style="--route-index:7" pathLength="1" d="M235 282 Q520 118 813 238" />
-                        <path class="flight-route" data-region="new-zealand" style="--route-index:8" pathLength="1" d="M957 449 Q951 303 813 238" />
+                        <path class="flight-route" data-region="netherlands" style="--route-index:0" pathLength="1" d="M500 127 Q665 76 790 250" />
+                        <path class="flight-route" data-region="ecuador" style="--route-index:1" pathLength="1" d="M280 300 Q535 112 790 250" />
+                        <path class="flight-route" data-region="south-africa" style="--route-index:2" pathLength="1" d="M548 389 Q650 236 790 250" />
+                        <path class="flight-route" data-region="china" style="--route-index:3" pathLength="1" d="M773 188 Q805 201 790 250" />
+                        <path class="flight-route" data-region="japan" style="--route-index:4" pathLength="1" d="M879 174 Q835 175 790 250" />
+                        <path class="flight-route" data-region="malaysia" style="--route-index:5" pathLength="1" d="M773 306 Q782 263 790 250" />
+                        <path class="flight-route" data-region="vietnam" style="--route-index:6" pathLength="1" d="M798 274 Q790 260 790 250" />
+                        <path class="flight-route" data-region="colombia" style="--route-index:7" pathLength="1" d="M235 282 Q520 118 790 250" />
+                        <path class="flight-route" data-region="new-zealand" style="--route-index:8" pathLength="1" d="M957 449 Q951 303 790 250" />
                     </g>
 
                     <g class="hanoi-marker" aria-label="Điểm đến Hà Nội">
-                        <circle class="hanoi-marker__ring hanoi-marker__ring--one" cx="813" cy="238" r="13" />
-                        <circle class="hanoi-marker__ring hanoi-marker__ring--two" cx="813" cy="238" r="13" />
-                        <circle class="hanoi-marker__core" cx="813" cy="238" r="7" />
-                        <text x="830" y="229">Hà Nội</text>
+                        <circle class="hanoi-marker__ring hanoi-marker__ring--one" cx="790" cy="250" r="13" />
+                        <circle class="hanoi-marker__ring hanoi-marker__ring--two" cx="790" cy="250" r="13" />
+                        <circle class="hanoi-marker__core" cx="790" cy="250" r="7" />
+                        <text x="807" y="241">Hà Nội</text>
                     </g>
 
                     <g class="flower-atlas__pins">
