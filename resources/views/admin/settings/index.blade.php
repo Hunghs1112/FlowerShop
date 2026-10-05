@@ -348,7 +348,7 @@
                     'blog'       => ['Bài viết', '📝'],
                     'about'      => ['Giới thiệu', 'ℹ️'],
                     'contact'    => ['Liên hệ', '📞'],
-                    'b2c'        => ['B2C', '🏪'],
+                    'b2c'        => ['B2B', '🏪'],
                     'mystery-box' => ['Mystery Box', '🎁'],
                     'cart'       => ['Giỏ hàng', '🛒'],
                     'checkout'   => ['Thanh toán', '💳'],

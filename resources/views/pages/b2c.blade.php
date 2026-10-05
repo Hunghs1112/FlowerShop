@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Đăng ký đối tác B2C')
+@section('title', 'Đăng ký đối tác B2B')
 
 @php
 $b2cBanner = $siteBanners['b2c'] ?? null;
@@ -8,12 +8,12 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
 @section('content')
     <x-page-hero
-        title="Đăng ký đối tác B2C"
-        description="Trở thành đối tác B2C của Lâm Nhiên Thảo để tiếp cận nguồn hoa tươi chất lượng, giá xuất xưởng cùng nhiều ưu đãi độc quyền dành cho cửa hàng và thợ cắm hoa."
-        label="B2C Partnership"
+        title="Đăng ký đối tác B2B"
+        description="Trở thành đối tác B2B của Lâm Nhiên Thảo để tiếp cận nguồn hoa tươi chất lượng, giá xuất xưởng cùng nhiều ưu đãi độc quyền dành cho cửa hàng và thợ cắm hoa."
+        label="B2B Partnership"
         :breadcrumbs="[
             ['label' => 'Trang chủ', 'url' => route('home')],
-            ['label' => 'Đăng ký B2C'],
+            ['label' => 'Đăng ký B2B'],
         ]"
         :image="$b2cBanner"
         :hideOverlay="$siteBannerHideOverlay['b2c'] ?? false"
@@ -35,7 +35,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                     <h2 class="b2c-sidebar-title">Đối tác tin cậy của hơn 500+ cửa hàng hoa</h2>
                     <p class="b2c-sidebar-text">
                         Chúng tôi cung cấp nguồn hoa tươi ổn định với giá xuất xưởng, hỗ trợ vận chuyển nhanh
-                        và chính sách đổi trả linh hoạt dành riêng cho đối tác B2C.
+                        và chính sách đổi trả linh hoạt dành riêng cho đối tác B2B.
                     </p>
 
                     <ul class="b2c-benefits">
@@ -99,7 +99,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                             </div>
                             <h2>Đăng ký thành công!</h2>
                             <p>
-                                Cảm ơn bạn đã đăng ký làm đối tác B2C của Lâm Nhiên Thảo.<br>
+                                Cảm ơn bạn đã đăng ký làm đối tác B2B của Lâm Nhiên Thảo.<br>
                                 Đội ngũ của chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ làm việc.
                             </p>
                             <a href="{{ route('home') }}" class="btn btn-primary btn-lg">Về trang chủ</a>
@@ -377,7 +377,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                     </div>
                                     <h2>Đăng ký thành công!</h2>
                                     <p id="b2cSuccessMessage">
-                                        Cảm ơn bạn đã đăng ký làm đối tác B2C của Lâm Nhiên Thảo.<br>
+                                        Cảm ơn bạn đã đăng ký làm đối tác B2B của Lâm Nhiên Thảo.<br>
                                         Đội ngũ của chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ làm việc.
                                     </p>
                                     <div class="b2c-success-actions">
@@ -410,7 +410,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
     <style>
         /* ==========================================================================
-           B2C Section
+           B2B Section
            ========================================================================== */
         .b2c-section {
             padding: var(--space-9) 0 var(--space-10);
@@ -1143,7 +1143,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                     // Other failure
                     throw new Error(data.message || 'Có lỗi xảy ra, vui lòng thử lại.');
                 } catch (err) {
-                    console.error('[B2C] Submit error:', err);
+                    console.error('[B2B] Submit error:', err);
                     const errorPanel  = panels.error;
                     const errorMsgEl  = document.getElementById('b2cErrorMessage');
                     if (errorMsgEl) {
