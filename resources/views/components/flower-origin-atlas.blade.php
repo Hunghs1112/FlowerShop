@@ -18,18 +18,7 @@
         </header>
 
         <div class="flower-atlas">
-            @php
-                $flowers = [
-                    ['id' => 'netherlands', 'x' => 500, 'y' => 127, 'country' => 'Hà Lan', 'flower' => 'Tulip', 'latin' => 'Tulipa gesneriana', 'region' => 'Aalsmeer', 'coordinate' => '52.26°N, 4.76°E', 'image' => 'images/products/product-4.jpg'],
-                    ['id' => 'ecuador', 'x' => 280, 'y' => 300, 'country' => 'Ecuador', 'flower' => 'Hoa hồng', 'latin' => 'Rosa hybrida', 'region' => 'Cayambe', 'coordinate' => '0.04°N, 78.14°W', 'image' => 'images/products/product-1.jpg'],
-                    ['id' => 'south-africa', 'x' => 548, 'y' => 389, 'country' => 'Nam Phi', 'flower' => 'Protea vua', 'latin' => 'Protea cynaroides', 'region' => 'Western Cape', 'coordinate' => '33.92°S, 18.42°E', 'image' => 'images/products/product-2.jpg'],
-                    ['id' => 'china', 'x' => 773, 'y' => 188, 'country' => 'Trung Quốc', 'flower' => 'Mao lương', 'latin' => 'Ranunculus asiaticus', 'region' => 'Vân Nam', 'coordinate' => '24.88°N, 102.83°E', 'image' => 'images/instagram/flowers-2.jpg'],
-                    ['id' => 'japan', 'x' => 879, 'y' => 174, 'country' => 'Nhật Bản', 'flower' => 'Cúc zinnia', 'latin' => 'Zinnia elegans', 'region' => 'Tokyo', 'coordinate' => '35.68°N, 139.69°E', 'image' => 'images/products/hoa-cam-chuong.jpg'],
-                    ['id' => 'malaysia', 'x' => 773, 'y' => 306, 'country' => 'Malaysia', 'flower' => 'Cúc mẫu đơn', 'latin' => 'Chrysanthemum morifolium', 'region' => 'Cameron Highlands', 'coordinate' => '4.47°N, 101.38°E', 'image' => 'images/products/product-3.jpg'],
-                    ['id' => 'vietnam', 'x' => 798, 'y' => 274, 'country' => 'Việt Nam', 'flower' => 'Lan hồ điệp', 'latin' => 'Phalaenopsis', 'region' => 'Đà Lạt', 'coordinate' => '11.94°N, 108.44°E', 'image' => 'images/instagram/flowers-6.jpg'],
-                    ['id' => 'new-zealand', 'x' => 957, 'y' => 449, 'country' => 'New Zealand', 'flower' => 'Mẫu đơn', 'latin' => 'Paeonia lactiflora', 'region' => 'Canterbury', 'coordinate' => '43.53°S, 172.64°E', 'image' => 'images/products/hoa-mau-don.jpg'],
-                ];
-            @endphp
+            @php($flowers = $flowers ?? collect())
             <div class="flower-atlas__map">
                 <svg viewBox="0 0 1000 520" role="group" aria-labelledby="flowerMapTitle flowerMapDescription">
                     <title id="flowerMapTitle">Bản đồ tám vùng hoa của Lâm Nhiên Thảo</title>
@@ -116,7 +105,7 @@
                         data-latin="{{ $flower['latin'] }}"
                         data-growing-region="{{ $flower['region'] }}"
                         data-coordinate="{{ $flower['coordinate'] }}"
-                        data-image="{{ asset($flower['image']) }}"
+                        data-image="{{ $flower->image_url }}"
                         aria-selected="{{ $index === 0 ? 'true' : 'false' }}"
                     >
                         <span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>{{ $flower['country'] }}

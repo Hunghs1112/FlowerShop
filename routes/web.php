@@ -140,6 +140,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+    Route::resource('flower-origins', \App\Http\Controllers\Admin\FlowerOriginController::class)->except('show');
     Route::post('pages/{page}/upload-header-image', [\App\Http\Controllers\Admin\PageController::class, 'uploadHeaderImage'])->name('pages.uploadHeaderImage');
     Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
 
