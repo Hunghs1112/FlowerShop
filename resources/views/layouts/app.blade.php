@@ -8,7 +8,7 @@
     <title>@yield('title', $siteSettings['site_name'] ?? config('app.name')) - {{ $siteSettings['site_name'] ?? config('app.name') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/chat-button.css') }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
