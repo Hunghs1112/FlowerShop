@@ -71,7 +71,6 @@
 .origin-atlas-reference__hint span { background: var(--atlas-ref-card); border: 2px solid var(--atlas-ref-copper); border-radius: 50%; height: 10px; width: 10px; }
 .origin-atlas-reference__map-wrap { min-width: 0; position: relative; }
 .origin-atlas-reference__map-wrap svg { display: block; height: auto; overflow: visible; width: 100%; }
-.origin-atlas-reference__land { fill: url(#atlasReferenceDots); }
 .origin-atlas-reference__arc { fill: none; stroke: var(--atlas-ref-copper); stroke-dasharray: 1; stroke-dashoffset: 1; stroke-width: 2.2; opacity: .55; animation: atlas-reference-draw 1.6s cubic-bezier(.6,.05,.3,1) forwards; animation-delay: calc(.4s + var(--arc-delay)); transition: opacity .3s, stroke-width .3s; }
 .origin-atlas-reference__arc.is-active { opacity: 1; stroke-width: 3.6; }
 @keyframes atlas-reference-draw { to { stroke-dashoffset: 0; } }
