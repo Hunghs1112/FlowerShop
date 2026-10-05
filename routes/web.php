@@ -35,11 +35,12 @@ Route::get('/bai-viet', [PostController::class, 'index'])->name('blog.index');
 Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show');
 
 // Pages
-Route::get('/ve-chung-toi', [PageController::class, 'about'])->name('about');
+Route::get('/gioi-thieu', [PageController::class, 'about'])->name('about');
+Route::redirect('/ve-chung-toi', '/gioi-thieu');
 Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
 Route::post('/lien-he', [PageController::class, 'contactSubmit'])->name('contact.store');
 Route::redirect('/trang/lien-he', '/lien-he');
-Route::redirect('/trang/gioi-thieu', '/ve-chung-toi');
+Route::redirect('/trang/gioi-thieu', '/gioi-thieu');
 Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
 // Cart
