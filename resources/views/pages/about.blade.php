@@ -264,5 +264,8 @@
     </div>
 </div>
 
+@push('scripts')
+<script src="{{ asset('js/about-map.js') }}" defer></script>
+@endpush
 
 @endsection
