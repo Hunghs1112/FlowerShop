@@ -13,7 +13,11 @@
         const tab = tabs.find((item) => item.dataset.id === id);
         if (!tab) return;
         tabs.forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
-        pins.forEach((pin) => pin.classList.toggle('on', pin.dataset.id === id));
+        pins.forEach((pin) => {
+            const active = pin.dataset.id === id;
+            pin.classList.toggle('on', active);
+            pin.setAttribute('aria-pressed', String(active));
+        });
         arcs.forEach((arc) => arc.classList.toggle('on', arc.dataset.id === id));
         fields.image.src = tab.dataset.image;
         fields.image.alt = `${tab.dataset.flower} từ ${tab.dataset.country}`;

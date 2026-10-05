@@ -62,12 +62,12 @@
                     <path class="arc" data-id="{{ $flower['id'] }}" style="--d: {{ $index * .12 }}s" pathLength="1" d="M{{ 100 + ($index * 86) }} {{ 70 + (($index * 31) % 300) }} Q{{ 520 + (($index * 13) % 100) }} {{ 100 + (($index * 17) % 170) }} 805 238" />
                 @endforeach
             </g>
-            <g class="home pin" id="hn" tabindex="0" role="button" aria-label="Lâm Nhiên Thảo, điểm đến Hà Nội" data-id="hn">
-                <circle class="hit" cx="805" cy="238" r="28" /><circle class="ring" cx="805" cy="238" r="13" /><circle class="ring" cx="805" cy="238" r="13" /><circle class="core" cx="805" cy="238" r="7" /><text x="824" y="229">Hà Nội</text>
+            <g class="home" id="hn" aria-label="Điểm đến Hà Nội">
+                <circle class="ring" cx="805" cy="238" r="13" /><circle class="core" cx="805" cy="238" r="7" /><text x="824" y="229">Hà Nội</text>
             </g>
             @foreach($flowers as $index => $flower)
                 @php $x = 100 + ($index * 86); $y = 70 + (($index * 31) % 300); @endphp
-                <g class="pin" data-id="{{ $flower['id'] }}" tabindex="0" role="button" aria-label="{{ $flower['country'] }}: {{ $flower['flower'] }}">
+                <g class="pin" data-id="{{ $flower['id'] }}" tabindex="0" role="button" aria-pressed="false" aria-label="{{ $flower['country'] }}: {{ $flower['flower'] }}">
                     <circle class="hit" cx="{{ $x }}" cy="{{ $y }}" r="24" /><circle class="dot" cx="{{ $x }}" cy="{{ $y }}" r="7" /><text x="{{ $x }}" y="{{ $y - 17 }}">{{ $flower['country'] }}</text>
                 </g>
             @endforeach
@@ -88,5 +88,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/about-map.js') }}" defer></script>
+<script src="{{ asset('js/about-map.js') }}?v=2" defer></script>
 @endpush
