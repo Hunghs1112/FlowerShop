@@ -22,6 +22,10 @@ return new class extends Migration
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('flower_origins')
+            ->where('slug', 'new-zealand')
+            ->update(['sort_order' => 9, 'updated_at' => now()]);
     }
 
     public function down(): void
