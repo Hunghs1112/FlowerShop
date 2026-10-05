@@ -3,21 +3,25 @@
 @php
     $categoryFor = fn (string $country) => $flowerCategories->get($country);
     $flowers = [
-        ['id' => 'cn', 'country' => 'Trung Quốc', 'flower' => 'Mao lương', 'latin' => 'Ranunculus asiaticus', 'region' => 'Vân Nam', 'coord' => '24.88°N, 102.83°E', 'image' => 'images/instagram/flowers-2.jpg', 'map' => [800, 190, 800, 171]],
-        ['id' => 'nl', 'country' => 'Hà Lan', 'flower' => 'Tulip', 'latin' => 'Tulipa gesneriana', 'region' => 'Aalsmeer', 'coord' => '52.26°N, 4.76°E', 'image' => 'images/products/hoa-tulip.jpg', 'map' => [622, 132, 622, 113]],
-        ['id' => 'ec', 'country' => 'Ecuador', 'flower' => 'Hoa hồng', 'latin' => 'Rosa hybrida', 'region' => 'Cayambe', 'coord' => '0.04°N, 78.14°W', 'image' => 'images/products/hoa-hong-do-ecuador.jpg', 'map' => [314, 338, 314, 319]],
-        ['id' => 'za', 'country' => 'Nam Phi', 'flower' => 'Protea vua', 'latin' => 'Protea cynaroides', 'region' => 'Western Cape', 'coord' => '33.92°S, 18.42°E', 'image' => 'images/products/product-2.jpg', 'map' => [865, 411, 865, 392]],
-        ['id' => 'jp', 'country' => 'Nhật Bản', 'flower' => 'Hoa hồng Ohara', 'latin' => 'Rosa hybrida', 'region' => 'Tokyo', 'coord' => '35.68°N, 139.69°E', 'image' => 'images/products/hoa-hong-phot-ohara.jpg', 'map' => [945, 145, 925, 126]],
-        ['id' => 'my', 'country' => 'Malaysia', 'flower' => 'Cúc mẫu đơn', 'latin' => 'Chrysanthemum morifolium', 'region' => 'Cameron Highlands', 'coord' => '4.47°N, 101.38°E', 'image' => 'images/products/product-3.jpg', 'map' => [850, 278, 875, 298]],
-        ['id' => 'vn', 'country' => 'Việt Nam', 'flower' => 'Lan hồ điệp', 'latin' => 'Phalaenopsis', 'region' => 'Đà Lạt', 'coord' => '11.94°N, 108.44°E', 'image' => 'images/products/flowers-6.jpg', 'map' => [830, 242, 802, 226]],
-        ['id' => 'co', 'country' => 'Colombia', 'flower' => 'Hoa hồng', 'latin' => 'Rosa hybrida', 'region' => 'Bogotá', 'coord' => '4.71°N, 74.07°W', 'image' => 'images/products/roses.jpg', 'map' => [322, 292, 322, 273]],
-        ['id' => 'nz', 'country' => 'New Zealand', 'flower' => 'Mẫu đơn', 'latin' => 'Paeonia lactiflora', 'region' => 'Canterbury', 'coord' => '43.53°S, 172.64°E', 'image' => 'images/products/hoa-mau-don.jpg', 'map' => [969, 440, 935, 422]],
+        ['id' => 'cn', 'country' => 'Trung Quốc', 'flower' => 'Mao lương', 'latin' => 'Ranunculus asiaticus', 'region' => 'Vân Nam', 'coord' => '24.88°N, 102.83°E', 'lat' => 24.88, 'lon' => 102.83, 'image' => 'images/instagram/flowers-2.jpg', 'offset' => [-28, -22]],
+        ['id' => 'nl', 'country' => 'Hà Lan', 'flower' => 'Tulip', 'latin' => 'Tulipa gesneriana', 'region' => 'Aalsmeer', 'coord' => '52.26°N, 4.76°E', 'lat' => 52.26, 'lon' => 4.76, 'image' => 'images/products/hoa-tulip.jpg'],
+        ['id' => 'ec', 'country' => 'Ecuador', 'flower' => 'Hoa hồng', 'latin' => 'Rosa hybrida', 'region' => 'Cayambe', 'coord' => '0.04°N, 78.14°W', 'lat' => 0.04, 'lon' => -78.14, 'image' => 'images/products/hoa-hong-do-ecuador.jpg'],
+        ['id' => 'za', 'country' => 'Nam Phi', 'flower' => 'Protea vua', 'latin' => 'Protea cynaroides', 'region' => 'Western Cape', 'coord' => '33.92°S, 18.42°E', 'lat' => -33.92, 'lon' => 18.42, 'image' => 'images/products/product-2.jpg'],
+        ['id' => 'jp', 'country' => 'Nhật Bản', 'flower' => 'Hoa hồng Ohara', 'latin' => 'Rosa hybrida', 'region' => 'Tokyo', 'coord' => '35.68°N, 139.69°E', 'lat' => 35.68, 'lon' => 139.69, 'image' => 'images/products/hoa-hong-phot-ohara.jpg'],
+        ['id' => 'my', 'country' => 'Malaysia', 'flower' => 'Cúc mẫu đơn', 'latin' => 'Chrysanthemum morifolium', 'region' => 'Cameron Highlands', 'coord' => '4.47°N, 101.38°E', 'lat' => 4.47, 'lon' => 101.38, 'image' => 'images/products/product-3.jpg'],
+        ['id' => 'vn', 'country' => 'Việt Nam', 'flower' => 'Lan hồ điệp', 'latin' => 'Phalaenopsis', 'region' => 'Đà Lạt', 'coord' => '11.94°N, 108.44°E', 'lat' => 11.94, 'lon' => 108.44, 'image' => 'images/products/flowers-6.jpg'],
+        ['id' => 'co', 'country' => 'Colombia', 'flower' => 'Hoa hồng', 'latin' => 'Rosa hybrida', 'region' => 'Bogotá', 'coord' => '4.71°N, 74.07°W', 'lat' => 4.71, 'lon' => -74.07, 'image' => 'images/products/roses.jpg', 'offset' => [28, -20]],
+        ['id' => 'nz', 'country' => 'New Zealand', 'flower' => 'Mẫu đơn', 'latin' => 'Paeonia lactiflora', 'region' => 'Canterbury', 'coord' => '43.53°S, 172.64°E', 'lat' => -43.53, 'lon' => 172.64, 'image' => 'images/products/hoa-mau-don.jpg'],
     ];
+    $project = fn (float $lat, float $lon) => [900 + ($lon * 5), 300 - ($lat * 4)];
     foreach ($flowers as &$flower) {
+        [$flower['x'], $flower['y']] = $project($flower['lat'], $flower['lon']);
+        [$flower['pinX'], $flower['pinY']] = [$flower['x'] + ($flower['offset'][0] ?? 0), $flower['y'] + ($flower['offset'][1] ?? 0)];
         $flower['category'] = $categoryFor($flower['id']);
         $flower['category_url'] = $flower['category'] ? route('categories.show', $flower['category']->display_slug) : route('categories.index');
     }
     unset($flower);
+    [$homeX, $homeY] = $project(21.0285, 105.8542);
 @endphp
 
 @section('title', 'Về chúng tôi · Lâm Nhiên Thảo')
@@ -50,30 +54,21 @@
     </div>
 
     <div class="map-wrap">
-        <svg viewBox="0 0 1000 520" role="group" aria-label="Bản đồ các vùng hoa của Lâm Nhiên Thảo">
-            <g class="land" aria-hidden="true">
-                <path d="M57 116 88 83l68-31 91 4 53 31 44 10 23 30-29 18-12 35-29 3-23 28-44 12-28 45-35-14-9-38-31-17-17-29-47-13Z" />
-                <path d="m278 254 57 6 42 34 5 41-24 35-10 60-31 56-24-36 4-49-22-43-20-50Z" />
-                <path d="m593 117 45-38 101-25 100 14 79 41-8 37-57 4-33 32-52-5-34 37-55 3-43-36-52-18Z" />
-                <path d="m779 181 21 4 18 15 13 20-4 21-12 18-10-9-4-19-12-13-10-17Z" />
-                <path d="m816 252 17-3 17 7 15 6-7 10-16 2-14-7-13-7Z" />
-                <path d="m931 134 4-6 5 6-3 9-5-2Z m8 14 4-5 4 7-4 7-4-3Z" />
-                <path d="m803 354 63-23 72 28-1 54-42 32-61-10-39-38Z" />
-                <path d="m944 369 16-9 19 5 17 14-2 15-14 10-15-5-10 7-12-9-6-14Z" />
-                <path d="m963 429 5-7 5 10-4 8Z m8 13 7-8 5 13-6 12-5-7Z" />
-            </g>
-            <g class="arcs" aria-hidden="true">
-                @foreach($flowers as $index => $flower)
-                    <path class="arc" data-id="{{ $flower['id'] }}" style="--d: {{ $index * .12 }}s" pathLength="1" d="M{{ $flower['map'][0] }} {{ $flower['map'][1] }} Q{{ 520 + ($index * 13) }} {{ 100 + (($index * 17) % 170) }} 820 215" />
+        <svg class="atlas-map" viewBox="0 -60 1800 670" role="group" aria-label="Bản đồ thế giới với vị trí các vùng trồng hoa">
+            <image class="world-land" href="{{ asset('images/flower-atlas-land.svg') }}" x="0" y="-60" width="1800" height="670" aria-hidden="true" />
+            <g class="leaders" aria-hidden="true">
+                @foreach($flowers as $flower)
+                    @if(isset($flower['offset']))
+                        <line class="leader" data-id="{{ $flower['id'] }}" x1="{{ $flower['x'] }}" y1="{{ $flower['y'] }}" x2="{{ $flower['pinX'] }}" y2="{{ $flower['pinY'] }}" />
+                    @endif
                 @endforeach
             </g>
             <g class="home" id="hn" aria-label="Điểm đến Hà Nội">
-                <circle class="ring" cx="820" cy="215" r="13" /><circle class="core" cx="820" cy="215" r="7" /><text x="838" y="208">Hà Nội</text>
+                <circle class="ring" cx="{{ $homeX }}" cy="{{ $homeY }}" r="22" /><circle class="core" cx="{{ $homeX }}" cy="{{ $homeY }}" r="10" /><text x="{{ $homeX + 24 }}" y="{{ $homeY - 15 }}">Hà Nội</text>
             </g>
-            @foreach($flowers as $index => $flower)
-                @php [$x, $y, $labelX, $labelY] = $flower['map']; @endphp
-                <g class="pin" data-id="{{ $flower['id'] }}" tabindex="0" role="button" aria-pressed="false" aria-label="{{ $flower['country'] }}: {{ $flower['flower'] }}">
-                    <circle class="hit" cx="{{ $x }}" cy="{{ $y }}" r="24" /><circle class="dot" cx="{{ $x }}" cy="{{ $y }}" r="7" /><text x="{{ $labelX }}" y="{{ $labelY }}">{{ $flower['country'] }}</text>
+            @foreach($flowers as $flower)
+                <g class="pin" data-id="{{ $flower['id'] }}" tabindex="0" role="button" aria-pressed="false" aria-label="{{ $flower['country'] }} — {{ $flower['region'] }}, {{ $flower['coord'] }}">
+                    <circle class="hit" cx="{{ $flower['pinX'] }}" cy="{{ $flower['pinY'] }}" r="40" /><circle class="dot" cx="{{ $flower['pinX'] }}" cy="{{ $flower['pinY'] }}" r="11" /><text x="{{ $flower['pinX'] }}" y="{{ $flower['pinY'] - 25 }}">{{ $flower['country'] }}</text>
                 </g>
             @endforeach
         </svg>
@@ -93,5 +88,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/about-map.js') }}?v=2" defer></script>
+<script src="{{ asset('js/about-map.js') }}?v=3" defer></script>
 @endpush

@@ -3,7 +3,7 @@
     if (!root) return;
     const tabs = [...root.querySelectorAll('#aboutChips [data-id]')];
     const pins = [...root.querySelectorAll('.pin[data-id]')];
-    const arcs = [...root.querySelectorAll('.arc[data-id]')];
+    const leaders = [...root.querySelectorAll('.leader[data-id]')];
     const fields = {
         image: root.querySelector('#cardImage'), country: root.querySelector('#cardCountry'),
         flower: root.querySelector('#cardFlower'), latin: root.querySelector('#cardLatin'),
@@ -18,7 +18,7 @@
             pin.classList.toggle('on', active);
             pin.setAttribute('aria-pressed', String(active));
         });
-        arcs.forEach((arc) => arc.classList.toggle('on', arc.dataset.id === id));
+        leaders.forEach((leader) => leader.classList.toggle('on', leader.dataset.id === id));
         fields.image.src = tab.dataset.image;
         fields.image.alt = `${tab.dataset.flower} từ ${tab.dataset.country}`;
         fields.country.textContent = tab.dataset.country;
