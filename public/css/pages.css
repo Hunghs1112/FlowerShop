@@ -1,5 +1,5 @@
 /* About Layout */
-body.info-pages-theme {
+.info-pages-theme .main-content {
   --color-primary: #c78e66;
   --color-primary-dark: #a8714e;
   --color-primary-light: #c78e66;
