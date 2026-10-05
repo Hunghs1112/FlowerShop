@@ -74,6 +74,6 @@
         </form>
     </div>
 </main>
-<link rel="stylesheet" href="{{ asset('css/mystery-box.css') }}?v=3">
+<link rel="stylesheet" href="{{ asset('css/mystery-box.css') }}?v=4">
 <script src="{{ asset('js/mystery-box.js') }}?v=2"></script>
 @endsection
