@@ -82,7 +82,13 @@ class PageController extends Controller
     {
         $page = Page::where('slug', $slug)
             ->active()
-            ->firstOrFail();
+            ->first();
+
+        if (!$page && $slug === 'chinh-sach-cua-chung-toi') {
+            $page = Page::where('slug', 'chinh-sach-doi-tra')->active()->first();
+        }
+
+        abort_if(!$page, 404);
 
         // Use page's own header_image if set, otherwise fallback to default banner
         $pageBanner = $page->header_image_url
