@@ -125,37 +125,88 @@ Nếu có thắc mắc về Điều khoản Dịch vụ, vui lòng liên hệ ch
 
 Cập nhật lần cuối: Tháng 9, 2026
 
-Lâm Nhiên Thảo cung cấp dịch vụ giao hoa tận nơi với đội ngũ giao hàng chuyên nghiệp, đảm bảo hoa đến tay bạn trong tình trạng tươi và đẹp nhất.
+LNT cung cấp dịch vụ giao hoa tận nơi, với phương thức vận chuyển được lựa chọn phù hợp theo từng đơn hàng và khu vực nhận hàng.
 
 1. KHU VỰC GIAO HÀNG
-Hiện tại chúng tôi giao hàng trong toàn bộ TP. Hồ Chí Minh và một số khu vực lân cận. Vui lòng liên hệ để xác nhận địa chỉ giao hàng của bạn có nằm trong vùng phục vụ hay không.
+LNT hiện hỗ trợ giao hàng tại **TP. Hà Nội và một số khu vực lân cận**.
+
+Phạm vi giao hàng có thể thay đổi tùy theo địa chỉ, thời điểm và điều kiện vận chuyển. Vui lòng cung cấp đầy đủ địa chỉ khi đặt hàng để LNT kiểm tra và xác nhận khả năng giao nhận.
 
 2. THỜI GIAN GIAO HÀNG
-- Giao hàng tiêu chuẩn: Từ Thứ Hai đến Thứ Bảy, 8:00 - 20:00
-- Giao hàng trong ngày: Áp dụng với đơn đặt trước 14:00
-- Giao hàng theo giờ hẹn: Có thể sắp xếp theo yêu cầu (phụ thu thêm)
-- Chủ Nhật và ngày lễ: Liên hệ trước để đặt lịch
+### Giao hàng tiêu chuẩn
+LNT nhận giao hàng từ **Thứ Hai đến Thứ Bảy, 08:00–17:00**.
+
+Thời gian giao cụ thể được xác nhận dựa trên thời điểm đặt hàng, tình trạng sản phẩm và khu vực nhận hàng.
+
+### Giao hàng trong ngày
+Dịch vụ giao trong ngày áp dụng đối với **các sản phẩm đang có sẵn** và đơn hàng được LNT xác nhận trong ngày.
+
+- Đơn hàng cần được **đặt và xác nhận trước 14:00** để được xem xét giao trong ngày.
+- Đơn đặt sau 14:00 có thể được chuyển sang ngày tiếp theo, tùy tình trạng sản phẩm và khả năng giao hàng.
+- Thời gian giao thực tế phụ thuộc vào **thời điểm xác nhận đơn, thời gian chuẩn bị hoa, khoảng cách giao hàng và tình trạng vận chuyển**.
+- Yêu cầu giao trong ngày **không đồng nghĩa với giao ngay hoặc giao trong một khung giờ cố định**, trừ khi LNT đã xác nhận cụ thể.
+- Đối với các đơn cần giao gấp, khách hàng vui lòng liên hệ trực tiếp qua **Zalo hoặc điện thoại** để LNT kiểm tra khả năng đáp ứng trước khi đặt hàng.
+- Một số sản phẩm **đặt trước, hoa theo mùa, hoa nhập khẩu hoặc sản phẩm cần chuẩn bị riêng** có thể không áp dụng dịch vụ giao trong ngày.
+
+### Giao theo khung giờ yêu cầu
+LNT có thể hỗ trợ giao theo khung giờ cụ thể tùy từng đơn hàng. Yêu cầu này cần được xác nhận trước và **có thể phát sinh phụ phí**.
+
+### Chủ Nhật và ngày lễ
+LNT có thể hỗ trợ giao hàng vào Chủ Nhật hoặc ngày lễ tùy lịch vận hành và khả năng đáp ứng tại từng thời điểm. Vui lòng liên hệ trước để được xác nhận.
+
+Thời gian giao dự kiến có thể thay đổi do **tình hình giao thông, thời tiết hoặc các yếu tố khách quan khác**.
 
 3. PHÍ GIAO HÀNG
-Phí giao hàng được tính dựa trên khoảng cách từ cửa hàng đến địa chỉ nhận hàng. Phí cụ thể sẽ được thông báo khi xác nhận đơn hàng. Một số khu vực nội thành có thể được miễn phí giao hàng với đơn hàng đạt giá trị nhất định.
+Phí giao hàng được xác định dựa trên **khoảng cách, khu vực giao nhận, thời điểm và hình thức vận chuyển**.
+
+Chi phí giao hàng cụ thể sẽ được LNT thông báo và xác nhận cùng đơn hàng trước khi giao.
+
+Trong một số chương trình hoặc đơn hàng đạt giá trị nhất định, LNT có thể áp dụng chính sách hỗ trợ phí giao hàng theo từng thời điểm.
 
 4. QUY TRÌNH GIAO HÀNG
-- Sau khi đặt hàng, chúng tôi sẽ liên hệ xác nhận thông tin và thời gian giao
-- Nhân viên giao hàng sẽ gọi điện báo trước khoảng 15-30 phút
-- Vui lòng đảm bảo có người nhận hàng tại địa chỉ đã cung cấp
-- Nếu không có người nhận, chúng tôi sẽ liên hệ để sắp xếp lại
+Sau khi đơn hàng được xác nhận:
 
-5. ĐỘ TƯƠI CỦA HOA
-Mỗi đơn hàng đều đi kèm hướng dẫn chăm sóc hoa để giúp hoa giữ được độ tươi lâu nhất. Chúng tôi cam kết chỉ giao hoa đạt tiêu chuẩn chất lượng.
+1. LNT xác nhận thông tin sản phẩm, địa chỉ và thời gian giao hàng.
+2. Đơn hàng được chuẩn bị và bàn giao cho đơn vị hoặc nhân viên giao hàng phù hợp.
+3. Người giao hàng có thể liên hệ trước khi đến địa chỉ nhận.
+4. Khách hàng vui lòng đảm bảo có người nhận tại địa chỉ đã cung cấp.
+5. Sau khi giao thành công, đơn hàng được xem là hoàn tất.
+
+Đối với các đơn hàng có yêu cầu giao tại **lễ tân, bảo vệ, quầy tiếp nhận hoặc khu vực trung gian**, khách hàng vui lòng thông báo trước để LNT ghi nhận khi điều phối giao hàng.
+
+5. TIẾP NHẬN VÀ KIỂM TRA HOA
+Hoa là sản phẩm tươi và có tính chất đặc thù. LNT kiểm tra tình trạng sản phẩm trước khi giao và đóng gói phù hợp với từng loại hoa.
+
+Khi nhận hàng, khách hàng vui lòng kiểm tra tình trạng hoa và thông báo cho LNT trong thời gian sớm nhất nếu phát hiện bất thường.
+
+Hướng dẫn chăm sóc sẽ được cung cấp tùy theo loại hoa và hình thức sản phẩm.
 
 6. YÊU CẦU ĐẶC BIỆT
-Nếu bạn cần giao hàng vào địa điểm đặc biệt (bệnh viện, trường học, tòa nhà văn phòng...) hoặc có yêu cầu riêng về thời gian, vui lòng ghi chú khi đặt hàng. Chúng tôi sẽ cố gắng đáp ứng tốt nhất trong khả năng.
+Đối với các địa điểm như **bệnh viện, trường học, tòa nhà văn phòng, khu dân cư có kiểm soát ra vào** hoặc các địa điểm có quy định riêng về giao nhận, khách hàng vui lòng cung cấp đầy đủ thông tin cần thiết.
 
-7. GIAO HÀNG THẤT BẠI
-Trường hợp không thể giao hàng do không liên lạc được người nhận hoặc địa chỉ không chính xác, chúng tôi sẽ giữ hoa và liên hệ để sắp xếp lại. Phí giao lại có thể được áp dụng.
+Các yêu cầu về thời gian, người nhận, điểm giao hoặc quy trình ra vào cần được thông báo trước để LNT kiểm tra khả năng đáp ứng.
+
+7. GIAO HÀNG KHÔNG THÀNH CÔNG
+Đơn hàng có thể phát sinh giao hàng không thành công trong trường hợp:
+
+- Không liên lạc được với người nhận.
+- Địa chỉ hoặc thông tin giao hàng không chính xác.
+- Người nhận từ chối nhận hoặc không có mặt tại địa chỉ đã đăng ký.
+- Địa điểm nhận không thể tiếp cận tại thời điểm giao.
+
+Trong trường hợp này, LNT sẽ liên hệ với khách hàng để thống nhất phương án xử lý.
+
+Nếu cần giao lại, **phí giao hàng phát sinh có thể được áp dụng** tùy nguyên nhân và điều kiện của đơn hàng.
+
+Đối với hoa tươi, thời gian và điều kiện bảo quản có thể ảnh hưởng trực tiếp đến chất lượng sản phẩm. Vì vậy, LNT không đảm bảo giữ nguyên tình trạng ban đầu của hoa trong thời gian chờ xử lý giao lại.
 
 8. LIÊN HỆ
-Mọi thắc mắc về dịch vụ giao hàng, vui lòng liên hệ qua số điện thoại hoặc Zalo. Chúng tôi luôn sẵn sàng hỗ trợ bạn.',
+Để kiểm tra phạm vi giao hàng, chi phí hoặc yêu cầu giao nhận đặc biệt, vui lòng liên hệ:
+
+- Điện thoại / Zalo: [0869 308 993](tel:0869308993)
+- Email: [support@lamnhienthao.com](mailto:support@lamnhienthao.com)
+
+LNT sẽ xác nhận thông tin giao hàng trước khi đơn hàng được thực hiện.',
             ],
             [
                 'title' => 'Chính sách đổi trả',
