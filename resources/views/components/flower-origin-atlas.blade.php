@@ -6,8 +6,8 @@
                 <small>Lâm Nhiên Thảo</small>
             </a>
 
-            <p class="origin-story__eyebrow">Our flower atlas · 08</p>
-            <h1 id="originStoryTitle">Tám vùng đất,<br><em>một điểm đến</em></h1>
+            <p class="origin-story__eyebrow">Our flower atlas · 09</p>
+            <h1 id="originStoryTitle">Chín vùng đất,<br><em>một điểm đến</em></h1>
             <p class="origin-story__tagline">From remarkable places, to beautiful spaces.</p>
             <p class="origin-story__lead">Lâm Nhiên Thảo tuyển chọn hoa từ những vùng trồng nổi tiếng nhất thế giới và đưa về TP. Hồ Chí Minh. Chạm vào từng điểm trên bản đồ để khám phá hành trình của mỗi loài hoa.</p>
 
@@ -21,8 +21,8 @@
             @php($flowers = $flowers ?? collect())
             <div class="flower-atlas__map">
                 <svg viewBox="0 0 1000 520" role="group" aria-labelledby="flowerMapTitle flowerMapDescription">
-                    <title id="flowerMapTitle">Bản đồ tám vùng hoa của Lâm Nhiên Thảo</title>
-                    <desc id="flowerMapDescription">Tám đường bay kết nối các vùng trồng hoa trên thế giới về TP. Hồ Chí Minh.</desc>
+                    <title id="flowerMapTitle">Bản đồ chín vùng hoa của Lâm Nhiên Thảo</title>
+                    <desc id="flowerMapDescription">Chín đường bay kết nối các vùng trồng hoa trên thế giới về TP. Hồ Chí Minh.</desc>
 
                     <defs>
                         <pattern id="atlasDots" width="11" height="11" patternUnits="userSpaceOnUse">
@@ -54,7 +54,8 @@
                         <path class="flight-route" data-region="japan" style="--route-index:4" pathLength="1" d="M879 174 Q835 175 813 238" />
                         <path class="flight-route" data-region="malaysia" style="--route-index:5" pathLength="1" d="M773 306 Q782 263 813 238" />
                         <path class="flight-route" data-region="vietnam" style="--route-index:6" pathLength="1" d="M798 274 Q820 259 813 238" />
-                        <path class="flight-route" data-region="new-zealand" style="--route-index:7" pathLength="1" d="M957 449 Q951 303 813 238" />
+                        <path class="flight-route" data-region="colombia" style="--route-index:7" pathLength="1" d="M235 282 Q520 118 813 238" />
+                        <path class="flight-route" data-region="new-zealand" style="--route-index:8" pathLength="1" d="M957 449 Q951 303 813 238" />
                     </g>
 
                     <g class="hanoi-marker" aria-label="Điểm đến TP. Hồ Chí Minh">
