@@ -1,143 +1,92 @@
 @extends('layouts.app')
 
-@section('title', 'Về chúng tôi')
+@php
+    $categoryFor = fn (string $country) => $flowerCategories->get($country);
+    $flowers = [
+        ['id' => 'cn', 'country' => 'Trung Quốc', 'flower' => 'Mao lương', 'latin' => 'Ranunculus asiaticus', 'region' => 'Vân Nam', 'coord' => '24.88°N, 102.83°E', 'image' => 'images/instagram/flowers-2.jpg'],
+        ['id' => 'nl', 'country' => 'Hà Lan', 'flower' => 'Tulip', 'latin' => 'Tulipa gesneriana', 'region' => 'Aalsmeer', 'coord' => '52.26°N, 4.76°E', 'image' => 'images/products/hoa-tulip.jpg'],
+        ['id' => 'ec', 'country' => 'Ecuador', 'flower' => 'Hoa hồng', 'latin' => 'Rosa hybrida', 'region' => 'Cayambe', 'coord' => '0.04°N, 78.14°W', 'image' => 'images/products/hoa-hong-do-ecuador.jpg'],
+        ['id' => 'za', 'country' => 'Nam Phi', 'flower' => 'Protea vua', 'latin' => 'Protea cynaroides', 'region' => 'Western Cape', 'coord' => '33.92°S, 18.42°E', 'image' => 'images/products/product-2.jpg'],
+        ['id' => 'jp', 'country' => 'Nhật Bản', 'flower' => 'Hoa hồng Ohara', 'latin' => 'Rosa hybrida', 'region' => 'Tokyo', 'coord' => '35.68°N, 139.69°E', 'image' => 'images/products/hoa-hong-phot-ohara.jpg'],
+        ['id' => 'my', 'country' => 'Malaysia', 'flower' => 'Cúc mẫu đơn', 'latin' => 'Chrysanthemum morifolium', 'region' => 'Cameron Highlands', 'coord' => '4.47°N, 101.38°E', 'image' => 'images/products/product-3.jpg'],
+        ['id' => 'vn', 'country' => 'Việt Nam', 'flower' => 'Lan hồ điệp', 'latin' => 'Phalaenopsis', 'region' => 'Đà Lạt', 'coord' => '11.94°N, 108.44°E', 'image' => 'images/products/flowers-6.jpg'],
+        ['id' => 'co', 'country' => 'Colombia', 'flower' => 'Hoa hồng', 'latin' => 'Rosa hybrida', 'region' => 'Bogotá', 'coord' => '4.71°N, 74.07°W', 'image' => 'images/products/roses.jpg'],
+        ['id' => 'nz', 'country' => 'New Zealand', 'flower' => 'Mẫu đơn', 'latin' => 'Paeonia lactiflora', 'region' => 'Canterbury', 'coord' => '43.53°S, 172.64°E', 'image' => 'images/products/hoa-mau-don.jpg'],
+    ];
+    foreach ($flowers as &$flower) {
+        $flower['category'] = $categoryFor($flower['id']);
+        $flower['category_url'] = $flower['category'] ? route('categories.show', $flower['category']->display_slug) : route('categories.index');
+    }
+    unset($flower);
+@endphp
+
+@section('title', 'Về chúng tôi · Lâm Nhiên Thảo')
 
 @section('content')
-<x-page-hero
-    title="Về chúng tôi"
-    description="Câu chuyện về chúng tôi và sứ mệnh mang vẻ đẹp hoa tươi đến mọi nhà"
-    :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => route('home')],
-        ['label' => 'Về chúng tôi']
-    ]"
-    :image="$pageBanner['custom'] ?? $siteBanners['about'] ?? null"
-    :hideOverlay="$pageBanner['hide_overlay'] ?? ($siteBannerHideOverlay['about'] ?? false)"
-    banner-key="about"
-/>
+<section class="about" id="aboutAtlas" aria-labelledby="aboutTitle">
+    <div class="intro">
+        <a class="about-mark" href="{{ route('home') }}" aria-label="Lâm Nhiên Thảo — trang chủ">LNT<small>Lâm Nhiên Thảo</small></a>
+        <p class="eyebrow">Our flower atlas · {{ str_pad(count($flowers), 2, '0', STR_PAD_LEFT) }}</p>
+        <h1 id="aboutTitle">Chín vùng đất,<br><em>một điểm đến</em></h1>
+        <p class="tag">From remarkable places, to beautiful spaces.</p>
+        <p class="lead">Lâm Nhiên Thảo tuyển chọn hoa từ những vùng trồng nổi tiếng và đưa về gần bạn. Chạm vào từng điểm trên bản đồ để khám phá loài hoa, vùng trồng và danh mục tương ứng trong cửa hàng.</p>
+        <p class="hint">Chọn một điểm trên bản đồ hoặc tên vùng bên dưới</p>
 
-@include('components.flower-origin-atlas')
-
-<div class="container page-wrapper">
-    <div class="about-layout">
-
-        {{-- Nếu có trang "gioi-thieu" trong DB thì dùng nội dung đó --}}
-        @if(!empty($introPage))
-            <x-markdown-renderer :content="$introPage->content" class="page-body-content" />
-        @else
-            {{-- Fallback: nội dung tĩnh --}}
-            <div class="content-section">
-                <h2>Chào mừng đến với {{ $siteInfo['site_name'] ?? $siteSettings['site_name'] ?? config('app.name') }}</h2>
-                <p>{{ $siteInfo['about'] ?? $siteSettings['site_description'] ?? 'Chúng tôi đam mê mang đến vẻ đẹp của hoa tươi và hoa nhập khẩu đến mọi dịp đặc biệt.' }}</p>
-            </div>
-
-            <div class="content-section">
-                <h2>Sứ mệnh của chúng tôi</h2>
-                <p>Cung cấp hoa cao cấp và dịch vụ xuất sắc để biến mỗi khoảnh khắc trở nên đặc biệt.</p>
-            </div>
-
-            <div class="content-section">
-                <h2>Tại sao chọn chúng tôi</h2>
-                <ul>
-                    <li><strong>Chất lượng cao cấp:</strong> Chúng tôi chỉ lựa chọn những bông hoa tươi nhất từ nhà cung cấp uy tín</li>
-                    <li><strong>Đa dạng lựa chọn:</strong> Khám phá bộ sưu tập phong phú cho mọi dịp</li>
-                    <li><strong>Chăm sóc chuyên nghiệp:</strong> Đội ngũ của chúng tôi đảm bảo mỗi thiết kế đều hoàn hảo</li>
-                    <li><strong>Dịch vụ tận tâm:</strong> Chúng tôi làm việc cùng bạn để tìm ra những bông hoa hoàn hảo</li>
-                </ul>
-            </div>
-        @endif
-
-        {{-- Luôn hiển thị các thẻ điểm mạnh --}}
-        <div class="values-grid">
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-                    </svg>
-                </div>
-                <h3>Chất lượng đảm bảo</h3>
-                <p>Hoa tươi nhập khẩu và nội địa được kiểm soát chặt chẽ từ khâu chọn hàng đến giao tận tay.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
-                    </svg>
-                </div>
-                <h3>Florist chuyên nghiệp</h3>
-                <p>Đội ngũ được đào tạo bài bản, am hiểu ngôn ngữ hoa và xu hướng thiết kế hiện đại.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
-                <h3>Giao hàng trong ngày</h3>
-                <p>Giao hoa tận nơi toàn TP.HCM, đảm bảo hoa tươi và đẹp khi đến tay người nhận.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-                </div>
-                <h3>Tư vấn tận tâm</h3>
-                <p>Hỗ trợ chọn hoa phù hợp cho từng dịp, phong cách và ngân sách — hoàn toàn miễn phí.</p>
-            </div>
+        <div class="stats" aria-label="Thông tin cửa hàng">
+            <div><b>{{ $categories->count() }}</b><span>Danh mục</span></div>
+            <div><b>{{ $categories->sum('products_count') }}</b><span>Sản phẩm</span></div>
         </div>
 
-        {{-- Thông tin liên hệ --}}
-        <div class="content-section contact-section">
-            <h2>Liên hệ với chúng tôi</h2>
-            <div class="contact-info">
-                @if($siteInfo['phone'] ?? null)
-                    <div class="contact-item">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                        <div>
-                            <div class="contact-label">Điện thoại / Zalo</div>
-                            <a href="tel:{{ $siteInfo['phone'] }}" class="contact-value">{{ $siteInfo['phone'] }}</a>
-                        </div>
-                    </div>
-                @endif
-
-                @if($siteInfo['email'] ?? null)
-                    <div class="contact-item">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        <div>
-                            <div class="contact-label">Email</div>
-                            <a href="mailto:{{ $siteInfo['email'] }}" class="contact-value">{{ $siteInfo['email'] }}</a>
-                        </div>
-                    </div>
-                @endif
-
-                @if($siteInfo['address'] ?? null)
-                    <div class="contact-item">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <div>
-                            <div class="contact-label">Địa chỉ</div>
-                            <span class="contact-value">{{ $siteInfo['address'] }}</span>
-                        </div>
-                    </div>
-                @endif
+        <section class="passport" aria-labelledby="passportTitle">
+            <div class="pp-head"><span id="passportTitle">HỘ CHIẾU HOA</span><span>{{ count($flowers) }} vùng</span></div>
+            <p class="pp-sub">Khám phá các bộ sưu tập hoa theo nguồn gốc và nhu cầu của bạn.</p>
+            <div class="pp-grid">
+                @foreach($flowers as $index => $flower)
+                    <a class="stamp" href="{{ $flower['category_url'] }}" title="Xem danh mục {{ $flower['category']?->display_name ?? 'hoa' }}">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</a>
+                @endforeach
             </div>
-
-            <div class="contact-cta-wrapper">
-                <a href="{{ route('contact') }}" class="btn btn-primary">Gửi tin nhắn cho chúng tôi</a>
-            </div>
-        </div>
-
+            <p class="pp-tip">Mỗi dấu mở ra một danh mục hoa đang có trong cửa hàng.</p>
+        </section>
     </div>
-</div>
+
+    <div class="map-wrap">
+        <svg viewBox="0 0 1000 520" role="group" aria-label="Bản đồ các vùng hoa của Lâm Nhiên Thảo">
+            <g class="land" aria-hidden="true">
+                <path d="M57 116 88 83l68-31 91 4 53 31 44 10 23 30-29 18-12 35-29 3-23 28-44 12-28 45-35-14-9-38-31-17-17-29-47-13Z" />
+                <path d="m278 254 57 6 42 34 5 41-24 35-10 60-31 56-24-36 4-49-22-43-20-50Z" />
+                <path d="m593 117 45-38 101-25 100 14 79 41-8 37-57 4-33 32-52-5-34 37-55 3-43-36-52-18Z" />
+                <path d="m803 354 63-23 72 28-1 54-42 32-61-10-39-38Z" />
+            </g>
+            <g class="arcs" aria-hidden="true">
+                @foreach($flowers as $index => $flower)
+                    <path class="arc" data-id="{{ $flower['id'] }}" style="--d: {{ $index * .12 }}s" pathLength="1" d="M{{ 100 + ($index * 86) }} {{ 70 + (($index * 31) % 300) }} Q{{ 520 + (($index * 13) % 100) }} {{ 100 + (($index * 17) % 170) }} 805 238" />
+                @endforeach
+            </g>
+            <g class="home pin" id="hn" tabindex="0" role="button" aria-label="Lâm Nhiên Thảo, điểm đến Hà Nội" data-id="hn">
+                <circle class="hit" cx="805" cy="238" r="28" /><circle class="ring" cx="805" cy="238" r="13" /><circle class="ring" cx="805" cy="238" r="13" /><circle class="core" cx="805" cy="238" r="7" /><text x="824" y="229">Hà Nội</text>
+            </g>
+            @foreach($flowers as $index => $flower)
+                @php $x = 100 + ($index * 86); $y = 70 + (($index * 31) % 300); @endphp
+                <g class="pin" data-id="{{ $flower['id'] }}" tabindex="0" role="button" aria-label="{{ $flower['country'] }}: {{ $flower['flower'] }}">
+                    <circle class="hit" cx="{{ $x }}" cy="{{ $y }}" r="24" /><circle class="dot" cx="{{ $x }}" cy="{{ $y }}" r="7" /><text x="{{ $x }}" y="{{ $y - 17 }}">{{ $flower['country'] }}</text>
+                </g>
+            @endforeach
+        </svg>
+
+        <article class="card" id="aboutCard" aria-live="polite">
+            <img id="cardImage" src="{{ asset($flowers[0]['image']) }}" alt="{{ $flowers[0]['flower'] }} từ {{ $flowers[0]['country'] }}">
+            <div><p class="card-country" id="cardCountry">{{ $flowers[0]['country'] }}</p><h2 id="cardFlower">{{ $flowers[0]['flower'] }}</h2><p class="card-latin" id="cardLatin">{{ $flowers[0]['latin'] }}</p><p class="card-region" id="cardRegion">{{ $flowers[0]['region'] }} · {{ $flowers[0]['coord'] }}</p><a id="cardLink" href="{{ $flowers[0]['category_url'] }}">Xem danh mục tương ứng →</a></div>
+        </article>
+
+        <div class="chips" id="aboutChips" role="tablist" aria-label="Chọn vùng trồng hoa">
+            @foreach($flowers as $index => $flower)
+                <button type="button" role="tab" data-id="{{ $flower['id'] }}" data-country="{{ $flower['country'] }}" data-flower="{{ $flower['flower'] }}" data-latin="{{ $flower['latin'] }}" data-region="{{ $flower['region'] }}" data-coord="{{ $flower['coord'] }}" data-image="{{ asset($flower['image']) }}" data-url="{{ $flower['category_url'] }}" aria-selected="{{ $index === 0 ? 'true' : 'false' }}">{{ $flower['country'] }}</button>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endsection
 
 @push('scripts')
 <script src="{{ asset('js/about-map.js') }}" defer></script>
 @endpush
-@endsection

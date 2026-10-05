@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use App\Models\Inquiry;
 use App\Models\FlowerOrigin;
+use App\Models\Category;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -18,15 +20,27 @@ class PageController extends Controller
     {
         $siteInfo  = $this->settingService->getSiteInfo();
         $introPage = Page::where('slug', 'gioi-thieu')->active()->first();
-
         // Use page's own header_image if set, otherwise fallback to default banner
         $pageBanner = $introPage && $introPage->header_image_url
             ? ['custom' => $introPage->header_image_url, 'hide_overlay' => $introPage->hide_header_overlay]
             : [];
 
         $flowers = FlowerOrigin::active()->orderBy('sort_order')->get();
-
-        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowers'));
+        $categories = Category::active()->withCount('products')->orderBy('sort_order')->get();
+        $countryNeedles = [
+            'cn' => ['trung quoc', 'trung-quoc', 'kunming'], 'nl' => ['ha lan', 'ha-lan'],
+            'ec' => ['ecuador'], 'za' => ['nam phi', 'nam-phi', 'namphi'], 'jp' => ['nhat ban', 'nhat-ban'],
+            'my' => ['malaysia', 'peony mum'], 'vn' => ['viet nam', 'viet-nam'],
+            'co' => ['colombia'], 'nz' => ['new zealand', 'new-zealand'],
+        ];
+        $flowerCategories = collect($countryNeedles)->mapWithKeys(function (array $needles, string $country) use ($categories) {
+            $category = $categories->first(function (Category $item) use ($needles) {
+                $haystack = Str::lower($item->name . ' ' . $item->slug);
+                return collect($needles)->contains(fn (string $needle) => Str::contains($haystack, Str::lower($needle)));
+            });
+            return [$country => $category ?: $categories->firstWhere('slug', $country === 'vn' ? 'hoa-tuoi-moi' : 'hoa-nhap-khau')];
+        });
+        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowers', 'categories', 'flowerCategories'));
     }
 
     public function contact()
