@@ -73,7 +73,9 @@
                 </a>
                 <div class="navbar-dropdown">
                     @foreach($navPages as $navPage)
-                        <a href="{{ route('policy', $navPage->slug) }}" class="navbar-dropdown-item">{{ $navPage->title }}</a>
+                        @if($navPage->slug !== 'lien-he')
+                            <a href="{{ route('policy', $navPage->slug) }}" class="navbar-dropdown-item">{{ $navPage->title }}</a>
+                        @endif
                     @endforeach
                 </div>
             </li>
@@ -262,7 +264,9 @@
                 <div class="navbar-mobile-accordion-content">
                     <div class="navbar-mobile-accordion-links">
                         @foreach($navPages as $navPage)
-                            <a href="{{ route('policy', $navPage->slug) }}" class="navbar-mobile-accordion-link">{{ $navPage->title }}</a>
+                            @if($navPage->slug !== 'lien-he')
+                                <a href="{{ route('policy', $navPage->slug) }}" class="navbar-mobile-accordion-link">{{ $navPage->title }}</a>
+                            @endif
                         @endforeach
                     </div>
                 </div>
