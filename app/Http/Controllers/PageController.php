@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\Inquiry;
+use App\Models\Category;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,9 @@ class PageController extends Controller
     {
         $siteInfo  = $this->settingService->getSiteInfo();
         $introPage = Page::where('slug', 'gioi-thieu')->active()->first();
+        $categories = Category::active()->withCount('products')->orderBy('sort_order')->get()->keyBy('slug');
         $bannerKey = 'about';
-        return view('pages.about', compact('siteInfo', 'introPage', 'bannerKey'));
+        return view('pages.about', compact('siteInfo', 'introPage', 'categories', 'bannerKey'));
     }
 
     public function contact()
