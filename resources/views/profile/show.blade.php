@@ -3,24 +3,42 @@
 @section('title', 'Tài khoản')
 
 @section('content')
-<x-page-hero 
-    title="Tài khoản"
-    description="Quản lý thông tin cá nhân và đơn hàng"
-    :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => route('home')],
-        ['label' => 'Tài khoản']
-    ]"
-    height="350px"
-/>
+<section class="profile-page">
+<div class="container profile-container">
+    <header class="profile-heading">
+        <div>
+            <p class="profile-eyebrow">KHÔNG GIAN CỦA BẠN</p>
+            <h1>Tài khoản</h1>
+            <p class="profile-heading-copy">Quản lý thông tin cá nhân và theo dõi những yêu cầu đặt hoa của bạn.</p>
+        </div>
+        <a class="profile-back-link" href="{{ route('home') }}">← Tiếp tục mua sắm</a>
+    </header>
 
-<div class="container page-wrapper">
-    <div class="account-layout">
+    <div class="profile-dashboard">
+        <aside class="profile-sidebar" aria-label="Tóm tắt tài khoản">
+            <div class="profile-identity">
+                <div class="profile-avatar" aria-hidden="true">{{ mb_strtoupper(mb_substr($user->name, 0, 1)) }}</div>
+                <div class="profile-identity-copy">
+                    <span class="profile-kicker">THÀNH VIÊN</span>
+                    <h2>{{ $user->name }}</h2>
+                    <p>{{ $user->email }}</p>
+                </div>
+            </div>
+            <nav class="profile-nav" aria-label="Điều hướng tài khoản">
+                <a href="#profile-information"><span>01</span> Thông tin hồ sơ</a>
+                <a href="#profile-password"><span>02</span> Bảo mật</a>
+                <a href="#profile-inquiries"><span>03</span> Yêu cầu của tôi <i>{{ $inquiries->total() }}</i></a>
+            </nav>
+            <p class="profile-sidebar-note">Thông tin của bạn được sử dụng để hỗ trợ các đơn hoa và yêu cầu tư vấn.</p>
+        </aside>
+
         <!-- Account Main Content -->
-        <div class="account-main">
+        <div class="account-main profile-main">
             <!-- Profile Information -->
-            <div class="account-card">
+            <div class="account-card" id="profile-information">
                 <div class="account-card-header">
                     <h2 class="account-card-title">Thông tin hồ sơ</h2>
+                    <p>Cập nhật cách chúng tôi liên hệ với bạn.</p>
                 </div>
                 <div class="account-card-body">
                     @if(session('success'))
@@ -82,9 +100,10 @@
             </div>
 
             <!-- Change Password -->
-            <div class="account-card">
+            <div class="account-card" id="profile-password">
                 <div class="account-card-header">
                     <h2 class="account-card-title">Đổi mật khẩu</h2>
+                    <p>Dùng mật khẩu mạnh để bảo vệ tài khoản của bạn.</p>
                 </div>
                 <div class="account-card-body">
                     <form action="{{ route('profile.password') }}" method="POST">
@@ -125,9 +144,10 @@
             </div>
 
             <!-- Inquiry History -->
-            <div class="account-card">
+            <div class="account-card" id="profile-inquiries">
                 <div class="account-card-header">
                     <h2 class="account-card-title">Yêu cầu của tôi</h2>
+                    <p>Lịch sử tư vấn và yêu cầu đặt hoa.</p>
                 </div>
                 <div class="account-card-body">
                     @if($inquiries->count() > 0)
@@ -137,11 +157,11 @@
                                     <div class="inquiry-header">
                                         <div class="inquiry-id">#{{ $inquiry->id }}</div>
                                         <span class="badge badge-{{ $inquiry->status }}">
-                                            {{ ucfirst($inquiry->status) }}
+                                            {{ match($inquiry->status) {'new' => 'Mới', 'contacted' => 'Đã liên hệ', 'completed' => 'Hoàn thành', 'cancelled' => 'Đã hủy', default => ucfirst($inquiry->status)} }}
                                         </span>
                                     </div>
                                     <div class="inquiry-meta">
-                                        <span>{{ $inquiry->created_at->format('M d, Y \a\t H:i') }}</span>
+                                        <span>{{ $inquiry->created_at->format('d/m/Y · H:i') }}</span>
                                         <span>•</span>
                                         <span>{{ count($inquiry->product_ids ?? []) }} sản phẩm</span>
                                     </div>
@@ -172,5 +192,6 @@
         </div>
     </div>
 </div>
+</section>
 
 @endsection
