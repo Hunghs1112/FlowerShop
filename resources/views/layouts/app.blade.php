@@ -8,7 +8,7 @@
     <title>@yield('title', $siteSettings['site_name'] ?? config('app.name')) - {{ $siteSettings['site_name'] ?? config('app.name') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=5">
     <link rel="stylesheet" href="{{ asset('css/chat-button.css') }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/font-unification.css') }}">
 </head>
-<body class="@yield('body-class')">
+<body class="@yield('body-class') {{ request()->routeIs('about', 'contact', 'contact.store', 'policy') ? 'info-pages-theme' : '' }}">
     @if(!View::hasSection('skip-navbar'))
         @include('partials.navbar')
     @endif

@@ -1,4 +1,27 @@
 /* About Layout */
+body.info-pages-theme {
+  --color-primary: #c78e66;
+  --color-primary-dark: #a8714e;
+  --color-primary-light: #c78e66;
+  --color-primary-lighter: #dec3af;
+  --color-secondary: #a8714e;
+  --color-secondary-dark: #7a5037;
+  --color-secondary-light: #dec3af;
+  --color-cream: #f5ebe6;
+  --color-cream-dark: #f0e2d8;
+  --color-cream-darker: #e6d3c6;
+  --color-sage: #dec3af;
+  --color-botanical: #f5ebe6;
+  --color-botanical-pale: #fcf8f5;
+  --color-text: #5e4636;
+  --color-text-light: #8c6e5c;
+  --color-border: #e6d3c6;
+  --color-border-light: #efdfd4;
+  --color-bg-primary: #fcf8f5;
+  background: #f5ebe6;
+  color: #5e4636;
+}
+
 /* about atlas */
 .about{--bg:#f5ebe6;--ink:#5e4636;--soft:#8c6e5c;--copper:#c78e66;--deep:#a8714e;--dot:#dec3af;--card:#fcf8f5;--line:#e6d3c6;max-width:1440px;margin:auto;padding:clamp(2.5rem,6vw,5.5rem) clamp(1.25rem,4vw,4rem);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,8fr);gap:clamp(2rem,4vw,4.5rem);align-items:center;background:var(--bg);color:var(--ink);font-family:"Josefin Sans",system-ui,sans-serif}.about .about-mark{display:grid;width:max-content;margin-bottom:2rem;color:var(--deep);font:500 2.8rem/.85 "Playfair Display",serif;letter-spacing:-.12em;text-decoration:none}.about-mark small{margin-top:.55rem;font:700 .55rem/1 Inter,sans-serif;letter-spacing:.24em;text-transform:uppercase}.about .eyebrow,.card-country{margin:0 0 1rem;color:var(--deep);font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase}.about h1{margin:0;color:var(--copper);font-size:clamp(2rem,3.3vw,3.3rem);line-height:1.02;text-transform:uppercase}.about h1 em{font-family:"Playfair Display",serif;font-weight:400;text-transform:none}.about .tag{margin:1.4rem 0 1.2rem;color:var(--deep);font:italic 1.35rem "Playfair Display",serif}.about .lead{max-width:34em;margin:0;color:var(--soft);font:1.05rem/1.75 "Playfair Display",serif}.about .hint{margin:1.6rem 0 0;color:var(--soft);font-size:.85rem}.about .hint:before{content:"";display:inline-block;width:10px;height:10px;margin-right:.6rem;border:2px solid var(--copper);border-radius:50%;background:var(--card)}
 .about .map-wrap{position:relative}.about svg{width:100%;height:auto;display:block}.about .land,.about .arcs{pointer-events:none}.about .land{fill:var(--dot)}.about .arc{fill:none;stroke:var(--copper);stroke-width:2.2;stroke-dasharray:1;stroke-dashoffset:1;opacity:.55;animation:about-draw 1.6s ease forwards;animation-delay:calc(.4s + var(--d));transition:opacity .3s,stroke-width .3s}.about .arc.on{opacity:1;stroke-width:3.6}@keyframes about-draw{to{stroke-dashoffset:0}}.about .pin{cursor:pointer;outline:none;pointer-events:all;touch-action:manipulation}.about .pin .hit{fill:transparent;pointer-events:all}.about .pin .dot{fill:var(--card);stroke:var(--copper);stroke-width:3;transition:r .25s,fill .25s}.about .pin text{fill:var(--deep);font-size:16px;font-weight:600;text-anchor:middle;opacity:0;pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:7px}.about .pin:hover .dot,.about .pin:focus-visible .dot,.about .pin.on .dot{fill:var(--copper);r:10}.about .pin:hover text,.about .pin:focus-visible text,.about .pin.on text{opacity:1}.about .home .core{fill:var(--copper)}.about .home .ring{fill:none;stroke:var(--copper);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:about-pulse 2.6s ease-out infinite}@keyframes about-pulse{from{transform:scale(.6);opacity:.9}to{transform:scale(2.6);opacity:0}}
