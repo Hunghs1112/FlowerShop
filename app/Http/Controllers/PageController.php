@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\Inquiry;
+use App\Models\FlowerOrigin;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,9 @@ class PageController extends Controller
             ? ['custom' => $introPage->header_image_url, 'hide_overlay' => $introPage->hide_header_overlay]
             : [];
 
-        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner'));
+        $flowers = FlowerOrigin::active()->orderBy('sort_order')->get();
+
+        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowers'));
     }
 
     public function contact()
