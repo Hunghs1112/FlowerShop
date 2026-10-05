@@ -79,10 +79,10 @@
             </li>
             @endif
 
-            {{-- B2C --}}
+            {{-- B2B --}}
             <li class="navbar-nav-item">
                 <a href="{{ route('b2c') }}" class="navbar-nav-link {{ request()->routeIs('b2c') ? 'active' : '' }}">
-                    B2C
+                    B2B
                 </a>
             </li>
 
@@ -269,8 +269,8 @@
             </li>
             @endif
 
-            {{-- B2C --}}
-            <li><a href="{{ route('b2c') }}">B2C</a></li>
+            {{-- B2B --}}
+            <li><a href="{{ route('b2c') }}">B2B</a></li>
 
             @auth
                 <div class="mobile-menu-divider"></div>
