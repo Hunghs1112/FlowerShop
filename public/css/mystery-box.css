@@ -359,13 +359,13 @@
 
 /* Mystery room experience */
 #mysteryBoxExperience {
-    --mr-bg: #f5ebe6;
-    --mr-paper: #fcf8f5;
+    --mr-bg: var(--color-cream);
+    --mr-paper: var(--color-white);
     --mr-ink: #5e4636;
-    --mr-soft: #8c6e5c;
-    --mr-copper: #c78e66;
-    --mr-deep: #a8714e;
-    --mr-line: #e6d3c6;
+    --mr-soft: #766657;
+    --mr-copper: var(--color-primary);
+    --mr-deep: var(--color-primary-dark);
+    --mr-line: var(--color-border);
     margin: calc(var(--space-8, 2rem) * -1) 0 0;
     padding: clamp(1.5rem, 4vw, 3.5rem) 0 1rem;
     background: var(--mr-bg);
@@ -377,7 +377,7 @@
 #mysteryBoxExperience *::before,
 #mysteryBoxExperience *::after { box-sizing: border-box; }
 
-.mystery-room__wrap { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
+.mystery-room__wrap { max-width: 1440px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
 .mystery-room__header { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap; padding: clamp(1rem, 3vw, 2rem) 0 1.2rem; }
 .mystery-room__brand { display: inline-flex; align-items: center; gap: .55rem; color: var(--mr-deep); text-decoration: none; letter-spacing: .12em; font-size: .76rem; margin-bottom: 1.3rem; }
 .mystery-room__brand:first-letter { font-size: 1.4rem; }
@@ -390,11 +390,11 @@
 .mystery-room__button:hover { transform: translateY(-1px); border-color: var(--mr-copper); }
 .mystery-room__button:focus-visible, .mystery-room__object:focus-visible, .mystery-room__slot:focus-visible { outline: 3px solid var(--mr-copper); outline-offset: 3px; }
 .mystery-room__button--primary { background: var(--mr-copper); border-color: var(--mr-copper); color: #fffaf5; }
-.mystery-room__stage { position: relative; overflow: hidden; border: 1px solid rgba(169, 126, 94, .25); border-radius: 26px; background: #eadbcf; box-shadow: 0 35px 75px -42px rgba(120, 80, 55, .45); isolation: isolate; }
+.mystery-room__stage { position: relative; overflow: hidden; border: 1px solid var(--mr-line); border-radius: 26px; background: var(--color-botanical); box-shadow: 0 28px 60px -42px rgba(46, 68, 52, .28); isolation: isolate; }
 .mystery-room__scene { display: block; width: 100%; height: auto; }
 .mystery-room__object { cursor: pointer; outline: none; }
 .mystery-room__hit { fill: transparent; }
-.mystery-room__object:focus-visible .mystery-room__hit { stroke: #c78e66; stroke-width: 3; stroke-dasharray: 6 5; }
+.mystery-room__object:focus-visible .mystery-room__hit { stroke: var(--color-primary); stroke-width: 3; stroke-dasharray: 6 5; }
 .mystery-room__object.is-found .mystery-room__object-art { filter: drop-shadow(0 0 7px rgba(255, 214, 160, .95)); }
 .mystery-room__hint-ring { fill: none; stroke: #fff3e3; stroke-width: 4; opacity: 0; pointer-events: none; }
 .mystery-room__object.is-hinted .mystery-room__hint-ring { animation: mystery-ring 1.25s ease-out 2; }
@@ -436,10 +436,10 @@
 .mystery-room__agreement a { color: var(--mr-deep); }
 .mystery-room__dialog-error { min-height: 1.15em; margin: .4rem 0 0; color: #a34035; font-size: .82rem; }
 .mystery-room__dialog-actions { display: flex; justify-content: flex-end; gap: .55rem; margin-top: .7rem; }
-.mystery-room__success { position: absolute; z-index: 4; inset: 0; display: grid; align-content: center; justify-items: center; padding: 1.5rem; background: rgba(43, 32, 27, .88); color: #f4e8dc; text-align: center; }
-.mystery-room__success h2 { margin: .8rem 0 .35rem; color: #e2ae84; font-size: clamp(1.4rem, 3vw, 2rem); text-transform: uppercase; letter-spacing: .04em; }
-.mystery-room__success p { max-width: 30em; margin: 0 0 1rem; color: #d9c3af; font: italic .98rem/1.6 Lora, Georgia, serif; }
-.mystery-room__wax { display: grid; width: 76px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c98a66, #9a5a40 70%); color: #f6e3d3; font-weight: 600; letter-spacing: .08em; box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .6); animation: mystery-pop .6s cubic-bezier(.3, 1.6, .5, 1); }
+.mystery-room__success { position: absolute; z-index: 4; inset: 0; display: grid; align-content: center; justify-items: center; padding: 1.5rem; background: rgba(232, 238, 227, .96); color: var(--mr-ink); text-align: center; }
+.mystery-room__success h2 { margin: .8rem 0 .35rem; color: var(--color-primary); font-size: clamp(1.4rem, 3vw, 2rem); text-transform: uppercase; letter-spacing: .04em; }
+.mystery-room__success p { max-width: 30em; margin: 0 0 1rem; color: var(--mr-soft); font: italic .98rem/1.6 Lora, Georgia, serif; }
+.mystery-room__wax { display: grid; width: 76px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #71856f, #3f5a45 70%); color: var(--color-white); font-weight: 600; letter-spacing: .08em; box-shadow: 0 10px 24px -10px rgba(46, 68, 52, .35); animation: mystery-pop .6s cubic-bezier(.3, 1.6, .5, 1); }
 .mystery-room__progress { position: absolute; right: 1rem; bottom: .8rem; z-index: 1; padding: .35rem .6rem; border-radius: 999px; background: rgba(252, 248, 245, .85); color: var(--mr-deep); font-size: .7rem; letter-spacing: .12em; pointer-events: none; }
 @keyframes mystery-pop { from { transform: scale(1.7); opacity: 0; } }
 @media (max-width: 760px) {
