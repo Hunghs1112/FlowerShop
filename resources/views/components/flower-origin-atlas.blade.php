@@ -68,10 +68,10 @@
                     <g class="flower-atlas__pins">
                         @foreach($flowers as $flower)
                             <g class="map-pin" data-region="{{ $flower['id'] }}" tabindex="0" role="button" aria-label="{{ $flower['country'] }}: {{ $flower['flower'] }}" aria-pressed="false">
-                                <circle class="map-pin__hit" cx="{{ $flower['x'] }}" cy="{{ $flower['y'] }}" r="20" />
-                                <circle class="map-pin__halo" cx="{{ $flower['x'] }}" cy="{{ $flower['y'] }}" r="10" />
-                                <circle class="map-pin__dot" cx="{{ $flower['x'] }}" cy="{{ $flower['y'] }}" r="5.5" />
-                                <text x="{{ $flower['x'] }}" y="{{ $flower['y'] - 16 }}">{{ $flower['country'] }}</text>
+                                <circle class="map-pin__hit" cx="{{ $flower['map_x'] }}" cy="{{ $flower['map_y'] }}" r="20" />
+                                <circle class="map-pin__halo" cx="{{ $flower['map_x'] }}" cy="{{ $flower['map_y'] }}" r="10" />
+                                <circle class="map-pin__dot" cx="{{ $flower['map_x'] }}" cy="{{ $flower['map_y'] }}" r="5.5" />
+                                <text x="{{ $flower['map_x'] }}" y="{{ $flower['map_y'] - 16 }}">{{ $flower['country'] }}</text>
                             </g>
                         @endforeach
                     </g>
