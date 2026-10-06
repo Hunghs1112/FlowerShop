@@ -21,5 +21,6 @@ class ExampleTest extends TestCase
             ->assertSee('class="site-footer"', false);
 
         $this->assertSame(1, substr_count($response->getContent(), '<!DOCTYPE html>'));
+        $this->assertStringContainsString('background:var(--bg)', $response->getContent());
     }
 }

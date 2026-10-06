@@ -31,7 +31,7 @@ header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .icons{display:flex;gap:1rem}.icons a{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;color:var(--ink)}.icons a:hover{background:var(--paper)}
 .icons svg{width:20px;height:20px}
 /* hero */
-.hero{padding:clamp(2rem,5vw,4rem) 0 clamp(3rem,6vw,5rem)}
+.hero{position:relative;height:auto;min-height:0;max-height:none;overflow:visible;background:var(--bg);padding:clamp(2rem,5vw,4rem) 0 clamp(3rem,6vw,5rem)}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(2rem,4vw,4rem);align-items:center}
 .hero h1{margin:0;font-weight:600;color:var(--copper);font-size:clamp(2.1rem,4vw,3.5rem);line-height:1.04;text-transform:uppercase;letter-spacing:.005em}
 .hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;color:var(--deep);display:block;font-size:.62em;margin-top:.5rem;letter-spacing:0}
