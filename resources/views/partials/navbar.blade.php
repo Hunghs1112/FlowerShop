@@ -109,15 +109,6 @@
                 </svg>
             </button>
 
-            {{-- Favorites (Wishlist) --}}
-            @auth
-                <a href="{{ route('favorites.index') }}" class="navbar-action-btn navbar-favorites-btn" title="Yêu thích" aria-label="Yêu thích">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-                </a>
-            @endauth
-
             {{-- Cart --}}
             <a href="{{ route('cart.index') }}" class="navbar-action-btn navbar-cart-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,16 +216,6 @@
                     @endif
                 </a>
             </li>
-            @auth
-                <li>
-                    <a href="{{ route('favorites.index') }}" class="mobile-menu-action-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                        </svg>
-                        <span>Yêu thích</span>
-                    </a>
-                </li>
-            @endauth
         </ul>
 
         <ul class="navbar-mobile-nav">
