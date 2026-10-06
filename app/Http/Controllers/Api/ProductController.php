@@ -3,53 +3,32 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function __construct(
-        protected ProductService $productService
-    ) {}
+    public function __construct(protected ProductService $productService) {}
 
-    /**
-     * Get products by type (best-selling, new-arrival, category)
-     */
-    public function getProducts(Request $request): JsonResponse
+    public function getProducts(Request $request)
     {
-        $type = $request->input('type', 'best-selling');
-        $categoryId = $request->input('category_id');
-        $limit = $request->input('limit', 8);
-        
-        // CRITICAL: Pass authenticated user for VIP filtering
+        $validated = $request->validate([
+            'type' => ['nullable', 'in:best-selling,new-arrival,category'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
+            'limit' => ['nullable', 'integer', 'min:1', 'max:24'],
+        ]);
+        $type = $validated['type'] ?? 'best-selling';
+        $categoryId = $validated['category_id'] ?? null;
+        $limit = $validated['limit'] ?? 8;
         $user = auth()->user();
 
-        $products = match($type) {
+        $products = match ($type) {
             'best-selling' => $this->productService->getBestSellingProducts($limit, $categoryId, $user),
             'new-arrival' => $this->productService->getNewArrivalProducts($limit, $categoryId, $user),
-            'category' => $categoryId 
-                ? $this->productService->getProductsByCategory($categoryId, $limit, $user)
-                : collect([]),
-            default => $this->productService->getBestSellingProducts($limit, $categoryId, $user),
+            'category' => $categoryId ? $this->productService->getProductsByCategory($categoryId, $limit, $user) : collect(),
         };
 
-        return response()->json([
-            'success' => true,
-            'data' => $products->map(function ($product) {
-                return [
-                    'id' => $product->id,
-                    'name' => $product->name,
-                    'slug' => $product->slug,
-                    'price' => $product->price,
-                    'formatted_price' => number_format($product->price, 0, ',', '.') . 'đ',
-                    'short_description' => $product->short_description,
-                    'image' => $product->productImages->first()?->image_url ?? asset('storage/placeholder.jpg'),
-                    'secondary_image' => $product->productImages->count() > 1 ? $product->productImages[1]->image_url : null,
-                    'category' => $product->category?->name,
-                    'url' => route('products.show', $product),
-                ];
-            }),
-        ]);
+        return ProductResource::collection($products)->additional(['success' => true]);
     }
 }

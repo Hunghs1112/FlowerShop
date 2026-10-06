@@ -51,6 +51,12 @@
                 </li>
 
                 <li class="admin-nav-item">
+                    <a href="{{ route('admin.orders.index') }}" class="admin-nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                        <span class="admin-nav-text">Đơn hàng</span>
+                    </a>
+                </li>
+
+                <li class="admin-nav-item">
                     <a href="{{ route('admin.inquiries.index') }}" 
                        class="admin-nav-link {{ request()->routeIs('admin.inquiries.*') ? 'active' : '' }}">
                         <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">

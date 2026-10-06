@@ -5,13 +5,11 @@
 ```
 home/
 ├── index.blade.php              ← Main entry point (29 lines)
-├── index-backup.blade.php       ← Backup of old monolithic file
 └── sections/                    ← Modular sections
     ├── hero.blade.php           ← Hero slider with 3 slides
     ├── products.blade.php       ← Best selling products grid
     ├── categories.blade.php     ← Category discovery section
     ├── brand-values.blade.php   ← 3 brand value cards
-    ├── partners.blade.php       ← Partner logos showcase
     ├── inspiration.blade.php    ← Blog posts grid
     └── instagram.blade.php      ← Instagram gallery feed
 ```
@@ -92,7 +90,6 @@ resources/views/home/sections/brand-values.blade.php
 ### To Edit Partners
 ```bash
 # Open
-resources/views/home/sections/partners.blade.php
 
 # Partners: FlowerFarm, EcoGarden, BloomCo, PetalSource, GreenValley
 ```
@@ -164,17 +161,7 @@ resources/views/layouts/app.blade.php:
 
 ## 🔄 Removing a Section
 
-### Method 1: Comment Out
-```blade
-{{-- @include('home.sections.partners') --}}
-```
-
-### Method 2: Conditional Include
-```blade
-@if(config('features.show_partners'))
-    @include('home.sections.partners')
-@endif
-```
+Remove the section include from `resources/views/home/index.blade.php` when a section is no longer needed.
 
 ## 📊 Data Requirements
 
@@ -330,4 +317,3 @@ $cachedHero = Cache::remember('home.hero', 3600, function () {
 - Check summary: `/CLEAN_CODE_SUMMARY.md`
 - Check Laravel docs: https://laravel.com/docs
 - Check Blade docs: https://laravel.com/docs/blade
-

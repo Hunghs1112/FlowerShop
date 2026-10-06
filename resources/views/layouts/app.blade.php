@@ -35,7 +35,7 @@
     @endif
 
     {{-- Floating chat widget (visible to all non-admin users including guests) --}}
-    @if(!auth()->check() || !auth()->user()->is_admin)
+    @if(!auth()->check() || !auth()->user()->isAdmin())
         <div class="floating-chat-container">
                 {{-- Chat window --}}
                 <div class="floating-chat-window" id="floatingChatWindow">
@@ -214,7 +214,7 @@
     </script>
 
     {{-- Floating chat widget logic (visible to all non-admin users including guests) --}}
-    @if(!auth()->check() || !auth()->user()->is_admin)
+    @if(!auth()->check() || !auth()->user()->isAdmin())
         <script>
         (function() {
             const btn = document.getElementById('floatingChatBtn');

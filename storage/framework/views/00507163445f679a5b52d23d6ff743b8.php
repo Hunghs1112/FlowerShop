@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 
     (function () {
         const darkStyles = document.querySelector('style[data-theme="dark"]')?.textContent

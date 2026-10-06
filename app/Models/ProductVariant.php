@@ -131,7 +131,7 @@ class ProductVariant extends Model
             'short_description' => $this->getDisplayShortDescription(),
             'color' => $this->color,
             'size' => $this->size,
-            'attributes' => $this->attributes,
+            'attributes' => $this->getAttribute('attributes'),
             'primary_image_url' => $this->getPrimaryImageUrl(),
             'images' => $this->getAllImages(),
             'is_active' => $this->is_active,

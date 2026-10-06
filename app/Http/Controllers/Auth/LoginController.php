@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\CartService;
 
 class LoginController extends Controller
 {
@@ -13,15 +14,17 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(Request $request, CartService $cartService)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        $guestSessionId = $request->session()->getId();
+        if (Auth::attempt(array_merge($credentials, ['is_active' => true]), $request->boolean('remember'))) {
             $request->session()->regenerate();
+            $cartService->mergeGuestCart($guestSessionId);
 
             // Redirect admin to admin dashboard, others to home (ignore intended URL)
             if (Auth::user()->isAdmin()) {

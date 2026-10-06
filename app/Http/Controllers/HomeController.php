@@ -2,34 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
+use App\Models\Post;
 use App\Services\CategoryService;
 use App\Services\ProductService;
-use App\Models\Post;
-use App\Models\Banner;
+use App\Services\SettingService;
 
 class HomeController extends Controller
 {
     public function __construct(
         protected CategoryService $categoryService,
-        protected ProductService $productService
+        protected ProductService $productService,
+        protected SettingService $settingService,
     ) {}
 
     public function index()
     {
-        // CRITICAL: Pass authenticated user for VIP filtering
         $user = auth()->user();
-        
-        $bestsellingProducts = $this->productService->getBestsellingProducts(8, null, $user);
+        $bestsellingProducts = $this->productService->getBestSellingProducts(8, null, $user);
         $categories = $this->categoryService->getActiveCategories();
         $latestPosts = Post::published()->latest('published_at')->limit(3)->get();
-        
-        // Get home banners for slider
         $banners = Banner::active()->forLocation('home')->ordered()->get();
-        
-        $siteSettings = [
-            'site_name' => config('app.name', 'Lâm Nhiên Thảo'),
-            'instagram_url' => 'https://instagram.com/lamnhienthao'
-        ];
+        $siteSettings = $this->settingService->getSiteInfo();
 
         return view('home.index', compact('bestsellingProducts', 'categories', 'latestPosts', 'banners', 'siteSettings'));
     }

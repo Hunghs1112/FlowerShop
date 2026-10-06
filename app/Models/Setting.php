@@ -41,6 +41,7 @@ class Setting extends Model
         );
         
         Cache::forget("setting_{$key}");
+        Cache::forget('all_settings');
     }
 
     // Clear all settings cache

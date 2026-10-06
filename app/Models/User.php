@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(Inquiry::class);
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function chatMessages(): HasMany
     {
         return $this->hasMany(ChatMessage::class);

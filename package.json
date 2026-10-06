@@ -1,9 +1,0 @@
-{
-    "$schema": "https://schemastore.org/schemas/json/package.json",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "echo 'No build system configured'",
-        "build": "echo 'No build system configured'"
-    }
-}

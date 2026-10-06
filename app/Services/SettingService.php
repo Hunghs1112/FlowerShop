@@ -77,9 +77,13 @@ class SettingService
             'phone',
             'address',
             'zalo_id',
+            'zalo_url',
             'zalo_qr',
             'facebook_url',
             'instagram_url',
+            'tiktok_url',
+            'youtube_url',
+            'social_youtube',
             'about',
         ]);
 

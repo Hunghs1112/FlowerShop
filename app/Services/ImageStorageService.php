@@ -122,13 +122,7 @@ class ImageStorageService
             );
         }
 
-        // Best-effort cleanup of the previous file. Failures are swallowed
-        // because (a) file may already be missing and (b) we don't want a
-        // broken delete to fail a successful upload.
-        if ($oldFile) {
-            $this->delete($oldFile);
-        }
-
+        if ($oldFile) $this->delete($oldFile);
         return $path;
     }
 

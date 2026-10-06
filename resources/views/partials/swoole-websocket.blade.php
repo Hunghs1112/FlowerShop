@@ -72,7 +72,7 @@
 
     // Example: Subscribe to admin notifications
     @auth
-    @if(auth()->user()->is_admin)
+    @if(auth()->user()->isAdmin())
     swoole.channel('admin.notifications')
         .listen('NewOrder', (data) => {
             console.log('New order:', data);

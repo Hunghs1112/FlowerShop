@@ -15,6 +15,7 @@ class Inquiry extends Model
         'zalo_id',
         'product_ids',
         'message',
+        'admin_notes',
         'status',
     ];
 

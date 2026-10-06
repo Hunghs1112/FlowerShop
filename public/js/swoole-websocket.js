@@ -342,22 +342,25 @@ class Channel {
 
     listen(eventName, callback) {
         // Subscribe to channel if not already
-        this.socket.subscribe(this.channelName, (data, event) => {
+        const wrapper = (data, event) => {
             if (event === eventName || event === `App\\Events\\${eventName}`) {
                 callback(data);
             }
-        });
+        };
+        this.socket.subscribe(this.channelName, wrapper);
 
         // Store listener for cleanup
         if (!this.listeners.has(eventName)) {
             this.listeners.set(eventName, []);
         }
-        this.listeners.get(eventName).push(callback);
+        this.listeners.get(eventName).push({ callback, wrapper });
 
         return this;
     }
 
     stopListening(eventName) {
+        const listeners = this.listeners.get(eventName) || [];
+        for (const { wrapper } of listeners) this.socket.unsubscribe(this.channelName, wrapper);
         this.listeners.delete(eventName);
         return this;
     }

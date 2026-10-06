@@ -127,6 +127,16 @@ class SwooleWebSocketServer
      */
     protected function subscribeChannel(int $fd, ?string $channel): void
     {
+        // This standalone server has no Laravel session/token context, so it
+        // cannot safely authorize private channels. Polling remains the
+        // fallback until the server is wired to Laravel's broadcaster.
+        $this->server->push($fd, json_encode([
+            'type' => 'error',
+            'message' => 'Private channel authorization is unavailable on this socket; use polling.',
+        ]));
+        return;
+
+        /*
         if (!$channel) {
             $this->server->push($fd, json_encode([
                 'type' => 'error',
@@ -155,6 +165,7 @@ class SwooleWebSocketServer
             'type' => 'subscription_succeeded',
             'channel' => $channel,
         ]));
+        */
     }
 
     /**

@@ -16,7 +16,7 @@ class ChatController extends Controller
     {
         $messages = ChatMessage::forUser(auth()->id())
             ->with('user')
-            ->get();
+            ->limit(100)->get();
 
         // Mark admin messages as read
         ChatMessage::where('user_id', auth()->id())
@@ -97,13 +97,13 @@ class ChatController extends Controller
             'after' => 'nullable|integer|min:0',
         ]);
 
-        $afterId = $request->input('after', 0);
+        $afterId = (int) $request->input('after', 0);
         
         $messages = ChatMessage::forUser(auth()->id())
             ->where('id', '>', $afterId)
             ->with('user')
             ->orderBy('created_at', 'asc')
-            ->get();
+            ->limit(100)->get();
 
         // Mark admin messages as read
         if ($messages->isNotEmpty()) {

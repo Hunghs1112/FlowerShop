@@ -284,7 +284,7 @@ class SettingController extends Controller
                 'success' => true,
                 'message' => 'Đã tải lên logo',
                 // Banner files live in public/images/banners, not storage/app/public.
-                'imageUrl' => asset($path),
+                'imageUrl' => $this->images->url($path),
             ]);
         } catch (\Throwable $e) {
             return response()->json([
@@ -327,7 +327,7 @@ class SettingController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Đã tải lên banner',
-                'imageUrl' => asset('storage/' . $path),
+                'imageUrl' => $this->images->url($path),
             ]);
         } catch (\Throwable $e) {
             return response()->json([

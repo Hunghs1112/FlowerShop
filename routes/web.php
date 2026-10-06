@@ -36,9 +36,9 @@ Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show
 
 // Pages
 Route::get('/gioi-thieu', [PageController::class, 'about'])->name('about');
-Route::redirect('/ve-chung-toi', '/gioi-thieu');
+Route::get('/ve-chung-toi', [PageController::class, 'about']);
 Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
-Route::post('/lien-he', [PageController::class, 'contactSubmit'])->name('contact.store');
+Route::post('/lien-he', [PageController::class, 'contactSubmit'])->middleware('throttle:10,1')->name('contact.store');
 Route::redirect('/trang/lien-he', '/lien-he');
 Route::redirect('/trang/gioi-thieu', '/gioi-thieu');
 Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
@@ -51,15 +51,15 @@ Route::delete('/gio-hang/{cartItem}', [CartController::class, 'destroy'])->name(
 Route::delete('/gio-hang', [CartController::class, 'clear'])->name('cart.clear');
 
 // Quick order
-Route::post('/dat-hang-nhanh', [QuickOrderController::class, 'store'])->name('quick-order.store');
+Route::post('/dat-hang-nhanh', [QuickOrderController::class, 'store'])->middleware(['auth', 'throttle:10,1'])->name('quick-order.store');
 
 // B2C landing & registration
 Route::get('/b2c', [B2cController::class, 'index'])->name('b2c');
-Route::post('/b2c', [B2cController::class, 'store'])->name('b2c.store');
+Route::post('/b2c', [B2cController::class, 'store'])->middleware('throttle:5,1')->name('b2c.store');
 
 // Auth
 Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->middleware('throttle:5,1');
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
@@ -76,12 +76,12 @@ Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordControlle
 Route::middleware(['auth'])->group(function () {
     // Checkout
     Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/thanh-toan', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post('/thanh-toan', [CheckoutController::class, 'store'])->middleware('throttle:10,1')->name('checkout.store');
     Route::get('/thanh-toan/thanh-cong/{inquiry?}', [CheckoutController::class, 'success'])->name('checkout.success');
 
     // Mystery Box
     Route::get('/hop-hoa-bi-an', [\App\Http\Controllers\MysteryBoxController::class, 'index'])->name('mystery-box.index');
-    Route::post('/hop-hoa-bi-an', [\App\Http\Controllers\MysteryBoxController::class, 'store'])->name('mystery-box.store');
+    Route::post('/hop-hoa-bi-an', [\App\Http\Controllers\MysteryBoxController::class, 'store'])->middleware('throttle:5,1')->name('mystery-box.store');
     Route::get('/hop-hoa-bi-an/thanh-cong/{request}', [\App\Http\Controllers\MysteryBoxController::class, 'success'])->name('mystery-box.success');
 
     // Profile
@@ -111,10 +111,6 @@ Route::get('/api/search', [SearchController::class, 'autocomplete'])->name('api.
 // ============================================================
 // Utility routes
 // ============================================================
-Route::get('/setup-clear', function () {
-    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-    return response('<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>');
-})->name('setup.clear');
 
 // ============================================================
 // Admin routes
@@ -217,6 +213,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('users/{user}/vip-level', [\App\Http\Controllers\Admin\UserController::class, 'updateVipLevel'])->name('users.updateVipLevel');
 
     // Inquiries
+    Route::get('orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{order}', [\App\Http\Controllers\Admin\OrderController::class, 'show'])->name('orders.show');
     Route::get('inquiries', [\App\Http\Controllers\Admin\InquiryController::class, 'index'])->name('inquiries.index');
     Route::get('inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'show'])->name('inquiries.show');
     Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\InquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');

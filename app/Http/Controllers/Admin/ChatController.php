@@ -115,13 +115,17 @@ class ChatController extends Controller
     public function poll(Request $request): JsonResponse
     {
 
-        $userId = $request->input('user_id');
-        $afterId = (int) $request->input('after', 0);
+        $validated = $request->validate([
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'after' => ['nullable', 'integer', 'min:0'],
+        ]);
+        $userId = $validated['user_id'];
+        $afterId = (int) ($validated['after'] ?? 0);
 
         $messages = ChatMessage::where('user_id', $userId)
             ->where('id', '>', $afterId)
             ->orderBy('id', 'asc')
-            ->get()
+            ->limit(100)->get()
             ->map(function ($msg) {
                 return [
                     'id' => $msg->id,

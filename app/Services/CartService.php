@@ -118,6 +118,10 @@ class CartService
                 return null;
             }
             
+            $stock = $cartItem->variant?->stock ?? $cartItem->product?->stock ?? 0;
+            if ($quantity > $stock) {
+                throw new \RuntimeException('Số lượng vượt quá tồn kho (còn ' . $stock . ')');
+            }
             $cartItem->quantity = $quantity;
             $cartItem->save();
         }
@@ -182,7 +186,12 @@ class CartService
                 ->first();
 
             if ($userItem) {
-                $userItem->quantity += $guestItem->quantity;
+                $stock = $guestItem->variant?->stock ?? $guestItem->product?->stock ?? 0;
+                $userItem->quantity = min($userItem->quantity + $guestItem->quantity, $stock);
+                if ($userItem->quantity < 1) {
+                    $guestItem->delete();
+                    continue;
+                }
                 $userItem->save();
             } else {
                 $guestItem->user_id = Auth::id();

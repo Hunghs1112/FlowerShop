@@ -175,7 +175,7 @@ class ProductService
                 break;
         }
 
-        return $query->paginate($filters['per_page'] ?? 12);
+        return $query->paginate(min(max((int) ($filters['per_page'] ?? 12), 1), 48));
     }
 
     /**

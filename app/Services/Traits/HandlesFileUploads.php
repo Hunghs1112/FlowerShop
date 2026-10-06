@@ -64,11 +64,9 @@ trait HandlesFileUploads
     protected function replaceFile(?string $oldPath, UploadedFile $newFile, string $folder): ?string
     {
         try {
-            if ($oldPath) {
-                $this->imageService->delete($oldPath);
-            }
-
-            return $this->imageService->upload($newFile, $folder);
+            $newPath = $this->imageService->upload($newFile, $folder);
+            if ($oldPath) $this->imageService->delete($oldPath);
+            return $newPath;
         } catch (\Throwable $e) {
             report($e);
             return $oldPath; // Fallback to old file

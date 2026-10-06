@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\VipLevel;
+use App\Models\Order;
 use App\Policies\BannerPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\PagePolicy;
@@ -16,6 +17,7 @@ use App\Policies\PostPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VipLevelPolicy;
+use App\Policies\OrderPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Page::class => PagePolicy::class,
         User::class => UserPolicy::class,
         VipLevel::class => VipLevelPolicy::class,
+        Order::class => OrderPolicy::class,
     ];
 
     /**

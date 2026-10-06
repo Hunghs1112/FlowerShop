@@ -60,7 +60,11 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:0',
         ]);
 
-        $this->cartService->updateQuantity($id, $validated['quantity']);
+        try {
+            $this->cartService->updateQuantity($id, $validated['quantity']);
+        } catch (\RuntimeException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
         if ($request->wantsJson()) {
             return response()->json([

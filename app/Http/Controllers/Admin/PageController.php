@@ -44,7 +44,7 @@ class PageController extends Controller
             }
         }
 
-        $pages = $query->latest()->paginate($request->input('per_page', 15));
+        $pages = $query->latest()->paginate(min(max((int) $request->input('per_page', 15), 1), 100));
 
         return view('admin.pages.index', [
             'pages'  => $pages,

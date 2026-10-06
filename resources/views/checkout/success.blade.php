@@ -15,7 +15,19 @@
             <h1 class="success-title">Đặt hàng thành công!</h1>
             <p class="success-message">Cảm ơn bạn đã tin tưởng và lựa chọn LNT Flower. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng.</p>
 
-            @if($inquiry ?? null)
+            @if($order ?? null)
+            <div class="success-order-info">
+                <div class="order-info-item">
+                    <span class="order-info-label">Mã đơn hàng</span>
+                    <span class="order-info-value">#{{ $order->id }}</span>
+                </div>
+                <div class="order-info-divider"></div>
+                <div class="order-info-item">
+                    <span class="order-info-label">Ngày đặt</span>
+                    <span class="order-info-value">{{ $order->created_at->format('d/m/Y') }}</span>
+                </div>
+            </div>
+            @elseif($inquiry ?? null)
             <div class="success-order-info">
                 <div class="order-info-item">
                     <span class="order-info-label">Mã đơn hàng</span>

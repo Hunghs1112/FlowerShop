@@ -1,4 +1,4 @@
-<div class="hidden overflow-x-auto sm:col-span-1 lg:block">
+﻿<div class="hidden overflow-x-auto sm:col-span-1 lg:block">
     <div
         class="h-[35.5rem] scrollbar-hidden trace text-sm text-gray-400 dark:text-gray-300"
     >

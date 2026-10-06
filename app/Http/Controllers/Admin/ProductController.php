@@ -154,7 +154,7 @@ class ProductController extends Controller
                 $uploadedImages = [];
 
                 foreach ($files as $index => $file) {
-                    $path = $this->images->upload($file, $folder, 'product_images');
+                    $path = $this->images->upload($file, $folder, null, 'product_image');
 
                     $image = ProductImage::create([
                         'product_id' => $product->id,
@@ -203,7 +203,8 @@ class ProductController extends Controller
                 $path = $this->images->upload(
                     $request->file('file'),
                     $folder,
-                    'product_images'
+                    null,
+                    'product_image'
                 );
 
                 $maxSortOrder = $product->productImages()->max('sort_order') ?? -1;
@@ -628,7 +629,7 @@ class ProductController extends Controller
     public function processImport(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:csv,txt',
+            'file' => 'required|file|mimes:csv,txt|max:5120',
         ]);
 
         try {
@@ -643,7 +644,7 @@ class ProductController extends Controller
 
             // Normalize headers - remove BOM if present
             $headers = array_map(function($h) {
-                return trim($h);
+                return trim(preg_replace('/^\xEF\xBB\xBF/', '', $h));
             }, $row);
 
             // Validate headers
@@ -657,8 +658,19 @@ class ProductController extends Controller
 
             $successCount = 0;
             $line = 2;
+            $errorCount = 0;
+            DB::beginTransaction();
 
             while (($row = fgetcsv($handle)) !== false) {
+                if ($line > 1001) {
+                    $errorCount++;
+                    break;
+                }
+                if (count($row) !== count($headers)) {
+                    $errorCount++;
+                    $line++;
+                    continue;
+                }
                 $data = array_combine($headers, $row);
 
                 if (empty($data['ten_san_pham'])) {
@@ -707,15 +719,25 @@ class ProductController extends Controller
 
                 $successCount++;
                 $line++;
+                if ($successCount % 100 === 0) {
+                    DB::commit();
+                    DB::beginTransaction();
+                }
             }
 
+            DB::commit();
             fclose($handle);
 
-            return redirect()->route('admin.products.index')
-                ->with('success', "Đã nhập {$successCount} sản phẩm thành công");
+            $message = "Đã nhập {$successCount} sản phẩm thành công";
+            if ($errorCount) $message .= "; bỏ qua {$errorCount} dòng lỗi";
+            return redirect()->route('admin.products.index')->with('success', $message);
         } catch (\Exception $e) {
+            if (DB::transactionLevel() > 0) DB::rollBack();
+            if (is_resource($handle ?? null)) fclose($handle);
             return redirect()->back()
                 ->with('error', 'Lỗi khi import: ' . $e->getMessage());
+        } finally {
+            if (is_resource($handle ?? null)) fclose($handle);
         }
     }
 

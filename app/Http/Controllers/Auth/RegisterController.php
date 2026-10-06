@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Services\CartService;
 
 class RegisterController extends Controller
 {
@@ -16,8 +17,9 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(Request $request, CartService $cartService)
     {
+        $guestSessionId = $request->session()->getId();
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
@@ -44,6 +46,7 @@ class RegisterController extends Controller
 
         // Auto login after registration
         auth()->login($user);
+        $cartService->mergeGuestCart($guestSessionId);
 
         return redirect()->route('home')->with('success', 'Đăng ký thành công! Chào mừng bạn đến với Lâm Nhiên Thảo.');
     }

@@ -60,7 +60,7 @@ abstract class BaseCrudController extends Controller
         }
 
         // Pagination
-        $perPage = $request->input('per_page', 15);
+        $perPage = min(max((int) $request->input('per_page', 15), 1), 100);
         $items = $query->paginate($perPage);
 
         return view($this->getViewPrefix() . '.index', [
