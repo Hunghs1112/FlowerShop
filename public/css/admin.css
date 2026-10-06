@@ -43,7 +43,7 @@
 .admin-page-title {
     font-size: var(--text-3xl);
     font-weight: 700;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     color: var(--color-text);
     margin: 0 0 var(--space-2) 0;
     line-height: 1.2;
@@ -51,7 +51,7 @@
 
 .admin-page-subtitle {
     font-size: var(--text-base);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     color: var(--color-text-light);
     margin: 0;
     line-height: 1.5;
@@ -72,7 +72,7 @@
 }
 
 .stat-card {
-    background: var(--color-white);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: var(--space-5);
@@ -125,7 +125,7 @@
 
 .stat-label {
     font-size: var(--text-sm);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     color: var(--color-text-light);
     margin-bottom: var(--space-1);
 }
@@ -133,7 +133,7 @@
 .stat-value {
     font-size: var(--text-3xl);
     font-weight: 700;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     color: var(--color-text);
     line-height: 1.2;
 }
@@ -154,7 +154,7 @@
 
 /* Admin Card */
 .admin-card {
-    background: var(--color-white);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -175,7 +175,7 @@
 .admin-card-title {
     font-size: var(--text-lg);
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     color: var(--color-text);
     margin: 0;
     display: flex;

@@ -90,7 +90,7 @@
                 <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Kích thước khuyến nghị: 200x60px. Định dạng: jpg, png, gif, webp.</small>
                 @if(!empty($settings['site_logo']))
                     <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px;">
-                        <img src="{{ asset('storage/' . $settings['site_logo']) }}" alt="Logo" style="max-height: 60px; border: 1px solid var(--admin-border); border-radius: 6px; padding: 4px; background: #fff;">
+                        <img src="{{ asset('storage/' . $settings['site_logo']) }}" alt="Logo" style="max-height: 60px; border: 1px solid var(--admin-border); border-radius: 6px; padding: 4px; background: var(--color-surface);">
                         <button type="button" class="btn btn-secondary btn-sm js-delete-logo"
                                 data-url="{{ route('admin.settings.deleteLogo') }}"
                                 data-confirm="Xóa logo hiện tại?">
@@ -332,7 +332,7 @@
             </h2>
         </div>
         <div class="admin-card-body">
-            <p style="color: var(--admin-text-secondary); margin-bottom: 24px; padding: 12px; background: #eff6ff; border-left: 3px solid #3b82f6; border-radius: 6px;">
+            <p style="color: var(--admin-text-secondary); margin-bottom: 24px; padding: 12px; background: var(--color-surface-elevated); border-left: 3px solid #3b82f6; border-radius: 6px;">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 6px;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
@@ -355,14 +355,14 @@
                 ];
                 @endphp
                 @foreach($bannerFields as $key => [$label, $icon])
-                <div class="banner-field-item" style="padding: 20px; border: 1px solid var(--admin-border); border-radius: 8px; background: #fafafa;">
+                <div class="banner-field-item" style="padding: 20px; border: 1px solid var(--admin-border); border-radius: 8px; background: var(--color-surface-elevated);">
                     <label style="display: block; font-size: 14px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 12px;">
                         <span style="font-size: 18px; margin-right: 6px;">{{ $icon }}</span>
                         {{ $label }}
                     </label>
                     
                     @if(isset($banners[$key]) && $banners[$key])
-                        <div class="banner-preview" style="margin-bottom: 12px; border: 2px solid var(--admin-border); border-radius: 8px; overflow: hidden; position: relative; background: #fff;">
+                        <div class="banner-preview" style="margin-bottom: 12px; border: 2px solid var(--admin-border); border-radius: 8px; overflow: hidden; position: relative; background: var(--color-surface);">
                             <img src="{{ $banners[$key] }}" alt="{{ $label }}" style="width: 100%; height: auto; display: block;">
                             <div style="position: absolute; bottom: 8px; right: 8px; display: flex; gap: 8px;">
                                 <button type="button"
@@ -376,7 +376,7 @@
                             </div>
                         </div>
                     @else
-                        <div style="margin-bottom: 12px; padding: 40px; border: 2px dashed var(--admin-border); border-radius: 8px; text-align: center; background: #f9f9f9; color: var(--admin-text-muted);">
+                        <div style="margin-bottom: 12px; padding: 40px; border: 2px dashed var(--admin-border); border-radius: 8px; text-align: center; background: var(--color-surface-elevated); color: var(--admin-text-muted);">
                             <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 8px; opacity: 0.3;">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>

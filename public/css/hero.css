@@ -103,7 +103,7 @@
 /* === HERO TEXT === */
 .hero-label {
     display: block;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -118,7 +118,7 @@
 }
 
 .hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 400;
     line-height: 1.1;
@@ -132,7 +132,7 @@
 }
 
 .hero-description {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 1.125rem;
     line-height: 1.7;
     color: rgba(247, 244, 237, 0.9);
@@ -150,7 +150,7 @@
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-3) var(--space-6);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-white);
@@ -205,7 +205,7 @@
     position: relative;
     width: 60px;
     height: 3px;
-    background-color: rgba(247, 244, 237, 0.3);
+    background-color: rgb(var(--color-primary-rgb) / .30);
     border: none;
     border-radius: 2px;
     cursor: pointer;
@@ -214,7 +214,7 @@
 }
 
 .hero-indicator:hover {
-    background-color: rgba(247, 244, 237, 0.5);
+    background-color: rgb(var(--color-primary-rgb) / .50);
 }
 
 .hero-indicator-progress {
@@ -236,7 +236,7 @@
     display: flex;
     align-items: baseline;
     gap: 4px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     color: var(--color-white);
 }
 

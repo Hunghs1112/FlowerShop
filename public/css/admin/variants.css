@@ -46,7 +46,7 @@
 
 /* Variant Card */
 .variant-card {
-    background: var(--color-white);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
@@ -275,7 +275,7 @@
 
 /* Empty State */
 .variant-empty-state {
-    background: var(--color-white);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-10);
@@ -314,7 +314,7 @@
 
 /* Form Sections */
 .variant-form-section {
-    background: var(--color-white);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: var(--space-6);

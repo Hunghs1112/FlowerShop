@@ -29,7 +29,7 @@
 .products-filter-sidebar {
     position: sticky;
     top: 96px;
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
@@ -68,7 +68,7 @@
 }
 
 .products-filter-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.25rem;
     font-weight: 500;
     color: var(--color-text);
@@ -135,7 +135,7 @@
 }
 
 .products-filter-group-title {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-text);
@@ -153,7 +153,7 @@
 }
 
 .filter-group-title {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-text);
@@ -292,7 +292,7 @@
     font-size: 0.9375rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     transition: all var(--transition-fast);
 }
 
@@ -479,7 +479,7 @@
     display: none;
     width: 100%;
     padding: var(--space-4);
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     font-weight: 600;
@@ -538,7 +538,7 @@
         width: 320px;
         max-width: 85vw;
         height: 100vh;
-        background-color: var(--color-white);
+        background-color: var(--color-surface);
         box-shadow: var(--shadow-lg);
         overflow-y: auto;
         z-index: var(--z-modal);

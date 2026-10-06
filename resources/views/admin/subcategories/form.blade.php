@@ -10,7 +10,7 @@
                     <select name="category_id" 
                             @if(isset($isEdit) && $isEdit) class="auto-save-select" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @endif
                             required
-                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;">
+                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);">
                         <option value="">-- Chọn danh mục --</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}" {{ old('category_id', $subcategory->category_id ?? '') == $category->id ? 'selected' : '' }}>

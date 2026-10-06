@@ -38,7 +38,7 @@
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     color: var(--color-white);
     border-radius: var(--radius-full);
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.25rem;
     font-weight: 500;
     flex-shrink: 0;
@@ -50,7 +50,7 @@
 }
 
 .account-user-info h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.0625rem;
     font-weight: 500;
     color: var(--color-text);
@@ -127,7 +127,7 @@
 }
 
 .account-card {
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -139,7 +139,7 @@
 }
 
 .account-card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.25rem;
     font-weight: 500;
     color: var(--color-text);
@@ -181,7 +181,7 @@
 }
 
 .inquiry-id {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.0625rem;
     font-weight: 600;
     color: var(--color-primary);
@@ -202,7 +202,7 @@
     line-height: 1.5;
     margin: 0 0 var(--space-4) 0;
     padding: var(--space-3);
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-primary);
 }
@@ -291,14 +291,14 @@
     
     /* Explicit colors for cards */
     .account-card {
-        background-color: var(--color-white) !important;
+        background-color: var(--color-surface) !important;
         border: 1px solid var(--color-border-light) !important;
     }
     
     .account-card-header {
         padding: var(--space-4) var(--space-5);
         border-bottom: 1px solid var(--color-border-light) !important;
-        background-color: var(--color-white) !important;
+        background-color: var(--color-surface) !important;
     }
     
     .account-card-title {
@@ -308,7 +308,7 @@
     
     .account-card-body {
         padding: var(--space-5);
-        background-color: var(--color-white) !important;
+        background-color: var(--color-surface) !important;
     }
     
     /* Explicit colors for form elements */
@@ -321,7 +321,7 @@
     .account-card-body .form-textarea,
     .account-card-body .form-select {
         color: var(--color-text);
-        background-color: var(--color-white);
+        background-color: var(--color-surface);
         border: 1px solid var(--color-border);
     }
     
@@ -348,7 +348,7 @@
     
     .inquiry-message {
         color: var(--color-text);
-        background-color: var(--color-white);
+        background-color: var(--color-surface);
         border-left: 3px solid var(--color-primary);
     }
     

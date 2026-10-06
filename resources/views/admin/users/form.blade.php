@@ -121,7 +121,7 @@
                             class="auto-save-select"
                             data-entity="users"
                             data-id="{{ $user->id ?? '' }}"
-                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" 
+                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);"
                             required>
                         <option value="customer" {{ old('role', $user->role ?? 'customer') === 'customer' ? 'selected' : '' }}>👤 Khách hàng</option>
                         <option value="admin" {{ old('role', $user->role ?? '') === 'admin' ? 'selected' : '' }}>🔐 Quản trị viên</option>
@@ -149,7 +149,7 @@
                             class="auto-save-select"
                             data-entity="users"
                             data-id="{{ $user->id ?? '' }}"
-                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;">
+                            style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);">
                         <option value="">Không có VIP</option>
                         @if(isset($vipLevels))
                             @foreach($vipLevels as $vipLevel)

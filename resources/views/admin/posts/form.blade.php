@@ -142,7 +142,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                 class="auto-save-select"
                                 data-entity="posts"
                                 data-id="{{ $post->id ?? '' }}"
-                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;" 
+                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);"
                                 required>
                             <option value="draft" {{ old('status', $post->status ?? 'draft') === 'draft' ? 'selected' : '' }}>📝 Nháp</option>
                             <option value="published" {{ old('status', $post->status ?? '') === 'published' ? 'selected' : '' }}>✅ Đã xuất bản</option>

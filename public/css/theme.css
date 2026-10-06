@@ -29,7 +29,7 @@
     --color-botanical: #2C231F;
     --color-botanical-pale: #342822;
     
-    --color-white: #2C231F;
+    --color-white: #FFFFFF;
     --color-black: #0E0A08;
     
     /* === TEXT COLORS === */
@@ -84,9 +84,26 @@
 
     /* === SEMANTIC ALIASES === */
     --color-background: var(--color-cream);
-    --color-surface: var(--color-white);
-    --color-on-primary: var(--color-white);
-    --color-on-dark: var(--color-cream);
+    --color-surface: #2C231F;
+    --color-surface-rgb: 44 35 31;
+    --color-surface-elevated: #342822;
+    --color-on-primary: var(--color-black);
+    --color-on-dark: var(--color-text);
+    --color-chrome-background: var(--color-surface);
+    --color-chrome-text: var(--color-text);
+    --color-chrome-accent: var(--color-primary);
+
+    /* === ADMIN COMPATIBILITY ALIASES === */
+    --admin-bg-content: var(--color-surface);
+    --admin-bg-secondary: var(--color-surface-elevated);
+    --admin-bg-hover: var(--color-botanical);
+    --admin-text-primary: var(--color-text);
+    --admin-text-secondary: var(--color-text-light);
+    --admin-text-tertiary: var(--color-text-lighter);
+    --admin-text-muted: var(--color-text-light);
+    --admin-primary: var(--color-primary);
+    --admin-accent: var(--color-accent);
+    --admin-error: var(--color-error);
 
     /* === TYPOGRAPHY === */
     --font-sans: "Josefin Sans", "Avenir Next", "Segoe UI", sans-serif;
@@ -112,14 +129,103 @@
     --breakpoint-desktop: 1280px;
 }
 
-body,
-body * {
-    font-family: var(--font-sans) !important;
+html {
+    color-scheme: dark;
+    background: var(--color-background);
 }
 
-h1, h2, h3, h4, h5, h6,
-.font-serif {
-    font-family: var(--font-serif) !important;
+body {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+}
+
+button, input, select, textarea {
+    color: var(--color-text);
+    font: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+    font-family: var(--font-sans);
+    text-wrap: balance;
+}
+
+.font-serif,
+blockquote {
+    font-family: var(--font-serif);
+}
+
+p, li {
+    text-wrap: pretty;
+}
+
+.main-content {
+    min-height: calc(100dvh - 80px);
+    background: var(--color-background);
+    color: var(--color-text);
+}
+
+.navbar,
+.navbar.scrolled {
+    background: rgb(var(--color-surface-rgb) / .97);
+    border-bottom-color: var(--color-border);
+    color: var(--color-chrome-text);
+}
+
+.navbar-nav-link,
+.navbar-action-btn,
+.navbar-user-toggle,
+.navbar-mobile-nav a,
+.navbar-mobile-accordion-toggle {
+    color: var(--color-chrome-text);
+}
+
+.navbar-nav-link:hover,
+.navbar-nav-link.active,
+.navbar-action-btn:hover,
+.navbar-user-toggle:hover {
+    color: var(--color-chrome-accent);
+}
+
+.site-footer {
+    background: var(--color-chrome-background);
+    color: var(--color-chrome-text);
+    border-top: 1px solid var(--color-border);
+}
+
+.footer-column-heading,
+.footer-contact-phone,
+.footer-link:hover,
+.footer-bottom-link:hover {
+    color: var(--color-chrome-accent);
+}
+
+.footer-contact-value,
+.footer-link {
+    color: var(--color-chrome-text);
+}
+
+.footer-contact-label,
+.footer-newsletter-description,
+.footer-newsletter-consent,
+.footer-copyright,
+.footer-bottom-link {
+    color: var(--color-text-light);
+}
+
+:where(.btn-primary, .btn.primary, .search-submit-btn, .footer-newsletter-button) {
+    color: var(--color-on-primary);
+}
+
+:where(input, select, textarea) {
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+:where(input, select, textarea)::placeholder {
+    color: var(--color-text-placeholder);
 }
 
 code, pre, kbd, samp, .font-mono, [class*="mono"] {
@@ -132,7 +238,7 @@ code, pre, kbd, samp, .font-mono, [class*="mono"] {
     /* Admin Card Backgrounds */
     --color-bg-primary: var(--color-botanical-pale);
     --color-bg-secondary: var(--color-botanical);
-    --color-surface-primary: var(--color-white);
+    --color-surface-primary: var(--color-surface);
     --color-surface-secondary: var(--color-sage);
     
     /* Admin Text (inherits from main theme) */

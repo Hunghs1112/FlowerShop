@@ -117,7 +117,7 @@
     <div class="admin-card" style="margin-top: 24px;">
         <div class="admin-card-body">
             <div style="display: flex; align-items: start; gap: 12px;">
-                <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: #eff6ff; display: flex; align-items: center; justify-content: center;">
+                <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--color-surface-elevated); display: flex; align-items: center; justify-content: center;">
                     <svg width="20" height="20" fill="none" stroke="#3b82f6" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>

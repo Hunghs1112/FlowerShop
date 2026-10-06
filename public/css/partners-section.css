@@ -14,7 +14,7 @@
 
 .partners-section-label {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -24,7 +24,7 @@
 }
 
 .partners-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 2rem;
     font-weight: 400;
     line-height: 1.2;
@@ -44,7 +44,7 @@
     align-items: center;
     justify-content: center;
     padding: var(--space-5);
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-md);
     transition: all var(--transition-normal);

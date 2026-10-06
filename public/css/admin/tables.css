@@ -13,7 +13,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: var(--text-sm);
-    background: var(--color-white);
+    background: var(--color-surface);
 }
 
 .admin-table thead {
@@ -25,7 +25,7 @@
     padding: var(--space-3) var(--space-4);
     text-align: left;
     font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     color: var(--color-text);
     font-size: var(--text-xs);
     text-transform: uppercase;
@@ -172,14 +172,14 @@
     align-items: center;
     padding: var(--space-4);
     border-top: 1px solid var(--color-border);
-    background: var(--color-white);
+    background: var(--color-surface);
     gap: var(--space-3);
     flex-wrap: wrap;
 }
 
 .admin-table-pagination-info {
     font-size: var(--text-sm);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     color: var(--color-text);
 }
 
@@ -196,8 +196,8 @@
     align-items: center;
     padding: var(--space-4);
     border-top: 1px solid var(--color-border);
-    background: var(--color-white);
-    font-family: 'Inter', sans-serif;
+    background: var(--color-surface);
+    font-family: var(--font-sans);
     gap: var(--space-3);
     flex-wrap: wrap;
 }
@@ -231,7 +231,7 @@
     font-size: var(--text-sm);
     font-weight: 500;
     transition: all 0.15s ease;
-    background: var(--color-white);
+    background: var(--color-surface);
 }
 
 .admin-card-footer .pagination-item:hover,
@@ -300,7 +300,7 @@
     font-size: var(--text-sm);
     font-weight: 500;
     transition: all 0.15s ease;
-    background: var(--color-white);
+    background: var(--color-surface);
     cursor: pointer;
 }
 
@@ -371,7 +371,7 @@
     }
 
     .admin-table tr {
-        background: var(--color-white);
+        background: var(--color-surface);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-md);
         margin-bottom: var(--space-3);
@@ -380,7 +380,7 @@
     }
 
     .admin-table tbody tr:hover {
-        background: var(--color-white);
+        background: var(--color-surface);
     }
 
     .admin-table td {

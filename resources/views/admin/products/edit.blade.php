@@ -75,7 +75,7 @@
                                     data-entity="products"
                                     data-id="{{ $product->id }}"
                                     data-save-url="{{ route('admin.products.updateField', $product) }}"
-                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;"
+                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);"
                                     required>
                                 <option value="">-- Chọn danh mục chính --</option>
                                 @foreach($categories as $category)
@@ -92,7 +92,7 @@
                                     data-entity="products"
                                     data-id="{{ $product->id }}"
                                     data-save-url="{{ route('admin.products.updateField', $product) }}"
-                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: white;">
+                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);">
                                 <option value="">-- Không chọn danh mục phụ --</option>
                                 @foreach($subcategories as $subcategory)
                                     <option value="{{ $subcategory->id }}" {{ old('subcategory_id', $product->subcategory_id) == $subcategory->id ? 'selected' : '' }}>

@@ -2,12 +2,9 @@
    Typography - Headings, Body Text, Editorial Style
    ========================================================================== */
 
-/* === FONT IMPORTS === */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&subset=vietnamese&display=swap');
-
-/* === HEADINGS (Playfair Display - Editorial Serif) === */
+/* === HEADINGS === */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-serif);
     font-weight: 400;
     line-height: 1.2;
     color: var(--color-text);
@@ -43,9 +40,9 @@ h6 {
     font-weight: 600;
 }
 
-/* === BODY TEXT (Inter - Clean Sans) === */
+/* === BODY TEXT === */
 p {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 1rem;             /* 16px */
     line-height: 1.6;
     margin-bottom: var(--space-4);
@@ -73,7 +70,7 @@ p {
 
 /* === LABELS & SMALL TEXT === */
 label, .label {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.875rem;         /* 14px */
     font-weight: 500;
     color: var(--color-text);
@@ -90,7 +87,7 @@ label, .label {
 
 /* === PRICE TYPOGRAPHY === */
 .price {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 1.25rem;          /* 20px */
     font-weight: 600;
     color: var(--color-primary);
@@ -146,16 +143,16 @@ label, .label {
 }
 
 .font-serif {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-serif);
 }
 
 .font-sans {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
 }
 
 /* === EDITORIAL STYLE === */
 .editorial-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 3rem;
     font-weight: 400;
     line-height: 1.15;
@@ -164,7 +161,7 @@ label, .label {
 }
 
 .editorial-subheading {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 1.125rem;
     font-weight: 400;
     line-height: 1.7;
@@ -173,7 +170,7 @@ label, .label {
 }
 
 .editorial-caption {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.875rem;
     font-weight: 500;
     text-transform: uppercase;

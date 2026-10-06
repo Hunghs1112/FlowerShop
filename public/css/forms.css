@@ -32,11 +32,11 @@
 .form-select {
     width: 100%;
     padding: var(--space-3) var(--space-4);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.5;
     color: var(--color-text);
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     transition: all var(--transition-fast);
@@ -104,7 +104,7 @@
     height: 20px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     cursor: pointer;
     transition: all var(--transition-fast);
     flex-shrink: 0;
@@ -145,7 +145,7 @@
     font-size: 0.875rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    background: var(--color-white);
+    background: var(--color-surface);
     color: var(--color-text);
     transition: all var(--transition-fast);
 }
@@ -281,7 +281,7 @@
 .auth-card .form-textarea,
 .auth-card .form-select {
     color: var(--color-text);
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
 }
 
 .auth-form-panel .form-input::placeholder,
@@ -322,6 +322,6 @@
     .auth-card .form-textarea,
     .auth-card .form-select {
         color: var(--color-text);
-        background-color: var(--color-white);
+        background-color: var(--color-surface);
     }
 }

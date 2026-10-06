@@ -15,7 +15,7 @@
 .auth-card {
     width: 100%;
     max-width: 480px;
-    background-color: var(--color-white);
+    background-color: var(--color-surface);
     border-radius: var(--radius-lg);
     padding: var(--space-6) var(--space-5);
     box-shadow: var(--shadow-md);
@@ -27,7 +27,7 @@
 }
 
 .auth-logo h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.75rem;
     font-weight: 500;
     color: var(--color-primary);
@@ -40,7 +40,7 @@
 }
 
 .auth-header h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.5rem;
     font-weight: 500;
     color: var(--color-text);
@@ -193,13 +193,13 @@
 }
 
 .auth-panel__brand-name {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.5rem;
     font-weight: 500;
 }
 
 .auth-panel__quote {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.75rem;
     font-weight: 400;
     line-height: 1.4;
@@ -305,7 +305,7 @@
 }
 
 .auth-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 2rem;
     font-weight: 500;
     color: var(--color-text);

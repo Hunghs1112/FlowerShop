@@ -188,7 +188,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                 <h3 class="form-label">Videos Hiện Tại</h3>
                                 <div class="video-preview-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
                                     @foreach($product->productImages()->videos()->get() as $video)
-                                        <div class="video-preview-item" data-video-id="{{ $video->id }}" style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px;">
+                                        <div class="video-preview-item" data-video-id="{{ $video->id }}" style="background: var(--color-surface-elevated); border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px;">
                                             <video controls style="width: 100%; max-height: 200px; border-radius: 8px; background: #000;">
                                 <source src="{{ $video->image_url }}" type="{{ $video->mime_type }}">
                                                 Your browser does not support video.
