@@ -78,7 +78,7 @@ foreach ($file in $sourceFiles) {
     
     if (Test-Path $filePath) {
         Write-Host "  + $file" -ForegroundColor Green
-        $content = Get-Content $filePath -Raw
+        $content = Get-Content $filePath -Raw -Encoding UTF8
         $output += "`n/* === $file === */`n"
         $output += $content
         $output += "`n"

@@ -1,11 +1,11 @@
 ﻿/* ==========================================================================
    FlowerShop - Premium Botanical Theme
-   Generated: 2026-10-06 15:31:12
+   Generated: 2026-10-06 15:33:40
    ========================================================================== */
 
 /* === theme.css === */
 /* ==========================================================================
-   LÃ¢m NhiÃªn Tháº£o Theme - Design Tokens
+   Lâm Nhiên Thảo Theme - Design Tokens
    Color System, Spacing, Typography, Shadows
    ========================================================================== */
 
@@ -2144,9 +2144,9 @@ label, .label {
     background-color: currentColor;
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet (â‰¤ 1024px) */
+/* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
     .product-card__info {
         padding: var(--space-3);
@@ -2161,7 +2161,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” compact product card */
+/* Mobile (≤ 640px) — compact product card */
 @media (max-width: 640px) {
     .product-card {
         border-radius: var(--radius-md);
@@ -2251,7 +2251,7 @@ label, .label {
     }
 }
 
-/* Very small phones (â‰¤ 380px) */
+/* Very small phones (≤ 380px) */
 @media (max-width: 380px) {
     .product-card__name {
         font-size: 0.75rem;
@@ -2562,7 +2562,7 @@ label, .label {
     background-color: var(--color-botanical-pale);
 }
 
-/* "Táº¥t cáº£ sáº£n pháº©m" - special styling in last column */
+/* "Tất cả sản phẩm" - special styling in last column */
 .mega-menu-item-all {
     grid-column: 4 / 5;
     grid-row: 1 / -1;
@@ -2840,7 +2840,7 @@ label, .label {
 .hamburger-icon span:nth-child(2) { top: 8px; }
 .hamburger-icon span:nth-child(3) { top: 16px; }
 
-/* Animate hamburger â†’ X when menu is open */
+/* Animate hamburger → X when menu is open */
 .navbar-mobile-toggle[aria-expanded="true"] .hamburger-icon span:nth-child(1) {
     top: 8px;
     transform: rotate(45deg);
@@ -2969,9 +2969,9 @@ label, .label {
     margin: 0;
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet & below (â‰¤ 1024px): switch to mobile layout */
+/* Tablet & below (≤ 1024px): switch to mobile layout */
 @media (max-width: 1024px) {
     .navbar-nav {
         display: none;
@@ -2986,7 +2986,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” primary mobile breakpoint */
+/* Mobile (≤ 640px) — primary mobile breakpoint */
 @media (max-width: 640px) {
     .navbar {
         background-color: rgb(var(--color-surface-rgb) / .98);
@@ -3099,7 +3099,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px): show mobile menu actions */
+/* Mobile (≤ 640px): show mobile menu actions */
 @media (max-width: 640px) {
     .mobile-menu-actions {
         padding: var(--space-5) var(--space-4);
@@ -3158,7 +3158,7 @@ label, .label {
     }
 }
 
-/* Small phones (â‰¤ 480px) */
+/* Small phones (≤ 480px) */
 @media (max-width: 480px) {
     .navbar-container {
         padding: 0 var(--space-3);
@@ -3446,9 +3446,9 @@ label, .label {
     color: var(--color-white);
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet (â‰¤ 1024px) */
+/* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
     .footer-main {
         grid-template-columns: repeat(2, 1fr);
@@ -3460,7 +3460,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” dedicated mobile layout */
+/* Mobile (≤ 640px) — dedicated mobile layout */
 @media (max-width: 640px) {
     .site-footer {
         padding-top: var(--space-5);
@@ -3471,14 +3471,14 @@ label, .label {
         padding: 0 var(--space-4);
     }
 
-    /* Grid 2 cá»™t thay vÃ¬ 1 cá»™t Ä‘á»ƒ giáº£m chiá»u cao Ä‘Ã¡ng ká»ƒ */
+    /* Grid 2 cột thay vì 1 cột để giảm chiều cao đáng kể */
     .footer-main {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--space-5);
         margin-bottom: var(--space-3);
     }
 
-    /* áº¨n 2 columns Ä‘á»ƒ footer mobile gá»n hÆ¡n: Danh má»¥c (2) + Báº£n tin (4) */
+    /* Ẩn 2 columns để footer mobile gọn hơn: Danh mục (2) + Bản tin (4) */
     .footer-column:nth-child(2),
     .footer-column:nth-child(4) {
         display: none;
@@ -3529,7 +3529,7 @@ label, .label {
         height: 16px;
     }
 
-    /* Links gá»n hÆ¡n */
+    /* Links gọn hơn */
     .footer-links {
         align-items: flex-start;
         gap: 0;
@@ -3549,12 +3549,12 @@ label, .label {
         display: none;
     }
 
-    /* áº¨n description dÃ i Ä‘á»ƒ tiáº¿t kiá»‡m chiá»u cao */
+    /* Ẩn description dài để tiết kiệm chiều cao */
     .footer-newsletter-description {
         display: none;
     }
 
-    /* Form giá»¯ horizontal Ä‘á»ƒ tiáº¿t kiá»‡m chiá»u cao */
+    /* Form giữ horizontal để tiết kiệm chiều cao */
     .footer-newsletter-form {
         flex-direction: row;
         gap: var(--space-2);
@@ -3573,7 +3573,7 @@ label, .label {
         padding: 0 var(--space-4);
     }
 
-    /* áº¨n consent text Ä‘á»ƒ giáº£m chiá»u cao */
+    /* Ẩn consent text để giảm chiều cao */
     .footer-newsletter-consent {
         display: none;
     }
@@ -3604,7 +3604,7 @@ label, .label {
     }
 }
 
-/* Very small phones (â‰¤ 380px) */
+/* Very small phones (≤ 380px) */
 @media (max-width: 380px) {
     .footer-social-link {
         width: 30px;
@@ -3615,7 +3615,7 @@ label, .label {
         gap: var(--space-2);
     }
 
-    /* Form xáº¿p dá»c á»Ÿ mÃ n ráº¥t nhá» */
+    /* Form xếp dọc ở màn rất nhỏ */
     .footer-newsletter-form {
         flex-direction: column;
     }
@@ -4214,9 +4214,9 @@ label, .label {
     }
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet (â‰¤ 1024px) */
+/* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
     .hero {
         height: 75vh;
@@ -4256,7 +4256,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” compact hero */
+/* Mobile (≤ 640px) — compact hero */
 @media (max-width: 640px) {
     .hero {
         height: 60vh;
@@ -4339,7 +4339,7 @@ label, .label {
     }
 }
 
-/* Very small phones (â‰¤ 380px) */
+/* Very small phones (≤ 380px) */
 @media (max-width: 380px) {
     .hero {
         height: 55vh;
@@ -4416,9 +4416,9 @@ label, .label {
     text-align: center;
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet (â‰¤ 1024px) */
+/* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
     .products-section {
         padding: var(--space-8) 0;
@@ -4434,7 +4434,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” 2-column compact */
+/* Mobile (≤ 640px) — 2-column compact */
 @media (max-width: 640px) {
     .products-section {
         padding: var(--space-6) 0;
@@ -4475,7 +4475,7 @@ label, .label {
     }
 }
 
-/* Very small phones (â‰¤ 380px) */
+/* Very small phones (≤ 380px) */
 @media (max-width: 380px) {
     .products-section-grid {
         gap: var(--space-2);
@@ -4660,9 +4660,9 @@ label, .label {
     height: 16px;
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet (â‰¤ 1024px) */
+/* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
     .categories-section {
         padding: var(--space-8) 0;
@@ -4691,7 +4691,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” 2-column compact layout */
+/* Mobile (≤ 640px) — 2-column compact layout */
 @media (max-width: 640px) {
     .categories-section {
         padding: var(--space-6) 0;
@@ -4757,7 +4757,7 @@ label, .label {
     }
 }
 
-/* Very small phones (â‰¤ 380px) */
+/* Very small phones (≤ 380px) */
 @media (max-width: 380px) {
     .categories-grid {
         grid-auto-rows: 140px;
@@ -4856,9 +4856,9 @@ label, .label {
     margin: 0 auto;
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet (â‰¤ 1024px) */
+/* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
     .brand-values-section {
         padding: var(--space-9) 0;
@@ -4881,7 +4881,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” hide entirely */
+/* Mobile (≤ 640px) — hide entirely */
 @media (max-width: 640px) {
     .brand-values-section {
         display: none !important;
@@ -5091,9 +5091,9 @@ label, .label {
     text-align: center;
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet (â‰¤ 1024px) */
+/* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
     .inspiration-section {
         padding: var(--space-8) 0;
@@ -5109,7 +5109,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” compact layout */
+/* Mobile (≤ 640px) — compact layout */
 @media (max-width: 640px) {
     .inspiration-section {
         padding: var(--space-6) 0;
@@ -5318,9 +5318,9 @@ label, .label {
     margin-top: var(--space-6);
 }
 
-/* === RESPONSIVE â€” MOBILE FIRST === */
+/* === RESPONSIVE — MOBILE FIRST === */
 
-/* Tablet (â‰¤ 1024px) */
+/* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
     .instagram-section {
         padding: var(--space-8) 0;
@@ -5335,7 +5335,7 @@ label, .label {
     }
 }
 
-/* Mobile (â‰¤ 640px) â€” compact gallery */
+/* Mobile (≤ 640px) — compact gallery */
 @media (max-width: 640px) {
     .instagram-section {
         padding: var(--space-6) 0;
@@ -6330,7 +6330,7 @@ label, .label {
 }
 
 .filter-color.active::after {
-    content: 'âœ“';
+    content: '✓';
     position: absolute;
     inset: 0;
     display: flex;
@@ -7654,7 +7654,7 @@ label, .label {
 }
 
 .product-accordion-body li::before {
-    content: 'â€¢';
+    content: '•';
     position: absolute;
     left: 0;
     color: var(--color-primary);
@@ -10021,7 +10021,7 @@ textarea.form-input {
 
 
 /* === blog.css === */
-/* LNT Journal â€” editorial inspiration index */
+/* LNT Journal — editorial inspiration index */
 
 .inspiration-page {
     --journal-bg: var(--color-background);
@@ -10998,7 +10998,7 @@ textarea.form-input {
     }
 }
 
-/* Extra small screens (â‰¤ 390px iPhone 12/13/14) */
+/* Extra small screens (≤ 390px iPhone 12/13/14) */
 @media (max-width: 390px) {
     .auth-form-panel {
         padding: var(--space-3) var(--space-2) var(--space-5);
