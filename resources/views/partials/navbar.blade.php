@@ -93,6 +93,15 @@
         {{-- ─── Right Actions ──────────────────────────────── --}}
         <div class="navbar-actions">
 
+            <button type="button" class="navbar-action-btn theme-toggle" data-theme-toggle aria-label="Chuyển giao diện">
+                <svg class="theme-icon-light" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3V2m0 20v-1m9-9h1M2 12h1m15.36-6.36.71-.71M4.93 19.07l.71-.71m12.72 0 .71.71M4.93 4.93l.71.71M17 12a5 5 0 11-10 0 5 5 0 0110 0z"/>
+                </svg>
+                <svg class="theme-icon-dark" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                </svg>
+            </button>
+
             {{-- Search --}}
             <button class="navbar-action-btn navbar-search-btn" id="searchToggle" title="Tìm kiếm" aria-label="Tìm kiếm" aria-expanded="false">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
