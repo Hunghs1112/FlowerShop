@@ -247,19 +247,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
 
 @push('scripts')
 <script>
-/* ===== BẢNG CHUYẾN HOA: shop cập nhật hằng tuần ===== */
-const ARRIVALS=[
- {code:'UIO',flower:'Hồng Freedom · Ecuador',status:'landed',link:'#'},
- {code:'CHC',flower:'Mẫu đơn · New Zealand',status:'flying',link:'#'},
- {code:'AMS',flower:'Tulip · Hà Lan',status:'pre',link:'#'},
- {code:'KMG',flower:'Mao lương · Côn Minh',status:'landed',link:'#'}
-];
-const ST={landed:'ĐÃ HẠ CÁNH',flying:'ĐANG BAY',pre:'MỞ ĐẶT TRƯỚC'};
 const red=matchMedia('(prefers-reduced-motion: reduce)').matches,CH='ABCDEGHIKLMNOPQRSTUVXY';
-const box=document.getElementById('arrivals');
-ARRIVALS.forEach(a=>{const r=document.createElement('a');r.className='brow';r.href=a.link;
-  r.innerHTML=`<span class="cells">${[...a.code].map(c=>`<span class="f" data-c="${c}">${red?c:''}</span>`).join('')}<span class="f" style="background:transparent">→</span>${'HAN'.split('').map(c=>`<span class="f" data-c="${c}">${red?c:''}</span>`).join('')}</span><span class="fl">${a.flower}</span><span class="st ${a.status}">${ST[a.status]}</span>`;box.appendChild(r)});
-if(!red)document.querySelectorAll('.f[data-c]').forEach((s,i)=>{let n=8+Math.floor(Math.random()*8);(function k(){if(n--<=0){s.textContent=s.dataset.c;return}s.textContent=CH[Math.floor(Math.random()*CH.length)];setTimeout(k,60)})()});
 const ck=document.getElementById('clock');const tk=()=>ck.textContent=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});tk();setInterval(tk,30000);
 /* barcode */
 const bars=document.getElementById('bars');for(let i=0;i<34;i++){const b=document.createElement('i');b.style.width=[1,1,2,3][Math.floor(Math.random()*4)]+'px';bars.appendChild(b)}
@@ -292,25 +280,29 @@ lntSetLink(headerLinks[1], LNT_HOME.links.cart);
 lntSetLink(headerLinks[2], LNT_HOME.links.account);
 lntSetLink(document.querySelector('header.nav nav a:nth-of-type(4)'), LNT_HOME.links.about);
 
-const arrivalCodes = ['UIO', 'CHC', 'CPT', 'KMG'];
-const arrivalStatuses = [
-  ['landed', 'ĐÃ HẠ CÁNH'],
-  ['flying', 'ĐANG BAY'],
-  ['pre', 'MỞ ĐẶT TRƯỚC'],
-  ['landed', 'ĐÃ HẠ CÁNH']
-];
+const arrivalStatusLabels = {landed: 'ĐÃ HẠ CÁNH', flying: 'ĐANG BAY'};
+const arrivalCode = (code) => [...(code || 'LNT')].map((character) => `<span class="f" data-c="${character}">${red ? character : ''}</span>`).join('');
 const arrivals = document.getElementById('arrivals');
 if (arrivals) {
   arrivals.replaceChildren(...(LNT_HOME.products || []).map((product, index) => {
     const row = document.createElement('a');
-    const [statusClass, statusText] = arrivalStatuses[index] || arrivalStatuses[0];
+    const statusClass = product.status_key || 'landed';
+    const statusText = arrivalStatusLabels[statusClass] || arrivalStatusLabels.landed;
     row.className = 'brow';
     row.href = product.url;
-    row.innerHTML = '<span class="cells">' + arrivalCodes[index] + '<span class="f" style="background:transparent">→</span>HAN</span>'
+    row.innerHTML = '<span class="cells">' + arrivalCode(product.code) + '<span class="f" style="background:transparent">→</span>' + arrivalCode('HAN') + '</span>'
       + '<span class="fl"></span><span class="st ' + statusClass + '">' + statusText + '</span>';
     row.querySelector('.fl').textContent = product.name + ' · ' + product.origin;
     return row;
   }));
+  if (!red) document.querySelectorAll('#arrivals .f[data-c]').forEach((slot) => {
+    let attempts = 8 + Math.floor(Math.random() * 8);
+    (function resolve() {
+      if (attempts-- <= 0) { slot.textContent = slot.dataset.c; return; }
+      slot.textContent = CH[Math.floor(Math.random() * CH.length)];
+      setTimeout(resolve, 60);
+    })();
+  });
 }
 
 document.querySelectorAll('#san-pham .card').forEach((card, index) => {

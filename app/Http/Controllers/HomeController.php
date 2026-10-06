@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SettingService;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -31,6 +32,8 @@ class HomeController extends Controller
                 'origin' => $product->origin ?: 'Hoa nhập khẩu',
                 'url' => route('products.show', $product->display_slug),
                 'image' => $product->getPrimaryImageUrl(),
+                'code' => Str::upper(Str::substr((string) preg_replace('/[^A-Za-z0-9]/', '', $product->sku), 0, 3)) ?: 'LNT',
+                'status_key' => $product->latest_arrival_date?->isFuture() ? 'flying' : 'landed',
             ])->values(),
             'categories' => $categories->take(9)->map(fn ($category) => [
                 'name' => $category->display_name,
