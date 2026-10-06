@@ -14,6 +14,12 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        $response
+            ->assertStatus(200)
+            ->assertSee('class="navbar"', false)
+            ->assertSee('id="floatingChatBtn"', false)
+            ->assertSee('class="site-footer"', false);
+
+        $this->assertSame(1, substr_count($response->getContent(), '<!DOCTYPE html>'));
     }
 }

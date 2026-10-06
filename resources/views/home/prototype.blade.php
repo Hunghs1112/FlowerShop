@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lâm Nhiên Thảo · Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp</title>
+@push('styles')
 <style>
 :root{--bg:#F5EBE6;--paper:#FCF8F5;--ink:#5E4636;--soft:#8C6E5C;--copper:#C78E66;--deep:#A8714E;--line:#E6D3C6;--board:#3A2C24;--tile:#241B16;--tile-ink:#F4E8DC;--acc:#E2AE84;--shadow:rgba(120,80,55,.2);
 --sans:var(--font-sans);--serif:var(--font-serif);
@@ -144,12 +139,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.arc{stroke-dashoffset:0}}
 :root{--bg:var(--color-background);--paper:var(--color-surface);--ink:var(--color-text);--soft:var(--color-text-light);--copper:var(--color-accent);--deep:var(--color-secondary);--line:var(--color-border);--board:var(--color-primary-dark);--tile:var(--color-black);--tile-ink:var(--color-on-dark);--acc:var(--color-secondary-light);--shadow:var(--shadow-md)}
 </style>
-<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
-<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
-@include('partials.theme-head')
-</head>
-<body>
-@include('partials.navbar')
+@endpush
 
 <main>
 <!-- HERO -->
@@ -255,8 +245,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
 </div></section>
 </main>
 
-@include('partials.footer')
-
+@push('scripts')
 <script>
 /* ===== BẢNG CHUYẾN HOA: shop cập nhật hằng tuần ===== */
 const ARRIVALS=[
@@ -371,5 +360,4 @@ if (LNT_HOME.hero) {
   if (heroImage) heroImage.src = LNT_HOME.hero.image;
 }
 </script>
-</body>
-</html>
+@endpush
