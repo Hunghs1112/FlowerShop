@@ -92,6 +92,11 @@
 
         {{-- ─── Right Actions ──────────────────────────────── --}}
         <div class="navbar-actions">
+            @php
+                $cartCount = auth()->check()
+                    ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
+                    : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
+            @endphp
 
             <button type="button" class="navbar-action-btn theme-toggle" data-theme-toggle aria-label="Chuyển giao diện">
                 <svg class="theme-icon-light" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,11 +119,6 @@
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
-                @php 
-                    $cartCount = auth()->check() 
-                        ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
-                        : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
-                @endphp
                 @if($cartCount > 0)
                     <span class="cart-badge">{{ $cartCount }}</span>
                 @endif
@@ -206,11 +206,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
                     <span>Giỏ hàng</span>
-                    @php 
-                        $cartCount = auth()->check() 
-                            ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
-                            : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
-                    @endphp
                     @if($cartCount > 0)
                         <span class="mobile-menu-badge">{{ $cartCount }}</span>
                     @endif

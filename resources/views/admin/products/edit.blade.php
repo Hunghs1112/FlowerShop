@@ -346,7 +346,6 @@
 </form>
 
 @push('scripts')
-<script src="{{ asset('js/admin-auto-save.js') }}"></script>
 <script>
 function previewImages(input) {
     const preview = document.getElementById('imagePreview');

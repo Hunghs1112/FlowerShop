@@ -235,7 +235,7 @@
                 isOpen = !isOpen;
                 chatWindow.classList.toggle('open', isOpen);
                 if (isOpen) {
-                    loadMessages();
+                    if (isLoggedIn) loadMessages();
                     input.focus();
                 }
             });
@@ -389,8 +389,10 @@
                 .catch(err => console.error('[Chat] Unread error:', err));
             }
 
-            updateUnreadCount();
-            setInterval(updateUnreadCount, 10000);
+            if (isLoggedIn) {
+                updateUnreadCount();
+                setInterval(updateUnreadCount, 10000);
+            }
 
             function scrollToBottom() {
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
