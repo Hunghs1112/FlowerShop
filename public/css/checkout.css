@@ -284,7 +284,7 @@
     align-items: flex-start;
     gap: var(--space-3);
     padding: var(--space-4);
-    background-color: rgba(63, 90, 69, 0.05);
+    background-color: rgb(var(--color-primary-rgb) / 0.05);
     border-radius: var(--radius-md);
     font-size: 0.875rem;
     color: var(--color-text-light);
@@ -403,7 +403,7 @@
     color: var(--color-white);
     border-radius: 50%;
     animation: success-pop 0.5s ease-out;
-    box-shadow: 0 8px 30px rgba(63, 90, 69, 0.3);
+    box-shadow: 0 8px 30px rgb(var(--color-primary-rgb) / 0.3);
 }
 
 @keyframes success-pop {
@@ -462,7 +462,7 @@
 
 .detail-card:hover {
     border-color: var(--color-primary-lighter);
-    box-shadow: 0 4px 12px rgba(63, 90, 69, 0.08);
+    box-shadow: 0 4px 12px rgb(var(--color-primary-rgb) / 0.08);
 }
 
 .detail-card svg {

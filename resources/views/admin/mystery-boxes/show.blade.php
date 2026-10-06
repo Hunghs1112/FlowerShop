@@ -166,7 +166,7 @@
                     </button>
                 </form>
 
-                <div class="status-info" style="margin-top: 24px; padding: 16px; background: rgba(63, 90, 69, 0.05); border-radius: 8px; font-size: 0.875rem;">
+                <div class="status-info" style="margin-top: 24px; padding: 16px; background: rgb(var(--color-primary-rgb) / 0.05); border-radius: 8px; font-size: 0.875rem;">
                     <p style="margin: 0 0 8px; font-weight: 600;">Quy trình xử lý:</p>
                     <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
                         <li><strong>Mới:</strong> Yêu cầu vừa được tạo</li>
@@ -274,7 +274,7 @@
 
 .note-box {
     padding: 12px;
-    background: rgba(63, 90, 69, 0.05);
+    background: rgb(var(--color-primary-rgb) / 0.05);
     border: 1px solid var(--color-border);
     border-radius: 8px;
     line-height: 1.6;

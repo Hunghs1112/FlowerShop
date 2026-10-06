@@ -104,7 +104,7 @@
 }
 
 .stat-icon-success {
-    background: linear-gradient(135deg, #71856F 0%, var(--color-primary) 100%);
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
     color: white;
 }
 

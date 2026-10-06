@@ -299,7 +299,7 @@
 .products-filter-search-input:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(63, 90, 69, 0.1);
+    box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb) / 0.1);
 }
 
 .products-filter-search-input::placeholder {
@@ -350,7 +350,7 @@
 .filter-price-input:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(63, 90, 69, 0.1);
+    box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb) / 0.1);
 }
 
 .filter-price-separator {

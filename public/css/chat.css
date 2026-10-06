@@ -140,7 +140,7 @@
     flex-direction: column;
     gap: var(--space-4);
     background:
-        radial-gradient(circle at 20% 20%, rgba(63, 90, 69, 0.025) 0%, transparent 40%),
+        radial-gradient(circle at 20% 20%, rgb(var(--color-primary-rgb) / 0.025) 0%, transparent 40%),
         radial-gradient(circle at 80% 80%, rgba(181, 140, 103, 0.025) 0%, transparent 40%),
         var(--color-cream);
     min-height: 360px;
@@ -339,7 +339,7 @@
 .chat-input:focus {
     border-color: var(--color-primary);
     background: var(--color-white);
-    box-shadow: 0 0 0 3px rgba(63, 90, 69, 0.1);
+    box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb) / 0.1);
 }
 
 .chat-send-btn {

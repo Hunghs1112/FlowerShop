@@ -83,7 +83,7 @@
 .instagram-item-overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(63, 90, 69, 0.85);
+    background-color: rgb(var(--color-primary-rgb) / 0.85);
     display: flex;
     align-items: center;
     justify-content: center;

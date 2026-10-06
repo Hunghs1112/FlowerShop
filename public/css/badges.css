@@ -56,7 +56,7 @@
 
 /* === LIGHT VARIANTS === */
 .badge-primary-light {
-    background-color: rgba(63, 90, 69, 0.1);
+    background-color: rgb(var(--color-primary-rgb) / 0.1);
     color: var(--color-primary-dark);
 }
 

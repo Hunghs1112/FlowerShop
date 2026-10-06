@@ -152,12 +152,12 @@
                 <div class="cart-empty-illustration" aria-hidden="true">
                     <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="60" cy="60" r="50" fill="#F2F5F0"/>
-                        <path d="M40 55C40 48.3726 45.3726 43 52 43H68C74.6274 43 80 48.3726 80 55V65C80 71.6274 74.6274 77 68 77H52C45.3726 77 40 71.6274 40 65V55Z" fill="#E8EEE3" stroke="#A3B8A1" stroke-width="2"/>
-                        <path d="M50 55V51C50 48.7909 51.7909 47 54 47H66C68.2091 47 70 48.7909 70 51V55" stroke="#A3B8A1" stroke-width="2"/>
-                        <path d="M50 63C50 60.7909 51.7909 59 54 59H66C68.2091 59 70 60.7909 70 63" stroke="#A3B8A1" stroke-width="2"/>
-                        <path d="M50 71C50 68.7909 51.7909 67 54 67H66C68.2091 67 70 68.7909 70 71" stroke="#A3B8A1" stroke-width="2"/>
-                        <circle cx="85" cy="40" r="15" fill="#DDE4D8" stroke="#A3B8A1" stroke-width="2"/>
-                        <path d="M78 40L82 44L92 34" stroke="#3F5A45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M40 55C40 48.3726 45.3726 43 52 43H68C74.6274 43 80 48.3726 80 55V65C80 71.6274 74.6274 77 68 77H52C45.3726 77 40 71.6274 40 65V55Z" fill="var(--color-botanical)" stroke="var(--color-primary-lighter)" stroke-width="2"/>
+                        <path d="M50 55V51C50 48.7909 51.7909 47 54 47H66C68.2091 47 70 48.7909 70 51V55" stroke="var(--color-primary-lighter)" stroke-width="2"/>
+                        <path d="M50 63C50 60.7909 51.7909 59 54 59H66C68.2091 59 70 60.7909 70 63" stroke="var(--color-primary-lighter)" stroke-width="2"/>
+                        <path d="M50 71C50 68.7909 51.7909 67 54 67H66C68.2091 67 70 68.7909 70 71" stroke="var(--color-primary-lighter)" stroke-width="2"/>
+                        <circle cx="85" cy="40" r="15" fill="var(--color-sage)" stroke="var(--color-primary-lighter)" stroke-width="2"/>
+                        <path d="M78 40L82 44L92 34" stroke="var(--color-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
             </div>

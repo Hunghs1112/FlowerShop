@@ -315,7 +315,7 @@
 .cart-summary-note {
     margin-top: var(--space-4);
     padding: var(--space-4);
-    background-color: rgba(63, 90, 69, 0.05);
+    background-color: rgb(var(--color-primary-rgb) / 0.05);
     border-radius: var(--radius-md);
     font-size: 0.8125rem;
     line-height: 1.5;

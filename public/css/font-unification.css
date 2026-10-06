@@ -20,7 +20,7 @@ body * {
 }
 
 .return-policy-link a {
-    color: var(--color-primary, #3f5a45);
+    color: var(--color-primary);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 3px;

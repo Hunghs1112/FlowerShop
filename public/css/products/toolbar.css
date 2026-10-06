@@ -118,7 +118,7 @@
 .products-sort-select:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(63, 90, 69, 0.1);
+    box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb) / 0.1);
 }
 
 /* === SORT DROPDOWN (New Modern Style) === */

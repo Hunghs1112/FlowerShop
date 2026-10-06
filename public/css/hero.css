@@ -169,7 +169,7 @@
     background-color: transparent;
     border-color: var(--color-white);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(63, 90, 69, 0.4);
+    box-shadow: 0 8px 24px rgb(var(--color-primary-rgb) / 0.4);
 }
 
 .hero-cta-icon {

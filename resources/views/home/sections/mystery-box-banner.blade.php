@@ -69,51 +69,51 @@
                         <div class="mystery-box-illustration">
                             <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 {{-- Box shadow --}}
-                                <ellipse cx="150" cy="380" rx="100" ry="15" fill="rgba(63,90,69,0.1)"/>
+                                <ellipse cx="150" cy="380" rx="100" ry="15" fill="rgb(var(--color-primary-rgb) / 0.1)"/>
 
                                 {{-- Box base --}}
-                                <rect x="50" y="200" width="200" height="180" rx="8" fill="#F7F4ED" stroke="#DDDCD3" stroke-width="2"/>
+                                <rect x="50" y="200" width="200" height="180" rx="8" fill="var(--color-cream)" stroke="var(--color-border)" stroke-width="2"/>
 
                                 {{-- Box lid --}}
-                                <rect x="45" y="160" width="210" height="50" rx="6" fill="#E8EEE3" stroke="#A3B8A1" stroke-width="2"/>
+                                <rect x="45" y="160" width="210" height="50" rx="6" fill="var(--color-botanical)" stroke="var(--color-primary-lighter)" stroke-width="2"/>
 
                                 {{-- Decorative ribbon --}}
-                                <rect x="140" y="160" width="20" height="180" fill="#D4969A"/>
-                                <rect x="50" y="230" width="200" height="20" fill="#D4969A"/>
+                                <rect x="140" y="160" width="20" height="180" fill="var(--color-accent-light)"/>
+                                <rect x="50" y="230" width="200" height="20" fill="var(--color-accent-light)"/>
 
                                 {{-- Bow on top --}}
-                                <ellipse cx="150" cy="155" rx="35" ry="20" fill="#D4969A"/>
-                                <circle cx="150" cy="155" r="12" fill="#A85C55"/>
+                                <ellipse cx="150" cy="155" rx="35" ry="20" fill="var(--color-accent-light)"/>
+                                <circle cx="150" cy="155" r="12" fill="var(--color-accent)"/>
 
                                 {{-- Flower decorations --}}
                                 <g class="flower-anim-1">
-                                    <circle cx="80" cy="140" r="8" fill="#E8B4B8" opacity="0.8"/>
-                                    <circle cx="80" cy="140" r="4" fill="#D4969A"/>
-                                    <path d="M80 140 L75 120" stroke="#3F5A45" stroke-width="1.5"/>
-                                    <path d="M80 140 L85 122" stroke="#3F5A45" stroke-width="1.5"/>
+                                    <circle cx="80" cy="140" r="8" fill="var(--color-accent-light)" opacity="0.8"/>
+                                    <circle cx="80" cy="140" r="4" fill="var(--color-accent)"/>
+                                    <path d="M80 140 L75 120" stroke="var(--color-primary)" stroke-width="1.5"/>
+                                    <path d="M80 140 L85 122" stroke="var(--color-primary)" stroke-width="1.5"/>
                                 </g>
 
                                 <g class="flower-anim-2">
-                                    <circle cx="220" cy="145" r="7" fill="#E8B4B8" opacity="0.8"/>
-                                    <circle cx="220" cy="145" r="3" fill="#D4969A"/>
-                                    <path d="M220 145 L215 128" stroke="#3F5A45" stroke-width="1.5"/>
-                                    <path d="M220 145 L225 130" stroke="#3F5A45" stroke-width="1.5"/>
+                                    <circle cx="220" cy="145" r="7" fill="var(--color-accent-light)" opacity="0.8"/>
+                                    <circle cx="220" cy="145" r="3" fill="var(--color-accent)"/>
+                                    <path d="M220 145 L215 128" stroke="var(--color-primary)" stroke-width="1.5"/>
+                                    <path d="M220 145 L225 130" stroke="var(--color-primary)" stroke-width="1.5"/>
                                 </g>
 
                                 {{-- Leaves --}}
-                                <path d="M60 250 Q40 230 50 210 Q60 230 70 250" fill="#A3B8A1" opacity="0.6"/>
-                                <path d="M240 260 Q260 240 250 220 Q240 240 230 260" fill="#A3B8A1" opacity="0.6"/>
-                                <path d="M100 280 Q80 260 90 240 Q100 260 110 280" fill="#71856F" opacity="0.5"/>
-                                <path d="M200 285 Q220 265 210 245 Q200 265 190 285" fill="#71856F" opacity="0.5"/>
+                                <path d="M60 250 Q40 230 50 210 Q60 230 70 250" fill="var(--color-primary-lighter)" opacity="0.6"/>
+                                <path d="M240 260 Q260 240 250 220 Q240 240 230 260" fill="var(--color-primary-lighter)" opacity="0.6"/>
+                                <path d="M100 280 Q80 260 90 240 Q100 260 110 280" fill="var(--color-primary-light)" opacity="0.5"/>
+                                <path d="M200 285 Q220 265 210 245 Q200 265 190 285" fill="var(--color-primary-light)" opacity="0.5"/>
 
                                 {{-- Small flowers on box --}}
-                                <circle cx="75" cy="280" r="6" fill="#D4969A" opacity="0.7"/>
-                                <circle cx="225" cy="275" r="5" fill="#E8B4B8" opacity="0.7"/>
-                                <circle cx="100" cy="340" r="4" fill="#D4969A" opacity="0.6"/>
-                                <circle cx="200" cy="345" r="5" fill="#E8B4B8" opacity="0.6"/>
+                                <circle cx="75" cy="280" r="6" fill="var(--color-accent)" opacity="0.7"/>
+                                <circle cx="225" cy="275" r="5" fill="var(--color-accent-light)" opacity="0.7"/>
+                                <circle cx="100" cy="340" r="4" fill="var(--color-accent)" opacity="0.6"/>
+                                <circle cx="200" cy="345" r="5" fill="var(--color-accent-light)" opacity="0.6"/>
 
                                 {{-- Question marks (mystery) --}}
-                                <text x="150" y="300" text-anchor="middle" font-family="serif" font-size="48" fill="#3F5A45" opacity="0.15">?</text>
+                                <text x="150" y="300" text-anchor="middle" font-family="serif" font-size="48" fill="var(--color-primary)" opacity="0.15">?</text>
                             </svg>
                         </div>
                     @endif
@@ -247,14 +247,14 @@
     font-weight: 600;
     text-decoration: none;
     transition: all var(--transition-normal);
-    box-shadow: 0 4px 14px rgba(63, 90, 69, 0.25);
+    box-shadow: 0 4px 14px rgb(var(--color-primary-rgb) / 0.25);
 }
 
 .mystery-box-cta:hover {
     background: var(--color-primary-dark);
     color: var(--color-white);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(63, 90, 69, 0.35);
+    box-shadow: 0 6px 20px rgb(var(--color-primary-rgb) / 0.35);
 }
 
 .mystery-box-cta svg {

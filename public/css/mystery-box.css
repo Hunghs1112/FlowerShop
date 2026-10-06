@@ -171,12 +171,12 @@
 
 .selection-card:hover .card-content {
     border-color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(63, 90, 69, 0.1);
+    box-shadow: 0 4px 12px rgb(var(--color-primary-rgb) / 0.1);
     transform: translateY(-2px);
 }
 
 .selection-card input:checked + .card-content {
-    background: linear-gradient(135deg, #3F5A45 0%, #5A7C5E 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     border-color: var(--color-primary);
     color: var(--color-white);
 }
@@ -440,7 +440,7 @@
 .mystery-room__success { position: absolute; z-index: 4; inset: 0; display: grid; align-content: center; justify-items: center; padding: 1.5rem; background: rgba(232, 238, 227, .96); color: var(--mr-ink); text-align: center; }
 .mystery-room__success h2 { margin: .8rem 0 .35rem; color: var(--color-primary); font-size: clamp(1.4rem, 3vw, 2rem); text-transform: uppercase; letter-spacing: .04em; }
 .mystery-room__success p { max-width: 30em; margin: 0 0 1rem; color: var(--mr-soft); font: italic .98rem/1.6 Lora, Georgia, serif; }
-.mystery-room__wax { display: grid; width: 76px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #71856f, #3f5a45 70%); color: var(--color-white); font-weight: 600; letter-spacing: .08em; box-shadow: 0 10px 24px -10px rgba(46, 68, 52, .35); animation: mystery-pop .6s cubic-bezier(.3, 1.6, .5, 1); }
+.mystery-room__wax { display: grid; width: 76px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--color-primary-light), var(--color-primary-dark) 70%); color: var(--color-white); font-weight: 600; letter-spacing: .08em; box-shadow: 0 10px 24px -10px rgba(94, 70, 54, .35); animation: mystery-pop .6s cubic-bezier(.3, 1.6, .5, 1); }
 .mystery-room__progress { position: absolute; right: 1rem; bottom: .8rem; z-index: 1; padding: .35rem .6rem; border-radius: 999px; background: rgba(252, 248, 245, .85); color: var(--mr-deep); font-size: .7rem; letter-spacing: .12em; pointer-events: none; }
 @keyframes mystery-pop { from { transform: scale(1.7); opacity: 0; } }
 @media (max-width: 760px) {

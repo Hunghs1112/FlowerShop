@@ -41,8 +41,8 @@
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     border-radius: 50%;
     border: none;
-    box-shadow: 0 4px 12px rgba(63, 90, 69, 0.4),
-                0 8px 24px rgba(63, 90, 69, 0.2);
+    box-shadow: 0 4px 12px rgb(var(--color-primary-rgb) / 0.4),
+                0 8px 24px rgb(var(--color-primary-rgb) / 0.2);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -54,8 +54,8 @@
 
 .floating-chat-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(63, 90, 69, 0.5),
-                0 12px 32px rgba(63, 90, 69, 0.3);
+    box-shadow: 0 6px 16px rgb(var(--color-primary-rgb) / 0.5),
+                0 12px 32px rgb(var(--color-primary-rgb) / 0.3);
 }
 
 .floating-chat-btn svg {

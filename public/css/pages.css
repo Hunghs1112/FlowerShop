@@ -38,7 +38,7 @@
 .profile-main .form-label { color: var(--color-text); }
 .profile-main .form-input { min-height: 46px; border: 1px solid var(--color-border); border-radius: 9px; background: #fffdfa; }
 .profile-main textarea.form-input { min-height: 88px; }
-.profile-main .form-input:focus { border-color: var(--color-primary-light); box-shadow: 0 0 0 3px rgba(63, 90, 69, .16); }
+.profile-main .form-input:focus { border-color: var(--color-primary-light); box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb) / .16); }
 .profile-main .form-actions { margin-top: .2rem; }
 .profile-main .inquiry-item { border-color: var(--color-border); border-radius: 12px; }
 .profile-main .inquiry-item:hover { border-color: var(--color-primary-light); }
@@ -64,26 +64,8 @@
 }
 
 .info-pages-theme .main-content {
-  --color-primary: #c78e66;
-  --color-primary-dark: #a8714e;
-  --color-primary-light: #c78e66;
-  --color-primary-lighter: #dec3af;
-  --color-secondary: #a8714e;
-  --color-secondary-dark: #7a5037;
-  --color-secondary-light: #dec3af;
-  --color-cream: #f5ebe6;
-  --color-cream-dark: #f0e2d8;
-  --color-cream-darker: #e6d3c6;
-  --color-sage: #dec3af;
-  --color-botanical: #f5ebe6;
-  --color-botanical-pale: #fcf8f5;
-  --color-text: #5e4636;
-  --color-text-light: #8c6e5c;
-  --color-border: #e6d3c6;
-  --color-border-light: #efdfd4;
-  --color-bg-primary: #fcf8f5;
-  background: #f5ebe6;
-  color: #5e4636;
+  background: var(--color-background);
+  color: var(--color-text);
 }
 
 .about-layout {

@@ -117,7 +117,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #3F5A45 0%, #5A7C5E 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     border-radius: var(--radius-full);
     color: var(--color-white);
 }
@@ -156,7 +156,7 @@
 .success-message {
     margin: var(--space-6) 0;
     padding: var(--space-5);
-    background: rgba(63, 90, 69, 0.05);
+    background: rgb(var(--color-primary-rgb) / 0.05);
     border-radius: var(--radius-md);
 }
 

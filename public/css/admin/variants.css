@@ -56,7 +56,7 @@
 
 .variant-card:hover {
     border-color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(63, 90, 69, 0.1);
+    box-shadow: 0 4px 12px rgb(var(--color-primary-rgb) / 0.1);
     transform: translateY(-2px);
 }
 
@@ -186,8 +186,8 @@
 }
 
 .variant-detail-item.highlight {
-    background: linear-gradient(135deg, rgba(63, 90, 69, 0.08) 0%, rgba(63, 90, 69, 0.05) 100%);
-    border: 1px solid rgba(63, 90, 69, 0.2);
+    background: linear-gradient(135deg, rgb(var(--color-primary-rgb) / 0.08) 0%, rgb(var(--color-primary-rgb) / 0.05) 100%);
+    border: 1px solid rgb(var(--color-primary-rgb) / 0.2);
 }
 
 .variant-detail-label {

@@ -158,7 +158,7 @@
 }
 
 .preview-tag.admin {
-    background: rgba(63, 90, 69, 0.18);
+    background: rgb(var(--color-primary-rgb) / 0.18);
     color: var(--color-primary);
 }
 
@@ -317,7 +317,7 @@
     overflow-y: auto;
     padding: var(--space-5);
     background:
-        radial-gradient(circle at 15% 25%, rgba(63, 90, 69, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 15% 25%, rgb(var(--color-primary-rgb) / 0.03) 0%, transparent 40%),
         radial-gradient(circle at 85% 75%, rgba(181, 140, 103, 0.03) 0%, transparent 40%),
         var(--color-cream);
     min-height: 0;
@@ -402,7 +402,7 @@
 .admin-chat-main .chat-input:focus {
     background: var(--color-white);
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(63, 90, 69, 0.12);
+    box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb) / 0.12);
 }
 
 .admin-chat-main .chat-send-btn {

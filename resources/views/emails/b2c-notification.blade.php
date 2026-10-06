@@ -10,24 +10,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B2C - Khách hàng mới - {{ $inquiry->business_name }}</title>
     <style>
-        body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background: #f5f1ea; color: #2c2c2c; }
+        body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background: #f5ebe6; color: #3a2c24; }
         .email-wrapper { max-width: 640px; margin: 0 auto; background: #ffffff; }
-        .email-header { background: linear-gradient(135deg, #3f5a45 0%, #5a7a5f 100%); color: #ffffff; padding: 28px 32px; text-align: center; }
+        .email-header { background: linear-gradient(135deg, #5e4636 0%, #3a2c24 100%); color: #ffffff; padding: 28px 32px; text-align: center; }
         .email-header h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: 0.5px; }
         .email-header .subtitle { margin: 6px 0 0; opacity: 0.85; font-size: 14px; }
         .alert-badge { display: inline-block; margin-top: 14px; padding: 6px 14px; background: #f1c40f; color: #2c2c2c; font-size: 12px; font-weight: 700; text-transform: uppercase; border-radius: 999px; letter-spacing: 1px; }
         .email-body { padding: 28px 32px; }
         .section { margin-bottom: 24px; }
-        .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3f5a45; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e6e1d7; }
-        .info-card { background: #faf7f0; border: 1px solid #e6e1d7; border-radius: 8px; padding: 16px 18px; }
+        .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e4636; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e6d3c6; }
+        .info-card { background: #fcf8f5; border: 1px solid #e6d3c6; border-radius: 8px; padding: 16px 18px; }
         .info-row { display: flex; padding: 6px 0; font-size: 14px; line-height: 1.5; }
-        .info-label { flex: 0 0 180px; color: #6b6b6b; font-weight: 500; }
-        .info-value { flex: 1; color: #2c2c2c; word-break: break-word; }
-        .info-value a { color: #3f5a45; text-decoration: none; }
-        .action-section { text-align: center; margin-top: 28px; padding-top: 24px; border-top: 1px solid #e6e1d7; }
-        .btn { display: inline-block; background: #3f5a45; color: #ffffff !important; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; }
-        .email-footer { background: #f5f1ea; padding: 18px 32px; text-align: center; font-size: 12px; color: #6b6b6b; }
-        .email-footer a { color: #3f5a45; text-decoration: none; }
+        .info-label { flex: 0 0 180px; color: #8c6e5c; font-weight: 500; }
+        .info-value { flex: 1; color: #3a2c24; word-break: break-word; }
+        .info-value a { color: #5e4636; text-decoration: none; }
+        .action-section { text-align: center; margin-top: 28px; padding-top: 24px; border-top: 1px solid #e6d3c6; }
+        .btn { display: inline-block; background: #5e4636; color: #ffffff !important; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; }
+        .email-footer { background: #f5ebe6; padding: 18px 32px; text-align: center; font-size: 12px; color: #8c6e5c; }
+        .email-footer a { color: #5e4636; text-decoration: none; }
         @media only screen and (max-width: 600px) {
             .email-body, .email-header, .email-footer { padding-left: 18px; padding-right: 18px; }
             .info-row { flex-direction: column; }

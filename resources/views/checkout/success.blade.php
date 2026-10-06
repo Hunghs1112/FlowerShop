@@ -87,12 +87,12 @@
 
             <div class="success-flower-decoration">
                 <svg viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 50C20 50 25 30 40 30C55 30 60 50 60 50" stroke="#A3B8A1" stroke-width="1.5" stroke-linecap="round"/>
-                    <circle cx="40" cy="25" r="8" fill="#E8B4B8" opacity="0.6"/>
-                    <circle cx="40" cy="25" r="5" fill="#D4969A"/>
-                    <path d="M140 50C140 50 145 30 160 30C175 30 180 50 180 50" stroke="#A3B8A1" stroke-width="1.5" stroke-linecap="round"/>
-                    <circle cx="160" cy="25" r="8" fill="#E8B4B8" opacity="0.6"/>
-                    <circle cx="160" cy="25" r="5" fill="#D4969A"/>
+                    <path d="M20 50C20 50 25 30 40 30C55 30 60 50 60 50" stroke="var(--color-primary-lighter)" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="40" cy="25" r="8" fill="var(--color-accent-light)" opacity="0.6"/>
+                    <circle cx="40" cy="25" r="5" fill="var(--color-accent)"/>
+                    <path d="M140 50C140 50 145 30 160 30C175 30 180 50 180 50" stroke="var(--color-primary-lighter)" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="160" cy="25" r="8" fill="var(--color-accent-light)" opacity="0.6"/>
+                    <circle cx="160" cy="25" r="5" fill="var(--color-accent)"/>
                 </svg>
             </div>
         </div>
