@@ -60,6 +60,8 @@ class ProductController extends Controller
             'unit' => 'required|string|max:20',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
+            'is_new_arrival' => 'boolean',
+            'is_bestseller' => 'boolean',
         ];
 
         // Use AjaxFieldService for standardized handling
@@ -451,6 +453,8 @@ class ProductController extends Controller
 
         $validated['is_active'] = $request->boolean('is_active', true);
         $validated['is_featured'] = $request->boolean('is_featured', false);
+        $validated['is_new_arrival'] = $request->boolean('is_new_arrival', false);
+        $validated['is_bestseller'] = $request->boolean('is_bestseller', false);
 
         $product = null;
 
@@ -529,6 +533,8 @@ class ProductController extends Controller
 
         $validated['is_active'] = $request->boolean('is_active');
         $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['is_new_arrival'] = $request->boolean('is_new_arrival');
+        $validated['is_bestseller'] = $request->boolean('is_bestseller');
 
         $deletedPaths = [];
         $newPaths = [];

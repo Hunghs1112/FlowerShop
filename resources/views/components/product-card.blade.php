@@ -7,7 +7,7 @@
     $secondaryImage = $product->productImages()->skip(1)->first();
 @endphp
 
-<article class="product-card">
+<article class="product-card {{ $product->isSoldOut() ? 'product-card--sold-out' : '' }}">
     <a href="{{ route('products.show', $product->display_slug) }}" class="product-card__full-link" aria-label="{{ $product->display_name }}">
         <div class="product-card__image-wrap">
             {{-- Primary image --}}
@@ -30,6 +30,16 @@
                     width="300"
                     height="375"
                 >
+            @endif
+
+            @if($product->isSoldOut())
+                <span class="product-card__badge product-card__badge--sold-out">Hết hàng</span>
+            @endif
+            @if($product->hasNewArrivalBadge())
+                <span class="product-card__badge product-card__badge--new">Mới về</span>
+            @endif
+            @if($product->hasBestsellerBadge())
+                <span class="product-card__badge product-card__badge--bestseller">Bán chạy</span>
             @endif
 
             {{-- Featured badge --}}

@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
+    private const NEW_ARRIVAL_DAYS = 30;
+    private const BESTSELLER_SALES_THRESHOLD = 10;
+
     protected $fillable = [
         'category_id',
         'subcategory_id',
@@ -19,6 +22,8 @@ class Product extends Model
         'stock',
         'sales_count',
         'latest_arrival_date',
+        'is_new_arrival',
+        'is_bestseller',
         'description',
         'short_description',
         'length',
@@ -38,6 +43,8 @@ class Product extends Model
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
         'latest_arrival_date' => 'datetime',
+        'is_new_arrival' => 'boolean',
+        'is_bestseller' => 'boolean',
     ];
 
     // Relationships
@@ -195,5 +202,24 @@ class Product extends Model
     {
         if (!$user) return false;
         return $this->favorites()->where('user_id', $user->id)->exists();
+    }
+
+    public function isSoldOut(): bool
+    {
+        return (int) $this->stock <= 0;
+    }
+
+    public function hasNewArrivalBadge(): bool
+    {
+        $arrivalDate = $this->latest_arrival_date ?? $this->created_at;
+
+        return (bool) $this->is_new_arrival
+            || ($arrivalDate && $arrivalDate->greaterThanOrEqualTo(now()->subDays(self::NEW_ARRIVAL_DAYS)));
+    }
+
+    public function hasBestsellerBadge(): bool
+    {
+        return (bool) $this->is_bestseller
+            || (int) $this->sales_count >= self::BESTSELLER_SALES_THRESHOLD;
     }
 }

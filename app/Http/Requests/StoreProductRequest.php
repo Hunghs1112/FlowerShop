@@ -33,6 +33,8 @@ class StoreProductRequest extends FormRequest
             'unit' => 'required|string|max:20',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
+            'is_new_arrival' => 'boolean',
+            'is_bestseller' => 'boolean',
             'images' => "nullable|array|max:{$maxCnt}",
             'images.*' => "file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
         ];
@@ -70,6 +72,8 @@ class StoreProductRequest extends FormRequest
         $this->merge([
             'is_active' => $this->boolean('is_active', true),
             'is_featured' => $this->boolean('is_featured', false),
+            'is_new_arrival' => $this->boolean('is_new_arrival', false),
+            'is_bestseller' => $this->boolean('is_bestseller', false),
         ]);
     }
 }

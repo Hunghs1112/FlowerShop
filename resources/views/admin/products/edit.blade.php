@@ -327,6 +327,26 @@
                         </label>
 
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" name="is_new_arrival" value="1" {{ old('is_new_arrival', $product->is_new_arrival) ? 'checked' : '' }}
+                                       class="auto-save-checkbox"
+                                       data-entity="products"
+                                       data-id="{{ $product->id }}"
+                                       data-save-url="{{ route('admin.products.updateField', $product) }}"
+                                       style="width: 20px; height: 20px; accent-color: var(--admin-accent);">
+                                <span style="font-size: 14px; font-weight: 500;">Mới về</span>
+                            </label>
+
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" name="is_bestseller" value="1" {{ old('is_bestseller', $product->is_bestseller) ? 'checked' : '' }}
+                                       class="auto-save-checkbox"
+                                       data-entity="products"
+                                       data-id="{{ $product->id }}"
+                                       data-save-url="{{ route('admin.products.updateField', $product) }}"
+                                       style="width: 20px; height: 20px; accent-color: var(--admin-accent);">
+                                <span style="font-size: 14px; font-weight: 500;">Bán chạy</span>
+                            </label>
+
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                             <input type="checkbox" 
                                    name="is_featured" 
                                    value="1" 
