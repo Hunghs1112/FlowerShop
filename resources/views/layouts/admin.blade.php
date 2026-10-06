@@ -8,7 +8,7 @@
     <title>@yield('title', 'Bảng Điều Khiển') - Quản Trị</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     <link rel="stylesheet" href="{{ asset('css/admin/variants.css') }}">
     @include('partials.theme-head')
 </head>
