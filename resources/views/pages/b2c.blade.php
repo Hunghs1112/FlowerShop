@@ -438,7 +438,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
         .b2c-sidebar-label {
             display: inline-block;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-sans);
             font-size: 0.8125rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -448,7 +448,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
         }
 
         .b2c-sidebar-title {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-serif);
             font-size: clamp(1.5rem, 2.4vw, 2rem);
             font-weight: 500;
             color: var(--color-text);
@@ -586,7 +586,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
         }
 
         .b2c-step-title {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-serif);
             font-size: 1.5rem;
             font-weight: 500;
             color: var(--color-text);
@@ -799,7 +799,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
         }
 
         .b2c-success h2 {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-serif);
             font-size: 1.75rem;
             font-weight: 500;
             color: var(--color-text);

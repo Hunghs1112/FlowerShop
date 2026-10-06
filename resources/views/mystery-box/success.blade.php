@@ -123,7 +123,7 @@
 }
 
 .success-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 2rem;
     font-weight: 600;
     color: var(--color-text);
@@ -179,7 +179,7 @@
 }
 
 .summary-box h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-text);

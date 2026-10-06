@@ -107,7 +107,7 @@
 
     /* === TYPOGRAPHY === */
     --font-sans: "Josefin Sans", "Avenir Next", "Segoe UI", sans-serif;
-    --font-serif: Lora, "Playfair Display", Georgia, serif;
+    --font-serif: Lora, Georgia, serif;
     
     /* === TRANSITIONS === */
     --transition-fast: .2s ease;
