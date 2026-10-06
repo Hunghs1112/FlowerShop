@@ -1,47 +1,47 @@
 /* ==========================================================================
-   Premium Botanical Theme - Design Tokens
+   Lâm Nhiên Thảo Theme - Design Tokens
    Color System, Spacing, Typography, Shadows
    ========================================================================== */
 
 :root {
     /* === PRIMARY COLORS === */
-    --color-primary: #5E4636;              /* Warm botanical brown */
-    --color-primary-rgb: 94 70 54;
-    --color-primary-dark: #3A2C24;
-    --color-primary-light: #8C6E5C;
-    --color-primary-lighter: #C8AA96;
+    --color-primary: #D9A47E;              /* Homepage gold */
+    --color-primary-rgb: 217 164 126;
+    --color-primary-dark: #16100D;         /* Deep homepage brown */
+    --color-primary-light: #E2B28E;
+    --color-primary-lighter: #CDB5A2;
     
     /* === SECONDARY & ACCENT === */
-    --color-secondary: #A8714E;            /* Copper brown */
-    --color-secondary-dark: #87583E;
-    --color-secondary-light: #D2A889;
+    --color-secondary: #E2B28E;
+    --color-secondary-dark: #A8714E;
+    --color-secondary-light: #D9A47E;
     
-    --color-accent: #C78E66;               /* Soft copper */
+    --color-accent: #D9A47E;               /* Homepage gold */
     --color-accent-dark: #A8714E;
-    --color-accent-light: #E0B99D;
+    --color-accent-light: #E2AE84;
     
     /* === BACKGROUNDS === */
-    --color-cream: #F5EBE6;                /* Main body background */
-    --color-cream-dark: #EADBD2;
-    --color-cream-darker: #DFC9BC;
+    --color-cream: #211915;                /* Homepage deep brown */
+    --color-cream-dark: #2C231F;
+    --color-cream-darker: #433630;
     
-    --color-sage: #DEC3AF;                 /* Warm botanical background */
-    --color-botanical: #F1E4DB;
-    --color-botanical-pale: #FCF8F5;
+    --color-sage: #433630;
+    --color-botanical: #2C231F;
+    --color-botanical-pale: #342822;
     
-    --color-white: #FCF8F5;
-    --color-black: #241B16;
+    --color-white: #2C231F;
+    --color-black: #0E0A08;
     
     /* === TEXT COLORS === */
-    --color-text: #3A2C24;                 /* Primary text */
-    --color-text-light: #8C6E5C;           /* Secondary text */
-    --color-text-lighter: #B49A8A;         /* Tertiary text */
-    --color-text-placeholder: #C1AFA2;
+    --color-text: #EEDFD4;                 /* Homepage warm text */
+    --color-text-light: #BFA493;
+    --color-text-lighter: #CDB5A2;
+    --color-text-placeholder: #8C7566;
     
     /* === BORDERS === */
-    --color-border: #E6D3C6;
-    --color-border-light: #EFDFD4;
-    --color-border-lighter: #F7EEE8;
+    --color-border: #433630;
+    --color-border-light: #4E3E36;
+    --color-border-lighter: #342822;
     
     /* === STATUS COLORS === */
     --color-success: #587A5C;
@@ -76,11 +76,11 @@
     --radius-full: 999px;
     
     /* === SHADOWS === */
-    --shadow-xs: 0 1px 2px rgba(94, 70, 54, .04);
-    --shadow-sm: 0 2px 10px rgba(94, 70, 54, .06);
-    --shadow-md: 0 8px 30px rgba(94, 70, 54, .08);
-    --shadow-lg: 0 16px 48px rgba(94, 70, 54, .10);
-    --shadow-botanical: 0 4px 16px rgba(94, 70, 54, .08);
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, .12);
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, .18);
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, .24);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, .32);
+    --shadow-botanical: 0 4px 16px rgba(0, 0, 0, .2);
 
     /* === SEMANTIC ALIASES === */
     --color-background: var(--color-cream);
