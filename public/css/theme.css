@@ -5,24 +5,24 @@
 
 :root {
     /* === PRIMARY COLORS === */
-    --color-primary: #3F5A45;              /* Botanical sage green */
-    --color-primary-dark: #2E4434;
-    --color-primary-light: #71856F;
-    --color-primary-lighter: #A3B8A1;
+    --color-primary: #5E4636;              /* Warm botanical brown */
+    --color-primary-dark: #3A2C24;
+    --color-primary-light: #8C6E5C;
+    --color-primary-lighter: #C8AA96;
     
     /* === SECONDARY & ACCENT === */
-    --color-secondary: #B58C67;            /* Warm terracotta */
-    --color-secondary-dark: #9A7556;
-    --color-secondary-light: #D4B89A;
+    --color-secondary: #A8714E;            /* Copper brown */
+    --color-secondary-dark: #87583E;
+    --color-secondary-light: #D2A889;
     
-    --color-accent: #A85C55;               /* Dusty rose */
-    --color-accent-dark: #8F4A44;
-    --color-accent-light: #C98B85;
+    --color-accent: #C78E66;               /* Soft copper */
+    --color-accent-dark: #A8714E;
+    --color-accent-light: #E0B99D;
     
     /* === BACKGROUNDS === */
-    --color-cream: #F7F4ED;                /* Main body background */
-    --color-cream-dark: #EEE9DD;
-    --color-cream-darker: #E5DFD0;
+    --color-cream: #F5EBE6;                /* Main body background */
+    --color-cream-dark: #EADBD2;
+    --color-cream-darker: #DFC9BC;
     
     --color-sage: #DDE4D8;                 /* Soft botanical background */
     --color-botanical: #E8EEE3;
@@ -32,10 +32,10 @@
     --color-black: #20241F;
     
     /* === TEXT COLORS === */
-    --color-text: #343832;                 /* Primary text */
-    --color-text-light: #73786F;           /* Secondary text */
-    --color-text-lighter: #9B9F98;         /* Tertiary text */
-    --color-text-placeholder: #AAB2AC;
+    --color-text: #3A2C24;                 /* Primary text */
+    --color-text-light: #8C6E5C;           /* Secondary text */
+    --color-text-lighter: #B49A8A;         /* Tertiary text */
+    --color-text-placeholder: #C1AFA2;
     
     /* === BORDERS === */
     --color-border: #DDDCD3;

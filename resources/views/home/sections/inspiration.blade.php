@@ -3,8 +3,8 @@
     <div class="container">
         {{-- Header --}}
         <div class="inspiration-section-header">
-            <span class="inspiration-section-label">{{ content('inspiration_label', 'Góc nhỏ của chúng tôi') }}</span>
-            <h2 class="inspiration-section-title">{{ content('inspiration_title', 'Bài Viết & Cảm Hứng') }}</h2>
+            <span class="inspiration-section-label">{{ content('home_journal_label', 'LNT Journal') }}</span>
+            <h2 class="inspiration-section-title">{{ content('home_journal_title', 'Những câu chuyện tuyệt đẹp') }}</h2>
             <p class="inspiration-section-description">
                 {{ content('inspiration_description', 'Khám phá những câu chuyện thú vị về hoa, cách chăm sóc và những ý tưởng trang trí độc đáo.') }}
             </p>

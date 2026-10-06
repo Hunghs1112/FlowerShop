@@ -13,7 +13,7 @@
         {{-- Header --}}
         <div class="instagram-section-header">
             <span class="instagram-section-label">{{ content('instagram_label', 'Kết nối với chúng tôi') }}</span>
-            <h2 class="instagram-section-title">{{ content('instagram_title', $siteName . ' trên Instagram') }}</h2>
+            <h2 class="instagram-section-title">{{ content('home_places_title', 'Những nơi tuyệt đẹp') }}</h2>
             @if($instagramUrl)
                 <a href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" class="instagram-section-handle">{{ $instagramHandle }}</a>
             @endif
@@ -33,7 +33,7 @@
             @endphp
 
             @foreach($instagramImages as $image)
-            <a href="{{ $instagramUrl ?? '#' }}" target="_blank" rel="noopener noreferrer" class="instagram-item">
+            <a href="{{ $instagramUrl ?? route('contact') }}" @if($instagramUrl) target="_blank" rel="noopener noreferrer" @endif class="instagram-item">
                 <img
                     src="{{ $image['url'] }}"
                     alt="{{ $image['alt'] }}"

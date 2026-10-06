@@ -1,0 +1,120 @@
+.home-page {
+    --home-ink: #5e4636;
+    --home-deep: #3a2c24;
+    --home-soft: #8c6e5c;
+    --home-copper: #a8714e;
+    --home-cream: #f5ebe6;
+    --home-paper: #fcf8f5;
+    --home-line: #e6d3c6;
+    color: var(--home-ink);
+    background: var(--home-cream);
+}
+
+.home-page .hero,
+.home-page .products-section,
+.home-page .categories-section,
+.home-page .brand-values-section,
+.home-page .inspiration-section,
+.home-page .instagram-section,
+.home-page .mystery-box-section {
+    background: var(--home-cream);
+}
+
+.home-page h1,
+.home-page h2,
+.home-page h3,
+.home-page .products-section-title,
+.home-page .categories-section-title,
+.home-page .brand-values-section-title,
+.home-page .inspiration-section-title,
+.home-page .instagram-section-title {
+    color: var(--home-deep);
+}
+
+.home-page .btn,
+.home-page .hero-cta,
+.home-page .home-button {
+    border-color: var(--home-copper);
+    background: var(--home-copper);
+    color: #fffaf6;
+}
+
+.home-page .btn-outline {
+    background: transparent;
+    color: var(--home-copper);
+}
+
+.home-page .home-flight-section,
+.home-page .home-origin-section,
+.home-page .home-partner-section {
+    padding: clamp(4.5rem, 9vw, 8rem) 0;
+}
+
+.home-page .home-flight-section { background: var(--home-paper); }
+
+.home-flight-layout,
+.home-origin-grid,
+.home-partner-card {
+    display: grid;
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+}
+
+.home-flight-layout { grid-template-columns: minmax(0, .85fr) minmax(320px, 1fr); }
+.home-section-intro { max-width: 30rem; }
+.home-eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--home-copper);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+}
+.home-page .home-section-intro h2,
+.home-origin-header h2,
+.home-partner-card h2 {
+    margin: 0 0 1rem;
+    font-family: Lora, Georgia, serif;
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-weight: 400;
+    line-height: 1.08;
+}
+.home-section-intro p,
+.home-origin-header p { color: var(--home-soft); max-width: 32rem; }
+.home-text-link { display: inline-flex; gap: .65rem; margin-top: 1.25rem; color: var(--home-deep); font-weight: 700; }
+
+.home-origin-section { background: var(--home-deep); color: #f5ebe6; }
+.home-origin-section h2 { color: #fffaf6; }
+.home-origin-header p { color: #cdb9aa; }
+.home-origin-grid { grid-template-columns: minmax(280px, .9fr) minmax(280px, 1fr); margin-top: 3.5rem; }
+.home-origin-map {
+    position: relative;
+    min-height: 23rem;
+    overflow: hidden;
+    border: 1px solid rgba(245, 235, 230, .18);
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(199, 142, 102, .2), transparent 48%);
+}
+.home-origin-orbit { position: absolute; inset: 14%; border: 1px solid rgba(199, 142, 102, .35); border-radius: 50%; transform: rotate(-25deg) scaleX(1.5); }
+.home-origin-orbit--two { inset: 28%; transform: rotate(35deg) scaleX(1.55); }
+.home-origin-pin { position: absolute; padding: .45rem .6rem; border: 1px solid #c78e66; border-radius: 999px; color: #f5ebe6; font-size: .7rem; letter-spacing: .1em; background: #5e4636; }
+.home-origin-pin--ecuador { top: 25%; left: 17%; }
+.home-origin-pin--colombia { top: 43%; left: 31%; }
+.home-origin-pin--vietnam { right: 16%; bottom: 27%; }
+.home-origin-list { border-top: 1px solid rgba(245, 235, 230, .2); }
+.home-origin-item { display: grid; grid-template-columns: 2.5rem 1fr auto; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(245, 235, 230, .2); color: #f5ebe6; }
+.home-origin-number { color: #c78e66; font-size: .75rem; }
+
+.home-partner-section { background: var(--home-cream); }
+.home-partner-card { grid-template-columns: 1fr auto; padding: clamp(2rem, 6vw, 5rem); border-radius: 1.25rem; background: var(--home-copper); color: #fffaf6; }
+.home-partner-card h2 { max-width: 42rem; color: #fffaf6; }
+.home-button { display: inline-flex; gap: .75rem; align-items: center; justify-content: center; padding: .9rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-weight: 700; white-space: nowrap; }
+.home-button--light { background: #fffaf6; color: var(--home-deep); }
+
+@media (max-width: 760px) {
+    .home-flight-layout,
+    .home-origin-grid,
+    .home-partner-card { grid-template-columns: 1fr; }
+    .home-origin-map { min-height: 18rem; }
+    .home-partner-card { gap: 1.5rem; }
+}

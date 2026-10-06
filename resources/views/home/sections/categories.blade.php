@@ -2,8 +2,8 @@
 <section class="categories-section">
     <div class="container">
         <div class="categories-section-header">
-            <span class="categories-section-label">{{ content('categories_label', 'Danh mục sản phẩm') }}</span>
-            <h2 class="categories-section-title">{{ content('categories_title', 'Khám Phá Bộ Sưu Tập') }}</h2>
+            <span class="categories-section-label">{{ content('home_origins_label', 'Từ những vùng đất đặc biệt') }}</span>
+            <h2 class="categories-section-title">{{ content('home_origins_title', 'Chín vùng đất hoa') }}</h2>
         </div>
 
         <div class="categories-grid">
