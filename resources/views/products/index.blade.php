@@ -2,7 +2,9 @@
 
 @section('title', content('products_page_title', 'Sản phẩm'))
 
+@section('body-class', 'reference-seasonal-page')
 @section('content')
+<div class="seasonal-catalog">
 <!-- Page Hero - Unified Style -->
 @if(isset($breadcrumb) && !empty($breadcrumb))
     {{-- Category page with full breadcrumb --}}
@@ -496,6 +498,7 @@
         </div>
     </div>
 </section>
+</div>
 @endsection
 
 @push('scripts')

@@ -39,6 +39,7 @@ $sourceFiles = @(
     "products/detail-responsive.css",
     "products/recommended.css",
     "products/editorial.css",
+    "reference-pages.css",
     "cart.css",
     "checkout.css",
     "contact.css",

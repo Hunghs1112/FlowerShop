@@ -6,7 +6,9 @@
 $b2cBanner = $siteBanners['b2c'] ?? null;
 @endphp
 
+@section('body-class', 'reference-partner-page')
 @section('content')
+<div class="partner-waybill-page">
     <x-page-hero
         title="Đăng ký đối tác B2B"
         description="Trở thành đối tác B2B của Lâm Nhiên Thảo để tiếp cận nguồn hoa tươi chất lượng, giá xuất xưởng cùng nhiều ưu đãi độc quyền dành cho cửa hàng và thợ cắm hoa."
@@ -1193,4 +1195,5 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
         })();
         </script>
     @endif
+</div>
 @endsection

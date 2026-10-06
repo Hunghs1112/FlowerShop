@@ -2,10 +2,11 @@
 
 @section('title', $product->display_name)
 
+@section('body-class', 'reference-tree-page')
 @section('content')
 
 <!-- Product Detail Section -->
-<div class="product-detail">
+<div class="tree-product-detail product-detail">
     <div class="container">
         <!-- Breadcrumb -->
         <nav class="breadcrumb" aria-label="Breadcrumb">
