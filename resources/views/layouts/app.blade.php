@@ -8,10 +8,7 @@
     <title>@yield('title', $siteSettings['site_name'] ?? config('app.name')) - {{ $siteSettings['site_name'] ?? config('app.name') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('css/chat-button.css') }}">
     @stack('styles')
     @include('partials.theme-head')
 </head>

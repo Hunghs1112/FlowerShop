@@ -2,10 +2,6 @@
 
 @section('title', 'Chat với Admin')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/chat.css') }}">
-@endpush
-
 @section('content')
 <div class="chat-page">
     <div class="chat-container">

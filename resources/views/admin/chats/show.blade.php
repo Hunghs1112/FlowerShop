@@ -2,10 +2,6 @@
 
 @section('page-title', 'Chat - ' . $user->name)
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/admin/chat.css') }}">
-@endpush
-
 @section('content')
 <div class="admin-chat-layout">
     {{-- Sidebar: Users list --}}

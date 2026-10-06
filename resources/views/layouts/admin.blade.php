@@ -9,12 +9,6 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/tables.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/forms.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/chat.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/variants.css') }}">
     @include('partials.theme-head')
 </head>
