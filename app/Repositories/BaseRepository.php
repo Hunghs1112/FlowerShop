@@ -5,7 +5,6 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -363,17 +362,7 @@ abstract class BaseRepository
      */
     protected function applySearchToQuery($query, string $keyword)
     {
-        $searchFields = $this->getSearchFields();
-
-        if (empty($searchFields)) {
-            return $query;
-        }
-
-        return $query->where(function ($q) use ($keyword, $searchFields) {
-            foreach ($searchFields as $field) {
-                $q->orWhere($field, 'like', "%{$keyword}%");
-            }
-        });
+        return $this->applySearch($query, $keyword);
     }
 
     /**
