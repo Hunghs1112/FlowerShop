@@ -240,7 +240,7 @@
                             <span class="accordion-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="accordion-content">
-                            <p class="return-policy-link"><a href="{{ route('policy', 'huong-dan-mua-hang') }}">Xem hướng dẫn mua và đặt hàng</a></p>
+                            <p class="return-policy-link"><a href="{{ route('guide') }}">Xem hướng dẫn mua và đặt hàng</a></p>
                         </div>
                     </div>
                 </div>

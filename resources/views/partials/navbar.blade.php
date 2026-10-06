@@ -77,6 +77,7 @@
                             <a href="{{ route('policy', $navPage->slug) }}" class="navbar-dropdown-item">{{ $navPage->title }}</a>
                         @endif
                     @endforeach
+                    <a href="{{ route('guide') }}" class="navbar-dropdown-item">Hướng dẫn đặt hàng</a>
                 </div>
             </li>
             @endif

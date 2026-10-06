@@ -43,6 +43,13 @@ class PageController extends Controller
         return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowers', 'categories', 'flowerCategories'));
     }
 
+    public function guide()
+    {
+        $siteInfo = $this->settingService->getSiteInfo();
+        $pageBanner = [];
+        return view('pages.guide', compact('siteInfo', 'pageBanner'));
+    }
+
     public function contact()
     {
         $siteInfo = $this->settingService->getSiteInfo();
@@ -86,6 +93,10 @@ class PageController extends Controller
 
         if (!$page && $slug === 'chinh-sach-cua-chung-toi') {
             $page = Page::where('slug', 'chinh-sach-doi-tra')->active()->first();
+        }
+
+        if (!$page && $slug === 'chinh-sach-doi-tra') {
+            $page = Page::where('slug', 'chinh-sach-cua-chung-toi')->active()->first();
         }
 
         abort_if(!$page, 404);

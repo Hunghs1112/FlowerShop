@@ -48,6 +48,14 @@
     --color-warning: #B58A4B;
     --color-error: #A6534E;
     --color-info: #6B8B9E;
+
+    /* === EXTENDED PALETTE (policy/contact/about pages) === */
+    --color-sage-green: #9AA07A;   /* sage green — different from --color-sage (cream) */
+    --color-terracotta: #B5776A;
+    --color-gold: #D9A85E;
+    --color-rose: #E6B8B0;
+    --color-board: #3A2C24;        /* dark warm board background */
+    --color-board-light: #2B201B;
     
     /* === SPACING SCALE === */
     --space-1: 4px;

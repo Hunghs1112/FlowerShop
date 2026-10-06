@@ -87,6 +87,7 @@
                     @foreach($navPages->where('slug', '!=', 'lien-he') as $footerPage)
                         <a href="{{ route('policy', $footerPage->slug) }}" class="footer-link">{{ $footerPage->title }}</a>
                     @endforeach
+                    <a href="{{ route('guide') }}" class="footer-link">Hướng dẫn đặt hàng</a>
                     <a href="{{ route('contact') }}" class="footer-link">Liên hệ</a>
                 </nav>
             </div>

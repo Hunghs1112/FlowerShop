@@ -12,7 +12,7 @@
     @stack('styles')
     @include('partials.theme-head')
 </head>
-<body class="@yield('body-class') {{ request()->routeIs('about', 'contact', 'contact.store', 'policy') ? 'info-pages-theme' : '' }}">
+<body class="@yield('body-class') {{ request()->routeIs('about', 'contact', 'contact.store', 'policy', 'guide') ? 'info-pages-theme' : '' }}">
     @if(!View::hasSection('skip-navbar'))
         @include('partials.navbar')
     @endif

@@ -35,7 +35,7 @@
 
         <aside class="contact-reference__side">
             <div class="contact-reference__destination" id="contact-destination"><h2>ĐIỂM ĐẾN</h2><p><b>Lâm Nhiên Thảo</b> · Hà Nội</p><p>Địa chỉ xưởng hoa: {{ $siteInfo['address'] ?? 'Liên hệ để nhận địa chỉ' }}</p><p>Vui lòng hẹn trước qua Zalo <a href="https://zalo.me/0869308993" target="_blank" rel="noopener">0869 308 993</a> trước khi ghé.</p><p>Giao hàng: Thứ Hai – Thứ Bảy, 08:00–17:00.</p><span>21.03°N · 105.85°E</span></div>
-            <div class="contact-reference__gates"><h2>CỔNG THÔNG TIN</h2><a href="{{ route('policy', 'huong-dan-dat-hang') }}"><span>A1</span>Hướng dẫn đặt hàng<span>→</span></a><a href="{{ route('policy', 'chinh-sach-giao-hang') }}"><span>A2</span>Chính sách giao hàng<span>→</span></a><a href="{{ route('policy', 'chinh-sach-doi-tra') }}"><span>A3</span>Phản hồi &amp; đổi trả<span>→</span></a><a href="{{ route('policy', 'dieu-khoan-dich-vu') }}"><span>A4</span>Điều khoản dịch vụ<span>→</span></a><a href="{{ route('policy', 'chinh-sach-bao-mat') }}"><span>A5</span>Chính sách bảo mật<span>→</span></a></div>
+            <div class="contact-reference__gates"><h2>CỔNG THÔNG TIN</h2><a href="{{ route('guide') }}"><span>A1</span>Hướng dẫn đặt hàng<span>→</span></a><a href="{{ route('policy', 'chinh-sach-giao-hang') }}"><span>A2</span>Chính sách giao hàng<span>→</span></a><a href="{{ route('policy', 'chinh-sach-doi-tra') }}"><span>A3</span>Phản hồi &amp; đổi trả<span>→</span></a><a href="{{ route('policy', 'dieu-khoan-dich-vu') }}"><span>A4</span>Điều khoản dịch vụ<span>→</span></a><a href="{{ route('policy', 'chinh-sach-bao-mat') }}"><span>A5</span>Chính sách bảo mật<span>→</span></a></div>
         </aside>
     </section>
 </main>

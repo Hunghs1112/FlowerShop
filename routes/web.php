@@ -39,6 +39,8 @@ Route::get('/gioi-thieu', [PageController::class, 'about'])->name('about');
 Route::get('/ve-chung-toi', [PageController::class, 'about']);
 Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
 Route::post('/lien-he', [PageController::class, 'contactSubmit'])->middleware('throttle:10,1')->name('contact.store');
+Route::get('/huong-dan-dat-hang', [PageController::class, 'guide'])->name('guide');
+Route::get('/trang/huong-dan-dat-hang', fn() => redirect()->route('guide'));
 Route::redirect('/trang/lien-he', '/lien-he');
 Route::redirect('/trang/gioi-thieu', '/gioi-thieu');
 Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
