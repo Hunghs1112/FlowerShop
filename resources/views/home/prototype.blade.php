@@ -299,10 +299,18 @@ lntSetLink(headerLinks[2], LNT_HOME.links.account);
 lntSetLink(document.querySelector('header.nav nav a:nth-of-type(4)'), LNT_HOME.links.about);
 
 const arrivalStatusLabels = {landed: 'ĐÃ HẠ CÁNH', flying: 'ĐANG BAY', pre: 'MỞ ĐẶT TRƯỚC'};
+const fallbackArrivals = [
+  {name: 'Hồng Freedom', origin: 'Ecuador', code: 'UIO', status_key: 'landed', url: '#'},
+  {name: 'Mẫu đơn', origin: 'New Zealand', code: 'CHC', status_key: 'flying', url: '#'},
+  {name: 'Tulip', origin: 'Hà Lan', code: 'AMS', status_key: 'pre', url: '#'},
+  {name: 'Mao lương', origin: 'Côn Minh', code: 'KMG', status_key: 'landed', url: '#'},
+];
 const arrivalCode = (code) => [...(code || 'LNT')].map((character) => `<span class="f" data-c="${character}">${red ? character : ''}</span>`).join('');
-const arrivals = document.getElementById('arrivals');
+document.querySelectorAll('.hero .board').forEach((board, index) => { if (index > 0) board.remove(); });
+const arrivals = document.querySelector('.hero .board #arrivals');
 if (arrivals) {
-  arrivals.replaceChildren(...(LNT_HOME.products || []).map((product, index) => {
+  const arrivalProducts = (LNT_HOME.products?.length ? LNT_HOME.products : fallbackArrivals).slice(0, 4);
+  arrivals.replaceChildren(...arrivalProducts.map((product) => {
     const row = document.createElement('a');
     const statusClass = product.status_key || 'landed';
     const statusText = arrivalStatusLabels[statusClass] || arrivalStatusLabels.landed;
