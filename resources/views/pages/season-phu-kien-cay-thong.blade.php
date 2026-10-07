@@ -655,9 +655,9 @@ addEventListener('hashchange',()=>{const id=location.hash.slice(1);if(!pane.hidd
 })();
 </script>
 
-  {-- Admin JS --}
+  {{-- Admin JS --}}
   @if(auth()->check() && auth()->user()->isAdmin())
-    <script src="{ asset('js/admin.js') }"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
   @endif
 
   @push('scripts')
