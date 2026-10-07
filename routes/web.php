@@ -49,6 +49,7 @@ Route::get('/chinh-sach-bao-mat', [PageController::class, 'policyBaoMat'])->name
 Route::redirect('/trang/chinh-sach-bao-mat', '/chinh-sach-bao-mat');
 Route::get('/chinh-sach-cua-chung-toi', [PageController::class, 'policyOurs'])->name('policy.ours');
 Route::redirect('/trang/chinh-sach-cua-chung-toi', '/chinh-sach-cua-chung-toi');
+Route::redirect('/trang/chinh-sach-doi-tra', '/chinh-sach-cua-chung-toi');
 Route::get('/chinh-sach-giao-hang', [PageController::class, 'policyDelivery'])->name('policy.delivery');
 Route::redirect('/trang/chinh-sach-giao-hang', '/chinh-sach-giao-hang');
 Route::get('/dieu-khoan-dich-vu', [PageController::class, 'policyDieuKhoan'])->name('policy.terms');

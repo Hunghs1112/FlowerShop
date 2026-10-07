@@ -53,13 +53,7 @@ class PageController extends Controller
     public function contact()
     {
         $siteInfo = $this->settingService->getSiteInfo();
-        $contactPage = Page::where('slug', 'lien-he')->active()->first();
-
-        $pageBanner = $contactPage?->header_image_url
-            ? ['custom' => $contactPage->header_image_url, 'hide_overlay' => $contactPage->hide_header_overlay]
-            : [];
-
-        return view('pages.contact', compact('siteInfo', 'contactPage', 'pageBanner'));
+        return view('pages.contact', compact('siteInfo'));
     }
 
     public function contactSubmit(Request $request)

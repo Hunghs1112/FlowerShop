@@ -80,19 +80,14 @@
                 </nav>
             </div>
 
-            <!-- Column 3 - Pages từ DB -->
+            <!-- Column 3 - Information -->
             <div class="footer-column">
                 <h3 class="footer-column-heading">Thông tin</h3>
                 <nav class="footer-links">
-                    @foreach($navPages->where('slug', '!=', 'lien-he') as $footerPage)
-                        <a href="@switch($footerPage->slug)
-                            @case('chinh-sach-bao-mat'){{ route('policy.baomat') }}
-                            @case('chinh-sach-cua-chung-toi'){{ route('policy.ours') }}
-                            @case('chinh-sach-giao-hang'){{ route('policy.delivery') }}
-                            @case('dieu-khoan-dich-vu'){{ route('policy.terms') }}
-                            @default{{ route('policy', $footerPage->slug) }}
-                        @endswitch" class="footer-link">{{ $footerPage->title }}</a>
-                    @endforeach
+                    <a href="{{ route('policy.delivery') }}" class="footer-link">Chính sách giao hàng</a>
+                    <a href="{{ route('policy.baomat') }}" class="footer-link">Chính sách bảo mật</a>
+                    <a href="{{ route('policy.ours') }}" class="footer-link">Chính sách của chúng tôi</a>
+                    <a href="{{ route('policy.terms') }}" class="footer-link">Điều khoản dịch vụ</a>
                     <a href="{{ route('guide') }}" class="footer-link">Hướng dẫn đặt hàng</a>
                     <a href="{{ route('season.phu-kien') }}" class="footer-link">Phụ kiện cây thông</a>
                     <a href="{{ route('season.mua-le-hoi') }}" class="footer-link">Mùa lễ hội</a>
@@ -118,7 +113,7 @@
                 </form>
 
                 <p class="footer-newsletter-consent">
-                    Bằng việc đăng ký, bạn đồng ý với <a href="{{ $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? route('policy.baomat') : '#' }}">{{ $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? $navPages->firstWhere('slug', 'chinh-sach-bao-mat')->title : 'Chính sách bảo mật' }}</a>
+                    Bằng việc đăng ký, bạn đồng ý với <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a>
                 </p>
             </div>
         </div>
@@ -134,15 +129,9 @@
 
             <div class="footer-bottom-right">
                 <nav class="footer-bottom-links">
-                    @foreach($navPages->take(3) as $bottomPage)
-                        <a href="@switch($bottomPage->slug)
-                            @case('chinh-sach-bao-mat'){{ route('policy.baomat') }}
-                            @case('chinh-sach-cua-chung-toi'){{ route('policy.ours') }}
-                            @case('chinh-sach-giao-hang'){{ route('policy.delivery') }}
-                            @case('dieu-khoan-dich-vu'){{ route('policy.terms') }}
-                            @default{{ route('policy', $bottomPage->slug) }}
-                        @endswitch" class="footer-bottom-link">{{ $bottomPage->title }}</a>
-                    @endforeach
+                    <a href="{{ route('policy.delivery') }}" class="footer-bottom-link">Chính sách giao hàng</a>
+                    <a href="{{ route('policy.baomat') }}" class="footer-bottom-link">Chính sách bảo mật</a>
+                    <a href="{{ route('policy.ours') }}" class="footer-bottom-link">Chính sách của chúng tôi</a>
                 </nav>
             </div>
         </div>

@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
+    public const STATIC_SLUGS = [
+        'chinh-sach-giao-hang',
+        'chinh-sach-bao-mat',
+        'chinh-sach-cua-chung-toi',
+        'dieu-khoan-dich-vu',
+        'huong-dan-dat-hang',
+        'lien-he',
+        'chinh-sach-doi-tra',
+    ];
+
     protected $fillable = [
         'title',
         'slug',

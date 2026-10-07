@@ -34,7 +34,7 @@
                                data-entity="pages"
                                data-id="{{ $page->id }}"
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
-                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ví dụ: chinh-sach-bao-mat, dieu-khoan-dich-vu</small>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ví dụ: trang-moi</small>
                     </div>
 
                     <div>

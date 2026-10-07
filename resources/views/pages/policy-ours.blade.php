@@ -23,6 +23,9 @@
 @endsection
 
 @push('styles')
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
 
 :root{--bg:#F5EBE6;--paper:#FCF8F5;--ink:#5E4636;--soft:#8C6E5C;--copper:#C78E66;--deep:#A8714E;--line:#E6D3C6;--board:#3A2C24;--tile:#241B16;--tile-ink:#F4E8DC;--tile-acc:#E2AE84;--shadow:rgba(120,80,55,.18);
@@ -97,6 +100,12 @@ h1{margin:0;font-weight:600;text-transform:uppercase;color:var(--copper);font-si
 @endpush
 
 @push('scripts')
+<script>
+(function(){const b=document.getElementById('toggleAll');if(!b)return;const g=[...document.querySelectorAll('.gate')];
+function upd(){const all=g.every(d=>d.open);b.textContent=all?'Thu gọn tất cả':'Mở tất cả';b.setAttribute('aria-expanded',all)}
+b.addEventListener('click',()=>{const all=g.every(d=>d.open);g.forEach(d=>d.open=!all);upd()});g.forEach(d=>d.addEventListener('toggle',upd));upd();
+if(location.hash){const t=document.querySelector(location.hash);if(t&&t.tagName==='DETAILS')t.open=true}})();
+</script>
 <script>const ROWS=[["s1", "LNT 01", "SẢN PHẨM", "HOA TƯƠI"], ["s2", "LNT 02", "PHẢN HỒI", "TRONG 2 GIỜ"], ["s3", "LNT 03", "MINH CHỨNG", "ẢNH, VIDEO"], ["s4", "LNT 04", "XỬ LÝ", "MINH BẠCH"], ["s5", "LNT 05", "ĐÁNH GIÁ", "THỰC TẾ"], ["s6", "LNT 06", "LIÊN HỆ", "HỖ TRỢ"]];
 const COLS=[6,10,11],CH='ABCDEGHIKLMNOPQRSTUVXYĐƯƠÔÂÊ0123456789',rows=document.getElementById('rows'),red=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function cells(t,n,c){const w=document.createElement('div');w.className='cells '+(c||'');t=t.padEnd(n,' ');for(let i=0;i<n;i++){const s=document.createElement('span');s.className='f';s.dataset.c=t[i];s.textContent=red?t[i]:'';w.appendChild(s)}return w}

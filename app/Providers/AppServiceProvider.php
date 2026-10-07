@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Category;
-use App\Models\Page;
 use App\Services\BannerService;
 use App\Services\SettingService;
 use Illuminate\Support\Facades\View;
@@ -46,10 +45,5 @@ class AppServiceProvider extends ServiceProvider
             $view->with('navCategories', $categories);
         });
 
-        View::composer('*', function ($view) {
-            try { $pages = Page::active()->orderBy('id')->get(['id', 'title', 'slug']); }
-            catch (\Throwable) { $pages = collect(); }
-            $view->with('navPages', $pages);
-        });
     }
 }

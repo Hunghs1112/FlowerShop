@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Page;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
 class UpdatePageRequest extends FormRequest
@@ -18,7 +20,7 @@ class UpdatePageRequest extends FormRequest
 
         return [
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
+            'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,' . $page->id, Rule::notIn(Page::STATIC_SLUGS)],
             'content' => 'required|string',
             'is_active' => 'boolean',
             'meta_title' => 'nullable|string|max:255',

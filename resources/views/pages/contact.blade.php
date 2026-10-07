@@ -14,12 +14,12 @@
 <a class="row" href="mailto:support@lamnhienthao.com"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></span><span><b>Email</b><span class="t">support@lamnhienthao.com</span></span><span class="ar" aria-hidden="true">→</span></a>
 <a class="row" href="#diem-den"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span><b>Ghé xưởng hoa</b><span class="t">Hẹn trước qua Zalo để được đón tiếp</span></span><span class="ar" aria-hidden="true">→</span></a></div></div></section>
 <section class="grid2" aria-label="Gửi lời nhắn và thông tin">
-<form class="msg" id="form" novalidate><div class="mh"><span>THẺ GỬI LỜI NHẮN</span><span>LNT · HAN</span></div>
+<form class="msg" id="form" action="{{ route('contact.store') }}" method="post" novalidate>@csrf<div class="mh"><span>THẺ GỬI LỜI NHẮN</span><span>LNT · HAN</span></div>
 <div class="mb" id="fbody">
-<div class="two"><label>Họ và tên *<input id="f_name" autocomplete="name" required></label><label>Số điện thoại / Zalo *<input id="f_phone" type="tel" autocomplete="tel" required></label></div>
-<label>Email (không bắt buộc)<input id="f_email" type="email" autocomplete="email"></label>
+<div class="two"><label>Họ và tên *<input id="f_name" name="name" autocomplete="name" required></label><label>Số điện thoại / Zalo *<input id="f_phone" name="phone" type="tel" autocomplete="tel" required></label></div>
+<label>Email (không bắt buộc)<input id="f_email" name="email" type="email" autocomplete="email"></label>
 <div><label style="margin-bottom:.4rem">Bạn cần hỗ trợ về</label><div class="chips" id="topics" role="group" aria-label="Chủ đề"><button type="button" class="chip" aria-pressed="true">Đặt hoa</button><button type="button" class="chip" aria-pressed="false">Hộp hoa bí ẩn</button><button type="button" class="chip" aria-pressed="false">Giao hàng</button><button type="button" class="chip" aria-pressed="false">Phản hồi đơn hàng</button><button type="button" class="chip" aria-pressed="false">Hợp tác B2B</button><button type="button" class="chip" aria-pressed="false">Khác</button></div></div>
-<label>Lời nhắn *<textarea id="f_msg" required placeholder="Bạn muốn LNT hỗ trợ điều gì?"></textarea></label>
+<label>Lời nhắn *<textarea id="f_msg" name="message" required placeholder="Bạn muốn LNT hỗ trợ điều gì?"></textarea></label>
 <p class="err" id="err" aria-live="polite"></p>
 <div class="send"><small>Thông tin chỉ dùng để liên hệ lại với bạn · <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a></small><button class="btn" type="submit">Gửi lời nhắn</button></div></div>
 <div class="ok" id="ok" role="status"><div class="seal">LNT</div><h3>LỜI NHẮN ĐÃ CẤT CÁNH</h3><p id="okText">Lâm Nhiên Thảo sẽ liên hệ lại với bạn qua Zalo hoặc điện thoại.</p></div></form>
@@ -37,6 +37,7 @@
 @endsection
 
 @push('styles')
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
 
 :root{--bg:#F5EBE6;--paper:#FCF8F5;--ink:#5E4636;--soft:#8C6E5C;--copper:#C78E66;--deep:#A8714E;--line:#E6D3C6;--board:#3A2C24;--tile:#241B16;--tile-ink:#F4E8DC;--tile-acc:#E2AE84;--shadow:rgba(120,80,55,.18);
@@ -148,10 +149,6 @@ h1{margin:0;font-weight:600;text-transform:uppercase;color:var(--copper);font-si
 
 @push('scripts')
 <script>
-/* Người làm web: đặt CONTACT_API để gửi lời nhắn về hệ thống (POST JSON).
-   Nếu để trống, nút Gửi sẽ mở ứng dụng email với nội dung đã điền sẵn. */
-const CONTACT_API='';
-const EMAIL='support@lamnhienthao.com';
 document.querySelectorAll('#topics .chip').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('#topics .chip').forEach(x=>x.setAttribute('aria-pressed',x===c))}));
 document.getElementById('form').addEventListener('submit',async e=>{e.preventDefault();const v=id=>document.getElementById(id).value.trim(),err=document.getElementById('err');
   const d={name:v('f_name'),phone:v('f_phone'),email:v('f_email'),topic:document.querySelector('#topics .chip[aria-pressed="true"]').textContent,message:v('f_msg')};
@@ -159,10 +156,9 @@ document.getElementById('form').addEventListener('submit',async e=>{e.preventDef
   if(!/^[0-9+\s.]{9,15}$/.test(d.phone)){err.textContent='Số điện thoại chưa đúng.';return}
   if(d.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)){err.textContent='Email chưa đúng định dạng.';return}
   err.textContent='';
-  if(CONTACT_API){try{const r=await fetch(CONTACT_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});if(!r.ok)throw 0}catch(x){err.textContent='Chưa gửi được, bạn vui lòng nhắn Zalo cho LNT nhé.';return}}
-  else{const body=`Họ tên: ${d.name}\nSĐT/Zalo: ${d.phone}\nEmail: ${d.email||'-'}\nChủ đề: ${d.topic}\n\n${d.message}`;
-    location.href=`mailto:${EMAIL}?subject=${encodeURIComponent('[Website] '+d.topic+' – '+d.name)}&body=${encodeURIComponent(body)}`;
-    document.getElementById('okText').textContent='Ứng dụng email đã mở sẵn lời nhắn của bạn, chỉ cần bấm gửi. Lâm Nhiên Thảo sẽ liên hệ lại sớm nhất.'}
+  try{const form=e.currentTarget,body=new FormData(form);body.set('message',`Chủ đề: ${d.topic}\n\n${d.message}`);
+    const r=await fetch(form.action,{method:'POST',body,headers:{'Accept':'application/json','X-CSRF-TOKEN':form.querySelector('input[name="_token"]').value}});if(!r.ok)throw 0}
+  catch(x){err.textContent='Chưa gửi được, bạn vui lòng nhắn Zalo cho LNT nhé.';return}
   document.getElementById('fbody').style.display='none';document.getElementById('ok').classList.add('on')});
 </script>
 @endpush

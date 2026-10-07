@@ -62,8 +62,7 @@
                 </a>
             </li>
 
-            {{-- Thông tin — dropdown từ $navPages DB --}}
-            @if($navPages->isNotEmpty())
+            {{-- Thông tin --}}
             <li class="navbar-nav-item" data-dropdown="standard">
                 <a href="#" class="navbar-nav-link">
                     Thông tin
@@ -72,23 +71,16 @@
                     </svg>
                 </a>
                 <div class="navbar-dropdown">
-                    @foreach($navPages as $navPage)
-                        @if($navPage->slug !== 'lien-he')
-                            <a href="@switch($navPage->slug)
-                                @case('chinh-sach-bao-mat'){{ route('policy.baomat') }}
-                                @case('chinh-sach-cua-chung-toi'){{ route('policy.ours') }}
-                                @case('chinh-sach-giao-hang'){{ route('policy.delivery') }}
-                                @case('dieu-khoan-dich-vu'){{ route('policy.terms') }}
-                                @default{{ route('policy', $navPage->slug) }}
-                            @endswitch" class="navbar-dropdown-item">{{ $navPage->title }}</a>
-                        @endif
-                    @endforeach
+                    <a href="{{ route('policy.delivery') }}" class="navbar-dropdown-item">Chính sách giao hàng</a>
+                    <a href="{{ route('policy.baomat') }}" class="navbar-dropdown-item">Chính sách bảo mật</a>
+                    <a href="{{ route('policy.ours') }}" class="navbar-dropdown-item">Chính sách của chúng tôi</a>
+                    <a href="{{ route('policy.terms') }}" class="navbar-dropdown-item">Điều khoản dịch vụ</a>
                     <a href="{{ route('guide') }}" class="navbar-dropdown-item">Hướng dẫn đặt hàng</a>
+                    <a href="{{ route('contact') }}" class="navbar-dropdown-item">Liên hệ</a>
                     <a href="{{ route('season.phu-kien') }}" class="navbar-dropdown-item">Phụ kiện cây thông</a>
                     <a href="{{ route('season.mua-le-hoi') }}" class="navbar-dropdown-item">Mùa lễ hội</a>
                 </div>
             </li>
-            @endif
 
             {{-- B2B --}}
             <li class="navbar-nav-item">
@@ -246,8 +238,7 @@
             {{-- Góc cảm hứng --}}
             <li><a href="{{ route('blog.index') }}">Bài viết</a></li>
 
-            {{-- Thông tin accordion từ DB pages --}}
-            @if($navPages->isNotEmpty())
+            {{-- Thông tin --}}
             <li class="navbar-mobile-accordion-item">
                 <button class="navbar-mobile-accordion-toggle" aria-expanded="false">
                     Thông tin
@@ -257,21 +248,15 @@
                 </button>
                 <div class="navbar-mobile-accordion-content">
                     <div class="navbar-mobile-accordion-links">
-                        @foreach($navPages as $navPage)
-                            @if($navPage->slug !== 'lien-he')
-                                <a href="@switch($navPage->slug)
-                                    @case('chinh-sach-bao-mat'){{ route('policy.baomat') }}
-                                    @case('chinh-sach-cua-chung-toi'){{ route('policy.ours') }}
-                                    @case('chinh-sach-giao-hang'){{ route('policy.delivery') }}
-                                    @case('dieu-khoan-dich-vu'){{ route('policy.terms') }}
-                                    @default{{ route('policy', $navPage->slug) }}
-                                @endswitch" class="navbar-mobile-accordion-link">{{ $navPage->title }}</a>
-                            @endif
-                        @endforeach
+                        <a href="{{ route('policy.delivery') }}" class="navbar-mobile-accordion-link">Chính sách giao hàng</a>
+                        <a href="{{ route('policy.baomat') }}" class="navbar-mobile-accordion-link">Chính sách bảo mật</a>
+                        <a href="{{ route('policy.ours') }}" class="navbar-mobile-accordion-link">Chính sách của chúng tôi</a>
+                        <a href="{{ route('policy.terms') }}" class="navbar-mobile-accordion-link">Điều khoản dịch vụ</a>
+                        <a href="{{ route('guide') }}" class="navbar-mobile-accordion-link">Hướng dẫn đặt hàng</a>
+                        <a href="{{ route('contact') }}" class="navbar-mobile-accordion-link">Liên hệ</a>
                     </div>
                 </div>
             </li>
-            @endif
 
             {{-- B2B --}}
             <li><a href="{{ route('b2c') }}">B2B</a></li>

@@ -28,7 +28,7 @@ class PageController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = \App\Models\Page::query();
+        $query = Page::query()->whereNotIn('slug', Page::STATIC_SLUGS);
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -76,6 +76,7 @@ class PageController extends Controller
      */
     public function edit(Page $page): View
     {
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
         return view('admin.pages.edit', compact('page'));
     }
 
@@ -84,6 +85,7 @@ class PageController extends Controller
      */
     public function update(UpdatePageRequest $request, Page $page)
     {
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
         $page->update($request->validated());
 
         return redirect()->route('admin.pages.index')
@@ -95,6 +97,7 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
         $page->delete();
 
         return redirect()->route('admin.pages.index')
@@ -114,6 +117,7 @@ class PageController extends Controller
      */
     public function updateField(Request $request, Page $page)
     {
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
         return $this->handleAjaxFieldUpdate($request, $page, [
             'allowed_fields' => [
                 'title', 'slug', 'content', 'is_active',
@@ -121,7 +125,7 @@ class PageController extends Controller
             ],
             'rules' => [
                 'title' => 'required|string|max:255',
-                'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
+                'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,' . $page->id, \Illuminate\Validation\Rule::notIn(Page::STATIC_SLUGS)],
                 'content' => 'required|string',
                 'is_active' => 'boolean',
                 'meta_title' => 'nullable|string|max:255',
@@ -137,6 +141,7 @@ class PageController extends Controller
      */
     public function uploadHeaderImage(Request $request, Page $page)
     {
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
         $request->validate([
             'file' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:4096',
         ]);

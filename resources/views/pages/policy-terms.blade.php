@@ -26,6 +26,7 @@
 @endsection
 
 @push('styles')
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
 
 :root{--bg:#F5EBE6;--paper:#FCF8F5;--ink:#5E4636;--soft:#8C6E5C;--copper:#C78E66;--deep:#A8714E;--line:#E6D3C6;--board:#3A2C24;--tile:#241B16;--tile-ink:#F4E8DC;--tile-acc:#E2AE84;--shadow:rgba(120,80,55,.18);
