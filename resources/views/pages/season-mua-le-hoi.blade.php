@@ -662,9 +662,6 @@ addEventListener('hashchange',()=>{const id=location.hash.slice(1);if(!pane.hidd
   {-- Footer --}
   @include('partials.footer')
 
-  {-- Chat widget --}
-  @include('partials.chat-widget')
-
   {-- Admin JS --}
   @if(auth()->check() && auth()->user()->isAdmin())
     <script src="{ asset('js/admin.js') }"></script>

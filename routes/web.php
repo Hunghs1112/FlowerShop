@@ -55,9 +55,6 @@ Route::redirect('/trang/chinh-sach-giao-hang', '/chinh-sach-giao-hang');
 Route::get('/dieu-khoan-dich-vu', [PageController::class, 'policyDieuKhoan'])->name('policy.terms');
 Route::redirect('/trang/dieu-khoan-dich-vu', '/dieu-khoan-dich-vu');
 
-// Generic page route (MUST be last)
-Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
-
 // Cánh phong bí ẩn
 Route::get('/can-phong-bi-mat', [PageController::class, 'canPhong'])->name('can-phong-bi-mat');
 Route::redirect('/trang/can-phong-bi-mat', '/can-phong-bi-mat');
@@ -71,6 +68,9 @@ Route::get('/mua-le-hoi', [PageController::class, 'seasonHub'])
     ->defaults('slug', 'mua-le-hoi')
     ->name('season.mua-le-hoi');
 Route::redirect('/trang/mua-le-hoi', '/mua-le-hoi');
+
+// Generic page route must follow all fixed /trang redirects.
+Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
 // Cart
 Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');

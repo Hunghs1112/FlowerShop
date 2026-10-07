@@ -254,6 +254,8 @@
                         <a href="{{ route('policy.terms') }}" class="navbar-mobile-accordion-link">Điều khoản dịch vụ</a>
                         <a href="{{ route('guide') }}" class="navbar-mobile-accordion-link">Hướng dẫn đặt hàng</a>
                         <a href="{{ route('contact') }}" class="navbar-mobile-accordion-link">Liên hệ</a>
+                        <a href="{{ route('season.phu-kien') }}" class="navbar-mobile-accordion-link">Phụ kiện cây thông</a>
+                        <a href="{{ route('season.mua-le-hoi') }}" class="navbar-mobile-accordion-link">Mùa lễ hội</a>
                     </div>
                 </div>
             </li>

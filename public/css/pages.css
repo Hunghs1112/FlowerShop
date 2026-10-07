@@ -68,6 +68,16 @@
   color: var(--color-text);
 }
 
+/* These pages use the source HTML's content-sized hero, not the site slider. */
+.static-info-page .wrap > .hero {
+  position: static;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+  background: transparent;
+}
+
 .about-layout {
   max-width: 900px;
   margin: 0 auto;
