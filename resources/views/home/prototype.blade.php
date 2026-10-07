@@ -298,7 +298,7 @@ lntSetLink(headerLinks[1], LNT_HOME.links.cart);
 lntSetLink(headerLinks[2], LNT_HOME.links.account);
 lntSetLink(document.querySelector('header.nav nav a:nth-of-type(4)'), LNT_HOME.links.about);
 
-const arrivalStatusLabels = {landed: 'ĐÃ HẠ CÁNH', flying: 'ĐANG BAY'};
+const arrivalStatusLabels = {landed: 'ĐÃ HẠ CÁNH', flying: 'ĐANG BAY', pre: 'MỞ ĐẶT TRƯỚC'};
 const arrivalCode = (code) => [...(code || 'LNT')].map((character) => `<span class="f" data-c="${character}">${red ? character : ''}</span>`).join('');
 const arrivals = document.getElementById('arrivals');
 if (arrivals) {
