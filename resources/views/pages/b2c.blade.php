@@ -34,7 +34,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                 {{-- ── Sidebar: lợi ích ─────────────────────────────── --}}
                 <aside class="b2c-sidebar">
                     <span class="b2c-sidebar-label">Vì sao chọn Lâm Nhiên Thảo?</span>
-                    <h2 class="b2c-sidebar-title">Đối tác tin cậy của hơn 500+ cửa hàng hoa</h2>
+                    <h2 class="b2c-sidebar-title">Đồng hành cùng các cửa hàng hoa đang tìm nguồn hoa nhập khẩu chất lượng</h2>
                     <p class="b2c-sidebar-text">
                         Chúng tôi cung cấp nguồn hoa tươi ổn định với giá xuất xưởng, hỗ trợ vận chuyển nhanh
                         và chính sách đổi trả linh hoạt dành riêng cho đối tác B2B.
