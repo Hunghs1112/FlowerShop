@@ -117,25 +117,29 @@ class PageController extends Controller
     public function policyBaoMat()
     {
         $siteInfo = $this->settingService->getSiteInfo();
-        return view('pages.policy', compact('siteInfo'));
+        $page = Page::where('slug', 'chinh-sach-bao-mat')->active()->first();
+        return view('pages.policy', compact('siteInfo', 'page'));
     }
 
     public function policyOurs()
     {
         $siteInfo = $this->settingService->getSiteInfo();
-        return view('pages.policy-ours', compact('siteInfo'));
+        $page = Page::where('slug', 'chinh-sach-cua-chung-toi')->active()->first();
+        return view('pages.policy-ours', compact('siteInfo', 'page'));
     }
 
     public function policyDelivery()
     {
         $siteInfo = $this->settingService->getSiteInfo();
-        return view('pages.policy-delivery', compact('siteInfo'));
+        $page = Page::where('slug', 'chinh-sach-giao-hang')->active()->first();
+        return view('pages.policy-delivery', compact('siteInfo', 'page'));
     }
 
     public function policyDieuKhoan()
     {
         $siteInfo = $this->settingService->getSiteInfo();
-        return view('pages.policy-terms', compact('siteInfo'));
+        $page = Page::where('slug', 'dieu-khoan-dich-vu')->active()->first();
+        return view('pages.policy-terms', compact('siteInfo', 'page'));
     }
 
     public function canPhong()

@@ -28,13 +28,22 @@ class PageController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = Page::query()->whereNotIn('slug', Page::STATIC_SLUGS);
+        $query = Page::query()->where(function ($query) {
+            $query->whereNotIn('slug', Page::STATIC_SLUGS)
+                ->orWhereIn('slug', Page::POLICY_SLUGS);
+        });
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                   ->orWhere('slug', 'like', "%{$search}%");
             });
+        }
+
+        if ($request->input('type') === 'policy') {
+            $query->whereIn('slug', Page::POLICY_SLUGS);
+        } elseif ($request->input('type') === 'regular') {
+            $query->whereNotIn('slug', Page::STATIC_SLUGS);
         }
 
         $filters = $this->buildFilters($request);
@@ -76,8 +85,17 @@ class PageController extends Controller
      */
     public function edit(Page $page): View
     {
-        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
-        return view('admin.pages.edit', compact('page'));
+        $isPolicy = in_array($page->slug, Page::POLICY_SLUGS, true);
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && !$isPolicy, 404);
+        return view('admin.pages.edit', compact('page', 'isPolicy'));
+    }
+
+    /**
+     * Display a single page (preview / quick view)
+     */
+    public function show(Page $page)
+    {
+        return redirect()->route('admin.pages.edit', $page);
     }
 
     /**
@@ -85,7 +103,6 @@ class PageController extends Controller
      */
     public function update(UpdatePageRequest $request, Page $page)
     {
-        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
         $page->update($request->validated());
 
         return redirect()->route('admin.pages.index')
@@ -97,7 +114,9 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
-        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
+        if (in_array($page->slug, Page::STATIC_SLUGS, true)) {
+            abort(404);
+        }
         $page->delete();
 
         return redirect()->route('admin.pages.index')
@@ -117,12 +136,14 @@ class PageController extends Controller
      */
     public function updateField(Request $request, Page $page)
     {
-        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
+        $isPolicy = in_array($page->slug, Page::POLICY_SLUGS, true);
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && !$isPolicy, 404);
+
+        $allowedFields = $isPolicy
+            ? ['title', 'policy_intro', 'policy_updated_at_display', 'policy_content_override', 'is_active']
+            : ['title', 'slug', 'content', 'is_active', 'meta_title', 'meta_description', 'header_image', 'hide_header_overlay'];
         return $this->handleAjaxFieldUpdate($request, $page, [
-            'allowed_fields' => [
-                'title', 'slug', 'content', 'is_active',
-                'meta_title', 'meta_description', 'header_image', 'hide_header_overlay'
-            ],
+            'allowed_fields' => $allowedFields,
             'rules' => [
                 'title' => 'required|string|max:255',
                 'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,' . $page->id, \Illuminate\Validation\Rule::notIn(Page::STATIC_SLUGS)],
@@ -132,6 +153,9 @@ class PageController extends Controller
                 'meta_description' => 'nullable|string|max:500',
                 'header_image' => 'nullable|string|max:500',
                 'hide_header_overlay' => 'boolean',
+                'policy_intro' => 'nullable|string|max:1000',
+                'policy_updated_at_display' => 'nullable|string|max:60',
+                'policy_content_override' => 'nullable|string|max:200000',
             ],
         ]);
     }
@@ -175,4 +199,5 @@ class PageController extends Controller
 
         return $filters;
     }
+
 }

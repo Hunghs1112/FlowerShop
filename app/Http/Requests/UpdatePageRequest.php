@@ -17,6 +17,19 @@ class UpdatePageRequest extends FormRequest
     public function rules(): array
     {
         $page = $this->route('page');
+        $isPolicy = $page instanceof Page && in_array($page->slug, Page::POLICY_SLUGS, true);
+
+        if ($isPolicy) {
+            return [
+                'title' => 'required|string|max:255',
+                'slug' => 'prohibited',
+                'content' => 'prohibited',
+                'policy_intro' => 'nullable|string|max:1000',
+                'policy_updated_at_display' => 'nullable|string|max:60',
+                'policy_content_override' => 'nullable|string|max:200000',
+                'is_active' => 'boolean',
+            ];
+        }
 
         return [
             'title' => 'required|string|max:255',
@@ -27,6 +40,7 @@ class UpdatePageRequest extends FormRequest
             'meta_description' => 'nullable|string|max:500',
             'header_image' => 'nullable|string|max:500',
             'hide_header_overlay' => 'boolean',
+            'policy_content_override' => 'prohibited',
         ];
     }
 
@@ -44,8 +58,10 @@ class UpdatePageRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        // Auto-generate slug if empty
-        if (empty($this->input('slug')) && !empty($this->input('title'))) {
+        // Keep fixed policy slugs out of the generic slug generation path.
+        $page = $this->route('page');
+        $isPolicy = $page instanceof Page && in_array($page->slug, Page::POLICY_SLUGS, true);
+        if (!$isPolicy && empty($this->input('slug')) && !empty($this->input('title'))) {
             $this->merge(['slug' => Str::slug($this->input('title'))]);
         }
 

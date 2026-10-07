@@ -29,8 +29,13 @@
                 <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Kích hoạt</option>
                 <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Không kích hoạt</option>
             </select>
+            <select name="type" class="input-sm">
+                <option value="">Tất cả loại</option>
+                <option value="policy" {{ request('type') == 'policy' ? 'selected' : '' }}>Trang chính sách</option>
+                <option value="regular" {{ request('type') == 'regular' ? 'selected' : '' }}>Trang thường</option>
+            </select>
             <button type="submit" class="btn btn-primary btn-sm">Lọc</button>
-            @if(request()->has('search') || request()->has('status'))
+            @if(request()->has('search') || request()->has('status') || request()->has('type'))
                 <a href="{{ route('admin.pages.index') }}" class="btn btn-secondary btn-sm">Xóa lọc</a>
             @endif
         </form>
@@ -56,6 +61,9 @@
                         <tr>
                             <td>
                                 <div class="table-product-name">{{ $page->title }}</div>
+                                @if(in_array($page->slug, App\Models\Page::POLICY_SLUGS, true))
+                                    <span class="badge" style="background: #fef3c7; color: #92400e; font-size: 11px; margin-top: 2px;">Chính sách</span>
+                                @endif
                             </td>
                             <td class="text-mono" style="color: var(--admin-text-secondary);">{{ $page->slug }}</td>
                             <td class="text-mono" style="color: var(--admin-text-secondary);">{{ $page->updated_at->format('d/m/Y H:i') }}</td>
@@ -80,12 +88,14 @@
                                     <form action="{{ route('admin.pages.destroy', $page) }}" method="POST" class="inline-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-icon btn-icon-danger" title="Xóa" 
+                                        @if(!in_array($page->slug, App\Models\Page::POLICY_SLUGS, true))
+                                        <button type="submit" class="btn-icon btn-icon-danger" title="Xóa"
                                                 onclick="return confirm('Bạn có chắc muốn xóa trang này?\n\nHành động này không thể hoàn tác.')">
                                             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                             </svg>
                                         </button>
+                                        @endif
                                     </form>
                                 </div>
                             </td>

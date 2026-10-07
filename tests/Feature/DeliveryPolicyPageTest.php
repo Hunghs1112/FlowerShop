@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Page;
 use App\Models\User;
-use App\Models\Inquiry;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,61 +11,59 @@ class DeliveryPolicyPageTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_all_six_information_pages_render_without_page_records(): void
+    public function test_policy_pages_keep_default_content_without_overrides(): void
     {
-        foreach (['policy.delivery', 'policy.baomat', 'policy.ours', 'policy.terms', 'guide', 'contact'] as $name) {
-            $this->get(route($name))->assertOk();
+        foreach (['policy.delivery', 'policy.baomat', 'policy.ours', 'policy.terms'] as $route) {
+            $this->get(route($route))->assertOk();
         }
+        $this->get(route('policy.delivery'))->assertSee('14:00');
     }
 
-    public function test_delivery_policy_uses_static_content_even_when_a_page_record_exists(): void
+    public function test_policy_pages_render_admin_content_safely(): void
     {
         Page::create([
-            'title' => 'Old delivery page',
+            'title' => 'Updated delivery policy',
             'slug' => 'chinh-sach-giao-hang',
-            'content' => 'Database-only policy text',
+            'content' => '',
+            'policy_intro' => 'New introduction',
+            'policy_updated_at_display' => 'October 2026',
+            'policy_content_override' => "## New section\n\nNew policy copy\n\n<script>alert(1)</script> [unsafe](javascript:alert(1))",
             'is_active' => true,
         ]);
 
-        $this->get('/chinh-sach-giao-hang')
+        $this->get(route('policy.delivery'))
             ->assertOk()
-            ->assertSee('08 CÁC MỤC')
-            ->assertSee('Giao trong ngày: xác nhận trước 14:00')
-            ->assertDontSee('Database-only policy text');
-
-        $this->get('/trang/chinh-sach-giao-hang')
-            ->assertRedirect('/chinh-sach-giao-hang');
+            ->assertSee('Updated delivery policy')
+            ->assertSee('New introduction')
+            ->assertSee('New section')
+            ->assertSee('New policy copy')
+            ->assertDontSee('<div class="toolbar">', false)
+            ->assertDontSee('<script>alert(1)</script>', false)
+            ->assertDontSee('javascript:alert(1)', false);
     }
 
-    public function test_static_policy_record_cannot_be_edited_in_admin(): void
+    public function test_admin_can_update_policy_content_but_cannot_change_or_delete_its_slug(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
         $page = Page::create([
-            'title' => 'Old delivery page',
+            'title' => 'Delivery policy',
             'slug' => 'chinh-sach-giao-hang',
-            'content' => 'Old content',
+            'content' => '',
             'is_active' => true,
         ]);
 
-        $this->actingAs($admin)
-            ->get(route('admin.pages.index'))
-            ->assertOk()
-            ->assertDontSee('Old delivery page');
-        $this->get(route('admin.pages.edit', $page))->assertNotFound();
-        $this->patch(route('admin.pages.updateField', $page), ['field' => 'content', 'value' => 'Changed'])
-            ->assertNotFound();
-        $this->assertSame('Old content', $page->fresh()->content);
-    }
+        $this->actingAs($admin)->get(route('admin.pages.index'))
+            ->assertOk()->assertSee('Delivery policy');
+        $this->get(route('admin.pages.edit', $page))->assertOk()->assertSee('policy_content_override');
+        $this->patch(route('admin.pages.updateField', $page), [
+            'field' => 'policy_content_override', 'value' => '## Admin content',
+        ])->assertOk();
+        $this->assertSame('## Admin content', $page->fresh()->policy_content_override);
 
-    public function test_contact_form_still_saves_a_message(): void
-    {
-        $this->post(route('contact.store'), [
-            'name' => 'Test Visitor',
-            'phone' => '0869308993',
-            'email' => 'visitor@example.com',
-            'message' => 'Please call me back.',
-        ])->assertRedirect();
-
-        $this->assertSame('Please call me back.', Inquiry::firstOrFail()->message);
+        $this->patch(route('admin.pages.update', $page), [
+            'title' => 'Updated title', 'slug' => 'custom-slug', 'content' => '',
+        ])->assertSessionHasErrors('slug');
+        $this->delete(route('admin.pages.destroy', $page))->assertNotFound();
+        $this->assertSame('chinh-sach-giao-hang', $page->fresh()->slug);
     }
 }

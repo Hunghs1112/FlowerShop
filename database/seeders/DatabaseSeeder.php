@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             PostSeeder::class,
             PageSeeder::class,
+            PolicyPageSeeder::class,
             SettingSeeder::class,
             ChatMessagesSeeder::class,
         ]);

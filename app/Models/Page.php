@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
+    public const POLICY_SLUGS = [
+        'chinh-sach-bao-mat',
+        'chinh-sach-cua-chung-toi',
+        'chinh-sach-giao-hang',
+        'dieu-khoan-dich-vu',
+    ];
+
     public const STATIC_SLUGS = [
         'chinh-sach-giao-hang',
         'chinh-sach-bao-mat',
@@ -23,6 +30,9 @@ class Page extends Model
         'is_active',
         'header_image',
         'hide_header_overlay',
+        'policy_intro',
+        'policy_updated_at_display',
+        'policy_content_override',
     ];
 
     protected $casts = [

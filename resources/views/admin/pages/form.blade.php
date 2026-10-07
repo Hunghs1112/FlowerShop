@@ -17,37 +17,59 @@
                 <div style="display: flex; flex-direction: column; gap: 20px;">
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Tiêu Đề <span style="color: var(--admin-error);">*</span></label>
-                        <input type="text" name="title" value="{{ old('title', $page->title ?? '') }}" 
+                        <input type="text" name="title" value="{{ old('title', $page->title ?? '') }}"
                                id="titleInput"
                                class="auto-save-input"
                                data-entity="pages"
                                data-id="{{ $page->id }}"
-                               style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;" 
-                               required>
+                               style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;">
                     </div>
 
                     <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Slug <span style="color: var(--admin-error);">*</span></label>
-                        <input type="text" name="slug" value="{{ old('slug', $page->slug ?? '') }}" 
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">
+                            Slug
+                            @if(isset($isPolicy) && $isPolicy)
+                                <span style="font-weight: 400; font-size: 11px; color: var(--admin-text-muted);">(không thể thay đổi)</span>
+                            @endif
+                        </label>
+                        <input type="text" value="{{ old('slug', $page->slug ?? '') }}"
                                id="slugInput"
-                               class="auto-save-input"
-                               data-entity="pages"
-                               data-id="{{ $page->id }}"
-                               style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);">
+                               @if(isset($isPolicy) && $isPolicy)
+                                   disabled readonly style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono); background: var(--admin-bg-subtle); cursor: not-allowed;"
+                               @else
+                                   name="slug" class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}"
+                                   style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono);"
+                               @endif>
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ví dụ: trang-moi</small>
                     </div>
 
+                    @if(isset($isPolicy) && $isPolicy)
                     <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội Dung <span style="color: var(--admin-error);">*</span></label>
-                        <textarea name="content" rows="15" 
-                                  id="contentEditor"
-                                  class="auto-save-input"
-                                  data-entity="pages"
-                                  data-id="{{ $page->id }}"
-                                  style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;" 
-                                  required>{{ old('content', $page->content ?? '') }}</textarea>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Giới thiệu chính sách</label>
+                        <textarea name="policy_intro" rows="3" class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}"
+                                  style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;"
+                                  placeholder="Tóm tắt ngắn gọn hiển thị trên trang chính sách...">{{ old('policy_intro', $page->policy_intro ?? '') }}</textarea>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Ngày cập nhật</label>
+                        <input type="text" name="policy_updated_at_display" value="{{ old('policy_updated_at_display', $page->policy_updated_at_display ?? '') }}"
+                               class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}" maxlength="60" placeholder="Tháng 9, 2026"
+                               style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội dung chính sách (Markdown)</label>
+                        <textarea name="policy_content_override" rows="18" id="contentEditor" class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}"
+                                  style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;">{{ old('policy_content_override', $page->policy_content_override ?? '') }}</textarea>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống để giữ nội dung và bố cục mặc định. Khi nhập, nội dung này thay toàn bộ phần dưới tiêu đề; dùng ## cho tiêu đề mục, danh sách và Markdown links. HTML sẽ bị loại bỏ.</small>
+                    </div>
+                    @else
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội Dung</label>
+                        <textarea name="content" rows="15" id="contentEditor" class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}"
+                                  style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;">{{ old('content', $page->content ?? '') }}</textarea>
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ctrl+Enter để lưu ngay</small>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
