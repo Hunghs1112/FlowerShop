@@ -129,7 +129,7 @@
 
 <div class="list" id="list" aria-label="Danh sách món đồ cần tìm"></div>
 <div class="status"><p id="ptext">Tìm 6 món đồ ẩn trong căn phòng.</p>
-  <span class="note">Thông tin chỉ dùng để xử lý đơn hàng · <a href="{{ route('policy', 'chinh-sach-bao-mat') }}">Chính sách bảo mật</a></span>
+  <span class="note">Thông tin chỉ dùng để xử lý đơn hàng · <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a></span>
   <button class="btn primary" id="send" type="button" disabled>Niêm phong &amp; gửi hộp hoa</button></div>
 </main>
 

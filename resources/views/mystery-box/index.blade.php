@@ -130,7 +130,7 @@
  <circle cx="0" cy="-30" r="15" fill="#9A5A40"/><text x="0" y="-26" text-anchor="middle" font-size="10" font-weight="600" fill="#F6E3D3" font-family="Josefin Sans,sans-serif">LNT</text></g>
 </svg></div>
 <div class="list" id="list" aria-label="Các món đồ cần tìm"></div>
-<div class="status"><p id="ptext"></p><span class="note">Thông tin nhận hàng chỉ dùng để xử lý đơn · <a href="{{ route('policy', 'chinh-sach-bao-mat') }}">Chính sách bảo mật</a></span>
+<div class="status"><p id="ptext"></p><span class="note">Thông tin nhận hàng chỉ dùng để xử lý đơn · <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a></span>
 <button class="btn primary" id="send" type="button" disabled>Niêm phong &amp; gửi hộp hoa</button></div>
 </main>
 @endsection

@@ -43,15 +43,19 @@ Route::get('/huong-dan-dat-hang', [PageController::class, 'guide'])->name('guide
 Route::get('/trang/huong-dan-dat-hang', fn() => redirect()->route('guide'));
 Route::redirect('/trang/lien-he', '/lien-he');
 Route::redirect('/trang/gioi-thieu', '/gioi-thieu');
-Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
-// Individual policy pages with custom templates
+// Individual policy static pages (MUST come before /trang/{slug})
+Route::get('/chinh-sach-bao-mat', [PageController::class, 'policyBaoMat'])->name('policy.baomat');
+Route::redirect('/trang/chinh-sach-bao-mat', '/chinh-sach-bao-mat');
 Route::get('/chinh-sach-cua-chung-toi', [PageController::class, 'policyOurs'])->name('policy.ours');
 Route::redirect('/trang/chinh-sach-cua-chung-toi', '/chinh-sach-cua-chung-toi');
 Route::get('/chinh-sach-giao-hang', [PageController::class, 'policyDelivery'])->name('policy.delivery');
 Route::redirect('/trang/chinh-sach-giao-hang', '/chinh-sach-giao-hang');
-Route::get('/dieu-khoan-dich-vu', [PageController::class, 'policyTerms'])->name('policy.terms');
+Route::get('/dieu-khoan-dich-vu', [PageController::class, 'policyDieuKhoan'])->name('policy.terms');
 Route::redirect('/trang/dieu-khoan-dich-vu', '/dieu-khoan-dich-vu');
+
+// Generic page route (MUST be last)
+Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
 // Cánh phong bí ẩn
 Route::get('/can-phong-bi-mat', [PageController::class, 'canPhong'])->name('can-phong-bi-mat');

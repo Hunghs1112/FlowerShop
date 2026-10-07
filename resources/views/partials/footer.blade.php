@@ -85,7 +85,13 @@
                 <h3 class="footer-column-heading">Thông tin</h3>
                 <nav class="footer-links">
                     @foreach($navPages->where('slug', '!=', 'lien-he') as $footerPage)
-                        <a href="{{ route('policy', $footerPage->slug) }}" class="footer-link">{{ $footerPage->title }}</a>
+                        <a href="@switch($footerPage->slug)
+                            @case('chinh-sach-bao-mat'){{ route('policy.baomat') }}
+                            @case('chinh-sach-cua-chung-toi'){{ route('policy.ours') }}
+                            @case('chinh-sach-giao-hang'){{ route('policy.delivery') }}
+                            @case('dieu-khoan-dich-vu'){{ route('policy.terms') }}
+                            @default{{ route('policy', $footerPage->slug) }}
+                        @endswitch" class="footer-link">{{ $footerPage->title }}</a>
                     @endforeach
                     <a href="{{ route('guide') }}" class="footer-link">Hướng dẫn đặt hàng</a>
                     <a href="{{ route('season.phu-kien') }}" class="footer-link">Phụ kiện cây thông</a>
@@ -112,7 +118,7 @@
                 </form>
 
                 <p class="footer-newsletter-consent">
-                    Bằng việc đăng ký, bạn đồng ý với <a href="{{ $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? route('policy', 'chinh-sach-bao-mat') : '#' }}">{{ $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? $navPages->firstWhere('slug', 'chinh-sach-bao-mat')->title : 'Chính sách bảo mật' }}</a>
+                    Bằng việc đăng ký, bạn đồng ý với <a href="{{ $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? route('policy.baomat') : '#' }}">{{ $navPages->firstWhere('slug', 'chinh-sach-bao-mat') ? $navPages->firstWhere('slug', 'chinh-sach-bao-mat')->title : 'Chính sách bảo mật' }}</a>
                 </p>
             </div>
         </div>
@@ -129,7 +135,13 @@
             <div class="footer-bottom-right">
                 <nav class="footer-bottom-links">
                     @foreach($navPages->take(3) as $bottomPage)
-                        <a href="{{ route('policy', $bottomPage->slug) }}" class="footer-bottom-link">{{ $bottomPage->title }}</a>
+                        <a href="@switch($bottomPage->slug)
+                            @case('chinh-sach-bao-mat'){{ route('policy.baomat') }}
+                            @case('chinh-sach-cua-chung-toi'){{ route('policy.ours') }}
+                            @case('chinh-sach-giao-hang'){{ route('policy.delivery') }}
+                            @case('dieu-khoan-dich-vu'){{ route('policy.terms') }}
+                            @default{{ route('policy', $bottomPage->slug) }}
+                        @endswitch" class="footer-bottom-link">{{ $bottomPage->title }}</a>
                     @endforeach
                 </nav>
             </div>

@@ -74,7 +74,13 @@
                 <div class="navbar-dropdown">
                     @foreach($navPages as $navPage)
                         @if($navPage->slug !== 'lien-he')
-                            <a href="{{ route('policy', $navPage->slug) }}" class="navbar-dropdown-item">{{ $navPage->title }}</a>
+                            <a href="@switch($navPage->slug)
+                                @case('chinh-sach-bao-mat'){{ route('policy.baomat') }}
+                                @case('chinh-sach-cua-chung-toi'){{ route('policy.ours') }}
+                                @case('chinh-sach-giao-hang'){{ route('policy.delivery') }}
+                                @case('dieu-khoan-dich-vu'){{ route('policy.terms') }}
+                                @default{{ route('policy', $navPage->slug) }}
+                            @endswitch" class="navbar-dropdown-item">{{ $navPage->title }}</a>
                         @endif
                     @endforeach
                     <a href="{{ route('guide') }}" class="navbar-dropdown-item">Hướng dẫn đặt hàng</a>
@@ -253,7 +259,13 @@
                     <div class="navbar-mobile-accordion-links">
                         @foreach($navPages as $navPage)
                             @if($navPage->slug !== 'lien-he')
-                                <a href="{{ route('policy', $navPage->slug) }}" class="navbar-mobile-accordion-link">{{ $navPage->title }}</a>
+                                <a href="@switch($navPage->slug)
+                                    @case('chinh-sach-bao-mat'){{ route('policy.baomat') }}
+                                    @case('chinh-sach-cua-chung-toi'){{ route('policy.ours') }}
+                                    @case('chinh-sach-giao-hang'){{ route('policy.delivery') }}
+                                    @case('dieu-khoan-dich-vu'){{ route('policy.terms') }}
+                                    @default{{ route('policy', $navPage->slug) }}
+                                @endswitch" class="navbar-mobile-accordion-link">{{ $navPage->title }}</a>
                             @endif
                         @endforeach
                     </div>

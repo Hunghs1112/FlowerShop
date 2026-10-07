@@ -275,7 +275,7 @@
                             required
                         >
                         <label for="terms" class="form-checkbox-label">
-                            Tôi đồng ý với <a href="{{ route('policy', 'dieu-khoan-dich-vu') }}" target="_blank">Điều khoản dịch vụ</a> và <a href="{{ route('policy', 'chinh-sach-bao-mat') }}" target="_blank">Chính sách bảo mật</a>
+                            Tôi đồng ý với <a href="{{ route('policy.terms') }}" target="_blank">Điều khoản dịch vụ</a> và <a href="{{ route('policy.baomat') }}" target="_blank">Chính sách bảo mật</a>
                         </label>
                     </div>
 

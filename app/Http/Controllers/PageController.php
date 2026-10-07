@@ -120,6 +120,12 @@ class PageController extends Controller
     }
 
 
+    public function policyBaoMat()
+    {
+        $siteInfo = $this->settingService->getSiteInfo();
+        return view('pages.policy', compact('siteInfo'));
+    }
+
     public function policyOurs()
     {
         $siteInfo = $this->settingService->getSiteInfo();
@@ -132,7 +138,7 @@ class PageController extends Controller
         return view('pages.policy-delivery', compact('siteInfo'));
     }
 
-    public function policyTerms()
+    public function policyDieuKhoan()
     {
         $siteInfo = $this->settingService->getSiteInfo();
         return view('pages.policy-terms', compact('siteInfo'));

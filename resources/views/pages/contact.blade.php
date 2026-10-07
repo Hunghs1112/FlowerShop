@@ -21,16 +21,16 @@
 <div><label style="margin-bottom:.4rem">Bạn cần hỗ trợ về</label><div class="chips" id="topics" role="group" aria-label="Chủ đề"><button type="button" class="chip" aria-pressed="true">Đặt hoa</button><button type="button" class="chip" aria-pressed="false">Hộp hoa bí ẩn</button><button type="button" class="chip" aria-pressed="false">Giao hàng</button><button type="button" class="chip" aria-pressed="false">Phản hồi đơn hàng</button><button type="button" class="chip" aria-pressed="false">Hợp tác B2B</button><button type="button" class="chip" aria-pressed="false">Khác</button></div></div>
 <label>Lời nhắn *<textarea id="f_msg" required placeholder="Bạn muốn LNT hỗ trợ điều gì?"></textarea></label>
 <p class="err" id="err" aria-live="polite"></p>
-<div class="send"><small>Thông tin chỉ dùng để liên hệ lại với bạn · <a href="{{ route('policy', 'chinh-sach-bao-mat') }}">Chính sách bảo mật</a></small><button class="btn" type="submit">Gửi lời nhắn</button></div></div>
+<div class="send"><small>Thông tin chỉ dùng để liên hệ lại với bạn · <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a></small><button class="btn" type="submit">Gửi lời nhắn</button></div></div>
 <div class="ok" id="ok" role="status"><div class="seal">LNT</div><h3>LỜI NHẮN ĐÃ CẤT CÁNH</h3><p id="okText">Lâm Nhiên Thảo sẽ liên hệ lại với bạn qua Zalo hoặc điện thoại.</p></div></form>
 <div class="side">
 <div class="dest" id="diem-den"><h2>ĐIỂM ĐẾN</h2><p><b>Lâm Nhiên Thảo</b> · Hà Nội</p><p>Địa chỉ xưởng hoa: <span class="ph">[địa chỉ]</span></p><p>Vui lòng hẹn trước qua Zalo <a href="https://zalo.me/0869308993" target="_blank" rel="noopener">0869 308 993</a> trước khi ghé.</p><p>Giao hàng: Thứ Hai – Thứ Bảy, 08:00–17:00.</p><span class="coord">21.03°N · 105.85°E</span></div>
 <div class="gates2"><h2>CỔNG THÔNG TIN</h2><div class="gl">
 <a href="{{ route('guide') }}"><span>A1</span>Hướng dẫn đặt hàng<span>→</span></a>
-<a href="{{ route('policy', 'chinh-sach-giao-hang') }}"><span>A2</span>Chính sách giao hàng<span>→</span></a>
+<a href="{{ route('policy.delivery') }}"><span>A2</span>Chính sách giao hàng<span>→</span></a>
 <a href="{{ route('policy', 'chinh-sach-doi-tra') }}"><span>A3</span>Phản hồi &amp; đổi trả<span>→</span></a>
-<a href="{{ route('policy', 'dieu-khoan-dich-vu') }}"><span>A4</span>Điều khoản dịch vụ<span>→</span></a>
-<a href="{{ route('policy', 'chinh-sach-bao-mat') }}"><span>A5</span>Chính sách bảo mật<span>→</span></a></div></div>
+<a href="{{ route('policy.terms') }}"><span>A4</span>Điều khoản dịch vụ<span>→</span></a>
+<a href="{{ route('policy.baomat') }}"><span>A5</span>Chính sách bảo mật<span>→</span></a></div></div>
 </div></section>
 <footer class="foot"><span>© Lâm Nhiên Thảo</span><span>Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp</span></footer>
 </main>
