@@ -45,6 +45,28 @@ Route::redirect('/trang/lien-he', '/lien-he');
 Route::redirect('/trang/gioi-thieu', '/gioi-thieu');
 Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
+// Individual policy pages with custom templates
+Route::get('/chinh-sach-cua-chung-toi', [PageController::class, 'policyOurs'])->name('policy.ours');
+Route::redirect('/trang/chinh-sach-cua-chung-toi', '/chinh-sach-cua-chung-toi');
+Route::get('/chinh-sach-giao-hang', [PageController::class, 'policyDelivery'])->name('policy.delivery');
+Route::redirect('/trang/chinh-sach-giao-hang', '/chinh-sach-giao-hang');
+Route::get('/dieu-khoan-dich-vu', [PageController::class, 'policyTerms'])->name('policy.terms');
+Route::redirect('/trang/dieu-khoan-dich-vu', '/dieu-khoan-dich-vu');
+
+// Cánh phong bí ẩn
+Route::get('/can-phong-bi-mat', [PageController::class, 'canPhong'])->name('can-phong-bi-mat');
+Route::redirect('/trang/can-phong-bi-mat', '/can-phong-bi-mat');
+
+// Seasonal hub pages
+Route::get('/phu-kien-cay-thong', [PageController::class, 'seasonHub'])
+    ->defaults('slug', 'phu-kien-cay-thong')
+    ->name('season.phu-kien');
+Route::redirect('/trang/phu-kien-cay-thong', '/phu-kien-cay-thong');
+Route::get('/mua-le-hoi', [PageController::class, 'seasonHub'])
+    ->defaults('slug', 'mua-le-hoi')
+    ->name('season.mua-le-hoi');
+Route::redirect('/trang/mua-le-hoi', '/mua-le-hoi');
+
 // Cart
 Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
 Route::post('/gio-hang/them', [CartController::class, 'add'])->name('cart.add');

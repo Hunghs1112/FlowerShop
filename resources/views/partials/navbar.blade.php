@@ -78,6 +78,8 @@
                         @endif
                     @endforeach
                     <a href="{{ route('guide') }}" class="navbar-dropdown-item">Hướng dẫn đặt hàng</a>
+                    <a href="{{ route('season.phu-kien') }}" class="navbar-dropdown-item">Phụ kiện cây thông</a>
+                    <a href="{{ route('season.mua-le-hoi') }}" class="navbar-dropdown-item">Mùa lễ hội</a>
                 </div>
             </li>
             @endif

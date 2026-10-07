@@ -88,6 +88,8 @@
                         <a href="{{ route('policy', $footerPage->slug) }}" class="footer-link">{{ $footerPage->title }}</a>
                     @endforeach
                     <a href="{{ route('guide') }}" class="footer-link">Hướng dẫn đặt hàng</a>
+                    <a href="{{ route('season.phu-kien') }}" class="footer-link">Phụ kiện cây thông</a>
+                    <a href="{{ route('season.mua-le-hoi') }}" class="footer-link">Mùa lễ hội</a>
                     <a href="{{ route('contact') }}" class="footer-link">Liên hệ</a>
                 </nav>
             </div>

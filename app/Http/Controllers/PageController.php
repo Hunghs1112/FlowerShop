@@ -108,4 +108,40 @@ class PageController extends Controller
 
         return view('pages.policy', compact('page', 'pageBanner'));
     }
+
+    public function seasonHub(string $slug)
+    {
+        $siteInfo = $this->settingService->getSiteInfo();
+
+        $validSlugs = ['phu-kien-cay-thong', 'mua-le-hoi'];
+        abort_if(!in_array($slug, $validSlugs), 404);
+
+        return view("pages.season-{$slug}", compact('siteInfo'));
+    }
+
+
+    public function policyOurs()
+    {
+        $siteInfo = $this->settingService->getSiteInfo();
+        return view('pages.policy-ours', compact('siteInfo'));
+    }
+
+    public function policyDelivery()
+    {
+        $siteInfo = $this->settingService->getSiteInfo();
+        return view('pages.policy-delivery', compact('siteInfo'));
+    }
+
+    public function policyTerms()
+    {
+        $siteInfo = $this->settingService->getSiteInfo();
+        return view('pages.policy-terms', compact('siteInfo'));
+    }
+
+    public function canPhong()
+    {
+        $siteInfo = $this->settingService->getSiteInfo();
+        return view('can-phong-bi-mat', compact('siteInfo'));
+    }
+
 }
