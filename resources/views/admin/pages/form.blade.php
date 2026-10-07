@@ -212,6 +212,7 @@
 // Auto-generate slug from title
 document.getElementById('titleInput')?.addEventListener('input', function(e) {
     const slugInput = document.getElementById('slugInput');
+    if (!slugInput || slugInput.disabled) return;
     if (!slugInput.dataset.manual) {
         slugInput.value = e.target.value
             .toLowerCase()
