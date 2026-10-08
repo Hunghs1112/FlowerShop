@@ -16,15 +16,20 @@ class MysteryBoxRequest extends Model
         'style',
         'colors',
         'preferences',
+        'flower_preferences',
         'budget_range',
         'surprise_level',
         'note',
+        'delivery_address',
+        'delivery_date',
         'status',
     ];
 
     protected $casts = [
         'colors' => 'array',
         'preferences' => 'array',
+        'flower_preferences' => 'array',
+        'delivery_date' => 'date',
     ];
 
     // Relationships

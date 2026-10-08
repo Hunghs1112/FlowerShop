@@ -35,16 +35,20 @@ class MysteryBoxController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20|regex:/^[0-9\+\-\s]+$/',
+            'phone' => 'required|string|max:20|regex:/^[0-9\+\-\.\s]+$/',
             'email' => 'nullable|email|max:255',
             'style' => ['required', Rule::in($content['styles'])],
             'colors' => 'required|array|min:1',
             'colors.*' => [Rule::in($content['colors'])],
             'preferences' => 'required|array|min:1',
             'preferences.*' => [Rule::in($content['preferences'])],
+            'flower_preferences' => 'nullable|array|max:4',
+            'flower_preferences.*' => 'string|max:100',
             'budget_range' => ['required', Rule::in(array_column($content['budgets'], 'value'))],
             'surprise_level' => ['required', Rule::in($content['surprise_levels'])],
             'note' => 'nullable|string|max:1000',
+            'delivery_address' => 'required|string|max:500',
+            'delivery_date' => 'required|date|after_or_equal:today',
         ]);
 
         $mysteryBoxRequest = MysteryBoxRequest::create([
@@ -56,11 +60,21 @@ class MysteryBoxController extends Controller
             'style' => $validated['style'],
             'colors' => $validated['colors'],
             'preferences' => $validated['preferences'],
+            'flower_preferences' => $validated['flower_preferences'] ?? [],
             'budget_range' => $validated['budget_range'],
             'surprise_level' => $validated['surprise_level'],
             'note' => isset($validated['note']) ? strip_tags($validated['note']) : null,
+            'delivery_address' => strip_tags($validated['delivery_address']),
+            'delivery_date' => $validated['delivery_date'],
             'status' => 'new',
         ]);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'redirect' => route('mystery-box.success', $mysteryBoxRequest),
+            ]);
+        }
 
         return redirect()->route('mystery-box.success', $mysteryBoxRequest);
     }
@@ -70,6 +84,8 @@ class MysteryBoxController extends Controller
      */
     public function success(MysteryBoxRequest $request)
     {
+        abort_unless($request->user_id === Auth::id(), 403);
+
         $bannerKey = 'mystery-box';
         $mysteryBoxRequest = $request;
         $mysteryContent = $this->contentService->get();

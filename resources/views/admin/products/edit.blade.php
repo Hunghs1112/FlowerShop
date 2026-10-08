@@ -313,6 +313,13 @@
                 </div>
                 <div class="admin-card-body">
                     <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <label style="font-size: 14px; font-weight: 500;">Trạng thái chuyến bay
+                            <select name="arrival_status" required class="auto-save-select" data-entity="products" data-id="{{ $product->id }}" data-save-url="{{ route('admin.products.updateField', $product) }}" style="display:block;width:100%;height:44px;margin-top:6px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);">
+                                <option value="landed" {{ old('arrival_status', $product->arrival_status) === 'landed' ? 'selected' : '' }}>Đã hạ cánh</option>
+                                <option value="flying" {{ old('arrival_status', $product->arrival_status) === 'flying' ? 'selected' : '' }}>Đang bay</option>
+                                <option value="pre" {{ old('arrival_status', $product->arrival_status) === 'pre' ? 'selected' : '' }}>Mở đặt trước</option>
+                            </select>
+                        </label>
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                             <input type="checkbox" 
                                    name="is_active" 

@@ -85,6 +85,7 @@ class SettingService
             'youtube_url',
             'social_youtube',
             'about',
+            'business_hours',
         ]);
 
         return $settings;

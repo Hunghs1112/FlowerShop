@@ -36,6 +36,7 @@ class UpdateProductRequest extends FormRequest
             'is_featured' => 'boolean',
             'is_new_arrival' => 'boolean',
             'is_bestseller' => 'boolean',
+            'arrival_status' => 'required|in:landed,flying,pre',
             'images' => "nullable|array|max:{$maxCnt}",
             'images.*' => "file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'delete_images' => 'nullable|array',

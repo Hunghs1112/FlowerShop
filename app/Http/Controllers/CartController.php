@@ -51,6 +51,14 @@ class CartController extends Controller
             ]);
         }
 
+        if ($request->boolean('buy_now')) {
+            if (!auth()->check()) {
+                return redirect()->guest(route('checkout.index'));
+            }
+
+            return redirect()->route('checkout.index');
+        }
+
         return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng');
     }
 

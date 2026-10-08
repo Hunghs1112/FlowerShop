@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
+    public const STATUSES = [
+        'new' => 'Mới',
+        'confirmed' => 'Đã xác nhận',
+        'completed' => 'Hoàn tất',
+        'cancelled' => 'Đã hủy',
+    ];
+
     protected $fillable = [
         'user_id', 'status', 'customer_name', 'customer_phone', 'customer_email',
         'zalo_id', 'subtotal', 'shipping_fee', 'total', 'note', 'idempotency_key',
@@ -17,4 +24,9 @@ class Order extends Model
 
     public function user(): BelongsTo { return $this->belongsTo(User::class); }
     public function items(): HasMany { return $this->hasMany(OrderItem::class); }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return self::STATUSES[$this->status] ?? $this->status;
+    }
 }

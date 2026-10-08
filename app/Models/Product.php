@@ -22,6 +22,7 @@ class Product extends Model
         'stock',
         'sales_count',
         'latest_arrival_date',
+        'arrival_status',
         'is_new_arrival',
         'is_bestseller',
         'description',

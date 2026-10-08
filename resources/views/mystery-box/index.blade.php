@@ -233,20 +233,24 @@ svg.scene{display:block;width:100%;height:auto}
 
 @push('scripts')
 <script>
-/* ===== CẤU HÌNH: shop có thể sửa các lựa chọn ở đây ===== */
+@php
+  $mysteryColors = collect($mysteryContent['colors'])->values();
+  $mysteryBudgets = collect($mysteryContent['budgets'])->values();
+@endphp
 const CONFIG={
- colors:[['Hồng phấn','#F2C4C4'],['Trắng kem','#F6EFE4'],['Đỏ nhung','#9E2B33'],['Cam đào','#F2A97E'],['Tím pastel','#C9B3DA'],['Vàng nắng','#EFCB5E'],['Xanh lá','#9AA07A'],['Mix pastel','linear-gradient(135deg,#F2C4C4,#C9B3DA,#F2A97E)'],['Để LNT chọn','conic-gradient(#F2C4C4,#EFCB5E,#9AA07A,#C9B3DA,#F2C4C4)']],
+ colors:@json($mysteryColors->map(fn ($color, $index) => [$color, ['#F6EFE4','#D9C3AF','#F2C4C4','#9AA07A','#9E2B33','#C9B3DA','linear-gradient(135deg,#F2C4C4,#C9B3DA,#F2A97E)'][$index % 7]])->all(),
  flowers:['Mẫu đơn','Tulip','Mao lương','Hồng Ecuador','Protea','Lan hồ điệp','Cẩm chướng','Cúc Malaysia','Ly','Không có yêu cầu'],
- styles:[['Tối giản thanh lịch','Ít loài hoa, nhiều khoảng thở'],['Lãng mạn ngọt ngào','Tông mềm, hoa tròn, nhiều lớp cánh'],['Tự nhiên hoang dã','Như vừa hái từ vườn'],['Sang trọng cổ điển','Tông trầm, phom dáng chỉn chu'],['Rực rỡ hiện đại','Màu tương phản, phom phá cách']],
- interests:['Đọc sách','Cà phê','Du lịch','Nghệ thuật','Âm nhạc','Thiên nhiên','Thời trang','Nấu ăn'],
- budgets:['Dưới 1.000.000đ','1.000.000đ – 2.000.000đ','2.000.000đ – 3.000.000đ','Trên 3.000.000đ'],
- surprises:[['Hoàn toàn bất ngờ','Bạn không biết trước hoa gì'],['Gợi ý nhẹ','LNT tiết lộ tông màu chủ đạo trước khi giao'],['Xem trước khi giao','LNT gửi ảnh hộp hoa để bạn duyệt']]
+ styles:@json(collect($mysteryContent['styles'])->map(fn ($style) => [$style, ''])->all()),
+ interests:@json(array_values($mysteryContent['preferences'])),
+ budgets:@json($mysteryBudgets->pluck('label')->all()),
+ budgetValues:@json($mysteryBudgets->pluck('value', 'label')->all()),
+ surprises:@json(collect($mysteryContent['surprise_levels'])->map(fn ($level) => [$level, ''])->all())
 };
 const FIELDS=[
  {id:'color',obj:'Bảng màu',label:'Tông màu hoa',help:'Chọn tối đa 3 tông màu bạn muốn.',type:'chips',opts:CONFIG.colors.map(c=>({t:c[0],sw:c[1]})),multi:3,req:true},
  {id:'flower',obj:'Sách thực vật',label:'Loại hoa đặc biệt',help:'Loài hoa bạn mong có trong hộp, nếu có.',type:'chips',opts:CONFIG.flowers.map(t=>({t})),multi:4,req:false},
- {id:'style',obj:'Khung tranh',label:'Phong cách',help:'Bạn muốn hộp hoa mang cảm giác nào?',type:'chips',opts:CONFIG.styles.map(s=>({t:s[0],d:s[1]})),multi:1,req:false,big:true},
- {id:'interest',obj:'Đĩa nhạc',label:'Sở thích',help:'Người nhận (hoặc bạn) yêu thích điều gì? LNT sẽ dựa vào đó để chọn hoa và chi tiết đi kèm.',type:'chips',opts:CONFIG.interests.map(t=>({t})),multi:4,req:false,extra:'Kể thêm một chút (không bắt buộc)'},
+ {id:'style',obj:'Khung tranh',label:'Phong cách',help:'Bạn muốn hộp hoa mang cảm giác nào?',type:'chips',opts:CONFIG.styles.map(s=>({t:s[0],d:s[1]})),multi:1,req:true,big:true},
+ {id:'interest',obj:'Đĩa nhạc',label:'Sở thích',help:'Người nhận (hoặc bạn) yêu thích điều gì? LNT sẽ dựa vào đó để chọn hoa và chi tiết đi kèm.',type:'chips',opts:CONFIG.interests.map(t=>({t})),multi:4,req:true,extra:'Kể thêm một chút (không bắt buộc)'},
  {id:'budget',obj:'Heo đất',label:'Ngân sách',help:'Chọn mức ngân sách cho hộp hoa.',type:'chips',opts:CONFIG.budgets.map(t=>({t})),multi:1,req:true},
  {id:'surprise',obj:'Hộp quà nhỏ',label:'Mức độ bất ngờ',help:'Bạn muốn bất ngờ đến đâu?',type:'chips',opts:CONFIG.surprises.map(s=>({t:s[0],d:s[1]})),multi:1,req:false,big:true},
  {id:'note',obj:'Cuốn sổ',label:'Lưu ý',help:'Dị ứng phấn hoa, màu hay loài hoa muốn tránh, dịp tặng, lời nhắn kèm thiệp…',type:'textarea',req:false},
@@ -311,7 +315,7 @@ function openPanel(f,from){busy=true;const stage=$('#stage');const bd=document.c
   else if(f.type==='textarea'){const t=p.querySelector('#pin').value.trim();if(t)data[f.id]={text:t};else delete data[f.id]}
   else{const g=id=>p.querySelector(id).value.trim();const c={name:g('#c_name'),phone:g('#c_phone'),addr:g('#c_addr'),date:g('#c_date'),ok:p.querySelector('#c_ok').checked};
    if(!c.name||!c.phone||!c.addr||!c.date)return err('Vui lòng điền đủ các thông tin có dấu *.');
-   if(!/^[0-9+\s.]{9,15}$/.test(c.phone))return err('Số điện thoại chưa đúng.');
+   if(!/^[0-9+\s.-]{9,20}$/.test(c.phone))return err('Số điện thoại chưa đúng.');
    if(!c.ok)return err('Vui lòng xác nhận đã đọc chính sách.');
    const miss=FIELDS.filter(x=>x.req&&x.id!=='confirm'&&!data[x.id]).map(x=>x.label);if(miss.length)return err('Còn thiếu: '+miss.join(', ')+'. Hãy tìm món đồ tương ứng trong phòng.');
    const nt=p.querySelector('#c_note').value.trim();if(nt){data.note={text:nt};found.add('note');document.querySelector('.hid[data-f="note"]').classList.add('found');sync(byId.note)}else if(data.note){delete data.note;sync(byId.note)}
@@ -327,13 +331,23 @@ function sync(f){const s=document.querySelector(`.slot[data-id="${f.id}"]`),isF=
 function update(){const n=found.size,filled=FIELDS.filter(f=>data[f.id]).length,ok=FIELDS.filter(f=>f.req).every(f=>data[f.id]);
  $('#ptext').textContent=`Đã tìm thấy ${n}/${FIELDS.length} món đồ · đã cất giữ ${filled} điều`+(ok?' · sẵn sàng niêm phong':'');$('#send').disabled=!ok}
 FIELDS.forEach(f=>{document.querySelector(`.slot[data-id="${f.id}"] [data-s]`).textContent='Chưa tìm thấy'});
-/* Người làm web: gắn API đặt hàng vào đây. payload = { color, flower, style, interest, budget, surprise, note, confirm:{c:{name,phone,addr,date}} } */
-async function onSubmit(payload){return true}
-$('#send').onclick=async()=>{if(!(await onSubmit(JSON.parse(JSON.stringify(data)))))return;const b=$('#mbox');
- if(!reduce)b.animate([{opacity:0,transform:'translate(600px,620px) scale(.4)'},{opacity:1,transform:'translate(600px,560px) scale(1)'}],{duration:700,easing:'cubic-bezier(.3,1.4,.5,1)',fill:'forwards'});else b.setAttribute('opacity',1);
- setTimeout(()=>{const c=document.createElement('div');c.className='done-card';c.setAttribute('role','status');
-  c.innerHTML='<div><div class="wax">LNT</div><h3>Căn phòng đã khoá</h3><p>Mọi điều bạn gửi gắm đã được cất vào hộp hoa bí ẩn. Lâm Nhiên Thảo sẽ liên hệ qua Zalo hoặc điện thoại để xác nhận đơn hàng.</p></div>';
-  $('#stage').appendChild(c);$('#send').disabled=true},reduce?0:900)};
+async function onSubmit(payload){
+ const c=payload.confirm.c;
+ const note=[payload.interest?.extra&&`Sở thích thêm: ${payload.interest.extra}`,payload.note?.text].filter(Boolean).join('\n')||null;
+ const body={
+  name:c.name,phone:c.phone,style:payload.style.sel[0],colors:payload.color.sel,
+  preferences:payload.interest?.sel||[],flower_preferences:payload.flower?.sel||[],
+  budget_range:CONFIG.budgetValues[payload.budget.sel[0]],surprise_level:payload.surprise?.sel[0]||CONFIG.surprises[0][0],
+  note,delivery_address:c.addr,delivery_date:c.date
+ };
+ try{
+  const response=await fetch('{{ route('mystery-box.store') }}',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').content},body:JSON.stringify(body)});
+  const result=await response.json();
+  if(!response.ok){alert(result.message||Object.values(result.errors||{})[0]?.[0]||'Không thể gửi yêu cầu.');return}
+  window.location.href=result.redirect;
+ }catch(error){alert('Không thể kết nối. Vui lòng thử lại.');}
+}
+$('#send').onclick=async event=>{event.currentTarget.disabled=true;try{await onSubmit(JSON.parse(JSON.stringify(data)))}finally{update()}};
 update();
 </script>
 @endpush

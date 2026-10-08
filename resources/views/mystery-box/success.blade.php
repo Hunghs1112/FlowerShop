@@ -74,6 +74,18 @@
                         <span class="summary-value">{{ $mysteryBoxRequest->surprise_level }}</span>
                     </div>
 
+                    @if($mysteryBoxRequest->flower_preferences)
+                    <div class="summary-item full-width">
+                        <span class="summary-label">Loài hoa mong muốn</span>
+                        <span class="summary-value">{{ implode(', ', $mysteryBoxRequest->flower_preferences) }}</span>
+                    </div>
+                    @endif
+
+                    <div class="summary-item full-width">
+                        <span class="summary-label">Giao hoa</span>
+                        <span class="summary-value">{{ $mysteryBoxRequest->delivery_address }} · {{ $mysteryBoxRequest->delivery_date?->format('d/m/Y') }}</span>
+                    </div>
+
                     @if($mysteryBoxRequest->note)
                     <div class="summary-item full-width">
                         <span class="summary-label">{{ $mysteryContent['success_note_label'] }}</span>

@@ -62,6 +62,7 @@ class ProductController extends Controller
             'is_featured' => 'boolean',
             'is_new_arrival' => 'boolean',
             'is_bestseller' => 'boolean',
+            'arrival_status' => 'required|in:landed,flying,pre',
         ];
 
         // Use AjaxFieldService for standardized handling

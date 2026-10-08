@@ -26,12 +26,11 @@ class LoginController extends Controller
             $request->session()->regenerate();
             $cartService->mergeGuestCart($guestSessionId);
 
-            // Redirect admin to admin dashboard, others to home (ignore intended URL)
             if (Auth::user()->isAdmin()) {
                 return redirect()->route('admin.dashboard');
             }
 
-            return redirect()->route('home');
+            return redirect()->intended(route('home'));
         }
 
         return back()->withErrors([

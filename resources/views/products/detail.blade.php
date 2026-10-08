@@ -198,7 +198,7 @@
                 </form>
 
                 {{-- Buy Now --}}
-                <button type="button" class="btn-buy-now" onclick="quickOrder({{ $product->id }})" {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                <button type="submit" form="cartForm" name="buy_now" value="1" class="btn-buy-now" {{ $product->stock <= 0 ? 'disabled' : '' }}>
                     {{ content('product_buy_now', 'Đặt hàng nhanh') }}
                 </button>
 
@@ -443,15 +443,6 @@
         if (current > 1) {
             input.value = current - 1;
         }
-    }
-
-    function quickOrder(productId) {
-        @auth
-            window.location.href = '{{ route("checkout.index") }}';
-        @else
-            alert('Vui lòng đăng nhập để đặt hàng nhanh');
-            window.location.href = '{{ route("login") }}';
-        @endauth
     }
 
     // Accordion functionality

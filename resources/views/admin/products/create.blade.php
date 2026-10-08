@@ -215,6 +215,13 @@
                 </div>
                 <div class="admin-card-body">
                     <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <label style="font-size: 14px; font-weight: 500;">Trạng thái chuyến bay
+                            <select name="arrival_status" required style="display:block;width:100%;height:44px;margin-top:6px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);">
+                                <option value="landed" {{ old('arrival_status', 'landed') === 'landed' ? 'selected' : '' }}>Đã hạ cánh</option>
+                                <option value="flying" {{ old('arrival_status') === 'flying' ? 'selected' : '' }}>Đang bay</option>
+                                <option value="pre" {{ old('arrival_status') === 'pre' ? 'selected' : '' }}>Mở đặt trước</option>
+                            </select>
+                        </label>
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                             <input type="checkbox" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}
                                    style="width: 20px; height: 20px; accent-color: var(--admin-accent);">

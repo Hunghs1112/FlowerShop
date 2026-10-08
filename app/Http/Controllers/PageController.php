@@ -157,8 +157,7 @@ class PageController extends Controller
 
     public function canPhong()
     {
-        $siteInfo = $this->settingService->getSiteInfo();
-        return view('can-phong-bi-mat', compact('siteInfo'));
+        return redirect()->route('mystery-box.index');
     }
 
 }

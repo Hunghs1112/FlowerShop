@@ -48,6 +48,6 @@ class RegisterController extends Controller
         auth()->login($user);
         $cartService->mergeGuestCart($guestSessionId);
 
-        return redirect()->route('home')->with('success', 'Đăng ký thành công! Chào mừng bạn đến với Lâm Nhiên Thảo.');
+        return redirect()->intended(route('home'))->with('success', 'Đăng ký thành công! Chào mừng bạn đến với Lâm Nhiên Thảo.');
     }
 }

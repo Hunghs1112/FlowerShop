@@ -105,6 +105,22 @@
                         <span class="detail-label">Mức độ bất ngờ</span>
                         <span class="detail-value">{{ $mysteryBox->surprise_level }}</span>
                     </div>
+                    @if($mysteryBox->flower_preferences)
+                    <div class="detail-item full-width">
+                        <span class="detail-label">Loài hoa mong muốn</span>
+                        <span class="detail-value">{{ implode(', ', $mysteryBox->flower_preferences) }}</span>
+                    </div>
+                    @endif
+                    @if($mysteryBox->delivery_address)
+                    <div class="detail-item full-width">
+                        <span class="detail-label">Địa chỉ giao</span>
+                        <span class="detail-value">{{ $mysteryBox->delivery_address }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Ngày giao</span>
+                        <span class="detail-value">{{ $mysteryBox->delivery_date?->format('d/m/Y') }}</span>
+                    </div>
+                    @endif
                     @if($mysteryBox->note)
                     <div class="detail-item full-width">
                         <span class="detail-label">Ghi chú từ khách hàng</span>
