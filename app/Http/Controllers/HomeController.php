@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Banner;
 use App\Models\GalleryImage;
 use App\Models\Post;
+use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SettingService;
@@ -23,6 +24,13 @@ class HomeController extends Controller
         $user = auth()->user();
         $bestsellingProducts = $this->productService->getBestSellingProducts(8, null, $user);
         $newArrivalProducts = $this->productService->getNewArrivalProducts(8, null, $user);
+        if ($newArrivalProducts->isEmpty()) {
+            $query = Product::active()->with(['productImages', 'category', 'subcategory'])->inStock();
+            if ($user) {
+                $query->visibleToUser($user);
+            }
+            $newArrivalProducts = $query->latest()->limit(8)->get();
+        }
         $categories = $this->categoryService->getActiveCategories();
         $latestPosts = Post::published()->latest('published_at')->limit(3)->get();
         $banners = Banner::active()->forLocation('home')->ordered()->get();
