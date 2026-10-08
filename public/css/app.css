@@ -1935,6 +1935,7 @@ label, .label {
 .product-card__badge--new { top: calc(var(--space-3) + 36px); }
 .product-card__badge--bestseller { top: calc(var(--space-3) + 72px); }
 .product-card__badge--featured { top: calc(var(--space-3) + 108px); }
+.product-card__badge--route { top: calc(var(--space-3) + 144px); background-color: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); font-size: 0.65rem; }
 .product-card--sold-out .product-card__image { filter: grayscale(.35); opacity: .72; }
 
 /* === WISHLIST BUTTON === */

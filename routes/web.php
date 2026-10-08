@@ -129,6 +129,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chat/poll', [\App\Http\Controllers\ChatController::class, 'poll'])->name('chat.poll');
     Route::get('/chat/unread-count', [\App\Http\Controllers\ChatController::class, 'unreadCount'])->name('chat.unread-count');
     Route::post('/chat/send', [\App\Http\Controllers\ChatController::class, 'store'])->name('chat.send');
+
+    // Passport flower stamps API
+    Route::middleware('auth:sanctum')->get('/api/passport', [\App\Http\Controllers\Api\PassportController::class, 'index'])->name('api.passport');
 });
 
 // ============================================================
@@ -168,6 +171,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('flower-origins', \App\Http\Controllers\Admin\FlowerOriginController::class)->except('show');
     Route::post('pages/{page}/upload-header-image', [\App\Http\Controllers\Admin\PageController::class, 'uploadHeaderImage'])->name('pages.uploadHeaderImage');
     Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
+    Route::resource('gallery-images', \App\Http\Controllers\Admin\GalleryImageController::class)->except('show');
 
     // AJAX Auto-save endpoints for Products
     Route::patch('products/{product}/update-field', [\App\Http\Controllers\Admin\ProductController::class, 'updateField'])->name('products.updateField');

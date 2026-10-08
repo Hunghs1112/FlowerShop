@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\GalleryImage;
 use App\Models\Post;
 use App\Services\CategoryService;
 use App\Services\ProductService;
@@ -26,6 +27,7 @@ class HomeController extends Controller
         $latestPosts = Post::published()->latest('published_at')->limit(3)->get();
         $banners = Banner::active()->forLocation('home')->ordered()->get();
         $siteSettings = $this->settingService->getSiteInfo();
+        $galleryImages = GalleryImage::active()->orderBy('sort_order')->get();
         $homeData = [
             'products' => $newArrivalProducts->take(4)->map(fn ($product) => [
                 'name' => $product->display_name,
@@ -65,6 +67,6 @@ class HomeController extends Controller
             ],
         ];
 
-        return view('home.index', compact('bestsellingProducts', 'newArrivalProducts', 'categories', 'latestPosts', 'banners', 'siteSettings', 'homeData'));
+        return view('home.index', compact('bestsellingProducts', 'newArrivalProducts', 'categories', 'latestPosts', 'banners', 'siteSettings', 'homeData', 'galleryImages'));
     }
 }

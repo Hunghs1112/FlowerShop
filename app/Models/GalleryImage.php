@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class FlowerOrigin extends Model
+class GalleryImage extends Model
 {
-    protected $fillable = [
-        'slug', 'map_x', 'map_y', 'country', 'country_code', 'lat', 'lon',
-        'flower', 'latin', 'region', 'coordinate', 'image', 'sort_order', 'is_active',
-    ];
+    protected $fillable = ['title', 'caption', 'image', 'alt_text', 'sort_order', 'is_active'];
 
     protected $casts = ['is_active' => 'boolean'];
 
@@ -18,7 +16,6 @@ class FlowerOrigin extends Model
         if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
             return $this->image;
         }
-
         return str_starts_with($this->image, 'images/')
             ? asset($this->image)
             : asset('storage/' . ltrim($this->image, '/'));

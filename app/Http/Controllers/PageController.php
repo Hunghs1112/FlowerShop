@@ -26,6 +26,19 @@ class PageController extends Controller
             : [];
 
         $flowers = FlowerOrigin::active()->orderBy('sort_order')->get();
+        $flowerMapData = $flowers->map(fn ($f) => [
+            'id' => $f->country_code ?? Str::lower(Str::substr($f->slug, 0, 2)),
+            'country' => $f->country,
+            'flower' => $f->flower,
+            'latin' => $f->latin,
+            'region' => $f->region,
+            'lon' => (float) $f->lon,
+            'lat' => (float) $f->lat,
+            'map_x' => (int) $f->map_x,
+            'map_y' => (int) $f->map_y,
+            'coord' => $f->coordinate,
+            'img' => $f->image_url,
+        ])->values();
         $categories = Category::active()->withCount('products')->orderBy('sort_order')->get();
         $countryNeedles = [
             'cn' => ['trung quoc', 'trung-quoc', 'kunming'], 'nl' => ['ha lan', 'ha-lan'],
@@ -40,7 +53,7 @@ class PageController extends Controller
             });
             return [$country => $category ?: $categories->firstWhere('slug', $country === 'vn' ? 'hoa-tuoi-moi' : 'hoa-nhap-khau')];
         });
-        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowers', 'categories', 'flowerCategories'));
+        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowerMapData', 'flowers', 'categories', 'flowerCategories'));
     }
 
     public function guide()

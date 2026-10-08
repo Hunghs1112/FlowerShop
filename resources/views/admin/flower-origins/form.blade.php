@@ -1,9 +1,11 @@
 @php($item = $item ?? null)
 <div class="admin-card" style="max-width:900px;"><div class="admin-card-body">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
-        @foreach(['country' => 'Quốc gia', 'flower' => 'Tên loài hoa', 'latin' => 'Tên Latin', 'region' => 'Vùng trồng', 'coordinate' => 'Tọa độ', 'slug' => 'Slug'] as $field => $label)
+        @foreach(['country_code' => 'Mã quốc gia (nl/ec/cn...)', 'country' => 'Quốc gia', 'flower' => 'Tên loài hoa', 'latin' => 'Tên Latin', 'region' => 'Vùng trồng', 'coordinate' => 'Tọa độ', 'slug' => 'Slug'] as $field => $label)
             <label>{{ $label }}<input name="{{ $field }}" value="{{ old($field, data_get($item, $field)) }}" {{ in_array($field, ['country','flower','latin','region','coordinate']) ? 'required' : '' }} style="display:block;width:100%;height:42px;margin-top:6px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);"></label>
         @endforeach
+        <label>Lat (ví dụ 21.03)<input type="text" name="lat" value="{{ old('lat', $item?->lat) }}" placeholder="21.03" style="display:block;width:100%;height:42px;margin-top:6px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);"></label>
+        <label>Lon (ví dụ 105.85)<input type="text" name="lon" value="{{ old('lon', $item?->lon) }}" placeholder="105.85" style="display:block;width:100%;height:42px;margin-top:6px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);"></label>
         <label>Tọa độ X trên map<input type="number" name="map_x" min="0" max="1000" required value="{{ old('map_x', $item?->map_x ?? 0) }}" style="display:block;width:100%;height:42px;margin-top:6px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);"></label>
         <label>Tọa độ Y trên map<input type="number" name="map_y" min="0" max="520" required value="{{ old('map_y', $item?->map_y ?? 0) }}" style="display:block;width:100%;height:42px;margin-top:6px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);"></label>
         <label>Thứ tự<input type="number" name="sort_order" min="0" value="{{ old('sort_order', $item?->sort_order ?? 0) }}" style="display:block;width:100%;height:42px;margin-top:6px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);"></label>

@@ -1,5 +1,5 @@
 {{-- Product Card — Unified Editorial Florist Edition --}}
-@props(['product', 'showQuickAdd' => false])
+@props(['product', 'showQuickAdd' => false, 'routeLabel' => null, 'showNewArrival' => false])
 
 @php
     $primaryImage = $product->productImages()->where('is_primary', true)->first()
@@ -35,7 +35,7 @@
             @if($product->isSoldOut())
                 <span class="product-card__badge product-card__badge--sold-out">Hết hàng</span>
             @endif
-            @if($product->hasNewArrivalBadge())
+            @if($product->hasNewArrivalBadge() || $showNewArrival)
                 <span class="product-card__badge product-card__badge--new">Mới về</span>
             @endif
             @if($product->hasBestsellerBadge())
@@ -47,6 +47,11 @@
                 <span class="product-card__badge product-card__badge--featured">
                     Nổi bật
                 </span>
+            @endif
+
+            {{-- Route label (e.g. UIO → HAN) --}}
+            @if($routeLabel)
+                <span class="product-card__badge product-card__badge--route">{{ $routeLabel }}</span>
             @endif
 
             {{-- Hover overlay with CTA --}}
