@@ -29,6 +29,11 @@ class OrderConfirmationMail extends Mailable implements ShouldQueue
             'customerPhone' => e($this->order->customer_phone),
             'customerEmail' => e($this->order->customer_email),
             'orderItems' => $this->orderItems, 'total' => $this->total,
+            'subtotal' => (float) $this->order->subtotal,
+            'shippingFee' => $this->order->shipping_fee === null ? null : (float) $this->order->shipping_fee,
+            'deliveryAddress' => e($this->order->delivery_address),
+            'deliveryDate' => $this->order->delivery_date?->format('d/m/Y'),
+            'deliveryTime' => $this->order->delivery_time ? substr($this->order->delivery_time, 0, 5) : null,
             'orderDate' => $this->order->created_at->format('d/m/Y H:i'),
             'customerNote' => e($this->order->note),
         ]);

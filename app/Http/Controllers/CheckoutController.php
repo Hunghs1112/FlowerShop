@@ -53,6 +53,9 @@ class CheckoutController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:20', 'regex:/^[0-9+\-\s]+$/'],
             'email' => ['nullable', 'email', 'max:255'], 'zalo_id' => ['nullable', 'string', 'max:255'],
+            'delivery_address' => ['required', 'string', 'max:500'],
+            'delivery_date' => ['required', 'date', 'after_or_equal:today'],
+            'delivery_time' => ['required', 'date_format:H:i'],
             'message' => ['nullable', 'string', 'max:1000'],
         ]);
         try {
@@ -60,6 +63,8 @@ class CheckoutController extends Controller
                 name: $validated['name'], phone: $validated['phone'], email: $validated['email'] ?? null,
                 zaloId: $validated['zalo_id'] ?? null, note: $validated['message'] ?? null,
                 idempotencyKey: $request->header('Idempotency-Key', $request->input('idempotency_key')),
+                deliveryAddress: $validated['delivery_address'], deliveryDate: $validated['delivery_date'],
+                deliveryTime: $validated['delivery_time'],
             ));
         } catch (\Throwable $e) {
             return redirect()->route('cart.index')->with('error', $e->getMessage());
@@ -69,7 +74,7 @@ class CheckoutController extends Controller
             'order_id' => $order->id, 'customer_name' => $order->customer_name,
             'customer_phone' => $order->customer_phone, 'customer_email' => $order->customer_email,
             'customer_zalo_id' => $order->zalo_id, 'message' => $order->note,
-            'items' => $order->items->map(fn ($item) => ['name' => $item->product_name, 'quantity' => $item->quantity, 'subtotal' => $item->subtotal])->all(),
+            'items' => $order->items->map(fn ($item) => ['name' => $item->product_name, 'price' => $item->unit_price, 'quantity' => $item->quantity, 'subtotal' => $item->subtotal])->all(),
             'total' => (float) $order->total, 'created_at' => $order->created_at->format('d/m/Y H:i'),
             ];
             try {

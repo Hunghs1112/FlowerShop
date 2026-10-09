@@ -17,10 +17,16 @@ class Order extends Model
 
     protected $fillable = [
         'user_id', 'status', 'customer_name', 'customer_phone', 'customer_email',
-        'zalo_id', 'subtotal', 'shipping_fee', 'total', 'note', 'idempotency_key',
+        'zalo_id', 'delivery_address', 'delivery_date', 'delivery_time',
+        'subtotal', 'shipping_fee', 'total', 'note', 'idempotency_key',
     ];
 
-    protected $casts = ['subtotal' => 'decimal:2', 'shipping_fee' => 'decimal:2', 'total' => 'decimal:2'];
+    protected $casts = [
+        'delivery_date' => 'date',
+        'subtotal' => 'decimal:2',
+        'shipping_fee' => 'decimal:2',
+        'total' => 'decimal:2',
+    ];
 
     public function user(): BelongsTo { return $this->belongsTo(User::class); }
     public function items(): HasMany { return $this->hasMany(OrderItem::class); }

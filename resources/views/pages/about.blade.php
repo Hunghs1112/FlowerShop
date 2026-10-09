@@ -212,7 +212,7 @@ show('hn');
         stamps:[ {country:"ec", date:"2026-09-12", order:"#LNT1042"}, ... ] };
    (2) Hoặc đặt PASSPORT_CONFIG.api = "/api/ho-chieu-hoa" trả về JSON cùng định dạng trên.
    Mã nước: cn nl ec za jp my vn co nz. Chỉ đóng dấu khi đơn đã thanh toán & giao thành công. */
-const PASSPORT_CONFIG={api:'{{ route('api.passport') }}',loginUrl:'{{ route('login') }}',registerUrl:'{{ route('register') }}',reward:'Bạn đã sưu tập đủ chín dấu hộ chiếu hoa!',rewardLink:'{{ route('mystery-box.index') }}',category:{cn:'/san-pham',nl:'/san-pham',ec:'/san-pham',za:'/san-pham',jp:'/san-pham',my:'/san-pham',vn:'/san-pham',co:'/san-pham',nz:'/san-pham'},demo:false};
+const PASSPORT_CONFIG={api:'{{ route('api.passport') }}',loginUrl:'{{ route('login') }}',registerUrl:'{{ route('register') }}',reward:'Bạn đã sưu tập đủ chín dấu hộ chiếu hoa!',rewardLink:'{{ route('mystery-box.index') }}',category:@json($passportCategories),demo:false};
 const CODES={cn:'KMG',nl:'AMS',ec:'UIO',za:'CPT',jp:'CTS',my:'KUL',vn:'DLI',co:'BOG',nz:'CHC'};
 const ORDER=Object.keys(CODES);
 const grid=document.getElementById('ppGrid'),tip=document.getElementById('ppTip');

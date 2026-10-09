@@ -30,7 +30,7 @@ class PageController extends Controller
     {
         $query = Page::query()->where(function ($query) {
             $query->whereNotIn('slug', Page::STATIC_SLUGS)
-                ->orWhereIn('slug', Page::POLICY_SLUGS);
+                ->orWhereIn('slug', [...Page::POLICY_SLUGS, ...Page::SEASONAL_SLUGS, ...Page::GUIDE_SLUGS]);
         });
 
         if ($search = $request->input('search')) {
@@ -86,8 +86,10 @@ class PageController extends Controller
     public function edit(Page $page): View
     {
         $isPolicy = in_array($page->slug, Page::POLICY_SLUGS, true);
-        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && !$isPolicy, 404);
-        return view('admin.pages.edit', compact('page', 'isPolicy'));
+        $isSeasonal = in_array($page->slug, Page::SEASONAL_SLUGS, true);
+        $isGuide = in_array($page->slug, Page::GUIDE_SLUGS, true);
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && !$isPolicy && !$isSeasonal && !$isGuide, 404);
+        return view('admin.pages.edit', compact('page', 'isPolicy', 'isSeasonal', 'isGuide'));
     }
 
     /**
@@ -114,7 +116,7 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
-        if (in_array($page->slug, Page::STATIC_SLUGS, true)) {
+        if (in_array($page->slug, [...Page::STATIC_SLUGS, ...Page::GUIDE_SLUGS], true)) {
             abort(404);
         }
         $page->delete();
@@ -137,17 +139,21 @@ class PageController extends Controller
     public function updateField(Request $request, Page $page)
     {
         $isPolicy = in_array($page->slug, Page::POLICY_SLUGS, true);
-        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && !$isPolicy, 404);
+        $isSeasonal = in_array($page->slug, Page::SEASONAL_SLUGS, true);
+        $isGuide = in_array($page->slug, Page::GUIDE_SLUGS, true);
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && !$isPolicy && !$isSeasonal && !$isGuide, 404);
 
         $allowedFields = $isPolicy
             ? ['title', 'policy_intro', 'policy_updated_at_display', 'policy_content_override', 'is_active']
-            : ['title', 'slug', 'content', 'is_active', 'meta_title', 'meta_description', 'header_image', 'hide_header_overlay'];
+            : (($isSeasonal || $isGuide)
+                ? ['title', 'content', 'is_active']
+                : ['title', 'slug', 'content', 'is_active', 'meta_title', 'meta_description', 'header_image', 'hide_header_overlay']);
         return $this->handleAjaxFieldUpdate($request, $page, [
             'allowed_fields' => $allowedFields,
             'rules' => [
                 'title' => 'required|string|max:255',
                 'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,' . $page->id, \Illuminate\Validation\Rule::notIn(Page::STATIC_SLUGS)],
-                'content' => 'required|string',
+                'content' => $isSeasonal ? 'required|json' : 'required|string',
                 'is_active' => 'boolean',
                 'meta_title' => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',

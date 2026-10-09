@@ -365,11 +365,11 @@ const prototypeLinks = document.querySelectorAll('footer a');
 prototypeLinks.forEach(link => {
   if (link.textContent.includes('Hàng mới hạ cánh')) lntSetLink(link, LNT_HOME.links.products);
   if (link.textContent.includes('LNT Journal')) lntSetLink(link, LNT_HOME.links.blog);
-  if (link.textContent.includes('Đối tác B2B')) lntSetLink(link, LNT_HOME.links.contact);
+  if (link.textContent.includes('Đối tác B2B')) lntSetLink(link, LNT_HOME.links.b2c);
 });
 lntSetLink(document.querySelector('#journal .more a'), LNT_HOME.links.blog);
 lntSetLink(document.querySelector('#map .btn'), LNT_HOME.links.about);
-lntSetLink(document.querySelector('#b2b .btn'), LNT_HOME.links.contact);
+lntSetLink(document.querySelector('#b2b .btn'), LNT_HOME.links.b2c);
 
 if (LNT_HOME.hero) {
   const heroImage = document.querySelector('.hero-img img');

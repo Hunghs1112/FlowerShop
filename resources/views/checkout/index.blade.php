@@ -31,7 +31,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
                         </div>
-                        <h2 class="checkout-section-title">Thông tin liên hệ</h2>
+                        <h2 class="checkout-section-title">Thông tin liên hệ và giao hàng</h2>
                     </div>
                     <div class="checkout-section-body">
                         <div class="form-grid">
@@ -72,6 +72,38 @@
                                        class="form-input @error('zalo_id') form-input-error @enderror"
                                        placeholder="VD: 0901234567">
                                 @error('zalo_id')
+                                    <span class="form-error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="delivery_address" class="form-label required">Địa chỉ giao hàng</label>
+                            <textarea id="delivery_address" name="delivery_address" rows="3" autocomplete="street-address"
+                                      class="form-input form-textarea @error('delivery_address') form-input-error @enderror"
+                                      required>{{ old('delivery_address', $user?->address) }}</textarea>
+                            @error('delivery_address')
+                                <span class="form-error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="delivery_date" class="form-label required">Ngày giao mong muốn</label>
+                                <input type="date" id="delivery_date" name="delivery_date" min="{{ now()->toDateString() }}"
+                                       value="{{ old('delivery_date') }}"
+                                       class="form-input @error('delivery_date') form-input-error @enderror" required>
+                                @error('delivery_date')
+                                    <span class="form-error">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="delivery_time" class="form-label required">Giờ giao mong muốn</label>
+                                <input type="time" id="delivery_time" name="delivery_time"
+                                       value="{{ old('delivery_time') }}"
+                                       class="form-input @error('delivery_time') form-input-error @enderror" required>
+                                @error('delivery_time')
                                     <span class="form-error">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -145,11 +177,11 @@
                     
                     <div class="summary-row summary-shipping">
                         <span class="summary-label">Phí vận chuyển</span>
-                        <span class="summary-value">Tính khi đặt</span>
+                        <span class="summary-value">Chờ xác nhận</span>
                     </div>
                     
                     <div class="summary-row summary-total">
-                        <span class="summary-label">Tổng cộng</span>
+                        <span class="summary-label">Tạm tính (chưa gồm phí giao hàng)</span>
                         <span class="summary-value">{{ number_format($total, 0, ',', '.') }}₫</span>
                     </div>
 

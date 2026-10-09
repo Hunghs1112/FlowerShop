@@ -16,6 +16,7 @@ class ExampleTest extends TestCase
 
         $response
             ->assertStatus(200)
+            ->assertSee(route('b2c'))
             ->assertSee('class="navbar"', false)
             ->assertSee('id="floatingChatBtn"', false)
             ->assertSee('class="site-footer"', false);

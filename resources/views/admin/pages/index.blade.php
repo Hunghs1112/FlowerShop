@@ -74,7 +74,7 @@
                             </td>
                             <td>
                                 <div class="table-actions">
-                                    <a href="{{ $page->slug === 'lien-he' ? route('contact') : route('policy', $page->slug) }}" class="btn-icon" title="Xem" target="_blank">
+                                    <a href="{{ in_array($page->slug, App\Models\Page::GUIDE_SLUGS, true) ? route('guide') : ($page->slug === 'lien-he' ? route('contact') : route('policy', $page->slug)) }}" class="btn-icon" title="Xem" target="_blank">
                                         <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -88,7 +88,7 @@
                                     <form action="{{ route('admin.pages.destroy', $page) }}" method="POST" class="inline-form">
                                         @csrf
                                         @method('DELETE')
-                                        @if(!in_array($page->slug, App\Models\Page::POLICY_SLUGS, true))
+                                        @if(!in_array($page->slug, [...App\Models\Page::POLICY_SLUGS, ...App\Models\Page::GUIDE_SLUGS], true))
                                         <button type="submit" class="btn-icon btn-icon-danger" title="Xóa"
                                                 onclick="return confirm('Bạn có chắc muốn xóa trang này?\n\nHành động này không thể hoàn tác.')">
                                             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">

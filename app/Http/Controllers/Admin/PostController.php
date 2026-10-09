@@ -68,6 +68,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
             'excerpt' => 'nullable|string|max:500',
+            'category' => 'required|in:' . implode(',', array_keys(Post::CATEGORIES)),
             'content' => 'required|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',

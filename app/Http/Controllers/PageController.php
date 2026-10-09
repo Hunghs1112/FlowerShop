@@ -8,6 +8,7 @@ use App\Models\FlowerOrigin;
 use App\Models\Category;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
 class PageController extends Controller
@@ -53,14 +54,20 @@ class PageController extends Controller
             });
             return [$country => $category ?: $categories->firstWhere('slug', $country === 'vn' ? 'hoa-tuoi-moi' : 'hoa-nhap-khau')];
         });
-        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowerMapData', 'flowers', 'categories', 'flowerCategories'));
+        $passportCategories = $flowerCategories->map(fn ($category) => $category
+            ? route('products.index', ['category' => $category->slug])
+            : route('products.index'));
+        return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowerMapData', 'flowers', 'categories', 'flowerCategories', 'passportCategories'));
     }
 
     public function guide()
     {
         $siteInfo = $this->settingService->getSiteInfo();
+        $page = Page::whereIn('slug', Page::GUIDE_SLUGS)->active()
+            ->orderByRaw("CASE slug WHEN 'huong-dan-dat-hang' THEN 0 ELSE 1 END")
+            ->first();
         $pageBanner = [];
-        return view('pages.guide', compact('siteInfo', 'pageBanner'));
+        return view('pages.guide', compact('siteInfo', 'pageBanner', 'page'));
     }
 
     public function contact()
@@ -119,11 +126,58 @@ class PageController extends Controller
     public function seasonHub(string $slug)
     {
         $siteInfo = $this->settingService->getSiteInfo();
+        abort_unless(in_array($slug, Page::SEASONAL_SLUGS, true), 404);
 
-        $validSlugs = ['phu-kien-cay-thong', 'mua-le-hoi'];
-        abort_if(!in_array($slug, $validSlugs), 404);
+        $seasonPage = Page::where('slug', $slug)->active()->firstOrFail();
+        $seasonConfig = json_decode($seasonPage->content, true, flags: JSON_THROW_ON_ERROR);
 
-        return view("pages.season-{$slug}", compact('siteInfo'));
+        return view("pages.season-{$slug}", compact('siteInfo', 'seasonPage', 'seasonConfig'));
+    }
+
+    public function seasonPreorder(Request $request)
+    {
+        $seasonSlug = $request->validate(['season_slug' => ['required', Rule::in(Page::SEASONAL_SLUGS)]])['season_slug'];
+        $seasonPage = Page::where('slug', $seasonSlug)->active()->firstOrFail();
+        $seasonConfig = json_decode($seasonPage->content, true, flags: JSON_THROW_ON_ERROR);
+        $treeSeason = collect($seasonConfig['seasons'] ?? [])->first(fn ($season) => isset($season['tree']));
+        $tree = $treeSeason['tree'] ?? [];
+
+        $validated = $request->validate([
+            'size' => ['required', Rule::in(collect($tree['sizes'] ?? [])->pluck('label')->all())],
+            'accessories' => 'nullable|array|max:20',
+            'accessories.*' => ['string', Rule::in($tree['accessories'] ?? [])],
+            'addons' => 'nullable|array|max:10',
+            'addons.*' => ['string', Rule::in($tree['addons'] ?? [])],
+            'name' => 'required|string|max:255',
+            'phone' => ['required', 'string', 'max:20', 'regex:/^[0-9+().\s-]{9,20}$/'],
+            'address' => 'required|string|max:500',
+            'delivery_date' => 'nullable|date|after_or_equal:today',
+            'notes' => 'nullable|string|max:1000',
+        ]);
+        $validated['season_slug'] = $seasonSlug;
+
+        $message = implode("\n", array_filter([
+            'ĐẶT TRƯỚC MÙA LỄ HỘI',
+            'Trang: ' . $validated['season_slug'],
+            'Cỡ cây: ' . $validated['size'],
+            'Phụ kiện: ' . implode(', ', $validated['accessories'] ?? []) ?: 'Phụ kiện: -',
+            'Dịch vụ: ' . implode(', ', $validated['addons'] ?? []) ?: 'Dịch vụ: -',
+            'Địa chỉ: ' . $validated['address'],
+            'Ngày nhận: ' . ($validated['delivery_date'] ?? '-'),
+            'Ghi chú: ' . ($validated['notes'] ?? '-'),
+        ]));
+
+        Inquiry::create([
+            'user_id' => auth()->id(),
+            'name' => $validated['name'],
+            'phone' => $validated['phone'],
+            'message' => $message,
+            'status' => 'new',
+        ]);
+
+        return response()->json([
+            'message' => 'Lâm Nhiên Thảo đã nhận yêu cầu và sẽ liên hệ để xác nhận cây, lịch giao và mức cọc.',
+        ], 201);
     }
 
 

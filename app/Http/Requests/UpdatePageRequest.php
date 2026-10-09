@@ -18,6 +18,8 @@ class UpdatePageRequest extends FormRequest
     {
         $page = $this->route('page');
         $isPolicy = $page instanceof Page && in_array($page->slug, Page::POLICY_SLUGS, true);
+        $isSeasonal = $page instanceof Page && in_array($page->slug, Page::SEASONAL_SLUGS, true);
+        $isGuide = $page instanceof Page && in_array($page->slug, Page::GUIDE_SLUGS, true);
 
         if ($isPolicy) {
             return [
@@ -27,6 +29,24 @@ class UpdatePageRequest extends FormRequest
                 'policy_intro' => 'nullable|string|max:1000',
                 'policy_updated_at_display' => 'nullable|string|max:60',
                 'policy_content_override' => 'nullable|string|max:200000',
+                'is_active' => 'boolean',
+            ];
+        }
+
+        if ($isSeasonal) {
+            return [
+                'title' => 'required|string|max:255',
+                'slug' => 'prohibited',
+                'content' => 'required|json',
+                'is_active' => 'boolean',
+            ];
+        }
+
+        if ($isGuide) {
+            return [
+                'title' => 'required|string|max:255',
+                'slug' => 'prohibited',
+                'content' => 'required|string',
                 'is_active' => 'boolean',
             ];
         }
@@ -61,7 +81,9 @@ class UpdatePageRequest extends FormRequest
         // Keep fixed policy slugs out of the generic slug generation path.
         $page = $this->route('page');
         $isPolicy = $page instanceof Page && in_array($page->slug, Page::POLICY_SLUGS, true);
-        if (!$isPolicy && empty($this->input('slug')) && !empty($this->input('title'))) {
+        $isSeasonal = $page instanceof Page && in_array($page->slug, Page::SEASONAL_SLUGS, true);
+        $isGuide = $page instanceof Page && in_array($page->slug, Page::GUIDE_SLUGS, true);
+        if (!$isPolicy && !$isSeasonal && !$isGuide && empty($this->input('slug')) && !empty($this->input('title'))) {
             $this->merge(['slug' => Str::slug($this->input('title'))]);
         }
 

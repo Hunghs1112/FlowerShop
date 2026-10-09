@@ -28,13 +28,13 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">
                             Slug
-                            @if(isset($isPolicy) && $isPolicy)
+                            @if((isset($isPolicy) && $isPolicy) || (isset($isGuide) && $isGuide))
                                 <span style="font-weight: 400; font-size: 11px; color: var(--admin-text-muted);">(không thể thay đổi)</span>
                             @endif
                         </label>
                         <input type="text" value="{{ old('slug', $page->slug ?? '') }}"
                                id="slugInput"
-                               @if(isset($isPolicy) && $isPolicy)
+                               @if((isset($isPolicy) && $isPolicy) || (isset($isGuide) && $isGuide))
                                    disabled readonly style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono); background: var(--admin-bg-subtle); cursor: not-allowed;"
                                @else
                                    name="slug" class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}"
@@ -67,7 +67,7 @@
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội Dung</label>
                         <textarea name="content" rows="15" id="contentEditor" class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;">{{ old('content', $page->content ?? '') }}</textarea>
-                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ctrl+Enter để lưu ngay</small>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">{{ ($isSeasonal ?? false) ? 'Cấu hình mùa lễ dạng JSON (hub và danh sách mùa, sản phẩm, lựa chọn cây, phụ kiện, dịch vụ, câu hỏi). Giữ đúng cấu trúc JSON để trang hiển thị.' : 'Ctrl+Enter để lưu ngay' }}</small>
                     </div>
                     @endif
                 </div>

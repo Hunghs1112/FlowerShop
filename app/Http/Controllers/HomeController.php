@@ -69,7 +69,7 @@ class HomeController extends Controller
                 'cart' => route('cart.index'),
                 'account' => auth()->check() ? route('profile.show') : route('login'),
                 'blog' => route('blog.index'),
-                'contact' => route('contact'),
+                'b2c' => route('b2c'),
                 'mysteryBox' => route('mystery-box.index'),
                 'about' => route('about'),
             ],

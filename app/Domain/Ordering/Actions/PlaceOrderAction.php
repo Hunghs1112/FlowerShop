@@ -68,7 +68,9 @@ class PlaceOrderAction
                     'user_id' => Auth::id(), 'status' => 'new',
                     'customer_name' => $data->name, 'customer_phone' => $data->phone,
                     'customer_email' => $data->email, 'zalo_id' => $data->zaloId,
-                    'subtotal' => $subtotal, 'total' => $subtotal, 'note' => $data->note,
+                    'delivery_address' => $data->deliveryAddress, 'delivery_date' => $data->deliveryDate,
+                    'delivery_time' => $data->deliveryTime, 'subtotal' => $subtotal,
+                    'shipping_fee' => null, 'total' => $subtotal, 'note' => $data->note,
                     'idempotency_key' => $data->idempotencyKey,
                 ]);
                 $order->items()->createMany($snapshots->all());

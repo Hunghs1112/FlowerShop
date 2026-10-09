@@ -55,6 +55,14 @@
                     <span class="info-value">{{ $customerEmail }}</span>
                 </div>
                 @endif
+                <div class="info-row">
+                    <span class="info-label">Địa chỉ giao hàng:</span>
+                    <span class="info-value">{{ $deliveryAddress }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Thời gian mong muốn:</span>
+                    <span class="info-value">{{ $deliveryDate }} lúc {{ $deliveryTime }}</span>
+                </div>
             </div>
 
             {{-- Order Items --}}
@@ -79,8 +87,16 @@
                         <td>{{ number_format($item['subtotal'], 0, ',', '.') }}₫</td>
                     </tr>
                     @endforeach
+                    <tr>
+                        <td colspan="3">Tạm tính</td>
+                        <td>{{ number_format($subtotal, 0, ',', '.') }}₫</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Phí vận chuyển</td>
+                        <td>{{ $shippingFee === null ? 'Chờ xác nhận' : number_format($shippingFee, 0, ',', '.').'₫' }}</td>
+                    </tr>
                     <tr class="total-row">
-                        <td colspan="3"><strong>TỔNG CỘNG</strong></td>
+                        <td colspan="3"><strong>{{ $shippingFee === null ? 'TẠM TÍNH (CHƯA GỒM PHÍ GIAO HÀNG)' : 'TỔNG CỘNG' }}</strong></td>
                         <td><strong>{{ number_format($total, 0, ',', '.') }}₫</strong></td>
                     </tr>
                 </tbody>

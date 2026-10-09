@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
@@ -21,6 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/newsletter', [NewsletterSubscriptionController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('newsletter.store');
 
 // Products
 Route::get('/san-pham', [ProductController::class, 'index'])->name('products.index');
@@ -41,6 +45,7 @@ Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
 Route::post('/lien-he', [PageController::class, 'contactSubmit'])->middleware('throttle:10,1')->name('contact.store');
 Route::get('/huong-dan-dat-hang', [PageController::class, 'guide'])->name('guide');
 Route::get('/trang/huong-dan-dat-hang', fn() => redirect()->route('guide'));
+Route::get('/trang/huong-dan-mua-hang', fn() => redirect()->route('guide'));
 Route::redirect('/trang/lien-he', '/lien-he');
 Route::redirect('/trang/gioi-thieu', '/gioi-thieu');
 
@@ -68,6 +73,9 @@ Route::get('/mua-le-hoi', [PageController::class, 'seasonHub'])
     ->defaults('slug', 'mua-le-hoi')
     ->name('season.mua-le-hoi');
 Route::redirect('/trang/mua-le-hoi', '/mua-le-hoi');
+Route::post('/mua-le-hoi/dat-truoc', [PageController::class, 'seasonPreorder'])
+    ->middleware('throttle:5,1')
+    ->name('season.preorder');
 
 // Generic page route must follow all fixed /trang redirects.
 Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');

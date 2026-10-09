@@ -5,35 +5,9 @@
 @php
     $journalCategories = [
         'all' => 'Tất cả',
-        'vung-dat' => 'Câu chuyện vùng đất',
-        'cham-hoa' => 'Sổ tay chăm hoa',
-        'mua-hoa' => 'Mùa hoa',
-        'khong-gian' => 'Cảm hứng không gian',
-        'cam-hung' => 'Cảm hứng',
-        'hau-truong' => 'Hậu trường',
-    ];
+    ] + \App\Models\Post::CATEGORIES;
 
-    $categoryPatterns = [
-        'vung-dat' => ['vung dat', 'vùng đất', 'nguon goc', 'ecuador'],
-        'cham-hoa' => ['cham hoa', 'chăm hoa', 'cam tu cau', 'cẩm tú cầu'],
-        'mua-hoa' => ['mua hoa', 'mùa hoa', 'theo mua', 'theo mùa'],
-        'khong-gian' => ['khong gian', 'không gian', 'cam hoa tai nha', 'cắm hoa tại nhà'],
-        'hau-truong' => ['hau truong', 'hậu trường', 'mo thung', 'mở thùng'],
-    ];
-
-    $resolveCategory = function ($post) use ($categoryPatterns) {
-        $haystack = Str::lower($post->title . ' ' . $post->slug . ' ' . ($post->excerpt ?? ''));
-
-        foreach ($categoryPatterns as $category => $patterns) {
-            foreach ($patterns as $pattern) {
-                if (Str::contains($haystack, Str::lower($pattern))) {
-                    return $category;
-                }
-            }
-        }
-
-        return 'cam-hung';
-    };
+    $resolveCategory = fn ($post) => $post->category ?: 'cam-hung';
 
     $featuredPost = $posts->getCollection()->first();
     $gridPosts = $posts->getCollection()->skip(1);

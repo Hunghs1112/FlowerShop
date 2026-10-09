@@ -64,6 +64,14 @@
                         <span class="customer-value">{{ $customerZaloId }}</span>
                     </div>
                     @endif
+                    <div class="customer-row">
+                        <span class="customer-label">Địa chỉ giao hàng:</span>
+                        <span class="customer-value">{{ $deliveryAddress ?: 'Chưa cung cấp' }}</span>
+                    </div>
+                    <div class="customer-row">
+                        <span class="customer-label">Thời gian mong muốn:</span>
+                        <span class="customer-value">{{ $deliveryDate ?: 'Chưa cung cấp' }}{{ $deliveryTime ? ' lúc '.$deliveryTime : '' }}</span>
+                    </div>
                 </div>
             </div>
 
@@ -97,9 +105,10 @@
 
             {{-- Total --}}
             <div class="total-section">
-                <span class="total-label">💰 TỔNG CỘNG</span>
+                <span class="total-label">💰 {{ $shippingFee === null ? 'TẠM TÍNH (CHƯA GỒM PHÍ GIAO HÀNG)' : 'TỔNG CỘNG' }}</span>
                 <span class="total-value">{{ number_format($total, 0, ',', '.') }}₫</span>
             </div>
+            <p>Phí vận chuyển: {{ $shippingFee === null ? 'Chờ xác nhận' : number_format($shippingFee, 0, ',', '.').'₫' }}</p>
 
             {{-- Customer Note --}}
             @if($customerNote)

@@ -12,5 +12,8 @@ final readonly class PlaceOrderData
         public ?string $note = null,
         public ?string $idempotencyKey = null,
         public ?array $items = null,
+        public ?string $deliveryAddress = null,
+        public ?string $deliveryDate = null,
+        public ?string $deliveryTime = null,
     ) {}
 }

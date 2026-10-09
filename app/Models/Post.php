@@ -7,10 +7,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
+    public const CATEGORIES = [
+        'vung-dat' => 'Câu chuyện vùng đất',
+        'cham-hoa' => 'Sổ tay chăm hoa',
+        'mua-hoa' => 'Mùa hoa',
+        'khong-gian' => 'Cảm hứng không gian',
+        'cam-hung' => 'Cảm hứng',
+        'hau-truong' => 'Hậu trường',
+    ];
+
     protected $fillable = [
         'title',
         'slug',
         'excerpt',
+        'category',
         'content',
         'thumbnail',
         'is_published',

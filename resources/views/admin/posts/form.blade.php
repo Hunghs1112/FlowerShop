@@ -55,6 +55,14 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('excerpt', $post->excerpt ?? '') }}</textarea>
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Tóm tắt ngắn gọn của bài viết</small>
                     </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Chuyên mục <span style="color: var(--admin-error);">*</span></label>
+                        <select name="category" class="auto-save-select" data-entity="posts" data-id="{{ $post->id ?? '' }}" required style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);">
+                            @foreach(\App\Models\Post::CATEGORIES as $key => $label)
+                                <option value="{{ $key }}" {{ old('category', $post->category ?? 'cam-hung') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội Dung <span style="color: var(--admin-error);">*</span></label>

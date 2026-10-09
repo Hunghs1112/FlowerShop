@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Models\Post;
 
 class StorePostRequest extends FormRequest
 {
@@ -21,6 +22,7 @@ class StorePostRequest extends FormRequest
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug',
             'excerpt' => 'nullable|string|max:500',
+            'category' => ['required', Rule::in(array_keys(Post::CATEGORIES))],
             'content' => 'required|string',
             'thumbnail' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'status' => ['required', Rule::in(['draft', 'published'])],

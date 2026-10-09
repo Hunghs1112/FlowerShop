@@ -100,17 +100,25 @@
                 <h3 class="footer-column-heading">Bản tin</h3>
                 <p class="footer-newsletter-description">Đăng ký nhận tin khuyến mãi và cập nhật mới nhất từ chúng tôi.</p>
 
-                <form class="footer-newsletter-form" action="#" method="POST">
+                <form class="footer-newsletter-form" action="{{ route('newsletter.store') }}" method="POST">
                     @csrf
                     <input
                         type="email"
                         name="email"
                         placeholder="Nhập email của bạn"
                         class="footer-newsletter-input"
+                        value="{{ $errors->newsletter->has('email') ? old('email') : '' }}"
+                        @if(session('newsletter_success') || $errors->newsletter->has('email')) aria-describedby="newsletter-feedback" @endif
                         required
                     >
                     <button type="submit" class="footer-newsletter-button">Đăng ký</button>
                 </form>
+
+                @if(session('newsletter_success'))
+                    <p id="newsletter-feedback" class="form-help" role="status">{{ session('newsletter_success') }}</p>
+                @elseif($errors->newsletter->has('email'))
+                    <p id="newsletter-feedback" class="form-error" role="alert">{{ $errors->newsletter->first('email') }}</p>
+                @endif
 
                 <p class="footer-newsletter-consent">
                     Bằng việc đăng ký, bạn đồng ý với <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a>

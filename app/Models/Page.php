@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
+    public const GUIDE_SLUGS = ['huong-dan-mua-hang', 'huong-dan-dat-hang'];
+
     public const POLICY_SLUGS = [
         'chinh-sach-bao-mat',
         'chinh-sach-cua-chung-toi',
@@ -13,14 +15,20 @@ class Page extends Model
         'dieu-khoan-dich-vu',
     ];
 
+    public const SEASONAL_SLUGS = [
+        'phu-kien-cay-thong',
+        'mua-le-hoi',
+    ];
+
     public const STATIC_SLUGS = [
         'chinh-sach-giao-hang',
         'chinh-sach-bao-mat',
         'chinh-sach-cua-chung-toi',
         'dieu-khoan-dich-vu',
-        'huong-dan-dat-hang',
+        ...self::GUIDE_SLUGS,
         'lien-he',
         'chinh-sach-doi-tra',
+        ...self::SEASONAL_SLUGS,
     ];
 
     protected $fillable = [
