@@ -1,0 +1,76 @@
+{
+  "id": "thu",
+  "code": "AUT",
+  "theme": "autumn",
+  "name": "Hội mùa thu",
+  "tagline": "Chuyến bay mùa lá đỏ",
+  "status": "Đang bay",
+  "date": "",
+  "img": "/images/seasonal/aut_hero.jpg",
+  "intro": "Những gam màu ấm của mùa thu: đỏ rượu vang, cam đất, vàng nắng. Hoa tông thu cho bàn ăn, góc làm việc và những buổi hẹn cuối năm.",
+  "palette": [
+    [
+      "Đỏ rượu vang",
+      "#7A1F2B"
+    ],
+    [
+      "Cam đất",
+      "#C2602F"
+    ],
+    [
+      "Vàng nắng",
+      "#D9A43A"
+    ],
+    [
+      "Nâu hạt dẻ",
+      "#6B4632"
+    ],
+    [
+      "Kem sữa",
+      "#EFE3D0"
+    ]
+  ],
+  "products": [
+    {
+      "name": "Hồng Freedom đỏ trầm",
+      "origin": "Ecuador",
+      "code": "UIO",
+      "img": "/images/seasonal/aut1.jpg",
+      "link": "#",
+      "badge": "TÔNG THU"
+    },
+    {
+      "name": "Pincushion vàng nắng",
+      "origin": "Nam Phi",
+      "code": "CPT",
+      "img": "/images/seasonal/aut2.jpg",
+      "link": "#",
+      "badge": "MỚI VỀ"
+    },
+    {
+      "name": "Ly hổ cam đốm",
+      "origin": "Trung Quốc",
+      "code": "KMG",
+      "img": "/images/seasonal/aut3.jpg",
+      "link": "#",
+      "badge": ""
+    },
+    {
+      "name": "Cúc zinnia cam",
+      "origin": "Nhật Bản",
+      "code": "CTS",
+      "img": "/images/seasonal/aut4.jpg",
+      "link": "#",
+      "badge": ""
+    }
+  ],
+  "cta": {
+    "label": "Xem bộ sưu tập mùa thu",
+    "link": "/san-pham"
+  },
+  "extra": {
+    "label": "Đọc trên LNT Journal: Cắm hoa mùa thu cho bàn ăn →",
+    "link": "/bai-viet"
+  },
+  "url": "/mua-le-hoi/hoi-mua-thu"
+}

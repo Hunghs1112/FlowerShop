@@ -123,29 +123,135 @@ class PageController extends Controller
         return view('pages.policy', compact('page', 'pageBanner'));
     }
 
-    public function seasonHub(string $slug)
+    public function seasonHub()
     {
-        abort_unless(in_array($slug, Page::SEASONAL_SLUGS, true), 404);
-
-        return response(file_get_contents(base_path("files/{$slug}.html")), 200, [
-            'Content-Type' => 'text/html; charset=UTF-8',
+        return view('pages.seasonal.hub', [
+            'seasonConfig' => $this->seasonalConfig('mua-le-hoi'),
         ]);
+    }
+
+    public function seasonAutumn()
+    {
+        return $this->seasonalPage('thu', 'pages.seasonal.autumn');
+    }
+
+    public function seasonHalloween()
+    {
+        return $this->seasonalPage('halloween', 'pages.seasonal.halloween');
+    }
+
+    public function seasonDanishTree(Request $request)
+    {
+        $sourceSlug = $request->routeIs('season.phu-kien') ? 'phu-kien-cay-thong' : 'mua-le-hoi';
+
+        return $this->seasonalPage('thong', 'pages.seasonal.danish-tree', $sourceSlug);
+    }
+
+    private function seasonalPage(string $seasonId, string $view, string $sourceSlug = 'mua-le-hoi')
+    {
+        $config = $this->seasonalConfig($sourceSlug);
+        $season = collect($config['seasons'])->firstWhere('id', $seasonId);
+        abort_unless($season, 404);
+
+        return view($view, [
+            'seasonConfig' => [...$config, 'seasons' => [$season]],
+        ]);
+    }
+
+    private function seasonalConfig(string $slug): array
+    {
+        $page = Page::where('slug', $slug)->active()->firstOrFail();
+        $stored = json_decode($page->content, true, flags: JSON_THROW_ON_ERROR);
+        $defaults = $this->seasonalFile('hub');
+        $defaults['seasons'] = [
+            $this->seasonalFile('autumn'),
+            $this->seasonalFile('halloween'),
+            $this->seasonalFile('danish-tree'),
+        ];
+
+        $storedSeasons = $stored['seasons'] ?? [];
+        unset($stored['seasons']);
+        $config = $this->mergeSeasonalData($defaults, $stored);
+        $config['seasons'] = collect($defaults['seasons'])->map(function ($season) use ($storedSeasons) {
+            $override = collect($storedSeasons)->firstWhere('id', $season['id']);
+            $season = $override ? $this->mergeSeasonalData($season, $override) : $season;
+
+            if (isset($season['tree'])) {
+                $tree = &$season['tree'];
+                $tree['addons'] = collect($tree['addons'] ?? [])->map(
+                    fn ($item) => is_array($item) ? $item : ['name' => $item, 'price' => '']
+                )->all();
+                if (isset($tree['accessories'][0]) && is_string($tree['accessories'][0])) {
+                    $tree['accessories'] = [[
+                        'group' => 'Phụ kiện & đồ trang trí',
+                        'items' => collect($tree['accessories'])->map(
+                            fn ($item) => ['name' => $item, 'desc' => '', 'icon' => 'hop', 'price' => '', 'img' => '']
+                        )->all(),
+                    ]];
+                }
+                $tree['faq'] = collect($tree['faq'] ?? [])->map(fn ($item) => [
+                    'q' => $item['q'] ?? $item['question'] ?? '',
+                    'a' => $item['a'] ?? $item['answer'] ?? '',
+                ])->all();
+            }
+
+            $season['url'] = match ($season['id']) {
+                'thu' => route('season.autumn'),
+                'halloween' => route('season.halloween'),
+                'thong' => route('season.danish-tree'),
+                default => '#',
+            };
+
+            return $season;
+        })->all();
+        $config['hub']['url'] = route('season.mua-le-hoi');
+        $config['orderEndpoint'] = route('season.preorder');
+        $config['csrfToken'] = csrf_token();
+        $config['seasonSlug'] = $slug;
+
+        return $config;
+    }
+
+    private function seasonalFile(string $file): array
+    {
+        return json_decode(file_get_contents(resource_path("data/seasonal/{$file}.json")), true, flags: JSON_THROW_ON_ERROR);
+    }
+
+    private function mergeSeasonalData(array $defaults, array $stored): array
+    {
+        foreach ($stored as $key => $value) {
+            $defaults[$key] = is_array($value)
+                && !array_is_list($value)
+                && isset($defaults[$key])
+                && is_array($defaults[$key])
+                && !array_is_list($defaults[$key])
+                    ? $this->mergeSeasonalData($defaults[$key], $value)
+                    : $value;
+        }
+
+        return $defaults;
     }
 
     public function seasonPreorder(Request $request)
     {
         $seasonSlug = $request->validate(['season_slug' => ['required', Rule::in(Page::SEASONAL_SLUGS)]])['season_slug'];
-        $seasonPage = Page::where('slug', $seasonSlug)->active()->firstOrFail();
-        $seasonConfig = json_decode($seasonPage->content, true, flags: JSON_THROW_ON_ERROR);
+        $seasonConfig = $this->seasonalConfig($seasonSlug);
         $treeSeason = collect($seasonConfig['seasons'] ?? [])->first(fn ($season) => isset($season['tree']));
         $tree = $treeSeason['tree'] ?? [];
+        $accessoryNames = collect($tree['accessories'] ?? [])->flatMap(fn ($group) =>
+            collect($group['items'] ?? [])->pluck('name')
+        )->merge(collect($tree['packages']['items'] ?? [])->pluck('name')->map(fn ($name) => "Bộ {$name}"))->all();
+        $addonNames = collect($tree['addons'] ?? [])->pluck('name')->all();
 
         $validated = $request->validate([
             'size' => ['required', Rule::in(collect($tree['sizes'] ?? [])->pluck('label')->all())],
             'accessories' => 'nullable|array|max:20',
-            'accessories.*' => ['string', Rule::in($tree['accessories'] ?? [])],
+            'accessories.*' => ['string', Rule::in($accessoryNames)],
+            'accessory_quantities' => 'nullable|array|max:20',
+            'accessory_quantities.*.name' => ['required', 'string', Rule::in($accessoryNames)],
+            'accessory_quantities.*.quantity' => 'required|integer|min:1|max:99',
             'addons' => 'nullable|array|max:10',
-            'addons.*' => ['string', Rule::in($tree['addons'] ?? [])],
+            'addons.*' => ['string', Rule::in($addonNames)],
             'name' => 'required|string|max:255',
             'phone' => ['required', 'string', 'max:20', 'regex:/^[0-9+().\s-]{9,20}$/'],
             'address' => 'required|string|max:500',
@@ -153,13 +259,16 @@ class PageController extends Controller
             'notes' => 'nullable|string|max:1000',
         ]);
         $validated['season_slug'] = $seasonSlug;
+        $accessorySummary = collect($validated['accessory_quantities'] ?? [])->map(
+            fn ($item) => $item['name'] . ($item['quantity'] > 1 ? ' x' . $item['quantity'] : '')
+        )->implode(', ') ?: implode(', ', $validated['accessories'] ?? []);
 
         $message = implode("\n", array_filter([
             'ĐẶT TRƯỚC MÙA LỄ HỘI',
             'Trang: ' . $validated['season_slug'],
             'Cỡ cây: ' . $validated['size'],
-            'Phụ kiện: ' . implode(', ', $validated['accessories'] ?? []) ?: 'Phụ kiện: -',
-            'Dịch vụ: ' . implode(', ', $validated['addons'] ?? []) ?: 'Dịch vụ: -',
+            'Phụ kiện: ' . ($accessorySummary ?: '-'),
+            'Dịch vụ: ' . (implode(', ', $validated['addons'] ?? []) ?: '-'),
             'Địa chỉ: ' . $validated['address'],
             'Ngày nhận: ' . ($validated['delivery_date'] ?? '-'),
             'Ghi chú: ' . ($validated['notes'] ?? '-'),

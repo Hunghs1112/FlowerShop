@@ -1,0 +1,63 @@
+{
+  "contact": {
+    "zalo": "0869308993",
+    "phone": "0869308993"
+  },
+  "orderEndpoint": "",
+  "hub": {
+    "eyebrow": "MÙA LỄ HỘI",
+    "title": "Chuyến bay mùa lễ",
+    "intro": "Mỗi mùa lễ là một chuyến bay đặc biệt. Chọn chuyến của bạn: sắc thu ấm áp, đêm Halloween huyền bí, hay cây thông bay về từ Bắc Âu.",
+    "url": "/mua-le-hoi"
+  },
+  "seasons": [
+    {
+      "id": "thu",
+      "code": "AUT",
+      "theme": "autumn",
+      "name": "Hội mùa thu",
+      "tagline": "Chuyến bay mùa lá đỏ",
+      "status": "Đang bay",
+      "date": "",
+      "img": "/images/seasonal/aut_hero.jpg",
+      "intro": "Những gam màu ấm của mùa thu: đỏ rượu vang, cam đất, vàng nắng. Hoa tông thu cho bàn ăn, góc làm việc và những buổi hẹn cuối năm.",
+      "cta": {
+        "label": "Xem bộ sưu tập mùa thu",
+        "link": "/san-pham"
+      },
+      "url": "/mua-le-hoi/hoi-mua-thu"
+    },
+    {
+      "id": "halloween",
+      "code": "HLW",
+      "theme": "night",
+      "name": "Halloween",
+      "tagline": "Chuyến bay đêm 31/10",
+      "status": "Mở đặt trước",
+      "date": "2026-10-31",
+      "img": "/images/seasonal/hlw_hero.jpg",
+      "intro": "Đêm 31/10, những đoá hoa khoác lên mình sắc cam, đỏ thẫm và tím đêm. Đặt sớm để nhận hoa đúng đêm hội.",
+      "cta": {
+        "label": "Đặt hoa Halloween",
+        "link": "/san-pham"
+      },
+      "url": "/mua-le-hoi/halloween"
+    },
+    {
+      "id": "thong",
+      "code": "CPH",
+      "theme": "nordic",
+      "name": "Cây thông Đan Mạch",
+      "tagline": "Chuyến bay từ Bắc Âu · CPH → HAN",
+      "status": "Mở đặt trước",
+      "date": "2026-12-25",
+      "img": "",
+      "intro": "Thông Nordmann nhập từ Đan Mạch, tán dày, lá mềm, xanh lâu và hương gỗ thông dịu nhẹ cho mùa Giáng sinh. Số lượng mỗi chuyến có hạn, đặt trước để giữ cây.",
+      "cta": {
+        "label": "Đặt trước cây thông",
+        "link": "#dat-truoc"
+      },
+      "url": "/mua-le-hoi/cay-thong-dan-mach"
+    }
+  ]
+}

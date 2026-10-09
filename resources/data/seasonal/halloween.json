@@ -1,0 +1,65 @@
+{
+  "id": "halloween",
+  "code": "HLW",
+  "theme": "night",
+  "name": "Halloween",
+  "tagline": "Chuyến bay đêm 31/10",
+  "status": "Mở đặt trước",
+  "date": "2026-10-31",
+  "img": "/images/seasonal/hlw_hero.jpg",
+  "intro": "Đêm 31/10, những đoá hoa khoác lên mình sắc cam, đỏ thẫm và tím đêm. Đặt sớm để nhận hoa đúng đêm hội.",
+  "products": [
+    {
+      "name": "Pincushion cam lửa",
+      "origin": "Nam Phi",
+      "code": "CPT",
+      "img": "/images/seasonal/hlw1.jpg",
+      "link": "#",
+      "badge": "ĐÊM HỘI"
+    },
+    {
+      "name": "Hồng đỏ thẫm",
+      "origin": "Ecuador",
+      "code": "UIO",
+      "img": "/images/seasonal/hlw2.jpg",
+      "link": "#",
+      "badge": ""
+    },
+    {
+      "name": "Cẩm chướng tím đêm",
+      "origin": "Colombia",
+      "code": "BOG",
+      "img": "/images/seasonal/hlw3.jpg",
+      "link": "#",
+      "badge": ""
+    },
+    {
+      "name": "Protea vua",
+      "origin": "Nam Phi",
+      "code": "CPT",
+      "img": "/images/seasonal/hlw4.jpg",
+      "link": "#",
+      "badge": "BÍ ẨN"
+    }
+  ],
+  "trickTreat": {
+    "title": "Hộp hoa bí ẩn · Trick or Treat",
+    "intro": "Chọn một lá bài. Bạn sẽ không biết trước loài hoa, chỉ biết tinh thần của chiếc hộp.",
+    "trick": {
+      "label": "TRICK",
+      "title": "Tinh nghịch, phá cách",
+      "desc": "Tông tối, đỏ thẫm và cam lửa, phom dáng bất ngờ."
+    },
+    "treat": {
+      "label": "TREAT",
+      "title": "Ngọt ngào, dịu dàng",
+      "desc": "Tông hồng đào, cam sữa, nhiều lớp cánh mềm."
+    },
+    "link": "/hop-hoa-bi-an"
+  },
+  "cta": {
+    "label": "Đặt hoa Halloween",
+    "link": "/san-pham"
+  },
+  "url": "/mua-le-hoi/halloween"
+}

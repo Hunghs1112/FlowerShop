@@ -65,13 +65,13 @@ Route::get('/can-phong-bi-mat', [PageController::class, 'canPhong'])->name('can-
 Route::redirect('/trang/can-phong-bi-mat', '/can-phong-bi-mat');
 
 // Seasonal hub pages
-Route::get('/phu-kien-cay-thong', [PageController::class, 'seasonHub'])
-    ->defaults('slug', 'phu-kien-cay-thong')
+Route::get('/phu-kien-cay-thong', [PageController::class, 'seasonDanishTree'])
     ->name('season.phu-kien');
 Route::redirect('/trang/phu-kien-cay-thong', '/phu-kien-cay-thong');
-Route::get('/mua-le-hoi', [PageController::class, 'seasonHub'])
-    ->defaults('slug', 'mua-le-hoi')
-    ->name('season.mua-le-hoi');
+Route::get('/mua-le-hoi', [PageController::class, 'seasonHub'])->name('season.mua-le-hoi');
+Route::get('/mua-le-hoi/hoi-mua-thu', [PageController::class, 'seasonAutumn'])->name('season.autumn');
+Route::get('/mua-le-hoi/halloween', [PageController::class, 'seasonHalloween'])->name('season.halloween');
+Route::get('/mua-le-hoi/cay-thong-dan-mach', [PageController::class, 'seasonDanishTree'])->name('season.danish-tree');
 Route::redirect('/trang/mua-le-hoi', '/mua-le-hoi');
 Route::post('/mua-le-hoi/dat-truoc', [PageController::class, 'seasonPreorder'])
     ->middleware('throttle:5,1')

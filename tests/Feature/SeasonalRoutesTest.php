@@ -12,15 +12,25 @@ class SeasonalRoutesTest extends TestCase
 
     public function test_seasonal_pages_and_old_links_work(): void
     {
-        foreach (['phu-kien-cay-thong', 'mua-le-hoi'] as $slug) {
-            $response = $this->get("/$slug")->assertOk();
+        $pages = [
+            '/mua-le-hoi' => 'Mùa lễ hội',
+            '/mua-le-hoi/hoi-mua-thu' => 'Hội mùa thu',
+            '/mua-le-hoi/halloween' => 'Halloween',
+            '/mua-le-hoi/cay-thong-dan-mach' => 'Cây thông Đan Mạch',
+            '/phu-kien-cay-thong' => 'Cây thông Đan Mạch',
+        ];
 
-            $this->assertSame(
-                hash_file('sha256', base_path("files/$slug.html")),
-                hash('sha256', $response->getContent()),
-            );
-            $this->get("/trang/$slug")->assertRedirect("/$slug");
+        foreach ($pages as $url => $title) {
+            $this->get($url)
+                ->assertOk()
+                ->assertSee($title)
+                ->assertSee('seasonal-page', false)
+                ->assertSee('navbar', false)
+                ->assertSee('footer', false);
         }
+
+        $this->get('/trang/mua-le-hoi')->assertRedirect('/mua-le-hoi');
+        $this->get('/trang/phu-kien-cay-thong')->assertRedirect('/phu-kien-cay-thong');
     }
 
     public function test_tree_preorder_is_saved_and_invalid_input_is_rejected(): void
@@ -28,7 +38,7 @@ class SeasonalRoutesTest extends TestCase
         $payload = [
             'season_slug' => 'mua-le-hoi',
             'size' => '1,8 m',
-            'accessories' => ['Bộ quả châu'],
+            'accessories' => ['Bộ quả châu (12 quả)'],
             'addons' => ['Giao & dựng cây tại nhà'],
             'name' => 'Nguyễn An',
             'phone' => '0901234567',

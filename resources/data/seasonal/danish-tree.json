@@ -1,0 +1,216 @@
+{
+  "id": "thong",
+  "code": "CPH",
+  "theme": "nordic",
+  "name": "Cây thông Đan Mạch",
+  "tagline": "Chuyến bay từ Bắc Âu · CPH → HAN",
+  "status": "Mở đặt trước",
+  "date": "2026-12-25",
+  "img": "",
+  "intro": "Thông Nordmann nhập từ Đan Mạch, tán dày, lá mềm, xanh lâu và hương gỗ thông dịu nhẹ cho mùa Giáng sinh. Số lượng mỗi chuyến có hạn, đặt trước để giữ cây.",
+  "tree": {
+    "deadline": "2026-11-20",
+    "arrival": "[ngày hàng về dự kiến]",
+    "deposit": "[mức cọc, ví dụ 50%]",
+    "sizes": [
+      {
+        "label": "1,2 m",
+        "cm": 120,
+        "price": ""
+      },
+      {
+        "label": "1,5 m",
+        "cm": 150,
+        "price": ""
+      },
+      {
+        "label": "1,8 m",
+        "cm": 180,
+        "price": ""
+      },
+      {
+        "label": "2,1 m",
+        "cm": 210,
+        "price": ""
+      },
+      {
+        "label": "2,4 m",
+        "cm": 240,
+        "price": ""
+      }
+    ],
+    "addons": [
+      {
+        "name": "Giao & dựng cây tại nhà",
+        "price": ""
+      },
+      {
+        "name": "Trang trí tại nhà theo bộ đã chọn",
+        "price": ""
+      },
+      {
+        "name": "Thu gom cây sau mùa lễ",
+        "price": ""
+      }
+    ],
+    "packages": {
+      "title": "Bộ trang trí trọn gói",
+      "intro": "Chọn một tông màu, LNT chuẩn bị đủ bộ đồ trang trí hợp với cỡ cây.",
+      "items": [
+        {
+          "name": "Đỏ cổ điển",
+          "desc": "Quả châu đỏ nhung, ruy băng đỏ, đèn vàng ấm",
+          "colors": [
+            "#8E1F2B",
+            "#C9A24A",
+            "#F3E2C2"
+          ],
+          "price": "",
+          "img": ""
+        },
+        {
+          "name": "Vàng đồng",
+          "desc": "Quả châu đồng, vàng sâm panh, đèn vàng ấm",
+          "colors": [
+            "#B07A52",
+            "#D9B36A",
+            "#F4E8DC"
+          ],
+          "price": "",
+          "img": ""
+        },
+        {
+          "name": "Bạc tuyết",
+          "desc": "Quả châu trắng bạc, ruy băng kem, đèn trắng",
+          "colors": [
+            "#E9EEF0",
+            "#B9C4C9",
+            "#FFFFFF"
+          ],
+          "price": "",
+          "img": ""
+        }
+      ]
+    },
+    "accessories": [
+      {
+        "group": "Đồ trang trí cây",
+        "items": [
+          {
+            "name": "Bộ quả châu (12 quả)",
+            "desc": "Nhiều tông màu",
+            "icon": "chau",
+            "price": "",
+            "img": ""
+          },
+          {
+            "name": "Dây đèn LED 10 m",
+            "desc": "Ánh vàng ấm, ít toả nhiệt",
+            "icon": "den",
+            "price": "",
+            "img": ""
+          },
+          {
+            "name": "Ngôi sao đỉnh cây",
+            "desc": "Đồng ánh kim",
+            "icon": "sao",
+            "price": "",
+            "img": ""
+          },
+          {
+            "name": "Ruy băng nhung",
+            "desc": "Cuộn 5 m",
+            "icon": "ruybang",
+            "price": "",
+            "img": ""
+          },
+          {
+            "name": "Quả thông khô",
+            "desc": "Túi 10 quả",
+            "icon": "thong",
+            "price": "",
+            "img": ""
+          }
+        ]
+      },
+      {
+        "group": "Phụ kiện cho cây",
+        "items": [
+          {
+            "name": "Chân đế giữ nước",
+            "desc": "Giữ cây đứng vững, tươi lâu",
+            "icon": "de",
+            "price": "",
+            "img": ""
+          },
+          {
+            "name": "Thảm chân cây",
+            "desc": "Che chân đế, đặt quà",
+            "icon": "tham",
+            "price": "",
+            "img": ""
+          },
+          {
+            "name": "Vòng nguyệt quế thông tươi",
+            "desc": "Treo cửa",
+            "icon": "vong",
+            "price": "",
+            "img": ""
+          },
+          {
+            "name": "Hộp quà trang trí",
+            "desc": "Bộ 3 hộp",
+            "icon": "hop",
+            "price": "",
+            "img": ""
+          }
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "q": "Khi nào cây về và được giao?",
+        "a": "[Câu trả lời của shop]"
+      },
+      {
+        "q": "Đặt cọc và thanh toán như thế nào?",
+        "a": "[Câu trả lời của shop]"
+      },
+      {
+        "q": "Cây giữ được bao lâu?",
+        "a": "[Câu trả lời của shop]"
+      },
+      {
+        "q": "Có giao ngoài Hà Nội không?",
+        "a": "[Câu trả lời của shop]"
+      }
+    ],
+    "care": [
+      [
+        "Tên",
+        "Thông Nordmann · Đan Mạch"
+      ],
+      [
+        "Vị trí",
+        "Nơi thoáng mát, tránh nắng gắt, lò sưởi và điều hoà thổi trực tiếp"
+      ],
+      [
+        "Nước",
+        "Giữ chân đế luôn có nước, kiểm tra mỗi ngày"
+      ],
+      [
+        "Cắt gốc",
+        "[Hướng dẫn của shop]"
+      ],
+      [
+        "Đèn",
+        "Dùng đèn LED ít toả nhiệt"
+      ]
+    ]
+  },
+  "cta": {
+    "label": "Đặt trước cây thông",
+    "link": "#dat-truoc"
+  },
+  "url": "/mua-le-hoi/cay-thong-dan-mach"
+}

@@ -28,13 +28,13 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">
                             Slug
-                            @if((isset($isPolicy) && $isPolicy) || (isset($isGuide) && $isGuide))
+                            @if((isset($isPolicy) && $isPolicy) || (isset($isSeasonal) && $isSeasonal) || (isset($isGuide) && $isGuide))
                                 <span style="font-weight: 400; font-size: 11px; color: var(--admin-text-muted);">(không thể thay đổi)</span>
                             @endif
                         </label>
                         <input type="text" value="{{ old('slug', $page->slug ?? '') }}"
                                id="slugInput"
-                               @if((isset($isPolicy) && $isPolicy) || (isset($isGuide) && $isGuide))
+                               @if((isset($isPolicy) && $isPolicy) || (isset($isSeasonal) && $isSeasonal) || (isset($isGuide) && $isGuide))
                                    disabled readonly style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; font-family: var(--admin-font-mono); background: var(--admin-bg-subtle); cursor: not-allowed;"
                                @else
                                    name="slug" class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}"
