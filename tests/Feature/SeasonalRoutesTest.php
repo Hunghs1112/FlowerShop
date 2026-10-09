@@ -13,7 +13,12 @@ class SeasonalRoutesTest extends TestCase
     public function test_seasonal_pages_and_old_links_work(): void
     {
         foreach (['phu-kien-cay-thong', 'mua-le-hoi'] as $slug) {
-            $this->get("/$slug")->assertOk();
+            $response = $this->get("/$slug")->assertOk();
+
+            $this->assertSame(
+                hash_file('sha256', base_path("files/$slug.html")),
+                hash('sha256', $response->getContent()),
+            );
             $this->get("/trang/$slug")->assertRedirect("/$slug");
         }
     }

@@ -125,13 +125,11 @@ class PageController extends Controller
 
     public function seasonHub(string $slug)
     {
-        $siteInfo = $this->settingService->getSiteInfo();
         abort_unless(in_array($slug, Page::SEASONAL_SLUGS, true), 404);
 
-        $seasonPage = Page::where('slug', $slug)->active()->firstOrFail();
-        $seasonConfig = json_decode($seasonPage->content, true, flags: JSON_THROW_ON_ERROR);
-
-        return view("pages.season-{$slug}", compact('siteInfo', 'seasonPage', 'seasonConfig'));
+        return response(file_get_contents(base_path("files/{$slug}.html")), 200, [
+            'Content-Type' => 'text/html; charset=UTF-8',
+        ]);
     }
 
     public function seasonPreorder(Request $request)
