@@ -13,7 +13,6 @@ use App\Services\ImageStorageService;
 use App\Services\AjaxFieldService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -355,9 +354,9 @@ class ProductController extends Controller
 
         $path = $video->image_path;
         $video->delete();
-        
-        if ($path && Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->delete($path);
+
+        if ($path) {
+            $this->images->delete($path);
         }
 
         return response()->json([

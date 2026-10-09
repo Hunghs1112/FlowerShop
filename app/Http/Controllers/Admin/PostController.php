@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\HandlesImageUpload;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
@@ -15,6 +16,7 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    use HandlesImageUpload;
     protected PostRepository $posts;
     protected ImageStorageService $images;
     protected AjaxFieldService $ajaxFieldService;
@@ -198,58 +200,32 @@ class PostController extends Controller
 
     public function uploadThumbnail(Request $request, Post $post)
     {
-        $request->validate([
-            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'file' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'images' => 'nullable|array|max:1',
-            'images.*' => 'image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-        ]);
-
-        $file = $request->file('thumbnail')
-            ?? $request->file('file')
-            ?? $request->file('images.0');
-
-        if (!$file) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Vui lòng chọn một ảnh hợp lệ',
-            ], 422);
+        // PostController accepts 'thumbnail', 'file', or 'images[0]' — normalise to 'file'
+        // so the shared trait can pick it up from either key.
+        if (!$request->hasFile('file') && !$request->hasFile('images')) {
+            if ($request->hasFile('thumbnail')) {
+                // Re-add under 'file' key via request merge so the trait resolves it
+                $request->files->set('file', $request->file('thumbnail'));
+            }
         }
 
-        $oldThumbnail = $post->thumbnail;
-        $thumbnail = $this->images->upload(
-            $file,
-            config('upload.disks.folders.post', 'posts'),
-            $oldThumbnail
+        return $this->handleSingleImageUpload(
+            $request, $post,
+            dbField: 'thumbnail',
+            folder: config('upload.disks.folders.post', 'posts'),
+            imageUrlAccessor: 'image_url',
+            successMessage: 'Đã cập nhật ảnh đại diện',
         );
-
-        $post->update(['thumbnail' => $thumbnail]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã cập nhật ảnh đại diện',
-            'url' => $post->fresh()->image_url,
-        ]);
     }
 
     public function deleteThumbnail(Post $post)
     {
-        $thumbnail = $post->thumbnail;
-
-        if (!$thumbnail) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Bài viết chưa có ảnh đại diện',
-            ], 422);
-        }
-
-        $post->update(['thumbnail' => null]);
-        $this->images->delete($thumbnail);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã xóa ảnh đại diện',
-        ]);
+        return $this->handleImageDelete(
+            $post,
+            dbField: 'thumbnail',
+            notFoundMessage: 'Bài viết chưa có ảnh đại diện',
+            successMessage: 'Đã xóa ảnh đại diện',
+        );
     }
 
     public function destroy(Post $post)

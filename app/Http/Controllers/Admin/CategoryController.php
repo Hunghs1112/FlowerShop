@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\HandlesImageUpload;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Responses\AjaxResponse;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    use HandlesImageUpload;
     protected CategoryRepository $categories;
     protected ImageStorageService $images;
     protected AjaxFieldService $ajaxFieldService;
@@ -242,35 +244,13 @@ class CategoryController extends Controller
     // ============================================================
     public function uploadImage(Request $request, Category $category)
     {
-        $request->validate([
-            'images' => 'required|array|max:1',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-        ]);
-
-        try {
-            $oldImage = $category->image;
-            $imagePath = null;
-            
-            $imagePath = $this->images->upload(
-                $request->file('images')[0],
-                config('upload.disks.folders.category', 'categories')
-            );
-
-            $category->update(['image' => $imagePath]);
-            $this->images->delete($oldImage);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã tải ảnh lên',
-                'image_url' => $category->image_url
-            ]);
-        } catch (\Exception $e) {
-            $this->images->delete($imagePath);
-            return response()->json([
-                'success' => false,
-                'message' => 'Lỗi khi tải ảnh: ' . $e->getMessage()
-            ], 500);
-        }
+        return $this->handleSingleImageUpload(
+            $request, $category,
+            dbField: 'image',
+            folder: config('upload.disks.folders.category', 'categories'),
+            imageUrlAccessor: 'image_url',
+            successMessage: 'Đã tải ảnh lên',
+        );
     }
 
     // ============================================================
@@ -278,21 +258,12 @@ class CategoryController extends Controller
     // ============================================================
     public function deleteImage(Category $category)
     {
-        if (!$category->image) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Danh mục không có ảnh'
-            ], 404);
-        }
-
-        $imagePath = $category->image;
-        $category->update(['image' => null]);
-        $this->images->delete($imagePath);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã xóa ảnh'
-        ]);
+        return $this->handleImageDelete(
+            $category,
+            dbField: 'image',
+            notFoundMessage: 'Danh mục không có ảnh',
+            successMessage: 'Đã xóa ảnh',
+        );
     }
 
     // ============================================================
@@ -300,35 +271,13 @@ class CategoryController extends Controller
     // ============================================================
     public function uploadHoverImage(Request $request, Category $category)
     {
-        $request->validate([
-            'images' => 'required|array|max:1',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-        ]);
-
-        try {
-            $oldHoverImage = $category->hover_image;
-            $imagePath = null;
-            
-            $imagePath = $this->images->upload(
-                $request->file('images')[0],
-                config('upload.disks.folders.category', 'categories')
-            );
-
-            $category->update(['hover_image' => $imagePath]);
-            $this->images->delete($oldHoverImage);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã tải ảnh hover lên',
-                'image_url' => $category->hover_image_url
-            ]);
-        } catch (\Exception $e) {
-            $this->images->delete($imagePath);
-            return response()->json([
-                'success' => false,
-                'message' => 'Lỗi khi tải ảnh hover: ' . $e->getMessage()
-            ], 500);
-        }
+        return $this->handleSingleImageUpload(
+            $request, $category,
+            dbField: 'hover_image',
+            folder: config('upload.disks.folders.category', 'categories'),
+            imageUrlAccessor: 'hover_image_url',
+            successMessage: 'Đã tải ảnh hover lên',
+        );
     }
 
     // ============================================================
@@ -336,21 +285,12 @@ class CategoryController extends Controller
     // ============================================================
     public function deleteHoverImage(Category $category)
     {
-        if (!$category->hover_image) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Danh mục không có ảnh hover'
-            ], 404);
-        }
-
-        $hoverImagePath = $category->hover_image;
-        $category->update(['hover_image' => null]);
-        $this->images->delete($hoverImagePath);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã xóa ảnh hover'
-        ]);
+        return $this->handleImageDelete(
+            $category,
+            dbField: 'hover_image',
+            notFoundMessage: 'Danh mục không có ảnh hover',
+            successMessage: 'Đã xóa ảnh hover',
+        );
     }
 
     // ============================================================
@@ -358,35 +298,13 @@ class CategoryController extends Controller
     // ============================================================
     public function uploadBannerImage(Request $request, Category $category)
     {
-        $request->validate([
-            'images' => 'required|array|max:1',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-        ]);
-
-        try {
-            $oldBannerImage = $category->banner_image;
-            $imagePath = null;
-            
-            $imagePath = $this->images->upload(
-                $request->file('images')[0],
-                config('upload.disks.folders.category', 'categories')
-            );
-
-            $category->update(['banner_image' => $imagePath]);
-            $this->images->delete($oldBannerImage);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã tải ảnh banner lên',
-                'image_url' => $category->banner_image_url
-            ]);
-        } catch (\Exception $e) {
-            $this->images->delete($imagePath);
-            return response()->json([
-                'success' => false,
-                'message' => 'Lỗi khi tải ảnh banner: ' . $e->getMessage()
-            ], 500);
-        }
+        return $this->handleSingleImageUpload(
+            $request, $category,
+            dbField: 'banner_image',
+            folder: config('upload.disks.folders.category', 'categories'),
+            imageUrlAccessor: 'banner_image_url',
+            successMessage: 'Đã tải ảnh banner lên',
+        );
     }
 
     // ============================================================
@@ -394,20 +312,11 @@ class CategoryController extends Controller
     // ============================================================
     public function deleteBannerImage(Category $category)
     {
-        if (!$category->banner_image) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Danh mục không có ảnh banner'
-            ], 404);
-        }
-
-        $bannerImagePath = $category->banner_image;
-        $category->update(['banner_image' => null]);
-        $this->images->delete($bannerImagePath);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã xóa ảnh banner'
-        ]);
+        return $this->handleImageDelete(
+            $category,
+            dbField: 'banner_image',
+            notFoundMessage: 'Danh mục không có ảnh banner',
+            successMessage: 'Đã xóa ảnh banner',
+        );
     }
 }

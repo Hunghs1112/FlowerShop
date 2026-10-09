@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\HandlesChatOperations;
 use App\Models\ChatMessage;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
+    use HandlesChatOperations;
+
     /**
      * Display all users with chat messages.
      */
@@ -125,17 +128,9 @@ class ChatController extends Controller
         $messages = ChatMessage::where('user_id', $userId)
             ->where('id', '>', $afterId)
             ->orderBy('id', 'asc')
-            ->limit(100)->get()
-            ->map(function ($msg) {
-                return [
-                    'id' => $msg->id,
-                    'message' => $msg->message,
-                    'is_admin' => $msg->is_admin,
-                    'sender_name' => $msg->is_admin ? 'Admin' : $msg->user->name,
-                    'created_at' => $msg->created_at->format('H:i'),
-                ];
-            });
+            ->limit(100)
+            ->get();
 
-        return response()->json(['messages' => $messages]);
+        return $this->pollResponse($this->formatMessages($messages));
     }
 }

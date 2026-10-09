@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatePageRequest;
 use App\Http\Responses\AjaxResponse;
 use App\Models\Page;
 use App\Repositories\PageRepository;
+use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -17,10 +18,12 @@ class PageController extends Controller
     use HandlesAjaxFieldUpdates;
 
     protected PageRepository $pages;
+    protected ImageStorageService $images;
 
-    public function __construct(PageRepository $pages)
+    public function __construct(PageRepository $pages, ImageStorageService $images)
     {
         $this->pages = $pages;
+        $this->images = $images;
     }
 
     /**
@@ -172,19 +175,25 @@ class PageController extends Controller
     public function uploadHeaderImage(Request $request, Page $page)
     {
         abort_if(in_array($page->slug, Page::STATIC_SLUGS, true), 404);
+
+        $maxKb = (int) config('upload.limits.page_header.max_size', 4096);
         $request->validate([
-            'file' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:4096',
+            'file' => "required|image|mimes:jpeg,png,jpg,gif,webp|max:{$maxKb}",
         ]);
 
-        $file = $request->file('file');
-        $filename = 'page-header-' . $page->id . '-' . time() . '.' . $file->getClientOriginalExtension();
-        $path = $file->move(public_path('images/pages'), $filename);
+        $oldPath = $page->header_image;
+        $imagePath = $this->images->upload(
+            $request->file('file'),
+            config('upload.disks.folders.page_header', 'images/pages'),
+            $oldPath,
+            'page_header'
+        );
 
-        $page->update(['header_image' => 'images/pages/' . $filename]);
+        $page->update(['header_image' => $imagePath]);
 
         return response()->json([
             'success' => true,
-            'url' => asset('images/pages/' . $filename),
+            'url' => $page->header_image_url,
         ]);
     }
 

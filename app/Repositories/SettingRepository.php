@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * Setting Repository
- * 
- * Handles:
- * - Setting key/value queries
- * - Type-based filtering
- * - Cache invalidation
- * - Batch operations
- * - Setting groups
+ * Setting Repository — Write-oriented layer for Admin\SettingController.
+ *
+ * PHÂN BIỆT VAI TRÒ:
+ *   SettingRepository → dùng trong Admin\SettingController để CRUD settings
+ *                       (setSetting, deleteByKey, getAllAsArray, getByKey...).
+ *   SettingService    → dùng trong frontend controllers để đọc và cache settings.
+ *
+ * Hai class có mục đích khác nhau và KHÔNG nên merge.
+ * Không inject SettingRepository vào frontend controllers — dùng SettingService.
  */
 class SettingRepository extends BaseRepository
 {

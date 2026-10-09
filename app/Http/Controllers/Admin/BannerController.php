@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\HandlesAjaxFieldUpdates;
+use App\Http\Controllers\Traits\HandlesImageUpload;
 use App\Http\Requests\StoreBannerRequest;
 use App\Http\Requests\UpdateBannerRequest;
 use App\Http\Responses\AjaxResponse;
@@ -15,6 +16,7 @@ use Illuminate\View\View;
 class BannerController extends Controller
 {
     use HandlesAjaxFieldUpdates;
+    use HandlesImageUpload;
 
     protected ImageStorageService $images;
     public function __construct(ImageStorageService $images)
@@ -155,24 +157,12 @@ class BannerController extends Controller
      */
     public function uploadImage(Request $request, Banner $banner)
     {
-        $request->validate([
-            'file' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:4096',
-        ]);
-
-        try {
-            $imagePath = $this->images->upload(
-                $request->file('file'),
-                'images/banners',
-                $banner->image_path
-            );
-
-            $banner->update(['image_path' => $imagePath]);
-
-            return AjaxResponse::updated('Đã tải ảnh lên', [
-                'image_url' => $banner->image_url,
-            ]);
-        } catch (\Throwable $e) {
-            return AjaxResponse::error('Lỗi khi tải ảnh: ' . $e->getMessage(), [], 500);
-        }
+        return $this->handleSingleImageUpload(
+            $request, $banner,
+            dbField: 'image_path',
+            folder: 'images/banners',
+            imageUrlAccessor: 'image_url',
+            successMessage: 'Đã tải ảnh lên',
+        );
     }
 }

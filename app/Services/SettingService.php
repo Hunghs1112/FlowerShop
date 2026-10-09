@@ -5,6 +5,20 @@ namespace App\Services;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * SettingService — Read-oriented facade for frontend controllers.
+ *
+ * PHÂN BIỆT VAI TRÒ:
+ *   SettingService    → dùng trong frontend controllers và AppServiceProvider
+ *                       để đọc settings, lấy site info, cache tổng hợp.
+ *   SettingRepository → dùng trong Admin\SettingController
+ *                       để CRUD settings (setSetting, deleteByKey, getAllAsArray...).
+ *
+ * Hai class hoạt động độc lập, đều gọi Setting model trực tiếp.
+ * Không nên merge vì mục đích sử dụng khác nhau:
+ *   - Service tập trung vào read + cache phía frontend.
+ *   - Repository tập trung vào write + admin operations.
+ */
 class SettingService
 {
     /**

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
+use App\Http\Controllers\Traits\HandlesChatOperations;
 use App\Models\ChatMessage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
+    use HandlesChatOperations;
+
     /**
      * Display chat interface.
      */
@@ -63,15 +66,7 @@ class ChatController extends Controller
             ->get();
 
         return response()->json([
-            'messages' => $messages->map(function ($message) {
-                return [
-                    'id' => $message->id,
-                    'message' => $message->message,
-                    'is_admin' => $message->is_admin,
-                    'sender_name' => $message->is_admin ? 'Admin' : $message->user->name,
-                    'created_at' => $message->created_at->format('H:i'),
-                ];
-            })
+            'messages' => $this->formatMessages($messages),
         ]);
     }
 
@@ -114,16 +109,6 @@ class ChatController extends Controller
                 ->update(['is_read' => true]);
         }
 
-        return response()->json([
-            'messages' => $messages->map(function ($message) {
-                return [
-                    'id' => $message->id,
-                    'message' => $message->message,
-                    'is_admin' => $message->is_admin,
-                    'sender_name' => $message->is_admin ? 'Admin' : $message->user->name,
-                    'created_at' => $message->created_at->format('H:i'),
-                ];
-            })
-        ]);
+        return $this->pollResponse($this->formatMessages($messages));
     }
 }

@@ -11,7 +11,6 @@ use App\Models\ProductVariantImage;
 use App\Repositories\ProductVariantRepository;
 use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductVariantController extends Controller
 {
@@ -141,7 +140,7 @@ class ProductVariantController extends Controller
             foreach ($request->delete_images as $imageId) {
                 $image = ProductVariantImage::find($imageId);
                 if ($image && $image->product_variant_id == $variant->id) {
-                    Storage::disk('public')->delete($image->image_path);
+                    $this->images->delete($image->image_path);
                     $image->delete();
                 }
             }
@@ -152,8 +151,13 @@ class ProductVariantController extends Controller
             $maxOrder = $variant->images()->max('sort_order') ?? -1;
             
             foreach ($request->file('images') as $index => $image) {
-                $path = $image->store('variants', 'public');
-                
+                $path = $this->images->upload(
+                    $image,
+                    config('upload.disks.folders.variant', 'variants'),
+                    null,
+                    'variant_image'
+                );
+
                 ProductVariantImage::create([
                     'product_variant_id' => $variant->id,
                     'image_path' => $path,
@@ -197,7 +201,7 @@ class ProductVariantController extends Controller
         
         // Delete all images
         foreach ($variant->images as $image) {
-            Storage::disk('public')->delete($image->image_path);
+            $this->images->delete($image->image_path);
             $image->delete();
         }
         
@@ -221,31 +225,34 @@ class ProductVariantController extends Controller
         $product = Product::findOrFail($productId);
 
         $variant = ProductVariant::where('product_id', $productId)->findOrFail($variantId);
-        
+
+        $maxKb = (int) config('upload.limits.variant_image.max_size', 2048);
         $validated = $request->validate([
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'images.*' => "required|image|mimes:jpeg,png,jpg,gif,webp|max:{$maxKb}",
         ]);
 
         $uploaded = [];
+        $maxOrder = $variant->images()->max('sort_order') ?? -1;
 
-        if ($request->hasFile('images')) {
-            $maxOrder = $variant->images()->max('sort_order') ?? -1;
-            
-            foreach ($request->file('images') as $index => $image) {
-                $path = $image->store('variants', 'public');
-                
-                $variantImage = ProductVariantImage::create([
-                    'product_variant_id' => $variant->id,
-                    'image_path' => $path,
-                    'sort_order' => $maxOrder + $index + 1,
-                ]);
-                
-                $uploaded[] = [
-                    'id' => $variantImage->id,
-                    'image_url' => $variantImage->image_url,
-                    'sort_order' => $variantImage->sort_order,
-                ];
-            }
+        foreach ($request->file('images') as $index => $image) {
+            $path = $this->images->upload(
+                $image,
+                config('upload.disks.folders.variant', 'variants'),
+                null,
+                'variant_image'
+            );
+
+            $variantImage = ProductVariantImage::create([
+                'product_variant_id' => $variant->id,
+                'image_path' => $path,
+                'sort_order' => $maxOrder + $index + 1,
+            ]);
+
+            $uploaded[] = [
+                'id' => $variantImage->id,
+                'image_url' => $variantImage->image_url,
+                'sort_order' => $variantImage->sort_order,
+            ];
         }
 
         if ($request->wantsJson() || $request->ajax()) {

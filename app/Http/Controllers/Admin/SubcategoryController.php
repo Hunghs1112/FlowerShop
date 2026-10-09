@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\HandlesImageUpload;
 use App\Http\Requests\StoreSubcategoryRequest;
 use App\Http\Requests\UpdateSubcategoryRequest;
 use App\Models\Category;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 
 class SubcategoryController extends Controller
 {
+    use HandlesImageUpload;
     protected SubcategoryRepository $subcategories;
     protected ImageStorageService $images;
     protected AjaxFieldService $ajaxFieldService;
@@ -193,35 +195,13 @@ class SubcategoryController extends Controller
     // ============================================================
     public function uploadImage(Request $request, Subcategory $subcategory)
     {
-        $request->validate([
-            'images' => 'required|array|max:1',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-        ]);
-
-        try {
-            $oldImage = $subcategory->image;
-            $imagePath = null;
-            
-            $imagePath = $this->images->upload(
-                $request->file('images')[0],
-                config('upload.disks.folders.category', 'categories')
-            );
-
-            $subcategory->update(['image' => $imagePath]);
-            $this->images->delete($oldImage);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã tải ảnh lên',
-                'image_url' => $subcategory->image_url
-            ]);
-        } catch (\Exception $e) {
-            $this->images->delete($imagePath);
-            return response()->json([
-                'success' => false,
-                'message' => 'Lỗi khi tải ảnh: ' . $e->getMessage()
-            ], 500);
-        }
+        return $this->handleSingleImageUpload(
+            $request, $subcategory,
+            dbField: 'image',
+            folder: config('upload.disks.folders.category', 'categories'),
+            imageUrlAccessor: 'image_url',
+            successMessage: 'Đã tải ảnh lên',
+        );
     }
 
     // ============================================================
@@ -229,20 +209,11 @@ class SubcategoryController extends Controller
     // ============================================================
     public function deleteImage(Subcategory $subcategory)
     {
-        if (!$subcategory->image) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Danh mục phụ không có ảnh'
-            ], 404);
-        }
-
-        $imagePath = $subcategory->image;
-        $subcategory->update(['image' => null]);
-        $this->images->delete($imagePath);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã xóa ảnh'
-        ]);
+        return $this->handleImageDelete(
+            $subcategory,
+            dbField: 'image',
+            notFoundMessage: 'Danh mục phụ không có ảnh',
+            successMessage: 'Đã xóa ảnh',
+        );
     }
 }

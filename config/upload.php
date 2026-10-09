@@ -67,6 +67,14 @@ return [
             'max_size'  => 4096,  // 4 MB - banners are larger
             'max_count' => 1,
         ],
+        'variant_image' => [
+            'max_size'  => 2048,
+            'max_count' => 10,
+        ],
+        'page_header' => [
+            'max_size'  => 4096,
+            'max_count' => 1,
+        ],
     ],
 
     /*
@@ -87,7 +95,9 @@ return [
             'product'  => 'products',
             'video'    => 'products/videos',
             'logo'     => 'settings',
-            'banner'   => 'images/banners', // special: not on `public` disk
+            'banner'      => 'images/banners',  // special: not on `public` disk
+            'page_header' => 'images/pages',     // special: not on `public` disk
+            'variant'     => 'variants',
         ],
     ],
 
