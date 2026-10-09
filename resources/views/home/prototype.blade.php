@@ -372,29 +372,29 @@ lntSetLink(document.querySelector('#journal .more a'), LNT_HOME.links.blog);
 lntSetLink(document.querySelector('#map .btn'), LNT_HOME.links.about);
 lntSetLink(document.querySelector('#b2b .btn'), LNT_HOME.links.b2c);
 
-if (LNT_HOME.hero) {
-  const heroImage = document.querySelector('.hero-img img');
-  if (heroImage) {
-    heroImage.src = LNT_HOME.hero.image;
-    const defaultImage = LNT_HOME.hero.image;
-    const arrivalsEl = document.querySelector('#arrivals');
-    if (arrivalsEl) {
-      arrivalsEl.addEventListener('mouseover', (e) => {
-        const brow = e.target.closest('a.brow');
-        if (brow?.dataset.image) heroImage.src = brow.dataset.image;
-      });
-      arrivalsEl.addEventListener('focusin', (e) => {
-        const brow = e.target.closest('a.brow');
-        if (brow?.dataset.image) heroImage.src = brow.dataset.image;
-      });
-      arrivalsEl.addEventListener('mouseout', (e) => {
-        if (!e.relatedTarget?.closest('#arrivals')) heroImage.src = defaultImage;
-      });
-      arrivalsEl.addEventListener('focusout', (e) => {
-        if (!e.relatedTarget?.closest('#arrivals')) heroImage.src = defaultImage;
-      });
+const heroImage = document.querySelector('.hero-img img');
+const defaultImage = heroImage?.src || '';
+if (LNT_HOME.hero?.image) heroImage.src = LNT_HOME.hero.image;
+
+const arrivalsEl = document.querySelector('#arrivals');
+if (heroImage && arrivalsEl) {
+  arrivalsEl.addEventListener('mouseover', (e) => {
+    const brow = e.target.closest('a.brow');
+    if (brow?.dataset.image) {
+      console.log('hover image:', brow.dataset.image);
+      heroImage.src = brow.dataset.image;
     }
-  }
+  });
+  arrivalsEl.addEventListener('focusin', (e) => {
+    const brow = e.target.closest('a.brow');
+    if (brow?.dataset.image) heroImage.src = brow.dataset.image;
+  });
+  arrivalsEl.addEventListener('mouseout', (e) => {
+    if (!e.relatedTarget?.closest('#arrivals')) heroImage.src = defaultImage;
+  });
+  arrivalsEl.addEventListener('focusout', (e) => {
+    if (!e.relatedTarget?.closest('#arrivals')) heroImage.src = defaultImage;
+  });
 }
 </script>
 @endpush
