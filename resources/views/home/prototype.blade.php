@@ -308,10 +308,10 @@ lntSetLink(document.querySelector('header.nav nav a:nth-of-type(4)'), LNT_HOME.l
 
 const arrivalStatusLabels = {landed: 'ĐÃ HẠ CÁNH', flying: 'ĐANG BAY', pre: 'MỞ ĐẶT TRƯỚC'};
 const fallbackArrivals = [
-  {name: 'Hồng Freedom', origin: 'Ecuador', code: 'UIO', status_key: 'landed', url: '#'},
-  {name: 'Mẫu đơn', origin: 'New Zealand', code: 'CHC', status_key: 'flying', url: '#'},
-  {name: 'Tulip', origin: 'Hà Lan', code: 'AMS', status_key: 'pre', url: '#'},
-  {name: 'Mao lương', origin: 'Côn Minh', code: 'KMG', status_key: 'landed', url: '#'},
+  {name: 'Hồng Freedom', origin: 'Ecuador', code: 'UIO', status_key: 'landed', url: '#', image: ''},
+  {name: 'Mẫu đơn', origin: 'New Zealand', code: 'CHC', status_key: 'flying', url: '#', image: ''},
+  {name: 'Tulip', origin: 'Hà Lan', code: 'AMS', status_key: 'pre', url: '#', image: ''},
+  {name: 'Mao lương', origin: 'Côn Minh', code: 'KMG', status_key: 'landed', url: '#', image: ''},
 ];
 const arrivalCode = (code) => [...(code || 'LNT')].map((character) => `<span class="f" data-c="${character}">${red ? character : ''}</span>`).join('');
 document.querySelectorAll('.hero .board').forEach((board, index) => { if (index > 0) board.remove(); });
@@ -324,6 +324,7 @@ if (arrivals) {
     const statusText = arrivalStatusLabels[statusClass] || arrivalStatusLabels.landed;
     row.className = 'brow';
     row.href = product.url;
+    if (product.image) row.dataset.image = product.image;
     row.innerHTML = '<span class="cells">' + arrivalCode(product.code) + '<span class="f" style="background:transparent">→</span>' + arrivalCode('HAN') + '</span>'
       + '<span class="fl"></span><span class="st ' + statusClass + '">' + statusText + '</span>';
     row.querySelector('.fl').textContent = product.name + ' · ' + product.origin;
@@ -373,7 +374,27 @@ lntSetLink(document.querySelector('#b2b .btn'), LNT_HOME.links.b2c);
 
 if (LNT_HOME.hero) {
   const heroImage = document.querySelector('.hero-img img');
-  if (heroImage) heroImage.src = LNT_HOME.hero.image;
+  if (heroImage) {
+    heroImage.src = LNT_HOME.hero.image;
+    const defaultImage = LNT_HOME.hero.image;
+    const arrivalsEl = document.querySelector('#arrivals');
+    if (arrivalsEl) {
+      arrivalsEl.addEventListener('mouseover', (e) => {
+        const brow = e.target.closest('a.brow');
+        if (brow?.dataset.image) heroImage.src = brow.dataset.image;
+      });
+      arrivalsEl.addEventListener('focusin', (e) => {
+        const brow = e.target.closest('a.brow');
+        if (brow?.dataset.image) heroImage.src = brow.dataset.image;
+      });
+      arrivalsEl.addEventListener('mouseout', (e) => {
+        if (!e.relatedTarget?.closest('#arrivals')) heroImage.src = defaultImage;
+      });
+      arrivalsEl.addEventListener('focusout', (e) => {
+        if (!e.relatedTarget?.closest('#arrivals')) heroImage.src = defaultImage;
+      });
+    }
+  }
 }
 </script>
 @endpush
