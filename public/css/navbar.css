@@ -703,6 +703,180 @@
     margin: 0;
 }
 
+/* === SPARKLE CTA — Mùa lễ hội === */
+.navbar-sparkle-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #6B3FA0 0%, #9B59B6 40%, #E8B4D0 100%);
+    box-shadow: 0 2px 12px rgba(155, 89, 182, 0.4);
+}
+
+.sparkle-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #8E44AD 0%, #C39BD3 50%, #9B59B6 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sparkle-text {
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.sparkle-star {
+    position: absolute;
+    font-size: 10px;
+    color: #fff;
+    opacity: 0;
+    animation: none;
+    pointer-events: none;
+}
+
+.star-1 { top: 20%; left: 15%; }
+.star-2 { top: 60%; right: 20%; font-size: 8px; }
+.star-3 { bottom: 15%; left: 30%; font-size: 7px; }
+
+@keyframes sparkle-pop {
+    0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+    50%  { opacity: 1; transform: scale(1.2) rotate(180deg); }
+    100% { opacity: 0; transform: scale(0) rotate(360deg); }
+}
+
+@keyframes sparkle-drift {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    30%  { opacity: 0.9; transform: translateY(-4px) scale(1); }
+    100% { opacity: 0; transform: translateY(-12px) scale(0.5); }
+}
+
+.navbar-sparkle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(155, 89, 182, 0.5);
+}
+
+.navbar-sparkle-btn:hover .sparkle-bg {
+    opacity: 1;
+}
+
+.navbar-sparkle-btn:hover .star-1 {
+    animation: sparkle-pop 0.6s ease-out 0s forwards;
+}
+.navbar-sparkle-btn:hover .star-2 {
+    animation: sparkle-drift 0.8s ease-out 0.1s forwards;
+}
+.navbar-sparkle-btn:hover .star-3 {
+    animation: sparkle-pop 0.5s ease-out 0.2s forwards;
+}
+
+/* Idle shimmer animation (subtle) */
+@keyframes idle-shimmer {
+    0%, 100% { opacity: 0.3; }
+    50%       { opacity: 0.7; }
+}
+
+.sparkle-star {
+    animation: idle-shimmer 2s ease-in-out infinite;
+}
+
+.sparkle-star.star-1 { animation-delay: 0s; }
+.sparkle-star.star-2 { animation-delay: 0.7s; }
+.sparkle-star.star-3 { animation-delay: 1.4s; }
+
+.navbar-sparkle-btn:hover .sparkle-star {
+    animation-play-state: running;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .navbar-sparkle-btn {
+        display: none;
+    }
+}
+
+/* Mobile sparkle link */
+.mobile-sparkle-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: linear-gradient(135deg, #6B3FA0 0%, #9B59B6 40%, #E8B4D0 100%);
+    box-shadow: 0 2px 12px rgba(155, 89, 182, 0.3);
+    transition: all 0.3s ease;
+}
+
+.mobile-sparkle-link .sparkle-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #8E44AD 0%, #C39BD3 50%, #9B59B6 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-sparkle-link .sparkle-star {
+    position: absolute;
+    font-size: 12px;
+    color: #fff;
+    opacity: 0;
+}
+
+.star-1 { top: 20%; left: 15%; }
+.star-2 { top: 50%; right: 20%; font-size: 10px; }
+.star-3 { bottom: 20%; left: 30%; font-size: 8px; }
+
+.mobile-sparkle-link:hover .sparkle-bg {
+    opacity: 1;
+}
+
+.mobile-sparkle-link:hover .star-1 {
+    animation: sparkle-pop 0.6s ease-out 0s forwards;
+}
+.mobile-sparkle-link:hover .star-2 {
+    animation: sparkle-drift 0.8s ease-out 0.1s forwards;
+}
+.mobile-sparkle-link:hover .star-3 {
+    animation: sparkle-pop 0.5s ease-out 0.2s forwards;
+}
+
+.mobile-sparkle-link .sparkle-star {
+    animation: idle-shimmer 2s ease-in-out infinite;
+}
+.mobile-sparkle-link .star-1 { animation-delay: 0s; }
+.mobile-sparkle-link .star-2 { animation-delay: 0.7s; }
+.mobile-sparkle-link .star-3 { animation-delay: 1.4s; }
+
+.mobile-sparkle-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(155, 89, 182, 0.5);
+}
+
+/* Desktop: hide mobile sparkle link */
+@media (min-width: 1025px) {
+    .mobile-sparkle-link {
+        display: none;
+    }
+}
+
 /* === RESPONSIVE — MOBILE FIRST === */
 
 /* Tablet & below (≤ 1024px): switch to mobile layout */

@@ -9,13 +9,6 @@
         {{-- ─── Desktop Navigation ──────────────────────────── --}}
         <ul class="navbar-nav">
 
-            {{-- Trang chủ --}}
-            <li class="navbar-nav-item">
-                <a href="{{ route('home') }}" class="navbar-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
-                    Trang chủ
-                </a>
-            </li>
-
             {{-- Sản phẩm — Mega Menu (danh mục từ DB) --}}
             <li class="navbar-nav-item" data-dropdown="mega">
                 <a href="{{ route('products.index') }}" class="navbar-nav-link {{ request()->routeIs('products.*') || request()->routeIs('categories.*') ? 'active' : '' }}">
@@ -33,7 +26,7 @@
                                     {{ $navCat->display_name }}
                                 </a>
                             @endforeach
-                            
+
                             {{-- Tất cả sản phẩm --}}
                             <a href="{{ route('products.index') }}" class="mega-menu-item mega-menu-item-all">
                                 Xem tất cả sản phẩm
@@ -77,8 +70,6 @@
                     <a href="{{ route('policy.terms') }}" class="navbar-dropdown-item">Điều khoản dịch vụ</a>
                     <a href="{{ route('guide') }}" class="navbar-dropdown-item">Hướng dẫn đặt hàng</a>
                     <a href="{{ route('contact') }}" class="navbar-dropdown-item">Liên hệ</a>
-                    <a href="{{ route('season.phu-kien') }}" class="navbar-dropdown-item">Phụ kiện cây thông</a>
-                    <a href="{{ route('season.mua-le-hoi') }}" class="navbar-dropdown-item">Mùa lễ hội</a>
                 </div>
             </li>
 
@@ -90,6 +81,15 @@
             </li>
 
         </ul>
+
+        {{-- ─── Sparkle CTA — Mùa lễ hội ─────────────────────── --}}
+        <a href="{{ route('season.mua-le-hoi') }}" class="navbar-sparkle-btn">
+            <span class="sparkle-bg"></span>
+            <span class="sparkle-text">Mùa lễ hội</span>
+            <span class="sparkle-star star-1">✦</span>
+            <span class="sparkle-star star-2">✧</span>
+            <span class="sparkle-star star-3">✦</span>
+        </a>
 
         {{-- ─── Right Actions ──────────────────────────────── --}}
         <div class="navbar-actions">
@@ -254,14 +254,23 @@
                         <a href="{{ route('policy.terms') }}" class="navbar-mobile-accordion-link">Điều khoản dịch vụ</a>
                         <a href="{{ route('guide') }}" class="navbar-mobile-accordion-link">Hướng dẫn đặt hàng</a>
                         <a href="{{ route('contact') }}" class="navbar-mobile-accordion-link">Liên hệ</a>
-                        <a href="{{ route('season.phu-kien') }}" class="navbar-mobile-accordion-link">Phụ kiện cây thông</a>
-                        <a href="{{ route('season.mua-le-hoi') }}" class="navbar-mobile-accordion-link">Mùa lễ hội</a>
                     </div>
                 </div>
             </li>
 
             {{-- B2B --}}
             <li><a href="{{ route('b2c') }}">B2B</a></li>
+
+            {{-- Mùa lễ hội — mobile sparkle btn --}}
+            <li>
+                <a href="{{ route('season.mua-le-hoi') }}" class="mobile-sparkle-link">
+                    <span class="sparkle-bg"></span>
+                    <span class="sparkle-star star-1">✦</span>
+                    <span class="sparkle-star star-2">✧</span>
+                    <span class="sparkle-star star-3">✦</span>
+                    Mùa lễ hội
+                </a>
+            </li>
 
             @auth
                 <div class="mobile-menu-divider"></div>
