@@ -24,6 +24,7 @@ class Inquiry extends Model
 
     protected $casts = [
         'product_ids' => 'array',
+        'order_data' => 'array',
     ];
 
     // Relationships
