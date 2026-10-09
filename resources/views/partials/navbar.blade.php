@@ -9,6 +9,13 @@
         {{-- ─── Desktop Navigation ──────────────────────────── --}}
         <ul class="navbar-nav">
 
+            {{-- Mùa lễ hội — shimmer text effect --}}
+            <li class="navbar-nav-item">
+                <a href="{{ route('season.mua-le-hoi') }}" class="navbar-nav-link shimmer-text {{ request()->routeIs('season.*') ? 'active' : '' }}">
+                    Mùa lễ hội
+                </a>
+            </li>
+
             {{-- Sản phẩm — Mega Menu (danh mục từ DB) --}}
             <li class="navbar-nav-item" data-dropdown="mega">
                 <a href="{{ route('products.index') }}" class="navbar-nav-link {{ request()->routeIs('products.*') || request()->routeIs('categories.*') ? 'active' : '' }}">
@@ -81,15 +88,6 @@
             </li>
 
         </ul>
-
-        {{-- ─── Sparkle CTA — Mùa lễ hội ─────────────────────── --}}
-        <a href="{{ route('season.mua-le-hoi') }}" class="navbar-sparkle-btn">
-            <span class="sparkle-bg"></span>
-            <span class="sparkle-text">Mùa lễ hội</span>
-            <span class="sparkle-star star-1">✦</span>
-            <span class="sparkle-star star-2">✧</span>
-            <span class="sparkle-star star-3">✦</span>
-        </a>
 
         {{-- ─── Right Actions ──────────────────────────────── --}}
         <div class="navbar-actions">
@@ -215,7 +213,8 @@
         </ul>
 
         <ul class="navbar-mobile-nav">
-            <li><a href="{{ route('home') }}">Trang chủ</a></li>
+            {{-- Mùa lễ hội — shimmer link at top --}}
+            <li><a href="{{ route('season.mua-le-hoi') }}" class="mobile-shimmer-link">Mùa lễ hội</a></li>
 
             {{-- Sản phẩm accordion --}}
             <li class="navbar-mobile-accordion-item">
