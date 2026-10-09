@@ -99,6 +99,14 @@ h1{margin:0;font-weight:600;text-transform:uppercase;color:var(--copper);font-si
 .ifoot small{display:block;font-family:var(--sans);font-style:normal;font-size:.62rem;letter-spacing:.18em;color:var(--soft)}
 .tk{position:absolute;right:-10px;top:-40px;width:clamp(120px,14vw,170px);aspect-ratio:1;border-radius:50%;object-fit:cover;box-shadow:0 0 0 6px var(--bg),0 0 0 7.5px var(--copper)}
 @media (max-width:900px){.tk{display:none}}
+.guide-editable-content{max-width:900px;margin:clamp(2rem,6vw,5rem) auto;padding:clamp(1.25rem,4vw,3rem);border:1px solid var(--line);border-radius:22px;background:var(--paper);box-shadow:0 18px 40px -30px var(--shadow)}
+.guide-editable-content .markdown-content>p:first-child{margin:0 0 1rem;color:var(--deep);font-size:.78rem;font-weight:600;letter-spacing:.2em}
+.guide-editable-content .markdown-content>p:nth-child(2){margin:0 0 2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--line);font:italic 1.08rem/1.75 var(--serif);color:var(--soft)}
+.guide-editable-content h2{margin:1.7rem 0 .65rem;padding:0 0 .65rem;border-bottom:1px dashed var(--line);color:var(--deep);font-size:clamp(1.05rem,2vw,1.3rem);letter-spacing:.04em}
+.guide-editable-content p,.guide-editable-content li{max-width:70ch;color:var(--soft);font:1rem/1.8 var(--serif)}
+.guide-editable-content ul,.guide-editable-content ol{padding-left:1.25rem}
+.guide-editable-content a{color:var(--deep);text-underline-offset:3px}
+.guide-editable-content strong{color:var(--ink);font-weight:600}
 </style>
 @endpush
 
