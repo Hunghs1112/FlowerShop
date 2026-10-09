@@ -6,18 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Inquiry;
 use Illuminate\Http\Request;
 
-class InquiryController extends Controller
+class TreePreorderController extends Controller
 {
     public function index(Request $request)
     {
-
         $filters = [
             'status' => $request->input('status'),
             'search' => $request->input('search'),
         ];
 
         $query = Inquiry::with('user')
-            ->where('type', 'contact');
+            ->where('type', 'tree_preorder');
 
         if ($filters['status']) {
             $query->where('status', $filters['status']);
@@ -26,35 +25,32 @@ class InquiryController extends Controller
         if ($filters['search']) {
             $query->where(function ($q) use ($filters) {
                 $q->where('name', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('phone', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('email', 'like', '%' . $filters['search'] . '%');
+                  ->orWhere('phone', 'like', '%' . $filters['search'] . '%');
             });
         }
 
-        $inquiries = $query->latest()->get();
+        $preorders = $query->latest()->get();
 
         $statusCounts = [
-            'all' => Inquiry::where('type', 'contact')->count(),
-            'new' => Inquiry::where('type', 'contact')->where('status', 'new')->count(),
-            'contacted' => Inquiry::where('type', 'contact')->where('status', 'contacted')->count(),
-            'completed' => Inquiry::where('type', 'contact')->where('status', 'completed')->count(),
-            'cancelled' => Inquiry::where('type', 'contact')->where('status', 'cancelled')->count(),
+            'all' => Inquiry::where('type', 'tree_preorder')->count(),
+            'new' => Inquiry::where('type', 'tree_preorder')->where('status', 'new')->count(),
+            'contacted' => Inquiry::where('type', 'tree_preorder')->where('status', 'contacted')->count(),
+            'completed' => Inquiry::where('type', 'tree_preorder')->where('status', 'completed')->count(),
+            'cancelled' => Inquiry::where('type', 'tree_preorder')->where('status', 'cancelled')->count(),
         ];
 
-        return view('admin.inquiries.index', compact('inquiries', 'statusCounts', 'filters'));
+        return view('admin.tree-preorders.index', compact('preorders', 'statusCounts', 'filters'));
     }
 
     public function show(Inquiry $inquiry)
     {
-
         $inquiry->load('user');
 
-        return view('admin.inquiries.show', compact('inquiry'));
+        return view('admin.tree-preorders.show', compact('inquiry'));
     }
 
     public function updateStatus(Request $request, Inquiry $inquiry)
     {
-
         $validated = $request->validate([
             'status' => 'required|in:new,contacted,completed,cancelled',
             'admin_notes' => 'nullable|string',

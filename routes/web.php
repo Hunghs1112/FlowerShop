@@ -261,6 +261,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'show'])->name('inquiries.show');
     Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\InquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
 
+    // Tree Preorders
+    Route::get('tree-preorders', [\App\Http\Controllers\Admin\TreePreorderController::class, 'index'])->name('tree-preorders.index');
+    Route::get('tree-preorders/{inquiry}', [\App\Http\Controllers\Admin\TreePreorderController::class, 'show'])->name('tree-preorders.show');
+    Route::patch('tree-preorders/{inquiry}/status', [\App\Http\Controllers\Admin\TreePreorderController::class, 'updateStatus'])->name('tree-preorders.updateStatus');
+
     // Settings (main routes)
     Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');

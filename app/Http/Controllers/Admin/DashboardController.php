@@ -19,8 +19,10 @@ class DashboardController extends Controller
             'products' => Product::count(),
             'active_products' => Product::active()->count(),
             'categories' => Category::count(),
-            'inquiries' => Inquiry::count(),
-            'new_inquiries' => Inquiry::where('status', 'new')->count(),
+            'inquiries' => Inquiry::where('type', 'contact')->count(),
+            'new_inquiries' => Inquiry::where('type', 'contact')->where('status', 'new')->count(),
+            'tree_preorders' => Inquiry::where('type', 'tree_preorder')->count(),
+            'new_tree_preorders' => Inquiry::where('type', 'tree_preorder')->where('status', 'new')->count(),
             'mystery_boxes' => MysteryBoxRequest::count(),
             'new_mystery_boxes' => MysteryBoxRequest::where('status', 'new')->count(),
             'users' => User::where('role', 'customer')->count(),
@@ -29,6 +31,7 @@ class DashboardController extends Controller
         ];
 
         $recentInquiries = Inquiry::with('user')
+            ->where('type', 'contact')
             ->latest()
             ->limit(10)
             ->get();

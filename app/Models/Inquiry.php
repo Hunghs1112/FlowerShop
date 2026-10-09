@@ -9,12 +9,15 @@ class Inquiry extends Model
 {
     protected $fillable = [
         'user_id',
+        'type',
+        'source_slug',
         'name',
         'phone',
         'email',
         'zalo_id',
         'product_ids',
         'message',
+        'order_data',
         'admin_notes',
         'status',
     ];

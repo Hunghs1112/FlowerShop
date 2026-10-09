@@ -276,9 +276,20 @@ class PageController extends Controller
 
         Inquiry::create([
             'user_id' => auth()->id(),
+            'type' => 'tree_preorder',
+            'source_slug' => $validated['season_slug'],
             'name' => $validated['name'],
             'phone' => $validated['phone'],
             'message' => $message,
+            'order_data' => [
+                'size' => $validated['size'],
+                'accessories' => $validated['accessories'] ?? [],
+                'accessory_quantities' => $validated['accessory_quantities'] ?? [],
+                'addons' => $validated['addons'] ?? [],
+                'address' => $validated['address'],
+                'delivery_date' => $validated['delivery_date'] ?? null,
+                'notes' => $validated['notes'] ?? null,
+            ],
             'status' => 'new',
         ]);
 
