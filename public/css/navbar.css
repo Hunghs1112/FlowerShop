@@ -704,7 +704,7 @@
 }
 
 /* === SHIMMER TEXT — Mùa lễ hội === */
-.shimmer-text {
+a.navbar-nav-link.shimmer-text {
     background: linear-gradient(
         90deg,
         #6B3FA0 0%,
@@ -728,12 +728,12 @@
     100% { background-position: -200% center; }
 }
 
-.shimmer-text:hover,
-.shimmer-text.active {
+a.navbar-nav-link.shimmer-text:hover,
+a.navbar-nav-link.shimmer-text.active {
+    background: #6B3FA0 !important;
     -webkit-text-fill-color: #6B3FA0 !important;
     animation: none !important;
-    background: #6B3FA0 !important;
-    background-clip: border-box !important;
+    color: #6B3FA0 !important;
 }
 
 /* Mobile shimmer link */
