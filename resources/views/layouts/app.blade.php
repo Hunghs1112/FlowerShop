@@ -9,29 +9,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=8">
-    <style>
-    a.navbar-nav-link.shimmer-text {
-        background: linear-gradient(90deg, #6B3FA0 0%, #9B59B6 25%, #E8B4D0 50%, #9B59B6 75%, #6B3FA0 100%) !important;
-        background-size: 200% 100% !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: transparent !important;
-        font-weight: 600 !important;
-        animation: shimmer-move 3s ease-in-out infinite;
-    }
-    @keyframes shimmer-move {
-        0%   { background-position: 200% center; }
-        100% { background-position: -200% center; }
-    }
-    a.navbar-nav-link.shimmer-text:hover,
-    a.navbar-nav-link.shimmer-text.active {
-        background: #6B3FA0 !important;
-        -webkit-text-fill-color: #6B3FA0 !important;
-        animation: none !important;
-        color: #6B3FA0 !important;
-    }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ filemtime(public_path('css/navbar.css')) }}">
     @stack('styles')
     @include('partials.theme-head')
 </head>

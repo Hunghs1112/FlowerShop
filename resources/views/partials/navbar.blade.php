@@ -9,9 +9,9 @@
         {{-- ─── Desktop Navigation ──────────────────────────── --}}
         <ul class="navbar-nav">
 
-            {{-- Mùa lễ hội — shimmer text effect --}}
+            {{-- Mùa lễ hội — gradient shimmer text --}}
             <li class="navbar-nav-item">
-                <a href="{{ route('season.mua-le-hoi') }}" class="navbar-nav-link shimmer-text {{ request()->routeIs('season.*') ? 'active' : '' }}">
+                <a href="{{ route('season.mua-le-hoi') }}" class="nav-season-link {{ request()->routeIs('season.*') ? 'active' : '' }}">
                     Mùa lễ hội
                 </a>
             </li>
@@ -213,8 +213,8 @@
         </ul>
 
         <ul class="navbar-mobile-nav">
-            {{-- Mùa lễ hội — shimmer link at top --}}
-            <li><a href="{{ route('season.mua-le-hoi') }}" class="mobile-shimmer-link">Mùa lễ hội</a></li>
+            {{-- Mùa lễ hội --}}
+            <li><a href="{{ route('season.mua-le-hoi') }}" class="nav-season-link">Mùa lễ hội</a></li>
 
             {{-- Sản phẩm accordion --}}
             <li class="navbar-mobile-accordion-item">
