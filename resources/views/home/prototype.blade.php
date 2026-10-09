@@ -40,7 +40,7 @@ header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .trust{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:2rem;font-size:.82rem;color:var(--soft);letter-spacing:.04em}.trust b{color:var(--copper);font-size:1.4rem;display:block;font-weight:600}
 .stage{position:relative;min-width:0}
 .hero-img{border-radius:240px 240px 26px 26px;overflow:hidden;aspect-ratio:.82;box-shadow:0 40px 80px -40px var(--shadow);max-width:470px;margin-left:auto;outline:1.5px solid var(--copper);outline-offset:12px}
-.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero-img img{width:100%;height:100%;object-fit:cover;transition:opacity .35s ease}
 .board{position:absolute;left:0;bottom:-26px;width:min(440px,92%);background:var(--board);border-radius:18px;padding:1rem 1rem .8rem;box-shadow:0 30px 60px -24px rgba(0,0,0,.45)}
 .bh{display:flex;justify-content:space-between;color:var(--acc);font-weight:600;letter-spacing:.18em;font-size:.72rem;margin-bottom:.6rem}.bh time{color:#BFA493}
 .brow{display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:center;padding:.45rem .2rem;border-top:1px solid rgba(226,174,132,.14);text-decoration:none;color:var(--tile-ink);border-radius:8px}
@@ -378,22 +378,23 @@ if (LNT_HOME.hero?.image) heroImage.src = LNT_HOME.hero.image;
 
 const arrivalsEl = document.querySelector('#arrivals');
 if (heroImage && arrivalsEl) {
+  const fadeSwap = (src) => {
+    heroImage.style.opacity = '0';
+    setTimeout(() => { heroImage.src = src; heroImage.style.opacity = '1'; }, 200);
+  };
   arrivalsEl.addEventListener('mouseover', (e) => {
     const brow = e.target.closest('a.brow');
-    if (brow?.dataset.image) {
-      console.log('hover image:', brow.dataset.image);
-      heroImage.src = brow.dataset.image;
-    }
+    if (brow?.dataset.image) fadeSwap(brow.dataset.image);
   });
   arrivalsEl.addEventListener('focusin', (e) => {
     const brow = e.target.closest('a.brow');
-    if (brow?.dataset.image) heroImage.src = brow.dataset.image;
+    if (brow?.dataset.image) fadeSwap(brow.dataset.image);
   });
   arrivalsEl.addEventListener('mouseout', (e) => {
-    if (!e.relatedTarget?.closest('#arrivals')) heroImage.src = defaultImage;
+    if (!e.relatedTarget?.closest('#arrivals')) fadeSwap(defaultImage);
   });
   arrivalsEl.addEventListener('focusout', (e) => {
-    if (!e.relatedTarget?.closest('#arrivals')) heroImage.src = defaultImage;
+    if (!e.relatedTarget?.closest('#arrivals')) fadeSwap(defaultImage);
   });
 }
 </script>
