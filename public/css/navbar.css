@@ -713,13 +713,13 @@
         #9B59B6 60%,
         #6B3FA0 80%,
         #9B59B6 100%
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    font-weight: 600;
+    ) !important;
+    background-size: 200% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    font-weight: 600 !important;
     animation: shimmer-move 3s ease-in-out infinite;
 }
 
@@ -730,8 +730,10 @@
 
 .shimmer-text:hover,
 .shimmer-text.active {
-    -webkit-text-fill-color: #6B3FA0;
-    animation: none;
+    -webkit-text-fill-color: #6B3FA0 !important;
+    animation: none !important;
+    background: #6B3FA0 !important;
+    background-clip: border-box !important;
 }
 
 /* Mobile shimmer link */
@@ -747,19 +749,21 @@
         #E8B4D0 50%,
         #9B59B6 70%,
         #6B3FA0 100%
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: #6B3FA0;
+    ) !important;
+    background-size: 200% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: #6B3FA0 !important;
     text-decoration: none;
     animation: shimmer-move 3s ease-in-out infinite;
 }
 
 .mobile-shimmer-link:hover {
-    -webkit-text-fill-color: #6B3FA0;
-    animation: none;
+    -webkit-text-fill-color: #6B3FA0 !important;
+    animation: none !important;
+    background: #6B3FA0 !important;
+    background-clip: border-box !important;
 }
 
 /* === RESPONSIVE — MOBILE FIRST === */
