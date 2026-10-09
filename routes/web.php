@@ -178,7 +178,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
     Route::resource('flower-origins', \App\Http\Controllers\Admin\FlowerOriginController::class)->except('show');
     Route::post('pages/{page}/upload-header-image', [\App\Http\Controllers\Admin\PageController::class, 'uploadHeaderImage'])->name('pages.uploadHeaderImage');
-    Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
     Route::resource('gallery-images', \App\Http\Controllers\Admin\GalleryImageController::class)->except('show');
 
     // AJAX Auto-save endpoints for Products
@@ -221,10 +220,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('pages/{page}/auto-save', [\App\Http\Controllers\Admin\PageController::class, 'autoSave'])->name('pages.autoSave');
     Route::patch('pages/{page}/update-field', [\App\Http\Controllers\Admin\PageController::class, 'updateField'])->name('pages.updateField');
 
-    // AJAX Auto-save endpoints for Banners
-    Route::patch('banners/{banner}/update-field', [\App\Http\Controllers\Admin\BannerController::class, 'updateField'])->name('banners.updateField');
-    Route::post('banners/{banner}/upload-image', [\App\Http\Controllers\Admin\BannerController::class, 'uploadImage'])->name('banners.uploadImage');
-
     // AJAX Auto-save endpoints for Users
     Route::patch('users/{user}/update-field', [\App\Http\Controllers\Admin\UserController::class, 'updateField'])->name('users.updateField');
 
@@ -232,10 +227,35 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('settings/update-field', [\App\Http\Controllers\Admin\SettingController::class, 'updateField'])->name('settings.updateField');
     Route::post('settings/upload-logo', [\App\Http\Controllers\Admin\SettingController::class, 'uploadLogo'])->name('settings.uploadLogo');
     Route::post('settings/upload-banner/{key}', [\App\Http\Controllers\Admin\SettingController::class, 'uploadBanner'])->name('settings.uploadBanner');
-    Route::delete('settings/logo', [\App\Http\Controllers\Admin\SettingController::class, 'deleteLogo'])->name('settings.deleteLogo');
     Route::delete('settings/banner/{key}', [\App\Http\Controllers\Admin\SettingController::class, 'deleteBanner'])
-        ->where('key', '[a-z]+')
+        ->where('key', '[a-z0-9\\-]+')
         ->name('settings.deleteBanner');
+    Route::delete('settings/logo', [\App\Http\Controllers\Admin\SettingController::class, 'deleteLogo'])->name('settings.deleteLogo');
+
+    // Seasonal Pages (Mùa lễ hội: Hội Mùa Thu, Halloween, Cây Thông Đan Mạch)
+    Route::get('seasonal-pages', [\App\Http\Controllers\Admin\SeasonalPageController::class, 'index'])->name('seasonal-pages.index');
+    Route::get('seasonal-pages/{seasonId}/edit', [\App\Http\Controllers\Admin\SeasonalPageController::class, 'edit'])
+        ->where('seasonId', 'thu|halloween|thong')
+        ->name('seasonal-pages.edit');
+    Route::put('seasonal-pages/{seasonId}', [\App\Http\Controllers\Admin\SeasonalPageController::class, 'update'])
+        ->where('seasonId', 'thu|halloween|thong')
+        ->name('seasonal-pages.update');
+    Route::post('seasonal-pages/{seasonId}/hero', [\App\Http\Controllers\Admin\SeasonalPageController::class, 'uploadHero'])
+        ->where('seasonId', 'thu|halloween|thong')
+        ->name('seasonal-pages.uploadHero');
+    Route::delete('seasonal-pages/{seasonId}/hero', [\App\Http\Controllers\Admin\SeasonalPageController::class, 'destroyHero'])
+        ->where('seasonId', 'thu|halloween|thong')
+        ->name('seasonal-pages.destroyHero');
+
+    // Page Banners (Ảnh Header Trang) — trang quản lý riêng
+    Route::get('page-banners', [\App\Http\Controllers\Admin\PageBannerController::class, 'index'])->name('page-banners.index');
+    Route::post('page-banners/upload/{key}', [\App\Http\Controllers\Admin\PageBannerController::class, 'upload'])
+        ->where('key', '[a-z0-9\-]+')
+        ->name('page-banners.upload');
+    Route::delete('page-banners/{key}', [\App\Http\Controllers\Admin\PageBannerController::class, 'destroy'])
+        ->where('key', '[a-z0-9\-]+')
+        ->name('page-banners.destroy');
+    Route::patch('page-banners/update-field', [\App\Http\Controllers\Admin\PageBannerController::class, 'updateField'])->name('page-banners.updateField');
 
     // Mystery Box management
     Route::get('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'edit'])->name('mystery-box-content.edit');

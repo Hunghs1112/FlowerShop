@@ -61,6 +61,7 @@ class ProductController extends Controller
             'is_featured' => 'boolean',
             'is_new_arrival' => 'boolean',
             'is_bestseller' => 'boolean',
+            'season_id' => 'nullable|string|max:20',
             'arrival_status' => 'required|in:landed,flying,pre',
         ];
 

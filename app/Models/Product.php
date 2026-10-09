@@ -37,6 +37,7 @@ class Product extends Model
         'video_type',
         'is_featured',
         'is_active',
+        'season_id',
     ];
 
     protected $casts = [
@@ -109,6 +110,11 @@ class Product extends Model
     {
         return $query->whereNotNull('latest_arrival_date')
             ->orderBy('latest_arrival_date', 'desc');
+    }
+
+    public function scopeForSeason($query, string $seasonId)
+    {
+        return $query->where('season_id', $seasonId);
     }
 
     /**

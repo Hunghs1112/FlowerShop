@@ -220,13 +220,26 @@ $isEdit = isset($isEdit) ? $isEdit : false;
 
                         <div class="form-group">
                             <label class="form-checkbox">
-                                <input type="checkbox" name="is_featured" value="1" 
+                                <input type="checkbox" name="is_featured" value="1"
                                     {{ old('is_featured', $product->is_featured ?? false) ? 'checked' : '' }}
                                     class="auto-save-checkbox"
                                     data-entity="products"
                                     data-id="{{ $product->id ?? '' }}">
                                 <span>Sản phẩm nổi bật</span>
                             </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Hiển thị trong trang</label>
+                            <select name="season_id" class="form-input auto-save-select"
+                                    data-entity="products"
+                                    data-id="{{ $product->id ?? '' }}">
+                                <option value="">-- Không hiển thị --</option>
+                                <option value="thu" {{ old('season_id', $product->season_id ?? '') == 'thu' ? 'selected' : '' }}>🍂 Hội Mùa Thu</option>
+                                <option value="halloween" {{ old('season_id', $product->season_id ?? '') == 'halloween' ? 'selected' : '' }}>🎃 Halloween</option>
+                                <option value="thong" {{ old('season_id', $product->season_id ?? '') == 'thong' ? 'selected' : '' }}>🎄 Cây Thông Đan Mạch</option>
+                            </select>
+                            <small class="form-help">Chọn trang lễ hội để hiển thị sản phẩm này</small>
                         </div>
                     </div>
                 </div>

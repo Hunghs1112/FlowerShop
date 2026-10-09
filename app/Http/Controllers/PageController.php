@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\Product;
 use App\Models\Inquiry;
 use App\Models\FlowerOrigin;
 use App\Models\Category;
@@ -10,6 +11,7 @@ use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -152,6 +154,32 @@ class PageController extends Controller
         $config = $this->seasonalConfig($sourceSlug);
         $season = collect($config['seasons'])->firstWhere('id', $seasonId);
         abort_unless($season, 404);
+
+        // Get products for this season from database
+        $seasonProducts = Product::with(['productImages', 'category'])
+            ->active()
+            ->forSeason($seasonId)
+            ->orderBy('name')
+            ->get();
+
+        // Build products array matching the JSON structure
+        $dbProducts = $seasonProducts->map(fn($p) => [
+            'name' => $p->name,
+            'origin' => $p->origin ?? '',
+            'code' => strtoupper(substr($p->category->slug ?? $p->slug, 0, 3)),
+            'img' => $p->getPrimaryImageUrl(),
+            'link' => route('products.show', $p->slug),
+            'badge' => $p->is_new_arrival ? 'MỚI VỀ' : ($p->is_bestseller ? 'BÁN CHẠY' : ''),
+        ])->values()->all();
+
+        // Inject DB products into season config
+        $season['products'] = $dbProducts;
+
+        // Get hero image from settings
+        $heroSetting = \App\Models\Setting::where('key', 'seasonal_' . $seasonId . '_hero')->value('value');
+        if ($heroSetting) {
+            $season['img'] = asset('storage/' . $heroSetting);
+        }
 
         return view($view, [
             'seasonConfig' => [...$config, 'seasons' => [$season]],

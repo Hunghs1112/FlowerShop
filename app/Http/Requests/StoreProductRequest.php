@@ -35,6 +35,7 @@ class StoreProductRequest extends FormRequest
             'is_featured' => 'boolean',
             'is_new_arrival' => 'boolean',
             'is_bestseller' => 'boolean',
+            'season_id' => 'nullable|string|max:20',
             'arrival_status' => 'required|in:landed,flying,pre',
             'images' => "nullable|array|max:{$maxCnt}",
             'images.*' => "file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
