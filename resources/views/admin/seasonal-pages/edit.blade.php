@@ -198,15 +198,18 @@
                     <h2 class="admin-card-title">Câu Hỏi Thường Gặp</h2>
                 </div>
                 <div class="admin-card-body" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; font-size: 12px; color: var(--admin-text-muted); padding: 0 12px; font-weight: 600;">
+                        <span>Câu hỏi</span>
+                        <span>Câu trả lời</span>
+                        <span></span>
+                    </div>
                     @foreach(($data['tree']['faq'] ?? []) as $i => $faq)
                     <div class="faq-row" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: start; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
                         <div>
-                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Câu hỏi</label>
-                            <input type="text" name="data[tree][faq][{{ $i }}][q]" value="{{ $faq['q'] ?? '' }}" class="form-input" placeholder="Câu hỏi...">
+                            <input type="text" name="data[tree][faq][{{ $i }}][q]" value="{{ $faq['q'] ?? '' }}" class="form-input" placeholder="VD: Khi nào cây về?">
                         </div>
                         <div>
-                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Câu trả lời</label>
-                            <input type="text" name="data[tree][faq][{{ $i }}][a]" value="{{ $faq['a'] ?? '' }}" class="form-input" placeholder="Câu trả lời...">
+                            <input type="text" name="data[tree][faq][{{ $i }}][a]" value="{{ $faq['a'] ?? '' }}" class="form-input" placeholder="VD: Cây về trước 20/12...">
                         </div>
                         <button type="button" class="btn btn-secondary remove-faq" style="padding: 8px 12px; color: #dc2626; margin-top: 22px;" title="Xóa câu hỏi">
                             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -436,8 +439,8 @@
         const container = this.closest('.admin-card-body');
         const count = container.querySelectorAll('.faq-row').length;
         const html = `<div class="faq-row" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: start; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
-            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Câu hỏi</label><input type="text" name="data[tree][faq][${count}][q]" class="form-input" placeholder="Câu hỏi..."></div>
-            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Câu trả lời</label><input type="text" name="data[tree][faq][${count}][a]" class="form-input" placeholder="Câu trả lời..."></div>
+            <div><input type="text" name="data[tree][faq][${count}][q]" class="form-input" placeholder="VD: Khi nào cây về?"></div>
+            <div><input type="text" name="data[tree][faq][${count}][a]" class="form-input" placeholder="VD: Cây về trước 20/12..."></div>
             <button type="button" class="btn btn-secondary remove-faq" style="padding: 8px 12px; color: #dc2626; margin-top: 22px;" title="Xóa câu hỏi">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             </button>
