@@ -73,11 +73,18 @@ function accBlock(t){
     <div class="qty" role="group" aria-label="Số lượng ${esc(it.name)}"><button type="button" class="qm" aria-label="Bớt">−</button><output>0</output><button type="button" class="qp" aria-label="Thêm">+</button></div></div>`).join('')}</div></div>`});
   return h?`<div class="accwrap" id="phu-kien"><p class="eyebrow">PHỤ KIỆN & ĐỒ TRANG TRÍ</p><h2 class="acct">Hoàn thiện cây thông của bạn</h2>${h}<p class="accback"><a href="#dat-truoc">↑ Về phiếu đặt trước</a></p></div>`:'';
 }
+const sizeLabel=z=>{
+  const min=z.cm_min??z.cm, max=z.cm_max;
+  if(min!=null&&max!=null) return `${min}-${max} cm`;
+  if(z.label) return z.label;
+  return min!=null?`${min} cm`:'';
+};
+const sizeCm=z=>z.cm_min??z.cm??180;
 function treeBlock(s){const t=s.tree,dl=days(t.deadline);
   return `<section class="wrap blk" id="dat-truoc"><div class="order"><div class="ol">
    <p class="eyebrow">ĐẶT TRƯỚC · CPH → HAN</p><h2>Chọn chiều cao cây</h2>
    ${dl!=null&&dl>=0?`<p class="dl">Hạn chót đặt trước: <b>${fmt(t.deadline)}</b> · còn <b>${dl}</b> ngày</p>`:''}
-   <div class="sizes" role="radiogroup" aria-label="Chiều cao cây">${t.sizes.map((z,i)=>`<button type="button" role="radio" class="sz" aria-checked="${i===2}" data-i="${i}"><b>${esc(z.label)}</b><small>${z.price?esc(z.price):'Liên hệ báo giá'}</small></button>`).join('')}</div>
+   <div class="sizes" role="radiogroup" aria-label="Chiều cao cây">${t.sizes.map((z,i)=>`<button type="button" role="radio" class="sz" aria-checked="${i===2}" data-i="${i}"><b>${esc(sizeLabel(z))}</b><small>${z.price?esc(z.price):'Liên hệ báo giá'}</small></button>`).join('')}</div>
    <div class="viz" id="viz"></div>
    <dl class="facts"><dt>Hàng về dự kiến</dt><dd>${esc(t.arrival)}</dd><dt>Đặt cọc</dt><dd>${esc(t.deposit)}</dd></dl></div>
    <form class="or" id="orderForm" novalidate><div class="oh">PHIẾU ĐẶT TRƯỚC · PRE-ORDER</div>
@@ -90,7 +97,7 @@ function treeBlock(s){const t=s.tree,dl=days(t.deadline);
    ${accBlock(t)}<div class="care"><div class="ch"><b>THẺ CHĂM CÂY · CARE CARD</b><span>CPH → HAN</span></div><div class="cb"><h3>${esc((t.care.find(c=>c[0]==='Tên')||['', s.name])[1])}</h3><dl>${t.care.filter(c=>c[0]!=='Tên').map(c=>`<dt>${esc(c[0])}</dt><dd>${esc(c[1])}</dd>`).join('')}</dl></div></div>
    <div class="faq"><h2>Câu hỏi thường gặp</h2>${t.faq.map(f=>`<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('')}</div></section>`}
 function bindTree(s){const t=s.tree,viz=$('#viz'),btns=[...root.querySelectorAll('.sz')];let cur=2;
-  const show=i=>{cur=i;btns.forEach((b,k)=>b.setAttribute('aria-checked',k===i));viz.innerHTML=treeSVG(t.sizes[i].cm,false)+`<p>Cây ${esc(t.sizes[i].label)} · ${t.sizes[i].price?esc(t.sizes[i].price):'Liên hệ báo giá'}</p>`;summ()};
+  const show=i=>{cur=i;btns.forEach((b,k)=>b.setAttribute('aria-checked',k===i));viz.innerHTML=treeSVG(sizeCm(t.sizes[i]),false)+`<p>Cây ${esc(sizeLabel(t.sizes[i]))} · ${t.sizes[i].price?esc(t.sizes[i].price):'Liên hệ báo giá'}</p>`;summ()};
   btns.forEach((b,i)=>{b.addEventListener('click',()=>show(i));b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();const n=(i+1)%btns.length;btns[n].focus();show(n)}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();const n=(i-1+btns.length)%btns.length;btns[n].focus();show(n)}})});
   const form=$('#orderForm');let pkg=-1;const q={};
   root.querySelectorAll('.pkg').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.i;pkg=pkg===i?-1:i;root.querySelectorAll('.pkg').forEach(x=>x.setAttribute('aria-checked',+x.dataset.i===pkg));summ()}));
@@ -101,13 +108,13 @@ function bindTree(s){const t=s.tree,viz=$('#viz'),btns=[...root.querySelectorAll
     (t.accessories||[]).forEach((g,gi)=>g.items.forEach((it,ii)=>{const c=q[gi+'-'+ii]||0;if(c)L.push({n:it.name,c,p:num(it.price)})}));return L};
   const summ=()=>{const ad=[...form.querySelectorAll('input[name=addon]:checked')].map(x=>x.value),L=picked();
     const tp=num(t.sizes[cur].price);let tot=tp||0,unk=!tp;L.forEach(x=>{if(x.p==null)unk=true;else tot+=x.p*x.c});
-    $('#sum').innerHTML=`<b>Cây ${esc(t.sizes[cur].label)}</b>`+(L.length?`<br>Phụ kiện: ${esc(L.map(x=>x.n+(x.c>1?' ×'+x.c:'')).join(', '))}`:'')+(ad.length?`<br>Dịch vụ: ${esc(ad.join(', '))}`:'')+
+    $('#sum').innerHTML=`<b>Cây ${esc(sizeLabel(t.sizes[cur]))}</b>`+(L.length?`<br>Phụ kiện: ${esc(L.map(x=>x.n+(x.c>1?' ×'+x.c:'')).join(', '))}`:'')+(ad.length?`<br>Dịch vụ: ${esc(ad.join(', '))}`:'')+
       (tot?`<br>Tạm tính: <b>${vnd(tot)}</b>${unk?' (chưa gồm mục liên hệ báo giá)':''}`:'');
     const n=L.reduce((a,x)=>a+x.c,0);const bd=document.getElementById('accCount');if(bd){bd.textContent=n?`${n} phụ kiện đã chọn · xem phiếu đặt trước`:'';bd.hidden=!n}};
   window.__lntPicked=picked;
   form.addEventListener('change',summ);show(cur);
   form.addEventListener('submit',async e=>{e.preventDefault();const f=new FormData(form),err=$('#oerr');
-    const selected=window.__lntPicked(),PK=selected.map(x=>x.n+(x.c>1?' x'+x.c:'')).join(', ');const d={kichthuoc:t.sizes[cur].label,phukien:PK,tuychon:f.getAll('addon').join(', '),hoten:(f.get('hoten')||'').trim(),sdt:(f.get('sdt')||'').trim(),diachi:(f.get('diachi')||'').trim(),ngaynhan:f.get('ngaynhan')||'',ghichu:(f.get('ghichu')||'').trim(),thoigian:new Date().toISOString()};
+    const selected=window.__lntPicked(),PK=selected.map(x=>x.n+(x.c>1?' x'+x.c:'')).join(', ');const d={kichthuoc:sizeLabel(t.sizes[cur]),phukien:PK,tuychon:f.getAll('addon').join(', '),hoten:(f.get('hoten')||'').trim(),sdt:(f.get('sdt')||'').trim(),diachi:(f.get('diachi')||'').trim(),ngaynhan:f.get('ngaynhan')||'',ghichu:(f.get('ghichu')||'').trim(),thoigian:new Date().toISOString()};
     if(!d.hoten||!d.sdt||!d.diachi){err.textContent='Vui lòng điền họ tên, số điện thoại và địa chỉ.';return}
     if(!/^[0-9+\s.]{9,15}$/.test(d.sdt)){err.textContent='Số điện thoại chưa đúng.';return}err.textContent='';
     const text=`ĐẶT TRƯỚC CÂY THÔNG ĐAN MẠCH\nCỡ cây: ${d.kichthuoc}\nPhụ kiện: ${d.phukien||'-'}\nDịch vụ: ${d.tuychon||'-'}\nHọ tên: ${d.hoten}\nSĐT/Zalo: ${d.sdt}\nĐịa chỉ: ${d.diachi}\nNgày nhận: ${d.ngaynhan||'-'}\nGhi chú: ${d.ghichu||'-'}`;

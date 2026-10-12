@@ -14,28 +14,33 @@
     "deposit": "[mức cọc, ví dụ 50%]",
     "sizes": [
       {
-        "label": "1,2 m",
-        "cm": 120,
+        "cm_min": 100,
+        "cm_max": 125,
         "price": ""
       },
       {
-        "label": "1,5 m",
-        "cm": 150,
+        "cm_min": 125,
+        "cm_max": 150,
         "price": ""
       },
       {
-        "label": "1,8 m",
-        "cm": 180,
+        "cm_min": 150,
+        "cm_max": 175,
         "price": ""
       },
       {
-        "label": "2,1 m",
-        "cm": 210,
+        "cm_min": 175,
+        "cm_max": 200,
         "price": ""
       },
       {
-        "label": "2,4 m",
-        "cm": 240,
+        "cm_min": 200,
+        "cm_max": 225,
+        "price": ""
+      },
+      {
+        "cm_min": 225,
+        "cm_max": 250,
         "price": ""
       }
     ],

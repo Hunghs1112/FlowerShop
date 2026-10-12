@@ -162,18 +162,21 @@
                     <h2 class="admin-card-title">Kích Cỡ Cây</h2>
                 </div>
                 <div class="admin-card-body" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: grid; grid-template-columns: 100px 100px 1fr auto; gap: 12px; font-size: 12px; color: var(--admin-text-muted); padding: 0 12px; font-weight: 600;">
+                        <span>Từ (cm)</span>
+                        <span>Đến (cm)</span>
+                        <span>Giá (để trống = Liên hệ báo giá)</span>
+                        <span></span>
+                    </div>
                     @foreach(($data['tree']['sizes'] ?? []) as $i => $size)
-                    <div class="size-row" style="display: grid; grid-template-columns: 1fr 80px 1fr auto; gap: 12px; align-items: end; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
+                    <div class="size-row" style="display: grid; grid-template-columns: 100px 100px 1fr auto; gap: 12px; align-items: end; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
                         <div>
-                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Nhãn (VD: 1,8 m)</label>
-                            <input type="text" name="data[tree][sizes][{{ $i }}][label]" value="{{ $size['label'] ?? '' }}" class="form-input" placeholder="1,8 m">
+                            <input type="number" name="data[tree][sizes][{{ $i }}][cm_min]" value="{{ $size['cm_min'] ?? $size['cm'] ?? '' }}" class="form-input" placeholder="100" min="0">
                         </div>
                         <div>
-                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Chiều cao (cm)</label>
-                            <input type="number" name="data[tree][sizes][{{ $i }}][cm]" value="{{ $size['cm'] ?? '' }}" class="form-input" placeholder="180">
+                            <input type="number" name="data[tree][sizes][{{ $i }}][cm_max]" value="{{ $size['cm_max'] ?? '' }}" class="form-input" placeholder="125" min="0">
                         </div>
                         <div>
-                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Giá (để trống = Liên hệ báo giá)</label>
                             <input type="text" name="data[tree][sizes][{{ $i }}][price]" value="{{ $size['price'] ?? '' }}" class="form-input" placeholder="Liên hệ báo giá">
                         </div>
                         <button type="button" class="btn btn-secondary remove-size" style="padding: 8px 12px; color: #dc2626;" title="Xóa kích cỡ">
@@ -402,10 +405,10 @@
     document.getElementById('addSizeBtn')?.addEventListener('click', function() {
         const container = this.closest('.admin-card-body');
         const count = container.querySelectorAll('.size-row').length;
-        const html = `<div class="size-row" style="display: grid; grid-template-columns: 1fr 80px 1fr auto; gap: 12px; align-items: end; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
-            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Nhãn</label><input type="text" name="data[tree][sizes][${count}][label]" class="form-input" placeholder="1,8 m"></div>
-            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Chiều cao (cm)</label><input type="number" name="data[tree][sizes][${count}][cm]" class="form-input" placeholder="180"></div>
-            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Giá</label><input type="text" name="data[tree][sizes][${count}][price]" class="form-input" placeholder="Liên hệ báo giá"></div>
+        const html = `<div class="size-row" style="display: grid; grid-template-columns: 100px 100px 1fr auto; gap: 12px; align-items: end; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
+            <div><input type="number" name="data[tree][sizes][${count}][cm_min]" class="form-input" placeholder="100" min="0"></div>
+            <div><input type="number" name="data[tree][sizes][${count}][cm_max]" class="form-input" placeholder="125" min="0"></div>
+            <div><input type="text" name="data[tree][sizes][${count}][price]" class="form-input" placeholder="Liên hệ báo giá"></div>
             <button type="button" class="btn btn-secondary remove-size" style="padding: 8px 12px; color: #dc2626;" title="Xóa kích cỡ">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             </button>

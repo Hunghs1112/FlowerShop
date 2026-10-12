@@ -434,3 +434,13 @@
         height: 16px;
     }
 }
+
+/* SVG in buttons: reset font inheritance */
+.admin-topbar-btn svg,
+.admin-topbar-actions svg {
+    font-size: unset;
+    stroke-width: inherit;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
