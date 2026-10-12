@@ -180,15 +180,15 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
 <section class="reveal" style="padding-top:0"><div class="wrap">
   <div class="center"><p class="eyebrow">BỘ SƯU TẬP</p><h2 class="t">Chín vùng đất hoa</h2><p class="sub">Chọn hoa theo nơi chúng lớn lên.</p></div>
   <div class="cols">
-    <a class="col big" href="#"><img src="{{ asset('images/prototype/home-02.jpg') }}" alt="" loading="lazy"><span class="stamp">DLI</span><span class="info"><h3>Hoa Việt Nam</h3><small>10 sản phẩm</small></span></a>
-    <a class="col" href="#"><img src="{{ asset('images/prototype/home-03.jpg') }}" alt="" loading="lazy"><span class="stamp">AMS</span><span class="info"><h3>Hoa Hà Lan</h3><small>12 sản phẩm</small></span></a>
-    <a class="col" href="#"><img src="{{ asset('images/prototype/home-04.jpg') }}" alt="" loading="lazy"><span class="stamp">UIO</span><span class="info"><h3>Hoa Ecuador</h3><small>4 sản phẩm</small></span></a>
-    <a class="col" href="#"><img src="{{ asset('images/prototype/home-05.jpg') }}" alt="" loading="lazy"><span class="stamp">KMG</span><span class="info"><h3>Hoa Trung Quốc</h3><small>Mở đặt trước</small></span></a>
-    <a class="col" href="#"><img src="{{ asset('images/prototype/home-06.jpg') }}" alt="" loading="lazy"><span class="stamp">CHC</span><span class="info"><h3>Hoa New Zealand</h3><small>Mở đặt trước</small></span></a>
-    <a class="col" href="#"><img src="{{ asset('images/prototype/home-07.jpg') }}" alt="" loading="lazy"><span class="stamp">CPT</span><span class="info"><h3>Hoa Nam Phi</h3><small>Mở đặt trước</small></span></a>
-    <a class="col" href="#"><img src="{{ asset('images/seasonal/aut4.jpg') }}" alt="" loading="lazy"><span class="stamp">CTS</span><span class="info"><h3>Hoa Nhật Bản</h3><small>Mở đặt trước</small></span></a>
-    <a class="col" href="#"><img src="{{ asset('images/prototype/home-09.jpg') }}" alt="" loading="lazy"><span class="stamp">KUL</span><span class="info"><h3>Hoa Malaysia</h3><small>Mở đặt trước</small></span></a>
-    <a class="col" href="#"><img src="{{ asset('images/seasonal/hlw3.jpg') }}" alt="" loading="lazy"><span class="stamp">BOG</span><span class="info"><h3>Hoa Colombia</h3><small>Mở đặt trước</small></span></a>
+    <a class="col big" href="#"><img src="{{ asset('images/prototype/home-02.jpg') }}" alt="" loading="lazy"><span class="stamp">DLI</span><span class="info"><h3 style="color:#fff">Hoa Việt Nam</h3><small>10 sản phẩm</small></span></a>
+    <a class="col" href="#"><img src="{{ asset('images/prototype/home-03.jpg') }}" alt="" loading="lazy"><span class="stamp">AMS</span><span class="info"><h3 style="color:#fff">Hoa Hà Lan</h3><small>12 sản phẩm</small></span></a>
+    <a class="col" href="#"><img src="{{ asset('images/prototype/home-04.jpg') }}" alt="" loading="lazy"><span class="stamp">UIO</span><span class="info"><h3 style="color:#fff">Hoa Ecuador</h3><small>4 sản phẩm</small></span></a>
+    <a class="col" href="#"><img src="{{ asset('images/prototype/home-05.jpg') }}" alt="" loading="lazy"><span class="stamp">KMG</span><span class="info"><h3 style="color:#fff">Hoa Trung Quốc</h3><small>Mở đặt trước</small></span></a>
+    <a class="col" href="#"><img src="{{ asset('images/prototype/home-06.jpg') }}" alt="" loading="lazy"><span class="stamp">CHC</span><span class="info"><h3 style="color:#fff">Hoa New Zealand</h3><small>Mở đặt trước</small></span></a>
+    <a class="col" href="#"><img src="{{ asset('images/prototype/home-07.jpg') }}" alt="" loading="lazy"><span class="stamp">CPT</span><span class="info"><h3 style="color:#fff">Hoa Nam Phi</h3><small>Mở đặt trước</small></span></a>
+    <a class="col" href="#"><img src="{{ asset('images/seasonal/aut4.jpg') }}" alt="" loading="lazy"><span class="stamp">CTS</span><span class="info"><h3 style="color:#fff">Hoa Nhật Bản</h3><small>Mở đặt trước</small></span></a>
+    <a class="col" href="#"><img src="{{ asset('images/prototype/home-09.jpg') }}" alt="" loading="lazy"><span class="stamp">KUL</span><span class="info"><h3 style="color:#fff">Hoa Malaysia</h3><small>Mở đặt trước</small></span></a>
+    <a class="col" href="#"><img src="{{ asset('images/seasonal/hlw3.jpg') }}" alt="" loading="lazy"><span class="stamp">BOG</span><span class="info"><h3 style="color:#fff">Hoa Colombia</h3><small>Mở đặt trước</small></span></a>
   </div>
 </div></section>
 
