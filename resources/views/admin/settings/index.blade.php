@@ -3,9 +3,17 @@
 @section('page-title', 'Cài Đặt')
 
 @section('content')
+@php($bannerOnly = request()->routeIs('admin.page-banners.*'))
+@if($bannerOnly)
+<style>
+    .settings-tab-btn[data-tab="general"],
+    .settings-tab-content[data-tab-content="general"] { display: none !important; }
+    .settings-tab-content[data-tab-content="banners"] { display: block !important; }
+</style>
+@endif
 <div class="admin-page-header">
     <div class="admin-page-header-left">
-        <h1 class="admin-page-title">Cài Đặt Hệ Thống</h1>
+        <h1 class="admin-page-title">{{ $bannerOnly ? 'Banner Trang' : 'Cài Đặt Hệ Thống' }}</h1>
         <p class="admin-page-subtitle">
             <span style="display: inline-flex; align-items: center; gap: 6px;">
                 <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></span>
@@ -466,7 +474,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    if (window.location.hash === '#banners') {
+    if (window.location.hash === '#banners' || @json($bannerOnly)) {
         document.querySelector('.settings-tab-btn[data-tab="banners"]')?.click();
     }
 

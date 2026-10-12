@@ -231,6 +231,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->where('key', '[a-z0-9\\-]+')
         ->name('settings.deleteBanner');
     Route::delete('settings/logo', [\App\Http\Controllers\Admin\SettingController::class, 'deleteLogo'])->name('settings.deleteLogo');
+    Route::get('page-banners', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('page-banners.index');
 
     // Seasonal Pages (Mùa lễ hội: Hội Mùa Thu, Halloween, Cây Thông Đan Mạch)
     Route::get('seasonal-pages', [\App\Http\Controllers\Admin\SeasonalPageController::class, 'index'])->name('seasonal-pages.index');
