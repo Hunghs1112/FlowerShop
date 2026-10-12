@@ -466,10 +466,11 @@
         productIdsInput.value = JSON.stringify(ids);
         selectedCount.textContent = ids.length;
 
+        const selectedContainer = document.getElementById('selectedProducts');
+
         // Move checked items to selected
         checked.forEach(cb => {
             const item = cb.closest('.product-item');
-            const selectedContainer = document.getElementById('selectedProducts');
             const emptyMsg = selectedContainer.querySelector('.empty-msg');
             if (emptyMsg) emptyMsg.remove();
 
@@ -593,6 +594,11 @@
         body.delete('product_ids');
         JSON.parse(productIdsInput.value || '[]').forEach(id => body.append('product_ids[]', id));
 
+        // Debug: log form data
+        const debug = {};
+        body.forEach((v, k) => { debug[k] = v; });
+        console.log('Form data sent:', JSON.stringify(debug, null, 2));
+
         saveBtn.disabled = true;
         saveBtn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="animate-spin"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Đang lưu...';
 
@@ -623,6 +629,7 @@
         .catch(error => {
             saveBtn.disabled = false;
             saveBtn.innerHTML = 'Lưu Thay Đổi';
+            console.error('Save error:', error);
             alert(error.message);
         });
     });
