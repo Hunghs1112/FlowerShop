@@ -140,6 +140,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
 .b2b{grid-template-columns:1fr;text-align:center;justify-items:center}footer .wrap{grid-template-columns:1fr}.nav ul{display:none}.board{position:relative;bottom:auto;margin-top:-60px;width:100%}.hero-img{margin:0 auto}}
 @media (max-width:560px){.mags{grid-template-columns:1fr}.scratch .under{grid-template-columns:110px 1fr}.scratch .under img{width:110px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.arc{stroke-dashoffset:0}}
+.holiday-shortcuts{max-width:760px;margin:0 auto;padding:2.4rem 1.1rem 3rem;font-family:"Josefin Sans",var(--font-sans),sans-serif;color:#5E4636}.holiday-shortcuts__eyebrow{display:flex;align-items:center;justify-content:center;gap:1rem;letter-spacing:.32em;font-size:.82rem;color:#A8714E}.holiday-shortcuts__eyebrow::before,.holiday-shortcuts__eyebrow::after{content:"";width:56px;height:1.5px;background:currentColor}.holiday-shortcuts h2{margin:.7rem 0 1.6rem;text-align:center;font-family:"Lora",var(--font-serif),serif;font-weight:500;font-size:clamp(1.7rem,6vw,2.3rem);color:#C78E66;letter-spacing:.02em;text-transform:uppercase}.holiday-shortcuts__grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}.holiday-shortcuts__card{position:relative;display:block;text-decoration:none;border-radius:26px;overflow:hidden;aspect-ratio:.56;color:#fff;isolation:isolate;box-shadow:0 24px 40px -26px rgba(40,20,10,.6);transition:transform .3s}.holiday-shortcuts__card:hover{transform:translateY(-3px)}.holiday-shortcuts__card:focus-visible{outline:3px solid #C78E66;outline-offset:3px}.holiday-shortcuts__image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}.holiday-shortcuts__velvet{position:absolute;inset:0;z-index:-2;background:radial-gradient(120% 80% at 50% 10%,#2F5A47 0%,#1C3A2E 55%,#10241B 100%)}.holiday-shortcuts__bokeh{position:absolute;inset:0;z-index:-1;overflow:hidden}.holiday-shortcuts__bokeh i{position:absolute;border-radius:50%;filter:blur(6px);opacity:.35;background:radial-gradient(circle,#FFE7B0,transparent 70%);animation:holiday-breathe 5s ease-in-out infinite}@keyframes holiday-breathe{50%{opacity:.12;transform:scale(1.15)}}.holiday-shortcuts__shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,10,6,.35) 0%,rgba(20,10,6,0) 30%,rgba(20,10,6,0) 45%,rgba(20,10,6,.7) 78%,rgba(20,10,6,.85))}.holiday-shortcuts__lights{position:absolute;left:0;right:0;top:0;height:18%;pointer-events:none}.holiday-shortcuts__lights svg{width:100%;height:100%;display:block;overflow:visible}.holiday-shortcuts__bulb{animation:holiday-twinkle 2.4s ease-in-out infinite}@keyframes holiday-twinkle{0%,100%{opacity:1}50%{opacity:.25}}.holiday-shortcuts__hang{position:absolute;top:0;transform-origin:50% 0;will-change:transform;pointer-events:none}.holiday-shortcuts__hang svg{display:block;width:100%;height:auto;overflow:visible}.holiday-shortcuts__glow{animation:holiday-flicker 2.2s ease-in-out infinite}@keyframes holiday-flicker{0%,100%{opacity:.95}40%{opacity:.6}60%{opacity:.85}}.holiday-shortcuts__sheen{animation:holiday-sheen 4.5s ease-in-out infinite}@keyframes holiday-sheen{0%,100%{transform:translate(-10px,-6px);opacity:.15}50%{transform:translate(6px,2px);opacity:.75}}.holiday-shortcuts__body{position:absolute;left:0;right:0;bottom:0;padding:.9rem .9rem 1rem}.holiday-shortcuts__code{display:inline-block;font-size:.66rem;font-weight:600;letter-spacing:.16em;padding:.28rem .55rem;border-radius:999px;margin-bottom:.45rem;backdrop-filter:blur(4px)}.holiday-shortcuts__card--holiday .holiday-shortcuts__code{background:rgba(233,133,58,.28);color:#FFC48A}.holiday-shortcuts__card--tree .holiday-shortcuts__code{background:rgba(226,174,132,.22);color:#F0C79E}.holiday-shortcuts h3{margin:0;font-family:"Lora",var(--font-serif),serif;font-weight:500;font-size:clamp(1rem,4.2vw,1.35rem);line-height:1.2;text-shadow:0 2px 10px rgba(0,0,0,.4)}.holiday-shortcuts p{margin:.25rem 0 .45rem;font-family:"Lora",var(--font-serif),serif;font-style:italic;font-size:clamp(.78rem,3.2vw,.92rem);line-height:1.35;opacity:.95}.holiday-shortcuts__go{font-size:.78rem;font-weight:600;letter-spacing:.06em}.holiday-shortcuts__card--holiday .holiday-shortcuts__go{color:#FFC48A}.holiday-shortcuts__card--tree .holiday-shortcuts__go{color:#F0C79E}.holiday-shortcuts__note{margin-top:1.6rem;text-align:center;font-family:"Lora",var(--font-serif),serif;font-style:italic;font-size:.9rem;color:#A8714E}@media (prefers-reduced-motion:reduce){.holiday-shortcuts *{animation:none!important;transition:none!important}}
 :root{--bg:var(--color-background);--paper:var(--color-surface);--ink:var(--color-text);--soft:var(--color-text-light);--copper:var(--color-accent);--deep:var(--color-secondary);--line:var(--color-border);--board:var(--color-primary-dark);--tile:var(--color-black);--tile-ink:var(--color-on-dark);--acc:var(--color-secondary-light);--shadow:var(--shadow-md)}
 </style>
 @endpush
@@ -246,25 +247,22 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
     @endforelse
   </div>
 </div></section><!-- Seasonal hubs -->
-<section class="reveal"><div class="wrap center" style="padding-top:clamp(2rem,5vw,3.5rem)">
-  <p class="eyebrow">CẨM NANG MÙA LỄ</p>
-  <h2 class="t">Khám phá thêm</h2>
-</div></section>
-<section class="reveal" style="padding-top:0"><div class="wrap">
-  <div class="cols" style="grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:300px">
-    <a class="col" href="{{ route('season.phu-kien') }}" style="background:linear-gradient(180deg,transparent 40%,rgba(40,26,20,.65))">
-      <img src="{{ asset('images/prototype/home-15.jpg') }}" alt="">
-      <div class="info"><h3>Phụ kiện cây thông</h3><small>Trang trí, ghirland, nơ — hoàn thiện cây thông của bạn</small></div>
+<section class="reveal" style="padding-top:0"><div class="holiday-shortcuts">
+  <div class="holiday-shortcuts__eyebrow">CẨM NANG MÙA LỄ</div>
+  <h2>KHÁM PHÁ THÊM</h2>
+  <div class="holiday-shortcuts__grid">
+    <a class="holiday-shortcuts__card holiday-shortcuts__card--holiday" id="holidayCard" href="{{ route('season.mua-le-hoi') }}" aria-label="Mùa lễ hội: Hội mùa thu, Halloween, Cây thông Đan Mạch">
+      <img class="holiday-shortcuts__image" src="{{ asset('images/seasonal/hlw_hero.jpg') }}" alt="">
+      <div class="holiday-shortcuts__shade"></div><div class="holiday-shortcuts__lights"><svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true" id="holidayLights"></svg></div><div id="holidayDecor"></div>
+      <div class="holiday-shortcuts__body"><span class="holiday-shortcuts__code">HLW → HAN</span><h3>Mùa lễ hội</h3><p>Halloween · còn <b id="holidayCountdown">–</b> ngày</p><span class="holiday-shortcuts__go">Khám phá →</span></div>
     </a>
-    <a class="col" href="{{ route('season.mua-le-hoi') }}" style="background:linear-gradient(180deg,transparent 40%,rgba(40,26,20,.65))">
-      <img src="{{ asset('images/prototype/home-16.jpg') }}" alt="">
-      <div class="info"><h3>Mùa lễ hội</h3><small>Chuyến bay mùa lễ — mùa thu, Halloween, cây thông Bắc Âu</small></div>
+    <a class="holiday-shortcuts__card holiday-shortcuts__card--tree" id="treeCard" href="{{ route('season.phu-kien') }}" aria-label="Phụ kiện và đồ trang trí cây thông">
+      <div class="holiday-shortcuts__velvet"></div><div class="holiday-shortcuts__bokeh" id="treeBokeh"></div><div class="holiday-shortcuts__shade"></div><div class="holiday-shortcuts__lights"><svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true" id="treeLights"></svg></div><div id="treeDecor"></div>
+      <div class="holiday-shortcuts__body"><span class="holiday-shortcuts__code">CPH → HAN</span><h3>Phụ kiện cây thông</h3><p>Giáng sinh · còn <b id="treeCountdown">–</b> ngày</p><span class="holiday-shortcuts__go">Khám phá →</span></div>
     </a>
   </div>
+  <p class="holiday-shortcuts__note">Lối tắt mùa lễ: lồng đèn cam & lá thu bên trái, quả châu & ngôi sao bên phải, đung đưa khi cuộn trang.</p>
 </div></section>
-
-
-
 <!-- B2B -->
 <section id="b2b" class="reveal" style="padding-top:0"><div class="wrap">
   <div class="b2b"><img src="{{ asset('images/prototype/home-17.jpg') }}" alt="" loading="lazy"><div><small>B2B · AIR WAYBILL</small><h2>Trở thành đối tác</h2><p>Đồng hành cùng Lâm Nhiên Thảo, mang hoa nhập khẩu đến không gian của khách hàng bạn.</p></div><a class="btn primary" href="#">Đăng ký đối tác →</a></div>
@@ -295,6 +293,56 @@ setTimeout(()=>document.querySelectorAll('.reveal,.mapsec').forEach(el=>{const r
   if(t/(d.length/64)>.45){done=true;cv.style.transition='opacity .6s';cv.style.opacity=0;setTimeout(()=>cv.remove(),700)}});
  cv.tabIndex=0;cv.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();cv.remove()}});
  if(red){cv.remove()}})();
+</script>
+<script>
+/* Seasonal shortcut decorations from loi-tat-mua-le.html. */
+(function () {
+  const root = document.querySelector('.holiday-shortcuts');
+  if (!root) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const days = date => Math.max(0, Math.ceil((new Date(date + 'T23:59:59') - new Date()) / 864e5));
+  root.querySelector('#holidayCountdown').textContent = days('2026-10-31');
+  root.querySelector('#treeCountdown').textContent = days('2026-12-25');
+  const lights = (id, colors) => {
+    const svg = root.querySelector('#' + id);
+    let html = '<path d="M-5 6 Q50 30 100 12 T205 8" fill="none" stroke="#2A1D16" stroke-width="1.2" vector-effect="non-scaling-stroke"/>';
+    for (let i = 0; i < 9; i++) {
+      const t = (i + .5) / 9, x = -5 + t * 210;
+      const y = t < .5 ? 6 * (1 - 2 * t) ** 2 + 2 * (2 * t) * (1 - 2 * t) * 30 + (2 * t) ** 2 * 12 : 12 * (2 - 2 * t) ** 2 + 2 * (2 * t - 1) * (2 - 2 * t) * -6 + (2 * t - 1) ** 2 * 8;
+      const color = colors[i % colors.length];
+      html += `<g class="holiday-shortcuts__bulb" style="animation-delay:${(-i * .37).toFixed(2)}s"><ellipse cx="${x}" cy="${y + 4}" rx="2.4" ry="3.6" fill="${color}"/><ellipse cx="${x}" cy="${y + 4}" rx="7" ry="8" fill="${color}" opacity=".25"/></g>`;
+    }
+    svg.innerHTML = html;
+  };
+  lights('holidayLights', ['#FFB25B', '#FFD58A', '#E9853A']);
+  lights('treeLights', ['#FFE7B0', '#FFF4D6', '#F2D48A']);
+  const lantern = id => `<svg viewBox="0 0 40 70"><defs><radialGradient id="lantern${id}" cx="45%" cy="55%" r="60%"><stop offset="0" stop-color="#FFE08A"/><stop offset=".5" stop-color="#F59A3E"/><stop offset="1" stop-color="#C2571C"/></radialGradient></defs><path d="M20 22c-12 4-17 18-13 30 3 9 9 14 13 16 4-2 10-7 13-16 4-12-1-26-13-30z" fill="url(#lantern${id})"/><path d="M20 22c-5 6-6 26 0 46M20 22c5 6 6 26 0 46M20 22c-10 6-12 26-6 42M20 22c10 6 12 26 6 42" stroke="#B85A1E" stroke-width=".9" fill="none" opacity=".7"/><ellipse class="holiday-shortcuts__glow" cx="20" cy="46" rx="9" ry="12" fill="#FFF1B8" opacity=".55"/></svg>`;
+  const leaf = color => `<svg viewBox="0 0 40 40"><path d="M20 4l4 9 8-3-3 8 8 3-8 4 3 8-8-2-4 9-4-9-8 2 3-8-8-4 8-3-3-8 8 3z" fill="${color}"/><path d="M20 12v24" stroke="#5E2E16" stroke-width="1"/></svg>`;
+  const bauble = (id, light, dark) => `<svg viewBox="0 0 50 62"><defs><radialGradient id="bauble${id}" cx="35%" cy="35%" r="70%"><stop offset="0" stop-color="${light}"/><stop offset="1" stop-color="${dark}"/></radialGradient><clipPath id="clip${id}"><circle cx="25" cy="37" r="21"/></clipPath></defs><rect x="19" y="10" width="12" height="7" rx="2" fill="#D9B36A"/><circle cx="25" cy="8.5" r="3" fill="none" stroke="#D9B36A" stroke-width="1.6"/><circle cx="25" cy="37" r="21" fill="url(#bauble${id})"/><g clip-path="url(#clip${id})"><ellipse class="holiday-shortcuts__sheen" cx="17" cy="28" rx="7" ry="11" fill="#fff" transform="rotate(25 17 28)"/></g></svg>`;
+  const star = '<svg viewBox="0 0 50 50"><path d="M25 3l6.2 13.6 14.8 1.7-11 10 3 14.7L25 35.6 12 43l3-14.7-11-10 14.8-1.7z" fill="#E8C274" stroke="#9C6E2E" stroke-width="1"/><path class="holiday-shortcuts__sheen" d="M25 9l3 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
+  const hanging = [];
+  const build = (id, items) => {
+    const box = root.querySelector('#' + id), card = box.closest('.holiday-shortcuts__card');
+    items.forEach(([left, length, width, art], index) => {
+      const item = document.createElement('div');
+      item.className = 'holiday-shortcuts__hang'; item.style.left = `calc(${left}% - ${width / 2}%)`; item.style.width = width + '%';
+      item.innerHTML = `<div class="holiday-thread" style="width:1px;margin:0 auto;background:linear-gradient(#2A1D16,#7A5A40);height:0"></div>${art}`;
+      box.appendChild(item); hanging.push({item, length, phase:index * 1.21, card});
+    });
+  };
+  build('holidayDecor', [[12,16,15,lantern(1)],[30,26,10,leaf('#B5562F')],[48,12,17,lantern(2)],[66,30,9,leaf('#D08A2E')],[80,20,14,lantern(3)]]);
+  build('treeDecor', [[10,18,17,bauble(1,'#F3D3B5','#B07A52')],[30,30,14,bauble(2,'#FFF7EC','#D9C2A8')],[50,12,19,star],[70,26,15,bauble(3,'#FFE7A8','#B8863E')],[86,16,12,bauble(4,'#E7B7A3','#8E3F2E')]]);
+  const resize = () => hanging.forEach(({item, length, card}) => item.querySelector('.holiday-thread').style.height = card.clientHeight * length / 100 + 'px');
+  resize(); addEventListener('resize', resize);
+  const bokeh = root.querySelector('#treeBokeh');
+  for (let i = 0; i < 14; i++) { const dot = document.createElement('i'), size = 10 + Math.random() * 30; dot.style.width = dot.style.height = size + 'px'; dot.style.left = Math.random() * 95 + '%'; dot.style.top = Math.random() * 70 + '%'; dot.style.animationDelay = -Math.random() * 5 + 's'; bokeh.appendChild(dot); }
+  if (reduced) return;
+  let energy = 0, lastY = scrollY, start = performance.now();
+  addEventListener('scroll', () => { energy = Math.min(14, energy + Math.abs(scrollY - lastY) * .12); lastY = scrollY; }, {passive:true});
+  root.querySelectorAll('.holiday-shortcuts__card').forEach(card => card.addEventListener('pointerenter', () => energy = Math.min(14, energy + 6)));
+  const animate = now => { energy *= .985; const time = (now - start) / 1000; hanging.forEach(({item, phase}) => item.style.transform = `rotate(${(4 + energy) * Math.sin(time * 2 + phase)}deg)`); requestAnimationFrame(animate); };
+  requestAnimationFrame(animate);
+})();
 </script>
 <script>
 const LNT_HOME = @json($homeData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
