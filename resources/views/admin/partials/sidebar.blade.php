@@ -86,7 +86,7 @@
                 </li>
 
                 <li class="admin-nav-item">
-                    <a href="{{ route('admin.mystery-boxes.index') }}" 
+                    <a href="{{ route('admin.mystery-boxes.index') }}"
                        class="admin-nav-link {{ request()->routeIs('admin.mystery-boxes.*') ? 'active' : '' }}">
                         <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
@@ -98,16 +98,6 @@
                         @if($newMysteryBoxCount > 0)
                             <span class="admin-nav-badge">{{ $newMysteryBoxCount }}</span>
                         @endif
-                    </a>
-                </li>
-
-                <li class="admin-nav-item">
-                    <a href="{{ route('admin.mystery-box-content.edit') }}"
-                       class="admin-nav-link {{ request()->routeIs('admin.mystery-box-content.*') ? 'active' : '' }}">
-                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m4-2a8 8 0 11-16 0 8 8 0 0116 0z"/>
-                        </svg>
-                        <span class="admin-nav-text">Nội Dung Mystery Box</span>
                     </a>
                 </li>
 
@@ -173,6 +163,16 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21s7-4.35 7-10a7 7 0 10-14 0c0 5.65 7 10 7 10z"/><circle cx="12" cy="11" r="2"/>
                         </svg>
                         <span class="admin-nav-text">Bản đồ nguồn gốc hoa</span>
+                    </a>
+                </li>
+
+                <li class="admin-nav-item">
+                    <a href="{{ route('admin.mystery-box-content.edit') }}"
+                       class="admin-nav-link {{ request()->routeIs('admin.mystery-box-content.*') ? 'active' : '' }}">
+                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m4-2a8 8 0 11-16 0 8 8 0 0116 0z"/>
+                        </svg>
+                        <span class="admin-nav-text">Nội Dung Mystery Box</span>
                     </a>
                 </li>
             </ul>

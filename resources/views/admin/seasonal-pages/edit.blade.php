@@ -155,6 +155,74 @@
                     </div>
                 </div>
             </div>
+
+            {{-- Tree Sizes --}}
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h2 class="admin-card-title">Kích Cỡ Cây</h2>
+                </div>
+                <div class="admin-card-body" style="display: flex; flex-direction: column; gap: 12px;">
+                    @foreach(($data['tree']['sizes'] ?? []) as $i => $size)
+                    <div class="size-row" style="display: grid; grid-template-columns: 1fr 80px 1fr auto; gap: 12px; align-items: end; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
+                        <div>
+                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Nhãn (VD: 1,8 m)</label>
+                            <input type="text" name="data[tree][sizes][{{ $i }}][label]" value="{{ $size['label'] ?? '' }}" class="form-input" placeholder="1,8 m">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Chiều cao (cm)</label>
+                            <input type="number" name="data[tree][sizes][{{ $i }}][cm]" value="{{ $size['cm'] ?? '' }}" class="form-input" placeholder="180">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Giá (để trống = Liên hệ báo giá)</label>
+                            <input type="text" name="data[tree][sizes][{{ $i }}][price]" value="{{ $size['price'] ?? '' }}" class="form-input" placeholder="Liên hệ báo giá">
+                        </div>
+                        <button type="button" class="btn btn-secondary remove-size" style="padding: 8px 12px; color: #dc2626;" title="Xóa kích cỡ">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                    @endforeach
+                    <button type="button" id="addSizeBtn" class="btn btn-secondary" style="margin-top: 4px;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Thêm kích cỡ
+                    </button>
+                </div>
+            </div>
+
+            {{-- Tree FAQ --}}
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h2 class="admin-card-title">Câu Hỏi Thường Gặp</h2>
+                </div>
+                <div class="admin-card-body" style="display: flex; flex-direction: column; gap: 12px;">
+                    @foreach(($data['tree']['faq'] ?? []) as $i => $faq)
+                    <div class="faq-row" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: start; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
+                        <div>
+                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Câu hỏi</label>
+                            <input type="text" name="data[tree][faq][{{ $i }}][q]" value="{{ $faq['q'] ?? '' }}" class="form-input" placeholder="Câu hỏi...">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Câu trả lời</label>
+                            <input type="text" name="data[tree][faq][{{ $i }}][a]" value="{{ $faq['a'] ?? '' }}" class="form-input" placeholder="Câu trả lời...">
+                        </div>
+                        <button type="button" class="btn btn-secondary remove-faq" style="padding: 8px 12px; color: #dc2626; margin-top: 22px;" title="Xóa câu hỏi">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                    @endforeach
+                    <button type="button" id="addFaqBtn" class="btn btn-secondary" style="margin-top: 4px;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Thêm câu hỏi
+                    </button>
+                </div>
+            </div>
             @endif
 
             {{-- Trick or Treat (Halloween only) --}}
@@ -316,6 +384,77 @@
     const saveBtn = document.getElementById('saveBtn');
     const productIdsInput = document.getElementById('productIds');
     const selectedCount = document.getElementById('selectedCount');
+
+    // Tree sizes: re-index after add/remove
+    function reindexSizes() {
+        document.querySelectorAll('.size-row').forEach((row, i) => {
+            row.querySelectorAll('input').forEach(inp => {
+                const name = inp.name.replace(/\[sizes\]\[\d+\]/, `[sizes][${i}]`);
+                inp.name = name;
+            });
+        });
+    }
+
+    // Add size
+    document.getElementById('addSizeBtn')?.addEventListener('click', function() {
+        const container = this.closest('.admin-card-body');
+        const count = container.querySelectorAll('.size-row').length;
+        const html = `<div class="size-row" style="display: grid; grid-template-columns: 1fr 80px 1fr auto; gap: 12px; align-items: end; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
+            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Nhãn</label><input type="text" name="data[tree][sizes][${count}][label]" class="form-input" placeholder="1,8 m"></div>
+            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Chiều cao (cm)</label><input type="number" name="data[tree][sizes][${count}][cm]" class="form-input" placeholder="180"></div>
+            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Giá</label><input type="text" name="data[tree][sizes][${count}][price]" class="form-input" placeholder="Liên hệ báo giá"></div>
+            <button type="button" class="btn btn-secondary remove-size" style="padding: 8px 12px; color: #dc2626;" title="Xóa kích cỡ">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+        </div>`;
+        container.insertAdjacentHTML('beforeend', html);
+        bindSizeRemove();
+    });
+
+    function bindSizeRemove() {
+        document.querySelectorAll('.remove-size').forEach(btn => {
+            btn.onclick = function() {
+                this.closest('.size-row').remove();
+                reindexSizes();
+            };
+        });
+    }
+    bindSizeRemove();
+
+    // Tree FAQ: re-index after add/remove
+    function reindexFaq() {
+        document.querySelectorAll('.faq-row').forEach((row, i) => {
+            row.querySelectorAll('input').forEach(inp => {
+                const name = inp.name.replace(/\[faq\]\[\d+\]/, `[faq][${i}]`);
+                inp.name = name;
+            });
+        });
+    }
+
+    // Add FAQ
+    document.getElementById('addFaqBtn')?.addEventListener('click', function() {
+        const container = this.closest('.admin-card-body');
+        const count = container.querySelectorAll('.faq-row').length;
+        const html = `<div class="faq-row" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: start; padding: 12px; background: var(--admin-bg-subtle); border-radius: 8px;">
+            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Câu hỏi</label><input type="text" name="data[tree][faq][${count}][q]" class="form-input" placeholder="Câu hỏi..."></div>
+            <div><label style="display: block; font-size: 12px; color: var(--admin-text-muted); margin-bottom: 4px;">Câu trả lời</label><input type="text" name="data[tree][faq][${count}][a]" class="form-input" placeholder="Câu trả lời..."></div>
+            <button type="button" class="btn btn-secondary remove-faq" style="padding: 8px 12px; color: #dc2626; margin-top: 22px;" title="Xóa câu hỏi">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+        </div>`;
+        container.insertAdjacentHTML('beforeend', html);
+        bindFaqRemove();
+    });
+
+    function bindFaqRemove() {
+        document.querySelectorAll('.remove-faq').forEach(btn => {
+            btn.onclick = function() {
+                this.closest('.faq-row').remove();
+                reindexFaq();
+            };
+        });
+    }
+    bindFaqRemove();
 
     // Collect selected product IDs
     function updateSelectedIds() {
