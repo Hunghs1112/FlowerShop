@@ -3,7 +3,7 @@
 @section('page-title', 'Cài Đặt')
 
 @section('content')
-@php($bannerOnly = request()->routeIs('admin.page-banners.*'))
+<?php $bannerOnly = request()->routeIs('admin.page-banners.*'); ?>
 @if($bannerOnly)
 <style>
     .settings-tab-btn[data-tab="general"],
