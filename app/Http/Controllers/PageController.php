@@ -168,10 +168,10 @@ class PageController extends Controller
         $season['products'] = $dbProducts;
 
         // Random card image from season products, fallback to hero setting
-        $randomProductImg = $seasonProducts
-            ->flatMap(fn($p) => $p->productImages->all())
-            ->random(1)
-            ->first()?->url;
+        $productImages = $seasonProducts->flatMap(fn($p) => $p->productImages->all());
+        $randomProductImg = $productImages->isNotEmpty()
+            ? $productImages->random()->url
+            : null;
 
         if ($randomProductImg) {
             $season['img'] = asset('storage/' . $randomProductImg);
