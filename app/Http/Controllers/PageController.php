@@ -167,10 +167,19 @@ class PageController extends Controller
         // Inject DB products into season config
         $season['products'] = $dbProducts;
 
-        // Get hero image from settings
-        $heroSetting = \App\Models\Setting::where('key', 'seasonal_' . $seasonId . '_hero')->value('value');
-        if ($heroSetting) {
-            $season['img'] = asset('storage/' . $heroSetting);
+        // Random card image from season products, fallback to hero setting
+        $randomProductImg = $seasonProducts
+            ->flatMap(fn($p) => $p->productImages->all())
+            ->random(1)
+            ->first()?->url;
+
+        if ($randomProductImg) {
+            $season['img'] = asset('storage/' . $randomProductImg);
+        } else {
+            $heroSetting = \App\Models\Setting::where('key', 'seasonal_' . $seasonId . '_hero')->value('value');
+            if ($heroSetting) {
+                $season['img'] = asset('storage/' . $heroSetting);
+            }
         }
 
         return view($view, [
