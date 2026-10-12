@@ -272,8 +272,15 @@ class PageController extends Controller
         )->merge(collect($tree['packages']['items'] ?? [])->pluck('name')->map(fn ($name) => "Bộ {$name}"))->all();
         $addonNames = collect($tree['addons'] ?? [])->pluck('name')->all();
 
+        $validSizes = collect($tree['sizes'] ?? [])->map(function ($s) {
+            $min = $s['cm_min'] ?? $s['cm'] ?? null;
+            $max = $s['cm_max'] ?? null;
+            if ($min !== null && $max !== null) return "{$min}-{$max} cm";
+            return $s['label'] ?? null;
+        })->filter()->all();
+
         $validated = $request->validate([
-            'size' => ['required', Rule::in(collect($tree['sizes'] ?? [])->pluck('label')->all())],
+            'size' => ['required', Rule::in($validSizes)],
             'accessories' => 'nullable|array|max:20',
             'accessories.*' => ['string', Rule::in($accessoryNames)],
             'accessory_quantities' => 'nullable|array|max:20',

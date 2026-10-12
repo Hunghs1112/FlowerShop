@@ -108,7 +108,7 @@ function bindTree(s){const t=s.tree,viz=$('#viz'),btns=[...root.querySelectorAll
     (t.accessories||[]).forEach((g,gi)=>g.items.forEach((it,ii)=>{const c=q[gi+'-'+ii]||0;if(c)L.push({n:it.name,c,p:num(it.price)})}));return L};
   const summ=()=>{const ad=[...form.querySelectorAll('input[name=addon]:checked')].map(x=>x.value),L=picked();
     const tp=num(t.sizes[cur].price);let tot=tp||0,unk=!tp;L.forEach(x=>{if(x.p==null)unk=true;else tot+=x.p*x.c});
-    $('#sum').innerHTML=`<b>Cây ${esc(sizeLabel(t.sizes[cur]))}</b>`+(L.length?`<br>Phụ kiện: ${esc(L.map(x=>x.n+(x.c>1?' ×'+x.c:'')).join(', '))}`:'')+(ad.length?`<br>Dịch vụ: ${esc(ad.join(', '))}`:'')+
+    $('#sum').innerHTML=`<b>Kích thước:</b> ${esc(sizeLabel(t.sizes[cur]))}`+(L.length?`<br><b>Phụ kiện:</b> ${esc(L.map(x=>x.n+(x.c>1?' ×'+x.c:'')).join(', '))}`:'')+(ad.length?`<br><b>Dịch vụ:</b> ${esc(ad.join(', '))}`:'')+
       (tot?`<br>Tạm tính: <b>${vnd(tot)}</b>${unk?' (chưa gồm mục liên hệ báo giá)':''}`:'');
     const n=L.reduce((a,x)=>a+x.c,0);const bd=document.getElementById('accCount');if(bd){bd.textContent=n?`${n} phụ kiện đã chọn · xem phiếu đặt trước`:'';bd.hidden=!n}};
   window.__lntPicked=picked;
