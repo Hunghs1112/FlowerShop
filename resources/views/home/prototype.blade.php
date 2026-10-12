@@ -263,7 +263,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
     </a>
     <a class="holiday-shortcuts__card holiday-shortcuts__card--halloween" href="{{ route('season.halloween') }}" aria-label="Halloween">
       <img class="holiday-shortcuts__image" src="{{ asset('images/seasonal/hlw_hero.jpg') }}" alt="">
-      <div class="holiday-shortcuts__shade"></div>
+      <div class="holiday-shortcuts__shade"></div><div id="halloweenDecor"></div>
       <div class="holiday-shortcuts__body"><span class="holiday-shortcuts__code">HLW → HAN</span><h3>Halloween</h3><p>Chuyến bay đêm 31/10 · còn <b id="halloweenCountdown">–</b> ngày</p><span class="holiday-shortcuts__go">Khám phá →</span></div>
     </a>
   </div>
@@ -326,6 +326,8 @@ setTimeout(()=>document.querySelectorAll('.reveal,.mapsec').forEach(el=>{const r
   const leaf = color => `<svg viewBox="0 0 40 40"><path d="M20 4l4 9 8-3-3 8 8 3-8 4 3 8-8-2-4 9-4-9-8 2 3-8-8-4 8-3-3-8 8 3z" fill="${color}"/><path d="M20 12v24" stroke="#5E2E16" stroke-width="1"/></svg>`;
   const bauble = (id, light, dark) => `<svg viewBox="0 0 50 62"><defs><radialGradient id="bauble${id}" cx="35%" cy="35%" r="70%"><stop offset="0" stop-color="${light}"/><stop offset="1" stop-color="${dark}"/></radialGradient><clipPath id="clip${id}"><circle cx="25" cy="37" r="21"/></clipPath></defs><rect x="19" y="10" width="12" height="7" rx="2" fill="#D9B36A"/><circle cx="25" cy="8.5" r="3" fill="none" stroke="#D9B36A" stroke-width="1.6"/><circle cx="25" cy="37" r="21" fill="url(#bauble${id})"/><g clip-path="url(#clip${id})"><ellipse class="holiday-shortcuts__sheen" cx="17" cy="28" rx="7" ry="11" fill="#fff" transform="rotate(25 17 28)"/></g></svg>`;
   const star = '<svg viewBox="0 0 50 50"><path d="M25 3l6.2 13.6 14.8 1.7-11 10 3 14.7L25 35.6 12 43l3-14.7-11-10 14.8-1.7z" fill="#E8C274" stroke="#9C6E2E" stroke-width="1"/><path class="holiday-shortcuts__sheen" d="M25 9l3 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
+  const pumpkin = '<svg viewBox="0 0 50 60"><path d="M25 13c-14 0-21 11-18 25 2 11 10 17 18 17s16-6 18-17c3-14-4-25-18-25z" fill="#e87928" stroke="#8c351b" stroke-width="1.5"/><path d="M25 13V6l6-4" fill="none" stroke="#638044" stroke-width="3" stroke-linecap="round"/><path d="M25 15c-5 9-5 26 0 38M16 18c-4 9-3 23 2 32M34 18c4 9 3 23-2 32" fill="none" stroke="#b94d20" stroke-width="1.2"/><path d="M17 33l5-4 3 4 3-4 5 4-3 7H20z" fill="#29131a"/></svg>';
+  const bat = '<svg viewBox="0 0 60 38"><path d="M3 18c8-8 14-7 21 0 2-6 5-8 6-8s4 2 6 8c7-7 13-8 21 0-6 1-8 6-9 13-5-2-10-1-18 4-8-5-13-6-18-4-1-7-3-12-9-13z" fill="#190d20" stroke="#b979c4" stroke-width="1"/></svg>';
   const hanging = [];
   const build = (id, items) => {
     const box = root.querySelector('#' + id), card = box.closest('.holiday-shortcuts__card');
@@ -338,6 +340,7 @@ setTimeout(()=>document.querySelectorAll('.reveal,.mapsec').forEach(el=>{const r
   };
   build('holidayDecor', [[12,16,15,lantern(1)],[30,26,10,leaf('#B5562F')],[48,12,17,lantern(2)],[66,30,9,leaf('#D08A2E')],[80,20,14,lantern(3)]]);
   build('treeDecor', [[10,18,17,bauble(1,'#F3D3B5','#B07A52')],[30,30,14,bauble(2,'#FFF7EC','#D9C2A8')],[50,12,19,star],[70,26,15,bauble(3,'#FFE7A8','#B8863E')],[86,16,12,bauble(4,'#E7B7A3','#8E3F2E')]]);
+  build('halloweenDecor', [[12,19,18,pumpkin],[31,9,19,bat],[52,25,16,pumpkin],[72,12,17,bat],[87,28,14,pumpkin]]);
   const resize = () => hanging.forEach(({item, length, card}) => item.querySelector('.holiday-thread').style.height = card.clientHeight * length / 100 + 'px');
   resize(); addEventListener('resize', resize);
   const bokeh = root.querySelector('#treeBokeh');
