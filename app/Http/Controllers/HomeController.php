@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Banner;
 use App\Models\GalleryImage;
 use App\Models\Post;
 use App\Models\Product;
@@ -33,7 +32,7 @@ class HomeController extends Controller
         }
         $categories = $this->categoryService->getActiveCategories();
         $latestPosts = Post::published()->latest('published_at')->limit(3)->get();
-        $banners = Banner::active()->forLocation('home')->ordered()->get();
+        $banners = collect();
         $siteSettings = $this->settingService->getSiteInfo();
         $galleryImages = GalleryImage::active()->orderBy('sort_order')->get();
         $homeData = [

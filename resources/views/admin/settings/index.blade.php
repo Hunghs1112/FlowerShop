@@ -466,6 +466,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    if (window.location.hash === '#banners') {
+        document.querySelector('.settings-tab-btn[data-tab="banners"]')?.click();
+    }
+
     async function handleDelete(button) {
         if (!confirm(button.dataset.confirm || 'Bạn có chắc?')) {
             return;

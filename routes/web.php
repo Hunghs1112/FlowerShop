@@ -247,16 +247,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->where('seasonId', 'thu|halloween|thong')
         ->name('seasonal-pages.destroyHero');
 
-    // Page Banners (Ảnh Header Trang) — trang quản lý riêng
-    Route::get('page-banners', [\App\Http\Controllers\Admin\PageBannerController::class, 'index'])->name('page-banners.index');
-    Route::post('page-banners/upload/{key}', [\App\Http\Controllers\Admin\PageBannerController::class, 'upload'])
-        ->where('key', '[a-z0-9\-]+')
-        ->name('page-banners.upload');
-    Route::delete('page-banners/{key}', [\App\Http\Controllers\Admin\PageBannerController::class, 'destroy'])
-        ->where('key', '[a-z0-9\-]+')
-        ->name('page-banners.destroy');
-    Route::patch('page-banners/update-field', [\App\Http\Controllers\Admin\PageBannerController::class, 'updateField'])->name('page-banners.updateField');
-
     // Mystery Box management
     Route::get('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'edit'])->name('mystery-box-content.edit');
     Route::put('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'update'])->name('mystery-box-content.update');

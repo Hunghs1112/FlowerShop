@@ -157,7 +157,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
     <div class="trust"><div><b>09</b>vùng đất hoa</div><div><b>14:00</b>chốt đơn giao trong ngày</div><div><b>Zalo</b><a href="{{ $siteSettings['zalo_url'] ?: 'https://zalo.me/' . preg_replace('/\D/', '', $siteSettings['phone'] ?: '0869308993') }}" target="_blank" rel="noopener" style="color:inherit">{{ $siteSettings['phone'] ?: '0869 308 993' }}</a></div></div>
   </div>
   <div class="stage">
-    <div class="hero-img"><img src="{{ asset('images/prototype/home-01.jpg') }}" alt="Bó mao lương hồng phấn"></div>
+    <div class="hero-img"><img src="{{ $siteBanners['home'] ?? asset('images/prototype/home-01.jpg') }}" alt="Bó mao lương hồng phấn"></div>
     <div class="board" aria-label="Các chuyến hoa hôm nay">
       <div class="bh"><span>CHUYẾN HOA HÔM NAY</span><time id="clock">--:--</time></div>
       <div id="arrivals"></div>
@@ -431,7 +431,6 @@ lntSetLink(document.querySelector('#b2b .btn'), LNT_HOME.links.b2c);
 
 const heroImage = document.querySelector('.hero-img img');
 const defaultImage = heroImage?.src || '';
-if (LNT_HOME.hero?.image) heroImage.src = LNT_HOME.hero.image;
 
 const arrivalsEl = document.querySelector('#arrivals');
 if (heroImage && arrivalsEl) {
