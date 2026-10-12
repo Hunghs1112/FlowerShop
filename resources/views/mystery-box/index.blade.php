@@ -292,7 +292,7 @@ function body(f){const v=data[f.id]||{sel:[],extra:''};
   <label>Địa chỉ nhận hoa *<input id="c_addr" autocomplete="street-address" value="${esc(c.addr||'')}"></label>
   <label>Ngày nhận mong muốn *<input id="c_date" type="date" min="${t.toISOString().slice(0,10)}" value="${esc(c.date||'')}"></label>
   <label>Lưu ý thêm (không bắt buộc)<textarea id="c_note" maxlength="400" style="min-height:70px" placeholder="Dị ứng phấn hoa, màu hay loài hoa muốn tránh, dịp tặng, lời nhắn kèm thiệp…">${esc((data.note&&data.note.text)||'')}</textarea></label></div>
-  <label class="check"><input type="checkbox" id="c_ok" ${c.ok?'checked':''}> <span>Tôi đã đọc <a href="/trang/chinh-sach-doi-tra" target="_blank" rel="noopener">chính sách đổi trả</a> và đồng ý để LNT liên hệ xác nhận đơn.</span></label>`}
+  <label class="check"><input type="checkbox" id="c_ok" ${c.ok?'checked':''}> <span>Tôi đã đọc <a href="{{ route('policy.ours') }}" target="_blank" rel="noopener">chính sách đổi trả</a> và đồng ý để LNT liên hệ xác nhận đơn.</span></label>`}
 }
 function openPanel(f,from){busy=true;const stage=$('#stage');const bd=document.createElement('div');bd.className='backdrop';stage.appendChild(bd);
  const p=document.createElement('div');p.className='panel';p.setAttribute('role','dialog');p.setAttribute('aria-modal','true');p.setAttribute('aria-labelledby','pl');

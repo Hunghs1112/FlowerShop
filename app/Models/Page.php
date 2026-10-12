@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    public const GUIDE_SLUGS = ['huong-dan-mua-hang', 'huong-dan-dat-hang'];
+    public const GUIDE_SLUGS = ['huong-dan-dat-hang'];
 
     public const POLICY_SLUGS = [
         'chinh-sach-bao-mat',
@@ -27,7 +27,6 @@ class Page extends Model
         'dieu-khoan-dich-vu',
         ...self::GUIDE_SLUGS,
         'lien-he',
-        'chinh-sach-doi-tra',
         ...self::SEASONAL_SLUGS,
     ];
 

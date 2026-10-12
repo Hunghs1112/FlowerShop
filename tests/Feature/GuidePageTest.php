@@ -15,7 +15,7 @@ class GuidePageTest extends TestCase
     {
         Page::create([
             'title' => 'Hướng dẫn mua hàng',
-            'slug' => 'huong-dan-mua-hang',
+            'slug' => 'huong-dan-dat-hang',
             'content' => "## Nội dung đã cập nhật\n\nBản hướng dẫn từ quản trị.",
             'is_active' => true,
         ]);
@@ -36,7 +36,7 @@ class GuidePageTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
         $page = Page::create([
             'title' => 'Hướng dẫn mua hàng',
-            'slug' => 'huong-dan-mua-hang',
+            'slug' => 'huong-dan-dat-hang',
             'content' => 'Old content',
             'is_active' => true,
         ]);
@@ -47,7 +47,7 @@ class GuidePageTest extends TestCase
             'content' => 'New guide content',
         ])->assertRedirect(route('admin.pages.index'));
 
-        $this->assertSame('huong-dan-mua-hang', $page->fresh()->slug);
+        $this->assertSame('huong-dan-dat-hang', $page->fresh()->slug);
         $this->assertSame('New guide content', $page->fresh()->content);
         $this->actingAs($admin)->delete(route('admin.pages.destroy', $page))->assertNotFound();
     }

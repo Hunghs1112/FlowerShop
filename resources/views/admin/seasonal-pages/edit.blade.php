@@ -447,6 +447,10 @@
     // Save
     saveBtn.addEventListener('click', function() {
         updateSelectedIds();
+        const body = new FormData(form);
+        body.delete('product_ids');
+        JSON.parse(productIdsInput.value || '[]').forEach(id => body.append('product_ids[]', id));
+
         saveBtn.disabled = true;
         saveBtn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="animate-spin"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Đang lưu...';
 
@@ -454,12 +458,15 @@
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Accept': 'application/json'
             },
-            body: JSON.stringify(new FormData(form))
+            body
         })
-        .then(r => r.json())
+        .then(async r => {
+            const data = await r.json();
+            if (!r.ok) throw new Error(Object.values(data.errors || {}).flat()[0] || data.message || 'Lỗi khi lưu.');
+            return data;
+        })
         .then(data => {
             if (data.success) {
                 saveBtn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Đã Lưu!';
@@ -471,10 +478,10 @@
                 }, 2000);
             }
         })
-        .catch(() => {
+        .catch(error => {
             saveBtn.disabled = false;
             saveBtn.innerHTML = 'Lưu Thay Đổi';
-            alert('Lỗi khi lưu. Vui lòng thử lại.');
+            alert(error.message);
         });
     });
 

@@ -36,7 +36,7 @@
 <div class="gates2"><h2>CỔNG THÔNG TIN</h2><div class="gl">
 <a href="{{ route('guide') }}"><span>A1</span>Hướng dẫn đặt hàng<span>→</span></a>
 <a href="{{ route('policy.delivery') }}"><span>A2</span>Chính sách giao hàng<span>→</span></a>
-<a href="{{ route('policy', 'chinh-sach-doi-tra') }}"><span>A3</span>Phản hồi &amp; đổi trả<span>→</span></a>
+<a href="{{ route('policy.ours') }}"><span>A3</span>Phản hồi &amp; đổi trả<span>→</span></a>
 <a href="{{ route('policy.terms') }}"><span>A4</span>Điều khoản dịch vụ<span>→</span></a>
 <a href="{{ route('policy.baomat') }}"><span>A5</span>Chính sách bảo mật<span>→</span></a></div></div>
 </div></section>
