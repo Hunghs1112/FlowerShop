@@ -44,7 +44,7 @@ header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .board{position:absolute;left:0;bottom:-26px;width:min(440px,92%);background:var(--board);border-radius:18px;padding:1rem 1rem .8rem;box-shadow:0 30px 60px -24px rgba(0,0,0,.45)}
 .bh{display:flex;justify-content:space-between;color:var(--acc);font-weight:600;letter-spacing:.18em;font-size:.72rem;margin-bottom:.6rem}.bh time{color:#BFA493}
 .brow{display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:center;padding:.45rem .2rem;border-top:1px solid rgba(226,174,132,.14);text-decoration:none;color:var(--tile-ink);border-radius:8px}
-.brow:hover,.brow:focus-visible{background:rgba(226,174,132,.08);outline:none}
+.brow:hover,.brow:focus-visible,.brow.is-active{background:rgba(226,174,132,.08);outline:none}
 .cells{display:flex;gap:2px}.f{width:15px;height:22px;background:var(--tile);border-radius:3px;display:grid;place-items:center;font-size:.68rem;font-weight:600;color:var(--tile-ink);position:relative;overflow:hidden}
 .f::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#0A0705}
 .fl{font-family:var(--serif);font-size:.9rem;color:#E9D9CB;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -433,24 +433,51 @@ const defaultImage = heroImage?.src || '';
 
 const arrivalsEl = document.querySelector('#arrivals');
 if (heroImage && arrivalsEl) {
-  const fadeSwap = (src) => {
+  let slideshowTimer = null;
+  let slideshowIndex = 0;
+  let isPaused = false;
+
+  const allRows = arrivalsEl.querySelectorAll('a.brow');
+  const slideshowRows = Array.from(allRows).filter(r => r.dataset.image);
+
+  const applySlide = (src, activeRow) => {
     heroImage.style.opacity = '0';
     setTimeout(() => { heroImage.src = src; heroImage.style.opacity = '1'; }, 200);
+    allRows.forEach(r => r.classList.toggle('is-active', r === activeRow));
   };
+
+  const advanceSlide = () => {
+    if (slideshowRows.length === 0) return;
+    slideshowIndex = (slideshowIndex + 1) % slideshowRows.length;
+    const row = slideshowRows[slideshowIndex];
+    applySlide(row.dataset.image, row);
+  };
+
+  const startSlideshow = () => {
+    clearInterval(slideshowTimer);
+    slideshowTimer = setInterval(advanceSlide, 3000);
+  };
+
   arrivalsEl.addEventListener('mouseover', (e) => {
     const brow = e.target.closest('a.brow');
-    if (brow?.dataset.image) fadeSwap(brow.dataset.image);
+    if (brow?.dataset.image) { isPaused = true; applySlide(brow.dataset.image, brow); clearInterval(slideshowTimer); }
   });
   arrivalsEl.addEventListener('focusin', (e) => {
     const brow = e.target.closest('a.brow');
-    if (brow?.dataset.image) fadeSwap(brow.dataset.image);
+    if (brow?.dataset.image) { isPaused = true; applySlide(brow.dataset.image, brow); clearInterval(slideshowTimer); }
   });
   arrivalsEl.addEventListener('mouseout', (e) => {
-    if (!e.relatedTarget?.closest('#arrivals')) fadeSwap(defaultImage);
+    if (!e.relatedTarget?.closest('#arrivals')) { isPaused = false; startSlideshow(); }
   });
   arrivalsEl.addEventListener('focusout', (e) => {
-    if (!e.relatedTarget?.closest('#arrivals')) fadeSwap(defaultImage);
+    if (!e.relatedTarget?.closest('#arrivals')) { isPaused = false; startSlideshow(); }
   });
+
+  // Start auto-slideshow
+  if (slideshowRows.length > 0) {
+    applySlide(slideshowRows[0].dataset.image, slideshowRows[0]);
+    startSlideshow();
+  }
 }
 </script>
 @endpush
