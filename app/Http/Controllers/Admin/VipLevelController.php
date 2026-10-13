@@ -121,8 +121,6 @@ class VipLevelController extends Controller
      */
     public function destroy(VipLevel $vipLevel)
     {
-
-        // Check if any users are assigned to this VIP level
         if ($vipLevel->users()->count() > 0) {
             return redirect()->back()
                            ->with('error', 'Không thể xóa VIP level đang có người dùng. Vui lòng chuyển người dùng sang VIP level khác trước.');
@@ -132,5 +130,25 @@ class VipLevelController extends Controller
 
         return redirect()->route('admin.vip-levels.index')
                         ->with('success', 'VIP level đã được xóa thành công');
+    }
+
+    public function autoSave(Request $request, VipLevel $vipLevel)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        $fieldConfig = [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'priority' => 'required|integer|min:0',
+            'is_active' => 'boolean',
+        ];
+
+        return $this->ajaxFieldService->handleAjaxFieldUpdate(
+            $vipLevel,
+            $field,
+            $value,
+            $fieldConfig
+        );
     }
 }

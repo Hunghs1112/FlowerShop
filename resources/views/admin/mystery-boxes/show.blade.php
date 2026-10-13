@@ -165,7 +165,11 @@
                     
                     <div class="form-group">
                         <label class="form-label">Cập nhật trạng thái</label>
-                        <select name="status" class="form-input" required>
+                        <select name="status"
+                                class="form-input auto-save-select"
+                                data-entity="mystery-boxes"
+                                data-id="{{ $mysteryBox->id }}"
+                                required>
                             <option value="new" {{ $mysteryBox->status == 'new' ? 'selected' : '' }}>Mới</option>
                             <option value="reviewing" {{ $mysteryBox->status == 'reviewing' ? 'selected' : '' }}>Đang xem xét</option>
                             <option value="confirmed" {{ $mysteryBox->status == 'confirmed' ? 'selected' : '' }}>Đã xác nhận</option>
@@ -173,13 +177,6 @@
                             <option value="cancelled" {{ $mysteryBox->status == 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
                         </select>
                     </div>
-
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Cập nhật
-                    </button>
                 </form>
 
                 <div class="status-info" style="margin-top: 24px; padding: 16px; background: rgb(var(--color-primary-rgb) / 0.05); border-radius: 8px; font-size: 0.875rem;">

@@ -70,4 +70,51 @@ class OrderController extends Controller
             ? back()->with('success', 'Đã cập nhật trạng thái đơn hàng.')
             : back();
     }
+
+    public function autoSave(Request $request, Order $order)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        if ($field === 'status') {
+            $validated = $request->validate([
+                'field' => 'required',
+                'value' => ['required', \Illuminate\Validation\Rule::in(array_keys(Order::STATUSES))],
+            ]);
+
+            $result = DB::transaction(function () use ($order, $validated) {
+                $order = Order::query()->lockForUpdate()->findOrFail($order->id);
+
+                if (in_array($order->status, ['completed', 'cancelled'], true)) {
+                    return 'finished';
+                }
+
+                if ($validated['value'] === 'new' || $validated['value'] === $order->status) {
+                    return 'unchanged';
+                }
+
+                $order->load(['items.product', 'items.variant']);
+
+                foreach ($order->items as $item) {
+                    if ($validated['value'] === 'completed' && $item->product) {
+                        $item->product->increment('sales_count', $item->quantity);
+                    }
+                    if ($validated['value'] === 'cancelled') {
+                        ($item->variant ?: $item->product)?->increment('stock', $item->quantity);
+                    }
+                }
+
+                $order->update(['status' => $validated['value']]);
+                return 'updated';
+            });
+
+            if ($result === 'finished') {
+                return response()->json(['success' => false, 'message' => 'Đơn đã kết thúc nên không thể đổi trạng thái.'], 422);
+            }
+
+            return response()->json(['success' => true, 'message' => 'Đã cập nhật trạng thái đơn hàng.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Trường không hợp lệ'], 422);
+    }
 }

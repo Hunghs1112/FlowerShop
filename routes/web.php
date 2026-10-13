@@ -177,8 +177,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
     Route::resource('flower-origins', \App\Http\Controllers\Admin\FlowerOriginController::class)->except('show');
+    Route::patch('flower-origins/{flowerOrigin}/auto-save', [\App\Http\Controllers\Admin\FlowerOriginController::class, 'autoSave'])->name('flower-origins.autoSave');
+    Route::post('flower-origins/{flowerOrigin}/upload-image', [\App\Http\Controllers\Admin\FlowerOriginController::class, 'uploadImage'])->name('flower-origins.uploadImage');
     Route::post('pages/{page}/upload-header-image', [\App\Http\Controllers\Admin\PageController::class, 'uploadHeaderImage'])->name('pages.uploadHeaderImage');
     Route::resource('gallery-images', \App\Http\Controllers\Admin\GalleryImageController::class)->except('show');
+    Route::patch('gallery-images/{galleryImage}/auto-save', [\App\Http\Controllers\Admin\GalleryImageController::class, 'autoSave'])->name('gallery-images.autoSave');
+    Route::post('gallery-images/{galleryImage}/upload-image', [\App\Http\Controllers\Admin\GalleryImageController::class, 'uploadImage'])->name('gallery-images.uploadImage');
 
     // AJAX Auto-save endpoints for Products
     Route::patch('products/{product}/update-field', [\App\Http\Controllers\Admin\ProductController::class, 'updateField'])->name('products.updateField');
@@ -251,14 +255,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Mystery Box management
     Route::get('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'edit'])->name('mystery-box-content.edit');
     Route::put('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'update'])->name('mystery-box-content.update');
+    Route::patch('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'autoSave'])->name('mystery-box-content.autoSave');
 
     // Mystery Box management
     Route::get('mystery-boxes', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'index'])->name('mystery-boxes.index');
     Route::get('mystery-boxes/{mysteryBox}', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'show'])->name('mystery-boxes.show');
     Route::patch('mystery-boxes/{mysteryBox}/status', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'updateStatus'])->name('mystery-boxes.updateStatus');
+    Route::patch('mystery-boxes/{mysteryBox}/auto-save', [\App\Http\Controllers\Admin\MysteryBoxController::class, 'autoSave'])->name('mystery-boxes.autoSave');
 
     // VIP Levels management
     Route::resource('vip-levels', \App\Http\Controllers\Admin\VipLevelController::class);
+    Route::patch('vip-levels/{vipLevel}/auto-save', [\App\Http\Controllers\Admin\VipLevelController::class, 'autoSave'])->name('vip-levels.autoSave');
     Route::post('vip-levels/{vipLevel}/products', [\App\Http\Controllers\Admin\VipLevelController::class, 'updateProducts'])->name('vip-levels.updateProducts');
 
     // Users VIP level assignment
@@ -268,14 +275,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [\App\Http\Controllers\Admin\OrderController::class, 'show'])->name('orders.show');
     Route::patch('orders/{order}/status', [\App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::patch('orders/{order}/auto-save', [\App\Http\Controllers\Admin\OrderController::class, 'autoSave'])->name('orders.autoSave');
     Route::get('inquiries', [\App\Http\Controllers\Admin\InquiryController::class, 'index'])->name('inquiries.index');
     Route::get('inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'show'])->name('inquiries.show');
     Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\InquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
+    Route::patch('inquiries/{inquiry}/auto-save', [\App\Http\Controllers\Admin\InquiryController::class, 'autoSave'])->name('inquiries.autoSave');
 
     // Tree Preorders
     Route::get('tree-preorders', [\App\Http\Controllers\Admin\TreePreorderController::class, 'index'])->name('tree-preorders.index');
     Route::get('tree-preorders/{inquiry}', [\App\Http\Controllers\Admin\TreePreorderController::class, 'show'])->name('tree-preorders.show');
     Route::patch('tree-preorders/{inquiry}/status', [\App\Http\Controllers\Admin\TreePreorderController::class, 'updateStatus'])->name('tree-preorders.updateStatus');
+    Route::patch('tree-preorders/{inquiry}/auto-save', [\App\Http\Controllers\Admin\TreePreorderController::class, 'autoSave'])->name('tree-preorders.autoSave');
 
     // Settings (main routes)
     Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');

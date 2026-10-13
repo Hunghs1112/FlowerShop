@@ -53,4 +53,22 @@ class MysteryBoxContentController extends Controller
 
         return redirect()->route('admin.mystery-box-content.edit')->with('success', 'Đã cập nhật nội dung Mystery Box.');
     }
+
+    public function autoSave(Request $request, MysteryBoxContentService $contentService)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        if (!$field) {
+            return response()->json(['success' => false, 'message' => 'Thiếu tên trường'], 422);
+        }
+
+        $content = $contentService->updateField($field, $value);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã lưu',
+            'data' => ['field' => $field, 'value' => $content[$field] ?? null],
+        ]);
+    }
 }

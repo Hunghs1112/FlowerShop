@@ -1,6 +1,22 @@
 @extends('layouts.admin')
-@section('title', 'Sửa loài hoa')
+
+@section('page-title', 'Chỉnh Sửa Điểm Hoa')
+
 @section('content')
-<div class="admin-page-header"><div class="admin-page-header-left"><h1 class="admin-page-title">Sửa loài hoa</h1></div><a href="{{ route('admin.flower-origins.index') }}" class="btn btn-secondary">Quay lại</a></div>
-<form action="{{ route('admin.flower-origins.update', $item) }}" method="POST" enctype="multipart/form-data">@csrf @method('PUT') @include('admin.flower-origins.form', ['item' => $item])</form>
+<div class="admin-page-header">
+    <div class="admin-page-header-left">
+        <h1 class="admin-page-title">Chỉnh Sửa Điểm Hoa</h1>
+        <p class="admin-page-subtitle">{{ $item->flower }} - {{ $item->country }}</p>
+    </div>
+    <div class="admin-page-actions">
+        <a href="{{ route('admin.flower-origins.index') }}" class="btn btn-secondary">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Quay Lại
+        </a>
+    </div>
+</div>
+
+@include('admin.flower-origins.form', ['item' => $item])
 @endsection

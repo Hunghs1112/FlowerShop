@@ -71,6 +71,47 @@ class FlowerOriginController extends Controller
         return redirect()->route('admin.flower-origins.index')->with('success', 'Đã xóa điểm hoa.');
     }
 
+    public function autoSave(Request $request, FlowerOrigin $flowerOrigin)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        $fieldConfig = [
+            'country_code' => 'nullable|regex:/^[a-z]{2}$/',
+            'lat' => 'nullable|numeric|between:-90,90',
+            'lon' => 'nullable|numeric|between:-180,180',
+            'map_x' => 'required|integer|min:0|max:1000',
+            'map_y' => 'required|integer|min:0|max:520',
+            'country' => 'required|string|max:100',
+            'flower' => 'required|string|max:150',
+            'latin' => 'required|string|max:150',
+            'region' => 'required|string|max:150',
+            'coordinate' => 'required|string|max:100',
+            'sort_order' => 'nullable|integer|min:0',
+            'is_active' => 'boolean',
+        ];
+
+        return app(\App\Services\AjaxFieldService::class)->handleAjaxFieldUpdate(
+            $flowerOrigin,
+            $field,
+            $value,
+            $fieldConfig
+        );
+    }
+
+    public function uploadImage(Request $request, FlowerOrigin $flowerOrigin)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+        ]);
+
+        $oldImage = $flowerOrigin->image;
+        $newImage = $this->images->upload($request->file('image'), 'flower-origins', $oldImage);
+        $flowerOrigin->update(['image' => $newImage]);
+
+        return response()->json(['success' => true, 'message' => 'Đã tải ảnh lên']);
+    }
+
     private function validated(Request $request, bool $imageRequired = true): array
     {
         return $request->validate([

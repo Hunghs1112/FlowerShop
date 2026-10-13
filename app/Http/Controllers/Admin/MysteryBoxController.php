@@ -76,4 +76,21 @@ class MysteryBoxController extends Controller
 
         return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
     }
+
+    public function autoSave(Request $request, MysteryBoxRequest $mysteryBox)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        if ($field === 'status') {
+            $validated = $request->validate([
+                'field' => 'required',
+                'value' => 'required|in:new,reviewing,confirmed,completed,cancelled',
+            ]);
+            $mysteryBox->update(['status' => $validated['value']]);
+            return response()->json(['success' => true, 'message' => 'Đã cập nhật trạng thái']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Trường không hợp lệ'], 422);
+    }
 }

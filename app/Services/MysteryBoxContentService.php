@@ -102,4 +102,25 @@ class MysteryBoxContentService
 
         return $budgets;
     }
+
+    public function updateField(string $field, mixed $value): array
+    {
+        $content = $this->get();
+
+        // Handle _text suffix: textarea fields store as array
+        if (str_ends_with($field, '_text')) {
+            $key = substr($field, 0, -5);
+            if ($key === 'budgets') {
+                $content[$key] = $this->budgetList($value);
+            } else {
+                $content[$key] = $this->textList($value);
+            }
+        } else {
+            $content[$field] = $value;
+        }
+
+        $this->save($content);
+
+        return $content;
+    }
 }

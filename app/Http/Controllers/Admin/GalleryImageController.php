@@ -68,6 +68,40 @@ class GalleryImageController extends Controller
         return redirect()->route('admin.gallery-images.index')->with('success', 'Đã xóa ảnh gallery.');
     }
 
+    public function autoSave(Request $request, GalleryImage $galleryImage)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        $fieldConfig = [
+            'title' => 'nullable|string|max:255',
+            'alt_text' => 'required|string|max:255',
+            'caption' => 'nullable|string|max:500',
+            'sort_order' => 'nullable|integer|min:0',
+            'is_active' => 'boolean',
+        ];
+
+        return app(\App\Services\AjaxFieldService::class)->handleAjaxFieldUpdate(
+            $galleryImage,
+            $field,
+            $value,
+            $fieldConfig
+        );
+    }
+
+    public function uploadImage(Request $request, GalleryImage $galleryImage)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:8192',
+        ]);
+
+        $oldImage = $galleryImage->image;
+        $newImage = $this->images->upload($request->file('image'), 'gallery-images', $oldImage);
+        $galleryImage->update(['image' => $newImage]);
+
+        return response()->json(['success' => true, 'message' => 'Đã tải ảnh lên']);
+    }
+
     private function validated(Request $request, bool $imageRequired = true): array
     {
         return $request->validate([

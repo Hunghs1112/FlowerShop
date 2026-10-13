@@ -22,13 +22,9 @@
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
-<form action="{{ route('admin.vip-levels.update', $vipLevel) }}" method="POST">
-    @csrf
-    @method('PATCH')
-
-    <div style="display: grid; grid-template-columns: 1fr 320px; gap: 24px;">
-        {{-- Main Content --}}
-        <div style="display: flex; flex-direction: column; gap: 24px;">
+<div style="display: grid; grid-template-columns: 1fr 320px; gap: 24px;">
+    {{-- Main Content --}}
+    <div style="display: flex; flex-direction: column; gap: 24px;">
             {{-- Basic Info --}}
             <div class="admin-card">
                 <div class="admin-card-header">
@@ -38,11 +34,13 @@
                     <div style="display: flex; flex-direction: column; gap: 20px;">
                         <div class="form-group">
                             <label for="name" class="form-label required">Tên VIP Level</label>
-                            <input type="text" 
-                                   id="name" 
-                                   name="name" 
-                                   value="{{ old('name', $vipLevel->name) }}" 
-                                   class="form-input @error('name') form-input-error @enderror" 
+                            <input type="text"
+                                   id="name"
+                                   name="name"
+                                   value="{{ old('name', $vipLevel->name) }}"
+                                   class="form-input auto-save-input @error('name') form-input-error @enderror"
+                                   data-entity="vip-levels"
+                                   data-id="{{ $vipLevel->id }}"
                                    required>
                             @error('name')
                                 <span class="form-error">{{ $message }}</span>
@@ -51,10 +49,12 @@
 
                         <div class="form-group">
                             <label for="description" class="form-label">Mô tả</label>
-                            <textarea id="description" 
-                                      name="description" 
-                                      rows="4" 
-                                      class="form-input form-textarea @error('description') form-input-error @enderror">{{ old('description', $vipLevel->description) }}</textarea>
+                            <textarea id="description"
+                                      name="description"
+                                      rows="4"
+                                      class="form-input form-textarea auto-save-input @error('description') form-input-error @enderror"
+                                      data-entity="vip-levels"
+                                      data-id="{{ $vipLevel->id }}">{{ old('description', $vipLevel->description) }}</textarea>
                             @error('description')
                                 <span class="form-error">{{ $message }}</span>
                             @enderror
@@ -62,12 +62,14 @@
 
                         <div class="form-group">
                             <label for="priority" class="form-label required">Thứ tự ưu tiên</label>
-                            <input type="number" 
-                                   id="priority" 
-                                   name="priority" 
-                                   value="{{ old('priority', $vipLevel->priority) }}" 
-                                   class="form-input @error('priority') form-input-error @enderror" 
-                                   min="0" 
+                            <input type="number"
+                                   id="priority"
+                                   name="priority"
+                                   value="{{ old('priority', $vipLevel->priority) }}"
+                                   class="form-input auto-save-input @error('priority') form-input-error @enderror"
+                                   data-entity="vip-levels"
+                                   data-id="{{ $vipLevel->id }}"
+                                   min="0"
                                    required>
                             <small class="form-help">Số càng nhỏ, thứ tự hiển thị càng cao (0 = cao nhất)</small>
                             @error('priority')
@@ -77,7 +79,10 @@
 
                         <div class="form-group">
                             <label class="checkbox-label">
-                                <input type="checkbox" name="is_active" value="1" {{ old('is_active', $vipLevel->is_active) ? 'checked' : '' }}>
+                                <input type="checkbox" name="is_active" value="1" {{ old('is_active', $vipLevel->is_active) ? 'checked' : '' }}
+                                    class="auto-save-checkbox"
+                                    data-entity="vip-levels"
+                                    data-id="{{ $vipLevel->id }}">
                                 <span>Hoạt động</span>
                             </label>
                         </div>
@@ -133,42 +138,8 @@
                 </div>
             </div>
         </div>
-
-        {{-- Sidebar --}}
-        <div style="display: flex; flex-direction: column; gap: 24px;">
-            {{-- Submit --}}
-            <div class="admin-card">
-                <div class="admin-card-body">
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Cập nhật
-                    </button>
-                </div>
-            </div>
-
-            {{-- User Stats --}}
-            @if($vipLevel->users->count() > 0)
-            <div class="admin-card">
-                <div class="admin-card-header">
-                    <h2 class="admin-card-title">Người Dùng</h2>
-                </div>
-                <div class="admin-card-body">
-                    <div style="text-align: center;">
-                        <div style="font-size: 32px; font-weight: 700; color: var(--admin-text-primary);">
-                            {{ $vipLevel->users->count() }}
-                        </div>
-                        <div style="font-size: 14px; color: var(--admin-text-secondary); margin-top: 4px;">
-                            người dùng
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-        </div>
     </div>
-</form>
+</div>
 
 {{-- User List for this VIP Level --}}
 @if($vipLevel->users->count() > 0)
@@ -221,6 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectedCountEl = document.getElementById('selected-count');
     const selectAllBtn = document.getElementById('select-all');
     const deselectAllBtn = document.getElementById('deselect-all');
+    const vipLevelId = {{ $vipLevel->id }};
 
     // Search functionality
     searchInput.addEventListener('input', function() {
@@ -241,8 +213,38 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedCountEl.textContent = checkedCount;
     }
 
+    // Save products via AJAX
+    function saveProducts() {
+        const productIds = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        fetch(`/admin/vip-levels/${vipLevelId}/products`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ product_ids: productIds })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && window.Toast) {
+                Toast.success(data.message || 'Đã lưu sản phẩm');
+            }
+        })
+        .catch(err => {
+            console.error('Save products error:', err);
+            if (window.Toast) Toast.error('Lỗi khi lưu sản phẩm');
+        });
+    }
+
     checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateCount);
+        checkbox.addEventListener('change', () => {
+            updateCount();
+            saveProducts();
+        });
     });
 
     // Select all
@@ -252,6 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         visibleCheckboxes.forEach(cb => cb.checked = true);
         updateCount();
+        saveProducts();
     });
 
     // Deselect all
@@ -261,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         visibleCheckboxes.forEach(cb => cb.checked = false);
         updateCount();
+        saveProducts();
     });
 
     // Hover effect

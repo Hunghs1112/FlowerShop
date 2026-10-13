@@ -118,23 +118,15 @@
                 </h2>
             </div>
             <div class="admin-card-body">
-                <form action="{{ route('admin.inquiries.updateStatus', $inquiry) }}" method="POST">
-                    @csrf
-                    @method('PATCH')
-                    <div class="form-group" style="margin-bottom: 16px;">
-                        <select name="status" class="input-sm" style="width: 100%;">
-                            <option value="new" {{ $inquiry->status == 'new' ? 'selected' : '' }}>🆕 Mới</option>
-                            <option value="contacted" {{ $inquiry->status == 'contacted' ? 'selected' : '' }}>📞 Đã liên hệ</option>
-                            <option value="completed" {{ $inquiry->status == 'completed' ? 'selected' : '' }}>✅ Hoàn thành</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Cập Nhật
-                    </button>
-                </form>
+                <select name="status"
+                        class="auto-save-select"
+                        data-entity="inquiries"
+                        data-id="{{ $inquiry->id }}"
+                        style="width: 100%;">
+                    <option value="new" {{ $inquiry->status == 'new' ? 'selected' : '' }}>🆕 Mới</option>
+                    <option value="contacted" {{ $inquiry->status == 'contacted' ? 'selected' : '' }}>📞 Đã liên hệ</option>
+                    <option value="completed" {{ $inquiry->status == 'completed' ? 'selected' : '' }}>✅ Hoàn thành</option>
+                </select>
             </div>
         </div>
 
