@@ -40,6 +40,17 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', function ($view) {
             try {
+                $path = app(SettingService::class)->get('products_editorial_image');
+                $url = app(\App\Services\ImageStorageService::class)->url($path)
+                    ?: asset('images/editorial/detail-1.jpg');
+            } catch (\Throwable) {
+                $url = asset('images/editorial/detail-1.jpg');
+            }
+            $view->with('productsEditorialImage', $url);
+        });
+
+        View::composer('*', function ($view) {
+            try {
                 $categories = Category::active()->orderBy('sort_order')->withCount('products')->get();
             } catch (\Throwable) { $categories = collect(); }
             $view->with('navCategories', $categories);

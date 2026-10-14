@@ -434,6 +434,50 @@
                 </div>
                 @endforeach
             </div>
+
+            <h3 style="margin: 32px 0 16px; font-size: 16px; font-weight: 600; color: var(--admin-text-primary);">
+                Ảnh phần "Flower Journal" (trang Sản phẩm)
+            </h3>
+            <p style="color: var(--admin-text-secondary); margin-bottom: 16px; padding: 12px; background: var(--color-surface-elevated); border-left: 3px solid #f59e0b; border-radius: 6px; font-size: 13px;">
+                Ảnh này dùng riêng cho khối <strong>Flower Journal</strong> ở cuối trang Sản phẩm, tách khỏi ảnh banner phía trên.
+            </p>
+            @php
+                $editorialRawPath = $settingsData['products_editorial_image'] ?? null;
+                $editorialUrl = $editorialRawPath ? app(\App\Services\ImageStorageService::class)->url($editorialRawPath) : null;
+            @endphp
+            <div class="banner-field-item" style="padding: 20px; border: 1px solid var(--admin-border); border-radius: 8px; background: var(--color-surface-elevated); max-width: 560px;">
+                <label style="display: block; font-size: 14px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 12px;">
+                    <span style="font-size: 18px; margin-right: 6px;">📖</span>
+                    Ảnh Flower Journal
+                </label>
+                @if($editorialUrl)
+                    <div style="margin-bottom: 12px; border: 2px solid var(--admin-border); border-radius: 8px; overflow: hidden; position: relative; background: var(--color-surface);">
+                        <img src="{{ $editorialUrl }}" alt="Flower Journal" style="width: 100%; height: auto; display: block;">
+                        <div style="position: absolute; bottom: 8px; right: 8px;">
+                            <button type="button"
+                                    class="btn btn-secondary btn-sm js-delete-editorial"
+                                    data-url="{{ route('admin.settings.deleteEditorial') }}"
+                                    data-confirm="Xóa ảnh Flower Journal?"
+                                    style="background: rgba(239, 68, 68, 0.95); color: white; padding: 6px 12px; font-size: 12px;">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Xóa
+                            </button>
+                        </div>
+                    </div>
+                @else
+                    <div style="margin-bottom: 12px; padding: 40px; border: 2px dashed var(--admin-border); border-radius: 8px; text-align: center; background: var(--color-surface-elevated); color: var(--admin-text-muted);">
+                        <p style="font-size: 13px;">Chưa có ảnh — đang dùng ảnh mặc định <code>images/editorial/detail-1.jpg</code></p>
+                    </div>
+                @endif
+                <input type="file"
+                       name="products_editorial_image"
+                       accept="image/*"
+                       class="settings-auto-save-editorial"
+                       data-field="products_editorial_image"
+                       data-upload-url="{{ route('admin.settings.uploadEditorial') }}"
+                       style="width: 100%; padding: 10px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 13px; cursor: pointer;">
+                <small style="display: block; margin-top: 6px; color: var(--admin-text-muted);">Khuyến nghị: ảnh ngang tỉ lệ ~4:3, ví dụ 800×600px. Tối đa {{ (int) config('upload.limits.banner.max_size', 4096) / 1024 }}MB.</small>
+            </div>
         </div>
     </div>
 </div>
@@ -505,8 +549,47 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    document.querySelectorAll('.js-delete-logo, .js-delete-banner').forEach(function (btn) {
+    document.querySelectorAll('.js-delete-logo, .js-delete-banner, .js-delete-editorial').forEach(function (btn) {
         btn.addEventListener('click', function () { handleDelete(btn); });
+    });
+
+    // Editorial image upload (Flower Journal)
+    document.querySelectorAll('.settings-auto-save-editorial').forEach(function(input) {
+        input.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const uploadUrl = input.dataset.uploadUrl;
+
+            Toast.info('Đang tải lên...');
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('field', input.dataset.field);
+
+            try {
+                const res = await fetch(uploadUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrf,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+
+                if (res.ok) {
+                    Toast.success('Đã tải lên ảnh Flower Journal');
+                    setTimeout(() => location.reload(), 500);
+                } else {
+                    const err = await res.json().catch(() => ({}));
+                    Toast.error(err.message || 'Tải lên thất bại');
+                }
+            } catch (err) {
+                console.error(err);
+                Toast.error('Lỗi kết nối');
+            }
+        });
     });
 
     // Banner file upload

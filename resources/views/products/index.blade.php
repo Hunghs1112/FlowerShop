@@ -479,8 +479,8 @@
 <!-- Editorial Section -->
 <section class="products-editorial">
     <div class="products-editorial-container">
-        <img 
-            src="{{ $siteBanners['products'] ?? asset('images/editorial/detail-1.jpg') }}" 
+        <img
+            src="{{ $productsEditorialImage ?? asset('images/editorial/detail-1.jpg') }}"
             alt="Flower Journal"
             class="products-editorial-image"
         >

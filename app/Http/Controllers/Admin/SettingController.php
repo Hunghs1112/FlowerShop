@@ -382,4 +382,55 @@ class SettingController extends Controller
         return redirect()->route('admin.settings.index')
             ->with('success', 'Đã xóa ảnh header.');
     }
+
+    // ============================================================
+    // Editorial image (Flower Journal) — separate from page banners
+    // ============================================================
+    public function uploadEditorialImage(Request $request)
+    {
+        $maxKb = (int) config('upload.limits.banner.max_size', 4096);
+        $request->validate([
+            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+        ]);
+
+        $fieldName = 'products_editorial_image';
+        $oldPath = $this->settings->getByKey($fieldName);
+
+        try {
+            $path = $this->images->upload(
+                $request->file('file'),
+                'images/editorial',
+                $oldPath,
+                'products-editorial'
+            );
+            $this->settings->setSetting($fieldName, $path, 'image');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã tải lên ảnh Flower Journal',
+                'imageUrl' => $this->images->url($path),
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deleteEditorialImage()
+    {
+        $fieldName = 'products_editorial_image';
+        $path = $this->settings->getByKey($fieldName);
+        if ($path) {
+            $this->images->delete($path);
+            $this->settings->deleteByKey($fieldName);
+        }
+
+        if (request()->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Đã xóa ảnh Flower Journal.']);
+        }
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Đã xóa ảnh Flower Journal.');
+    }
 }
