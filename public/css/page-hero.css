@@ -101,8 +101,20 @@
 
 /* === PAGE HERO WITH IMAGE === */
 .page-hero--with-image {
-    padding: var(--space-11) 0;
+    height: 400px;
+    padding: 0;
     background-color: var(--color-black);
+}
+
+/* Variant: blog (nhỏ hơn) */
+.page-hero--variant-blog.page-hero--with-image {
+    height: 320px;
+}
+
+/* Variant: cart & checkout (compact nhất) */
+.page-hero--variant-cart.page-hero--with-image,
+.page-hero--variant-checkout.page-hero--with-image {
+    height: 280px;
 }
 
 .page-hero--with-image::before {
@@ -119,7 +131,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center top;
 }
 
 .page-hero-background::after {
