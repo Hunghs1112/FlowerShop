@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilterProductRequest;
 use App\Models\Product;
+use App\Models\ProductCollection;
 use App\Services\ProductService;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
@@ -72,14 +73,27 @@ class ProductController extends Controller
             $bannerImage = $activeCategory->banner_image_url;
         }
 
+        // Suggestion collections (theo màu / tiêu chí) hiển thị dưới grid
+        $suggestionCollections = ProductCollection::active()
+            ->with(['products' => function ($q) {
+                $q->active()->with('productImages')
+                  ->orderBy('collection_product.sort_order')
+                  ->limit(8);
+            }])
+            ->orderBy('sort_order')
+            ->get()
+            ->filter(fn ($c) => $c->products->isNotEmpty())
+            ->values();
+
         return view('products.index', compact(
-            'products', 
+            'products',
             'categories',
             'subcategories',
-            'filters', 
-            'activeCategory', 
+            'filters',
+            'activeCategory',
             'bannerImage',
-            'activeFilterChips'
+            'activeFilterChips',
+            'suggestionCollections'
         ));
     }
 

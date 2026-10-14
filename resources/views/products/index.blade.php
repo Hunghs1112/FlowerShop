@@ -476,6 +476,33 @@
     </div>
 </section>
 
+<!-- Suggestion Collections (gợi ý theo bộ sưu tập / màu) -->
+@if(isset($suggestionCollections) && $suggestionCollections->isNotEmpty())
+<section class="products-suggestions">
+    <div class="products-suggestions-container">
+        <h2 class="products-suggestions-heading">Gợi ý theo phong cách</h2>
+        @foreach($suggestionCollections as $collection)
+        <div class="suggestion-block" style="--accent: {{ $collection->accent_color }};">
+            <header class="suggestion-block-header">
+                <div>
+                    <h3 class="suggestion-block-title">{{ $collection->name }}</h3>
+                    @if($collection->criterion)
+                        <p class="suggestion-block-criterion">{{ $collection->criterion }}</p>
+                    @endif
+                </div>
+                <a href="{{ route('products.index', ['collection' => $collection->slug]) }}" class="suggestion-block-link">Xem tất cả →</a>
+            </header>
+            <div class="suggestion-block-grid">
+                @foreach($collection->products as $product)
+                    <x-product-card :product="$product" />
+                @endforeach
+            </div>
+        </div>
+        @endforeach
+    </div>
+</section>
+@endif
+
 <!-- Editorial Section -->
 <section class="products-editorial">
     <div class="products-editorial-container">

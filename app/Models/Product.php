@@ -85,6 +85,12 @@ class Product extends Model
         return $this->belongsToMany(VipLevel::class, 'product_vip_level');
     }
 
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductCollection::class, 'collection_product', 'product_id', 'collection_id')
+            ->withPivot('sort_order');
+    }
+
     // Scopes
     public function scopeActive($query)
     {

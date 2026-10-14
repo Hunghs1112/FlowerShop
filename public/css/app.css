@@ -7844,6 +7844,78 @@ label, .label {
     height: 20px;
 }
 
+/* === Suggestion Collections (gợi ý theo màu/bộ sưu tập) === */
+.products-suggestions {
+    padding: var(--space-9) 0;
+    background: var(--color-bg-subtle, #faf8f5);
+}
+.products-suggestions-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+}
+.products-suggestions-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+.suggestion-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    border-left: 4px solid var(--accent, #A3B18A);
+    padding-left: 20px;
+}
+.suggestion-block-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.suggestion-block-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+.suggestion-block-criterion {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 4px 0 0;
+}
+.suggestion-block-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent, #A3B18A);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.suggestion-block-link:hover { text-decoration: underline; }
+.suggestion-block-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+@media (max-width: 1024px) {
+    .suggestion-block-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .suggestion-block-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .products-suggestions { padding: var(--space-7) 0; }
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
     .products-editorial {

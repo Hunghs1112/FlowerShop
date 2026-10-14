@@ -254,6 +254,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->where('seasonId', 'thu|halloween|thong')
         ->name('seasonal-pages.destroyHero');
 
+    // Product Collections (gợi ý theo bộ sưu tập trên trang sản phẩm)
+    Route::resource('product-collections', \App\Http\Controllers\Admin\ProductCollectionController::class)->except('show');
+    Route::patch('product-collections/{productCollection}/auto-save', [\App\Http\Controllers\Admin\ProductCollectionController::class, 'autoSave'])->name('product-collections.autoSave');
+
     // Mystery Box management
     Route::get('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'edit'])->name('mystery-box-content.edit');
     Route::put('mystery-box-content', [\App\Http\Controllers\Admin\MysteryBoxContentController::class, 'update'])->name('mystery-box-content.update');
