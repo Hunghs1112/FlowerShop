@@ -297,6 +297,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 
+    // Popup management
+    Route::resource('popups', \App\Http\Controllers\Admin\PopupController::class)->except('show');
+    Route::post('popups/{popup}/toggle', [\App\Http\Controllers\Admin\PopupController::class, 'toggleActive'])->name('popups.toggle');
+
     // Chat management
     Route::get('chats', [\App\Http\Controllers\Admin\ChatController::class, 'index'])->name('chats.index');
     Route::get('chats/poll', [\App\Http\Controllers\Admin\ChatController::class, 'poll'])->name('chats.poll');

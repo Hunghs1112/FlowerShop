@@ -403,71 +403,9 @@
     @stack('scripts')
 
     {{-- Popup mùa lễ - Lâm Nhiên Thảo --}}
-    <script type="application/json" id="lnt-popup-config">{
-  "delay": 4,
-  "frequency": "day",
-  "zalo": "0869308993",
-  "campaigns": [
-    {
-      "id": "20-10",
-      "active": true,
-      "start": "2026-10-08",
-      "end": "2026-10-20",
-      "theme": "rose",
-      "eyebrow": "20/10 · NGÀY PHỤ NỮ VIỆT NAM",
-      "route": "LNT → HAN",
-      "title": "Hoa tặng người phụ nữ của bạn",
-      "text": "Đặt trước để Lâm Nhiên Thảo chuẩn bị bó hoa và giao đúng ngày 20/10.",
-      "bullets": [
-        "Chọn mẫu có sẵn hoặc để LNT thiết kế theo ngân sách",
-        "[Khung giờ giao hàng ngày 20/10]",
-        "[Ưu đãi đặt sớm – nếu có]"
-      ],
-      "countdown": "2026-10-20T00:00",
-      "countdownLabel": "CÒN",
-      "image": "",
-      "imageAlt": "Bó mẫu đơn hồng",
-      "stamp": "20/10",
-      "stampSub": "PRE-ORDER",
-      "ctaLabel": "Đặt hoa 20/10",
-      "ctaLink": "/san-pham",
-      "cta2": "zalo",
-      "cta2Label": "",
-      "cta2Link": "",
-      "note": "Số lượng mỗi mẫu có hạn.",
-      "teaser": "🌷 Đặt hoa 20/10"
-    },
-    {
-      "id": "cay-thong",
-      "active": true,
-      "start": "2026-11-01",
-      "end": "2026-12-20",
-      "theme": "nordic",
-      "eyebrow": "GIÁNG SINH · MỞ ĐẶT TRƯỚC",
-      "route": "CPH → HAN",
-      "title": "Đặt trước cây thông Đan Mạch",
-      "text": "Thông Nordmann nhập từ Đan Mạch. Số lượng mỗi chuyến có hạn, đặt trước để giữ cây.",
-      "bullets": [
-        "Nhiều chiều cao, chọn theo không gian nhà bạn",
-        "Bộ phụ kiện và dịch vụ trang trí đi kèm",
-        "[Hạn chót đặt trước]"
-      ],
-      "countdown": "2026-12-25T00:00",
-      "countdownLabel": "ĐẾN GIÁNG SINH",
-      "image": "",
-      "imageAlt": "",
-      "stamp": "XMAS",
-      "stampSub": "PRE-ORDER",
-      "ctaLabel": "Đặt trước cây thông",
-      "ctaLink": "/mua-le-hoi#thong",
-      "cta2": "zalo",
-      "cta2Label": "",
-      "cta2Link": "",
-      "note": "",
-      "teaser": "🎄 Đặt trước cây thông"
-    }
-  ]
-}</script>
+    @if(isset($popupConfig))
+    <script type="application/json" id="lnt-popup-config">{!! $popupConfig !!}</script>
     <script src="{{ asset('assets/lnt-popup.js') }}" defer></script>
+    @endif
 </body>
 </html>

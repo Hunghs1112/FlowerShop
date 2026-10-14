@@ -30,6 +30,7 @@
     26 => 'Termwind\\Laravel\\TermwindServiceProvider',
     27 => 'App\\Providers\\AppServiceProvider',
     28 => 'App\\Providers\\AuthServiceProvider',
+    29 => 'App\\Providers\\PopupServiceProvider',
   ),
   'eager' => 
   array (
@@ -48,6 +49,7 @@
     12 => 'Termwind\\Laravel\\TermwindServiceProvider',
     13 => 'App\\Providers\\AppServiceProvider',
     14 => 'App\\Providers\\AuthServiceProvider',
+    15 => 'App\\Providers\\PopupServiceProvider',
   ),
   'deferred' => 
   array (
