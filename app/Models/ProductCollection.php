@@ -45,7 +45,7 @@ class ProductCollection extends Model
 
     public function getAccentColorAttribute(): string
     {
-        return $this->attributes['accent_color'] ?: '#A3B18A';
+        return ($this->attributes['accent_color'] ?? null) ?: '#A3B18A';
     }
 
     protected static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
