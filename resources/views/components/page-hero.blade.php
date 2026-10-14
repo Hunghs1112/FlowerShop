@@ -4,15 +4,12 @@
     'label' => '',
     'breadcrumbs' => [],
     'image' => null,
-    'variant' => 'default',
+    'variant' => null,
     'hideOverlay' => false,
     'hideContent' => false,
-    'bannerKey' => null,
 ])
 
-@php($bannerSize = $bannerKey ? ($siteBannerSizes[$bannerKey] ?? null) : null)
-
-<section class="page-hero {{ $image ? 'page-hero--with-image' : '' }} {{ $variant === 'compact' ? 'page-hero--compact' : '' }} {{ ($hideOverlay || $hideContent) ? 'page-hero--no-overlay' : '' }}" @if($bannerSize) style="--banner-height-desktop: {{ $bannerSize['desktop'] }}px; --banner-height-mobile: {{ $bannerSize['mobile'] }}px;" @endif>
+<section class="page-hero {{ $image ? 'page-hero--with-image' : '' }} {{ $variant ? 'page-hero--variant-' . $variant : '' }} {{ $variant === 'compact' ? 'page-hero--compact' : '' }} {{ ($hideOverlay || $hideContent) ? 'page-hero--no-overlay' : '' }}">
     @if($image)
         <div class="page-hero-background">
             <img 

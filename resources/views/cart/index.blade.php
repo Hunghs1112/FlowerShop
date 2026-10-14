@@ -12,7 +12,7 @@
     ]"
     :image="$siteBanners['cart'] ?? null"
     :hideOverlay="$siteBannerHideOverlay['cart'] ?? false"
-    banner-key="cart"
+    variant="cart"
 />
 
 <div class="container page-wrapper">

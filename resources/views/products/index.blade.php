@@ -8,7 +8,7 @@
 <!-- Page Hero - Unified Style -->
 @if(isset($breadcrumb) && !empty($breadcrumb))
     {{-- Category page with full breadcrumb --}}
-    <section class="products-hero {{ $activeCategory?->hide_banner_content ? 'products-hero--image-only' : '' }}" style="--banner-height-desktop: {{ $siteBannerSizes['categories']['desktop'] }}px; --banner-height-mobile: {{ $siteBannerSizes['categories']['mobile'] }}px;">
+    <section class="products-hero {{ $activeCategory?->hide_banner_content ? 'products-hero--image-only' : '' }}">
         <img 
             src="{{ $bannerImage ?? ($siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg')) }}" 
             alt="{{ $activeCategory->display_name ?? 'Sản phẩm' }}"
@@ -55,7 +55,7 @@
     @endif
 @else
     {{-- Products index page with simple hero --}}
-    <x-page-hero 
+    <x-page-hero
         :title="$activeCategory ? $activeCategory->display_name : 'Sản phẩm'"
         :description="$activeCategory && $activeCategory->description ? $activeCategory->description : 'Khám phá bộ sưu tập hoa tươi cao cấp của chúng tôi'"
         :breadcrumbs="[
@@ -65,7 +65,7 @@
         :image="$bannerImage ?? ($siteBanners['products'] ?? null)"
         :hideOverlay="$siteBannerHideOverlay['products'] ?? false"
         :hide-content="$activeCategory?->hide_banner_content ?? false"
-        banner-key="products"
+        variant="products"
     />
 @endif
 

@@ -3,7 +3,7 @@
 @section('title', $mysteryContent['success_page_title'])
 
 @section('content')
-<x-page-hero 
+<x-page-hero
     title="{{ $mysteryContent['success_page_title'] }}"
     description="{{ $mysteryContent['success_page_description'] }}"
     :breadcrumbs="[
@@ -13,7 +13,6 @@
     ]"
     :image="$siteBanners['mystery-box'] ?? null"
     :hideOverlay="$siteBannerHideOverlay['mystery-box'] ?? false"
-    banner-key="mystery-box"
 />
 
 <div class="container page-wrapper">

@@ -30,34 +30,6 @@ class BannerService
         'checkout'    => 'images/banners/checkout-hero.png',
     ];
 
-    public const DEFAULT_HEIGHTS = [
-        'home'        => ['desktop' => 720, 'mobile' => 420],
-        'products'    => ['desktop' => 400, 'mobile' => 280],
-        'categories'  => ['desktop' => 400, 'mobile' => 280],
-        'blog'        => ['desktop' => 420, 'mobile' => 300],
-        'about'       => ['desktop' => 400, 'mobile' => 300],
-        'contact'     => ['desktop' => 400, 'mobile' => 300],
-        'b2c'         => ['desktop' => 420, 'mobile' => 320],
-        'mystery-box' => ['desktop' => 400, 'mobile' => 300],
-        'cart'        => ['desktop' => 350, 'mobile' => 260],
-        'checkout'    => ['desktop' => 350, 'mobile' => 260],
-    ];
-
-    /**
-     * Lấy chiều cao hiển thị (từ settings, fallback về DEFAULT_HEIGHTS).
-     */
-    public function sizes(): array
-    {
-        $sizes = [];
-        foreach (self::DEFAULT_HEIGHTS as $key => $defaults) {
-            $sizes[$key] = [
-                'desktop' => (int) Setting::get('banner_' . $key . '_height_desktop', $defaults['desktop']),
-                'mobile'  => (int) Setting::get('banner_' . $key . '_height_mobile',  $defaults['mobile']),
-            ];
-        }
-        return $sizes;
-    }
-
     /**
      * Lấy URL ảnh header cho 1 trang.
      * Đọc từ settings table, fallback về file tĩnh mặc định.

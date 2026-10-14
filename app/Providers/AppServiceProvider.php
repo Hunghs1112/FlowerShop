@@ -35,10 +35,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('*', function ($view) {
-            $view->with('siteBannerSizes', app(BannerService::class)->sizes());
-        });
-
-        View::composer('*', function ($view) {
             try {
                 $path = app(SettingService::class)->get('products_editorial_image');
                 $url = app(\App\Services\ImageStorageService::class)->url($path)

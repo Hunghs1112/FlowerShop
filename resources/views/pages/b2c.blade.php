@@ -19,7 +19,6 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
         ]"
         :image="$b2cBanner"
         :hideOverlay="$siteBannerHideOverlay['b2c'] ?? false"
-        banner-key="b2c"
     />
 
     @php

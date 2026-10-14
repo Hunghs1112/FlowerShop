@@ -24,6 +24,7 @@ sourceFiles=(
     "hero.css"
     "products-section.css"
     "categories-section.css"
+    "categories-hero.css"
     "brand-values-section.css"
     "inspiration-section.css"
     "instagram-section.css"

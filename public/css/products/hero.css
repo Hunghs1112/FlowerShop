@@ -4,21 +4,14 @@
 
 .products-hero {
     position: relative;
-    padding: var(--space-10) 0 var(--space-9);
+    height: 400px;
+    padding: 0;
     background-color: var(--color-botanical-pale);
     overflow: hidden;
 }
 
 .products-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-botanical-pale) 100%);
-    opacity: 0.5;
-    z-index: 0;
+    display: none;
 }
 
 .products-hero-image {
@@ -27,13 +20,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center top;
     z-index: 0;
 }
 
-/* Image-only category banners still use the configured fixed frame. */
+/* Image-only category banners: fixed height */
 .products-hero--image-only {
-    padding: 0;
+    height: 400px;
 }
 
 .products-hero--image-only::before {
@@ -162,21 +156,25 @@
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
     .products-hero {
-        padding: var(--space-8) 0 var(--space-7);
+        height: 360px;
     }
-    
+
+    .products-hero--image-only {
+        height: 360px;
+    }
+
     .products-hero-content {
         padding: 0 var(--space-5);
     }
-    
+
     .products-hero-heading {
         font-size: clamp(2rem, 4vw, 2.5rem);
     }
-    
+
     .products-hero-description {
         font-size: 1rem;
     }
-    
+
     .subcategories-inner {
         padding: 0 var(--space-5);
     }
@@ -184,12 +182,11 @@
 
 @media (max-width: 767px) {
     .products-hero {
-        padding: var(--space-7) 0 var(--space-6);
+        height: 200px;
     }
-    
-    .products-hero::before {
-        width: 100%;
-        opacity: 0.3;
+
+    .products-hero--image-only {
+        height: 200px;
     }
     
     .products-hero-content {

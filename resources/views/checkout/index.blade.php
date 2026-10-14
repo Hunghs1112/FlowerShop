@@ -3,7 +3,7 @@
 @section('title', 'Thanh toán')
 
 @section('content')
-<x-page-hero 
+<x-page-hero
     title="Thanh toán"
     description="Hoàn tất thông tin để đặt hàng"
     :breadcrumbs="[
@@ -13,7 +13,7 @@
     ]"
     :image="$siteBanners['checkout'] ?? null"
     :hideOverlay="$siteBannerHideOverlay['checkout'] ?? false"
-    banner-key="checkout"
+    variant="checkout"
 />
 
 <div class="container page-wrapper">
