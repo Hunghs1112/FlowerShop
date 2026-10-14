@@ -1,6 +1,6 @@
 ﻿/* ==========================================================================
    FlowerShop - Premium Botanical Theme
-   Generated: 2026-10-14 22:19:06
+   Generated: 2026-10-14 22:32:25
    ========================================================================== */
 
 /* === theme.css === */
@@ -1833,6 +1833,86 @@ label, .label {
    ========================================================================== */
 
 /* === CARD BASE — Use reference style for suggestion blocks === */
+/* Shared styles used by every product grid. */
+.product-card {
+    position: relative;
+    box-sizing: border-box;
+    padding: 0;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+}
+
+.product-card__full-link { display: block; color: inherit; text-decoration: none; }
+.product-card__image-wrap { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--color-botanical-pale); }
+.product-card__image { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-slow), opacity var(--transition-normal); }
+.product-card__image--secondary { position: absolute; inset: 0; z-index: 2; opacity: 0; }
+.product-card:hover .product-card__image--primary { transform: scale(1.05); }
+.product-card:hover .product-card__image--secondary { opacity: 1; }
+
+.product-card__badge {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 10;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.product-card__badge--new { background: var(--color-accent); color: var(--color-white); }
+.product-card__badge--bestseller { top: calc(var(--space-3) + 36px); background: var(--color-secondary); color: var(--color-white); }
+.product-card__badge--featured { top: calc(var(--space-3) + 72px); background: var(--color-primary); color: var(--color-white); }
+.product-card__badge--sold-out { background: var(--color-error); color: var(--color-white); }
+.product-card--sold-out .product-card__image { filter: grayscale(.35); opacity: .72; }
+
+.product-card__wishlist {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 10;
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+}
+
+.product-card__wishlist svg { width: 20px; height: 20px; }
+.product-card__wishlist.active { color: var(--color-accent); }
+.product-card__overlay { position: absolute; inset: 0; z-index: 3; display: flex; align-items: flex-end; justify-content: center; padding: var(--space-5); background: linear-gradient(to top, rgba(32,36,31,.6), transparent 60%); opacity: 0; transition: opacity var(--transition-normal); }
+.product-card:hover .product-card__overlay { opacity: 1; }
+.product-card__cta { color: var(--color-white); font-size: .875rem; font-weight: 600; }
+.product-card__cta svg { width: 16px; height: 16px; }
+.product-card__info { padding: var(--space-4) var(--space-4) var(--space-5); border-top: 1px solid var(--color-border-light); background: var(--color-surface); }
+.product-card__category { display: inline-block; margin-bottom: var(--space-2); color: var(--color-text-light); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.product-card__name { display: -webkit-box; margin-bottom: var(--space-2); overflow: hidden; color: var(--color-text); font-family: var(--font-serif); font-size: 1rem; font-weight: 500; line-height: 1.3; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.product-card__price-row { display: flex; align-items: center; gap: var(--space-3); }
+.product-card__price { color: var(--color-primary); font-size: 1rem; font-weight: 600; }
+.product-card__price-old { color: var(--color-text-lighter); font-size: .9375rem; text-decoration: line-through; }
+
+@media (max-width: 640px) {
+    .product-card__image-wrap { aspect-ratio: 1; }
+    .product-card__info { padding: var(--space-3); }
+    .product-card__name { font-size: .8125rem; }
+    .product-card__price { font-size: .875rem; }
+    .product-card__wishlist { top: var(--space-2); right: var(--space-2); width: 32px; height: 32px; }
+    .product-card__overlay { display: none; }
+}
+
+/* Reference treatment for suggestion blocks. */
 .suggestion-block .product-card {
     box-sizing: border-box;
     padding: 0;
