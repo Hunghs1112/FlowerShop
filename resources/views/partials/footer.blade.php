@@ -128,20 +128,5 @@
 
         <!-- Footer Divider -->
         <div class="footer-divider"></div>
-
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <div class="footer-copyright">
-                © {{ date('Y') }} {{ $siteSettings['site_name'] ?? config('app.name') }}. All rights reserved.
-            </div>
-
-            <div class="footer-bottom-right">
-                <nav class="footer-bottom-links">
-                    <a href="{{ route('policy.delivery') }}" class="footer-bottom-link">Chính sách giao hàng</a>
-                    <a href="{{ route('policy.baomat') }}" class="footer-bottom-link">Chính sách bảo mật</a>
-                    <a href="{{ route('policy.ours') }}" class="footer-bottom-link">Chính sách của chúng tôi</a>
-                </nav>
-            </div>
-        </div>
     </div>
 </footer>
