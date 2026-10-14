@@ -869,11 +869,10 @@ a.navbar-nav-link.shimmer-text.active {
         right: 4px;
     }
 
-    /* === MOBILE ACTIONS - Hide cart/user/favorites from navbar-actions === */
+    /* === MOBILE ACTIONS - Hide cart/user from navbar-actions === */
     .navbar-actions .navbar-cart-btn,
     .navbar-actions .navbar-auth-btn,
-    .navbar-actions .navbar-user-menu,
-    .navbar-actions .navbar-favorites-btn {
+    .navbar-actions .navbar-user-menu {
         display: none;
     }
 
