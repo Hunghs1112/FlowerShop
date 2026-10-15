@@ -6,6 +6,7 @@ use App\Models\GalleryImage;
 use App\Models\Post;
 use App\Models\Product;
 use App\Services\CategoryService;
+use App\Services\ImageStorageService;
 use App\Services\ProductService;
 use App\Services\SettingService;
 use Illuminate\Support\Str;
@@ -16,6 +17,7 @@ class HomeController extends Controller
         protected CategoryService $categoryService,
         protected ProductService $productService,
         protected SettingService $settingService,
+        protected ImageStorageService $images,
     ) {}
 
     public function index()
@@ -35,6 +37,11 @@ class HomeController extends Controller
         $banners = collect();
         $siteSettings = $this->settingService->getSiteInfo();
         $galleryImages = GalleryImage::active()->orderBy('sort_order')->get();
+        $seasonalImages = $this->settingService->getMultiple([
+            'seasonal_thu_hero',
+            'seasonal_halloween_hero',
+            'seasonal_thong_hero',
+        ]);
         $homeData = [
             'products' => $newArrivalProducts->take(4)->map(fn ($product) => [
                 'name' => $product->display_name,
@@ -63,6 +70,13 @@ class HomeController extends Controller
                 'url' => $banners->first()->button_link ?: route('products.index'),
                 'button' => $banners->first()->button_text ?: 'Đặt hoa ngay',
             ] : null,
+            'seasonal' => [
+                'autumn_image' => $this->images->url($seasonalImages['seasonal_thu_hero'])
+                    ?: asset('images/seasonal/aut_hero.jpg'),
+                'halloween_image' => $this->images->url($seasonalImages['seasonal_halloween_hero'])
+                    ?: asset('images/seasonal/hlw_hero.jpg'),
+                'tree_image' => $this->images->url($seasonalImages['seasonal_thong_hero']),
+            ],
             'links' => [
                 'products' => route('products.index'),
                 'cart' => route('cart.index'),

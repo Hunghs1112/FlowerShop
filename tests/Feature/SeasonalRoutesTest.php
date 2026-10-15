@@ -72,6 +72,23 @@ class SeasonalRoutesTest extends TestCase
             ->assertSee('"img":"\/storage\/images\/seasonal\/autumn-card.jpg', false);
     }
 
+    public function test_home_shortcuts_use_the_season_images_managed_in_admin(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('holiday-shortcuts__velvet', false);
+
+        Setting::set('seasonal_thu_hero', 'images/seasonal/autumn-shortcut.jpg', 'image');
+        Setting::set('seasonal_halloween_hero', 'images/seasonal/halloween-shortcut.jpg', 'image');
+        Setting::set('seasonal_thong_hero', 'images/seasonal/tree-shortcut.jpg', 'image');
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('src="/storage/images/seasonal/autumn-shortcut.jpg"', false)
+            ->assertSee('src="/storage/images/seasonal/halloween-shortcut.jpg"', false)
+            ->assertSee('src="/storage/images/seasonal/tree-shortcut.jpg"', false);
+    }
+
     public function test_seasonal_product_links_to_its_product_page_and_shows_its_price(): void
     {
         $category = Category::create([
