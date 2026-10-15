@@ -72,7 +72,7 @@ class SeasonalRoutesTest extends TestCase
             ->assertSee('"img":"\/storage\/images\/seasonal\/autumn-card.jpg', false);
     }
 
-    public function test_seasonal_product_links_to_its_product_page(): void
+    public function test_seasonal_product_links_to_its_product_page_and_shows_its_price(): void
     {
         $category = Category::create([
             'name' => 'Hoa mùa thu',
@@ -90,6 +90,7 @@ class SeasonalRoutesTest extends TestCase
 
         $this->get('/mua-le-hoi/hoi-mua-thu')
             ->assertOk()
-            ->assertSee(str_replace('/', '\/', route('products.show', $product->display_slug)), false);
+            ->assertSee(str_replace('/', '\/', route('products.show', $product->display_slug)), false)
+            ->assertSee('150.000', false);
     }
 }

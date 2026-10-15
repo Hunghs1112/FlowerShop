@@ -163,6 +163,7 @@ class PageController extends Controller
             'code' => strtoupper(substr($p->category->slug ?? $p->slug, 0, 3)),
             'img' => $p->getPrimaryImageUrl(),
             'link' => route('products.show', $p->display_slug),
+            'price' => number_format($p->price, 0, ',', '.') . 'đ',
             'badge' => $p->is_new_arrival ? 'MỚI VỀ' : ($p->is_bestseller ? 'BÁN CHẠY' : ''),
         ])->values()->all();
 
