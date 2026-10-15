@@ -5,7 +5,7 @@
 
 .categories-hero {
     position: relative;
-    height: clamp(360px, 48vw, 620px);
+    height: clamp(252px, 33.6vw, 434px);
     background-color: var(--color-botanical-pale);
     overflow: hidden;
 }
@@ -64,7 +64,7 @@
 
 @media (max-width: 767px) {
     .categories-hero {
-        height: 200px;
+        height: 140px;
     }
 
     .categories-hero-heading {

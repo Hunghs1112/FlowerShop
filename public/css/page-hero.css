@@ -101,7 +101,7 @@
 
 /* === PAGE HERO WITH IMAGE === */
 .page-hero--with-image {
-    height: clamp(360px, 48vw, 620px);
+    height: clamp(252px, 33.6vw, 434px);
     padding: 0;
     background-color: var(--color-black);
 }
@@ -220,7 +220,7 @@
 
 @media (max-width: 767px) {
     .page-hero--with-image {
-        height: 200px;
+        height: 140px;
     }
 
     .page-hero {

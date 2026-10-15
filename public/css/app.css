@@ -1,6 +1,6 @@
 ﻿/* ==========================================================================
    FlowerShop - Premium Botanical Theme
-   Generated: 2026-10-15 10:07:48
+   Generated: 2026-10-15 10:11:41
    ========================================================================== */
 
 /* === theme.css === */
@@ -3610,7 +3610,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 /* === PAGE HERO WITH IMAGE === */
 .page-hero--with-image {
-    height: clamp(360px, 48vw, 620px);
+    height: clamp(252px, 33.6vw, 434px);
     padding: 0;
     background-color: var(--color-black);
 }
@@ -3729,7 +3729,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 @media (max-width: 767px) {
     .page-hero--with-image {
-        height: 200px;
+        height: 140px;
     }
 
     .page-hero {
@@ -4660,7 +4660,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 .categories-hero {
     position: relative;
-    height: clamp(360px, 48vw, 620px);
+    height: clamp(252px, 33.6vw, 434px);
     background-color: var(--color-botanical-pale);
     overflow: hidden;
 }
@@ -4719,7 +4719,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 @media (max-width: 767px) {
     .categories-hero {
-        height: 200px;
+        height: 140px;
     }
 
     .categories-hero-heading {
@@ -5470,7 +5470,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 .products-hero {
     position: relative;
-    height: clamp(360px, 48vw, 620px);
+    height: clamp(252px, 33.6vw, 434px);
     padding: 0;
     background-color: var(--color-botanical-pale);
     overflow: hidden;
@@ -5493,10 +5493,6 @@ a.navbar-nav-link.shimmer-text.active {
 
 .products-hero--image-only::before {
     display: none;
-}
-
-.products-hero.products-hero--image-only {
-    height: clamp(252px, 33.6vw, 434px);
 }
 
 .products-hero--image-only .products-hero-image {
@@ -5638,12 +5634,8 @@ a.navbar-nav-link.shimmer-text.active {
 }
 
 @media (max-width: 767px) {
-    .products-hero.products-hero--image-only {
-        height: 140px;
-    }
-
     .products-hero {
-        height: 200px;
+        height: 140px;
     }
 
     .products-hero-content {
