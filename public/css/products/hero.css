@@ -4,7 +4,7 @@
 
 .products-hero {
     position: relative;
-    height: 400px;
+    height: clamp(360px, 48vw, 620px);
     padding: 0;
     background-color: var(--color-botanical-pale);
     overflow: hidden;
@@ -23,11 +23,6 @@
     object-fit: cover;
     object-position: center top;
     z-index: 0;
-}
-
-/* Image-only category banners: fixed height */
-.products-hero--image-only {
-    height: 400px;
 }
 
 .products-hero--image-only::before {
@@ -155,14 +150,6 @@
 
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
-    .products-hero {
-        height: 360px;
-    }
-
-    .products-hero--image-only {
-        height: 360px;
-    }
-
     .products-hero-content {
         padding: 0 var(--space-5);
     }
@@ -181,14 +168,6 @@
 }
 
 @media (max-width: 767px) {
-    .products-hero {
-        height: 200px;
-    }
-
-    .products-hero--image-only {
-        height: 200px;
-    }
-    
     .products-hero-content {
         padding: 0 var(--space-4);
     }

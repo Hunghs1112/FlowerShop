@@ -101,20 +101,9 @@
 
 /* === PAGE HERO WITH IMAGE === */
 .page-hero--with-image {
-    height: 400px;
+    height: clamp(360px, 48vw, 620px);
     padding: 0;
     background-color: var(--color-black);
-}
-
-/* Variant: blog (nhỏ hơn) */
-.page-hero--variant-blog.page-hero--with-image {
-    height: 320px;
-}
-
-/* Variant: cart & checkout (compact nhất) */
-.page-hero--variant-cart.page-hero--with-image,
-.page-hero--variant-checkout.page-hero--with-image {
-    height: 280px;
 }
 
 .page-hero--with-image::before {
@@ -227,19 +216,6 @@
         font-size: 1rem;
     }
     
-    .page-hero--with-image {
-        padding: var(--space-9) 0;
-        height: 400px;
-    }
-
-    .page-hero--variant-blog.page-hero--with-image {
-        height: 280px;
-    }
-
-    .page-hero--variant-cart.page-hero--with-image,
-    .page-hero--variant-checkout.page-hero--with-image {
-        height: 240px;
-    }
 }
 
 @media (max-width: 767px) {
@@ -266,20 +242,6 @@
         font-size: 0.9375rem;
     }
 
-    .page-hero--with-image {
-        padding: 0;
-        height: 200px;
-    }
-
-    .page-hero--variant-blog.page-hero--with-image {
-        height: 180px;
-    }
-
-    .page-hero--variant-cart.page-hero--with-image,
-    .page-hero--variant-checkout.page-hero--with-image {
-        height: 160px;
-    }
-    
     .page-hero--compact {
         padding: var(--space-6) 0 var(--space-5);
     }

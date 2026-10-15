@@ -1,7 +1,7 @@
 /* Presentation layer for supplied page references; backend flows stay untouched. */
 .reference-seasonal-page,.reference-tree-page,.reference-partner-page{--reference-ink:#2a1f19;--reference-soft:#8f7667;--reference-copper:#b97752;--reference-line:#e8d5c3}
 .seasonal-catalog,.tree-product-detail,.partner-waybill-page{background:#f6ece2;color:var(--reference-ink)}
-.seasonal-catalog .products-hero{min-height:clamp(360px,48vw,620px);background:#3a2c24}
+.seasonal-catalog .products-hero{background:#3a2c24}
 .seasonal-catalog .products-hero::before{background:linear-gradient(90deg,rgba(42,31,25,.9),rgba(42,31,25,.24))}
 .seasonal-catalog .products-hero-content{max-width:760px;padding-block:clamp(4rem,9vw,8rem)}
 .seasonal-catalog .products-hero-heading{color:#e2ae84;font-family:var(--font-serif);font-size:clamp(2.8rem,7vw,6.8rem);letter-spacing:-.04em;text-transform:uppercase}

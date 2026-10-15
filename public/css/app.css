@@ -1,6 +1,6 @@
 ﻿/* ==========================================================================
    FlowerShop - Premium Botanical Theme
-   Generated: 2026-10-15 09:36:09
+   Generated: 2026-10-15 09:47:25
    ========================================================================== */
 
 /* === theme.css === */
@@ -3610,20 +3610,9 @@ a.navbar-nav-link.shimmer-text.active {
 
 /* === PAGE HERO WITH IMAGE === */
 .page-hero--with-image {
-    height: 400px;
+    height: clamp(360px, 48vw, 620px);
     padding: 0;
     background-color: var(--color-black);
-}
-
-/* Variant: blog (nhỏ hơn) */
-.page-hero--variant-blog.page-hero--with-image {
-    height: 320px;
-}
-
-/* Variant: cart & checkout (compact nhất) */
-.page-hero--variant-cart.page-hero--with-image,
-.page-hero--variant-checkout.page-hero--with-image {
-    height: 280px;
 }
 
 .page-hero--with-image::before {
@@ -3736,19 +3725,6 @@ a.navbar-nav-link.shimmer-text.active {
         font-size: 1rem;
     }
     
-    .page-hero--with-image {
-        padding: var(--space-9) 0;
-        height: 400px;
-    }
-
-    .page-hero--variant-blog.page-hero--with-image {
-        height: 280px;
-    }
-
-    .page-hero--variant-cart.page-hero--with-image,
-    .page-hero--variant-checkout.page-hero--with-image {
-        height: 240px;
-    }
 }
 
 @media (max-width: 767px) {
@@ -3775,20 +3751,6 @@ a.navbar-nav-link.shimmer-text.active {
         font-size: 0.9375rem;
     }
 
-    .page-hero--with-image {
-        padding: 0;
-        height: 200px;
-    }
-
-    .page-hero--variant-blog.page-hero--with-image {
-        height: 180px;
-    }
-
-    .page-hero--variant-cart.page-hero--with-image,
-    .page-hero--variant-checkout.page-hero--with-image {
-        height: 160px;
-    }
-    
     .page-hero--compact {
         padding: var(--space-6) 0 var(--space-5);
     }
@@ -4694,7 +4656,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 .categories-hero {
     position: relative;
-    height: 400px;
+    height: clamp(360px, 48vw, 620px);
     background-color: var(--color-botanical-pale);
     overflow: hidden;
 }
@@ -4751,18 +4713,7 @@ a.navbar-nav-link.shimmer-text.active {
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-    .categories-hero {
-        height: 360px;
-    }
-}
-
 @media (max-width: 767px) {
-    .categories-hero {
-        height: 200px;
-    }
-
     .categories-hero-heading {
         font-size: clamp(1.5rem, 5vw, 2rem);
     }
@@ -5511,7 +5462,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 .products-hero {
     position: relative;
-    height: 400px;
+    height: clamp(360px, 48vw, 620px);
     padding: 0;
     background-color: var(--color-botanical-pale);
     overflow: hidden;
@@ -5530,11 +5481,6 @@ a.navbar-nav-link.shimmer-text.active {
     object-fit: cover;
     object-position: center top;
     z-index: 0;
-}
-
-/* Image-only category banners: fixed height */
-.products-hero--image-only {
-    height: 400px;
 }
 
 .products-hero--image-only::before {
@@ -5662,14 +5608,6 @@ a.navbar-nav-link.shimmer-text.active {
 
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
-    .products-hero {
-        height: 360px;
-    }
-
-    .products-hero--image-only {
-        height: 360px;
-    }
-
     .products-hero-content {
         padding: 0 var(--space-5);
     }
@@ -5688,14 +5626,6 @@ a.navbar-nav-link.shimmer-text.active {
 }
 
 @media (max-width: 767px) {
-    .products-hero {
-        height: 200px;
-    }
-
-    .products-hero--image-only {
-        height: 200px;
-    }
-    
     .products-hero-content {
         padding: 0 var(--space-4);
     }
@@ -7992,7 +7922,7 @@ a.navbar-nav-link.shimmer-text.active {
 /* Presentation layer for supplied page references; backend flows stay untouched. */
 .reference-seasonal-page,.reference-tree-page,.reference-partner-page{--reference-ink:#2a1f19;--reference-soft:#8f7667;--reference-copper:#b97752;--reference-line:#e8d5c3}
 .seasonal-catalog,.tree-product-detail,.partner-waybill-page{background:#f6ece2;color:var(--reference-ink)}
-.seasonal-catalog .products-hero{min-height:clamp(360px,48vw,620px);background:#3a2c24}
+.seasonal-catalog .products-hero{background:#3a2c24}
 .seasonal-catalog .products-hero::before{background:linear-gradient(90deg,rgba(42,31,25,.9),rgba(42,31,25,.24))}
 .seasonal-catalog .products-hero-content{max-width:760px;padding-block:clamp(4rem,9vw,8rem)}
 .seasonal-catalog .products-hero-heading{color:#e2ae84;font-family:var(--font-serif);font-size:clamp(2.8rem,7vw,6.8rem);letter-spacing:-.04em;text-transform:uppercase}
