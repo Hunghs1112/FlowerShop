@@ -29,10 +29,14 @@
     display: none;
 }
 
+.products-hero.products-hero--image-only {
+    height: clamp(252px, 33.6vw, 434px);
+}
+
 .products-hero--image-only .products-hero-image {
     position: absolute;
     display: block;
-    height: 70%;
+    height: 100%;
 }
 
 .products-hero-overlay {
@@ -168,6 +172,10 @@
 }
 
 @media (max-width: 767px) {
+    .products-hero.products-hero--image-only {
+        height: 140px;
+    }
+
     .products-hero {
         height: 200px;
     }
