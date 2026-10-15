@@ -32,22 +32,20 @@
                 >
             @endif
 
-            @if($product->isSoldOut())
-                <span class="product-card__badge product-card__badge--sold-out">Hết hàng</span>
-            @endif
-            @if($product->hasNewArrivalBadge() || $showNewArrival)
-                <span class="product-card__badge product-card__badge--new">Mới về</span>
-            @endif
-            @if($product->hasBestsellerBadge())
-                <span class="product-card__badge product-card__badge--bestseller">Bán chạy</span>
-            @endif
-
-            {{-- Featured badge --}}
-            @if($product->is_featured)
-                <span class="product-card__badge product-card__badge--featured">
-                    Nổi bật
-                </span>
-            @endif
+            <div class="product-card__badges">
+                @if($product->isSoldOut())
+                    <span class="product-card__badge product-card__badge--sold-out">Hết hàng</span>
+                @endif
+                @if($product->hasNewArrivalBadge() || $showNewArrival)
+                    <span class="product-card__badge product-card__badge--new">Mới về</span>
+                @endif
+                @if($product->hasBestsellerBadge())
+                    <span class="product-card__badge product-card__badge--bestseller">Bán chạy</span>
+                @endif
+                @if($product->is_featured)
+                    <span class="product-card__badge product-card__badge--featured">Nổi bật</span>
+                @endif
+            </div>
 
             {{-- Route label (e.g. UIO → HAN) --}}
             @if($routeLabel)
