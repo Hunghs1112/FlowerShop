@@ -417,7 +417,7 @@
         @else
             <div class="products-grid" id="productsGrid">
                 @foreach($products as $product)
-                    <x-product-card :product="$product" />
+                    <x-product-card :product="$product" :route-label="(strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', (string) $product->sku), 0, 3)) ?: 'LNT') . ' → HAN'" />
                 @endforeach
             </div>
             
@@ -494,7 +494,7 @@
             </header>
             <div class="suggestion-block-grid products-grid">
                 @foreach($collection->products as $product)
-                    <x-product-card :product="$product" />
+                    <x-product-card :product="$product" :route-label="(strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', (string) $product->sku), 0, 3)) ?: 'LNT') . ' → HAN'" />
                 @endforeach
             </div>
         </div>
