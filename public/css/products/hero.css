@@ -4,7 +4,7 @@
 
 .products-hero {
     position: relative;
-    height: clamp(252px, 33.6vw, 434px);
+    height: clamp(360px, 48vw, 620px);
     padding: 0;
     background-color: var(--color-botanical-pale);
     overflow: hidden;
