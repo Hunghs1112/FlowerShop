@@ -180,7 +180,7 @@ class PageController extends Controller
         } else {
             $heroSetting = \App\Models\Setting::where('key', 'seasonal_' . $seasonId . '_hero')->value('value');
             if ($heroSetting) {
-                $season['img'] = asset('storage/' . $heroSetting);
+                $season['img'] = $this->images->url($heroSetting);
             }
         }
 

@@ -592,51 +592,84 @@
     }
     document.getElementById('deleteHeroBtn')?.addEventListener('click', deleteHero);
 
-    // Save
-    saveBtn.addEventListener('click', function() {
+    // Save + debounced auto-save
+    const saveButtonContent = saveBtn.innerHTML;
+    let saveInProgress = false;
+    let saveQueued = false;
+    let saveResetTimer;
+
+    async function saveChanges() {
+        if (saveInProgress) {
+            saveQueued = true;
+            return;
+        }
+
+        saveInProgress = true;
+        clearTimeout(saveResetTimer);
         updateSelectedIds();
         const body = new FormData(form);
         body.delete('product_ids');
         JSON.parse(productIdsInput.value || '[]').forEach(id => body.append('product_ids[]', id));
 
-        // Debug: log form data
-        const debug = {};
-        body.forEach((v, k) => { debug[k] = v; });
-        console.log('Form data sent:', JSON.stringify(debug, null, 2));
-
         saveBtn.disabled = true;
         saveBtn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="animate-spin"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Đang lưu...';
 
-        fetch(form.action, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Accept': 'application/json'
-            },
-            body
-        })
-        .then(async r => {
-            const data = await r.json();
-            if (!r.ok) throw new Error(Object.values(data.errors || {}).flat()[0] || data.message || 'Lỗi khi lưu.');
-            return data;
-        })
-        .then(data => {
-            if (data.success) {
-                saveBtn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Đã Lưu!';
-                saveBtn.style.background = '#10b981';
-                setTimeout(() => {
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Lưu Thay Đổi';
-                    saveBtn.style.background = '';
-                }, 2000);
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(Object.values(data.errors || {}).flat()[0] || data.message || 'Lỗi khi lưu.');
             }
-        })
-        .catch(error => {
-            saveBtn.disabled = false;
-            saveBtn.innerHTML = 'Lưu Thay Đổi';
+
+            if (data.success) {
+                saveBtn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Đã lưu';
+                saveBtn.style.background = '#10b981';
+            }
+        } catch (error) {
             console.error('Save error:', error);
-            alert(error.message);
-        });
+            window.Toast?.error(error.message);
+        } finally {
+            saveInProgress = false;
+            if (saveQueued) {
+                saveQueued = false;
+                saveChanges();
+                return;
+            }
+
+            saveResetTimer = setTimeout(() => {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = saveButtonContent;
+                saveBtn.style.background = '';
+            }, 1500);
+        }
+    }
+
+    let autosaveTimer;
+    const scheduleAutosave = () => {
+        clearTimeout(autosaveTimer);
+        autosaveTimer = setTimeout(saveChanges, 1200);
+    };
+    form.addEventListener('input', event => {
+        if (event.target.name?.startsWith('data[')) scheduleAutosave();
+    });
+    form.addEventListener('change', event => {
+        if (event.target.classList.contains('product-checkbox')) scheduleAutosave();
+    });
+    form.addEventListener('click', event => {
+        if (event.target.closest('#addSizeBtn, #addFaqBtn, .remove-size, .remove-faq, .remove-product')) {
+            scheduleAutosave();
+        }
+    });
+    saveBtn.addEventListener('click', () => {
+        clearTimeout(autosaveTimer);
+        saveChanges();
     });
 
     // Initial

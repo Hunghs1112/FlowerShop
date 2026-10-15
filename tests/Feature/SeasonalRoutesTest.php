@@ -67,6 +67,6 @@ class SeasonalRoutesTest extends TestCase
 
         $this->get('/mua-le-hoi')
             ->assertOk()
-            ->assertSee('storage\/images\/seasonal\/autumn-card.jpg', false);
+            ->assertSee('"img":"\/storage\/images\/seasonal\/autumn-card.jpg', false);
     }
 }

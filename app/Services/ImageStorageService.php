@@ -202,10 +202,14 @@ class ImageStorageService
 
         if (str_starts_with($path, 'images/banners/') || str_starts_with($path, '/images/banners/')
             || str_starts_with($path, 'images/pages/') || str_starts_with($path, '/images/pages/')) {
-            return asset($path);
+            return '/'.ltrim($path, '/');
         }
 
         try {
+            if (config("filesystems.disks.{$this->disk}.driver") === 'local') {
+                return '/storage/'.ltrim($path, '/');
+            }
+
             return Storage::disk($this->disk)->url($path);
         } catch (\Throwable $e) {
             return null;
