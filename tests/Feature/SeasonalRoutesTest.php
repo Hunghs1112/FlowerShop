@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Inquiry;
+use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -68,5 +70,26 @@ class SeasonalRoutesTest extends TestCase
         $this->get('/mua-le-hoi')
             ->assertOk()
             ->assertSee('"img":"\/storage\/images\/seasonal\/autumn-card.jpg', false);
+    }
+
+    public function test_seasonal_product_links_to_its_product_page(): void
+    {
+        $category = Category::create([
+            'name' => 'Hoa mùa thu',
+            'slug' => 'hoa-mua-thu',
+            'is_active' => true,
+        ]);
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Hồng Freedom đỏ trầm',
+            'slug' => 'hong-freedom-do-tram',
+            'price' => 150000,
+            'season_id' => 'thu',
+            'is_active' => true,
+        ]);
+
+        $this->get('/mua-le-hoi/hoi-mua-thu')
+            ->assertOk()
+            ->assertSee(str_replace('/', '\/', route('products.show', $product->display_slug)), false);
     }
 }

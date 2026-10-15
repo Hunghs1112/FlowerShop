@@ -52,13 +52,6 @@ header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .st.landed{background:rgba(154,160,122,.25);color:#C9D1A4}.st.flying{background:rgba(226,174,132,.2);color:var(--acc)}.st.pre{background:rgba(201,179,218,.2);color:#D9C8E6}
 /* new arrivals */
 .prods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.9rem,2vw,1.4rem);margin-top:2.4rem}
-.card{position:relative;text-decoration:none;color:inherit;display:block}
-.ph{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:.8;background:var(--paper)}
-.ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s}.card:hover .ph img{transform:scale(1.04)}
-.badge{position:absolute;left:12px;top:12px;font-size:.7rem;font-weight:600;letter-spacing:.12em;padding:.35rem .6rem;border-radius:999px;background:var(--paper);color:var(--deep)}
-.tag{position:absolute;right:-6px;top:26px;transform:rotate(8deg);background:var(--paper);border-radius:6px 8px 8px 6px;padding:.35rem .6rem .35rem 1.1rem;font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--copper);box-shadow:0 8px 16px -8px rgba(0,0,0,.35)}
-.tag::before{content:"";position:absolute;left:.4rem;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--copper)}
-.card h3{margin:.9rem 0 .15rem;font-size:1.05rem;font-weight:600}.card p{margin:0;font-family:var(--serif);font-style:italic;color:var(--soft);font-size:.9rem}
 /* collections */
 .cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:220px;gap:clamp(.8rem,1.6vw,1.2rem);margin-top:2.4rem}
 .col{position:relative;border-radius:22px;overflow:hidden;text-decoration:none;color:#fff;display:block}
@@ -218,7 +211,6 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
 .faq{margin-top:2rem}.faq details{background:var(--paper);border:1px solid var(--line);border-radius:16px;margin-bottom:.6rem}
 .faq summary{cursor:pointer;padding:1rem 1.2rem;font-weight:600}.faq p{margin:0;padding:0 1.2rem 1rem;font-family:var(--serif);color:var(--soft)}
 .extra{display:inline-block;font-family:var(--serif);font-style:italic;color:var(--deep);font-size:1.05rem}
-:scope[data-season-theme="night"] .card h3{color:var(--ink)}
 @media (max-width:980px){.hubgrid,.sgrid,.order,.tt{grid-template-columns:1fr}.seasons{grid-template-columns:1fr}.hv{margin:0 auto}}
 @media (max-width:560px){.cards2{grid-template-columns:1fr}.flip{height:190px}.g2{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.snow{display:none}.flip{transition:none}}

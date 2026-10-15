@@ -162,7 +162,7 @@ class PageController extends Controller
             'origin' => $p->origin ?? '',
             'code' => strtoupper(substr($p->category->slug ?? $p->slug, 0, 3)),
             'img' => $p->getPrimaryImageUrl(),
-            'link' => route('products.show', $p->slug),
+            'link' => route('products.show', $p->display_slug),
             'badge' => $p->is_new_arrival ? 'MỚI VỀ' : ($p->is_bestseller ? 'BÁN CHẠY' : ''),
         ])->values()->all();
 
