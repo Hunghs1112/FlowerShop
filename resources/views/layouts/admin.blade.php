@@ -10,6 +10,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     <link rel="stylesheet" href="{{ asset('css/admin/variants.css') }}">
+    @stack('styles')
     @include('partials.theme-head')
 </head>
 <body>
