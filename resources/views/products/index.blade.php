@@ -478,8 +478,8 @@
 
 <!-- Suggestion Collections (gợi ý theo bộ sưu tập / màu) -->
 @if(isset($suggestionCollections) && $suggestionCollections->isNotEmpty())
-<section class="products-suggestions">
-    <div class="products-suggestions-container">
+<section class="products-suggestions products-grid-section">
+    <div class="products-suggestions-container products-grid-container">
         <h2 class="products-suggestions-heading">Gợi ý theo phong cách</h2>
         @foreach($suggestionCollections as $collection)
         <div class="suggestion-block" style="--accent: {{ $collection->accent_color }};">
@@ -492,7 +492,7 @@
                 </div>
                 <a href="{{ route('products.index', ['collection' => $collection->slug]) }}" class="suggestion-block-link">Xem tất cả →</a>
             </header>
-            <div class="suggestion-block-grid">
+            <div class="suggestion-block-grid products-grid">
                 @foreach($collection->products as $product)
                     <x-product-card :product="$product" />
                 @endforeach
