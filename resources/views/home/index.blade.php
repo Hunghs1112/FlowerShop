@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Lâm Nhiên Thảo · Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp')
+@section('title', 'Lâm Nhiên Thảo')
 @section('skip-main-wrapper', true)
 
 @section('content')
