@@ -128,5 +128,9 @@
 
         <!-- Footer Divider -->
         <div class="footer-divider"></div>
+
+        <div class="footer-bottom">
+            <p class="footer-copyright">Lâm Nhiên Thảo 2026 © All rights reserved.</p>
+        </div>
     </div>
 </footer>
