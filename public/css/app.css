@@ -1,6 +1,6 @@
 ﻿/* ==========================================================================
    FlowerShop - Premium Botanical Theme
-   Generated: 2026-10-15 10:19:20
+   Generated: 2026-10-15 10:22:06
    ========================================================================== */
 
 /* === theme.css === */
@@ -3610,7 +3610,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 /* === PAGE HERO WITH IMAGE === */
 .page-hero--with-image {
-    height: clamp(360px, 48vw, 620px);
+    height: clamp(380px, calc(48vw + 20px), 640px);
     padding: 0;
     background-color: var(--color-black);
 }
@@ -4660,7 +4660,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 .categories-hero {
     position: relative;
-    height: clamp(360px, 48vw, 620px);
+    height: clamp(380px, calc(48vw + 20px), 640px);
     background-color: var(--color-botanical-pale);
     overflow: hidden;
 }
@@ -5470,7 +5470,7 @@ a.navbar-nav-link.shimmer-text.active {
 
 .products-hero {
     position: relative;
-    height: clamp(360px, 48vw, 620px);
+    height: clamp(380px, calc(48vw + 20px), 640px);
     padding: 0;
     background-color: var(--color-botanical-pale);
     overflow: hidden;
