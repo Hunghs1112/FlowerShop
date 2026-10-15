@@ -9,7 +9,7 @@ const STATUS={open:'ĐANG TUYỂN',soon:'SẮP MỞ',closed:'ĐÃ ĐỦ'};
 const br=t=>esc(t).replace(/\n/g,'<br>');
 function render(){
   $('#cvImg').src=C.coverImg; $('#cvMast').textContent=C.masthead; $('#cvIssue').textContent=C.issue; $('#cvNo').textContent=C.issueNo;
-  $('#cvLines').innerHTML=C.coverLines.map((l,i)=>`<div><small>${esc(l.k)}</small><strong class="${i===0?'hero':''}">${esc(l.v)}</strong></div>`).join('');
+  $('#cvLines').innerHTML=C.coverLines.map((l,i)=>`<div><small>${esc(l.k)}</small><strong class="${i===0?'cover-headline':''}">${esc(l.v)}</strong></div>`).join('');
   $('#tocKicker').textContent=C.tocKicker; $('#tocTitle').innerHTML=br(C.title).replace(/\*(.+?)\*/g,'<em>$1</em>'); $('#tocLead').textContent=C.lead;
   $('#toc').innerHTML=C.jobs.map((j,i)=>`<li><a href="#bai-${i}"><span class="pg">${pad(i*4+4)}</span><span><b>${esc(j.title)}</b><small>${esc(j.standfirst)}</small></span><span class="st ${esc(j.status)}">${STATUS[j.status]}</span></a></li>`).join('');
   $('#letter').innerHTML=lines(C.letter).map(p=>`<p>${esc(p)}</p>`).join(''); $('#sign').textContent=C.signature;
