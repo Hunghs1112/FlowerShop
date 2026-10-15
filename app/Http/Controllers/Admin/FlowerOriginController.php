@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\FlowerOrigin;
+use App\Services\AjaxFieldService;
 use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -32,7 +33,7 @@ class FlowerOriginController extends Controller
     public function store(Request $request)
     {
         $data = $this->validated($request);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['country'] . '-' . $data['flower']);
+        $data['slug'] = $data['slug'] ?: Str::slug($data['country'].'-'.$data['flower']);
         $data['is_active'] = $request->boolean('is_active', true);
         $data['image'] = $this->images->upload($request->file('image'), 'flower-origins');
         FlowerOrigin::create($data);
@@ -48,7 +49,7 @@ class FlowerOriginController extends Controller
     public function update(Request $request, FlowerOrigin $flowerOrigin)
     {
         $data = $this->validated($request, false);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['country'] . '-' . $data['flower']);
+        $data['slug'] = $data['slug'] ?: Str::slug($data['country'].'-'.$data['flower']);
         $data['is_active'] = $request->boolean('is_active');
         $oldImage = $flowerOrigin->image;
 
@@ -57,6 +58,7 @@ class FlowerOriginController extends Controller
         }
 
         $flowerOrigin->update($data);
+
         return redirect()->route('admin.flower-origins.index')->with('success', 'Đã cập nhật điểm hoa.');
     }
 
@@ -64,7 +66,7 @@ class FlowerOriginController extends Controller
     {
         $image = $flowerOrigin->image;
         $flowerOrigin->delete();
-        if (!str_starts_with($image, 'images/')) {
+        if (! str_starts_with($image, 'images/')) {
             $this->images->delete($image);
         }
 
@@ -91,7 +93,7 @@ class FlowerOriginController extends Controller
             'is_active' => 'boolean',
         ];
 
-        return app(\App\Services\AjaxFieldService::class)->handleAjaxFieldUpdate(
+        return app(AjaxFieldService::class)->handleAjaxFieldUpdate(
             $flowerOrigin,
             $field,
             $value,
@@ -128,7 +130,7 @@ class FlowerOriginController extends Controller
             'coordinate' => 'required|string|max:100',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
-            'image' => ($imageRequired ? 'required|' : 'nullable|') . 'image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+            'image' => ($imageRequired ? 'required|' : 'nullable|').'image|mimes:jpeg,png,jpg,gif,webp|max:4096',
         ]);
     }
 }

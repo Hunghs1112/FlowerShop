@@ -9,8 +9,8 @@ use App\Http\Requests\UpdateSubcategoryRequest;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Repositories\SubcategoryRepository;
-use App\Services\ImageStorageService;
 use App\Services\AjaxFieldService;
+use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -18,8 +18,11 @@ use Illuminate\Support\Str;
 class SubcategoryController extends Controller
 {
     use HandlesImageUpload;
+
     protected SubcategoryRepository $subcategories;
+
     protected ImageStorageService $images;
+
     protected AjaxFieldService $ajaxFieldService;
 
     public function __construct(
@@ -30,22 +33,22 @@ class SubcategoryController extends Controller
         $this->subcategories = $subcategories;
         $this->images = $images;
         $this->ajaxFieldService = $ajaxFieldService;
-        
+
     }
 
     public function index(Request $request)
     {
         $filters = [
-            'search'      => $request->input('search'),
+            'search' => $request->input('search'),
             'category_id' => $request->input('category_id'),
-            'is_active'   => $request->input('status') === 'active' ? true :
+            'is_active' => $request->input('status') === 'active' ? true :
                             ($request->input('status') === 'inactive' ? false : null),
         ];
 
         $query = Subcategory::with('category')->withCount('products');
 
         if ($filters['search']) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where('name', 'like', '%'.$filters['search'].'%');
         }
         if ($filters['category_id']) {
             $query->where('category_id', $filters['category_id']);
@@ -55,15 +58,16 @@ class SubcategoryController extends Controller
         }
 
         $subcategories = $query->orderBy('sort_order')->paginate(50);
-        $categories    = Category::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
 
         return view('admin.subcategories.index', compact('subcategories', 'categories', 'filters'));
     }
 
     public function create()
     {
-        
+
         $categories = Category::where('is_active', true)->orderBy('name')->get();
+
         return view('admin.subcategories.create', compact('categories'));
     }
 
@@ -92,7 +96,7 @@ class SubcategoryController extends Controller
                 $this->subcategories->create($validated);
             });
         } catch (\Throwable $e) {
-            if (!empty($validated['image'])) {
+            if (! empty($validated['image'])) {
                 $this->images->delete($validated['image']);
             }
             throw $e;
@@ -104,8 +108,9 @@ class SubcategoryController extends Controller
 
     public function edit(Subcategory $subcategory)
     {
-        
+
         $categories = Category::where('is_active', true)->orderBy('name')->get();
+
         return view('admin.subcategories.edit', compact('subcategory', 'categories'));
     }
 
@@ -123,7 +128,7 @@ class SubcategoryController extends Controller
         $oldImage = $subcategory->image;
 
         try {
-            DB::transaction(function () use ($request, $subcategory, &$validated, $oldImage) {
+            DB::transaction(function () use ($request, $subcategory, &$validated) {
                 if ($request->hasFile('image')) {
                     $validated['image'] = $this->images->upload(
                         $request->file('image'),
@@ -134,11 +139,11 @@ class SubcategoryController extends Controller
                 $subcategory->update($validated);
             });
 
-            if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
+            if (! empty($validated['image']) && $validated['image'] !== $oldImage) {
                 $this->images->delete($oldImage);
             }
         } catch (\Throwable $e) {
-            if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
+            if (! empty($validated['image']) && $validated['image'] !== $oldImage) {
                 $this->images->delete($validated['image']);
             }
             throw $e;
@@ -176,7 +181,7 @@ class SubcategoryController extends Controller
         $fieldConfig = [
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:subcategories,slug,' . $subcategory->id,
+            'slug' => 'nullable|string|max:255|unique:subcategories,slug,'.$subcategory->id,
             'description' => 'nullable|string',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer',

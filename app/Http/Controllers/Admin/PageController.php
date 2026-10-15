@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\HandlesAjaxFieldUpdates;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
-use App\Http\Responses\AjaxResponse;
 use App\Models\Page;
 use App\Repositories\PageRepository;
 use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -18,6 +18,7 @@ class PageController extends Controller
     use HandlesAjaxFieldUpdates;
 
     protected PageRepository $pages;
+
     protected ImageStorageService $images;
 
     public function __construct(PageRepository $pages, ImageStorageService $images)
@@ -39,7 +40,7 @@ class PageController extends Controller
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('slug', 'like', "%{$search}%");
+                    ->orWhere('slug', 'like', "%{$search}%");
             });
         }
 
@@ -59,7 +60,7 @@ class PageController extends Controller
         $pages = $query->latest()->paginate(min(max((int) $request->input('per_page', 15), 1), 100));
 
         return view('admin.pages.index', [
-            'pages'  => $pages,
+            'pages' => $pages,
             'search' => $request->input('search'),
         ]);
     }
@@ -91,7 +92,8 @@ class PageController extends Controller
         $isPolicy = in_array($page->slug, Page::POLICY_SLUGS, true);
         $isSeasonal = in_array($page->slug, Page::SEASONAL_SLUGS, true);
         $isGuide = in_array($page->slug, Page::GUIDE_SLUGS, true);
-        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && !$isPolicy && !$isSeasonal && !$isGuide, 404);
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && ! $isPolicy && ! $isSeasonal && ! $isGuide, 404);
+
         return view('admin.pages.edit', compact('page', 'isPolicy', 'isSeasonal', 'isGuide'));
     }
 
@@ -144,18 +146,19 @@ class PageController extends Controller
         $isPolicy = in_array($page->slug, Page::POLICY_SLUGS, true);
         $isSeasonal = in_array($page->slug, Page::SEASONAL_SLUGS, true);
         $isGuide = in_array($page->slug, Page::GUIDE_SLUGS, true);
-        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && !$isPolicy && !$isSeasonal && !$isGuide, 404);
+        abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && ! $isPolicy && ! $isSeasonal && ! $isGuide, 404);
 
         $allowedFields = $isPolicy
             ? ['title', 'policy_intro', 'policy_updated_at_display', 'policy_content_override', 'is_active']
             : (($isSeasonal || $isGuide)
                 ? ['title', 'content', 'is_active']
                 : ['title', 'slug', 'content', 'is_active', 'meta_title', 'meta_description', 'header_image', 'hide_header_overlay']);
+
         return $this->handleAjaxFieldUpdate($request, $page, [
             'allowed_fields' => $allowedFields,
             'rules' => [
                 'title' => 'required|string|max:255',
-                'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,' . $page->id, \Illuminate\Validation\Rule::notIn(Page::STATIC_SLUGS)],
+                'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,'.$page->id, Rule::notIn(Page::STATIC_SLUGS)],
                 'content' => $isSeasonal ? 'required|json' : 'required|string',
                 'is_active' => 'boolean',
                 'meta_title' => 'nullable|string|max:255',
@@ -214,5 +217,4 @@ class PageController extends Controller
 
         return $filters;
     }
-
 }

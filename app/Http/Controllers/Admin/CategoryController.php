@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\HandlesImageUpload;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Http\Responses\AjaxResponse;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
-use App\Services\ImageStorageService;
 use App\Services\AjaxFieldService;
+use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -18,8 +17,11 @@ use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
     use HandlesImageUpload;
+
     protected CategoryRepository $categories;
+
     protected ImageStorageService $images;
+
     protected AjaxFieldService $ajaxFieldService;
 
     public function __construct(
@@ -30,7 +32,7 @@ class CategoryController extends Controller
         $this->categories = $categories;
         $this->images = $images;
         $this->ajaxFieldService = $ajaxFieldService;
-        
+
     }
 
     // ============================================================
@@ -45,7 +47,7 @@ class CategoryController extends Controller
         // Define allowed fields with validation rules
         $fieldConfig = [
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
+            'slug' => 'nullable|string|max:255|unique:categories,slug,'.$category->id,
             'description' => 'nullable|string',
             'icon' => 'nullable|string|max:50',
             'hide_banner_content' => 'boolean',
@@ -60,6 +62,7 @@ class CategoryController extends Controller
             $fieldConfig
         );
     }
+
     public function index(Request $request)
     {
 
@@ -72,7 +75,7 @@ class CategoryController extends Controller
         $query = Category::withCount(['products', 'subcategories']);
 
         if ($filters['search']) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where('name', 'like', '%'.$filters['search'].'%');
         }
         if ($filters['is_active'] !== null) {
             $query->where('is_active', $filters['is_active']);
@@ -120,10 +123,10 @@ class CategoryController extends Controller
                 $this->categories->create($validated);
             });
         } catch (\Throwable $e) {
-            if (!empty($validated['image'])) {
+            if (! empty($validated['image'])) {
                 $this->images->delete($validated['image']);
             }
-            if (!empty($validated['banner_image'])) {
+            if (! empty($validated['banner_image'])) {
                 $this->images->delete($validated['banner_image']);
             }
             throw $e;
@@ -154,7 +157,7 @@ class CategoryController extends Controller
         $oldBannerImage = $category->banner_image;
 
         try {
-            DB::transaction(function () use ($request, $category, &$validated, $oldImage, $oldHoverImage, $oldBannerImage) {
+            DB::transaction(function () use ($request, $category, &$validated) {
                 if ($request->hasFile('image')) {
                     $validated['image'] = $this->images->upload(
                         $request->file('image'),
@@ -179,23 +182,23 @@ class CategoryController extends Controller
                 $category->update($validated);
             });
 
-            if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
+            if (! empty($validated['image']) && $validated['image'] !== $oldImage) {
                 $this->images->delete($oldImage);
             }
-            if (!empty($validated['hover_image']) && $validated['hover_image'] !== $oldHoverImage) {
+            if (! empty($validated['hover_image']) && $validated['hover_image'] !== $oldHoverImage) {
                 $this->images->delete($oldHoverImage);
             }
-            if (!empty($validated['banner_image']) && $validated['banner_image'] !== $oldBannerImage) {
+            if (! empty($validated['banner_image']) && $validated['banner_image'] !== $oldBannerImage) {
                 $this->images->delete($oldBannerImage);
             }
         } catch (\Throwable $e) {
-            if (!empty($validated['image']) && $validated['image'] !== $oldImage) {
+            if (! empty($validated['image']) && $validated['image'] !== $oldImage) {
                 $this->images->delete($validated['image']);
             }
-            if (!empty($validated['hover_image']) && $validated['hover_image'] !== $oldHoverImage) {
+            if (! empty($validated['hover_image']) && $validated['hover_image'] !== $oldHoverImage) {
                 $this->images->delete($validated['hover_image']);
             }
-            if (!empty($validated['banner_image']) && $validated['banner_image'] !== $oldBannerImage) {
+            if (! empty($validated['banner_image']) && $validated['banner_image'] !== $oldBannerImage) {
                 $this->images->delete($validated['banner_image']);
             }
             throw $e;
@@ -226,7 +229,7 @@ class CategoryController extends Controller
         if ($imagePath) {
             $this->images->delete($imagePath);
         }
-        
+
         if ($hoverImagePath) {
             $this->images->delete($hoverImagePath);
         }

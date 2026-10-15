@@ -21,7 +21,7 @@ class MysteryBoxContentController extends Controller
         $rules = [];
 
         foreach ($defaults as $key => $value) {
-            if (!in_array($key, ['step_labels', 'styles', 'colors', 'preferences', 'budgets', 'surprise_levels'], true)) {
+            if (! in_array($key, ['step_labels', 'styles', 'colors', 'preferences', 'budgets', 'surprise_levels'], true)) {
                 $rules[$key] = 'required|string|max:3000';
             }
         }
@@ -43,7 +43,7 @@ class MysteryBoxContentController extends Controller
         $content['budgets'] = $contentService->budgetList($validated['budgets_text']);
         $content['surprise_levels'] = $contentService->textList($validated['surprise_levels_text']);
 
-        if (count($content['step_labels']) !== 7 || !$content['styles'] || !$content['colors'] || !$content['preferences'] || !$content['budgets'] || !$content['surprise_levels']) {
+        if (count($content['step_labels']) !== 7 || ! $content['styles'] || ! $content['colors'] || ! $content['preferences'] || ! $content['budgets'] || ! $content['surprise_levels']) {
             return back()->withInput()->withErrors([
                 'content' => 'Vui lòng nhập đủ 7 bước và ít nhất một lựa chọn cho mỗi nhóm.',
             ]);
@@ -59,7 +59,7 @@ class MysteryBoxContentController extends Controller
         $field = $request->input('field');
         $value = $request->input('value');
 
-        if (!$field) {
+        if (! $field) {
             return response()->json(['success' => false, 'message' => 'Thiếu tên trường'], 422);
         }
 

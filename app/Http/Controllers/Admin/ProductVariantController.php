@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 class ProductVariantController extends Controller
 {
     protected ProductVariantRepository $variants;
+
     protected ImageStorageService $images;
 
     public function __construct(
@@ -23,7 +24,7 @@ class ProductVariantController extends Controller
     ) {
         $this->variants = $variants;
         $this->images = $images;
-        
+
     }
 
     public function index(Request $request, $productId)
@@ -31,7 +32,7 @@ class ProductVariantController extends Controller
         $product = Product::findOrFail($productId);
 
         $variants = $this->variants->getActiveForProduct($productId);
-        
+
         // If AJAX request, return JSON
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
@@ -51,7 +52,7 @@ class ProductVariantController extends Controller
                         'primary_image_url' => $variant->getPrimaryImageUrl(),
                         'images_count' => $variant->images()->count(),
                     ];
-                })
+                }),
             ]);
         }
 
@@ -61,7 +62,7 @@ class ProductVariantController extends Controller
     public function create($productId)
     {
         $product = Product::findOrFail($productId);
-        
+
         return view('admin.products.variants.create', compact('product'));
     }
 
@@ -80,7 +81,7 @@ class ProductVariantController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $image) {
                 $path = $image->store('variants', 'public');
-                
+
                 ProductVariantImage::create([
                     'product_variant_id' => $variant->id,
                     'image_path' => $path,
@@ -106,7 +107,7 @@ class ProductVariantController extends Controller
                     'is_active' => $variant->is_active,
                     'primary_image_url' => $variant->getPrimaryImageUrl(),
                     'images_count' => $variant->images()->count(),
-                ]
+                ],
             ], 201);
         }
 
@@ -120,7 +121,7 @@ class ProductVariantController extends Controller
         $product = Product::findOrFail($productId);
 
         $variant = ProductVariant::where('product_id', $productId)->findOrFail($id);
-        
+
         return view('admin.products.variants.edit', compact('product', 'variant'));
     }
 
@@ -129,7 +130,7 @@ class ProductVariantController extends Controller
         $product = Product::findOrFail($productId);
 
         $variant = ProductVariant::where('product_id', $productId)->findOrFail($id);
-        
+
         $validated = $request->validated();
         $validated['is_active'] = $request->boolean('is_active', false);
 
@@ -149,7 +150,7 @@ class ProductVariantController extends Controller
         // Add new images
         if ($request->hasFile('images')) {
             $maxOrder = $variant->images()->max('sort_order') ?? -1;
-            
+
             foreach ($request->file('images') as $index => $image) {
                 $path = $this->images->upload(
                     $image,
@@ -184,7 +185,7 @@ class ProductVariantController extends Controller
                     'sort_order' => $variant->sort_order,
                     'primary_image_url' => $variant->getPrimaryImageUrl(),
                     'images_count' => $variant->images()->count(),
-                ]
+                ],
             ]);
         }
 
@@ -198,20 +199,20 @@ class ProductVariantController extends Controller
         $product = Product::findOrFail($productId);
 
         $variant = ProductVariant::where('product_id', $productId)->findOrFail($id);
-        
+
         // Delete all images
         foreach ($variant->images as $image) {
             $this->images->delete($image->image_path);
             $image->delete();
         }
-        
+
         $this->variants->delete($variant->id);
 
         // If AJAX request, return JSON
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Variant đã được xóa thành công!'
+                'message' => 'Variant đã được xóa thành công!',
             ]);
         }
 

@@ -5,20 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Http\Responses\AjaxResponse;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Subcategory;
 use App\Repositories\ProductRepository;
-use App\Services\ImageStorageService;
 use App\Services\AjaxFieldService;
+use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
     protected ProductRepository $products;
+
     protected ImageStorageService $images;
+
     protected AjaxFieldService $ajaxFieldService;
 
     public function __construct(
@@ -29,7 +33,7 @@ class ProductController extends Controller
         $this->products = $products;
         $this->images = $images;
         $this->ajaxFieldService = $ajaxFieldService;
-        
+
     }
 
     // ============================================================
@@ -44,8 +48,8 @@ class ProductController extends Controller
         // Define allowed fields with validation rules
         $fieldConfig = [
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:products,slug,' . $product->id,
-            'sku' => 'nullable|string|max:100|unique:products,sku,' . $product->id,
+            'slug' => 'nullable|string|max:255|unique:products,slug,'.$product->id,
+            'sku' => 'nullable|string|max:100|unique:products,sku,'.$product->id,
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0',
@@ -74,16 +78,16 @@ class ProductController extends Controller
             [
                 'subcategory_id' => function ($product, $value) {
                     // Auto-assign category when subcategory changes
-                    if (!empty($value)) {
-                        $subcategory = \App\Models\Subcategory::find($value);
+                    if (! empty($value)) {
+                        $subcategory = Subcategory::find($value);
                         if ($subcategory) {
                             $product->update([
                                 'subcategory_id' => $value,
-                                'category_id' => $subcategory->category_id
+                                'category_id' => $subcategory->category_id,
                             ]);
                         }
                     }
-                }
+                },
             ]
         );
     }
@@ -105,7 +109,7 @@ class ProductController extends Controller
 
         return response()->json([
             'success' => false,
-            'message' => 'Field không hỗ trợ'
+            'message' => 'Field không hỗ trợ',
         ], 422);
     }
 
@@ -120,7 +124,7 @@ class ProductController extends Controller
             'has_images' => $request->hasFile('images'),
             'has_file' => $request->hasFile('file'),
             'all_files' => array_keys($request->allFiles()),
-            'all_keys' => array_keys($request->all())
+            'all_keys' => array_keys($request->all()),
         ]);
 
         // Check if multiple files or single file
@@ -131,23 +135,24 @@ class ProductController extends Controller
             try {
                 $request->validate([
                     'images' => 'required|array|max:10',
-                    'images.*' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+                    'images.*' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
                 ]);
-            } catch (\Illuminate\Validation\ValidationException $e) {
+            } catch (ValidationException $e) {
                 \Log::error('Validation failed', ['errors' => $e->errors()]);
+
                 return response()->json([
                     'success' => false,
-                    'message' => 'Validation error: ' . json_encode($e->errors())
+                    'message' => 'Validation error: '.json_encode($e->errors()),
                 ], 422);
             }
 
             $files = $request->file('images');
             $currentCount = $product->productImages()->count();
-            
+
             if ($currentCount + count($files) > $maxCnt) {
                 return response()->json([
                     'success' => false,
-                    'message' => "Tối đa {$maxCnt} ảnh (hiện có {$currentCount})"
+                    'message' => "Tối đa {$maxCnt} ảnh (hiện có {$currentCount})",
                 ], 422);
             }
 
@@ -171,33 +176,33 @@ class ProductController extends Controller
                     $uploadedImages[] = [
                         'id' => $image->id,
                         'path' => $path,
-                        'url' => asset('storage/' . $path),
+                        'url' => asset('storage/'.$path),
                         'is_primary' => $image->is_primary,
                     ];
                 }
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'Đã tải lên ' . count($uploadedImages) . ' ảnh',
-                    'images' => $uploadedImages
+                    'message' => 'Đã tải lên '.count($uploadedImages).' ảnh',
+                    'images' => $uploadedImages,
                 ]);
             } catch (\Throwable $e) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+                    'message' => 'Lỗi khi tải lên: '.$e->getMessage(),
                 ], 500);
             }
         } elseif ($hasSingle) {
             // Legacy single file upload
             $request->validate([
-                'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+                'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             ]);
 
             $currentCount = $product->productImages()->count();
             if ($currentCount >= $maxCnt) {
                 return response()->json([
                     'success' => false,
-                    'message' => "Tối đa {$maxCnt} ảnh"
+                    'message' => "Tối đa {$maxCnt} ảnh",
                 ], 422);
             }
 
@@ -224,24 +229,24 @@ class ProductController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Đã tải lên ảnh mới',
-                    'imageUrl' => asset('storage/' . $path),
+                    'imageUrl' => asset('storage/'.$path),
                     'image' => [
                         'id' => $image->id,
                         'path' => $path,
                         'is_primary' => $image->is_primary,
                         'sort_order' => $image->sort_order,
-                    ]
+                    ],
                 ]);
             } catch (\Throwable $e) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+                    'message' => 'Lỗi khi tải lên: '.$e->getMessage(),
                 ], 500);
             }
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Không tìm thấy file để tải lên'
+                'message' => 'Không tìm thấy file để tải lên',
             ], 422);
         }
     }
@@ -252,14 +257,14 @@ class ProductController extends Controller
         $maxCnt = (int) config('upload.limits.product_videos.max_count', 5);
 
         $request->validate([
-            'file' => "required|file|mimes:mp4,webm,mov,avi|max:{$maxKb}"
+            'file' => "required|file|mimes:mp4,webm,mov,avi|max:{$maxKb}",
         ]);
 
         $currentVideoCount = $product->productImages()->where('media_type', 'video')->count();
         if ($currentVideoCount >= $maxCnt) {
             return response()->json([
                 'success' => false,
-                'message' => "Tối đa {$maxCnt} video"
+                'message' => "Tối đa {$maxCnt} video",
             ], 422);
         }
 
@@ -282,14 +287,14 @@ class ProductController extends Controller
                 'success' => true,
                 'video' => [
                     'id' => $video->id,
-                    'url' => asset('storage/' . $path),
+                    'url' => asset('storage/'.$path),
                     'mime_type' => $video->mime_type,
-                ]
+                ],
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Upload thất bại: ' . $e->getMessage()
+                'message' => 'Upload thất bại: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -303,7 +308,7 @@ class ProductController extends Controller
         if ($image->product_id !== $product->id) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ảnh không thuộc sản phẩm này'
+                'message' => 'Ảnh không thuộc sản phẩm này',
             ], 403);
         }
 
@@ -311,7 +316,7 @@ class ProductController extends Controller
         if ($image->media_type === 'video') {
             return response()->json([
                 'success' => false,
-                'message' => 'Sử dụng endpoint xóa video'
+                'message' => 'Sử dụng endpoint xóa video',
             ], 400);
         }
 
@@ -320,8 +325,8 @@ class ProductController extends Controller
         $this->images->delete($path);
 
         // Auto-set new primary if needed
-        if ($product->productImages()->where('media_type', 'image')->count() > 0 && 
-            !$product->productImages()->where('is_primary', true)->exists()) {
+        if ($product->productImages()->where('media_type', 'image')->count() > 0 &&
+            ! $product->productImages()->where('is_primary', true)->exists()) {
             $firstImage = $product->productImages()->where('media_type', 'image')->orderBy('sort_order')->first();
             if ($firstImage) {
                 $firstImage->update(['is_primary' => true]);
@@ -330,7 +335,7 @@ class ProductController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Đã xóa ảnh'
+            'message' => 'Đã xóa ảnh',
         ]);
     }
 
@@ -342,14 +347,14 @@ class ProductController extends Controller
         if ($video->product_id !== $product->id) {
             return response()->json([
                 'success' => false,
-                'message' => 'Video không thuộc sản phẩm này'
+                'message' => 'Video không thuộc sản phẩm này',
             ], 403);
         }
 
         if ($video->media_type !== 'video') {
             return response()->json([
                 'success' => false,
-                'message' => 'Đây không phải video'
+                'message' => 'Đây không phải video',
             ], 400);
         }
 
@@ -362,7 +367,7 @@ class ProductController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Đã xóa video'
+            'message' => 'Đã xóa video',
         ]);
     }
 
@@ -374,7 +379,7 @@ class ProductController extends Controller
         if ($image->product_id !== $product->id) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ảnh không thuộc sản phẩm này'
+                'message' => 'Ảnh không thuộc sản phẩm này',
             ], 403);
         }
 
@@ -383,7 +388,7 @@ class ProductController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Đã đặt làm ảnh chính'
+            'message' => 'Đã đặt làm ảnh chính',
         ]);
     }
 
@@ -400,8 +405,8 @@ class ProductController extends Controller
 
         if ($filters['search']) {
             $query->where(function ($q) use ($filters) {
-                $q->where('name', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('sku', 'like', '%' . $filters['search'] . '%');
+                $q->where('name', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('sku', 'like', '%'.$filters['search'].'%');
             });
         }
         if ($filters['category_id']) {
@@ -412,7 +417,7 @@ class ProductController extends Controller
         }
 
         $products = $query->latest()->paginate(15);
-        $categories = \App\Models\Category::active()->orderBy('name')->get();
+        $categories = Category::active()->orderBy('name')->get();
 
         return view('admin.products.index', compact('products', 'categories', 'filters'));
     }
@@ -420,17 +425,15 @@ class ProductController extends Controller
     public function create()
     {
 
-        $categories = \App\Models\Category::active()->topLevel()->orderBy('name')->get();
-
-        $subcategories = \App\Models\Subcategory::with('category')
+        $subcategories = Subcategory::with('category')
             ->where('is_active', true)
             ->orderBy('category_id')
             ->orderBy('name')
             ->get();
-        
-        $categories = \App\Models\Category::active()->orderBy('name')->get();
+
+        $categories = Category::active()->orderBy('name')->get();
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
-        
+
         return view('admin.products.create', compact('categories', 'subcategories', 'maxImages'));
     }
 
@@ -446,7 +449,7 @@ class ProductController extends Controller
 
         // A subcategory, when present, always belongs to the selected parent category.
         if (isset($validated['subcategory_id'])) {
-            $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
+            $subcategory = Subcategory::find($validated['subcategory_id']);
             if ($subcategory) {
                 $validated['category_id'] = $subcategory->category_id;
             }
@@ -500,15 +503,13 @@ class ProductController extends Controller
 
         $product->load('productImages');
 
-        $categories = \App\Models\Category::active()->topLevel()->orderBy('name')->get();
-        
-        $subcategories = \App\Models\Subcategory::with('category')
+        $subcategories = Subcategory::with('category')
             ->where('is_active', true)
             ->orderBy('category_id')
             ->orderBy('name')
             ->get();
-        
-        $categories = \App\Models\Category::active()->orderBy('name')->get();
+
+        $categories = Category::active()->orderBy('name')->get();
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
 
         return view('admin.products.edit', compact('product', 'categories', 'subcategories', 'maxImages'));
@@ -526,7 +527,7 @@ class ProductController extends Controller
 
         // A subcategory, when present, always belongs to the selected parent category.
         if (isset($validated['subcategory_id'])) {
-            $subcategory = \App\Models\Subcategory::find($validated['subcategory_id']);
+            $subcategory = Subcategory::find($validated['subcategory_id']);
             if ($subcategory) {
                 $validated['category_id'] = $subcategory->category_id;
             }
@@ -624,7 +625,7 @@ class ProductController extends Controller
     // ============================================================
     public function import()
     {
-        $subcategories = \App\Models\Subcategory::with('category')
+        $subcategories = Subcategory::with('category')
             ->where('is_active', true)
             ->orderBy('category_id')
             ->orderBy('name')
@@ -644,21 +645,23 @@ class ProductController extends Controller
             $handle = fopen($file->getRealPath(), 'r');
             $row = fgetcsv($handle);
 
-            if (!$row) {
+            if (! $row) {
                 fclose($handle);
+
                 return redirect()->back()->with('error', 'File CSV rỗng');
             }
 
             // Normalize headers - remove BOM if present
-            $headers = array_map(function($h) {
+            $headers = array_map(function ($h) {
                 return trim(preg_replace('/^\xEF\xBB\xBF/', '', $h));
             }, $row);
 
             // Validate headers
             $requiredHeaders = ['ten_san_pham', 'danh_muc', 'gia', 'ton_kho'];
             foreach ($requiredHeaders as $required) {
-                if (!in_array($required, $headers)) {
+                if (! in_array($required, $headers)) {
                     fclose($handle);
+
                     return redirect()->back()->with('error', "Thiếu cột bắt buộc: {$required}");
                 }
             }
@@ -676,36 +679,38 @@ class ProductController extends Controller
                 if (count($row) !== count($headers)) {
                     $errorCount++;
                     $line++;
+
                     continue;
                 }
                 $data = array_combine($headers, $row);
 
                 if (empty($data['ten_san_pham'])) {
                     $line++;
+
                     continue;
                 }
 
                 // Find subcategory
                 $subcategoryId = null;
                 $categoryId = null;
-                if (!empty($data['danh_muc'])) {
-                    $subcategory = \App\Models\Subcategory::where('name', $data['danh_muc'])->first();
+                if (! empty($data['danh_muc'])) {
+                    $subcategory = Subcategory::where('name', $data['danh_muc'])->first();
                     if ($subcategory) {
                         $subcategoryId = $subcategory->id;
                         $categoryId = $subcategory->category_id;
                     } else {
-                        $categoryId = \App\Models\Category::where('name', $data['danh_muc'])->value('id');
+                        $categoryId = Category::where('name', $data['danh_muc'])->value('id');
                     }
                 }
 
                 // Generate slug
-                $slug = $data['slug'] ?? \Illuminate\Support\Str::slug($data['ten_san_pham']);
-                $existingProduct = \App\Models\Product::where('slug', $slug)->first();
+                $slug = $data['slug'] ?? Str::slug($data['ten_san_pham']);
+                $existingProduct = Product::where('slug', $slug)->first();
                 if ($existingProduct) {
-                    $slug = $slug . '-' . time();
+                    $slug = $slug.'-'.time();
                 }
 
-                \App\Models\Product::create([
+                Product::create([
                     'name' => $data['ten_san_pham'],
                     'slug' => $slug,
                     'sku' => $data['sku'] ?? null,
@@ -736,26 +741,36 @@ class ProductController extends Controller
             fclose($handle);
 
             $message = "Đã nhập {$successCount} sản phẩm thành công";
-            if ($errorCount) $message .= "; bỏ qua {$errorCount} dòng lỗi";
+            if ($errorCount) {
+                $message .= "; bỏ qua {$errorCount} dòng lỗi";
+            }
+
             return redirect()->route('admin.products.index')->with('success', $message);
         } catch (\Exception $e) {
-            if (DB::transactionLevel() > 0) DB::rollBack();
-            if (is_resource($handle ?? null)) fclose($handle);
+            if (DB::transactionLevel() > 0) {
+                DB::rollBack();
+            }
+            if (is_resource($handle ?? null)) {
+                fclose($handle);
+            }
+
             return redirect()->back()
-                ->with('error', 'Lỗi khi import: ' . $e->getMessage());
+                ->with('error', 'Lỗi khi import: '.$e->getMessage());
         } finally {
-            if (is_resource($handle ?? null)) fclose($handle);
+            if (is_resource($handle ?? null)) {
+                fclose($handle);
+            }
         }
     }
 
     public function downloadTemplate()
     {
-        $subcategories = \App\Models\Subcategory::where('is_active', true)
+        $subcategories = Subcategory::where('is_active', true)
             ->orderBy('name')
             ->pluck('name')
             ->toArray();
 
-        $sampleCategory = !empty($subcategories) ? $subcategories[0] : 'Tên danh mục con';
+        $sampleCategory = ! empty($subcategories) ? $subcategories[0] : 'Tên danh mục con';
 
         // Create CSV content
         $headers = ['ten_san_pham', 'slug', 'sku', 'danh_muc', 'gia', 'ton_kho', 'mo_ta_ngan', 'mo_ta', 'chieu_dai', 'sl_toi_thieu', 'xuat_xu', 'quy_cach', 'don_vi'];
@@ -775,7 +790,7 @@ class ProductController extends Controller
             'bó',
         ];
 
-        $content = implode(',', $headers) . "\n" . implode(',', $sampleData);
+        $content = implode(',', $headers)."\n".implode(',', $sampleData);
 
         return response($content, 200, [
             'Content-Type' => 'text/csv',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\GalleryImage;
+use App\Services\AjaxFieldService;
 use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 
@@ -54,6 +55,7 @@ class GalleryImageController extends Controller
         }
 
         $galleryImage->update($data);
+
         return redirect()->route('admin.gallery-images.index')->with('success', 'Đã cập nhật ảnh gallery.');
     }
 
@@ -61,7 +63,7 @@ class GalleryImageController extends Controller
     {
         $image = $galleryImage->image;
         $galleryImage->delete();
-        if (!str_starts_with($image, 'images/')) {
+        if (! str_starts_with($image, 'images/')) {
             $this->images->delete($image);
         }
 
@@ -81,7 +83,7 @@ class GalleryImageController extends Controller
             'is_active' => 'boolean',
         ];
 
-        return app(\App\Services\AjaxFieldService::class)->handleAjaxFieldUpdate(
+        return app(AjaxFieldService::class)->handleAjaxFieldUpdate(
             $galleryImage,
             $field,
             $value,
@@ -110,7 +112,7 @@ class GalleryImageController extends Controller
             'alt_text' => 'required|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
-            'image' => ($imageRequired ? 'required|' : 'nullable|') . 'image|mimes:jpeg,png,jpg,gif,webp|max:8192',
+            'image' => ($imageRequired ? 'required|' : 'nullable|').'image|mimes:jpeg,png,jpg,gif,webp|max:8192',
         ]);
     }
 }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Subcategory;
 use App\Models\Product;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 
 /**
@@ -21,14 +21,14 @@ class CatalogController extends Controller
 
         $allCategories = Category::orderBy('name')->get();
 
-        $categories   = collect();
+        $categories = collect();
         $subcategories = collect();
-        $products     = collect();
+        $products = collect();
 
         match ($activeTab) {
-            'categories'   => $categories   = $this->getCategories($request),
+            'categories' => $categories = $this->getCategories($request),
             'subcategories' => $subcategories = $this->getSubcategories($request),
-            'products'     => $products     = $this->getProducts($request),
+            'products' => $products = $this->getProducts($request),
         };
 
         return view('admin.catalog.index', compact(

@@ -24,8 +24,8 @@ class TreePreorderController extends Controller
 
         if ($filters['search']) {
             $query->where(function ($q) use ($filters) {
-                $q->where('name', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('phone', 'like', '%' . $filters['search'] . '%');
+                $q->where('name', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('phone', 'like', '%'.$filters['search'].'%');
             });
         }
 
@@ -72,6 +72,7 @@ class TreePreorderController extends Controller
                 'value' => 'required|in:new,contacted,completed,cancelled',
             ]);
             $inquiry->update(['status' => $validated['value']]);
+
             return response()->json(['success' => true, 'message' => 'Đã cập nhật trạng thái']);
         }
 

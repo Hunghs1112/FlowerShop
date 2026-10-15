@@ -8,8 +8,8 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Repositories\PostRepository;
-use App\Services\ImageStorageService;
 use App\Services\AjaxFieldService;
+use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -17,8 +17,11 @@ use Illuminate\Support\Str;
 class PostController extends Controller
 {
     use HandlesImageUpload;
+
     protected PostRepository $posts;
+
     protected ImageStorageService $images;
+
     protected AjaxFieldService $ajaxFieldService;
 
     public function __construct(
@@ -29,7 +32,7 @@ class PostController extends Controller
         $this->posts = $posts;
         $this->images = $images;
         $this->ajaxFieldService = $ajaxFieldService;
-        
+
     }
 
     // ============================================================
@@ -68,9 +71,9 @@ class PostController extends Controller
         // Define allowed fields with validation rules
         $fieldConfig = [
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
+            'slug' => 'nullable|string|max:255|unique:posts,slug,'.$post->id,
             'excerpt' => 'nullable|string|max:500',
-            'category' => 'required|in:' . implode(',', array_keys(Post::CATEGORIES)),
+            'category' => 'required|in:'.implode(',', array_keys(Post::CATEGORIES)),
             'content' => 'required|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
@@ -98,8 +101,8 @@ class PostController extends Controller
 
         if ($filters['search']) {
             $query->where(function ($q) use ($filters) {
-                $q->where('title', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('excerpt', 'like', '%' . $filters['search'] . '%');
+                $q->where('title', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('excerpt', 'like', '%'.$filters['search'].'%');
             });
         }
         if ($filters['is_published'] !== null) {
@@ -144,7 +147,7 @@ class PostController extends Controller
                 $this->posts->create($validated);
             });
         } catch (\Throwable $e) {
-            if (!empty($validated['thumbnail'])) {
+            if (! empty($validated['thumbnail'])) {
                 $this->images->delete($validated['thumbnail']);
             }
             throw $e;
@@ -188,7 +191,7 @@ class PostController extends Controller
                 $post->update($validated);
             });
         } catch (\Throwable $e) {
-            if (!empty($validated['thumbnail']) && $validated['thumbnail'] !== $oldThumbnail) {
+            if (! empty($validated['thumbnail']) && $validated['thumbnail'] !== $oldThumbnail) {
                 $this->images->delete($validated['thumbnail']);
             }
             throw $e;
@@ -202,7 +205,7 @@ class PostController extends Controller
     {
         // PostController accepts 'thumbnail', 'file', or 'images[0]' — normalise to 'file'
         // so the shared trait can pick it up from either key.
-        if (!$request->hasFile('file') && !$request->hasFile('images')) {
+        if (! $request->hasFile('file') && ! $request->hasFile('images')) {
             if ($request->hasFile('thumbnail')) {
                 // Re-add under 'file' key via request merge so the trait resolves it
                 $request->files->set('file', $request->file('thumbnail'));
@@ -232,11 +235,11 @@ class PostController extends Controller
     {
         $thumbnail = $post->thumbnail;
         $post->delete();
-        
+
         if ($thumbnail) {
             $this->images->delete($thumbnail);
         }
-        
+
         return redirect()->route('admin.posts.index')
             ->with('success', 'Xóa bài viết thành công');
     }

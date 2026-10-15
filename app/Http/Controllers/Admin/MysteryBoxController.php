@@ -22,11 +22,11 @@ class MysteryBoxController extends Controller
 
         // Search by customer name, phone, or request ID
         if ($search = $request->get('search')) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('request_id', 'like', "%{$search}%");
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('request_id', 'like', "%{$search}%");
             });
         }
 
@@ -59,7 +59,7 @@ class MysteryBoxController extends Controller
     public function show(MysteryBoxRequest $mysteryBox)
     {
         $mysteryBox->load('user');
-        
+
         return view('admin.mystery-boxes.show', compact('mysteryBox'));
     }
 
@@ -88,6 +88,7 @@ class MysteryBoxController extends Controller
                 'value' => 'required|in:new,reviewing,confirmed,completed,cancelled',
             ]);
             $mysteryBox->update(['status' => $validated['value']]);
+
             return response()->json(['success' => true, 'message' => 'Đã cập nhật trạng thái']);
         }
 

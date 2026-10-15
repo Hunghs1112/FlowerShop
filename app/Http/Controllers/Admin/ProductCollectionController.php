@@ -25,8 +25,9 @@ class ProductCollectionController extends Controller
 
     public function create(): View
     {
-        $collection = new ProductCollection();
+        $collection = new ProductCollection;
         $allProducts = $this->getAllProducts();
+
         return view('admin.product-collections.create', compact('collection', 'allProducts'));
     }
 
@@ -44,6 +45,7 @@ class ProductCollectionController extends Controller
     {
         $allProducts = $this->getAllProducts();
         $selectedIds = $productCollection->products()->pluck('products.id')->all();
+
         return view('admin.product-collections.edit', compact('productCollection', 'allProducts', 'selectedIds'));
     }
 
@@ -60,6 +62,7 @@ class ProductCollectionController extends Controller
     public function destroy(ProductCollection $productCollection)
     {
         $productCollection->delete();
+
         return redirect()->route('admin.product-collections.index')
             ->with('success', 'Đã xóa bộ sưu tập');
     }

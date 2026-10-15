@@ -13,18 +13,22 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $query = Order::with('user')->latest();
-        if ($request->filled('status')) $query->where('status', $request->string('status'));
+        if ($request->filled('status')) {
+            $query->where('status', $request->string('status'));
+        }
         if ($request->filled('search')) {
             $search = $request->string('search');
             $query->where(fn ($q) => $q->where('customer_name', 'like', "%{$search}%")->orWhere('customer_phone', 'like', "%{$search}%"));
         }
         $orders = $query->paginate(min(max((int) $request->input('per_page', 25), 1), 100))->withQueryString();
+
         return view('admin.orders.index', compact('orders'));
     }
 
     public function show(Order $order)
     {
         $order->load(['user', 'items.product', 'items.variant']);
+
         return view('admin.orders.show', compact('order'));
     }
 
@@ -79,7 +83,7 @@ class OrderController extends Controller
         if ($field === 'status') {
             $validated = $request->validate([
                 'field' => 'required',
-                'value' => ['required', \Illuminate\Validation\Rule::in(array_keys(Order::STATUSES))],
+                'value' => ['required', Rule::in(array_keys(Order::STATUSES))],
             ]);
 
             $result = DB::transaction(function () use ($order, $validated) {
@@ -105,6 +109,7 @@ class OrderController extends Controller
                 }
 
                 $order->update(['status' => $validated['value']]);
+
                 return 'updated';
             });
 

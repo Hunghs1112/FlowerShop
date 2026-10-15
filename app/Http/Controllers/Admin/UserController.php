@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     protected UserRepository $users;
+
     protected AjaxFieldService $ajaxFieldService;
 
     public function __construct(
@@ -23,7 +24,7 @@ class UserController extends Controller
     ) {
         $this->users = $users;
         $this->ajaxFieldService = $ajaxFieldService;
-        
+
     }
 
     public function index(Request $request)
@@ -38,9 +39,9 @@ class UserController extends Controller
 
         if ($filters['search']) {
             $query->where(function ($q) use ($filters) {
-                $q->where('name', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('email', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('phone', 'like', '%' . $filters['search'] . '%');
+                $q->where('name', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('email', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('phone', 'like', '%'.$filters['search'].'%');
             });
         }
         if ($filters['role']) {
@@ -54,8 +55,9 @@ class UserController extends Controller
 
     public function create()
     {
-        
+
         $vipLevels = VipLevel::active()->ordered()->get();
+
         return view('admin.users.create', compact('vipLevels'));
     }
 
@@ -83,7 +85,7 @@ class UserController extends Controller
         // Define allowed fields (password excluded for security)
         $fieldConfig = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,'.$user->id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'role' => 'required|in:admin,customer',
@@ -100,8 +102,9 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        
+
         $vipLevels = VipLevel::active()->ordered()->get();
+
         return view('admin.users.edit', compact('user', 'vipLevels'));
     }
 
@@ -110,7 +113,7 @@ class UserController extends Controller
 
         $validated = $request->validated();
 
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\Product;
-use App\Services\ImageStorageService;
 use App\Repositories\SettingRepository;
+use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -77,7 +77,7 @@ class SeasonalPageController extends Controller
             ->get();
 
         // Hero image from settings
-        $heroImage = $this->settings->getByKey('seasonal_' . $seasonId . '_hero');
+        $heroImage = $this->settings->getByKey('seasonal_'.$seasonId.'_hero');
 
         return view('admin.seasonal-pages.edit', [
             'seasonId' => $seasonId,
@@ -106,14 +106,14 @@ class SeasonalPageController extends Controller
 
         // Update product season assignments
         Product::where('season_id', $seasonId)->update(['season_id' => null]);
-        if (!empty($validated['product_ids'])) {
+        if (! empty($validated['product_ids'])) {
             Product::whereIn('id', $validated['product_ids'])->update(['season_id' => $seasonId]);
         }
 
         // Merge data into page content
         $stored = json_decode($page->content, true) ?: [];
         $storedSeasons = $stored['seasons'] ?? [];
-        $seasonIndex = collect($storedSeasons)->search(fn($s) => ($s['id'] ?? '') === $seasonId);
+        $seasonIndex = collect($storedSeasons)->search(fn ($s) => ($s['id'] ?? '') === $seasonId);
 
         // Update or insert season data
         $seasonData = $this->normalizeSeasonData($validated['data'], $seasonId);
@@ -127,8 +127,8 @@ class SeasonalPageController extends Controller
         $page->update(['content' => json_encode($stored, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)]);
 
         // Save hero image to settings
-        if (!empty($validated['hero_image'])) {
-            $this->settings->setSetting('seasonal_' . $seasonId . '_hero', $validated['hero_image'], 'image');
+        if (! empty($validated['hero_image'])) {
+            $this->settings->setSetting('seasonal_'.$seasonId.'_hero', $validated['hero_image'], 'image');
         }
 
         return response()->json(['success' => true, 'message' => 'Đã lưu thay đổi']);
@@ -143,16 +143,16 @@ class SeasonalPageController extends Controller
             'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
         ]);
 
-        $oldPath = $this->settings->getByKey('seasonal_' . $seasonId . '_hero');
+        $oldPath = $this->settings->getByKey('seasonal_'.$seasonId.'_hero');
 
         $path = $this->images->upload(
             $request->file('file'),
             'images/seasonal',
             $oldPath,
-            'seasonal_hero_' . $seasonId
+            'seasonal_hero_'.$seasonId
         );
 
-        $this->settings->setSetting('seasonal_' . $seasonId . '_hero', $path, 'image');
+        $this->settings->setSetting('seasonal_'.$seasonId.'_hero', $path, 'image');
 
         return response()->json([
             'success' => true,
@@ -165,10 +165,10 @@ class SeasonalPageController extends Controller
     {
         abort_unless(isset(self::SEASONS[$seasonId]), 404);
 
-        $oldPath = $this->settings->getByKey('seasonal_' . $seasonId . '_hero');
+        $oldPath = $this->settings->getByKey('seasonal_'.$seasonId.'_hero');
         if ($oldPath) {
             $this->images->delete($oldPath);
-            $this->settings->deleteByKey('seasonal_' . $seasonId . '_hero');
+            $this->settings->deleteByKey('seasonal_'.$seasonId.'_hero');
         }
 
         return response()->json(['success' => true, 'message' => 'Đã xóa ảnh hero']);
@@ -180,6 +180,7 @@ class SeasonalPageController extends Controller
         if (file_exists($path)) {
             return json_decode(file_get_contents($path), true);
         }
+
         return [];
     }
 
@@ -192,6 +193,7 @@ class SeasonalPageController extends Controller
                 $defaults[$key] = $value;
             }
         }
+
         return $defaults;
     }
 
@@ -200,10 +202,15 @@ class SeasonalPageController extends Controller
         // Clean up data before saving
         $result = [];
         foreach ($data as $key => $value) {
-            if (in_array($key, ['products'])) continue; // products handled separately
-            if ($value === '' || $value === null) continue;
+            if (in_array($key, ['products'])) {
+                continue;
+            } // products handled separately
+            if ($value === '' || $value === null) {
+                continue;
+            }
             $result[$key] = $value;
         }
+
         return $result;
     }
 }

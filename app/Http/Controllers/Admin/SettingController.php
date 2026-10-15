@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 class SettingController extends Controller
 {
     protected SettingRepository $settings;
+
     protected ImageStorageService $images;
 
     public function __construct(
@@ -21,7 +22,7 @@ class SettingController extends Controller
     ) {
         $this->settings = $settings;
         $this->images = $images;
-        
+
     }
 
     // ============================================================
@@ -41,16 +42,16 @@ class SettingController extends Controller
             'business_hours', 'email_notification_enabled', 'zalo_notification_enabled',
             'smtp_host', 'smtp_port', 'smtp_username', 'smtp_encryption',
             'order_notification_email', 'contact_form_email', 'zalo_oa_id', 'zalo_access_token',
-            'google_analytics'
+            'google_analytics',
         ];
         foreach (array_keys(BannerService::BANNER_KEYS) as $bannerKey) {
-            $allowedFields[] = 'banner_' . $bannerKey . '_hide_overlay';
+            $allowedFields[] = 'banner_'.$bannerKey.'_hide_overlay';
         }
 
-        if (!in_array($field, $allowedFields)) {
+        if (! in_array($field, $allowedFields)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Trường không hợp lệ'
+                'message' => 'Trường không hợp lệ',
             ], 422);
         }
 
@@ -59,7 +60,7 @@ class SettingController extends Controller
             'email_notification_enabled',
             'zalo_notification_enabled',
             ...array_map(
-                fn (string $key) => 'banner_' . $key . '_hide_overlay',
+                fn (string $key) => 'banner_'.$key.'_hide_overlay',
                 array_keys(BannerService::BANNER_KEYS)
             ),
         ];
@@ -69,30 +70,30 @@ class SettingController extends Controller
 
         // Handle email validation
         if (str_contains($field, 'email') || $field === 'email') {
-            if (!empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            if (! empty($value) && ! filter_var($value, FILTER_VALIDATE_EMAIL)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Email không hợp lệ'
+                    'message' => 'Email không hợp lệ',
                 ], 422);
             }
         }
 
         // Handle URL validation
         if (str_contains($field, 'url')) {
-            if (!empty($value) && !filter_var($value, FILTER_VALIDATE_URL)) {
+            if (! empty($value) && ! filter_var($value, FILTER_VALIDATE_URL)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'URL không hợp lệ'
+                    'message' => 'URL không hợp lệ',
                 ], 422);
             }
         }
 
         // Handle port validation
         if ($field === 'smtp_port') {
-            if (!empty($value) && (!is_numeric($value) || $value < 1 || $value > 65535)) {
+            if (! empty($value) && (! is_numeric($value) || $value < 1 || $value > 65535)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Port không hợp lệ (1-65535)'
+                    'message' => 'Port không hợp lệ (1-65535)',
                 ], 422);
             }
         }
@@ -102,10 +103,10 @@ class SettingController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Đã lưu ' . $field,
+            'message' => 'Đã lưu '.$field,
             'data' => [
-                $field => $value
-            ]
+                $field => $value,
+            ],
         ]);
     }
 
@@ -117,7 +118,7 @@ class SettingController extends Controller
         $banners = $bannerService->all();
 
         // Add masked SMTP password for display
-        $settingsData['smtp_password_masked'] = !empty($settingsData['smtp_password'] ?? null) ? '••••••••' : '';
+        $settingsData['smtp_password_masked'] = ! empty($settingsData['smtp_password'] ?? null) ? '••••••••' : '';
 
         return view('admin.settings.index', compact('settingsData', 'banners'));
     }
@@ -125,8 +126,8 @@ class SettingController extends Controller
     public function update(Request $request)
     {
 
-        $logoMax  = (int) config('upload.limits.site_logo.max_size', 2048);
-        $bannMax  = (int) config('upload.limits.banner.max_size', 4096);
+        $logoMax = (int) config('upload.limits.site_logo.max_size', 2048);
+        $bannMax = (int) config('upload.limits.banner.max_size', 4096);
 
         $validated = $request->validate([
             'site_name' => 'required|string|max:255',
@@ -165,15 +166,15 @@ class SettingController extends Controller
             'zalo_admin_phone' => 'nullable|string|max:20',
 
             // Banner uploads
-            'banner_home'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
-            'banner_products'   => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_home' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_products' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
             'banner_categories' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
-            'banner_blog'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
-            'banner_about'      => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
-            'banner_contact'    => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
-            'banner_b2c'        => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
-            'banner_cart'       => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
-            'banner_checkout'   => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_blog' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_about' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_contact' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_b2c' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_cart' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
+            'banner_checkout' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$bannMax}",
         ]);
 
         // Handle site logo upload
@@ -203,7 +204,7 @@ class SettingController extends Controller
                 }
 
                 // ---- SMTP password (write only if non-empty) ----
-                if (!empty($validated['smtp_password'])) {
+                if (! empty($validated['smtp_password'])) {
                     $this->settings->setSetting('smtp_password', $validated['smtp_password'], 'text');
                 }
                 unset($validated['smtp_password']);
@@ -211,8 +212,8 @@ class SettingController extends Controller
                 // ---- Banners ----
                 $bannerKeys = array_keys(BannerService::BANNER_KEYS);
                 foreach ($bannerKeys as $bannerKey) {
-                    $fieldName = 'banner_' . $bannerKey;
-                    if (!$request->hasFile($fieldName)) {
+                    $fieldName = 'banner_'.$bannerKey;
+                    if (! $request->hasFile($fieldName)) {
                         continue;
                     }
 
@@ -234,7 +235,7 @@ class SettingController extends Controller
                 }
             });
         } catch (\Throwable $e) {
-            if ($request->hasFile('site_logo') && !empty($validated['site_logo']) && $validated['site_logo'] !== $logoOldPath) {
+            if ($request->hasFile('site_logo') && ! empty($validated['site_logo']) && $validated['site_logo'] !== $logoOldPath) {
                 $this->images->delete($validated['site_logo']);
             }
             throw $e;
@@ -253,7 +254,7 @@ class SettingController extends Controller
         $maxKb = (int) config('upload.limits.site_logo.max_size', 2048);
 
         $request->validate([
-            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
         ]);
 
         $logoOldPath = $this->settings->getByKey('site_logo');
@@ -276,7 +277,7 @@ class SettingController extends Controller
         } catch (\Throwable $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+                'message' => 'Lỗi khi tải lên: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -288,17 +289,17 @@ class SettingController extends Controller
     {
 
         $allowedKeys = array_keys(BannerService::BANNER_KEYS);
-        if (!in_array($key, $allowedKeys, true)) {
+        if (! in_array($key, $allowedKeys, true)) {
             abort(404);
         }
 
         $maxKb = (int) config('upload.limits.banner.max_size', 4096);
 
         $request->validate([
-            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
         ]);
 
-        $fieldName = 'banner_' . $key;
+        $fieldName = 'banner_'.$key;
         $oldBannerPath = $this->settings->getByKey($fieldName);
 
         try {
@@ -319,7 +320,7 @@ class SettingController extends Controller
         } catch (\Throwable $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+                'message' => 'Lỗi khi tải lên: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -340,6 +341,7 @@ class SettingController extends Controller
         if (request()->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Đã xóa logo.']);
         }
+
         return redirect()->route('admin.settings.index')
             ->with('success', 'Đã xóa logo.');
     }
@@ -352,11 +354,11 @@ class SettingController extends Controller
     {
 
         $allowedKeys = array_keys(BannerService::BANNER_KEYS);
-        if (!in_array($key, $allowedKeys, true)) {
+        if (! in_array($key, $allowedKeys, true)) {
             abort(404);
         }
 
-        $fieldName = 'banner_' . $key;
+        $fieldName = 'banner_'.$key;
         $bannerPath = $this->settings->getByKey($fieldName);
         if ($bannerPath) {
             $this->images->delete($bannerPath);
@@ -366,6 +368,7 @@ class SettingController extends Controller
         if (request()->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Đã xóa ảnh header.']);
         }
+
         return redirect()->route('admin.settings.index')
             ->with('success', 'Đã xóa ảnh header.');
     }
@@ -377,7 +380,7 @@ class SettingController extends Controller
     {
         $maxKb = (int) config('upload.limits.banner.max_size', 4096);
         $request->validate([
-            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}"
+            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
         ]);
 
         $fieldName = 'products_editorial_image';
@@ -400,7 +403,7 @@ class SettingController extends Controller
         } catch (\Throwable $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Lỗi khi tải lên: ' . $e->getMessage()
+                'message' => 'Lỗi khi tải lên: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -417,6 +420,7 @@ class SettingController extends Controller
         if (request()->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Đã xóa ảnh Flower Journal.']);
         }
+
         return redirect()->route('admin.settings.index')
             ->with('success', 'Đã xóa ảnh Flower Journal.');
     }

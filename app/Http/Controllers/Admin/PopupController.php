@@ -15,7 +15,7 @@ class PopupController extends Controller
         $query = Popup::query();
 
         if ($request->has('search') && $request->search) {
-            $query->where('title', 'like', '%' . $request->search . '%');
+            $query->where('title', 'like', '%'.$request->search.'%');
         }
 
         if ($request->has('status')) {
@@ -61,7 +61,7 @@ class PopupController extends Controller
 
         // Handle bullets array
         if (isset($data['bullets']) && is_array($data['bullets'])) {
-            $data['bullets'] = array_filter($data['bullets'], fn($b) => !empty(trim($b)));
+            $data['bullets'] = array_filter($data['bullets'], fn ($b) => ! empty(trim($b)));
         } else {
             $data['bullets'] = null;
         }
@@ -71,7 +71,7 @@ class PopupController extends Controller
 
         // Handle dates
         if ($request->has('countdown') && $request->countdown) {
-            $data['countdown'] = $request->countdown . ':00';
+            $data['countdown'] = $request->countdown.':00';
         } else {
             $data['countdown'] = null;
         }
@@ -96,7 +96,7 @@ class PopupController extends Controller
     public function update(Request $request, Popup $popup)
     {
         $validator = Validator::make($request->all(), [
-            'id_key' => 'required|string|max:50|unique:popups,id_key,' . $popup->id,
+            'id_key' => 'required|string|max:50|unique:popups,id_key,'.$popup->id,
             'title' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -118,7 +118,7 @@ class PopupController extends Controller
 
         // Handle bullets array
         if (isset($data['bullets']) && is_array($data['bullets'])) {
-            $data['bullets'] = array_filter($data['bullets'], fn($b) => !empty(trim($b)));
+            $data['bullets'] = array_filter($data['bullets'], fn ($b) => ! empty(trim($b)));
         } else {
             $data['bullets'] = null;
         }
@@ -128,7 +128,7 @@ class PopupController extends Controller
 
         // Handle dates
         if ($request->has('countdown') && $request->countdown) {
-            $data['countdown'] = $request->countdown . ':00';
+            $data['countdown'] = $request->countdown.':00';
         } else {
             $data['countdown'] = null;
         }
@@ -152,18 +152,18 @@ class PopupController extends Controller
 
     public function toggleActive(Popup $popup)
     {
-        $popup->update(['is_active' => !$popup->is_active]);
+        $popup->update(['is_active' => ! $popup->is_active]);
 
         return response()->json([
             'success' => true,
-            'is_active' => $popup->is_active
+            'is_active' => $popup->is_active,
         ]);
     }
 
     public function updateSortOrder(Request $request, Popup $popup)
     {
         $request->validate([
-            'sort_order' => 'required|integer|min:0'
+            'sort_order' => 'required|integer|min:0',
         ]);
 
         $popup->update(['sort_order' => $request->sort_order]);

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVipLevelRequest;
 use App\Http\Requests\UpdateVipLevelRequest;
-use App\Models\VipLevel;
 use App\Models\Product;
+use App\Models\VipLevel;
 use App\Repositories\VipLevelRepository;
 use App\Services\AjaxFieldService;
 use Illuminate\Http\Request;
@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 class VipLevelController extends Controller
 {
     protected VipLevelRepository $vipLevels;
+
     protected AjaxFieldService $ajaxFieldService;
 
     public function __construct(
@@ -22,7 +23,7 @@ class VipLevelController extends Controller
     ) {
         $this->vipLevels = $vipLevels;
         $this->ajaxFieldService = $ajaxFieldService;
-        
+
     }
 
     /**
@@ -57,7 +58,7 @@ class VipLevelController extends Controller
         $this->vipLevels->create($validated);
 
         return redirect()->route('admin.vip-levels.index')
-                        ->with('success', 'VIP level đã được tạo thành công');
+            ->with('success', 'VIP level đã được tạo thành công');
     }
 
     /**
@@ -67,12 +68,12 @@ class VipLevelController extends Controller
     {
 
         $vipLevel->load(['users', 'products']);
-        
+
         // Get all products for assignment UI
         $allProducts = Product::active()
-                              ->orderBy('name')
-                              ->get();
-        
+            ->orderBy('name')
+            ->get();
+
         return view('admin.vip-levels.edit', compact('vipLevel', 'allProducts'));
     }
 
@@ -93,7 +94,7 @@ class VipLevelController extends Controller
         }
 
         return redirect()->route('admin.vip-levels.edit', $vipLevel)
-                        ->with('success', 'VIP level đã được cập nhật thành công');
+            ->with('success', 'VIP level đã được cập nhật thành công');
     }
 
     /**
@@ -123,13 +124,13 @@ class VipLevelController extends Controller
     {
         if ($vipLevel->users()->count() > 0) {
             return redirect()->back()
-                           ->with('error', 'Không thể xóa VIP level đang có người dùng. Vui lòng chuyển người dùng sang VIP level khác trước.');
+                ->with('error', 'Không thể xóa VIP level đang có người dùng. Vui lòng chuyển người dùng sang VIP level khác trước.');
         }
 
         $vipLevel->delete();
 
         return redirect()->route('admin.vip-levels.index')
-                        ->with('success', 'VIP level đã được xóa thành công');
+            ->with('success', 'VIP level đã được xóa thành công');
     }
 
     public function autoSave(Request $request, VipLevel $vipLevel)

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
-use App\Models\Inquiry;
-use App\Models\User;
 use App\Models\Category;
-use App\Models\Post;
+use App\Models\Inquiry;
 use App\Models\MysteryBoxRequest;
+use App\Models\Post;
+use App\Models\Product;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
