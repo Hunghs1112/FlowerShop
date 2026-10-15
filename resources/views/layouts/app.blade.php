@@ -37,7 +37,6 @@
     <link rel="canonical" href="{{ $canonical }}">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
-    <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=8">
     @stack('styles')
     @include('partials.theme-head')
 </head>
