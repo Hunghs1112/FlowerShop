@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Inquiry;
+use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -58,5 +59,14 @@ class SeasonalRoutesTest extends TestCase
         $this->postJson('/mua-le-hoi/dat-truoc', [...$payload, 'size' => '5 m'])
             ->assertUnprocessable();
         $this->assertDatabaseCount('inquiries', 1);
+    }
+
+    public function test_hub_uses_the_season_image_managed_in_admin(): void
+    {
+        Setting::set('seasonal_thu_hero', 'images/seasonal/autumn-card.jpg', 'image');
+
+        $this->get('/mua-le-hoi')
+            ->assertOk()
+            ->assertSee('storage\/images\/seasonal\/autumn-card.jpg', false);
     }
 }

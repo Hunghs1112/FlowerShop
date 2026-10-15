@@ -8,6 +8,7 @@ use App\Models\Inquiry;
 use App\Models\FlowerOrigin;
 use App\Models\Category;
 use App\Services\SettingService;
+use App\Services\ImageStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
@@ -16,7 +17,8 @@ use Illuminate\Support\Facades\Storage;
 class PageController extends Controller
 {
     public function __construct(
-        protected SettingService $settingService
+        protected SettingService $settingService,
+        protected ImageStorageService $images,
     ) {}
 
     public function about()
@@ -199,11 +201,20 @@ class PageController extends Controller
         ];
 
         $storedSeasons = $stored['seasons'] ?? [];
+        $heroImages = $this->settingService->getMultiple([
+            'seasonal_thu_hero',
+            'seasonal_halloween_hero',
+            'seasonal_thong_hero',
+        ]);
         unset($stored['seasons']);
         $config = $this->mergeSeasonalData($defaults, $stored);
-        $config['seasons'] = collect($defaults['seasons'])->map(function ($season) use ($storedSeasons) {
+        $config['seasons'] = collect($defaults['seasons'])->map(function ($season) use ($storedSeasons, $heroImages) {
             $override = collect($storedSeasons)->firstWhere('id', $season['id']);
             $season = $override ? $this->mergeSeasonalData($season, $override) : $season;
+
+            if ($heroImage = $heroImages['seasonal_'.$season['id'].'_hero'] ?? null) {
+                $season['img'] = $this->images->url($heroImage);
+            }
 
             if (isset($season['tree'])) {
                 $tree = &$season['tree'];

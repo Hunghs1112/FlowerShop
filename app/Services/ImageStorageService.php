@@ -200,7 +200,8 @@ class ImageStorageService
             return null;
         }
 
-        if (str_starts_with($path, 'images/')) {
+        if (str_starts_with($path, 'images/banners/') || str_starts_with($path, '/images/banners/')
+            || str_starts_with($path, 'images/pages/') || str_starts_with($path, '/images/pages/')) {
             return asset($path);
         }
 

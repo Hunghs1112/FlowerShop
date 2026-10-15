@@ -77,7 +77,7 @@ class SeasonalPageController extends Controller
             ->get();
 
         // Hero image from settings
-        $heroImage = $this->settings->getByKey('seasonal_'.$seasonId.'_hero');
+        $heroImage = $this->images->url($this->settings->getByKey('seasonal_'.$seasonId.'_hero'));
 
         return view('admin.seasonal-pages.edit', [
             'seasonId' => $seasonId,

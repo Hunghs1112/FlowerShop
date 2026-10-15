@@ -40,18 +40,18 @@
             {{-- Hero Image --}}
             <div class="admin-card">
                 <div class="admin-card-header">
-                    <h2 class="admin-card-title">Ảnh Hero</h2>
+                    <h2 class="admin-card-title">Ảnh thẻ lễ hội</h2>
                 </div>
                 <div class="admin-card-body">
                     <div class="hero-preview" id="heroPreview" style="border-radius: 8px; overflow: hidden; border: 2px dashed var(--admin-border); background: var(--admin-bg-subtle); min-height: 180px; display: flex; align-items: center; justify-content: center;">
                         @if($heroImage)
-                            <img src="{{ $heroImage }}" alt="Hero" style="width: 100%; height: 180px; object-fit: cover; display: block;">
+                            <img src="{{ $heroImage }}" alt="Ảnh thẻ lễ hội" style="width: 100%; height: 180px; object-fit: cover; display: block;">
                         @else
                             <div style="padding: 40px; text-align: center; color: var(--admin-text-muted);">
                                 <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 8px; opacity: .3; display: block;">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
-                                <p style="font-size: 13px; margin: 0;">Chưa có ảnh hero</p>
+                                <p style="font-size: 13px; margin: 0;">Chưa có ảnh thẻ lễ hội</p>
                             </div>
                         @endif
                     </div>
@@ -66,14 +66,14 @@
                             </span>
                         </label>
                         @if($heroImage)
-                            <button type="button" class="btn btn-secondary" id="deleteHeroBtn" style="color: currentColor; padding: 8px 12px;">
+                            <button type="button" class="btn btn-secondary" id="deleteHeroBtn" aria-label="Xóa ảnh thẻ lễ hội" title="Xóa ảnh" style="color: currentColor; padding: 8px 12px;">
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                 </svg>
                             </button>
                         @endif
                     </div>
-                    <p style="font-size: 12px; color: var(--admin-text-muted); margin: 8px 0 0;">Kích thước khuyến nghị: 1920 × 600px</p>
+                    <p style="font-size: 12px; color: var(--admin-text-muted); margin: 8px 0 0;">Tải ảnh mới để thêm hoặc thay thế ảnh đang hiển thị trên thẻ lễ hội.</p>
                 </div>
             </div>
 
@@ -548,7 +548,7 @@
         .then(r => r.json())
         .then(data => {
             if (data.success) {
-                document.getElementById('heroPreview').innerHTML = `<img src="${data.imageUrl}" alt="Hero" style="width: 100%; height: 180px; object-fit: cover; display: block;">`;
+                document.getElementById('heroPreview').innerHTML = `<img src="${data.imageUrl}" alt="Ảnh thẻ lễ hội" style="width: 100%; height: 180px; object-fit: cover; display: block;">`;
                 // Add delete button
                 document.getElementById('deleteHeroBtn')?.remove();
                 const uploadBtn = document.querySelector('#heroUpload').closest('label').parentElement;
@@ -556,6 +556,8 @@
                 deleteBtn.type = 'button';
                 deleteBtn.id = 'deleteHeroBtn';
                 deleteBtn.className = 'btn btn-secondary';
+                deleteBtn.ariaLabel = 'Xóa ảnh thẻ lễ hội';
+                deleteBtn.title = 'Xóa ảnh';
                 deleteBtn.style.cssText = 'color: currentColor; padding: 8px 12px;';
                 deleteBtn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>';
                 deleteBtn.addEventListener('click', deleteHero);
@@ -566,7 +568,7 @@
 
     // Delete Hero
     function deleteHero() {
-        if (!confirm('Xóa ảnh hero này?')) return;
+        if (!confirm('Xóa ảnh thẻ lễ hội này?')) return;
         fetch(`/admin/seasonal-pages/{{ $seasonId }}/hero`, {
             method: 'DELETE',
             headers: {
@@ -582,7 +584,7 @@
                         <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 8px; opacity: .3; display: block;">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
-                        <p style="font-size: 13px; margin: 0;">Chưa có ảnh hero</p>
+                        <p style="font-size: 13px; margin: 0;">Chưa có ảnh thẻ lễ hội</p>
                     </div>`;
                 document.getElementById('deleteHeroBtn')?.remove();
             }
