@@ -1,9 +1,13 @@
 @extends('layouts.admin')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin/variants.css') }}">
+@endpush
+
 @section('title', 'Tạo Variant Mới - ' . $product->name)
 
 @section('content')
-<div class="container mx-auto px-4 py-8 max-w-4xl">
+<div class="variant-form-page">
     <div class="mb-6">
         <h1 class="text-3xl font-bold text-slate-100 mb-2">Tạo Variant Mới</h1>
         <p class="text-slate-400">
@@ -217,12 +221,10 @@
 
         <!-- Actions -->
         <div class="flex items-center justify-end gap-3 pt-6 border-t border-slate-700">
-            <a href="{{ route('admin.products.variants.index', $product->id) }}" 
-               class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-lg transition">
+            <a href="{{ route('admin.products.variants.index', $product->id) }}" class="variant-form-cancel">
                 Hủy
             </a>
-            <button type="submit" 
-                    class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition flex items-center gap-2">
+            <button type="submit" class="variant-form-submit">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>

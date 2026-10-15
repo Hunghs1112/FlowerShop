@@ -198,3 +198,6 @@
 </div>
 @endif
 @endsection
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin/variants.css') }}">
+@endpush

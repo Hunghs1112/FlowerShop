@@ -9,8 +9,6 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('css/product-card.css') }}?v=3">
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ filemtime(public_path('css/navbar.css')) }}">
     @stack('styles')
     @include('partials.theme-head')
 </head>

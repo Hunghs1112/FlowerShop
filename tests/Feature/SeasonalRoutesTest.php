@@ -37,7 +37,7 @@ class SeasonalRoutesTest extends TestCase
     {
         $payload = [
             'season_slug' => 'mua-le-hoi',
-            'size' => '1,8 m',
+            'size' => '175-200 cm',
             'accessories' => ['Bộ quả châu (12 quả)'],
             'addons' => ['Giao & dựng cây tại nhà'],
             'name' => 'Nguyễn An',
@@ -51,7 +51,7 @@ class SeasonalRoutesTest extends TestCase
             'phone' => '0901234567',
             'status' => 'new',
         ]);
-        $this->assertStringContainsString('1,8 m', Inquiry::latest('id')->value('message'));
+        $this->assertStringContainsString('175-200 cm', Inquiry::latest('id')->value('message'));
 
         $this->postJson('/mua-le-hoi/dat-truoc', [...$payload, 'phone' => 'invalid'])
             ->assertUnprocessable();

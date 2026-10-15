@@ -2,6 +2,43 @@
    Admin Product Variants - Custom Styles
    ============================================================================= */
 
+.variant-form-page { max-width: 896px; margin: 2rem auto; padding: 0 1rem; }
+.variant-form-page h1 { color: var(--color-text); font-size: var(--text-3xl); margin: 0 0 var(--space-2); }
+.variant-form-page form > div:not(:last-child) {
+    margin-bottom: var(--space-5); padding: var(--space-6);
+    border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    background: var(--color-surface);
+}
+.variant-form-page form > div:last-child {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--color-border);
+}
+.variant-form-page h2 { color: var(--color-text); font-size: var(--text-lg); margin: 0 0 var(--space-4); }
+.variant-form-page label { display: block; margin-bottom: var(--space-2); color: var(--color-text); font-weight: 600; }
+.variant-form-page input:not([type="checkbox"]):not([type="file"]),
+.variant-form-page textarea {
+    width: 100%; padding: var(--space-3); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text);
+}
+.variant-form-page input:focus, .variant-form-page textarea:focus { outline: 2px solid var(--color-primary-light); outline-offset: 1px; }
+.variant-form-page .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.variant-form-page .hidden { display: none; }
+.variant-form-page .text-red-400 { color: var(--color-error); }
+.variant-form-page .variant-form-submit, .variant-form-page .variant-form-cancel {
+    padding: var(--space-3) var(--space-5); border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md); background: var(--color-primary); color: var(--color-on-primary);
+    cursor: pointer; text-decoration: none;
+}
+.variant-form-page .variant-delete {
+    padding: var(--space-3) var(--space-5); border: 1px solid var(--color-error);
+    border-radius: var(--radius-md); background: transparent; color: var(--color-error); cursor: pointer;
+}
+
+@media (max-width: 640px) {
+    .variant-form-page .grid { grid-template-columns: 1fr; }
+    .variant-form-page form > div:last-child { align-items: stretch; flex-direction: column; }
+}
+
 .variant-page-header {
     margin-bottom: var(--space-6);
 }
