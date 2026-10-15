@@ -17,6 +17,10 @@ class CareerPageController extends Controller
     {
         $page = Page::where('slug', 'tuyen-dung')->firstOrFail();
         $content = json_decode($page->content, true, flags: JSON_THROW_ON_ERROR);
+        $content['coverLines'] = array_values(array_filter(
+            $content['coverLines'] ?? [],
+            fn (array $line) => ($line['k'] ?? '') !== 'CHUYÊN ĐỀ'
+        ));
 
         return view('admin.career.edit', compact('page', 'content'));
     }
@@ -30,7 +34,7 @@ class CareerPageController extends Controller
             'content.issue' => 'required|string|max:255',
             'content.issueNo' => 'required|string|max:50',
             'content.coverImg' => 'required|string|max:1000',
-            'content.coverLines' => 'required|array|size:3',
+            'content.coverLines' => 'required|array|size:2',
             'content.coverLines.*.k' => 'required|string|max:100',
             'content.coverLines.*.v' => 'required|string|max:255',
             'content.tocKicker' => 'required|string|max:100',
