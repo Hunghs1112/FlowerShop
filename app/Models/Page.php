@@ -27,6 +27,7 @@ class Page extends Model
         'dieu-khoan-dich-vu',
         ...self::GUIDE_SLUGS,
         'lien-he',
+        'tuyen-dung',
         ...self::SEASONAL_SLUGS,
     ];
 

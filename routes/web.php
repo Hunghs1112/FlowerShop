@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CatalogController;
+use App\Http\Controllers\Admin\CareerPageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FlowerOriginController;
 use App\Http\Controllers\Admin\GalleryImageController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\B2cController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckoutController;
@@ -66,6 +68,8 @@ Route::get('/gioi-thieu', [PageController::class, 'about'])->name('about');
 Route::get('/ve-chung-toi', [PageController::class, 'about']);
 Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
 Route::post('/lien-he', [PageController::class, 'contactSubmit'])->middleware('throttle:10,1')->name('contact.store');
+Route::get('/tuyen-dung', [CareerController::class, 'index'])->name('career.index');
+Route::post('/tuyen-dung/ung-tuyen', [CareerController::class, 'store'])->middleware('throttle:5,1')->name('career.store');
 Route::get('/huong-dan-dat-hang', [PageController::class, 'guide'])->name('guide');
 Route::get('/trang/huong-dan-dat-hang', fn () => redirect()->route('guide'));
 Route::get('/trang/huong-dan-mua-hang', fn () => redirect()->route('guide'));
@@ -276,6 +280,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('seasonal-pages/{seasonId}/hero', [SeasonalPageController::class, 'destroyHero'])
         ->where('seasonId', 'thu|halloween|thong')
         ->name('seasonal-pages.destroyHero');
+
+    Route::get('career', [CareerPageController::class, 'edit'])->name('career.edit');
+    Route::put('career', [CareerPageController::class, 'update'])->name('career.update');
+    Route::get('career/applications', [CareerPageController::class, 'applications'])->name('career.applications');
 
     // Product Collections (gợi ý theo bộ sưu tập trên trang sản phẩm)
     Route::resource('product-collections', ProductCollectionController::class)->except('show');

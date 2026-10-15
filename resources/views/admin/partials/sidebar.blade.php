@@ -177,6 +177,16 @@
                 </li>
 
                 <li class="admin-nav-item">
+                    <a href="{{ route('admin.career.edit') }}"
+                       class="admin-nav-link {{ request()->routeIs('admin.career.*') ? 'active' : '' }}">
+                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6V4h6v2m-9 4h12m-13 9h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v9a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="admin-nav-text">Tuyển dụng</span>
+                    </a>
+                </li>
+
+                <li class="admin-nav-item">
                     <a href="{{ route('admin.flower-origins.index') }}"
                        class="admin-nav-link {{ request()->routeIs('admin.flower-origins.*') ? 'active' : '' }}">
                         <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">

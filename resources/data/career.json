@@ -1,0 +1,33 @@
+{
+  "masthead": "LNT JOURNAL",
+  "issue": "SỐ ĐẶC BIỆT · TUYỂN DỤNG · PRE-OPENING",
+  "issueNo": "SỐ 00",
+  "coverImg": "/images/careers/cover.jpg",
+  "coverLines": [
+    {"k": "CHUYÊN ĐỀ", "v": "Tìm đồng đội"},
+    {"k": "TRONG SỐ NÀY", "v": "4 vị trí đang mở"},
+    {"k": "HÀNH TRÌNH", "v": "Bay cùng Lâm Nhiên Thảo"}
+  ],
+  "tocKicker": "TRONG SỐ NÀY",
+  "title": "Số đặc biệt:\n*Tìm đồng đội*",
+  "lead": "Lâm Nhiên Thảo đang chuẩn bị cất cánh. Số Journal này dành cho những người muốn cùng chúng tôi đưa hoa từ những vùng đất đặc biệt về Hà Nội.",
+  "letter": "[Thư toà soạn – đoạn 1: vài dòng giới thiệu Lâm Nhiên Thảo và lý do tuyển dụng.]\n[Đoạn 2: shop tìm kiếm những người như thế nào.]\n[Đoạn 3: lời mời ứng tuyển.]",
+  "signature": "— Lâm Nhiên Thảo",
+  "subLead": "Điền phiếu bên cạnh và gửi kèm CV. Chúng tôi đọc từng phiếu và sẽ liên hệ lại với bạn.",
+  "email": "support@lamnhienthao.vn",
+  "zalo": "0869308993",
+  "fanpage": "https://www.facebook.com/lamnhienthao",
+  "website": "https://lamnhienthao.com",
+  "jobs": [
+    {"kicker":"BÁN HÀNG","title":"Nhân viên sales","standfirst":"[Câu dẫn ngắn giới thiệu vị trí]","quote":"","img":"/images/careers/sales.jpg","imgAlt":"Bó mẫu đơn hồng","count":1,"status":"open","type":"[Toàn thời gian / Bán thời gian]","desc":"[Mô tả công việc 1]\n[Mô tả công việc 2]","req":"[Yêu cầu 1]\n[Yêu cầu 2]","perks":"[Quyền lợi 1]\n[Quyền lợi 2]"},
+    {"kicker":"KHO HÀNG","title":"Nhân viên trực kho","standfirst":"[Câu dẫn ngắn giới thiệu vị trí]","quote":"","img":"/images/careers/warehouse.jpg","imgAlt":"Những xô hoa trong kho","count":1,"status":"open","type":"[Toàn thời gian / Bán thời gian]","desc":"[Mô tả công việc 1]\n[Mô tả công việc 2]","req":"[Yêu cầu 1]\n[Yêu cầu 2]","perks":"[Quyền lợi 1]\n[Quyền lợi 2]"},
+    {"kicker":"TAY NGHỀ","title":"Thợ làm lan hồ điệp","standfirst":"[Câu dẫn ngắn giới thiệu vị trí]","quote":"","img":"/images/careers/orchid.jpg","imgAlt":"Lan hồ điệp cam đào","count":1,"status":"open","type":"[Toàn thời gian / Bán thời gian]","desc":"[Mô tả công việc 1]\n[Mô tả công việc 2]","req":"[Yêu cầu 1]\n[Yêu cầu 2]","perks":"[Quyền lợi 1]\n[Quyền lợi 2]"},
+    {"kicker":"VẬN HÀNH","title":"Nhân viên admin","standfirst":"[Câu dẫn ngắn giới thiệu vị trí]","quote":"","img":"/images/careers/admin.jpg","imgAlt":"Mao lương hồng phấn","count":1,"status":"open","type":"[Toàn thời gian / Bán thời gian]","desc":"[Mô tả công việc 1]\n[Mô tả công việc 2]","req":"[Yêu cầu 1]\n[Yêu cầu 2]","perks":"[Quyền lợi 1]\n[Quyền lợi 2]"}
+  ],
+  "steps": [
+    {"code":"GỬI PHIẾU","title":"Đăng ký","text":"Điền phiếu và gửi kèm CV."},
+    {"code":"ĐỌC BẢN THẢO","title":"Trao đổi","text":"[Mô tả bước sàng lọc / phỏng vấn]"},
+    {"code":"DÀN TRANG","title":"Làm quen","text":"[Mô tả giai đoạn thử việc / đào tạo]"},
+    {"code":"PHÁT HÀNH","title":"Chính thức","text":"[Mô tả khi trở thành thành viên chính thức]"}
+  ]
+}
