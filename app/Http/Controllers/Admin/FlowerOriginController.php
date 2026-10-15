@@ -103,12 +103,15 @@ class FlowerOriginController extends Controller
 
     public function uploadImage(Request $request, FlowerOrigin $flowerOrigin)
     {
-        $request->validate([
+        $images = $request->file('images', []);
+        $image = $request->file('image') ?? ($images[0] ?? null);
+
+        validator(['image' => $image], [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-        ]);
+        ])->validate();
 
         $oldImage = $flowerOrigin->image;
-        $newImage = $this->images->upload($request->file('image'), 'flower-origins', $oldImage);
+        $newImage = $this->images->upload($image, 'flower-origins', $oldImage);
         $flowerOrigin->update(['image' => $newImage]);
 
         return response()->json(['success' => true, 'message' => 'Đã tải ảnh lên']);

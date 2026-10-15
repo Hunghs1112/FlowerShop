@@ -250,18 +250,19 @@ class SettingController extends Controller
     // ============================================================
     public function uploadLogo(Request $request)
     {
-
         $maxKb = (int) config('upload.limits.site_logo.max_size', 2048);
+        $images = $request->file('images', []);
+        $file = $request->file('file') ?? ($images[0] ?? null);
 
-        $request->validate([
+        validator(['file' => $file], [
             'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
-        ]);
+        ])->validate();
 
         $logoOldPath = $this->settings->getByKey('site_logo');
 
         try {
             $path = $this->images->upload(
-                $request->file('file'),
+                $file,
                 config('upload.disks.folders.logo', 'settings'),
                 $logoOldPath
             );
