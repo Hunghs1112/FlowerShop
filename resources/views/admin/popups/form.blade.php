@@ -218,6 +218,6 @@
 
 @push('scripts')
     <script>window.__LNTP_NOAUTO = true;</script>
-    <script src="{{ asset('assets/lnt-popup.js') }}"></script>
+    <script src="{{ asset('assets/lnt-popup.js') }}?v={{ filemtime(public_path('assets/lnt-popup.js')) }}"></script>
     <script src="{{ asset('js/admin/popup-builder.js') }}"></script>
 @endpush

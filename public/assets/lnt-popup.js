@@ -56,7 +56,8 @@
   '.lntp-note{font-size:12.5px!important;margin:12px 0 0!important;font-family:Lora,Georgia,serif;font-style:italic}' +
   '.lntp-x{position:absolute;top:8px;right:10px;z-index:2;display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid currentColor;border-radius:50%;background:rgba(255,255,255,.14);color:var(--band2);font:400 20px/1 Arial,sans-serif;cursor:pointer}' +
   '.lntp-x:hover{background:rgba(255,255,255,.26)}' +
-  '.lntp-btn:focus-visible,.lntp-x:focus-visible,.lntp-teaser:focus-visible{outline:3px solid var(--band2);outline-offset:2px}' +
+  '.lntp-btn:focus-visible,.lntp-teaser:focus-visible{outline:3px solid var(--band2);outline-offset:2px}' +
+  '.lntp-x:focus-visible{outline:0;border-width:2px;background:rgba(255,255,255,.3)}' +
   '.lntp-teaser{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:2147482999;display:flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:10px 16px 10px 12px;font:600 14px "Josefin Sans",system-ui,sans-serif;cursor:pointer;box-shadow:0 14px 30px -12px rgba(0,0,0,.45);animation:lntpIn .4s ease}' +
   '.lntp-teaser .d{width:10px;height:10px;border-radius:50%;animation:lntpPulse 1.8s infinite}' +
   '@keyframes lntpIn{from{transform:translateY(20px);opacity:0}}@keyframes lntpPulse{50%{opacity:.35}}' +

@@ -336,7 +336,7 @@
     {{-- Popup mùa lễ - Lâm Nhiên Thảo --}}
     @if(isset($popupConfig))
     <script type="application/json" id="lnt-popup-config">{!! $popupConfig !!}</script>
-    <script src="{{ asset('assets/lnt-popup.js') }}" defer></script>
+    <script src="{{ asset('assets/lnt-popup.js') }}?v={{ filemtime(public_path('assets/lnt-popup.js')) }}" defer></script>
     @endif
 </body>
 </html>
