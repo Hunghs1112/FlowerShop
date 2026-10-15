@@ -616,33 +616,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Product card wishlist toggle
-    const wishlistBtns = document.querySelectorAll('.product-card-wishlist');
-    wishlistBtns.forEach(btn => {
-        btn.addEventListener('click', async function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const productId = this.dataset.productId;
-            const isActive = this.classList.contains('active');
-            
-            try {
-                const response = await fetch('/san-pham/' + productId + '/favorite', {
-                    method: isActive ? 'DELETE' : 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
-                        'Content-Type': 'application/json',
-                    },
-                });
-                
-                if (response.ok) {
-                    this.classList.toggle('active');
-                }
-            } catch (error) {
-                console.error('Error toggling wishlist:', error);
-            }
-        });
-    });
 });
 </script>
 @endpush
