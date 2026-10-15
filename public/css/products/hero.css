@@ -168,6 +168,10 @@
 }
 
 @media (max-width: 767px) {
+    .products-hero {
+        height: 200px;
+    }
+
     .products-hero-content {
         padding: 0 var(--space-4);
     }
