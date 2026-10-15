@@ -5,7 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', $siteSettings['site_name'] ?? config('app.name')) - {{ $siteSettings['site_name'] ?? config('app.name') }}</title>
+    @php
+        $siteName = $siteSettings['site_name'] ?? config('app.name');
+        $pageTitle = trim((string) View::yieldContent('title'));
+        $fullTitle = $pageTitle !== '' ? $pageTitle : $siteName;
+        $pageDesc = trim((string) View::yieldContent('description'));
+        $siteDesc = $siteSettings['site_description'] ?? $siteName;
+        $description = $pageDesc !== '' ? $pageDesc : $siteDesc;
+        $ogImage = !empty($siteSettings['site_logo'])
+            ? asset('storage/' . $siteSettings['site_logo'])
+            : asset('og-image.png');
+        $canonical = url()->current();
+    @endphp
+    <title>{{ $fullTitle }}</title>
+    <meta name="description" content="{{ $description }}">
+
+    {{-- Open Graph / Zalo / Facebook share preview --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ $siteName }}">
+    <meta property="og:title" content="{{ $fullTitle }}">
+    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:url" content="{{ $canonical }}">
+    <meta property="og:locale" content="vi_VN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $fullTitle }}">
+    <meta name="twitter:description" content="{{ $description }}">
+    <meta name="twitter:image" content="{{ $ogImage }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="canonical" href="{{ $canonical }}">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     <link rel="stylesheet" href="{{ asset('css/pages.css') }}?v=8">

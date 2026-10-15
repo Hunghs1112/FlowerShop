@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $page->title }} · Lâm Nhiên Thảo</title>
-    <meta name="description" content="LNT Journal số đặc biệt – Tìm đồng đội cùng Lâm Nhiên Thảo.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/careers.css') }}?v={{ filemtime(public_path('css/careers.css')) }}">
-</head>
-<body>
-<header class="nav"><div class="wrap">
-    <a href="{{ route('home') }}" aria-label="Lâm Nhiên Thảo – Trang chủ"><img src="{{ asset('images/careers/logo.png') }}" alt="Lâm Nhiên Thảo"></a>
-    <nav aria-label="Menu chính"><ul><li><a href="{{ route('home') }}">Trang chủ</a></li><li><a href="{{ route('products.index') }}">Sản phẩm</a></li><li><a href="{{ route('blog.index') }}">Góc cảm hứng</a></li><li><a href="{{ route('guide') }}">Thông tin</a></li><li><a href="{{ route('b2c') }}">B2B</a></li></ul></nav>
-    <div class="icons"><a href="{{ route('products.index') }}" aria-label="Tìm kiếm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></a><a href="{{ route('cart.index') }}" aria-label="Giỏ hàng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></a><a href="{{ route('login') }}" aria-label="Tài khoản"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a></div>
-</div></header>
-<main class="mag">
+@extends('layouts.app')
+
+@section('title', $page->title)
+@section('body-class', 'career-theme')
+@section('skip-main-wrapper', true)
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/careers.css') }}?v={{ filemtime(public_path('css/careers.css')) }}">
+@endpush
+
+@section('content')
+<main class="career-page">
 <section class="cover-sec"><div class="wrap cover-grid">
     <figure class="cover">
         <img id="cvImg" alt="">
@@ -71,18 +63,9 @@
     </form>
 </div></section>
 </main>
+@endsection
 
-<footer><div class="wrap">
-    <div><img src="{{ asset('images/careers/logo-footer.png') }}" alt="Lâm Nhiên Thảo" style="height:46px;width:auto"><p class="tl">Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp.</p>
-        <ul><li><a href="tel:0869308993">0869 308 993 (Điện thoại / Zalo)</a></li><li><a href="mailto:support@lamnhienthao.com">support@lamnhienthao.com</a></li><li><a href="{{ route('contact') }}">Liên hệ →</a></li></ul></div>
-    <div><h4>CỔNG THÔNG TIN</h4><ul>
-        <li><a href="{{ route('guide') }}"><span class="gate">A1</span>Hướng dẫn mua hàng</a></li><li><a href="{{ route('policy.delivery') }}"><span class="gate">A2</span>Chính sách giao hàng</a></li>
-        <li><a href="{{ route('policy.ours') }}"><span class="gate">A3</span>Chính sách đổi trả</a></li><li><a href="{{ route('policy.terms') }}"><span class="gate">A4</span>Điều khoản dịch vụ</a></li><li><a href="{{ route('policy.baomat') }}"><span class="gate">A5</span>Chính sách bảo mật</a></li></ul></div>
-    <div><h4>KHÁM PHÁ</h4><ul><li><a href="{{ route('products.index') }}">Hàng mới hạ cánh</a></li><li><a href="{{ route('mystery-box.index') }}">Hộp hoa bí ẩn</a></li><li><a href="{{ route('blog.index') }}">LNT Journal</a></li><li><a href="{{ route('b2c') }}">Đối tác B2B</a></li><li><a href="{{ route('login') }}">Tài khoản</a></li></ul></div>
-</div><p class="copy">© Lâm Nhiên Thảo</p></footer>
-<script>
-window.CAREER_CONFIG = @json([...$config, 'endpoint' => route('career.store'), 'csrfToken' => csrf_token()]);
-</script>
+@push('scripts')
+<script>window.CAREER_CONFIG = @json([...$config, 'endpoint' => route('career.store'), 'csrfToken' => csrf_token()]);</script>
 <script src="{{ asset('js/careers.js') }}?v={{ filemtime(public_path('js/careers.js')) }}"></script>
-</body>
-</html>
+@endpush

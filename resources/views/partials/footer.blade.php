@@ -89,6 +89,7 @@
                     <a href="{{ route('policy.ours') }}" class="footer-link">Chính sách của chúng tôi</a>
                     <a href="{{ route('policy.terms') }}" class="footer-link">Điều khoản dịch vụ</a>
                     <a href="{{ route('guide') }}" class="footer-link">Hướng dẫn đặt hàng</a>
+                    <a href="{{ route('career.index') }}" class="footer-link">Tuyển dụng</a>
                     <a href="{{ route('season.phu-kien') }}" class="footer-link">Phụ kiện cây thông</a>
                     <a href="{{ route('season.mua-le-hoi') }}" class="footer-link">Mùa lễ hội</a>
                     <a href="{{ route('contact') }}" class="footer-link">Liên hệ</a>
