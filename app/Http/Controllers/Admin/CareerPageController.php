@@ -86,7 +86,11 @@ class CareerPageController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
-        return back()->with('success', 'Đã cập nhật trang tuyển dụng.');
+        $message = 'Đã cập nhật trang tuyển dụng.';
+
+        return $request->expectsJson()
+            ? response()->json(['success' => true, 'message' => $message])
+            : back()->with('success', $message);
     }
 
     public function applications(Request $request): View

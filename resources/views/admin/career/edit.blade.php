@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<form method="POST" action="{{ route('admin.career.update') }}" enctype="multipart/form-data">
+<form id="career-content-form" method="POST" action="{{ route('admin.career.update') }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div style="display:flex;flex-direction:column;gap:24px">
@@ -100,7 +100,7 @@
             </div>
         </section>
 
-        <div><button type="submit" class="btn btn-primary">Lưu nội dung</button></div>
+        <div><button id="career-save-button" type="submit" class="btn btn-primary">Lưu nội dung</button></div>
     </div>
 </form>
 @endsection
@@ -118,5 +118,63 @@ document.querySelectorAll('[data-preview]').forEach(input => input.addEventListe
     const preview = document.getElementById(input.dataset.preview);
     if (file && preview) preview.src = URL.createObjectURL(file);
 }));
+
+const careerForm = document.getElementById('career-content-form');
+const careerSaveButton = document.getElementById('career-save-button');
+const careerSaveButtonText = careerSaveButton.textContent;
+let careerAutosaveTimer;
+let careerResetTimer;
+let careerSaveInProgress = false;
+let careerSaveQueued = false;
+
+async function saveCareerContent() {
+    if (!careerForm.checkValidity()) return;
+    if (careerSaveInProgress) {
+        careerSaveQueued = true;
+        return;
+    }
+
+    careerSaveInProgress = true;
+    clearTimeout(careerResetTimer);
+    careerSaveButton.textContent = 'Đang tự lưu...';
+    const body = new FormData(careerForm);
+    careerForm.querySelectorAll('input[type="file"]').forEach(input => body.delete(input.name));
+
+    try {
+        const response = await fetch(careerForm.action, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body,
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(Object.values(data.errors || {}).flat()[0] || data.message || 'Lỗi khi lưu.');
+
+        careerSaveButton.textContent = 'Đã tự lưu';
+    } catch (error) {
+        careerSaveButton.textContent = 'Lưu thất bại';
+        window.Toast?.error(error.message);
+    } finally {
+        careerSaveInProgress = false;
+        if (careerSaveQueued) {
+            careerSaveQueued = false;
+            saveCareerContent();
+        } else {
+            careerResetTimer = setTimeout(() => careerSaveButton.textContent = careerSaveButtonText, 1500);
+        }
+    }
+}
+
+function scheduleCareerAutosave(event) {
+    if (event.target.type === 'file') return;
+    clearTimeout(careerAutosaveTimer);
+    careerAutosaveTimer = setTimeout(saveCareerContent, 1200);
+}
+
+careerForm.addEventListener('input', scheduleCareerAutosave);
+careerForm.addEventListener('change', scheduleCareerAutosave);
+careerForm.addEventListener('submit', () => clearTimeout(careerAutosaveTimer));
 </script>
 @endpush
