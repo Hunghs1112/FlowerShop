@@ -338,20 +338,12 @@
    RESPONSIVE BREAKPOINTS
    ============================================================================= */
 
-/* Tablet (< 1024px): compact table */
+/* Tablet & Mobile (< 1024px): compact table + card-style stacked */
 @media (max-width: 1023px) {
     .admin-table {
         font-size: var(--text-xs);
     }
 
-    .admin-table th,
-    .admin-table td {
-        padding: var(--space-2) var(--space-3);
-    }
-}
-
-/* Mobile (< 768px): card-style stacked table */
-@media (max-width: 767px) {
     .admin-table-wrapper {
         border: none;
         background: transparent;

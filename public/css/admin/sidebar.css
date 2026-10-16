@@ -295,6 +295,7 @@
         transform: translateX(-100%);
         box-shadow: 4px 0 24px rgba(32, 36, 31, 0.15);
         width: 280px;
+        max-width: 80vw;
         z-index: 100;
     }
 

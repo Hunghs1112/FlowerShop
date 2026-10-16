@@ -390,6 +390,12 @@ select.input-sm {
     .admin-content > form > div[style*="grid-template-columns: 1fr 320px"] {
         grid-template-columns: 1fr;
     }
+
+    /* Stack form grid on tablet too — 2-col is too cramped for full-width inputs */
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
 }
 
 /* Mobile (< 768px): stack form, full-width buttons */
