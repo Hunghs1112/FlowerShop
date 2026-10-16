@@ -76,9 +76,15 @@
                     <a href="{{ route('policy.ours') }}" class="navbar-dropdown-item">Chính sách của chúng tôi</a>
                     <a href="{{ route('policy.terms') }}" class="navbar-dropdown-item">Điều khoản dịch vụ</a>
                     <a href="{{ route('guide') }}" class="navbar-dropdown-item">Hướng dẫn đặt hàng</a>
-                    <a href="{{ route('career.index') }}" class="navbar-dropdown-item">Tuyển dụng</a>
                     <a href="{{ route('contact') }}" class="navbar-dropdown-item">Liên hệ</a>
                 </div>
+            </li>
+
+            {{-- Tuyển dụng — nút riêng --}}
+            <li class="navbar-nav-item">
+                <a href="{{ route('career.index') }}" class="navbar-nav-link {{ request()->routeIs('career.*') ? 'active' : '' }}">
+                    Tuyển dụng
+                </a>
             </li>
 
             {{-- B2B --}}
@@ -253,11 +259,13 @@
                         <a href="{{ route('policy.ours') }}" class="navbar-mobile-accordion-link">Chính sách của chúng tôi</a>
                         <a href="{{ route('policy.terms') }}" class="navbar-mobile-accordion-link">Điều khoản dịch vụ</a>
                         <a href="{{ route('guide') }}" class="navbar-mobile-accordion-link">Hướng dẫn đặt hàng</a>
-                        <a href="{{ route('career.index') }}" class="navbar-mobile-accordion-link">Tuyển dụng</a>
                         <a href="{{ route('contact') }}" class="navbar-mobile-accordion-link">Liên hệ</a>
                     </div>
                 </div>
             </li>
+
+            {{-- Tuyển dụng --}}
+            <li><a href="{{ route('career.index') }}" class="nav-season-link">Tuyển dụng</a></li>
 
             {{-- B2B --}}
             <li><a href="{{ route('b2c') }}">B2B</a></li>
