@@ -242,14 +242,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('subcategories/{subcategory}/image', [SubcategoryController::class, 'deleteImage'])->name('subcategories.deleteImage');
 
     // AJAX Auto-save endpoints for Posts
-    Route::patch('posts/{post}/auto-save', [App\Http\Controllers\Admin\PostController::class, 'autoSave'])->name('posts.autoSave');
-    Route::patch('posts/{post}/update-field', [App\Http\Controllers\Admin\PostController::class, 'updateField'])->name('posts.updateField');
+    Route::patch('posts/{post}/auto-save', [App\Http\Controllers\Admin\PostController::class, 'updateField'])->name('posts.autoSave');
     Route::post('posts/{post}/upload-thumbnail', [App\Http\Controllers\Admin\PostController::class, 'uploadThumbnail'])->name('posts.uploadThumbnail');
     Route::delete('posts/{post}/thumbnail', [App\Http\Controllers\Admin\PostController::class, 'deleteThumbnail'])->name('posts.deleteThumbnail');
 
     // AJAX Auto-save endpoints for Pages
-    Route::patch('pages/{page}/auto-save', [App\Http\Controllers\Admin\PageController::class, 'autoSave'])->name('pages.autoSave');
-    Route::patch('pages/{page}/update-field', [App\Http\Controllers\Admin\PageController::class, 'updateField'])->name('pages.updateField');
+    Route::patch('pages/{page}/auto-save', [App\Http\Controllers\Admin\PageController::class, 'updateField'])->name('pages.autoSave');
 
     // AJAX Auto-save endpoints for Users
     Route::patch('users/{user}/update-field', [UserController::class, 'updateField'])->name('users.updateField');

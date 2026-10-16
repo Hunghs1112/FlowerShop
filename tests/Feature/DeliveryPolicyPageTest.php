@@ -55,7 +55,7 @@ class DeliveryPolicyPageTest extends TestCase
         $this->actingAs($admin)->get(route('admin.pages.index'))
             ->assertOk()->assertSee('Delivery policy');
         $this->get(route('admin.pages.edit', $page))->assertOk()->assertSee('policy_content_override');
-        $this->patch(route('admin.pages.updateField', $page), [
+        $this->patch(route('admin.pages.autoSave', $page), [
             'field' => 'policy_content_override', 'value' => '## Admin content',
         ])->assertOk();
         $this->assertSame('## Admin content', $page->fresh()->policy_content_override);

@@ -36,14 +36,6 @@ class PostController extends Controller
     }
 
     // ============================================================
-    // AJAX: Auto-save single field
-    // ============================================================
-    public function autoSave(Request $request, Post $post)
-    {
-        return $this->updateField($request, $post);
-    }
-
-    // ============================================================
     // AJAX: Update single field
     // ============================================================
     public function updateField(Request $request, Post $post)
