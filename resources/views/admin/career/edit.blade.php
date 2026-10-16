@@ -50,6 +50,23 @@
             </div>
         </section>
 
+        <section class="admin-card">
+            <div class="admin-card-header"><h2 class="admin-card-title">Cách hiển thị danh sách vị trí</h2></div>
+            <div class="admin-card-body career-admin-grid">
+                <label>Kiểu hiển thị
+                    <select name="content[jobLayout]" required>
+                        <option value="accordion" @selected(old('content.jobLayout', $content['jobLayout'] ?? 'accordion') === 'accordion')>Gọn — danh sách bấm để xổ</option>
+                        <option value="article" @selected(old('content.jobLayout', $content['jobLayout'] ?? 'accordion') === 'article')>Bài viết tạp chí đầy đủ</option>
+                    </select>
+                </label>
+                <label>Nhãn trên (kiểu gọn)<input name="content[accKicker]" value="{{ old('content.accKicker', $content['accKicker'] ?? 'VỊ TRÍ ĐANG TUYỂN') }}"></label>
+                <label class="wide">Tiêu đề (kiểu gọn)<input name="content[accTitle]" value="{{ old('content.accTitle', $content['accTitle'] ?? 'Các chuyến đang mở') }}"></label>
+                <label>Số ý hiện sẵn / cột<input type="number" min="1" max="20" name="content[listLimit]" value="{{ old('content.listLimit', $content['listLimit'] ?? 4) }}"><small>Nhiều hơn sẽ có nút "Xem thêm".</small></label>
+                <label>Chiều cao thu gọn thư (px)<input type="number" min="80" max="600" name="content[letterFold]" value="{{ old('content.letterFold', $content['letterFold'] ?? 170) }}"></label>
+                <label>Chiều cao thu gọn bài viết (px)<input type="number" min="80" max="600" name="content[foldHeight]" value="{{ old('content.foldHeight', $content['foldHeight'] ?? 230) }}"><small>Dùng cho layout bài viết.</small></label>
+            </div>
+        </section>
+
         @foreach($content['jobs'] as $index => $job)
         <section class="admin-card">
             <div class="admin-card-header"><h2 class="admin-card-title">Vị trí {{ $index + 1 }} · {{ $job['title'] }}</h2></div>
