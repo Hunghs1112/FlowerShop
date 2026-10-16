@@ -77,14 +77,21 @@ class CareerPageController extends Controller
         ]);
 
         $content = $validated['content'];
-        if ($request->hasFile('cover_image')) {
-            $content['coverImg'] = '/'.$this->images->upload($request->file('cover_image'), 'images/pages/careers', ltrim($content['coverImg'], '/'), 'career-cover');
-        }
-        foreach ($request->file('job_images', []) as $index => $image) {
-            if (! isset($content['jobs'][$index])) {
-                continue;
+        try {
+            if ($request->hasFile('cover_image')) {
+                $content['coverImg'] = '/'.$this->images->upload($request->file('cover_image'), 'images/pages/careers', ltrim($content['coverImg'], '/'), 'career-cover');
             }
-            $content['jobs'][$index]['img'] = '/'.$this->images->upload($image, 'images/pages/careers', ltrim($content['jobs'][$index]['img'], '/'), 'career-job');
+            foreach ($request->file('job_images', []) as $index => $image) {
+                if (! isset($content['jobs'][$index])) {
+                    continue;
+                }
+                $content['jobs'][$index]['img'] = '/'.$this->images->upload($image, 'images/pages/careers', ltrim($content['jobs'][$index]['img'], '/'), 'career-job');
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải ảnh: '.$e->getMessage(),
+            ], 500);
         }
 
         $page->update([

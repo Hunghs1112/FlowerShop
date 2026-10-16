@@ -103,9 +103,15 @@ class ImageStorageService
             || $folder === 'images/pages'  || str_starts_with($folder, 'images/pages/')) {
             $absoluteDir = public_path($folder);
             if (!is_dir($absoluteDir)) {
-                @mkdir($absoluteDir, 0755, true);
+                if (!@mkdir($absoluteDir, 0755, true) && !is_dir($absoluteDir)) {
+                    throw new \RuntimeException("Không thể tạo thư mục {$absoluteDir} - kiểm tra quyền ghi.");
+                }
             }
-            $file->move($absoluteDir, $basename);
+            if (!@move_uploaded_file($file->getPathname(), $absoluteDir.DIRECTORY_SEPARATOR.$basename)) {
+                if (!@rename($file->getPathname(), $absoluteDir.DIRECTORY_SEPARATOR.$basename)) {
+                    throw new \RuntimeException("Không thể lưu file vào {$absoluteDir} - kiểm tra quyền ghi.");
+                }
+            }
         } else {
             Storage::disk($this->disk)->putFileAs(
                 trim($folder, '/'),
