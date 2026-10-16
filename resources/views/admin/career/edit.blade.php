@@ -155,7 +155,6 @@ async function saveCareerContent() {
     clearTimeout(careerResetTimer);
     careerSaveButton.textContent = 'Đang tự lưu...';
     const body = new FormData(careerForm);
-    careerForm.querySelectorAll('input[type="file"]').forEach(input => body.delete(input.name));
 
     try {
         const response = await fetch(careerForm.action, {
