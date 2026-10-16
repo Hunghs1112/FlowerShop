@@ -270,17 +270,6 @@
             {{-- B2B --}}
             <li><a href="{{ route('b2c') }}">B2B</a></li>
 
-            {{-- Mùa lễ hội — mobile sparkle btn --}}
-            <li>
-                <a href="{{ route('season.mua-le-hoi') }}" class="mobile-sparkle-link">
-                    <span class="sparkle-bg"></span>
-                    <span class="sparkle-star star-1">✦</span>
-                    <span class="sparkle-star star-2">✧</span>
-                    <span class="sparkle-star star-3">✦</span>
-                    Mùa lễ hội
-                </a>
-            </li>
-
             @auth
                 <div class="mobile-menu-divider"></div>
                 <li><a href="{{ route('profile.show') }}">Tài khoản</a></li>
