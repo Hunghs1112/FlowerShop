@@ -191,11 +191,12 @@
                 @endif
 
                 {{-- Short Description --}}
-                @if($product->short_description)
-                    <div class="product-description">
+                <div class="product-description">
+                    <p><strong>ĐẶC QUYỀN ĐỐI TÁC:</strong> Mức giá hiển thị là giá bán lẻ. Đăng ký để khám phá hệ thống đặc quyền và chính sách giá dành riêng cho đối tác LNT.</p>
+                    @if($product->short_description)
                         <x-markdown-renderer :content="$product->short_description" />
-                    </div>
-                @endif
+                    @endif
+                </div>
 
                 {{-- Stock --}}
                 <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', 'sản phẩm có sẵn') }}</div>
