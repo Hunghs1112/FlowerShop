@@ -486,7 +486,8 @@
     padding-left: 0 !important;
 }
 
-.accordion-content p {
+.accordion-content p,
+.product-description p {
     font-size: var(--text-sm);
     line-height: 1.7;
     color: var(--color-text-light);
@@ -494,23 +495,28 @@
 }
 
 .accordion-content ul,
-.accordion-content ol {
+.accordion-content ol,
+.product-description ul,
+.product-description ol {
     font-size: var(--text-sm);
     line-height: 1.7;
     color: var(--color-text-light);
     padding-left: var(--space-5);
 }
 
-.accordion-content li {
+.accordion-content li,
+.product-description li {
     margin-bottom: var(--space-2);
 }
 
-.accordion-content strong {
+.accordion-content strong,
+.product-description strong {
     color: var(--color-text);
     font-weight: 600;
 }
 
-.accordion-content em {
+.accordion-content em,
+.product-description em {
     font-style: italic;
 }
 
