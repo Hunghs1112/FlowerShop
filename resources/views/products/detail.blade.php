@@ -47,6 +47,11 @@
                          loading="eager"
                          id="mainImage"
                          style="display: block;">
+                    <img src="{{ asset('images/brand/lnt-logo.png') }}"
+                         alt=""
+                         aria-hidden="true"
+                         class="product-detail-watermark"
+                         id="productDetailWatermark">
                     
                     <video id="mainVideo" controls style="display: none; width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: #000;">
                         <source src="" type="video/mp4" id="mainVideoSource">
@@ -368,6 +373,7 @@
     function updateGallery(images) {
         const mainImage = document.getElementById('mainImage');
         const mainVideo = document.getElementById('mainVideo');
+        const watermark = document.getElementById('productDetailWatermark');
         const thumbnailsContainer = document.querySelector('.gallery-thumbnails');
         
         // Hide video, show image
@@ -376,6 +382,7 @@
         }
         if (mainImage) {
             mainImage.style.display = 'block';
+            watermark.style.display = 'block';
             // Set first image as main
             if (images.length > 0) {
                 mainImage.src = images[0];
@@ -405,10 +412,12 @@
         const mainImage = document.getElementById('mainImage');
         const mainVideo = document.getElementById('mainVideo');
         const mainVideoSource = document.getElementById('mainVideoSource');
+        const watermark = document.getElementById('productDetailWatermark');
         
         if (type === 'video') {
             // Show video, hide image
             mainImage.style.display = 'none';
+            watermark.style.display = 'none';
             mainVideo.style.display = 'block';
             mainVideoSource.src = src;
             mainVideoSource.type = mimeType;
@@ -417,6 +426,7 @@
             // Show image, hide video
             mainVideo.style.display = 'none';
             mainImage.style.display = 'block';
+            watermark.style.display = 'block';
             mainImage.src = src;
         }
         
