@@ -23,5 +23,8 @@ class ExampleTest extends TestCase
 
         $this->assertSame(1, substr_count($response->getContent(), '<!DOCTYPE html>'));
         $this->assertStringContainsString('background:var(--bg)', $response->getContent());
+        $this->assertSame(url('/b2b'), route('b2c'));
+        $this->assertSame(url('/b2b'), route('b2c.store'));
+        $this->get('/b2c')->assertRedirect('/b2b');
     }
 }

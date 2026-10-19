@@ -117,9 +117,11 @@ Route::delete('/gio-hang', [CartController::class, 'clear'])->name('cart.clear')
 // Quick order
 Route::post('/dat-hang-nhanh', [QuickOrderController::class, 'store'])->middleware(['auth', 'throttle:10,1'])->name('quick-order.store');
 
-// B2C landing & registration
-Route::get('/b2c', [B2cController::class, 'index'])->name('b2c');
-Route::post('/b2c', [B2cController::class, 'store'])->middleware('throttle:5,1')->name('b2c.store');
+// B2B landing & registration
+Route::post('/b2c', [B2cController::class, 'store'])->middleware('throttle:5,1');
+Route::redirect('/b2c', '/b2b', 301);
+Route::get('/b2b', [B2cController::class, 'index'])->name('b2c');
+Route::post('/b2b', [B2cController::class, 'store'])->middleware('throttle:5,1')->name('b2c.store');
 
 // Auth
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
