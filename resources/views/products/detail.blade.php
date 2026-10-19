@@ -170,7 +170,7 @@
                 {{-- Short Description --}}
                 @if($product->short_description)
                     <div class="product-description">
-                        <p>{{ $product->short_description }}</p>
+                        <x-markdown-renderer :content="$product->short_description" />
                     </div>
                 @endif
 
