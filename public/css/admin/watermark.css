@@ -212,6 +212,45 @@
 .watermark-progress { display: none; height: 6px; overflow: hidden; border-radius: 3px; background: var(--wm-line); }
 .watermark-progress i { display: block; width: 0; height: 100%; background: var(--wm-copper); transition: width .2s; }
 
+.watermark-save-box p {
+    margin: .9rem 0 .8rem;
+    color: var(--wm-soft);
+    font-size: .84rem;
+    line-height: 1.5;
+}
+
+.watermark-save-box .watermark-button { width: 100%; }
+.watermark-save-box small { display: block; min-height: 1.2em; margin-top: .65rem; color: var(--wm-soft); text-align: center; }
+.watermark-save-box small.is-success { color: #587a5c; }
+.watermark-save-box small.is-error { color: #a6534e; }
+
+.watermark-site-logo {
+    display: grid;
+    place-items: center;
+    min-height: 120px;
+    padding: .8rem;
+    border: 1px solid var(--wm-line);
+    border-radius: 12px;
+    background: repeating-conic-gradient(var(--wm-check) 0 25%, var(--wm-paper) 0 50%) 0 0 / 18px 18px;
+}
+
+.watermark-site-logo img { display: block; max-width: 70%; max-height: 100px; }
+.watermark-site-logo.is-empty { color: var(--wm-soft); font-family: Lora, Georgia, serif; font-size: .85rem; font-style: italic; }
+.watermark-logo-actions { display: flex; gap: .5rem; margin-top: .7rem; }
+.watermark-logo-actions > * { flex: 1; text-align: center; }
+.watermark-logo-actions input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.watermark-delete-button {
+    padding: .65rem 1rem;
+    border: 1.5px solid #a6534e;
+    border-radius: 999px;
+    background: transparent;
+    color: #a6534e;
+    font: 600 .92rem "Josefin Sans", sans-serif;
+    cursor: pointer;
+}
+
+.watermark-logo-note { display: block; margin-top: .55rem; color: var(--wm-soft); font-size: .72rem; text-align: left; }
+
 @media (max-width: 1023px) {
     .watermark-tool { margin: calc(var(--space-4) * -1); }
 }

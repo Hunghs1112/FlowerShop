@@ -38,6 +38,19 @@
                         ]);
                     }
                     $mainImage = $galleryImages->first();
+                    $watermarkVariant = in_array($siteSettings['product_watermark_variant'] ?? null, ['color', 'white', 'brown', 'cream'], true)
+                        ? $siteSettings['product_watermark_variant']
+                        : 'color';
+                    $watermarkPosition = in_array($siteSettings['product_watermark_position'] ?? null, ['tl', 'tc', 'tr', 'ml', 'mc', 'mr', 'bl', 'bc', 'br'], true)
+                        ? $siteSettings['product_watermark_position']
+                        : 'br';
+                    $watermarkSize = min(60, max(8, (int) ($siteSettings['product_watermark_size'] ?? 22)));
+                    $watermarkMargin = min(15, max(0, (float) ($siteSettings['product_watermark_margin'] ?? 4)));
+                    $watermarkOpacity = min(100, max(10, (int) ($siteSettings['product_watermark_opacity'] ?? 100)));
+                    $watermarkLogoPath = $siteSettings['product_watermark_logo'] ?? null;
+                    $watermarkLogoUrl = $watermarkLogoPath === null
+                        ? asset('images/brand/lnt-logo.png')
+                        : app(\App\Services\ImageStorageService::class)->url($watermarkLogoPath);
                 @endphp
 
                 {{-- Main large image/video --}}
@@ -47,11 +60,16 @@
                          loading="eager"
                          id="mainImage"
                          style="display: block;">
-                    <img src="{{ asset('images/brand/lnt-logo.png') }}"
-                         alt=""
-                         aria-hidden="true"
-                         class="product-detail-watermark"
-                         id="productDetailWatermark">
+                    @if($watermarkLogoUrl)
+                        <span class="product-detail-watermark product-detail-watermark--{{ $watermarkPosition }} {{ $watermarkVariant === 'color' ? 'product-detail-watermark--color' : 'product-detail-watermark--tint' }}"
+                              id="productDetailWatermark"
+                              aria-hidden="true"
+                              style="--watermark-size: {{ $watermarkSize }}%; --watermark-margin: {{ $watermarkMargin }}%; --watermark-opacity: {{ $watermarkOpacity / 100 }}; --watermark-color: {{ ['white' => '#ffffff', 'brown' => '#4a3826', 'cream' => '#f4e8dc'][$watermarkVariant] ?? 'transparent' }}; --watermark-image: url('{{ $watermarkLogoUrl }}');">
+                            @if($watermarkVariant === 'color')
+                                <img src="{{ $watermarkLogoUrl }}" alt="">
+                            @endif
+                        </span>
+                    @endif
                     
                     <video id="mainVideo" controls style="display: none; width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: #000;">
                         <source src="" type="video/mp4" id="mainVideoSource">
@@ -382,7 +400,7 @@
         }
         if (mainImage) {
             mainImage.style.display = 'block';
-            watermark.style.display = 'block';
+            if (watermark) watermark.style.display = 'block';
             // Set first image as main
             if (images.length > 0) {
                 mainImage.src = images[0];
@@ -417,7 +435,7 @@
         if (type === 'video') {
             // Show video, hide image
             mainImage.style.display = 'none';
-            watermark.style.display = 'none';
+            if (watermark) watermark.style.display = 'none';
             mainVideo.style.display = 'block';
             mainVideoSource.src = src;
             mainVideoSource.type = mimeType;
@@ -426,7 +444,7 @@
             // Show image, hide video
             mainVideo.style.display = 'none';
             mainImage.style.display = 'block';
-            watermark.style.display = 'block';
+            if (watermark) watermark.style.display = 'block';
             mainImage.src = src;
         }
         

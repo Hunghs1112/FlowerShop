@@ -110,6 +110,65 @@ class SettingController extends Controller
         ]);
     }
 
+    public function updateProductWatermark(Request $request)
+    {
+        $validated = $request->validate([
+            'variant' => 'required|in:color,white,brown,cream',
+            'position' => 'required|in:tl,tc,tr,ml,mc,mr,bl,bc,br',
+            'size' => 'required|integer|min:8|max:60',
+            'margin' => 'required|numeric|min:0|max:15',
+            'opacity' => 'required|integer|min:10|max:100',
+        ]);
+
+        DB::transaction(function () use ($validated) {
+            foreach ($validated as $key => $value) {
+                $this->settings->setSetting('product_watermark_'.$key, $value, 'text');
+            }
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã lưu cấu hình watermark cho ảnh sản phẩm.',
+            'data' => $validated,
+        ]);
+    }
+
+    public function uploadProductWatermarkLogo(Request $request)
+    {
+        $request->validate([
+            'logo' => 'required|file|mimes:png,webp|max:2048',
+        ]);
+
+        $oldPath = $this->settings->getByKey('product_watermark_logo');
+        $path = $this->images->upload(
+            $request->file('logo'),
+            'settings/watermark',
+            $oldPath ?: null,
+            'product-watermark'
+        );
+        $this->settings->setSetting('product_watermark_logo', $path, 'image');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã cập nhật logo watermark.',
+            'imageUrl' => $this->images->url($path),
+        ]);
+    }
+
+    public function deleteProductWatermarkLogo()
+    {
+        $path = $this->settings->getByKey('product_watermark_logo');
+        if ($path) {
+            $this->images->delete($path);
+        }
+        $this->settings->setSetting('product_watermark_logo', '', 'image');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa logo. Ảnh sản phẩm sẽ không còn watermark.',
+        ]);
+    }
+
     public function index()
     {
 

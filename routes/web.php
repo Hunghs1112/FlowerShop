@@ -200,6 +200,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('products/template', [App\Http\Controllers\Admin\ProductController::class, 'downloadTemplate'])->name('products.template');
 
     Route::view('watermark', 'admin.watermark')->name('watermark');
+    Route::put('watermark', [SettingController::class, 'updateProductWatermark'])->name('watermark.update');
+    Route::post('watermark/logo', [SettingController::class, 'uploadProductWatermarkLogo'])->name('watermark.logo.upload');
+    Route::delete('watermark/logo', [SettingController::class, 'deleteProductWatermarkLogo'])->name('watermark.logo.delete');
 
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
     Route::resource('posts', App\Http\Controllers\Admin\PostController::class);

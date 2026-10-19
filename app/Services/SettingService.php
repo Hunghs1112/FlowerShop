@@ -100,6 +100,12 @@ class SettingService
             'social_youtube',
             'about',
             'business_hours',
+            'product_watermark_logo',
+            'product_watermark_variant',
+            'product_watermark_position',
+            'product_watermark_size',
+            'product_watermark_margin',
+            'product_watermark_opacity',
         ]);
 
         return $settings;

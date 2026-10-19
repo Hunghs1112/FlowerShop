@@ -18,14 +18,26 @@
     let selected = 0;
     let logo = new Image();
     let tintedLogos = {};
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     try {
         options = { ...options, ...JSON.parse(localStorage.getItem('lnt-watermark') || 'null') };
+    } catch (_) {}
+    try {
+        options = { ...options, ...JSON.parse(root.dataset.productConfig || '{}') };
     } catch (_) {}
 
     const save = () => {
         try { localStorage.setItem('lnt-watermark', JSON.stringify(options)); } catch (_) {}
     };
+
+    function loadLogo(source) {
+        logo = new Image();
+        tintedLogos = {};
+        logo.onload = redraw;
+        if (source) logo.src = source;
+        else redraw();
+    }
 
     function tinted(variant) {
         if (variant === 'color') return logo;
@@ -233,11 +245,7 @@
         const file = event.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = () => {
-            logo = new Image();
-            logo.onload = () => { tintedLogos = {}; redraw(); };
-            logo.src = reader.result;
-        };
+        reader.onload = () => loadLogo(reader.result);
         reader.readAsDataURL(file);
     });
 
@@ -316,9 +324,106 @@
         }
     });
 
+    find('watermarkSaveProduct').addEventListener('click', async () => {
+        const button = find('watermarkSaveProduct');
+        const status = find('watermarkSaveStatus');
+        button.disabled = true;
+        status.className = '';
+        status.textContent = 'Đang lưu…';
+        try {
+            const response = await fetch(root.dataset.saveUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrf,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    variant: options.variant,
+                    position: options.position,
+                    size: options.size,
+                    margin: options.margin,
+                    opacity: options.opacity
+                })
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || 'Không thể lưu cấu hình.');
+            status.className = 'is-success';
+            status.textContent = result.message;
+        } catch (error) {
+            status.className = 'is-error';
+            status.textContent = error.message;
+        } finally {
+            button.disabled = false;
+        }
+    });
+
+    find('watermarkSiteLogoFile').addEventListener('change', async event => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const status = find('watermarkSaveStatus');
+        const formData = new FormData();
+        formData.append('logo', file);
+        status.className = '';
+        status.textContent = 'Đang tải logo lên…';
+        try {
+            const response = await fetch(root.dataset.logoUploadUrl, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf, 'X-Requested-With': 'XMLHttpRequest' },
+                body: formData
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || 'Không thể tải logo lên.');
+            const preview = find('watermarkSiteLogo');
+            const image = new Image();
+            image.src = result.imageUrl;
+            image.alt = 'Logo watermark hiện tại';
+            preview.classList.remove('is-empty');
+            preview.replaceChildren(image);
+            find('watermarkDeleteLogo').hidden = false;
+            root.dataset.logoSrc = result.imageUrl;
+            loadLogo(result.imageUrl);
+            status.className = 'is-success';
+            status.textContent = result.message;
+        } catch (error) {
+            status.className = 'is-error';
+            status.textContent = error.message;
+        } finally {
+            event.target.value = '';
+        }
+    });
+
+    find('watermarkDeleteLogo').addEventListener('click', async () => {
+        if (!confirm('Xóa logo watermark? Ảnh sản phẩm sẽ không còn watermark.')) return;
+        const button = find('watermarkDeleteLogo');
+        const status = find('watermarkSaveStatus');
+        button.disabled = true;
+        try {
+            const response = await fetch(root.dataset.logoDeleteUrl, {
+                method: 'DELETE',
+                headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf, 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || 'Không thể xóa logo.');
+            const preview = find('watermarkSiteLogo');
+            preview.classList.add('is-empty');
+            preview.innerHTML = '<span>Chưa có logo watermark</span>';
+            button.hidden = true;
+            root.dataset.logoSrc = '';
+            loadLogo('');
+            status.className = 'is-success';
+            status.textContent = result.message;
+        } catch (error) {
+            status.className = 'is-error';
+            status.textContent = error.message;
+        } finally {
+            button.disabled = false;
+        }
+    });
+
     console.assert(positions.length === 9 && Object.keys(presets).length === 4, 'Watermark controls are incomplete');
-    logo.onload = () => { tintedLogos = {}; redraw(); };
-    logo.src = root.dataset.logoSrc;
+    loadLogo(root.dataset.logoSrc);
     sync();
     redraw();
 })();

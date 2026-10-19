@@ -10,7 +10,26 @@
 @endpush
 
 @section('content')
-<section class="watermark-tool" id="watermarkTool" data-logo-src="{{ asset('images/brand/lnt-logo.png') }}">
+@php
+    $productWatermark = [
+        'variant' => ($siteSettings['product_watermark_variant'] ?? null) ?: 'color',
+        'position' => ($siteSettings['product_watermark_position'] ?? null) ?: 'br',
+        'size' => (int) (($siteSettings['product_watermark_size'] ?? null) ?: 22),
+        'margin' => (float) ($siteSettings['product_watermark_margin'] ?? 4),
+        'opacity' => (int) (($siteSettings['product_watermark_opacity'] ?? null) ?: 100),
+    ];
+    $productWatermarkLogoPath = $siteSettings['product_watermark_logo'] ?? null;
+    $productWatermarkLogoUrl = $productWatermarkLogoPath === null
+        ? asset('images/brand/lnt-logo.png')
+        : app(\App\Services\ImageStorageService::class)->url($productWatermarkLogoPath);
+@endphp
+<section class="watermark-tool"
+         id="watermarkTool"
+         data-logo-src="{{ $productWatermarkLogoUrl ?? '' }}"
+         data-product-config='@json($productWatermark)'
+         data-save-url="{{ route('admin.watermark.update') }}"
+         data-logo-upload-url="{{ route('admin.watermark.logo.upload') }}"
+         data-logo-delete-url="{{ route('admin.watermark.logo.delete') }}">
     <header class="watermark-tool__header">
         <strong>LÂM NHIÊN THẢO</strong>
         <span>Gắn logo tự động cho ảnh</span>
@@ -96,6 +115,28 @@
                     <span>Chất lượng JPG <output id="watermarkQualityOutput"></output></span>
                     <input type="range" id="watermarkQuality" min="60" max="100" step="2">
                 </label>
+            </section>
+
+            <section class="watermark-box watermark-save-box">
+                <h2>5 · ÁP DỤNG TRÊN WEBSITE</h2>
+                <div class="watermark-site-logo {{ $productWatermarkLogoUrl ? '' : 'is-empty' }}" id="watermarkSiteLogo">
+                    @if($productWatermarkLogoUrl)
+                        <img src="{{ $productWatermarkLogoUrl }}" alt="Logo watermark hiện tại">
+                    @else
+                        <span>Chưa có logo watermark</span>
+                    @endif
+                </div>
+                <div class="watermark-logo-actions">
+                    <label class="watermark-button watermark-button--ghost">
+                        Tải logo lên
+                        <input type="file" id="watermarkSiteLogoFile" accept="image/png,image/webp">
+                    </label>
+                    <button type="button" class="watermark-delete-button" id="watermarkDeleteLogo" {{ $productWatermarkLogoUrl ? '' : 'hidden' }}>Xóa logo</button>
+                </div>
+                <small class="watermark-logo-note">PNG hoặc WebP, tối đa 2 MB. Nên dùng ảnh nền trong suốt.</small>
+                <p>Dùng màu, vị trí, kích thước, cách mép và độ rõ đang chọn cho ảnh lớn trên trang chi tiết sản phẩm.</p>
+                <button type="button" class="watermark-button" id="watermarkSaveProduct">Lưu cho ảnh sản phẩm</button>
+                <small id="watermarkSaveStatus" aria-live="polite">Ảnh gốc sẽ không bị chỉnh sửa.</small>
             </section>
         </aside>
 
