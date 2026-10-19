@@ -86,6 +86,10 @@
     object-fit: contain;
 }
 
+.tree-product-detail .gallery-item--main .product-detail-watermark img {
+    border-radius: 0;
+}
+
 .product-detail-watermark--tint::before {
     content: '';
     background: var(--watermark-color);
