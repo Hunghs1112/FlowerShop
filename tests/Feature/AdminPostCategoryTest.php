@@ -8,6 +8,28 @@ use Tests\TestCase;
 
 class AdminPostCategoryTest extends TestCase
 {
+    public function test_admin_can_create_post(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)
+            ->post(route('admin.posts.store'), [
+                'title' => 'Flowers',
+                'content' => 'A story about flowers.',
+                'category' => 'vung-dat',
+                'status' => 'draft',
+                'meta_title' => 'Flower story',
+                'meta_description' => 'A short flower story.',
+            ])->assertRedirect(route('admin.posts.index'));
+
+        $this->assertDatabaseHas('posts', [
+            'slug' => 'flowers',
+            'author_id' => $admin->id,
+            'meta_title' => 'Flower story',
+            'meta_description' => 'A short flower story.',
+        ]);
+    }
+
     public function test_admin_can_update_post_category(): void
     {
         $post = Post::create(['title' => 'Flowers', 'slug' => 'flowers', 'content' => 'A story about flowers.', 'category' => 'vung-dat']);
