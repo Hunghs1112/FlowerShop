@@ -1,0 +1,230 @@
+.watermark-tool {
+    --wm-bg: #f5ebe6;
+    --wm-paper: #fcf8f5;
+    --wm-ink: #5e4636;
+    --wm-soft: #8c6e5c;
+    --wm-copper: #c78e66;
+    --wm-deep: #a8714e;
+    --wm-line: #e6d3c6;
+    --wm-dark: #3a2c24;
+    --wm-check: #e9ddd4;
+    overflow: hidden;
+    margin: calc(var(--space-6) * -1);
+    min-height: calc(100vh - 72px);
+    background: var(--wm-bg);
+    color: var(--wm-ink);
+    font-family: "Josefin Sans", "Avenir Next", sans-serif;
+}
+
+.watermark-tool *,
+.watermark-tool *::before,
+.watermark-tool *::after { box-sizing: border-box; }
+
+.watermark-tool__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--wm-dark);
+    color: #f4e8dc;
+    padding: .9rem clamp(1rem, 3vw, 2rem);
+}
+
+.watermark-tool__header strong {
+    color: #e2ae84;
+    font-size: .8rem;
+    letter-spacing: .24em;
+}
+
+.watermark-tool__header span {
+    font-family: Lora, Georgia, serif;
+    font-style: italic;
+}
+
+.watermark-tool__layout {
+    display: grid;
+    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+    align-items: start;
+    gap: 1.4rem;
+    padding: 1.4rem clamp(1rem, 3vw, 2rem) 3rem;
+}
+
+.watermark-box {
+    margin-bottom: 1rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--wm-line);
+    border-radius: 18px;
+    background: var(--wm-paper);
+}
+
+.watermark-box h2 {
+    margin: 0 0 .7rem;
+    color: var(--wm-copper);
+    font-size: .76rem;
+    letter-spacing: .22em;
+}
+
+.watermark-drop {
+    display: grid;
+    place-items: center;
+    gap: .4rem;
+    padding: 1.4rem 1rem;
+    border: 2px dashed var(--wm-copper);
+    border-radius: 16px;
+    background: var(--wm-bg);
+    color: var(--wm-deep);
+    text-align: center;
+    cursor: pointer;
+}
+
+.watermark-drop.is-over { background: var(--wm-check); }
+.watermark-drop strong { font-size: 1.05rem; }
+.watermark-drop small { color: var(--wm-soft); }
+.watermark-drop input,
+.watermark-upload-link input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+.watermark-field {
+    display: grid;
+    gap: .3rem;
+    margin: .7rem 0;
+    color: var(--wm-soft);
+    font-size: .8rem;
+}
+
+.watermark-field output {
+    float: right;
+    color: var(--wm-ink);
+    font-weight: 600;
+}
+
+.watermark-field em { color: var(--wm-deep); font-style: normal; }
+.watermark-field input[type="range"] { width: 100%; accent-color: var(--wm-copper); }
+.watermark-field select {
+    padding: .5rem .6rem;
+    border: 1.5px solid var(--wm-line);
+    border-radius: 10px;
+    background: var(--wm-bg);
+    color: var(--wm-ink);
+    font: inherit;
+    font-size: .95rem;
+}
+
+.watermark-segments { display: flex; flex-wrap: wrap; gap: .35rem; }
+.watermark-segments button {
+    padding: .4rem .8rem;
+    border: 1.5px solid var(--wm-line);
+    border-radius: 999px;
+    background: var(--wm-bg);
+    color: var(--wm-ink);
+    font: inherit;
+    font-size: .85rem;
+    cursor: pointer;
+}
+
+.watermark-segments button[aria-pressed="true"] {
+    border-color: var(--wm-copper);
+    background: var(--wm-copper);
+    color: white;
+}
+
+.watermark-position { display: grid; grid-template-columns: repeat(3, 42px); gap: 6px; }
+.watermark-position button {
+    width: 42px;
+    height: 32px;
+    border: 1.5px solid var(--wm-line);
+    border-radius: 8px;
+    background: var(--wm-bg);
+    cursor: pointer;
+}
+
+.watermark-position button[aria-pressed="true"] { border-color: var(--wm-copper); background: var(--wm-copper); }
+.watermark-upload-link { position: relative; display: inline-block; color: var(--wm-deep); font-size: .8rem; text-decoration: underline; cursor: pointer; }
+
+.watermark-stage {
+    display: grid;
+    place-items: center;
+    min-height: 360px;
+    padding: 1rem;
+    border: 1px solid var(--wm-line);
+    border-radius: 18px;
+    background: repeating-conic-gradient(var(--wm-check) 0 25%, var(--wm-paper) 0 50%) 0 0 / 24px 24px;
+}
+
+.watermark-stage canvas {
+    max-width: 100%;
+    max-height: 68vh;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 20px 40px -26px rgba(0, 0, 0, .45);
+}
+
+.watermark-stage p { color: var(--wm-soft); font-family: Lora, Georgia, serif; font-style: italic; text-align: center; }
+.watermark-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; margin: .9rem 0; }
+.watermark-info { color: var(--wm-soft); font-size: .85rem; }
+.watermark-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.watermark-button {
+    padding: .65rem 1.1rem;
+    border: 1.5px solid var(--wm-copper);
+    border-radius: 999px;
+    background: var(--wm-copper);
+    color: white;
+    font: 600 .92rem "Josefin Sans", sans-serif;
+    cursor: pointer;
+}
+
+.watermark-button--ghost { background: transparent; color: var(--wm-deep); }
+.watermark-button:disabled { opacity: .45; cursor: not-allowed; }
+.watermark-button:focus-visible,
+.watermark-segments button:focus-visible,
+.watermark-position button:focus-visible,
+.watermark-thumbnails button:focus-visible,
+.watermark-drop:focus-within { outline: 3px solid #e2ae84; outline-offset: 2px; }
+
+.watermark-thumbnails { display: flex; gap: .6rem; overflow-x: auto; padding: .3rem .1rem .6rem; }
+.watermark-thumbnails button {
+    position: relative;
+    flex: 0 0 auto;
+    width: 88px;
+    height: 88px;
+    overflow: hidden;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: var(--wm-check);
+    cursor: pointer;
+}
+
+.watermark-thumbnails button[aria-current="true"] { border-color: var(--wm-copper); }
+.watermark-thumbnails img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.watermark-thumbnails .watermark-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .55);
+    color: white;
+    font-size: 13px;
+    line-height: 22px;
+    text-align: center;
+}
+
+.watermark-progress { display: none; height: 6px; overflow: hidden; border-radius: 3px; background: var(--wm-line); }
+.watermark-progress i { display: block; width: 0; height: 100%; background: var(--wm-copper); transition: width .2s; }
+
+@media (max-width: 1023px) {
+    .watermark-tool { margin: calc(var(--space-4) * -1); }
+}
+
+@media (max-width: 900px) {
+    .watermark-tool__layout { grid-template-columns: 1fr; }
+    .watermark-preview { order: -1; }
+}
+
+@media (max-width: 639px) {
+    .watermark-tool { margin: calc(var(--space-3) * -1); }
+}
+
+@media (max-width: 399px) {
+    .watermark-tool { margin: calc(var(--space-2) * -1); }
+}

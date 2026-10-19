@@ -199,6 +199,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('products/import', [App\Http\Controllers\Admin\ProductController::class, 'processImport'])->name('products.processImport');
     Route::get('products/template', [App\Http\Controllers\Admin\ProductController::class, 'downloadTemplate'])->name('products.template');
 
+    Route::view('watermark', 'admin.watermark')->name('watermark');
+
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
     Route::resource('posts', App\Http\Controllers\Admin\PostController::class);
     Route::resource('users', UserController::class);
