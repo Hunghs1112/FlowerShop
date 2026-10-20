@@ -149,7 +149,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
   <div>
     <p class="eyebrow">LÂM NHIÊN THẢO · HOA NHẬP KHẨU</p>
     <h1>Từ những vùng đất<br>đặc biệt<em>đến những nơi tuyệt đẹp</em></h1>
-    <p class="lead">Những đoá hoa được tuyển chọn từ chín vùng đất trên thế giới, bay về Hà Nội và được chăm chút để đến với không gian của bạn.</p>
+    <p class="lead">{{ $homeData['hero_description'] }}</p>
     <div class="ctas"><a class="btn primary" href="#san-pham">Đặt hoa ngay →</a><a class="btn ghost" href="/hop-hoa-bi-an">Hộp hoa bí ẩn</a></div>
     <div class="trust"><div><b>09</b>vùng đất hoa</div><div><b>14:00</b>chốt đơn giao trong ngày</div><div><b>Zalo</b><a href="{{ $siteSettings['zalo_url'] ?: 'https://zalo.me/' . preg_replace('/\D/', '', $siteSettings['phone'] ?: '0869308993') }}" target="_blank" rel="noopener" style="color:inherit">{{ $siteSettings['phone'] ?: '0869 308 993' }}</a></div></div>
   </div>

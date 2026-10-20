@@ -37,6 +37,7 @@ class SettingController extends Controller
         // Validate field name
         $allowedFields = [
             'site_name', 'site_tagline', 'site_description', 'email', 'phone', 'address',
+            'home_hero_description',
             'zalo_id', 'zalo_url', 'facebook_url', 'instagram_url', 'tiktok_url',
             'social_youtube', 'about', 'meta_title', 'meta_description', 'meta_keywords',
             'business_hours', 'email_notification_enabled', 'zalo_notification_enabled',
@@ -53,6 +54,10 @@ class SettingController extends Controller
                 'success' => false,
                 'message' => 'Trường không hợp lệ',
             ], 422);
+        }
+
+        if ($field === 'home_hero_description') {
+            $request->validate(['value' => 'nullable|string|max:1000']);
         }
 
         // Handle checkbox fields (boolean)

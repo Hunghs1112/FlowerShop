@@ -3,11 +3,14 @@
 @section('page-title', 'Cài Đặt')
 
 @section('content')
+@php($settings = $settingsData)
 <?php $bannerOnly = request()->routeIs('admin.page-banners.*'); ?>
 @if($bannerOnly)
 <style>
     .settings-tab-btn[data-tab="general"],
-    .settings-tab-content[data-tab-content="general"] { display: none !important; }
+    .settings-tab-btn[data-tab="homepage"],
+    .settings-tab-content[data-tab-content="general"],
+    .settings-tab-content[data-tab-content="homepage"] { display: none !important; }
     .settings-tab-content[data-tab-content="banners"] { display: block !important; }
 </style>
 @endif
@@ -32,6 +35,12 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
             Cài Đặt Chung
+        </button>
+        <button class="settings-tab-btn" data-tab="homepage" style="padding: 12px 20px; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; font-weight: 500; color: var(--admin-text-secondary); cursor: pointer; font-size: 14px;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 6px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10h14V10M9 20v-6h6v6"/>
+            </svg>
+            Nội Dung Trang Chủ
         </button>
         <button class="settings-tab-btn" data-tab="banners" style="padding: 12px 20px; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; font-weight: 500; color: var(--admin-text-secondary); cursor: pointer; font-size: 14px;">
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 6px;">
@@ -326,6 +335,27 @@
 
 </div>
 
+{{-- Tab Content: Homepage --}}
+<div class="settings-tab-content" data-tab-content="homepage" style="display: none;">
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <h2 class="admin-card-title">Nội Dung Hero Trang Chủ</h2>
+        </div>
+        <div class="admin-card-body">
+            <div class="form-group">
+                <label for="home_hero_description" style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Đoạn giới thiệu</label>
+                <textarea id="home_hero_description"
+                          name="home_hero_description"
+                          rows="4"
+                          maxlength="1000"
+                          class="settings-auto-save"
+                          style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('home_hero_description', $settings['home_hero_description'] ?? 'Những đoá hoa được tuyển chọn từ chín vùng đất trên thế giới, bay về Hà Nội và được chăm chút để đến với không gian của bạn.') }}</textarea>
+                <small style="display: block; margin-top: 6px; color: var(--admin-text-muted);">Nội dung tự động lưu và hiển thị dưới tiêu đề lớn ở đầu trang chủ.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- Tab Content: Banners --}}
 <div class="settings-tab-content" data-tab-content="banners" style="display: none;">
     <div class="admin-card">
@@ -348,7 +378,7 @@
             </p>
             
             <div class="banner-settings-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
-                @php
+                <?php
                 $bannerFields = [
                     'home'       => ['Trang chủ', '🏠'],
                     'products'   => ['Sản phẩm', '🌸'],
@@ -361,7 +391,7 @@
                     'cart'       => ['Giỏ hàng', '🛒'],
                     'checkout'   => ['Thanh toán', '💳'],
                 ];
-                @endphp
+                ?>
                 @foreach($bannerFields as $key => [$label, $icon])
                 <div class="banner-field-item" style="padding: 20px; border: 1px solid var(--admin-border); border-radius: 8px; background: var(--color-surface-elevated);">
                     <label style="display: block; font-size: 14px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 12px;">
@@ -409,10 +439,10 @@
             <p style="color: var(--admin-text-secondary); margin-bottom: 16px; padding: 12px; background: var(--color-surface-elevated); border-left: 3px solid #f59e0b; border-radius: 6px; font-size: 13px;">
                 Ảnh này dùng riêng cho khối <strong>Flower Journal</strong> ở cuối trang Sản phẩm, tách khỏi ảnh banner phía trên.
             </p>
-            @php
+            <?php
                 $editorialRawPath = $settingsData['products_editorial_image'] ?? null;
                 $editorialUrl = $editorialRawPath ? app(\App\Services\ImageStorageService::class)->url($editorialRawPath) : null;
-            @endphp
+            ?>
             <div class="banner-field-item" style="padding: 20px; border: 1px solid var(--admin-border); border-radius: 8px; background: var(--color-surface-elevated); max-width: 560px;">
                 <label style="display: block; font-size: 14px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 12px;">
                     <span style="font-size: 18px; margin-right: 6px;">📖</span>
@@ -486,7 +516,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    if (window.location.hash === '#banners' || @json($bannerOnly)) {
+    if (window.location.hash === '#homepage') {
+        document.querySelector('.settings-tab-btn[data-tab="homepage"]')?.click();
+    } else if (window.location.hash === '#banners' || @json($bannerOnly)) {
         document.querySelector('.settings-tab-btn[data-tab="banners"]')?.click();
     }
 
