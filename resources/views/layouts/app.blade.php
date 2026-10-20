@@ -57,9 +57,14 @@
         @include('partials.footer')
     @endif
 
-    {{-- Floating chat widget (visible to all non-admin users including guests) --}}
-    @if(!auth()->check() || !auth()->user()->isAdmin())
-        <div class="floating-chat-container">
+    @php
+        $floatingPhone = $siteSettings['phone'] ?: '0869 308 993';
+        $floatingPhoneHref = preg_replace('/\D/', '', $floatingPhone);
+        $floatingZalo = $siteSettings['zalo_url'] ?: 'https://zalo.me/' . $floatingPhoneHref;
+        $showFloatingChat = !auth()->check() || !auth()->user()->isAdmin();
+    @endphp
+    <div class="floating-chat-container">
+            @if($showFloatingChat)
                 {{-- Chat window --}}
                 <div class="floating-chat-window" id="floatingChatWindow">
                     {{-- Header --}}
@@ -95,23 +100,21 @@
                         </button>
                     </form>
                 </div>
+            @endif
 
-                <div class="floating-contact-links" aria-label="Liên hệ nhanh">
-                    @if(!empty($siteSettings['zalo_url']))
-                    <a class="floating-contact-btn floating-contact-btn--zalo" href="{{ $siteSettings['zalo_url'] }}" target="_blank" rel="noopener noreferrer" aria-label="Liên hệ qua Zalo" data-label="Zalo"><span aria-hidden="true">Zalo</span></a>
-                    @endif
+            <div class="floating-contact-links" aria-label="Liên hệ nhanh">
+                    <a class="floating-contact-btn floating-contact-btn--zalo" href="{{ $floatingZalo }}" target="_blank" rel="noopener noreferrer" aria-label="Liên hệ qua Zalo" data-label="Zalo"><span aria-hidden="true">Zalo</span></a>
                     @if(!empty($siteSettings['facebook_url']))
                     <a class="floating-contact-btn floating-contact-btn--facebook" href="{{ $siteSettings['facebook_url'] }}" target="_blank" rel="noopener noreferrer" aria-label="Liên hệ qua Facebook" data-label="Facebook">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.4 21v-8.2h2.8l.4-3.2h-3.2V7.5c0-.9.3-1.5 1.6-1.5h1.7V3.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.2v3.2H10V21h3.4Z"/></svg>
                     </a>
                     @endif
-                    @if(!empty($siteSettings['phone']))
-                    <a class="floating-contact-btn floating-contact-btn--phone" href="tel:{{ preg_replace('/\D/', '', $siteSettings['phone']) }}" aria-label="Gọi {{ $siteSettings['phone'] }}" data-label="{{ $siteSettings['phone'] }}">
+                    <a class="floating-contact-btn floating-contact-btn--phone" href="tel:{{ $floatingPhoneHref }}" aria-label="Gọi {{ $floatingPhone }}" data-label="{{ $floatingPhone }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5.5A1.5 1.5 0 0 1 5.5 4h2a1.5 1.5 0 0 1 1.46 1.15l.55 2.36a1.5 1.5 0 0 1-.67 1.62l-1.2.8a12 12 0 0 0 6.43 6.43l.8-1.2a1.5 1.5 0 0 1 1.62-.67l2.36.55A1.5 1.5 0 0 1 20 16.5v2A1.5 1.5 0 0 1 18.5 20 14.5 14.5 0 0 1 4 5.5Z"/></svg>
                     </a>
-                    @endif
-                </div>
+            </div>
 
+            @if($showFloatingChat)
                 {{-- Toggle button --}}
                 <button class="floating-chat-btn" id="floatingChatBtn" aria-label="Chat hỗ trợ">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -119,8 +122,8 @@
                     </svg>
                     <span class="floating-chat-badge" id="chatUnreadBadge" style="display: none;">0</span>
                 </button>
-            </div>
-        @endif
+            @endif
+        </div>
 
     <!-- Scripts -->
     <script>
@@ -168,7 +171,7 @@
     </script>
 
     {{-- Floating chat widget logic (visible to all non-admin users including guests) --}}
-    @if(!auth()->check() || !auth()->user()->isAdmin())
+    @if($showFloatingChat)
         <script>
         (function() {
             const btn = document.getElementById('floatingChatBtn');

@@ -35,7 +35,7 @@ header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(2rem,4vw,4rem);align-items:center}
 .hero h1{margin:0;font-weight:600;color:var(--copper);font-size:clamp(2.1rem,4vw,3.5rem);line-height:1.04;text-transform:uppercase;letter-spacing:.005em}
 .hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;color:var(--deep);display:block;font-size:.62em;margin-top:.5rem;letter-spacing:0}
-.hero p.lead{font-family:var(--serif);color:var(--soft);font-size:1.08rem;line-height:1.75;max-width:32em;margin:1.3rem 0 1.8rem}
+.hero .lead{font-family:var(--serif);color:var(--soft);font-size:1.08rem;line-height:1.75;max-width:32em;margin:1.3rem 0 1.8rem}.hero .lead>:first-child{margin-top:0}.hero .lead>:last-child{margin-bottom:0}
 .ctas{display:flex;gap:.8rem;flex-wrap:wrap}
 .trust{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:2rem;font-size:.82rem;color:var(--soft);letter-spacing:.04em}.trust b{color:var(--copper);font-size:1.4rem;display:block;font-weight:600}
 .stage{position:relative;min-width:0}
@@ -149,7 +149,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
   <div>
     <p class="eyebrow">LÂM NHIÊN THẢO · HOA NHẬP KHẨU</p>
     <h1>Từ những vùng đất<br>đặc biệt<em>đến những nơi tuyệt đẹp</em></h1>
-    <p class="lead">{{ $homeData['hero_description'] }}</p>
+    <x-markdown-renderer class="lead" :content="$homeHeroDescription" />
     <div class="ctas"><a class="btn primary" href="#san-pham">Đặt hoa ngay →</a><a class="btn ghost" href="/hop-hoa-bi-an">Hộp hoa bí ẩn</a></div>
     <div class="trust"><div><b>09</b>vùng đất hoa</div><div><b>14:00</b>chốt đơn giao trong ngày</div><div><b>Zalo</b><a href="{{ $siteSettings['zalo_url'] ?: 'https://zalo.me/' . preg_replace('/\D/', '', $siteSettings['phone'] ?: '0869308993') }}" target="_blank" rel="noopener" style="color:inherit">{{ $siteSettings['phone'] ?: '0869 308 993' }}</a></div></div>
   </div>

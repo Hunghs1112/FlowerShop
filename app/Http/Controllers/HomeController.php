@@ -42,11 +42,11 @@ class HomeController extends Controller
             'seasonal_halloween_hero',
             'seasonal_thong_hero',
         ]);
+        $homeHeroDescription = $this->settingService->get(
+            'home_hero_description',
+            'Những đoá hoa được tuyển chọn từ chín vùng đất trên thế giới, bay về Hà Nội và được chăm chút để đến với không gian của bạn.'
+        );
         $homeData = [
-            'hero_description' => $this->settingService->get(
-                'home_hero_description',
-                'Những đoá hoa được tuyển chọn từ chín vùng đất trên thế giới, bay về Hà Nội và được chăm chút để đến với không gian của bạn.'
-            ),
             'products' => $newArrivalProducts->take(4)->map(fn ($product) => [
                 'name' => $product->display_name,
                 'origin' => $product->origin ?: 'Hoa nhập khẩu',
@@ -92,6 +92,6 @@ class HomeController extends Controller
             ],
         ];
 
-        return view('home.index', compact('bestsellingProducts', 'newArrivalProducts', 'categories', 'latestPosts', 'banners', 'siteSettings', 'homeData', 'galleryImages'));
+        return view('home.index', compact('bestsellingProducts', 'newArrivalProducts', 'categories', 'latestPosts', 'banners', 'siteSettings', 'homeData', 'homeHeroDescription', 'galleryImages'));
     }
 }

@@ -350,7 +350,7 @@
                           maxlength="1000"
                           class="settings-auto-save"
                           style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('home_hero_description', $settings['home_hero_description'] ?? 'Những đoá hoa được tuyển chọn từ chín vùng đất trên thế giới, bay về Hà Nội và được chăm chút để đến với không gian của bạn.') }}</textarea>
-                <small style="display: block; margin-top: 6px; color: var(--admin-text-muted);">Nội dung tự động lưu và hiển thị dưới tiêu đề lớn ở đầu trang chủ.</small>
+                <small style="display: block; margin-top: 6px; color: var(--admin-text-muted);">Hỗ trợ Markdown. Nội dung tự động lưu và hiển thị dưới tiêu đề lớn ở đầu trang chủ.</small>
             </div>
         </div>
     </div>

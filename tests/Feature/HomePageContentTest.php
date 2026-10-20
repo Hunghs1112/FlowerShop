@@ -10,7 +10,7 @@ class HomePageContentTest extends TestCase
 {
     public function test_admin_can_auto_save_the_homepage_hero_description(): void
     {
-        $content = 'Hoa tuyển chọn, được chăm chút cho không gian của bạn.';
+        $content = '**Hoa tuyển chọn**, được chăm chút cho không gian của bạn. <script>alert(1)</script>';
 
         $this->actingAs(User::factory()->create(['role' => 'admin']))
             ->patchJson(route('admin.settings.updateField'), [
@@ -21,7 +21,10 @@ class HomePageContentTest extends TestCase
             ->assertJson(['success' => true]);
 
         $this->assertSame($content, Setting::get('home_hero_description'));
-        $this->get('/')->assertOk()->assertSee($content);
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('<strong>Hoa tuyển chọn</strong>', false)
+            ->assertDontSee('<script>alert(1)</script>', false);
     }
 
     public function test_admin_settings_has_a_homepage_content_tab(): void
