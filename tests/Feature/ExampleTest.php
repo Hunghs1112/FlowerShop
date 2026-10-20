@@ -31,13 +31,13 @@ class ExampleTest extends TestCase
         $this->get('/b2c')->assertRedirect('/b2b');
     }
 
-    public function test_admin_still_sees_floating_contact_buttons(): void
+    public function test_admin_sees_all_floating_buttons(): void
     {
         $this->actingAs(User::factory()->create(['role' => 'admin']))
             ->get('/')
             ->assertOk()
             ->assertSee('class="floating-contact-btn floating-contact-btn--zalo"', false)
             ->assertSee('class="floating-contact-btn floating-contact-btn--phone"', false)
-            ->assertDontSee('id="floatingChatBtn"', false);
+            ->assertSee('id="floatingChatBtn"', false);
     }
 }

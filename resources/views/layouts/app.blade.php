@@ -61,10 +61,8 @@
         $floatingPhone = $siteSettings['phone'] ?: '0869 308 993';
         $floatingPhoneHref = preg_replace('/\D/', '', $floatingPhone);
         $floatingZalo = $siteSettings['zalo_url'] ?: 'https://zalo.me/' . $floatingPhoneHref;
-        $showFloatingChat = !auth()->check() || !auth()->user()->isAdmin();
     @endphp
     <div class="floating-chat-container">
-            @if($showFloatingChat)
                 {{-- Chat window --}}
                 <div class="floating-chat-window" id="floatingChatWindow">
                     {{-- Header --}}
@@ -100,7 +98,6 @@
                         </button>
                     </form>
                 </div>
-            @endif
 
             <div class="floating-contact-links" aria-label="Liên hệ nhanh">
                     <a class="floating-contact-btn floating-contact-btn--zalo" href="{{ $floatingZalo }}" target="_blank" rel="noopener noreferrer" aria-label="Liên hệ qua Zalo" data-label="Zalo"><span aria-hidden="true">Zalo</span></a>
@@ -114,7 +111,6 @@
                     </a>
             </div>
 
-            @if($showFloatingChat)
                 {{-- Toggle button --}}
                 <button class="floating-chat-btn" id="floatingChatBtn" aria-label="Chat hỗ trợ">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -122,7 +118,6 @@
                     </svg>
                     <span class="floating-chat-badge" id="chatUnreadBadge" style="display: none;">0</span>
                 </button>
-            @endif
         </div>
 
     <!-- Scripts -->
@@ -170,9 +165,8 @@
 
     </script>
 
-    {{-- Floating chat widget logic (visible to all non-admin users including guests) --}}
-    @if($showFloatingChat)
-        <script>
+    {{-- Floating chat widget logic --}}
+    <script>
         (function() {
             const btn = document.getElementById('floatingChatBtn');
             const badge = document.getElementById('chatUnreadBadge');
@@ -357,8 +351,7 @@
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
             }
         })();
-        </script>
-        @endif
+    </script>
 
     @stack('scripts')
 
