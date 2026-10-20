@@ -183,7 +183,7 @@
                         @if(isset($vipLevels))
                             @foreach($vipLevels as $vipLevel)
                                 <option value="{{ $vipLevel->id }}" {{ old('vip_level_id', $user->vip_level_id ?? '') == $vipLevel->id ? 'selected' : '' }}>
-                                    {{ $vipLevel->name }}
+                                    {{ $vipLevel->name }}{{ $vipLevel->is_active ? '' : ' (Đã tắt)' }}
                                 </option>
                             @endforeach
                         @endif

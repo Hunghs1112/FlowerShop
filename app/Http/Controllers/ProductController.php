@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilterProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductCollection;
-use App\Services\ProductService;
+use App\Models\Subcategory;
 use App\Services\CategoryService;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -36,28 +38,28 @@ class ProductController extends Controller
 
         // Get filtered products
         $products = $this->productService->filterProducts($filters);
-        
+
         // Get categories for filter sidebar with product counts
         $categories = $this->categoryService->getActiveCategories();
-        
+
         // Get subcategories with product counts
-        $subcategories = \App\Models\Subcategory::where('is_active', true)
+        $subcategories = Subcategory::where('is_active', true)
             ->with('category')
             ->withCount('products')
             ->orderBy('category_id')
             ->orderBy('name')
             ->get();
-        
+
         // Active category for display in hero
         $activeCategory = null;
         $categoryIds = $filters['category_ids'];
-        if (!empty($categoryIds)) {
-            $activeCategory = \App\Models\Category::find($categoryIds[0]);
+        if (! empty($categoryIds)) {
+            $activeCategory = Category::find($categoryIds[0]);
         }
-        
+
         // Get active filter chips for display
         $activeFilterChips = $request->getActiveFilterChips();
-        
+
         // Check if this is an AJAX request for autocomplete results
         if ($request->wantsJson() && $request->has('autocomplete')) {
             return response()->json([
@@ -77,8 +79,8 @@ class ProductController extends Controller
         $suggestionCollections = ProductCollection::active()
             ->with(['products' => function ($q) {
                 $q->active()->with('productImages')
-                  ->orderBy('collection_product.sort_order')
-                  ->limit(8);
+                    ->orderBy('collection_product.sort_order')
+                    ->limit(8);
             }])
             ->orderBy('sort_order')
             ->get()
@@ -105,41 +107,37 @@ class ProductController extends Controller
         // A numeric slug is valid (for example, a product named "123").
         // Prefer an ID match for legacy links, then fall back to either slug.
         $product = Product::where(function ($query) use ($identifier) {
-                if (is_numeric($identifier)) {
-                    $query->where('id', $identifier);
-                }
+            if (is_numeric($identifier)) {
+                $query->where('id', $identifier);
+            }
 
-                $query->orWhere('slug', $identifier)
-                    ->orWhere('slug_en', $identifier);
-            })
+            $query->orWhere('slug', $identifier)
+                ->orWhere('slug_en', $identifier);
+        })
             ->active()
-            ->with(['productImages', 'category', 'subcategory.category', 'variants' => function($query) {
+            ->with(['productImages', 'category', 'subcategory.category', 'variants' => function ($query) {
                 $query->where('is_active', true)->with('images');
             }])
             ->firstOrFail();
 
         // CRITICAL: Backend VIP authorization check
         $user = auth()->user();
-        if ($user && $user->vip_level_id) {
-            // Check if user's VIP level has access to this product
-            $hasAccess = $product->vipLevels()->where('vip_levels.id', $user->vip_level_id)->exists();
-            if (!$hasAccess) {
-                abort(404); // Product not found for this VIP level
-            }
+        if (! $product->isAccessibleTo($user)) {
+            abort(404); // Product not found for this VIP level
         }
 
         // Get recommended products (same subcategory first, then same category, or featured)
         $recommendedQuery = Product::active()
             ->inStock()
             ->where('id', '!=', $product->id)
-            ->where(function($query) use ($product) {
+            ->where(function ($query) use ($product) {
                 if ($product->subcategory_id) {
                     // Prioritize same subcategory
                     $query->where('subcategory_id', $product->subcategory_id);
                 } else {
                     // Fall back to category or featured
                     $query->where('category_id', $product->category_id)
-                          ->orWhere('is_featured', true);
+                        ->orWhere('is_featured', true);
                 }
             })
             ->with('productImages');
@@ -169,15 +167,15 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('q', '');
-        
+
         // Minimum 2 characters
         if (strlen($query) < 2) {
             return response()->json(['products' => []]);
         }
-        
+
         // Sanitize
         $query = trim(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $query));
-        
+
         $products = $this->productService->search($query, 10);
 
         return response()->json(['products' => $products]);

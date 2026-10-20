@@ -100,6 +100,7 @@
                 </div>
                 <div class="admin-card-body">
                     <div style="margin-bottom: 16px;">
+                        <p class="form-help" style="margin-bottom: 12px;">Chỉ chọn sản phẩm riêng của hạng này. Thành viên ở hạng cao hơn sẽ tự động được kế thừa.</p>
                         <input type="text" 
                                id="product-search" 
                                placeholder="Tìm kiếm sản phẩm..." 

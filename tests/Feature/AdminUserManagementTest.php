@@ -158,4 +158,37 @@ class AdminUserManagementTest extends TestCase
 
         $this->assertGuest();
     }
+
+    public function test_inactive_current_vip_remains_visible_when_editing_a_user(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $vipLevel = \App\Models\VipLevel::create([
+            'name' => 'VIP Cũ',
+            'priority' => 4,
+            'is_active' => false,
+        ]);
+        $customer = User::factory()->create(['vip_level_id' => $vipLevel->id]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.edit', $customer))
+            ->assertOk()
+            ->assertSee('VIP Cũ')
+            ->assertSee('(Đã tắt)');
+    }
+
+    public function test_customer_profile_displays_the_active_vip_level(): void
+    {
+        $vipLevel = \App\Models\VipLevel::create([
+            'name' => 'VIP Vàng',
+            'priority' => 3,
+            'is_active' => true,
+        ]);
+        $customer = User::factory()->create(['vip_level_id' => $vipLevel->id]);
+
+        $this->actingAs($customer)
+            ->get(route('profile.show'))
+            ->assertOk()
+            ->assertSee('Hạng thành viên')
+            ->assertSee('VIP Vàng');
+    }
 }

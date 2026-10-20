@@ -18,7 +18,7 @@ class UpdateVipLevelRequest extends FormRequest
         return [
             'name' => 'required|string|max:100|unique:vip_levels,name,' . $vipLevel->id,
             'description' => 'nullable|string|max:500',
-            'priority' => 'required|integer|min:0',
+            'priority' => 'required|integer|min:0|unique:vip_levels,priority,'.$vipLevel->id,
             'is_active' => 'boolean',
         ];
     }

@@ -22,6 +22,7 @@
                     <span class="profile-kicker">THÀNH VIÊN</span>
                     <h2>{{ $user->name }}</h2>
                     <p>{{ $user->email }}</p>
+                    <p>Hạng thành viên: <strong>{{ $user->vipLevel?->is_active ? $user->vipLevel->name : 'Khách hàng thường' }}</strong></p>
                 </div>
             </div>
             <nav class="profile-nav" aria-label="Điều hướng tài khoản">

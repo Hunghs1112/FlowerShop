@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,7 @@ class CartService
         if (Auth::check()) {
             return ['user_id' => Auth::id()];
         }
-        
+
         return ['session_id' => session()->getId()];
     }
 
@@ -27,20 +28,14 @@ class CartService
     public function getCartItems(): Collection
     {
         $identifier = $this->getCartIdentifier();
-        
+
         $items = CartItem::where($identifier)
             ->with(['product.productImages', 'product.vipLevels', 'variant.images'])
             ->get();
 
         // CRITICAL: Filter out products user doesn't have access to
         $user = Auth::user();
-        if ($user && $user->vip_level_id) {
-            $items = $items->filter(function ($item) use ($user) {
-                return $item->product->vipLevels()
-                    ->where('vip_levels.id', $user->vip_level_id)
-                    ->exists();
-            });
-        }
+        $items = $items->filter(fn ($item) => $item->product->isAccessibleTo($user));
 
         return $items;
     }
@@ -52,27 +47,24 @@ class CartService
     {
         // Validate stock before adding
         $product = Product::findOrFail($productId);
-        
+
         // If variant specified, validate it belongs to the product
         $variant = null;
         if ($variantId) {
-            $variant = \App\Models\ProductVariant::where('id', $variantId)
+            $variant = ProductVariant::where('id', $variantId)
                 ->where('product_id', $productId)
                 ->where('is_active', true)
                 ->firstOrFail();
         }
-        
+
         // CRITICAL: Backend VIP authorization check
         $user = Auth::user();
-        if ($user && $user->vip_level_id) {
-            $hasAccess = $product->vipLevels()->where('vip_levels.id', $user->vip_level_id)->exists();
-            if (!$hasAccess) {
-                throw new \Exception('Bạn không có quyền thêm sản phẩm này vào giỏ hàng');
-            }
+        if (! $product->isAccessibleTo($user)) {
+            throw new \Exception('Bạn không có quyền thêm sản phẩm này vào giỏ hàng');
         }
-        
+
         $identifier = $this->getCartIdentifier();
-        
+
         // Find existing cart item (same product and variant)
         $cartItem = CartItem::where($identifier)
             ->where('product_id', $productId)
@@ -80,11 +72,11 @@ class CartService
             ->first();
 
         $newQuantity = $cartItem ? $cartItem->quantity + $quantity : $quantity;
-        
+
         // Check stock availability (use variant stock if available)
         $availableStock = $variant ? $variant->stock : $product->stock;
         if ($availableStock < $newQuantity) {
-            throw new \Exception('Sản phẩm không đủ số lượng (còn ' . $availableStock . ')');
+            throw new \Exception('Sản phẩm không đủ số lượng (còn '.$availableStock.')');
         }
 
         if ($cartItem) {
@@ -107,7 +99,7 @@ class CartService
     public function updateQuantity(int $cartItemId, int $quantity): ?CartItem
     {
         $identifier = $this->getCartIdentifier();
-        
+
         $cartItem = CartItem::where($identifier)
             ->where('id', $cartItemId)
             ->first();
@@ -115,12 +107,13 @@ class CartService
         if ($cartItem) {
             if ($quantity <= 0) {
                 $cartItem->delete();
+
                 return null;
             }
-            
+
             $stock = $cartItem->variant?->stock ?? $cartItem->product?->stock ?? 0;
             if ($quantity > $stock) {
-                throw new \RuntimeException('Số lượng vượt quá tồn kho (còn ' . $stock . ')');
+                throw new \RuntimeException('Số lượng vượt quá tồn kho (còn '.$stock.')');
             }
             $cartItem->quantity = $quantity;
             $cartItem->save();
@@ -135,7 +128,7 @@ class CartService
     public function removeItem(int $cartItemId): bool
     {
         $identifier = $this->getCartIdentifier();
-        
+
         return CartItem::where($identifier)
             ->where('id', $cartItemId)
             ->delete() > 0;
@@ -173,7 +166,7 @@ class CartService
      */
     public function mergeGuestCart(string $sessionId): void
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return;
         }
 
@@ -190,6 +183,7 @@ class CartService
                 $userItem->quantity = min($userItem->quantity + $guestItem->quantity, $stock);
                 if ($userItem->quantity < 1) {
                     $guestItem->delete();
+
                     continue;
                 }
                 $userItem->save();

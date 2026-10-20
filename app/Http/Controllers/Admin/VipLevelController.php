@@ -141,7 +141,7 @@ class VipLevelController extends Controller
         $fieldConfig = [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'priority' => 'required|integer|min:0',
+            'priority' => 'required|integer|min:0|unique:vip_levels,priority,'.$vipLevel->id,
             'is_active' => 'boolean',
         ];
 

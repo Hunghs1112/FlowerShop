@@ -5,7 +5,6 @@ namespace App\Domain\Ordering\Actions;
 use App\Domain\Ordering\Data\PlaceOrderData;
 use App\Models\CartItem;
 use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Database\QueryException;
@@ -35,11 +34,15 @@ class PlaceOrderAction
                     $productId = (int) ($item['product_id'] ?? $item->product_id);
                     $variantId = $item['variant_id'] ?? $item->variant_id;
                     $quantity = (int) ($item['quantity'] ?? $item->quantity);
-                    if ($quantity < 1) throw new RuntimeException('Số lượng không hợp lệ');
+                    if ($quantity < 1) {
+                        throw new RuntimeException('Số lượng không hợp lệ');
+                    }
 
                     $product = Product::query()->lockForUpdate()->findOrFail($productId);
-                    if (!$product->is_active) throw new RuntimeException('Sản phẩm đã ngừng bán');
-                    if (Auth::user()?->vip_level_id && !$product->vipLevels()->whereKey(Auth::user()->vip_level_id)->exists()) {
+                    if (! $product->is_active) {
+                        throw new RuntimeException('Sản phẩm đã ngừng bán');
+                    }
+                    if (! $product->isAccessibleTo(Auth::user())) {
                         throw new RuntimeException('Bạn không còn quyền mua sản phẩm này');
                     }
 
@@ -47,10 +50,13 @@ class PlaceOrderAction
                         ? ProductVariant::query()->lockForUpdate()->where('product_id', $product->id)->whereKey($variantId)->where('is_active', true)->firstOrFail()
                         : null;
                     $stockOwner = $variant ?: $product;
-                    if ($stockOwner->stock < $quantity) throw new RuntimeException("Sản phẩm {$product->name} không đủ số lượng");
+                    if ($stockOwner->stock < $quantity) {
+                        throw new RuntimeException("Sản phẩm {$product->name} không đủ số lượng");
+                    }
                     $stockOwner->decrement('stock', $quantity);
 
                     $price = (float) ($variant?->price ?? $product->price);
+
                     return [
                         'product_id' => $product->id,
                         'variant_id' => $variant?->id,
@@ -74,7 +80,10 @@ class PlaceOrderAction
                     'idempotency_key' => $data->idempotencyKey,
                 ]);
                 $order->items()->createMany($snapshots->all());
-                if (!$data->items) CartItem::where(Auth::check() ? ['user_id' => Auth::id()] : ['session_id' => session()->getId()])->delete();
+                if (! $data->items) {
+                    CartItem::where(Auth::check() ? ['user_id' => Auth::id()] : ['session_id' => session()->getId()])->delete();
+                }
+
                 return $order->load('items');
             });
         } catch (QueryException $e) {

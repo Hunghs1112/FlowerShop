@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
     private const NEW_ARRIVAL_DAYS = 30;
+
     private const BESTSELLER_SALES_THRESHOLD = 10;
 
     protected $fillable = [
@@ -135,10 +136,10 @@ class Product extends Model
 
         // Escape special regex characters and prepare search term
         $escapedTerm = preg_replace('/[%_]/', '\\$0', $searchTerm);
-        
+
         return $query->where(function (Builder $q) use ($escapedTerm) {
-            $q->where('name', 'like', '%' . $escapedTerm . '%')
-              ->orWhere('short_description', 'like', '%' . $escapedTerm . '%');
+            $q->where('name', 'like', '%'.$escapedTerm.'%')
+                ->orWhere('short_description', 'like', '%'.$escapedTerm.'%');
         });
     }
 
@@ -150,11 +151,11 @@ class Product extends Model
         if ($minPrice !== null && $minPrice > 0) {
             $query->where('price', '>=', $minPrice);
         }
-        
+
         if ($maxPrice !== null && $maxPrice > 0) {
             $query->where('price', '<=', $maxPrice);
         }
-        
+
         return $query;
     }
 
@@ -173,47 +174,92 @@ class Product extends Model
     public function scopeVisibleToUser($query, $user = null): Builder
     {
         // If no user, return all active products (or implement guest logic)
-        if (!$user) {
+        if (! $user) {
             return $query;
         }
 
         // If user has no VIP level, return all products (or implement default logic)
-        if (!$user->vip_level_id) {
+        if (! $user->vip_level_id) {
             return $query;
         }
 
-        // Get products that are assigned to this VIP level
-        return $query->whereHas('vipLevels', function ($q) use ($user) {
-            $q->where('vip_levels.id', $user->vip_level_id);
+        $vipLevel = $user->vipLevel;
+        if (! $vipLevel?->is_active) {
+            return $query;
+        }
+
+        // Smaller priority numbers are higher levels and inherit lower levels.
+        return $query->whereHas('vipLevels', function ($q) use ($vipLevel) {
+            $q->where('vip_levels.is_active', true)
+                ->where('vip_levels.priority', '>=', $vipLevel->priority);
         });
+    }
+
+    public function isAccessibleTo(?User $user): bool
+    {
+        if (! $user?->vip_level_id) {
+            return true;
+        }
+
+        $vipLevel = $user->vipLevel;
+        if (! $vipLevel?->is_active) {
+            return true;
+        }
+
+        if ($this->relationLoaded('vipLevels')) {
+            return $this->vipLevels->contains(
+                fn (VipLevel $level) => $level->is_active && $level->priority >= $vipLevel->priority
+            );
+        }
+
+        return $this->vipLevels()
+            ->where('vip_levels.is_active', true)
+            ->where('vip_levels.priority', '>=', $vipLevel->priority)
+            ->exists();
     }
 
     // Helpers
     public function getPrimaryImage(): ?string
     {
         $primary = $this->productImages()->where('is_primary', true)->first();
+
         return $primary ? $primary->image_path : $this->productImages()->first()?->image_path;
     }
 
     public function getPrimaryImageUrl(): string
     {
         $imagePath = $this->getPrimaryImage();
-        if (!$imagePath) {
+        if (! $imagePath) {
             return 'https://via.placeholder.com/400x400/E5E7EB/6B7280?text=No+Image';
         }
         // Strip legacy 'images/' prefix since storage/app/public already contains category folders
         $path = preg_replace('#^/?images/#', '', $imagePath);
-        return asset('storage/' . $path);
+
+        return asset('storage/'.$path);
     }
 
     // Display helpers (locale-aware — simplified since bilingual feature was removed)
-    public function getDisplayNameAttribute(): string { return $this->name; }
-    public function getDisplayShortDescriptionAttribute(): ?string { return $this->short_description; }
-    public function getDisplaySlugAttribute(): string { return $this->slug; }
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->name;
+    }
+
+    public function getDisplayShortDescriptionAttribute(): ?string
+    {
+        return $this->short_description;
+    }
+
+    public function getDisplaySlugAttribute(): string
+    {
+        return $this->slug;
+    }
 
     public function isFavoritedBy($user): bool
     {
-        if (!$user) return false;
+        if (! $user) {
+            return false;
+        }
+
         return $this->favorites()->where('user_id', $user->id)->exists();
     }
 

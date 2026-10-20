@@ -114,7 +114,10 @@ class UserController extends Controller
     public function edit(User $user)
     {
 
-        $vipLevels = VipLevel::active()->ordered()->get();
+        $vipLevels = VipLevel::where('is_active', true)
+            ->when($user->vip_level_id, fn ($query, $id) => $query->orWhere('id', $id))
+            ->ordered()
+            ->get();
 
         return view('admin.users.edit', compact('user', 'vipLevels'));
     }
