@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class StoreUserRequest extends FormRequest
 {
@@ -22,6 +22,7 @@ class StoreUserRequest extends FormRequest
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'role' => ['required', Rule::in(['admin', 'customer'])],
+            'is_active' => 'sometimes|boolean',
             'vip_level_id' => 'nullable|exists:vip_levels,id',
         ];
     }

@@ -89,8 +89,19 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'role' => 'required|in:admin,customer',
+            'is_active' => 'required|boolean',
             'vip_level_id' => 'nullable|exists:vip_levels,id',
         ];
+
+        if ($user->is($request->user()) && (
+            ($field === 'role' && $value !== 'admin') ||
+            ($field === 'is_active' && ! filter_var($value, FILTER_VALIDATE_BOOLEAN))
+        )) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn không thể tự hạ quyền hoặc khóa tài khoản của mình.',
+            ], 422);
+        }
 
         return $this->ajaxFieldService->handleAjaxFieldUpdate(
             $user,
@@ -113,6 +124,13 @@ class UserController extends Controller
 
         $validated = $request->validated();
 
+        if ($user->is($request->user()) && (
+            $validated['role'] !== 'admin' ||
+            ! ($validated['is_active'] ?? true)
+        )) {
+            return back()->with('error', 'Bạn không thể tự hạ quyền hoặc khóa tài khoản của mình.');
+        }
+
         if (! empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
@@ -123,6 +141,18 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Cập nhật người dùng thành công');
+    }
+
+    public function destroy(Request $request, User $user)
+    {
+        if ($user->is($request->user())) {
+            return back()->with('error', 'Bạn không thể tự xóa tài khoản của mình.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.users.index')
+            ->with('success', 'Đã xóa người dùng thành công');
     }
 
     /**

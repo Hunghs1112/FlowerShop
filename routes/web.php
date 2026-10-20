@@ -128,7 +128,7 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/register', [RegisterController::class, 'showRegistrationForm']);
 
 // Password Reset
 Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
@@ -139,7 +139,7 @@ Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name(
 // ============================================================
 // Authenticated routes
 // ============================================================
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'active'])->group(function () {
     // Checkout
     Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/thanh-toan', [CheckoutController::class, 'store'])->middleware('throttle:10,1')->name('checkout.store');
@@ -184,7 +184,7 @@ Route::get('/api/search', [SearchController::class, 'autocomplete'])->name('api.
 // ============================================================
 // Admin routes
 // ============================================================
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Catalog unified management (Gộp 3 phần: Categories, Subcategories, Products)
@@ -208,7 +208,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
     Route::resource('posts', App\Http\Controllers\Admin\PostController::class);
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class)->except('show');
     Route::resource('pages', App\Http\Controllers\Admin\PageController::class);
     Route::resource('flower-origins', FlowerOriginController::class)->except('show');
     Route::patch('flower-origins/{flowerOrigin}/auto-save', [FlowerOriginController::class, 'autoSave'])->name('flower-origins.autoSave');

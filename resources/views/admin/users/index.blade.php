@@ -48,6 +48,7 @@
                         <th>Email</th>
                         <th>Điện Thoại</th>
                         <th style="width: 120px;">VIP Level</th>
+                        <th style="width: 120px;">Trạng Thái</th>
                         <th style="width: 140px;">Vai Trò</th>
                         <th style="width: 140px;">Ngày Tham Gia</th>
                         <th style="width: 120px;">Thao Tác</th>
@@ -79,6 +80,11 @@
                                 @endif
                             </td>
                             <td>
+                                <span class="badge {{ $user->is_active ? 'badge-success' : 'badge-secondary' }}">
+                                    {{ $user->is_active ? 'Hoạt động' : 'Đã khóa' }}
+                                </span>
+                            </td>
+                            <td>
                                 <span class="badge {{ $user->role === 'admin' ? 'badge-accent' : 'badge-secondary' }}">
                                     {{ $user->role === 'admin' ? 'Quản trị viên' : 'Khách hàng' }}
                                 </span>
@@ -108,7 +114,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6">
+                            <td colspan="8">
                                 <div class="empty-state-sm">
                                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
@@ -120,6 +126,9 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+        <div style="padding: 16px 24px;">
+            {{ $users->withQueryString()->links('vendor.pagination.default') }}
         </div>
     </div>
     

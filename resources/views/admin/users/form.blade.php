@@ -21,6 +21,7 @@
                                class="auto-save-input"
                                data-entity="users"
                                data-id="{{ $user->id ?? '' }}"
+                               @isset($user) data-save-url="{{ route('admin.users.updateField', $user) }}" @endisset
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; transition: all 0.2s;" 
                                required>
                     </div>
@@ -32,6 +33,7 @@
                                    class="auto-save-input"
                                    data-entity="users"
                                    data-id="{{ $user->id ?? '' }}"
+                                   @isset($user) data-save-url="{{ route('admin.users.updateField', $user) }}" @endisset
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
                                    required>
                         </div>
@@ -42,6 +44,7 @@
                                    class="auto-save-input"
                                    data-entity="users"
                                    data-id="{{ $user->id ?? '' }}"
+                                   @isset($user) data-save-url="{{ route('admin.users.updateField', $user) }}" @endisset
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                         </div>
                     </div>
@@ -52,6 +55,7 @@
                                   class="auto-save-input"
                                   data-entity="users"
                                   data-id="{{ $user->id ?? '' }}"
+                                  @isset($user) data-save-url="{{ route('admin.users.updateField', $user) }}" @endisset
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('address', $user->address ?? '') }}</textarea>
                     </div>
                 </div>
@@ -97,6 +101,11 @@
                                    style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                             <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống nếu muốn giữ mật khẩu hiện tại</small>
                         </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Xác Nhận Mật Khẩu Mới</label>
+                            <input type="password" name="password_confirmation"
+                                   style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
+                        </div>
                     @endif
                 </div>
             </div>
@@ -121,12 +130,31 @@
                             class="auto-save-select"
                             data-entity="users"
                             data-id="{{ $user->id ?? '' }}"
+                            @isset($user) data-save-url="{{ route('admin.users.updateField', $user) }}" @endisset
                             style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);"
                             required>
                         <option value="customer" {{ old('role', $user->role ?? 'customer') === 'customer' ? 'selected' : '' }}>👤 Khách hàng</option>
                         <option value="admin" {{ old('role', $user->role ?? '') === 'admin' ? 'selected' : '' }}>🔐 Quản trị viên</option>
                     </select>
                 </div>
+            </div>
+        </div>
+
+        {{-- Account status --}}
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title">Trạng Thái</h2>
+            </div>
+            <div class="admin-card-body">
+                <select name="is_active"
+                        class="auto-save-select"
+                        data-entity="users"
+                        data-id="{{ $user->id ?? '' }}"
+                        @isset($user) data-save-url="{{ route('admin.users.updateField', $user) }}" @endisset
+                        style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);">
+                    <option value="1" {{ old('is_active', $user->is_active ?? true) ? 'selected' : '' }}>Đang hoạt động</option>
+                    <option value="0" {{ ! old('is_active', $user->is_active ?? true) ? 'selected' : '' }}>Đã khóa</option>
+                </select>
             </div>
         </div>
 
@@ -149,6 +177,7 @@
                             class="auto-save-select"
                             data-entity="users"
                             data-id="{{ $user->id ?? '' }}"
+                            @isset($user) data-save-url="{{ route('admin.users.updateField', $user) }}" @endisset
                             style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; background: var(--color-surface);">
                         <option value="">Không có VIP</option>
                         @if(isset($vipLevels))
@@ -164,14 +193,11 @@
             </div>
         </div>
 
-        @if(!isset($isEdit) || !$isEdit)
-        {{-- Submit Button - ONLY for create users --}}
         <button type="submit" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 15px;">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             {{ isset($user) ? 'Cập Nhật' : 'Tạo Người Dùng' }}
         </button>
-        @endif
     </div>
 </div>

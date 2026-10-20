@@ -23,9 +23,13 @@
     </div>
 </div>
 
-<div id="user-form" data-entity="users" data-id="{{ $user->id }}">
-    @include('admin.users.form', ['isEdit' => true])
-</div>
+<form action="{{ route('admin.users.update', $user) }}" method="POST">
+    @csrf
+    @method('PUT')
+    <div id="user-form" data-entity="users" data-id="{{ $user->id }}">
+        @include('admin.users.form', ['isEdit' => true])
+    </div>
+</form>
 @endsection
 
 @push('scripts')
