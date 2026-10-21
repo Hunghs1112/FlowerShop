@@ -14,6 +14,7 @@ class Post extends Model
         'khong-gian' => 'Cảm hứng không gian',
         'cam-hung' => 'Cảm hứng',
         'hau-truong' => 'Hậu trường',
+        'du-an' => 'Các dự án',
     ];
 
     protected $fillable = [

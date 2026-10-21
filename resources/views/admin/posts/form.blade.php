@@ -74,6 +74,7 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                   data-id="{{ $post->id ?? '' }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;" 
                                   required>{{ old('content', $post->content ?? '') }}</textarea>
+                        <x-post-content-image-upload />
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ctrl+Enter để lưu ngay</small>
                     </div>
                 </div>

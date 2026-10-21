@@ -61,6 +61,11 @@ Route::get('/danh-muc/{category}', [CategoryController::class, 'show'])->name('c
 
 // Blog
 Route::get('/bai-viet', [PostController::class, 'index'])->name('blog.index');
+Route::middleware(['auth', 'active'])->group(function () {
+    Route::get('/bai-viet/them-moi', [PostController::class, 'create'])->name('blog.create');
+    Route::post('/bai-viet/them-moi', [PostController::class, 'store'])->middleware('throttle:5,1')->name('blog.store');
+    Route::post('/bai-viet/tai-anh-noi-dung', [PostController::class, 'uploadContentImage'])->name('blog.content-image');
+});
 Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show');
 
 // Pages

@@ -13830,3 +13830,9 @@ a.contact-value:hover {
     grid-template-columns: 1fr;
   }
 }
+.markdown-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: var(--space-6) auto;
+}
