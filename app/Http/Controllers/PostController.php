@@ -32,14 +32,18 @@ class PostController extends Controller
             });
 
         $postsQuery = $query();
-        $showingProjectFallback = false;
+        $showingFeedbackFallback = false;
 
         if ($category) {
             $postsQuery->where('category', $category);
 
             if ($category !== 'du-an' && ! (clone $postsQuery)->exists()) {
-                $postsQuery = $query()->where('category', 'du-an');
-                $showingProjectFallback = true;
+                $feedbackQuery = $query()->where('category', 'du-an');
+
+                if ((clone $feedbackQuery)->exists()) {
+                    $postsQuery = $feedbackQuery;
+                    $showingFeedbackFallback = true;
+                }
             }
         }
 
@@ -50,7 +54,7 @@ class PostController extends Controller
 
         $bannerKey = 'blog';
 
-        return view('blog.index', compact('posts', 'search', 'category', 'showingProjectFallback', 'bannerKey'));
+        return view('blog.index', compact('posts', 'search', 'category', 'showingFeedbackFallback', 'bannerKey'));
     }
 
     public function create()
@@ -66,7 +70,7 @@ class PostController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'category' => ['required', Rule::in(array_keys(Post::CATEGORIES))],
             'content' => 'required|string',
-            'thumbnail' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
+            'thumbnail' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
         ]);
 
         $baseSlug = Str::slug($validated['title']) ?: 'bai-viet';

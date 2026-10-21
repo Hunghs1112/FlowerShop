@@ -42,7 +42,10 @@
             <label>Trích dẫn <textarea class="form-input" name="excerpt" rows="3" maxlength="500">{{ old('excerpt') }}</textarea></label>
             <label>Nội dung <textarea class="form-input" id="contentEditor" name="content" rows="14" required>{{ old('content') }}</textarea></label>
             <x-post-content-image-upload />
-            <label>Ảnh đại diện <input class="form-input" type="file" name="thumbnail" accept=".jpg,.jpeg,.png,.gif,.webp"></label>
+            <label>Ảnh thumbnail <span aria-hidden="true">*</span>
+                <input class="form-input" type="file" name="thumbnail" accept=".jpg,.jpeg,.png,.gif,.webp" required>
+                <small>Ảnh đại diện của bài viết, tối đa 2 MB.</small>
+            </label>
 
             <div style="display:flex; gap:12px; justify-content:flex-end;">
                 <a class="btn btn-secondary" href="{{ route('blog.index') }}">Hủy</a>

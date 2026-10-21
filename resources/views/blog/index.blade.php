@@ -49,7 +49,7 @@
             </div>
         </section>
 
-        @if($showingProjectFallback)
+        @if($showingFeedbackFallback)
             <p class="journal-empty">Chuyên mục này chưa có bài viết. Dưới đây là feedback từ khách hàng.</p>
         @endif
 
@@ -85,7 +85,9 @@
             @endforeach
         </div>
 
-        <p class="journal-empty" id="journal-empty" hidden>Chuyên mục này sẽ sớm có những câu chuyện đầu tiên.</p>
+        @if($posts->isEmpty())
+            <p class="journal-empty">Chuyên mục này sẽ sớm có những câu chuyện đầu tiên.</p>
+        @endif
 
         @if($posts->hasPages())
             <nav class="journal-pagination" aria-label="Phân trang bài viết">

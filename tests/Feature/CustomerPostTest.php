@@ -12,6 +12,7 @@ class CustomerPostTest extends TestCase
 {
     public function test_customer_can_publish_a_post_under_their_name(): void
     {
+        Storage::fake('public');
         $customer = User::factory()->create(['name' => 'Lan', 'is_active' => true]);
         Post::create(['title' => 'Hoa cu', 'slug' => 'hoa-cu', 'content' => 'Cu', 'category' => 'cam-hung']);
 
@@ -20,6 +21,7 @@ class CustomerPostTest extends TestCase
             'excerpt' => 'Mot cau chuyen',
             'category' => 'du-an',
             'content' => 'Noi dung bai viet',
+            'thumbnail' => UploadedFile::fake()->image('thumbnail.jpg'),
             'author_id' => User::factory()->create()->id,
             'is_published' => false,
         ]);
@@ -29,10 +31,24 @@ class CustomerPostTest extends TestCase
         $response->assertRedirect(route('blog.show', $post->slug));
         $this->assertSame('hoa-cu-2', $post->slug);
         $this->assertTrue($post->is_published);
+        Storage::disk('public')->assertExists($post->thumbnail);
         $this->get(route('blog.show', $post->slug))->assertSee('Tác giả: Lan');
     }
 
-    public function test_empty_category_falls_back_to_project_posts(): void
+    public function test_customer_post_requires_a_thumbnail(): void
+    {
+        $customer = User::factory()->create(['is_active' => true]);
+
+        $this->actingAs($customer)->post(route('blog.store'), [
+            'title' => 'Bai viet khong anh',
+            'category' => 'cam-hung',
+            'content' => 'Noi dung',
+        ])->assertSessionHasErrors('thumbnail');
+
+        $this->assertDatabaseMissing('posts', ['title' => 'Bai viet khong anh']);
+    }
+
+    public function test_empty_category_falls_back_to_customer_feedback(): void
     {
         Post::create([
             'title' => 'Du an doi tac',
@@ -47,6 +63,13 @@ class CustomerPostTest extends TestCase
             ->assertOk()
             ->assertSee('Du an doi tac')
             ->assertSee('feedback từ khách hàng', false);
+    }
+
+    public function test_empty_feedback_category_shows_the_standard_empty_state(): void
+    {
+        $this->get(route('blog.index', ['category' => 'du-an']))
+            ->assertOk()
+            ->assertSee('Chuyên mục này sẽ sớm có những câu chuyện đầu tiên.');
     }
 
     public function test_guest_cannot_open_or_submit_the_post_form(): void
