@@ -50,7 +50,7 @@
         </section>
 
         @if($showingProjectFallback)
-            <p class="journal-empty">Chuyên mục này chưa có bài viết. Dưới đây là các dự án đã hợp tác với đối tác.</p>
+            <p class="journal-empty">Chuyên mục này chưa có bài viết. Dưới đây là feedback từ khách hàng.</p>
         @endif
 
         @if($featuredPost)

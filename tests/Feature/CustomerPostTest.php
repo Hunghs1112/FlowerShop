@@ -46,7 +46,7 @@ class CustomerPostTest extends TestCase
         $this->get(route('blog.index', ['category' => 'cham-hoa']))
             ->assertOk()
             ->assertSee('Du an doi tac')
-            ->assertSee('các dự án đã hợp tác', false);
+            ->assertSee('feedback từ khách hàng', false);
     }
 
     public function test_guest_cannot_open_or_submit_the_post_form(): void
