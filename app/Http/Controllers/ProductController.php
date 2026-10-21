@@ -6,16 +6,22 @@ use App\Http\Requests\FilterProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductCollection;
+use App\Models\ProductImage;
+use App\Models\ProductVariantImage;
+use App\Models\Setting;
 use App\Models\Subcategory;
 use App\Services\CategoryService;
 use App\Services\ProductService;
+use App\Services\ProductWatermarkService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function __construct(
         protected ProductService $productService,
-        protected CategoryService $categoryService
+        protected CategoryService $categoryService,
+        protected ProductWatermarkService $productWatermark
     ) {}
 
     /**
@@ -159,6 +165,51 @@ class ProductController extends Controller
             ->get();
 
         return view('products.detail', compact('product', 'recommendedProducts', 'recentlyViewed'));
+    }
+
+    public function watermarkedImage(string $type, int $id)
+    {
+        $media = match ($type) {
+            'product' => ProductImage::with('product')->findOrFail($id),
+            'variant' => ProductVariantImage::with('productVariant.product')->findOrFail($id),
+            default => abort(404),
+        };
+        $product = $media instanceof ProductImage ? $media->product : $media->productVariant->product;
+
+        abort_unless($media->image_path && $product?->is_active && $product->isAccessibleTo(auth()->user()), 404);
+        abort_if($media instanceof ProductImage && ! $media->isImage(), 404);
+
+        $path = preg_replace('#^/?images/#', '', $media->image_path);
+        abort_unless(Storage::disk('public')->exists($path), 404);
+
+        $logoPath = Setting::get('product_watermark_logo');
+        if ($logoPath === '') {
+            return Storage::disk('public')->response($path);
+        }
+
+        $logoContents = $logoPath && Storage::disk('public')->exists($logoPath)
+            ? Storage::disk('public')->get($logoPath)
+            : file_get_contents(public_path('images/brand/lnt-logo.png'));
+        $variant = Setting::get('product_watermark_variant', 'color');
+        $position = Setting::get('product_watermark_position', 'br');
+        $result = $this->productWatermark->render(
+            Storage::disk('public')->get($path),
+            $logoContents,
+            [
+                'variant' => in_array($variant, ['color', 'white', 'brown', 'cream'], true) ? $variant : 'color',
+                'position' => in_array($position, ['tl', 'tc', 'tr', 'ml', 'mc', 'mr', 'bl', 'bc', 'br'], true) ? $position : 'br',
+                'size' => min(60, max(8, (int) Setting::get('product_watermark_size', 22))),
+                'margin' => min(15, max(0, (float) Setting::get('product_watermark_margin', 4))),
+                'opacity' => min(100, max(10, (int) Setting::get('product_watermark_opacity', 100))),
+            ]
+        );
+        $filename = pathinfo($path, PATHINFO_FILENAME).'-watermark.'.$result['extension'];
+
+        return response($result['contents'], 200, [
+            'Content-Type' => $result['mime'],
+            'Content-Disposition' => 'inline; filename="'.$filename.'"',
+            'Cache-Control' => 'public, max-age=31536000, immutable',
+        ]);
     }
 
     /**

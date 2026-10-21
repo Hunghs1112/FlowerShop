@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\CatalogController;
 use App\Http\Controllers\Admin\CareerPageController;
+use App\Http\Controllers\Admin\CatalogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FlowerOriginController;
 use App\Http\Controllers\Admin\GalleryImageController;
@@ -25,8 +25,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\B2cController;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\CareerController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckoutController;
@@ -53,6 +53,10 @@ Route::post('/newsletter', [NewsletterSubscriptionController::class, 'store'])
 
 // Products
 Route::get('/san-pham', [ProductController::class, 'index'])->name('products.index');
+Route::get('/san-pham/anh/{type}/{id}', [ProductController::class, 'watermarkedImage'])
+    ->whereIn('type', ['product', 'variant'])
+    ->whereNumber('id')
+    ->name('products.watermarked-image');
 Route::get('/san-pham/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // Categories

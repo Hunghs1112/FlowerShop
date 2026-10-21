@@ -48,29 +48,28 @@
                     $watermarkMargin = min(15, max(0, (float) ($siteSettings['product_watermark_margin'] ?? 4)));
                     $watermarkOpacity = min(100, max(10, (int) ($siteSettings['product_watermark_opacity'] ?? 100)));
                     $watermarkLogoPath = $siteSettings['product_watermark_logo'] ?? null;
-                    $watermarkLogoUrl = $watermarkLogoPath === null
-                        ? asset('images/brand/lnt-logo.png')
-                        : app(\App\Services\ImageStorageService::class)->url($watermarkLogoPath);
+                    $watermarkVersion = substr(sha1(json_encode([
+                        $watermarkLogoPath,
+                        $watermarkVariant,
+                        $watermarkPosition,
+                        $watermarkSize,
+                        $watermarkMargin,
+                        $watermarkOpacity,
+                    ])), 0, 12);
+                    $productImageUrl = fn ($image) => route('products.watermarked-image', [
+                        'type' => $image instanceof \App\Models\ProductVariantImage ? 'variant' : 'product',
+                        'id' => $image->id,
+                        'v' => $watermarkVersion,
+                    ]);
                 @endphp
 
                 {{-- Main large image/video --}}
                 <div class="gallery-item--main">
-                    <img src="{{ $mainImage && $mainImage->image_path ? asset('storage/' . $mainImage->image_path) : $product->getPrimaryImageUrl() }}"
+                    <img src="{{ $mainImage && $mainImage->image_path ? $productImageUrl($mainImage) : $product->getPrimaryImageUrl() }}"
                          alt="{{ $product->display_name }}"
                          loading="eager"
                          id="mainImage"
                          style="display: block;">
-                    @if($watermarkLogoUrl)
-                        <span class="product-detail-watermark product-detail-watermark--{{ $watermarkPosition }} {{ $watermarkVariant === 'color' ? 'product-detail-watermark--color' : 'product-detail-watermark--tint' }}"
-                              id="productDetailWatermark"
-                              aria-hidden="true"
-                              style="--watermark-size: {{ $watermarkSize }}%; --watermark-margin: {{ $watermarkMargin }}%; --watermark-opacity: {{ $watermarkOpacity / 100 }}; --watermark-color: {{ ['white' => '#ffffff', 'brown' => '#4a3826', 'cream' => '#f4e8dc'][$watermarkVariant] ?? 'transparent' }}; --watermark-image: url('{{ $watermarkLogoUrl }}');">
-                            @if($watermarkVariant === 'color')
-                                <img src="{{ $watermarkLogoUrl }}" alt="">
-                            @endif
-                        </span>
-                    @endif
-                    
                     <video id="mainVideo" controls style="display: none; width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: #000;">
                         <source src="" type="video/mp4" id="mainVideoSource">
                         Your browser does not support video.
@@ -86,10 +85,10 @@
                 @if($galleryImages->count() > 1 || $galleryVideos->count() > 0)
                     <div class="gallery-thumbnails">
                         @foreach($galleryImages as $index => $image)
-                            <div class="gallery-item--thumb {{ $index === 0 ? 'active' : '' }}" 
+                            <div class="gallery-item--thumb {{ $index === 0 ? 'active' : '' }}"
                                  data-type="image"
-                                 onclick="changeMainMedia('{{ $image->image_path ? asset('storage/' . $image->image_path) : $product->getPrimaryImageUrl() }}', 'image', null, this)">
-                                <img src="{{ $image->image_path ? asset('storage/' . $image->image_path) : $product->getPrimaryImageUrl() }}"
+                                 onclick="changeMainMedia('{{ $image->image_path ? $productImageUrl($image) : $product->getPrimaryImageUrl() }}', 'image', null, this)">
+                                <img src="{{ $image->image_path ? $productImageUrl($image) : $product->getPrimaryImageUrl() }}"
                                      alt="{{ $product->display_name }}"
                                      loading="lazy">
                             </div>
@@ -152,14 +151,7 @@
                                 @php
                                     // Get all images with fallback to product images
                                     $variantImages = $variant->getAllImages();
-                                    $variantImageUrls = $variantImages->map(function($img) {
-                                        $path = $img->image_path;
-                                        // Handle both ProductImage and ProductVariantImage
-                                        if (str_starts_with($path, 'images/')) {
-                                            $path = preg_replace('#^/?images/#', '', $path);
-                                        }
-                                        return asset('storage/' . $path);
-                                    })->values();
+                                    $variantImageUrls = $variantImages->map($productImageUrl)->values();
                                 @endphp
                                 <button type="button" 
                                         class="option-btn variant-option {{ $index === 0 ? 'active' : '' }}" 
@@ -392,7 +384,6 @@
     function updateGallery(images) {
         const mainImage = document.getElementById('mainImage');
         const mainVideo = document.getElementById('mainVideo');
-        const watermark = document.getElementById('productDetailWatermark');
         const thumbnailsContainer = document.querySelector('.gallery-thumbnails');
         
         // Hide video, show image
@@ -401,7 +392,6 @@
         }
         if (mainImage) {
             mainImage.style.display = 'block';
-            if (watermark) watermark.style.display = 'block';
             // Set first image as main
             if (images.length > 0) {
                 mainImage.src = images[0];
@@ -431,12 +421,10 @@
         const mainImage = document.getElementById('mainImage');
         const mainVideo = document.getElementById('mainVideo');
         const mainVideoSource = document.getElementById('mainVideoSource');
-        const watermark = document.getElementById('productDetailWatermark');
         
         if (type === 'video') {
             // Show video, hide image
             mainImage.style.display = 'none';
-            if (watermark) watermark.style.display = 'none';
             mainVideo.style.display = 'block';
             mainVideoSource.src = src;
             mainVideoSource.type = mimeType;
@@ -445,7 +433,6 @@
             // Show image, hide video
             mainVideo.style.display = 'none';
             mainImage.style.display = 'block';
-            if (watermark) watermark.style.display = 'block';
             mainImage.src = src;
         }
         
