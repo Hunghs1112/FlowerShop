@@ -6,6 +6,8 @@
     var status = document.getElementById('popup-status');
     var bullets = document.getElementById('popup-bullets');
     var bulletInputs = document.getElementById('popup-bullet-inputs');
+    var bulletsEn = document.getElementById('popup-bullets-en');
+    var bulletInputsEn = document.getElementById('popup-bullet-inputs-en');
     var cta2 = document.getElementById('popup-cta2');
     var customCta2 = document.getElementById('popup-custom-cta2');
 
@@ -68,6 +70,14 @@
             input.name = 'bullets[]';
             input.value = text;
             bulletInputs.appendChild(input);
+        });
+        bulletInputsEn.innerHTML = '';
+        bulletsEn.value.split('\n').map(function (text) { return text.trim(); }).filter(Boolean).forEach(function (text) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'bullets_en[]';
+            input.value = text;
+            bulletInputsEn.appendChild(input);
         });
     }
 

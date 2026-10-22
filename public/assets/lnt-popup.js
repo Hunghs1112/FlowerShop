@@ -72,6 +72,7 @@
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function build(c, cfg, inline) {
     var th = THEMES[c.theme] || THEMES.cream;
+    var cp = cfg.copy || {};
     var el = document.createElement('div');
     el.className = 'lntp' + (inline ? ' inline' : '');
     el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', inline ? 'false' : 'true'); el.setAttribute('aria-labelledby', 'lntp-t-' + (c.id || 'x'));
@@ -81,17 +82,17 @@
       (c.stamp ? '<div class="lntp-stamp"><span><b>' + esc(c.stamp) + '</b>' + esc(c.stampSub || '') + '</span></div>' : '') + '</div>';
     var bullets = (c.bullets || []).filter(Boolean);
     var z = String(cfg.zalo || '').replace(/\D/g, '');
-    var b2 = c.cta2 === 'zalo' && z ? '<a class="lntp-btn ghost" href="https://zalo.me/' + z + '" target="_blank" rel="noopener">Tư vấn qua Zalo</a>' :
+    var b2 = c.cta2 === 'zalo' && z ? '<a class="lntp-btn ghost" href="https://zalo.me/' + z + '" target="_blank" rel="noopener">' + esc(cp.zalo || 'Tư vấn qua Zalo') + '</a>' :
              (c.cta2Label && safe(c.cta2Link) ? '<a class="lntp-btn ghost" href="' + esc(safe(c.cta2Link)) + '">' + esc(c.cta2Label) + '</a>' : '');
     el.innerHTML = media + '<div class="lntp-body">' +
       '<div class="lntp-band"><span>' + esc(c.eyebrow || '') + '</span><span>' + esc(c.route || '') + '</span></div>' +
       '<div class="lntp-in"><h2 id="lntp-t-' + esc(c.id || 'x') + '">' + esc(c.title || '') + '</h2>' +
       (c.text ? '<p>' + esc(c.text) + '</p>' : '') +
       (bullets.length ? '<ul>' + bullets.map(function (b) { return '<li>' + esc(b) + '</li>'; }).join('') + '</ul>' : '') +
-      (c.countdown ? '<div class="lntp-cd" aria-live="off"><span>' + esc(c.countdownLabel || 'CÒN') + '</span><i data-k="d">--<small>NGÀY</small></i><i data-k="h">--<small>GIỜ</small></i><i data-k="m">--<small>PHÚT</small></i></div>' : '') +
+      (c.countdown ? '<div class="lntp-cd" aria-live="off"><span>' + esc(c.countdownLabel || cp.remaining || 'CÒN') + '</span><i data-k="d">--<small>' + esc(cp.days || 'NGÀY') + '</small></i><i data-k="h">--<small>' + esc(cp.hours || 'GIỜ') + '</small></i><i data-k="m">--<small>' + esc(cp.minutes || 'PHÚT') + '</small></i></div>' : '') +
       '<div class="lntp-btns">' + (c.ctaLabel ? '<a class="lntp-btn" href="' + esc(safe(c.ctaLink) || '#') + '">' + esc(c.ctaLabel) + '</a>' : '') + b2 + '</div>' +
       (c.note ? '<p class="lntp-note">' + esc(c.note) + '</p>' : '') + '</div></div>' +
-      '<button type="button" class="lntp-x" aria-label="Đóng">×</button>';
+      '<button type="button" class="lntp-x" aria-label="' + esc(cp.close || 'Đóng') + '">×</button>';
     if (c.countdown) {
       var target = new Date(c.countdown);
       var tick = function () {

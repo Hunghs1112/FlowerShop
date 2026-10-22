@@ -16,7 +16,7 @@ class PopupServiceProvider extends ServiceProvider
             $forcedId = request()->query('popup');
 
             if ($forcedId && ($forcedPopup = Popup::where('id_key', $forcedId)->first())) {
-                if (!$popups->contains('id', $forcedPopup->id)) {
+                if (! $popups->contains('id', $forcedPopup->id)) {
                     $popups->push($forcedPopup);
                 }
             }
@@ -24,7 +24,8 @@ class PopupServiceProvider extends ServiceProvider
                 'delay' => (int) Setting::get('popup_delay', 4),
                 'frequency' => Setting::get('popup_frequency', 'day'),
                 'zalo' => Setting::get('popup_zalo', '0869308993'),
-                'campaigns' => $popups->map(fn($p) => $p->toLntConfig())->values()->all(),
+                'copy' => __('popup.js'),
+                'campaigns' => $popups->map(fn ($p) => $p->toLntConfig())->values()->all(),
             ];
             $view->with('popupConfig', json_encode(
                 $config,

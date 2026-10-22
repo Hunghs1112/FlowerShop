@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Category;
 use App\Models\Page;
+use App\Models\Popup;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\ProductCollection;
@@ -35,6 +36,11 @@ class BackfillTranslations extends Command
             Post::class => ['title' => 'title_en', 'excerpt' => 'excerpt_en', 'content' => 'content_en'],
             Page::class => ['title' => 'title_en', 'content' => 'content_en'],
             ProductCollection::class => ['name' => 'name_en', 'criterion' => 'criterion_en'],
+            Popup::class => [
+                'eyebrow' => 'eyebrow_en', 'title' => 'title_en', 'text' => 'text_en', 'bullets' => 'bullets_en',
+                'countdown_label' => 'countdown_label_en', 'image_alt' => 'image_alt_en', 'stamp_sub' => 'stamp_sub_en',
+                'cta_label' => 'cta_label_en', 'cta2_label' => 'cta2_label_en', 'note' => 'note_en', 'teaser' => 'teaser_en',
+            ],
         ] as $modelClass => $fields) {
             $this->line(class_basename($modelClass));
             $modelClass::query()->chunkById(self::CHUNK_SIZE, function ($records) use ($fields, $translator, &$failed) {
@@ -43,7 +49,9 @@ class BackfillTranslations extends Command
                         $changed = false;
                         foreach ($fields as $source => $target) {
                             if (blank($record->{$target}) && filled($record->{$source})) {
-                                $record->{$target} = $this->translateContent($record->{$source}, $translator);
+                                $record->{$target} = is_array($record->{$source})
+                                    ? $this->translateJsonStrings($record->{$source}, $translator)
+                                    : $this->translateContent($record->{$source}, $translator);
                                 $changed = true;
                             }
                         }

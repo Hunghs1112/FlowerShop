@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Popup;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -115,5 +116,23 @@ class BackfillTranslationsTest extends TestCase
         $this->assertSame('English', $content['title']);
         $this->assertSame('/images/career.jpg', $content['image']);
         $this->assertSame('tuyen-dung', $content['id']);
+    }
+
+    public function test_backfill_translates_popup_text_and_bullets(): void
+    {
+        Http::fake(fn ($request) => Http::response(['translatedText' => 'EN:'.$request['q']]));
+        $popup = Popup::create([
+            'id_key' => 'tet-popup',
+            'title' => 'Hoa Tết',
+            'bullets' => ['Hoa tươi', 'Giao tận nơi'],
+            'start_date' => '2027-01-01',
+            'end_date' => '2027-02-01',
+        ]);
+
+        $this->assertSame(0, Artisan::call('translations:backfill'));
+
+        $popup->refresh();
+        $this->assertSame('EN:Hoa Tết', $popup->title_en);
+        $this->assertSame(['EN:Hoa tươi', 'EN:Giao tận nơi'], $popup->bullets_en);
     }
 }

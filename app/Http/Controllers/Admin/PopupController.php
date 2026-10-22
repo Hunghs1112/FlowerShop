@@ -46,6 +46,18 @@ class PopupController extends Controller
             'popup_delay' => 'required|integer|min:0|max:60',
             'popup_frequency' => 'required|in:day,session,once,always',
             'popup_zalo' => ['nullable', 'string', 'regex:/^[0-9+().\s-]{8,20}$/'],
+            'eyebrow_en' => 'nullable|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'text_en' => 'nullable|string',
+            'bullets_en' => 'nullable|array|max:20',
+            'bullets_en.*' => 'string|max:500',
+            'countdown_label_en' => 'nullable|string|max:255',
+            'image_alt_en' => 'nullable|string|max:255',
+            'stamp_sub_en' => 'nullable|string|max:255',
+            'cta_label_en' => 'nullable|string|max:255',
+            'cta2_label_en' => 'nullable|string|max:255',
+            'note_en' => 'nullable|string',
+            'teaser_en' => 'nullable|string|max:255',
         ], [
             'id_key.unique' => 'Mã popup đã tồn tại. Vui lòng sử dụng mã khác.',
             'end_date.after_or_equal' => 'Ngày kết thúc phải sau ngày bắt đầu.',
@@ -59,11 +71,10 @@ class PopupController extends Controller
 
         $data = $request->except(['_token', '_method', 'popup_delay', 'popup_frequency', 'popup_zalo']);
 
-        // Handle bullets array
-        if (isset($data['bullets']) && is_array($data['bullets'])) {
-            $data['bullets'] = array_filter($data['bullets'], fn ($b) => ! empty(trim($b)));
-        } else {
-            $data['bullets'] = null;
+        foreach (['bullets', 'bullets_en'] as $field) {
+            $data[$field] = isset($data[$field]) && is_array($data[$field])
+                ? array_values(array_filter($data[$field], fn ($bullet) => filled(trim($bullet))))
+                : null;
         }
 
         // Handle checkbox
@@ -103,6 +114,18 @@ class PopupController extends Controller
             'popup_delay' => 'required|integer|min:0|max:60',
             'popup_frequency' => 'required|in:day,session,once,always',
             'popup_zalo' => ['nullable', 'string', 'regex:/^[0-9+().\s-]{8,20}$/'],
+            'eyebrow_en' => 'nullable|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'text_en' => 'nullable|string',
+            'bullets_en' => 'nullable|array|max:20',
+            'bullets_en.*' => 'string|max:500',
+            'countdown_label_en' => 'nullable|string|max:255',
+            'image_alt_en' => 'nullable|string|max:255',
+            'stamp_sub_en' => 'nullable|string|max:255',
+            'cta_label_en' => 'nullable|string|max:255',
+            'cta2_label_en' => 'nullable|string|max:255',
+            'note_en' => 'nullable|string',
+            'teaser_en' => 'nullable|string|max:255',
         ], [
             'id_key.unique' => 'Mã popup đã tồn tại. Vui lòng sử dụng mã khác.',
             'end_date.after_or_equal' => 'Ngày kết thúc phải sau ngày bắt đầu.',
@@ -116,11 +139,10 @@ class PopupController extends Controller
 
         $data = $request->except(['_token', '_method', 'popup_delay', 'popup_frequency', 'popup_zalo']);
 
-        // Handle bullets array
-        if (isset($data['bullets']) && is_array($data['bullets'])) {
-            $data['bullets'] = array_filter($data['bullets'], fn ($b) => ! empty(trim($b)));
-        } else {
-            $data['bullets'] = null;
+        foreach (['bullets', 'bullets_en'] as $field) {
+            $data[$field] = isset($data[$field]) && is_array($data[$field])
+                ? array_values(array_filter($data[$field], fn ($bullet) => filled(trim($bullet))))
+                : null;
         }
 
         // Handle checkbox

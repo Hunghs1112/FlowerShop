@@ -5,6 +5,7 @@
     $endDate = old('end_date', $editing ? $popup->end_date?->format('Y-m-d') : '');
     $countdown = old('countdown', $editing ? $popup->countdown?->format('Y-m-d\TH:i') : '');
     $bullets = old('bullets', $editing ? ($popup->bullets ?? []) : []);
+    $bulletsEn = old('bullets_en', $editing ? ($popup->bullets_en ?? []) : []);
     $popupDelay = old('popup_delay', $popupSettings['delay']);
     $popupFrequency = old('popup_frequency', $popupSettings['frequency']);
     $popupZalo = old('popup_zalo', $popupSettings['zalo']);
@@ -137,6 +138,40 @@
                     <input type="text" name="countdown_label" value="{{ $value('countdown_label', 'CÒN') }}" placeholder="CÒN">
                 </label>
             </div>
+        </section>
+
+        <section class="popup-box">
+            <h2>ENGLISH CONTENT</h2>
+            <label class="popup-field">
+                <span>Eyebrow</span>
+                <input type="text" name="eyebrow_en" value="{{ $value('eyebrow_en') }}">
+            </label>
+            <label class="popup-field">
+                <span>Title</span>
+                <input type="text" name="title_en" value="{{ $value('title_en') }}">
+            </label>
+            <label class="popup-field">
+                <span>Description</span>
+                <textarea name="text_en" rows="3">{{ $value('text_en') }}</textarea>
+            </label>
+            <label class="popup-field">
+                <span>Bullet points <small>one per line</small></span>
+                <textarea id="popup-bullets-en" rows="4">{{ implode("\n", array_filter($bulletsEn)) }}</textarea>
+            </label>
+            <div id="popup-bullet-inputs-en"></div>
+            <div class="popup-two">
+                <label class="popup-field"><span>Countdown label</span><input type="text" name="countdown_label_en" value="{{ $value('countdown_label_en') }}"></label>
+                <label class="popup-field"><span>Image alt text</span><input type="text" name="image_alt_en" value="{{ $value('image_alt_en') }}"></label>
+                <label class="popup-field"><span>Stamp subtitle</span><input type="text" name="stamp_sub_en" value="{{ $value('stamp_sub_en') }}"></label>
+                <label class="popup-field"><span>Primary button</span><input type="text" name="cta_label_en" value="{{ $value('cta_label_en') }}"></label>
+                <label class="popup-field"><span>Secondary button</span><input type="text" name="cta2_label_en" value="{{ $value('cta2_label_en') }}"></label>
+                <label class="popup-field"><span>Footer note</span><input type="text" name="note_en" value="{{ $value('note_en') }}"></label>
+            </div>
+            <label class="popup-field">
+                <span>Teaser button</span>
+                <input type="text" name="teaser_en" value="{{ $value('teaser_en') }}">
+            </label>
+            <p class="popup-help">Để trống trường nào thì trang tiếng Anh dùng nội dung tiếng Việt của trường đó.</p>
         </section>
 
         <section class="popup-box">

@@ -15,6 +15,9 @@ class AdminPopupSettingsTest extends TestCase
             ->post(route('admin.popups.store'), [
                 'id_key' => 'tet-2027',
                 'title' => 'Tết 2027',
+                'title_en' => 'Lunar New Year 2027',
+                'bullets' => ['Hoa tươi'],
+                'bullets_en' => ['Fresh flowers'],
                 'start_date' => '2027-01-01',
                 'end_date' => '2027-02-28',
                 'popup_delay' => 7,
@@ -23,7 +26,11 @@ class AdminPopupSettingsTest extends TestCase
             ]);
 
         $response->assertRedirect(route('admin.popups.index'));
-        $this->assertDatabaseHas('popups', ['id_key' => 'tet-2027']);
+        $this->assertDatabaseHas('popups', [
+            'id_key' => 'tet-2027',
+            'title_en' => 'Lunar New Year 2027',
+            'bullets_en' => json_encode(['Fresh flowers']),
+        ]);
         $this->assertSame('7', Setting::get('popup_delay'));
         $this->assertSame('session', Setting::get('popup_frequency'));
         $this->assertSame('090 123 4567', Setting::get('popup_zalo'));
@@ -58,5 +65,36 @@ class AdminPopupSettingsTest extends TestCase
 
         $this->get('/')->assertDontSee('future-preview');
         $this->get('/?popup=future-preview')->assertSee('future-preview');
+    }
+
+    public function test_popup_uses_english_content_and_labels_on_english_routes(): void
+    {
+        $popup = Popup::create([
+            'id_key' => 'bilingual-popup',
+            'title' => 'Tiêu đề Việt',
+            'title_en' => 'English title',
+            'bullets' => ['Ý tiếng Việt'],
+            'bullets_en' => ['English bullet'],
+            'cta_label' => 'Xem ngay',
+            'cta_label_en' => 'View now',
+            'cta_link' => '/mua-le-hoi',
+            'cta2' => 'zalo',
+            'start_date' => '2030-01-01',
+            'end_date' => '2030-01-31',
+        ]);
+
+        app()->setLocale('en');
+        $config = $popup->toLntConfig();
+
+        $this->assertSame('English title', $config['title']);
+        $this->assertSame(['English bullet'], $config['bullets']);
+        $this->assertSame('View now', $config['ctaLabel']);
+        $this->assertSame('/en/mua-le-hoi', $config['ctaLink']);
+
+        $this->get('/en/?popup=bilingual-popup')
+            ->assertOk()
+            ->assertSee('English title')
+            ->assertSee('Chat on Zalo')
+            ->assertDontSee('Tiêu đề Việt');
     }
 }
