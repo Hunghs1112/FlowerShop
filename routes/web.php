@@ -213,6 +213,8 @@ Route::getRoutes()->refreshNameLookups();
 Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('translate', [LibreTranslateController::class, 'translate'])->name('translate');
+    Route::get('translations/backfill', [LibreTranslateController::class, 'backfillForm'])
+        ->name('translations.backfill.form');
     Route::post('translations/backfill', [LibreTranslateController::class, 'backfill'])
         ->middleware('throttle:2,1')
         ->name('translations.backfill');

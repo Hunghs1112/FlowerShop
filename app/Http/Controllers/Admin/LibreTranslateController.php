@@ -8,7 +8,9 @@ use App\Services\LibreTranslateService;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\View\View;
 
 class LibreTranslateController extends Controller
 {
@@ -45,13 +47,18 @@ class LibreTranslateController extends Controller
         }
     }
 
-    public function backfill(): JsonResponse
+    public function backfillForm(): View
+    {
+        return view('admin.translations.backfill');
+    }
+
+    public function backfill(): RedirectResponse
     {
         $exitCode = Artisan::call('translations:backfill');
 
-        return response()->json([
-            'success' => $exitCode === 0,
-            'output' => Artisan::output(),
-        ], $exitCode === 0 ? 200 : 502);
+        return redirect()->route('admin.translations.backfill.form')->with([
+            'backfill_success' => $exitCode === 0,
+            'backfill_output' => Artisan::output(),
+        ]);
     }
 }
