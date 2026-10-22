@@ -8,6 +8,7 @@ use App\Services\LibreTranslateService;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Artisan;
 
 class LibreTranslateController extends Controller
 {
@@ -42,5 +43,15 @@ class LibreTranslateController extends Controller
                 'error' => 'Translation service failed.',
             ], 502);
         }
+    }
+
+    public function backfill(): JsonResponse
+    {
+        $exitCode = Artisan::call('translations:backfill');
+
+        return response()->json([
+            'success' => $exitCode === 0,
+            'output' => Artisan::output(),
+        ], $exitCode === 0 ? 200 : 502);
     }
 }

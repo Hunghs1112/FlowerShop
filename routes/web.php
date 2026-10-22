@@ -213,6 +213,9 @@ Route::getRoutes()->refreshNameLookups();
 Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('translate', [LibreTranslateController::class, 'translate'])->name('translate');
+    Route::post('translations/backfill', [LibreTranslateController::class, 'backfill'])
+        ->middleware('throttle:2,1')
+        ->name('translations.backfill');
 
     // Catalog unified management (Gộp 3 phần: Categories, Subcategories, Products)
     Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
