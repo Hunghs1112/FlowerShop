@@ -10,16 +10,16 @@
     <div class="container">
         <!-- Breadcrumb -->
         <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="{{ route('home') }}">{{ content('breadcrumb_home', 'Trang chủ') }}</a>
+            <a href="{{ localized_route('home') }}">{{ content('breadcrumb_home', 'Trang chủ') }}</a>
             <span class="separator">/</span>
-            <a href="{{ route('products.index') }}">{{ content('breadcrumb_products', 'Sản phẩm') }}</a>
+            <a href="{{ localized_route('products.index') }}">{{ content('breadcrumb_products', 'Sản phẩm') }}</a>
             @if($product->category)
                 <span class="separator">/</span>
-                <a href="{{ route('products.index') }}?categories[]={{ $product->category->id }}">{{ $product->category->name }}</a>
+                <a href="{{ localized_route('products.index') }}?categories[]={{ $product->category->id }}">{{ $product->category->display_name }}</a>
             @endif
             @if($product->subcategory)
                 <span class="separator">/</span>
-                <span>{{ $product->subcategory->name }}</span>
+                <span>{{ $product->subcategory->display_name }}</span>
             @endif
             <span class="separator">/</span>
             <span class="current">{{ $product->display_name }}</span>
@@ -56,7 +56,7 @@
                         $watermarkMargin,
                         $watermarkOpacity,
                     ])), 0, 12);
-                    $productImageUrl = fn ($image) => route('products.watermarked-image', [
+                    $productImageUrl = fn ($image) => localized_route('products.watermarked-image', [
                         'type' => $image instanceof \App\Models\ProductVariantImage ? 'variant' : 'product',
                         'id' => $image->id,
                         'v' => $watermarkVersion,
@@ -185,8 +185,8 @@
                 {{-- Short Description --}}
                 <div class="product-description">
                     <p><strong>ĐẶC QUYỀN ĐỐI TÁC:</strong> Mức giá hiển thị là giá bán lẻ. Đăng ký để khám phá hệ thống đặc quyền và chính sách giá dành riêng cho đối tác LNT.</p>
-                    @if($product->short_description)
-                        <x-markdown-renderer :content="$product->short_description" />
+                    @if($product->display_short_description)
+                        <x-markdown-renderer :content="$product->display_short_description" />
                     @endif
                 </div>
 
@@ -194,7 +194,7 @@
                 <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', 'sản phẩm có sẵn') }}</div>
 
                 {{-- Quantity + Add to Cart --}}
-                <form action="{{ route('cart.add') }}" method="POST" class="cart-form" id="cartForm">
+                <form action="{{ localized_route('cart.add') }}" method="POST" class="cart-form" id="cartForm">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}" id="productIdInput">
                     <input type="hidden" name="variant_id" value="" id="variantIdInput">
@@ -220,14 +220,14 @@
 
                 {{-- Accordion --}}
                 <div class="product-accordion">
-                    @if($product->description)
+                    @if($product->display_description)
                         <div class="accordion-item">
                             <button type="button" class="accordion-header">
                                 <span>Mô tả sản phẩm</span>
                                 <span class="accordion-icon" aria-hidden="true">+</span>
                             </button>
                             <div class="accordion-content">
-                                <x-markdown-renderer :content="$product->description" />
+                                <x-markdown-renderer :content="$product->display_description" />
                             </div>
                         </div>
                     @endif
@@ -256,7 +256,7 @@
                             <span class="accordion-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="accordion-content">
-                            <p class="return-policy-link"><a href="{{ route('guide') }}">Xem hướng dẫn mua và đặt hàng</a></p>
+                            <p class="return-policy-link"><a href="{{ localized_route('guide') }}">Xem hướng dẫn mua và đặt hàng</a></p>
                         </div>
                     </div>
                 </div>

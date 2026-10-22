@@ -7,7 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Product Repository
- * 
+ *
  * Handles:
  * - Product search and filtering
  * - Category and subcategory filtering
@@ -24,7 +24,9 @@ class ProductRepository extends BaseRepository
 
     protected function getSearchFields(): array
     {
-        return ['name', 'description', 'short_description'];
+        return app()->getLocale() === 'en'
+            ? ['name_en', 'description_en', 'short_description_en', 'name', 'description', 'short_description']
+            : ['name', 'description', 'short_description'];
     }
 
     /**
@@ -75,6 +77,7 @@ class ProductRepository extends BaseRepository
         }
 
         $this->model = $query;
+
         return $this;
     }
 

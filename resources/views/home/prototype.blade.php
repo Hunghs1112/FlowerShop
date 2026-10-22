@@ -249,16 +249,16 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
   <div class="holiday-shortcuts__eyebrow">CẨM NANG MÙA LỄ</div>
   <h2>KHÁM PHÁ THÊM</h2>
   <div class="holiday-shortcuts__grid">
-    <a class="holiday-shortcuts__card holiday-shortcuts__card--holiday holiday-shortcuts__card--autumn" id="holidayCard" href="{{ route('season.autumn') }}" aria-label="Hội mùa thu">
+    <a class="holiday-shortcuts__card holiday-shortcuts__card--holiday holiday-shortcuts__card--autumn" id="holidayCard" href="{{ localized_route('season.autumn') }}" aria-label="Hội mùa thu">
       <img class="holiday-shortcuts__image" src="{{ $homeData['seasonal']['autumn_image'] }}" alt="">
       <div class="holiday-shortcuts__shade"></div><div class="holiday-shortcuts__lights"><svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true" id="holidayLights"></svg></div><div id="holidayDecor"></div>
       <div class="holiday-shortcuts__body"><span class="holiday-shortcuts__code">AUT → HAN</span><h3 style="color:#fff">Hội mùa thu</h3><p>Chuyến bay mùa lá đỏ</p><span class="holiday-shortcuts__go">Khám phá →</span></div>
     </a>
-    <a class="holiday-shortcuts__card holiday-shortcuts__card--tree" id="treeCard" href="{{ route('season.danish-tree') }}" aria-label="Cây thông Đan Mạch">
+    <a class="holiday-shortcuts__card holiday-shortcuts__card--tree" id="treeCard" href="{{ localized_route('season.danish-tree') }}" aria-label="Cây thông Đan Mạch">
       @if($homeData['seasonal']['tree_image'])<img class="holiday-shortcuts__image" src="{{ $homeData['seasonal']['tree_image'] }}" alt="">@else<div class="holiday-shortcuts__velvet"></div>@endif<div class="holiday-shortcuts__bokeh" id="treeBokeh"></div><div class="holiday-shortcuts__shade"></div><div class="holiday-shortcuts__lights"><svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true" id="treeLights"></svg></div><div id="treeDecor"></div>
       <div class="holiday-shortcuts__body"><span class="holiday-shortcuts__code">CPH → HAN</span><h3 style="color:#fff">Cây thông Đan Mạch</h3><p>Giáng sinh · còn <b id="treeCountdown">–</b> ngày</p><span class="holiday-shortcuts__go">Khám phá →</span></div>
     </a>
-    <a class="holiday-shortcuts__card holiday-shortcuts__card--halloween" href="{{ route('season.halloween') }}" aria-label="Halloween">
+    <a class="holiday-shortcuts__card holiday-shortcuts__card--halloween" href="{{ localized_route('season.halloween') }}" aria-label="Halloween">
       <img class="holiday-shortcuts__image" src="{{ $homeData['seasonal']['halloween_image'] }}" alt="">
       <div class="holiday-shortcuts__shade"></div><div id="halloweenDecor"></div>
       <div class="holiday-shortcuts__body"><span class="holiday-shortcuts__code">HLW → HAN</span><h3 style="color:#fff">Halloween</h3><p>Chuyến bay đêm 31/10 · còn <b id="halloweenCountdown">–</b> ngày</p><span class="holiday-shortcuts__go">Khám phá →</span></div>

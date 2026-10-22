@@ -18,8 +18,11 @@ class StoreCategoryRequest extends FormRequest
 
         return [
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:categories,slug',
+            'name_en' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:categories,slug|unique:categories,slug_en',
+            'slug_en' => 'nullable|string|max:255|unique:categories,slug_en|unique:categories,slug',
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
             'icon' => 'nullable|string|max:50',
             'image' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'hover_image' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
@@ -38,18 +41,18 @@ class StoreCategoryRequest extends FormRequest
             'slug.unique' => 'Slug danh mục đã tồn tại',
             'icon.max' => 'Icon không được vượt quá 50 ký tự',
             'image.mimes' => 'Hình ảnh phải có định dạng: jpg, jpeg, png, gif, webp',
-            'image.max' => 'Kích thước hình ảnh không được vượt quá ' . config('upload.limits.category_image.max_size', 2048) . ' KB',
+            'image.max' => 'Kích thước hình ảnh không được vượt quá '.config('upload.limits.category_image.max_size', 2048).' KB',
             'hover_image.mimes' => 'Hình ảnh hover phải có định dạng: jpg, jpeg, png, gif, webp',
-            'hover_image.max' => 'Kích thước hình ảnh hover không được vượt quá ' . config('upload.limits.category_image.max_size', 2048) . ' KB',
+            'hover_image.max' => 'Kích thước hình ảnh hover không được vượt quá '.config('upload.limits.category_image.max_size', 2048).' KB',
             'banner_image.mimes' => 'Ảnh banner phải có định dạng: jpg, jpeg, png, gif, webp',
-            'banner_image.max' => 'Kích thước ảnh banner không được vượt quá ' . config('upload.limits.category_image.max_size', 2048) . ' KB',
+            'banner_image.max' => 'Kích thước ảnh banner không được vượt quá '.config('upload.limits.category_image.max_size', 2048).' KB',
         ];
     }
 
     protected function prepareForValidation(): void
     {
         // Auto-generate slug if empty
-        if (empty($this->input('slug')) && !empty($this->input('name'))) {
+        if (empty($this->input('slug')) && ! empty($this->input('name'))) {
             $this->merge(['slug' => Str::slug($this->input('name'))]);
         }
 

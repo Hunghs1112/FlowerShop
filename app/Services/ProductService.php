@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class ProductService
@@ -97,17 +96,16 @@ class ProductService
 
     /**
      * Filter and paginate products with search and filter support
-     * 
-     * @param array $filters Filter options including:
-     *   - category_ids: array of category IDs
-     *   - min_price: minimum price
-     *   - max_price: maximum price
-     *   - search: search term (sanitized)
-     *   - sort_by: sort option (latest, price_asc, price_desc, best_selling, name)
-     *   - in_stock: boolean
-     *   - per_page: items per page
-     *   - user: User object for VIP filtering
-     * @return LengthAwarePaginator
+     *
+     * @param  array  $filters  Filter options including:
+     *                          - category_ids: array of category IDs
+     *                          - min_price: minimum price
+     *                          - max_price: maximum price
+     *                          - search: search term (sanitized)
+     *                          - sort_by: sort option (latest, price_asc, price_desc, best_selling, name)
+     *                          - in_stock: boolean
+     *                          - per_page: items per page
+     *                          - user: User object for VIP filtering
      */
     public function filterProducts(array $filters = []): LengthAwarePaginator
     {
@@ -120,9 +118,9 @@ class ProductService
         }
 
         // Category filter - include child categories if needed
-        if (!empty($filters['category_ids'])) {
+        if (! empty($filters['category_ids'])) {
             // Optionally include child categories
-            if (!empty($filters['include_child_categories'])) {
+            if (! empty($filters['include_child_categories'])) {
                 $categoryIds = $this->getCategoryWithDescendants($filters['category_ids']);
                 $query->whereIn('category_id', $categoryIds);
             } else {
@@ -131,7 +129,7 @@ class ProductService
         }
 
         // Subcategory filter
-        if (!empty($filters['subcategory_ids'])) {
+        if (! empty($filters['subcategory_ids'])) {
             $query->whereIn('subcategory_id', $filters['subcategory_ids']);
         }
 
@@ -144,12 +142,12 @@ class ProductService
         }
 
         // Stock filter
-        if (!empty($filters['in_stock'])) {
+        if (! empty($filters['in_stock'])) {
             $query->inStock();
         }
 
         // Search filter - uses the model's search scope for safety
-        if (!empty($filters['search'])) {
+        if (! empty($filters['search'])) {
             $query->search($filters['search']);
         }
 
@@ -184,7 +182,7 @@ class ProductService
     protected function getCategoryWithDescendants(array $categoryIds): array
     {
         $allIds = [];
-        
+
         foreach ($categoryIds as $categoryId) {
             $category = Category::find($categoryId);
             if ($category) {
@@ -193,7 +191,7 @@ class ProductService
                 $allIds = array_merge($allIds, $this->getDescendantIds($category));
             }
         }
-        
+
         return array_unique($allIds);
     }
 
@@ -203,12 +201,12 @@ class ProductService
     protected function getDescendantIds(Category $category): array
     {
         $ids = [];
-        
+
         foreach ($category->children as $child) {
             $ids[] = $child->id;
             $ids = array_merge($ids, $this->getDescendantIds($child));
         }
-        
+
         return $ids;
     }
 
@@ -235,17 +233,16 @@ class ProductService
 
     /**
      * Search products with autocomplete support
-     * 
-     * @param string $query Search query (should be pre-sanitized)
-     * @param int $limit Maximum number of results
-     * @param bool $autocomplete Whether to return results optimized for autocomplete
-     * @param User|null $user User for VIP filtering
-     * @return Collection
+     *
+     * @param  string  $query  Search query (should be pre-sanitized)
+     * @param  int  $limit  Maximum number of results
+     * @param  bool  $autocomplete  Whether to return results optimized for autocomplete
+     * @param  User|null  $user  User for VIP filtering
      */
     public function search(string $query, int $limit = 20, bool $autocomplete = false, ?User $user = null): Collection
     {
         $query = trim($query);
-        
+
         // Minimum 2 characters for search
         if (strlen($query) < 2) {
             return collect([]);
@@ -262,7 +259,7 @@ class ProductService
 
         // For autocomplete, limit results but keep all needed relations
         if ($autocomplete) {
-            $builder->select('id', 'name', 'slug', 'price', 'short_description');
+            $builder->select('id', 'name', 'name_en', 'slug', 'slug_en', 'price', 'short_description', 'short_description_en');
             // productImages is loaded via with() above, select() only limits base table cols
         }
 
@@ -284,12 +281,12 @@ class ProductService
 
             return [
                 'id' => $product->id,
-                'name' => $product->name,
-                'slug' => $product->slug,
+                'name' => $product->display_name,
+                'slug' => $product->display_slug,
                 'price' => $product->price,
-                'formatted_price' => number_format($product->price, 0, ',', '.') . 'đ',
+                'formatted_price' => number_format($product->price, 0, ',', '.').'đ',
                 'image' => $image,
-                'url' => route('products.show', $product->slug),
+                'url' => localized_route('products.show', $product->display_slug),
             ];
         })->toArray();
     }
@@ -322,7 +319,7 @@ class ProductService
     {
         // Search in category names
         return Category::active()
-            ->where('name', 'like', '%' . $query . '%')
+            ->where('name', 'like', '%'.$query.'%')
             ->limit($limit)
             ->get();
     }

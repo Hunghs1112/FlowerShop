@@ -24,7 +24,7 @@
 <section class="categories-index-section">
     <div class="categories-index-grid">
         @forelse($categories as $category)
-        <a href="{{ route('categories.show', $category->display_slug) }}" class="category-card">
+        <a href="{{ localized_route('categories.show', $category->display_slug) }}" class="category-card">
             <img
                 src="{{ $category->image ? $category->image_url : asset('images/categories/category-default.jpg') }}"
                 alt="{{ $category->display_name }}"

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Subcategory Repository
- * 
+ *
  * Handles:
  * - Subcategory search and filtering
  * - Category filtering
@@ -24,7 +24,9 @@ class SubcategoryRepository extends BaseRepository
 
     protected function getSearchFields(): array
     {
-        return ['name', 'description'];
+        return app()->getLocale() === 'en'
+            ? ['name_en', 'description_en', 'name', 'description']
+            : ['name', 'description'];
     }
 
     /**
@@ -163,7 +165,7 @@ class SubcategoryRepository extends BaseRepository
         $grouped = [];
         foreach ($subcategories as $sub) {
             $categoryName = $sub->category?->name ?? 'Other';
-            if (!isset($grouped[$categoryName])) {
+            if (! isset($grouped[$categoryName])) {
                 $grouped[$categoryName] = [];
             }
             $grouped[$categoryName][$sub->id] = $sub->name;
@@ -188,6 +190,11 @@ class SubcategoryRepository extends BaseRepository
      */
     public function findBySlug(string $slug): ?Subcategory
     {
-        return $this->query()->where('slug', $slug)->first();
+        return $this->query()->where(function ($query) use ($slug) {
+            $query->where('slug', $slug);
+            if (app()->getLocale() === 'en') {
+                $query->orWhere('slug_en', $slug);
+            }
+        })->first();
     }
 }

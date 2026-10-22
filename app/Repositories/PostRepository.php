@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Post Repository
- * 
+ *
  * Handles:
  * - Blog post search and filtering
  * - Published/draft status
@@ -22,7 +22,9 @@ class PostRepository extends BaseRepository
 
     protected function getSearchFields(): array
     {
-        return ['title', 'excerpt', 'content'];
+        return app()->getLocale() === 'en'
+            ? ['title_en', 'excerpt_en', 'content_en', 'title', 'excerpt', 'content']
+            : ['title', 'excerpt', 'content'];
     }
 
     /**
@@ -101,7 +103,12 @@ class PostRepository extends BaseRepository
     public function findBySlug(string $slug): ?Post
     {
         return $this->query()
-            ->where('slug', $slug)
+            ->where(function ($query) use ($slug) {
+                $query->where('slug', $slug);
+                if (app()->getLocale() === 'en') {
+                    $query->orWhere('slug_en', $slug);
+                }
+            })
             ->where('is_published', true)
             ->first();
     }

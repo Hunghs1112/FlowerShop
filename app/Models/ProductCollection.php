@@ -10,8 +10,11 @@ class ProductCollection extends Model
 {
     protected $fillable = [
         'name',
+        'name_en',
         'slug',
+        'slug_en',
         'criterion',
+        'criterion_en',
         'accent_color',
         'sort_order',
         'is_active',
@@ -48,14 +51,32 @@ class ProductCollection extends Model
         return ($this->attributes['accent_color'] ?? null) ?: '#A3B18A';
     }
 
+    public function getDisplayNameAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->name_en) ? $this->name_en : $this->name;
+    }
+
+    public function getDisplaySlugAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->slug_en) ? $this->slug_en : $this->slug;
+    }
+
+    public function getDisplayCriterionAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->criterion_en) ? $this->criterion_en : $this->criterion;
+    }
+
     protected static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
     {
         $base = Str::slug($name) ?: 'collection';
         $slug = $base;
         $i = 1;
-        while (static::where('slug', $slug)->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))->exists()) {
-            $slug = $base . '-' . (++$i);
+        while (static::where(fn ($query) => $query->where('slug', $slug)->orWhere('slug_en', $slug))
+            ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))
+            ->exists()) {
+            $slug = $base.'-'.(++$i);
         }
+
         return $slug;
     }
 }

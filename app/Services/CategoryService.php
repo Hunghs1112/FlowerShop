@@ -47,7 +47,7 @@ class CategoryService
             array_unshift($breadcrumb, [
                 'name' => $current->display_name,
                 'slug' => $current->display_slug,
-                'url' => route('categories.show', $current->display_slug),
+                'url' => localized_route('categories.show', $current->display_slug),
             ]);
             $current = $current->parent;
         }
@@ -61,7 +61,7 @@ class CategoryService
     public function getDescendantIds(Category $category): array
     {
         $ids = [$category->id];
-        
+
         foreach ($category->children as $child) {
             $ids = array_merge($ids, $this->getDescendantIds($child));
         }

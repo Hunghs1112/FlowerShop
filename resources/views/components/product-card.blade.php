@@ -8,7 +8,7 @@
 @endphp
 
 <article class="product-card {{ $product->isSoldOut() ? 'product-card--sold-out' : '' }}">
-    <a href="{{ route('products.show', $product->display_slug) }}" class="product-card__full-link" aria-label="{{ $product->display_name }}">
+    <a href="{{ localized_route('products.show', $product->display_slug) }}" class="product-card__full-link" aria-label="{{ $product->display_name }}">
         <div class="product-card__image-wrap">
             {{-- Primary image --}}
             <img
@@ -67,7 +67,7 @@
         {{-- Product Info --}}
         <div class="product-card__info">
             @if($product->subcategory)
-                <span class="product-card__category">{{ $product->subcategory->name }}</span>
+                <span class="product-card__category">{{ $product->subcategory->display_name }}</span>
             @elseif($product->category)
                 <span class="product-card__category">{{ $product->category->display_name }}</span>
             @endif

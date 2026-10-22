@@ -148,7 +148,7 @@
     // === Initialize Chat Polling ===
     const chatPolling = new ChatPolling({
         interval: 3000, // Poll every 3 seconds
-        endpoint: '{{ route("chat.poll") }}',
+        endpoint: '{{ localized_route("chat.poll") }}',
         onNewMessage: function(message) {
             console.log('📩 New message:', message);
             appendMessage(message);
@@ -181,7 +181,7 @@
         sendBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spinner"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0110 10"/></svg>';
 
         try {
-            const response = await fetch('{{ route("chat.send") }}', {
+            const response = await fetch('{{ localized_route("chat.send") }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -75,7 +75,7 @@ class ProductCollectionController extends Controller
         ]);
 
         $field = $validated['field'];
-        abort_unless(in_array($field, ['name', 'criterion', 'accent_color', 'is_active', 'sort_order'], true), 422);
+        abort_unless(in_array($field, ['name', 'name_en', 'criterion', 'criterion_en', 'accent_color', 'is_active', 'sort_order'], true), 422);
 
         $value = $validated['value'];
         if (in_array($field, ['is_active'], true)) {
@@ -102,9 +102,13 @@ class ProductCollectionController extends Controller
 
     protected function validatePayload(Request $request): array
     {
+        $collectionId = $request->route('product_collection')?->id;
         $validated = $request->validate([
             'name' => 'required|string|max:100',
+            'name_en' => 'nullable|string|max:100',
+            'slug_en' => 'nullable|string|max:120|unique:product_collections,slug_en,'.$collectionId.'|unique:product_collections,slug,'.$collectionId,
             'criterion' => 'nullable|string|max:255',
+            'criterion_en' => 'nullable|string|max:255',
             'accent_color' => ['nullable', 'string', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'is_active' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
@@ -114,7 +118,10 @@ class ProductCollectionController extends Controller
 
         $data = [
             'name' => $validated['name'],
+            'name_en' => $validated['name_en'] ?? null,
+            'slug_en' => $validated['slug_en'] ?? null,
             'criterion' => $validated['criterion'] ?? null,
+            'criterion_en' => $validated['criterion_en'] ?? null,
             'accent_color' => $validated['accent_color'] ?? null,
             'is_active' => (bool) ($validated['is_active'] ?? false),
             'sort_order' => (int) ($validated['sort_order'] ?? 0),

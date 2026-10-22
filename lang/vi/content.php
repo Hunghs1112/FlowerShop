@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'language' => 'Ngôn ngữ',
+    'products_showing' => 'Hiển thị',
+    'products_suffix' => 'sản phẩm',
+    'breadcrumb_home' => 'Trang chủ',
+    'breadcrumb_products' => 'Sản phẩm',
+    'breadcrumb_all_products' => 'Tất cả sản phẩm',
+    'products_page_title' => 'Sản phẩm',
+    'filter_button' => 'Lọc',
+    'filter_open_label' => 'Mở bộ lọc',
+    'filter_chips_label' => 'Bộ lọc đang áp dụng',
+    'filter_clear_all' => 'Xóa tất cả',
+    'product_add_to_cart' => 'Thêm vào giỏ hàng',
+    'product_buy_now' => 'Mua ngay',
+    'product_featured_badge' => 'Nổi bật',
+    'product_qty_decrease' => 'Giảm số lượng',
+    'product_qty_increase' => 'Tăng số lượng',
+    'product_stock_suffix' => 'sản phẩm có sẵn',
+    'product_recommended_title' => 'Có thể bạn sẽ thích',
+    'product_recommended_empty' => 'Chưa có sản phẩm gợi ý.',
+    'product_recently_viewed_title' => 'Sản phẩm khác',
+    'product_recently_viewed_empty' => 'Chưa có sản phẩm khác.',
+];

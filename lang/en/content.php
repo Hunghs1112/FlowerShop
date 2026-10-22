@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'language' => 'Language',
+    'products_showing' => 'Showing',
+    'products_suffix' => 'products',
+    'breadcrumb_home' => 'Home',
+    'breadcrumb_products' => 'Products',
+    'breadcrumb_all_products' => 'All products',
+    'products_page_title' => 'Products',
+    'filter_button' => 'Filter',
+    'filter_open_label' => 'Open filters',
+    'filter_chips_label' => 'Active filters',
+    'filter_clear_all' => 'Clear all',
+    'product_add_to_cart' => 'Add to cart',
+    'product_buy_now' => 'Buy now',
+    'product_featured_badge' => 'Featured',
+    'product_qty_decrease' => 'Decrease quantity',
+    'product_qty_increase' => 'Increase quantity',
+    'product_stock_suffix' => 'items available',
+    'product_recommended_title' => 'You may also like',
+    'product_recommended_empty' => 'No recommendations yet.',
+    'product_recently_viewed_title' => 'More products',
+    'product_recently_viewed_empty' => 'No other products yet.',
+];

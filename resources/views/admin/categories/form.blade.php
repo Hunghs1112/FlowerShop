@@ -53,6 +53,14 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                   data-id="{{ $category->id ?? '' }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('description', $category->description ?? '') }}</textarea>
                     </div>
+
+                    <div style="border-top: 1px solid var(--admin-border); padding-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+                        <strong>English content</strong>
+                        @foreach(['name_en' => 'English name', 'slug_en' => 'English slug'] as $field => $placeholder)
+                            <input type="text" name="{{ $field }}" value="{{ old($field, $category->{$field} ?? '') }}" placeholder="{{ $placeholder }}" class="auto-save-input form-input" data-entity="categories" data-id="{{ $category->id ?? '' }}">
+                        @endforeach
+                        <textarea name="description_en" rows="4" placeholder="English description" class="auto-save-input form-input" data-entity="categories" data-id="{{ $category->id ?? '' }}">{{ old('description_en', $category->description_en ?? '') }}</textarea>
+                    </div>
                 </div>
             </div>
         </div>

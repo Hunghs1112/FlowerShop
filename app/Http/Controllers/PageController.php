@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\FlowerOrigin;
+use App\Models\Inquiry;
 use App\Models\Page;
 use App\Models\Product;
-use App\Models\Inquiry;
-use App\Models\FlowerOrigin;
-use App\Models\Category;
-use App\Services\SettingService;
+use App\Models\Setting;
 use App\Services\ImageStorageService;
+use App\Services\SettingService;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class PageController extends Controller
 {
@@ -23,7 +23,7 @@ class PageController extends Controller
 
     public function about()
     {
-        $siteInfo  = $this->settingService->getSiteInfo();
+        $siteInfo = $this->settingService->getSiteInfo();
         $introPage = Page::where('slug', 'gioi-thieu')->active()->first();
         // Use page's own header_image if set, otherwise fallback to default banner
         $pageBanner = $introPage && $introPage->header_image_url
@@ -53,14 +53,17 @@ class PageController extends Controller
         ];
         $flowerCategories = collect($countryNeedles)->mapWithKeys(function (array $needles, string $country) use ($categories) {
             $category = $categories->first(function (Category $item) use ($needles) {
-                $haystack = Str::lower($item->name . ' ' . $item->slug);
+                $haystack = Str::lower($item->name.' '.$item->slug);
+
                 return collect($needles)->contains(fn (string $needle) => Str::contains($haystack, Str::lower($needle)));
             });
+
             return [$country => $category ?: $categories->firstWhere('slug', $country === 'vn' ? 'hoa-tuoi-moi' : 'hoa-nhap-khau')];
         });
         $passportCategories = $flowerCategories->map(fn ($category) => $category
-            ? route('products.index', ['category' => $category->slug])
-            : route('products.index'));
+            ? localized_route('products.index', ['category' => $category->slug])
+            : localized_route('products.index'));
+
         return view('pages.about', compact('siteInfo', 'introPage', 'pageBanner', 'flowerMapData', 'flowers', 'categories', 'flowerCategories', 'passportCategories'));
     }
 
@@ -71,12 +74,14 @@ class PageController extends Controller
             ->orderByRaw("CASE slug WHEN 'huong-dan-dat-hang' THEN 0 ELSE 1 END")
             ->first();
         $pageBanner = [];
+
         return view('pages.guide', compact('siteInfo', 'pageBanner', 'page'));
     }
 
     public function contact()
     {
         $siteInfo = $this->settingService->getSiteInfo();
+
         return view('pages.contact', compact('siteInfo'));
     }
 
@@ -100,7 +105,7 @@ class PageController extends Controller
             'status' => 'new',
         ]);
 
-        return redirect()->back()->with('success', 'Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.');
+        return redirect()->back()->with('success', __('customer.messages.contact_success'));
     }
 
     public function policy(string $slug)
@@ -109,7 +114,7 @@ class PageController extends Controller
             ->active()
             ->first();
 
-        abort_if(!$page, 404);
+        abort_if(! $page, 404);
 
         // Use page's own header_image if set, otherwise fallback to default banner
         $pageBanner = $page->header_image_url
@@ -157,29 +162,29 @@ class PageController extends Controller
             ->get();
 
         // Build products array matching the JSON structure
-        $dbProducts = $seasonProducts->map(fn($p) => [
-            'name' => $p->name,
+        $dbProducts = $seasonProducts->map(fn ($p) => [
+            'name' => $p->display_name,
             'origin' => $p->origin ?? '',
             'code' => strtoupper(substr($p->category->slug ?? $p->slug, 0, 3)),
             'img' => $p->getPrimaryImageUrl(),
-            'link' => route('products.show', $p->display_slug),
-            'price' => number_format($p->price, 0, ',', '.') . 'đ',
-            'badge' => $p->is_new_arrival ? 'MỚI VỀ' : ($p->is_bestseller ? 'BÁN CHẠY' : ''),
+            'link' => localized_route('products.show', $p->display_slug),
+            'price' => number_format($p->price, 0, ',', '.').'đ',
+            'badge' => $p->is_new_arrival ? __('customer.messages.new') : ($p->is_bestseller ? __('customer.messages.bestseller') : ''),
         ])->values()->all();
 
         // Inject DB products into season config
         $season['products'] = $dbProducts;
 
         // Random card image from season products, fallback to hero setting
-        $productImages = $seasonProducts->flatMap(fn($p) => $p->productImages->all());
+        $productImages = $seasonProducts->flatMap(fn ($p) => $p->productImages->all());
         $randomProductImg = $productImages->isNotEmpty()
             ? $productImages->random()->url
             : null;
 
         if ($randomProductImg) {
-            $season['img'] = asset('storage/' . $randomProductImg);
+            $season['img'] = asset('storage/'.$randomProductImg);
         } else {
-            $heroSetting = \App\Models\Setting::where('key', 'seasonal_' . $seasonId . '_hero')->value('value');
+            $heroSetting = Setting::where('key', 'seasonal_'.$seasonId.'_hero')->value('value');
             if ($heroSetting) {
                 $season['img'] = $this->images->url($heroSetting);
             }
@@ -237,16 +242,16 @@ class PageController extends Controller
             }
 
             $season['url'] = match ($season['id']) {
-                'thu' => route('season.autumn'),
-                'halloween' => route('season.halloween'),
-                'thong' => route('season.danish-tree'),
+                'thu' => localized_route('season.autumn'),
+                'halloween' => localized_route('season.halloween'),
+                'thong' => localized_route('season.danish-tree'),
                 default => '#',
             };
 
             return $season;
         })->all();
-        $config['hub']['url'] = route('season.mua-le-hoi');
-        $config['orderEndpoint'] = route('season.preorder');
+        $config['hub']['url'] = localized_route('season.mua-le-hoi');
+        $config['orderEndpoint'] = localized_route('season.preorder');
         $config['csrfToken'] = csrf_token();
         $config['seasonSlug'] = $slug;
 
@@ -262,10 +267,10 @@ class PageController extends Controller
     {
         foreach ($stored as $key => $value) {
             $defaults[$key] = is_array($value)
-                && !array_is_list($value)
+                && ! array_is_list($value)
                 && isset($defaults[$key])
                 && is_array($defaults[$key])
-                && !array_is_list($defaults[$key])
+                && ! array_is_list($defaults[$key])
                     ? $this->mergeSeasonalData($defaults[$key], $value)
                     : $value;
         }
@@ -279,15 +284,17 @@ class PageController extends Controller
         $seasonConfig = $this->seasonalConfig($seasonSlug);
         $treeSeason = collect($seasonConfig['seasons'] ?? [])->first(fn ($season) => isset($season['tree']));
         $tree = $treeSeason['tree'] ?? [];
-        $accessoryNames = collect($tree['accessories'] ?? [])->flatMap(fn ($group) =>
-            collect($group['items'] ?? [])->pluck('name')
+        $accessoryNames = collect($tree['accessories'] ?? [])->flatMap(fn ($group) => collect($group['items'] ?? [])->pluck('name')
         )->merge(collect($tree['packages']['items'] ?? [])->pluck('name')->map(fn ($name) => "Bộ {$name}"))->all();
         $addonNames = collect($tree['addons'] ?? [])->pluck('name')->all();
 
         $validSizes = collect($tree['sizes'] ?? [])->map(function ($s) {
             $min = $s['cm_min'] ?? $s['cm'] ?? null;
             $max = $s['cm_max'] ?? null;
-            if ($min !== null && $max !== null) return "{$min}-{$max} cm";
+            if ($min !== null && $max !== null) {
+                return "{$min}-{$max} cm";
+            }
+
             return $s['label'] ?? null;
         })->filter()->all();
 
@@ -308,18 +315,18 @@ class PageController extends Controller
         ]);
         $validated['season_slug'] = $seasonSlug;
         $accessorySummary = collect($validated['accessory_quantities'] ?? [])->map(
-            fn ($item) => $item['name'] . ($item['quantity'] > 1 ? ' x' . $item['quantity'] : '')
+            fn ($item) => $item['name'].($item['quantity'] > 1 ? ' x'.$item['quantity'] : '')
         )->implode(', ') ?: implode(', ', $validated['accessories'] ?? []);
 
         $message = implode("\n", array_filter([
             'ĐẶT TRƯỚC MÙA LỄ HỘI',
-            'Trang: ' . $validated['season_slug'],
-            'Cỡ cây: ' . $validated['size'],
-            'Phụ kiện: ' . ($accessorySummary ?: '-'),
-            'Dịch vụ: ' . (implode(', ', $validated['addons'] ?? []) ?: '-'),
-            'Địa chỉ: ' . $validated['address'],
-            'Ngày nhận: ' . ($validated['delivery_date'] ?? '-'),
-            'Ghi chú: ' . ($validated['notes'] ?? '-'),
+            'Trang: '.$validated['season_slug'],
+            'Cỡ cây: '.$validated['size'],
+            'Phụ kiện: '.($accessorySummary ?: '-'),
+            'Dịch vụ: '.(implode(', ', $validated['addons'] ?? []) ?: '-'),
+            'Địa chỉ: '.$validated['address'],
+            'Ngày nhận: '.($validated['delivery_date'] ?? '-'),
+            'Ghi chú: '.($validated['notes'] ?? '-'),
         ]));
 
         Inquiry::create([
@@ -342,15 +349,15 @@ class PageController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Lâm Nhiên Thảo đã nhận yêu cầu và sẽ liên hệ để xác nhận cây, lịch giao và mức cọc.',
+            'message' => __('customer.messages.preorder_received'),
         ], 201);
     }
-
 
     public function policyBaoMat()
     {
         $siteInfo = $this->settingService->getSiteInfo();
         $page = Page::where('slug', 'chinh-sach-bao-mat')->active()->first();
+
         return view('pages.policy', compact('siteInfo', 'page'));
     }
 
@@ -358,6 +365,7 @@ class PageController extends Controller
     {
         $siteInfo = $this->settingService->getSiteInfo();
         $page = Page::where('slug', 'chinh-sach-cua-chung-toi')->active()->first();
+
         return view('pages.policy-ours', compact('siteInfo', 'page'));
     }
 
@@ -365,6 +373,7 @@ class PageController extends Controller
     {
         $siteInfo = $this->settingService->getSiteInfo();
         $page = Page::where('slug', 'chinh-sach-giao-hang')->active()->first();
+
         return view('pages.policy-delivery', compact('siteInfo', 'page'));
     }
 
@@ -372,12 +381,12 @@ class PageController extends Controller
     {
         $siteInfo = $this->settingService->getSiteInfo();
         $page = Page::where('slug', 'dieu-khoan-dich-vu')->active()->first();
+
         return view('pages.policy-terms', compact('siteInfo', 'page'));
     }
 
     public function canPhong()
     {
-        return redirect()->route('mystery-box.index');
+        return redirect(localized_route('mystery-box.index'));
     }
-
 }

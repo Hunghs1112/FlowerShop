@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\ActiveUserMiddleware;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,13 +15,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
-            'admin' => \App\Http\Middleware\AdminMiddleware::class,
-            'active' => \App\Http\Middleware\ActiveUserMiddleware::class,
-        ]);
+        $middleware->redirectGuestsTo(fn (Request $request) => localized_route('login'));
 
-        // Apply SetLocale middleware to all web routes
-        // Removed: SetLocale middleware (bilingual feature removed)
+        $middleware->alias([
+            'admin' => AdminMiddleware::class,
+            'active' => ActiveUserMiddleware::class,
+            'locale' => SetLocale::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

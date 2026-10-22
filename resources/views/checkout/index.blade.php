@@ -7,8 +7,8 @@
     title="Thanh toán"
     description="Hoàn tất thông tin để đặt hàng"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => route('home')],
-        ['label' => 'Giỏ hàng', 'url' => route('cart.index')],
+        ['label' => 'Trang chủ', 'url' => localized_route('home')],
+        ['label' => 'Giỏ hàng', 'url' => localized_route('cart.index')],
         ['label' => 'Thanh toán']
     ]"
     :image="$siteBanners['checkout'] ?? null"
@@ -21,7 +21,7 @@
     <div class="checkout-container">
         <!-- Checkout Form -->
         <div class="checkout-form">
-            <form action="{{ route('checkout.store') }}" method="POST">
+            <form action="{{ localized_route('checkout.store') }}" method="POST">
                 @csrf
                 
                 <div class="checkout-section">
@@ -122,7 +122,7 @@
                 </div>
 
                 <div class="checkout-actions">
-                    <a href="{{ route('cart.index') }}" class="btn btn-outline btn-lg">
+                    <a href="{{ localized_route('cart.index') }}" class="btn btn-outline btn-lg">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>

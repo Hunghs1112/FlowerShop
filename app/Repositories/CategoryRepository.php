@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Category Repository
- * 
+ *
  * Handles:
  * - Category search and listing
  * - Hierarchical queries
@@ -22,7 +22,9 @@ class CategoryRepository extends BaseRepository
 
     protected function getSearchFields(): array
     {
-        return ['name', 'description'];
+        return app()->getLocale() === 'en'
+            ? ['name_en', 'description_en', 'name', 'description']
+            : ['name', 'description'];
     }
 
     /**
@@ -63,7 +65,7 @@ class CategoryRepository extends BaseRepository
     /**
      * Get paginated list with search
      */
-    public function listPaginated(int $perPage = 15, string $search = null): Paginator
+    public function listPaginated(int $perPage = 15, ?string $search = null): Paginator
     {
         $query = $this->query()->orderBy('sort_order');
 
@@ -91,7 +93,12 @@ class CategoryRepository extends BaseRepository
     public function findBySlug(string $slug): ?Category
     {
         return $this->query()
-            ->where('slug', $slug)
+            ->where(function ($query) use ($slug) {
+                $query->where('slug', $slug);
+                if (app()->getLocale() === 'en') {
+                    $query->orWhere('slug_en', $slug);
+                }
+            })
             ->where('is_active', true)
             ->first();
     }

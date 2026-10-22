@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $page->title)
+@section('title', $page->display_title)
 @section('body-class', 'career-theme')
 @section('skip-main-wrapper', true)
 
@@ -66,6 +66,6 @@
 @endsection
 
 @push('scripts')
-<script>window.CAREER_CONFIG = @json([...$config, 'endpoint' => route('career.store'), 'csrfToken' => csrf_token()]);</script>
+<script>window.CAREER_CONFIG = @json([...$config, 'endpoint' => localized_route('career.store'), 'csrfToken' => csrf_token()]);</script>
 <script src="{{ asset('js/careers.js') }}?v={{ filemtime(public_path('js/careers.js')) }}"></script>
 @endpush

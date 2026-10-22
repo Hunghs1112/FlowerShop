@@ -106,8 +106,8 @@
 
                 {{-- Tabs: Login / Register --}}
                 <div class="auth-tabs">
-                    <a href="{{ route('login') }}" class="auth-tab">Đăng nhập</a>
-                    <a href="{{ route('register') }}" class="auth-tab is-active">Đăng ký</a>
+                    <a href="{{ localized_route('login') }}" class="auth-tab">{{ __('ui.login') }}</a>
+                    <a href="{{ localized_route('register') }}" class="auth-tab is-active">Đăng ký</a>
                 </div>
 
                 {{-- Header --}}
@@ -139,7 +139,7 @@
                 @endif
 
                 {{-- Register Form --}}
-                <form method="POST" action="{{ route('register') }}" class="auth-form" id="register-form">
+                <form method="POST" action="{{ localized_route('register') }}" class="auth-form" id="register-form">
                     @csrf
 
                     <div class="form-group">
@@ -275,7 +275,7 @@
                             required
                         >
                         <label for="terms" class="form-checkbox-label">
-                            Tôi đồng ý với <a href="{{ route('policy.terms') }}" target="_blank">Điều khoản dịch vụ</a> và <a href="{{ route('policy.baomat') }}" target="_blank">Chính sách bảo mật</a>
+                            Tôi đồng ý với <a href="{{ localized_route('policy.terms') }}" target="_blank">{{ __('ui.terms') }}</a> và <a href="{{ localized_route('policy.baomat') }}" target="_blank">{{ __('ui.privacy_policy') }}</a>
                         </label>
                     </div>
 
@@ -287,7 +287,7 @@
                 {{-- Login link --}}
                 <div class="auth-footer">
                     Đã có tài khoản?
-                    <a href="{{ route('login') }}" class="auth-footer-link">Đăng nhập ngay</a>
+                    <a href="{{ localized_route('login') }}" class="auth-footer-link">Đăng nhập ngay</a>
                 </div>
             </div>
         </div>

@@ -7,9 +7,9 @@
     <div class="inspiration-shell" style="max-width: 900px;">
         <section class="journal-header">
             <div class="journal-breadcrumb">
-                <a href="{{ route('home') }}">Trang chủ</a>
+                <a href="{{ localized_route('home') }}">Trang chủ</a>
                 <span aria-hidden="true">/</span>
-                <a href="{{ route('blog.index') }}">Góc cảm hứng</a>
+                <a href="{{ localized_route('blog.index') }}">{{ __('ui.inspiration') }}</a>
                 <span aria-hidden="true">/</span>
                 <span>Thêm bài viết</span>
             </div>
@@ -26,7 +26,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('blog.store') }}" enctype="multipart/form-data" style="display:grid; gap:20px; padding:clamp(20px,4vw,40px); background:var(--color-surface); border:1px solid var(--color-border);">
+        <form method="POST" action="{{ localized_route('blog.store') }}" enctype="multipart/form-data" style="display:grid; gap:20px; padding:clamp(20px,4vw,40px); background:var(--color-surface); border:1px solid var(--color-border);">
             @csrf
 
             <label>Tiêu đề <input class="form-input" type="text" name="title" value="{{ old('title') }}" maxlength="255" required></label>
@@ -48,7 +48,7 @@
             </label>
 
             <div style="display:flex; gap:12px; justify-content:flex-end;">
-                <a class="btn btn-secondary" href="{{ route('blog.index') }}">Hủy</a>
+                <a class="btn btn-secondary" href="{{ localized_route('blog.index') }}">Hủy</a>
                 <button class="btn btn-primary" type="submit">Đăng bài viết</button>
             </div>
         </form>

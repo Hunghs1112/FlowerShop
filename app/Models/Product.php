@@ -17,7 +17,9 @@ class Product extends Model
         'category_id',
         'subcategory_id',
         'name',
+        'name_en',
         'slug',
+        'slug_en',
         'sku',
         'price',
         'stock',
@@ -27,7 +29,9 @@ class Product extends Model
         'is_new_arrival',
         'is_bestseller',
         'description',
+        'description_en',
         'short_description',
+        'short_description_en',
         'length',
         'min_order_quantity',
         'origin',
@@ -140,6 +144,11 @@ class Product extends Model
         return $query->where(function (Builder $q) use ($escapedTerm) {
             $q->where('name', 'like', '%'.$escapedTerm.'%')
                 ->orWhere('short_description', 'like', '%'.$escapedTerm.'%');
+            if (app()->getLocale() === 'en') {
+                $q->orWhere('name_en', 'like', '%'.$escapedTerm.'%')
+                    ->orWhere('short_description_en', 'like', '%'.$escapedTerm.'%')
+                    ->orWhere('description_en', 'like', '%'.$escapedTerm.'%');
+            }
         });
     }
 
@@ -238,20 +247,25 @@ class Product extends Model
         return asset('storage/'.$path);
     }
 
-    // Display helpers (locale-aware — simplified since bilingual feature was removed)
+    // Display helpers (locale-aware — Vietnamese as source, English as fallback)
     public function getDisplayNameAttribute(): string
     {
-        return $this->name;
+        return app()->getLocale() === 'en' && filled($this->name_en) ? $this->name_en : $this->name;
     }
 
     public function getDisplayShortDescriptionAttribute(): ?string
     {
-        return $this->short_description;
+        return app()->getLocale() === 'en' && filled($this->short_description_en) ? $this->short_description_en : $this->short_description;
+    }
+
+    public function getDisplayDescriptionAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->description_en) ? $this->description_en : $this->description;
     }
 
     public function getDisplaySlugAttribute(): string
     {
-        return $this->slug;
+        return app()->getLocale() === 'en' && filled($this->slug_en) ? $this->slug_en : $this->slug;
     }
 
     public function isFavoritedBy($user): bool

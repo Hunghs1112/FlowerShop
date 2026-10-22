@@ -104,6 +104,14 @@
                                       style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('description') }}</textarea>
                         </div>
 
+                        <div style="border-top: 1px solid var(--admin-border); padding-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+                            <strong>English content</strong>
+                            <input type="text" name="name_en" value="{{ old('name_en') }}" placeholder="English name" class="form-input">
+                            <input type="text" name="slug_en" value="{{ old('slug_en') }}" placeholder="English slug" class="form-input">
+                            <textarea name="short_description_en" rows="3" placeholder="English short description" class="form-input">{{ old('short_description_en') }}</textarea>
+                            <textarea name="description_en" rows="6" placeholder="English description" class="form-input">{{ old('description_en') }}</textarea>
+                        </div>
+
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                             <div>
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Chiều Dài</label>

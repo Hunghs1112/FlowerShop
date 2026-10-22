@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', $post->title)
+@section('title', $post->display_title)
 
 @section('content')
 <x-page-hero
-    title="{{ $post->title }}"
-    :description="$post->excerpt ?? ''"
+    title="{{ $post->display_title }}"
+    :description="$post->display_excerpt ?? ''"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => route('home')],
-        ['label' => 'Bài viết', 'url' => route('blog.index')],
-        ['label' => Str::limit($post->title, 30)]
+        ['label' => 'Trang chủ', 'url' => localized_route('home')],
+        ['label' => 'Bài viết', 'url' => localized_route('blog.index')],
+        ['label' => Str::limit($post->display_title, 30)]
     ]"
     :image="$siteBanners['blog'] ?? null"
     :hideOverlay="$siteBannerHideOverlay['blog'] ?? false"
@@ -44,12 +44,12 @@
         <!-- Featured Image -->
         @if($post->thumbnail)
             <div class="post-featured-image">
-                <img src="{{ $post->image_url }}" alt="{{ $post->title }}">
+                <img src="{{ $post->image_url }}" alt="{{ $post->display_title }}">
             </div>
         @endif
 
         <!-- Post Content -->
-        <x-markdown-renderer :content="$post->content" />
+        <x-markdown-renderer :content="$post->display_content" />
 
         <!-- Related Posts -->
         @if($relatedPosts->count() > 0)
@@ -60,8 +60,8 @@
                         <article class="post-card">
                             @if($relatedPost->thumbnail)
                                 <div class="post-card-image">
-                                    <a href="{{ route('blog.show', $relatedPost->slug) }}">
-                                        <img src="{{ $relatedPost->image_url }}" alt="{{ $relatedPost->title }}">
+                                    <a href="{{ localized_route('blog.show', $relatedPost->display_slug) }}">
+                                        <img src="{{ $relatedPost->image_url }}" alt="{{ $relatedPost->display_title }}">
                                     </a>
                                 </div>
                             @endif
@@ -74,13 +74,13 @@
                                 </div>
                                 
                                 <h3 class="post-card-title">
-                                    <a href="{{ route('blog.show', $relatedPost->slug) }}">
-                                        {{ $relatedPost->title }}
+                                    <a href="{{ localized_route('blog.show', $relatedPost->display_slug) }}">
+                                        {{ $relatedPost->display_title }}
                                     </a>
                                 </h3>
                                 
                                 <p class="post-card-excerpt">
-                                    {{ Str::limit($relatedPost->excerpt, 100) }}
+                                    {{ Str::limit($relatedPost->display_excerpt, 100) }}
                                 </p>
                             </div>
                         </article>
@@ -91,7 +91,7 @@
 
         {{-- Back to list --}}
         <div class="post-navigation">
-            <a href="{{ route('blog.index') }}" class="btn btn-outline">
+            <a href="{{ localized_route('blog.index') }}" class="btn btn-outline">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>

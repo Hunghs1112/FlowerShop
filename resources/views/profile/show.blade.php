@@ -8,10 +8,10 @@
     <header class="profile-heading">
         <div>
             <p class="profile-eyebrow">KHÔNG GIAN CỦA BẠN</p>
-            <h1>Tài khoản</h1>
+            <h1>{{ __('ui.account') }}</h1>
             <p class="profile-heading-copy">Quản lý thông tin cá nhân và theo dõi những yêu cầu đặt hoa của bạn.</p>
         </div>
-        <a class="profile-back-link" href="{{ route('home') }}">← Tiếp tục mua sắm</a>
+        <a class="profile-back-link" href="{{ localized_route('home') }}">← Tiếp tục mua sắm</a>
     </header>
 
     <div class="profile-dashboard">
@@ -48,7 +48,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('profile.update') }}" method="POST">
+                    <form action="{{ localized_route('profile.update') }}" method="POST">
                         @csrf
                         @method('PATCH')
 
@@ -107,7 +107,7 @@
                     <p>Dùng mật khẩu mạnh để bảo vệ tài khoản của bạn.</p>
                 </div>
                 <div class="account-card-body">
-                    <form action="{{ route('profile.password') }}" method="POST">
+                    <form action="{{ localized_route('profile.password') }}" method="POST">
                         @csrf
                         @method('PATCH')
 
@@ -171,7 +171,7 @@
                                     @endif
                                     <div class="inquiry-products">
                                         @foreach($inquiry->getProducts() as $product)
-                                            <a href="{{ route('products.show', $product->display_slug) }}" class="inquiry-product">
+                                            <a href="{{ localized_route('products.show', $product->display_slug) }}" class="inquiry-product">
                                                 <img src="{{ $product->getPrimaryImageUrl() }}" alt="{{ $product->name }}">
                                             </a>
                                         @endforeach
@@ -185,7 +185,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                             <p>Bạn chưa có yêu cầu nào.</p>
-                            <a href="{{ route('products.index') }}" class="btn btn-primary">Xem sản phẩm</a>
+                            <a href="{{ localized_route('products.index') }}" class="btn btn-primary">Xem sản phẩm</a>
                         </div>
                     @endif
                 </div>

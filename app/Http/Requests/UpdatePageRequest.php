@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use App\Models\Page;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UpdatePageRequest extends FormRequest
 {
@@ -24,6 +24,7 @@ class UpdatePageRequest extends FormRequest
         if ($isPolicy) {
             return [
                 'title' => 'required|string|max:255',
+                'title_en' => 'nullable|string|max:255',
                 'slug' => 'prohibited',
                 'content' => 'prohibited',
                 'policy_intro' => 'nullable|string|max:1000',
@@ -36,8 +37,10 @@ class UpdatePageRequest extends FormRequest
         if ($isSeasonal) {
             return [
                 'title' => 'required|string|max:255',
+                'title_en' => 'nullable|string|max:255',
                 'slug' => 'prohibited',
                 'content' => 'required|json',
+                'content_en' => 'nullable|json',
                 'is_active' => 'boolean',
             ];
         }
@@ -45,16 +48,20 @@ class UpdatePageRequest extends FormRequest
         if ($isGuide) {
             return [
                 'title' => 'required|string|max:255',
+                'title_en' => 'nullable|string|max:255',
                 'slug' => 'prohibited',
                 'content' => 'required|string',
+                'content_en' => 'nullable|string',
                 'is_active' => 'boolean',
             ];
         }
 
         return [
             'title' => 'required|string|max:255',
-            'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,' . $page->id, Rule::notIn(Page::STATIC_SLUGS)],
+            'title_en' => 'nullable|string|max:255',
+            'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,'.$page->id, Rule::notIn(Page::STATIC_SLUGS)],
             'content' => 'required|string',
+            'content_en' => 'nullable|string',
             'is_active' => 'boolean',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
@@ -83,7 +90,7 @@ class UpdatePageRequest extends FormRequest
         $isPolicy = $page instanceof Page && in_array($page->slug, Page::POLICY_SLUGS, true);
         $isSeasonal = $page instanceof Page && in_array($page->slug, Page::SEASONAL_SLUGS, true);
         $isGuide = $page instanceof Page && in_array($page->slug, Page::GUIDE_SLUGS, true);
-        if (!$isPolicy && !$isSeasonal && !$isGuide && empty($this->input('slug')) && !empty($this->input('title'))) {
+        if (! $isPolicy && ! $isSeasonal && ! $isGuide && empty($this->input('slug')) && ! empty($this->input('title'))) {
             $this->merge(['slug' => Str::slug($this->input('title'))]);
         }
 

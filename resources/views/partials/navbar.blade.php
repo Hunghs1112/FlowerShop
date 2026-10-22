@@ -2,7 +2,7 @@
     <div class="navbar-container">
 
         {{-- ─── Logo ─────────────────────────────────────────── --}}
-        <a href="{{ route('home') }}" class="navbar-logo">
+        <a href="{{ localized_route('home') }}" class="navbar-logo">
             <img src="{{ asset('images/logo.png') }}" alt="{{ $siteSettings['site_name'] ?? config('app.name') }}" class="navbar-logo-img">
         </a>
 
@@ -11,14 +11,14 @@
 
             {{-- Mùa lễ hội — gradient shimmer text --}}
             <li class="navbar-nav-item">
-                <a href="{{ route('season.mua-le-hoi') }}" class="nav-season-link {{ request()->routeIs('season.*') ? 'active' : '' }}">
+                <a href="{{ localized_route('season.mua-le-hoi') }}" class="nav-season-link {{ localized_route_is('season.*') ? 'active' : '' }}">
                     Mùa lễ hội
                 </a>
             </li>
 
             {{-- Sản phẩm — Mega Menu (danh mục từ DB) --}}
             <li class="navbar-nav-item" data-dropdown="mega">
-                <a href="{{ route('products.index') }}" class="navbar-nav-link {{ request()->routeIs('products.*') || request()->routeIs('categories.*') ? 'active' : '' }}">
+                <a href="{{ localized_route('products.index') }}" class="navbar-nav-link {{ localized_route_is('products.*') || localized_route_is('categories.*') ? 'active' : '' }}">
                     Sản phẩm
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -29,13 +29,13 @@
                     @if($navCategories->isNotEmpty())
                         <div class="mega-menu-grid-simple">
                             @foreach($navCategories as $navCat)
-                                <a href="{{ route('categories.show', $navCat->display_slug) }}" class="mega-menu-item">
+                                <a href="{{ localized_route('categories.show', $navCat->display_slug) }}" class="mega-menu-item">
                                     {{ $navCat->display_name }}
                                 </a>
                             @endforeach
 
                             {{-- Tất cả sản phẩm --}}
-                            <a href="{{ route('products.index') }}" class="mega-menu-item mega-menu-item-all">
+                            <a href="{{ localized_route('products.index') }}" class="mega-menu-item mega-menu-item-all">
                                 Xem tất cả sản phẩm
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -44,7 +44,7 @@
                         </div>
                     @else
                         <div class="mega-menu-grid-simple">
-                            <a href="{{ route('products.index') }}" class="mega-menu-item mega-menu-item-all">
+                            <a href="{{ localized_route('products.index') }}" class="mega-menu-item mega-menu-item-all">
                                 Xem tất cả sản phẩm
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -57,7 +57,7 @@
 
             {{-- Góc cảm hứng — link thẳng, không dropdown hardcode --}}
             <li class="navbar-nav-item">
-                <a href="{{ route('blog.index') }}" class="navbar-nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}">
+                <a href="{{ localized_route('blog.index') }}" class="navbar-nav-link {{ localized_route_is('blog.*') ? 'active' : '' }}">
                     Góc cảm hứng
                 </a>
             </li>
@@ -71,25 +71,25 @@
                     </svg>
                 </a>
                 <div class="navbar-dropdown">
-                    <a href="{{ route('policy.delivery') }}" class="navbar-dropdown-item">Chính sách giao hàng</a>
-                    <a href="{{ route('policy.baomat') }}" class="navbar-dropdown-item">Chính sách bảo mật</a>
-                    <a href="{{ route('policy.ours') }}" class="navbar-dropdown-item">Chính sách của chúng tôi</a>
-                    <a href="{{ route('policy.terms') }}" class="navbar-dropdown-item">Điều khoản dịch vụ</a>
-                    <a href="{{ route('guide') }}" class="navbar-dropdown-item">Hướng dẫn đặt hàng</a>
-                    <a href="{{ route('contact') }}" class="navbar-dropdown-item">Liên hệ</a>
+                    <a href="{{ localized_route('policy.delivery') }}" class="navbar-dropdown-item">{{ __('ui.delivery_policy') }}</a>
+                    <a href="{{ localized_route('policy.baomat') }}" class="navbar-dropdown-item">{{ __('ui.privacy_policy') }}</a>
+                    <a href="{{ localized_route('policy.ours') }}" class="navbar-dropdown-item">{{ __('ui.our_policy') }}</a>
+                    <a href="{{ localized_route('policy.terms') }}" class="navbar-dropdown-item">{{ __('ui.terms') }}</a>
+                    <a href="{{ localized_route('guide') }}" class="navbar-dropdown-item">{{ __('ui.ordering_guide') }}</a>
+                    <a href="{{ localized_route('contact') }}" class="navbar-dropdown-item">{{ __('ui.contact') }}</a>
                 </div>
             </li>
 
             {{-- Tuyển dụng — nút riêng --}}
             <li class="navbar-nav-item">
-                <a href="{{ route('career.index') }}" class="navbar-nav-link {{ request()->routeIs('career.*') ? 'active' : '' }}">
+                <a href="{{ localized_route('career.index') }}" class="navbar-nav-link {{ localized_route_is('career.*') ? 'active' : '' }}">
                     Tuyển dụng
                 </a>
             </li>
 
             {{-- B2B --}}
             <li class="navbar-nav-item">
-                <a href="{{ route('b2c') }}" class="navbar-nav-link {{ request()->routeIs('b2c') ? 'active' : '' }}">
+                <a href="{{ localized_route('b2c') }}" class="navbar-nav-link {{ localized_route_is('b2c') ? 'active' : '' }}">
                     B2B
                 </a>
             </li>
@@ -103,6 +103,13 @@
                     ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
                     : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
             @endphp
+
+            <a href="{{ locale_url(app()->getLocale() === 'en' ? 'vi' : 'en') }}"
+               class="navbar-action-btn"
+               hreflang="{{ app()->getLocale() === 'en' ? 'vi' : 'en' }}"
+               aria-label="{{ __('content.language') }}: {{ __('ui.switch_language') }}">
+                {{ app()->getLocale() === 'en' ? 'VI' : 'EN' }}
+            </a>
 
             <button type="button" class="navbar-action-btn theme-toggle" data-theme-toggle aria-label="Chuyển giao diện">
                 <svg class="theme-icon-light" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,7 +128,7 @@
             </button>
 
             {{-- Cart --}}
-            <a href="{{ route('cart.index') }}" class="navbar-action-btn navbar-cart-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
+            <a href="{{ localized_route('cart.index') }}" class="navbar-action-btn navbar-cart-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
@@ -140,20 +147,20 @@
                                 <span>{{ Str::limit(auth()->user()->name, 10) }}</span>
                             </button>
                             <div class="navbar-dropdown" id="userMenuDropdown">
-                                <a href="{{ route('profile.show') }}" class="navbar-dropdown-item">Tài khoản</a>
+                                <a href="{{ localized_route('profile.show') }}" class="navbar-dropdown-item">{{ __('ui.account') }}</a>
                                 @if(auth()->user()->isAdmin())
                                     <div class="navbar-dropdown-divider"></div>
-                                    <a href="{{ route('admin.dashboard') }}" class="navbar-dropdown-item">Quản trị</a>
+                                    <a href="{{ localized_route('admin.dashboard') }}" class="navbar-dropdown-item">{{ __('ui.admin') }}</a>
                                 @endif
                                 <div class="navbar-dropdown-divider"></div>
-                                <form action="{{ route('logout') }}" method="POST" class="navbar-logout-form">
+                                <form action="{{ localized_route('logout') }}" method="POST" class="navbar-logout-form">
                                     @csrf
-                                    <button type="submit" class="navbar-dropdown-item navbar-dropdown-btn">Đăng xuất</button>
+                                    <button type="submit" class="navbar-dropdown-item navbar-dropdown-btn">{{ __('ui.logout') }}</button>
                                 </form>
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="navbar-action-btn navbar-auth-btn" title="Đăng nhập" aria-label="Đăng nhập">
+                        <a href="{{ localized_route('login') }}" class="navbar-action-btn navbar-auth-btn" title="Đăng nhập" aria-label="Đăng nhập">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
@@ -176,13 +183,13 @@
 {{-- ─── Search Overlay ─────────────────────────────────── --}}
 <div class="search-overlay" id="searchOverlay">
     <div class="search-overlay-container">
-        <form action="{{ route('products.index') }}" method="GET" class="search-form" id="searchForm">
+        <form action="{{ localized_route('products.index') }}" method="GET" class="search-form" id="searchForm">
             <div class="search-input-wrapper">
                 <input
                     type="text"
                     name="q"
                     class="search-input"
-                    placeholder="Tìm kiếm sản phẩm..."
+                    placeholder="{{ __('ui.search_products') }}"
                     value="{{ request('q') ?: request('search') }}"
                     autocomplete="off"
                     aria-label="Tìm kiếm sản phẩm"
@@ -207,11 +214,11 @@
         {{-- Mobile Actions (cart, favorites, search-like quick links) --}}
         <ul class="mobile-menu-actions">
             <li>
-                <a href="{{ route('cart.index') }}" class="mobile-menu-action-item">
+                <a href="{{ localized_route('cart.index') }}" class="mobile-menu-action-item">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
-                    <span>Giỏ hàng</span>
+                    <span>{{ __('ui.cart') }}</span>
                     @if($cartCount > 0)
                         <span class="mobile-menu-badge">{{ $cartCount }}</span>
                     @endif
@@ -221,7 +228,7 @@
 
         <ul class="navbar-mobile-nav">
             {{-- Mùa lễ hội --}}
-            <li><a href="{{ route('season.mua-le-hoi') }}" class="nav-season-link">Mùa lễ hội</a></li>
+            <li><a href="{{ localized_route('season.mua-le-hoi') }}" class="nav-season-link">{{ __('ui.seasonal') }}</a></li>
 
             {{-- Sản phẩm accordion --}}
             <li class="navbar-mobile-accordion-item">
@@ -234,15 +241,15 @@
                 <div class="navbar-mobile-accordion-content">
                     <div class="navbar-mobile-accordion-links">
                         @foreach($navCategories->take(8) as $navCat)
-                            <a href="{{ route('categories.show', $navCat->display_slug) }}" class="navbar-mobile-accordion-link">{{ $navCat->display_name }}</a>
+                            <a href="{{ localized_route('categories.show', $navCat->display_slug) }}" class="navbar-mobile-accordion-link">{{ $navCat->display_name }}</a>
                         @endforeach
-                        <a href="{{ route('products.index') }}" class="navbar-mobile-accordion-link">Tất cả sản phẩm</a>
+                        <a href="{{ localized_route('products.index') }}" class="navbar-mobile-accordion-link">{{ __('ui.all_products') }}</a>
                     </div>
                 </div>
             </li>
 
             {{-- Góc cảm hứng --}}
-            <li><a href="{{ route('blog.index') }}">Bài viết</a></li>
+            <li><a href="{{ localized_route('blog.index') }}">Bài viết</a></li>
 
             {{-- Thông tin --}}
             <li class="navbar-mobile-accordion-item">
@@ -254,38 +261,38 @@
                 </button>
                 <div class="navbar-mobile-accordion-content">
                     <div class="navbar-mobile-accordion-links">
-                        <a href="{{ route('policy.delivery') }}" class="navbar-mobile-accordion-link">Chính sách giao hàng</a>
-                        <a href="{{ route('policy.baomat') }}" class="navbar-mobile-accordion-link">Chính sách bảo mật</a>
-                        <a href="{{ route('policy.ours') }}" class="navbar-mobile-accordion-link">Chính sách của chúng tôi</a>
-                        <a href="{{ route('policy.terms') }}" class="navbar-mobile-accordion-link">Điều khoản dịch vụ</a>
-                        <a href="{{ route('guide') }}" class="navbar-mobile-accordion-link">Hướng dẫn đặt hàng</a>
-                        <a href="{{ route('contact') }}" class="navbar-mobile-accordion-link">Liên hệ</a>
+                        <a href="{{ localized_route('policy.delivery') }}" class="navbar-mobile-accordion-link">{{ __('ui.delivery_policy') }}</a>
+                        <a href="{{ localized_route('policy.baomat') }}" class="navbar-mobile-accordion-link">{{ __('ui.privacy_policy') }}</a>
+                        <a href="{{ localized_route('policy.ours') }}" class="navbar-mobile-accordion-link">{{ __('ui.our_policy') }}</a>
+                        <a href="{{ localized_route('policy.terms') }}" class="navbar-mobile-accordion-link">{{ __('ui.terms') }}</a>
+                        <a href="{{ localized_route('guide') }}" class="navbar-mobile-accordion-link">{{ __('ui.ordering_guide') }}</a>
+                        <a href="{{ localized_route('contact') }}" class="navbar-mobile-accordion-link">{{ __('ui.contact') }}</a>
                     </div>
                 </div>
             </li>
 
             {{-- Tuyển dụng --}}
-            <li><a href="{{ route('career.index') }}" class="nav-season-link">Tuyển dụng</a></li>
+            <li><a href="{{ localized_route('career.index') }}" class="nav-season-link">{{ __('ui.careers') }}</a></li>
 
             {{-- B2B --}}
-            <li><a href="{{ route('b2c') }}">B2B</a></li>
+            <li><a href="{{ localized_route('b2c') }}">B2B</a></li>
 
             @auth
                 <div class="mobile-menu-divider"></div>
-                <li><a href="{{ route('profile.show') }}">Tài khoản</a></li>
+                <li><a href="{{ localized_route('profile.show') }}">{{ __('ui.account') }}</a></li>
                 @if(auth()->user()->isAdmin())
-                    <li><a href="{{ route('admin.dashboard') }}">Quản trị</a></li>
+                    <li><a href="{{ localized_route('admin.dashboard') }}">{{ __('ui.admin') }}</a></li>
                 @endif
                 <div class="mobile-menu-divider"></div>
                 <li>
-                    <form action="{{ route('logout') }}" method="POST" class="navbar-logout-form">
+                    <form action="{{ localized_route('logout') }}" method="POST" class="navbar-logout-form">
                         @csrf
-                        <button type="submit" class="mobile-menu-logout-btn">Đăng xuất</button>
+                        <button type="submit" class="mobile-menu-logout-btn">{{ __('ui.logout') }}</button>
                     </form>
                 </li>
             @else
                 <div class="mobile-menu-divider"></div>
-                <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                <li><a href="{{ localized_route('login') }}">{{ __('ui.login') }}</a></li>
             @endauth
         </ul>
     </div>

@@ -20,7 +20,7 @@
                 </svg>
                 <h3 class="favorites-empty__title">Chưa có sản phẩm yêu thích</h3>
                 <p class="favorites-empty__text">Hãy khám phá và lưu những sản phẩm bạn thích để xem lại sau</p>
-                <a href="{{ route('products.index') }}" class="btn btn--primary">
+                <a href="{{ localized_route('products.index') }}" class="btn btn--primary">
                     Khám phá sản phẩm
                 </a>
             </div>

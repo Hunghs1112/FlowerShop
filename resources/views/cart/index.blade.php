@@ -7,7 +7,7 @@
     title="Giỏ hàng"
     description="Xem lại các sản phẩm bạn đã chọn trước khi thanh toán"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => route('home')],
+        ['label' => 'Trang chủ', 'url' => localized_route('home')],
         ['label' => 'Giỏ hàng']
     ]"
     :image="$siteBanners['cart'] ?? null"
@@ -32,7 +32,7 @@
                             </div>
                             <div class="cart-item-info">
                                 <h3 class="cart-item-name">
-                                    <a href="{{ route('products.show', $item->product->display_slug) }}">
+                                    <a href="{{ localized_route('products.show', $item->product->display_slug) }}">
                                         {{ $item->getDisplayName() }}
                                     </a>
                                 </h3>
@@ -55,7 +55,7 @@
                                 {{ number_format($item->variant ? $item->variant->price : $item->product->price, 0, ',', '.') }}₫
                             </div>
                             <div class="cart-item-quantity">
-                                <form action="{{ route('cart.update', $item->id) }}" method="POST" class="quantity-form">
+                                <form action="{{ localized_route('cart.update', $item->id) }}" method="POST" class="quantity-form">
                                     @csrf
                                     @method('PATCH')
                                     <div class="cart-item-controls">
@@ -71,7 +71,7 @@
                                 {{ number_format($item->getSubtotal(), 0, ',', '.') }}₫
                             </div>
                             <div class="cart-item-controls">
-                                <form action="{{ route('cart.destroy', $item->id) }}" method="POST">
+                                <form action="{{ localized_route('cart.destroy', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="cart-item-remove" title="Xóa" aria-label="Xóa">
@@ -88,7 +88,7 @@
 
             <div class="cart-actions">
                 <div class="cart-actions-left">
-                    <a href="{{ route('products.index') }}" class="btn btn-outline">
+                    <a href="{{ localized_route('products.index') }}" class="btn btn-outline">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
@@ -96,7 +96,7 @@
                     </a>
                 </div>
                 <div class="cart-actions-right">
-                    <form action="{{ route('cart.clear') }}" method="POST">
+                    <form action="{{ localized_route('cart.clear') }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-secondary" onclick="return confirm('Xóa tất cả sản phẩm khỏi giỏ hàng?')">
@@ -132,7 +132,7 @@
                             <span class="cart-summary-total-value">{{ number_format($total, 0, ',', '.') }}₫</span>
                         </div>
                         <div class="cart-summary-actions">
-                            <a href="{{ route('checkout.index') }}" class="btn btn-primary btn-lg">
+                            <a href="{{ localized_route('checkout.index') }}" class="btn btn-primary btn-lg">
                                 Thanh toán
                             </a>
                         </div>
@@ -163,7 +163,7 @@
             </div>
             <h2 class="cart-empty-title">Giỏ hàng trống</h2>
             <p class="cart-empty-description">Hãy chọn những sản phẩm yêu thích của bạn!</p>
-            <a href="{{ route('products.index') }}" class="btn btn-primary btn-lg">
+            <a href="{{ localized_route('products.index') }}" class="btn btn-primary btn-lg">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                 </svg>

@@ -49,30 +49,30 @@ class HomeController extends Controller
         $homeData = [
             'products' => $newArrivalProducts->take(4)->map(fn ($product) => [
                 'name' => $product->display_name,
-                'origin' => $product->origin ?: 'Hoa nhập khẩu',
-                'url' => route('products.show', $product->display_slug),
+                'origin' => $product->origin ?: __('customer.messages.imported_flowers'),
+                'url' => localized_route('products.show', $product->display_slug),
                 'image' => $product->getPrimaryImageUrl(),
                 'code' => Str::upper(Str::substr((string) preg_replace('/[^A-Za-z0-9]/', '', $product->sku), 0, 3)) ?: 'LNT',
                 'status_key' => $product->arrival_status,
             ])->values(),
             'categories' => $categories->take(9)->map(fn ($category) => [
                 'name' => $category->display_name,
-                'url' => route('products.index', ['categories' => [$category->id]]),
+                'url' => localized_route('products.index', ['categories' => [$category->id]]),
                 'image' => $category->image_url,
                 'count' => $category->products()->count(),
             ])->values(),
             'posts' => $latestPosts->map(fn ($post) => [
-                'title' => $post->title,
-                'url' => route('blog.show', $post->slug),
+                'title' => $post->display_title,
+                'url' => localized_route('blog.show', $post->display_slug),
                 'image' => $post->image_url,
-                'excerpt' => \Illuminate\Support\Str::limit($post->excerpt ?? strip_tags($post->content), 90),
+                'excerpt' => Str::limit($post->display_excerpt ?? strip_tags($post->display_content), 90),
             ])->values(),
             'hero' => $banners->first() ? [
                 'image' => $banners->first()->image_url,
                 'title' => $banners->first()->subtitle,
                 'label' => $banners->first()->title,
-                'url' => $banners->first()->button_link ?: route('products.index'),
-                'button' => $banners->first()->button_text ?: 'Đặt hoa ngay',
+                'url' => $banners->first()->button_link ?: localized_route('products.index'),
+                'button' => $banners->first()->button_text ?: __('customer.messages.order_now'),
             ] : null,
             'seasonal' => [
                 'autumn_image' => $this->images->url($seasonalImages['seasonal_thu_hero'])
@@ -82,13 +82,13 @@ class HomeController extends Controller
                 'tree_image' => $this->images->url($seasonalImages['seasonal_thong_hero']),
             ],
             'links' => [
-                'products' => route('products.index'),
-                'cart' => route('cart.index'),
-                'account' => auth()->check() ? route('profile.show') : route('login'),
-                'blog' => route('blog.index'),
-                'b2c' => route('b2c'),
-                'mysteryBox' => route('mystery-box.index'),
-                'about' => route('about'),
+                'products' => localized_route('products.index'),
+                'cart' => localized_route('cart.index'),
+                'account' => auth()->check() ? localized_route('profile.show') : localized_route('login'),
+                'blog' => localized_route('blog.index'),
+                'b2c' => localized_route('b2c'),
+                'mysteryBox' => localized_route('mystery-box.index'),
+                'about' => localized_route('about'),
             ],
         ];
 

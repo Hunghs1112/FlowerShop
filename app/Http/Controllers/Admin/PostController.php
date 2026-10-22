@@ -63,10 +63,14 @@ class PostController extends Controller
         // Define allowed fields with validation rules
         $fieldConfig = [
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts,slug,'.$post->id,
+            'title_en' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:posts,slug,'.$post->id.'|unique:posts,slug_en,'.$post->id,
+            'slug_en' => 'nullable|string|max:255|unique:posts,slug_en,'.$post->id.'|unique:posts,slug,'.$post->id,
             'excerpt' => 'nullable|string|max:500',
+            'excerpt_en' => 'nullable|string|max:500',
             'category' => 'required|in:'.implode(',', array_keys(Post::CATEGORIES)),
             'content' => 'required|string',
+            'content_en' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'is_published' => 'boolean',

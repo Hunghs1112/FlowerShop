@@ -4,7 +4,7 @@
         <div class="footer-main">
             <!-- Column 1 - Contact from DB settings -->
             <div class="footer-column">
-                <h3 class="footer-column-heading">Liên hệ</h3>
+                <h3 class="footer-column-heading">{{ __('ui.contact') }}</h3>
 
                 @if(!empty($siteSettings['phone']))
                 <div class="footer-contact-item">
@@ -22,7 +22,7 @@
 
                 @if(!empty($siteSettings['address']))
                 <div class="footer-contact-item">
-                    <div class="footer-contact-label">Địa chỉ</div>
+                    <div class="footer-contact-label">{{ __('customer.footer.address') }}</div>
                     <span class="footer-contact-value">{{ $siteSettings['address'] }}</span>
                 </div>
                 @endif
@@ -69,50 +69,50 @@
 
             <!-- Column 2 - Categories from DB -->
             <div class="footer-column">
-                <h3 class="footer-column-heading">Danh mục</h3>
+                <h3 class="footer-column-heading">{{ __('customer.footer.categories') }}</h3>
                 <nav class="footer-links">
                     @foreach($navCategories as $footerCat)
-                        <a href="{{ route('categories.show', $footerCat->display_slug) }}" class="footer-link">{{ $footerCat->display_name }}</a>
+                        <a href="{{ localized_route('categories.show', $footerCat->display_slug) }}" class="footer-link">{{ $footerCat->display_name }}</a>
                     @endforeach
                     @if($navCategories->isEmpty())
-                        <a href="{{ route('products.index') }}" class="footer-link">Tất cả sản phẩm</a>
+                        <a href="{{ localized_route('products.index') }}" class="footer-link">{{ __('ui.all_products') }}</a>
                     @endif
                 </nav>
             </div>
 
             <!-- Column 3 - Information -->
             <div class="footer-column">
-                <h3 class="footer-column-heading">Thông tin</h3>
+                <h3 class="footer-column-heading">{{ __('ui.information') }}</h3>
                 <nav class="footer-links">
-                    <a href="{{ route('policy.delivery') }}" class="footer-link">Chính sách giao hàng</a>
-                    <a href="{{ route('policy.baomat') }}" class="footer-link">Chính sách bảo mật</a>
-                    <a href="{{ route('policy.ours') }}" class="footer-link">Chính sách của chúng tôi</a>
-                    <a href="{{ route('policy.terms') }}" class="footer-link">Điều khoản dịch vụ</a>
-                    <a href="{{ route('guide') }}" class="footer-link">Hướng dẫn đặt hàng</a>
-                    <a href="{{ route('career.index') }}" class="footer-link">Tuyển dụng</a>
-                    <a href="{{ route('season.phu-kien') }}" class="footer-link">Phụ kiện cây thông</a>
-                    <a href="{{ route('season.mua-le-hoi') }}" class="footer-link">Mùa lễ hội</a>
-                    <a href="{{ route('contact') }}" class="footer-link">Liên hệ</a>
+                    <a href="{{ localized_route('policy.delivery') }}" class="footer-link">{{ __('ui.delivery_policy') }}</a>
+                    <a href="{{ localized_route('policy.baomat') }}" class="footer-link">{{ __('ui.privacy_policy') }}</a>
+                    <a href="{{ localized_route('policy.ours') }}" class="footer-link">{{ __('ui.our_policy') }}</a>
+                    <a href="{{ localized_route('policy.terms') }}" class="footer-link">{{ __('ui.terms') }}</a>
+                    <a href="{{ localized_route('guide') }}" class="footer-link">{{ __('ui.ordering_guide') }}</a>
+                    <a href="{{ localized_route('career.index') }}" class="footer-link">{{ __('ui.careers') }}</a>
+                    <a href="{{ localized_route('season.phu-kien') }}" class="footer-link">{{ __('customer.footer.tree_accessories') }}</a>
+                    <a href="{{ localized_route('season.mua-le-hoi') }}" class="footer-link">{{ __('ui.seasonal') }}</a>
+                    <a href="{{ localized_route('contact') }}" class="footer-link">{{ __('ui.contact') }}</a>
                 </nav>
             </div>
 
             <!-- Column 4 - Newsletter -->
             <div class="footer-column">
-                <h3 class="footer-column-heading">Bản tin</h3>
-                <p class="footer-newsletter-description">Đăng ký nhận tin khuyến mãi và cập nhật mới nhất từ chúng tôi.</p>
+                <h3 class="footer-column-heading">{{ __('customer.footer.newsletter') }}</h3>
+                <p class="footer-newsletter-description">{{ __('customer.footer.newsletter_intro') }}</p>
 
-                <form class="footer-newsletter-form" action="{{ route('newsletter.store') }}" method="POST">
+                <form class="footer-newsletter-form" action="{{ localized_route('newsletter.store') }}" method="POST">
                     @csrf
                     <input
                         type="email"
                         name="email"
-                        placeholder="Nhập email của bạn"
+                        placeholder="{{ __('customer.footer.email_placeholder') }}"
                         class="footer-newsletter-input"
                         value="{{ $errors->newsletter->has('email') ? old('email') : '' }}"
                         @if(session('newsletter_success') || $errors->newsletter->has('email')) aria-describedby="newsletter-feedback" @endif
                         required
                     >
-                    <button type="submit" class="footer-newsletter-button">Đăng ký</button>
+                    <button type="submit" class="footer-newsletter-button">{{ __('customer.footer.subscribe') }}</button>
                 </form>
 
                 @if(session('newsletter_success'))
@@ -122,7 +122,7 @@
                 @endif
 
                 <p class="footer-newsletter-consent">
-                    Bằng việc đăng ký, bạn đồng ý với <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a>
+                    {{ __('customer.footer.consent') }} <a href="{{ localized_route('policy.baomat') }}">{{ __('ui.privacy_policy') }}</a>
                 </p>
             </div>
         </div>

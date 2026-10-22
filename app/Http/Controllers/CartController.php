@@ -16,6 +16,7 @@ class CartController extends Controller
         $cartItems = $this->cartService->getCartItems();
         $total = $this->cartService->getTotal();
         $bannerKey = 'cart';
+
         return view('cart.index', compact('cartItems', 'total', 'bannerKey'));
     }
 
@@ -29,7 +30,7 @@ class CartController extends Controller
 
         try {
             $this->cartService->addItem(
-                $validated['product_id'], 
+                $validated['product_id'],
                 $validated['quantity'],
                 $validated['variant_id'] ?? null
             );
@@ -40,26 +41,27 @@ class CartController extends Controller
                     'message' => $e->getMessage(),
                 ], 422);
             }
+
             return redirect()->back()->with('error', $e->getMessage());
         }
 
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Đã thêm vào giỏ hàng',
+                'message' => __('customer.messages.cart_added'),
                 'cart_count' => $this->cartService->getItemsCount(),
             ]);
         }
 
         if ($request->boolean('buy_now')) {
-            if (!auth()->check()) {
-                return redirect()->guest(route('checkout.index'));
+            if (! auth()->check()) {
+                return redirect()->guest(localized_route('checkout.index'));
             }
 
-            return redirect()->route('checkout.index');
+            return redirect(localized_route('checkout.index'));
         }
 
-        return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng');
+        return redirect()->back()->with('success', __('customer.messages.cart_added'));
     }
 
     public function update(Request $request, int $id)
@@ -82,14 +84,14 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Đã cập nhật giỏ hàng');
+        return redirect()->back()->with('success', __('customer.messages.cart_updated'));
     }
 
     public function remove(int $id)
     {
         $this->cartService->removeItem($id);
 
-        return redirect()->back()->with('success', 'Đã xóa khỏi giỏ hàng');
+        return redirect()->back()->with('success', __('customer.messages.cart_removed'));
     }
 
     public function destroy(int $id)
@@ -101,6 +103,6 @@ class CartController extends Controller
     {
         $this->cartService->clearCart();
 
-        return redirect()->route('cart.index')->with('success', 'Đã xóa toàn bộ giỏ hàng');
+        return redirect(localized_route('cart.index'))->with('success', __('customer.messages.cart_cleared'));
     }
 }

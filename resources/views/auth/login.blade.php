@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Đăng nhập')
+@section('title', __('customer.login.title'))
 
 @section('content')
 <div class="auth-split">
@@ -68,13 +68,10 @@
                 <span class="auth-panel__brand-name">Lâm Nhiên Thảo</span>
             </div>
 
-            <blockquote class="auth-panel__quote">
-                Mỗi bông hoa là một <em>câu chuyện</em>,<br>
-                mỗi lời chúc là một <em>niềm vui</em>.
-            </blockquote>
+            <blockquote class="auth-panel__quote">{!! __('customer.login.story') !!}</blockquote>
 
             <p class="auth-panel__subtext">
-                Chào mừng bạn quay trở lại. Đăng nhập để quản lý tài khoản, theo dõi đơn hàng và khám phá thêm nhiều sản phẩm hoa tươi cao cấp.
+                {{ __('customer.login.intro') }}
             </p>
 
             <div class="auth-panel__badges">
@@ -82,19 +79,19 @@
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/>
                     </svg>
-                    Giao hoa tươi 2-4h
+                    {{ __('customer.login.delivery') }}
                 </span>
                 <span class="auth-panel__badge">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
                     </svg>
-                    Hoa tươi 100%
+                    {{ __('customer.login.fresh') }}
                 </span>
                 <span class="auth-panel__badge">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
                     </svg>
-                    Hơn 10.000+ khách hàng
+                    {{ __('customer.login.customers') }}
                 </span>
             </div>
         </div>
@@ -108,15 +105,15 @@
 
                 {{-- Tabs: Login / Register --}}
                 <div class="auth-tabs">
-                    <a href="{{ route('login') }}" class="auth-tab is-active">Đăng nhập</a>
-                    <a href="{{ route('register') }}" class="auth-tab">Đăng ký</a>
+                    <a href="{{ localized_route('login') }}" class="auth-tab is-active">{{ __('ui.login') }}</a>
+                    <a href="{{ localized_route('register') }}" class="auth-tab">{{ __('customer.login.register') }}</a>
                 </div>
 
                 {{-- Header --}}
                 <div class="auth-header">
-                    <h1 class="auth-title">Chào mừng trở lại</h1>
+                    <h1 class="auth-title">{{ __('customer.login.welcome') }}</h1>
                     <p class="auth-subtitle">
-                        Đăng nhập để tiếp tục mua sắm hoa tươi cao cấp tại Lâm Nhiên Thảo.
+                        {{ __('customer.login.subtitle') }}
                     </p>
                 </div>
 
@@ -141,7 +138,7 @@
                 @endif
 
                 {{-- Login Form --}}
-                <form method="POST" action="{{ route('login') }}" class="auth-form" id="login-form">
+                <form method="POST" action="{{ localized_route('login') }}" class="auth-form" id="login-form">
                     @csrf
 
                     <div class="form-group">
@@ -168,18 +165,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="form-label">Mật khẩu</label>
+                        <label for="password" class="form-label">{{ __('customer.login.password') }}</label>
                         <div class="form-password-wrap">
                             <input
                                 type="password"
                                 id="password"
                                 name="password"
                                 class="form-input @error('password') error @enderror"
-                                placeholder="Nhập mật khẩu"
+                                placeholder="{{ __('customer.login.password_placeholder') }}"
                                 required
                                 autocomplete="current-password"
                             >
-                            <button type="button" class="form-password-toggle" onclick="togglePassword('password', this)" aria-label="Hiện/Ẩn mật khẩu">
+                            <button type="button" class="form-password-toggle" onclick="togglePassword('password', this)" aria-label="{{ __('customer.login.toggle_password') }}">
                                 <svg class="icon-eye" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -207,25 +204,25 @@
                             class="form-checkbox"
                             {{ old('remember') ? 'checked' : '' }}
                         >
-                        <label for="remember" class="form-checkbox-label">Ghi nhớ đăng nhập</label>
+                        <label for="remember" class="form-checkbox-label">{{ __('customer.login.remember') }}</label>
                     </div>
 
                     <button type="submit" class="auth-submit" id="login-btn">
-                        Đăng nhập
+                        {{ __('ui.login') }}
                     </button>
                 </form>
 
                 {{-- Forgot Password --}}
                 <div class="auth-footer" style="border-top:none; padding-top:0; margin-top: var(--sp-4);">
-                    <a href="{{ route('password.request') }}" class="auth-footer-link">
-                        Quên mật khẩu?
+                    <a href="{{ localized_route('password.request') }}" class="auth-footer-link">
+                        {{ __('customer.login.forgot') }}
                     </a>
                 </div>
 
                 {{-- Register link --}}
                 <div class="auth-footer">
-                    Chưa có tài khoản?
-                    <a href="{{ route('register') }}" class="auth-footer-link">Đăng ký ngay</a>
+                    {{ __('customer.login.no_account') }}
+                    <a href="{{ localized_route('register') }}" class="auth-footer-link">{{ __('customer.login.register_now') }}</a>
                 </div>
             </div>
         </div>
@@ -253,7 +250,7 @@ document.getElementById('login-form')?.addEventListener('submit', function() {
     const btn = document.getElementById('login-btn');
     if (btn) {
         btn.disabled = true;
-        btn.textContent = 'Đang đăng nhập...';
+        btn.textContent = @json(__('customer.login.submitting'));
     }
 });
 </script>

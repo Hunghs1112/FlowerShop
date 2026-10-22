@@ -7,7 +7,7 @@ class ChatPolling {
     constructor(config = {}) {
         this.config = {
             interval: config.interval || 3000, // Poll every 3 seconds
-            endpoint: config.endpoint || '/api/chat/messages',
+            endpoint: config.endpoint || `${document.documentElement.lang === 'en' ? '/en' : ''}/api/chat/messages`,
             onNewMessage: config.onNewMessage || null,
             onError: config.onError || null,
             debug: config.debug ?? true,

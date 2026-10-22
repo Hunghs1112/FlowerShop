@@ -6,16 +6,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @php
-        $siteName = $siteSettings['site_name'] ?? config('app.name');
+        $siteName = trim((string) ($siteSettings['site_name'] ?? '')) ?: config('app.name', 'Flower Shop');
         $pageTitle = trim((string) View::yieldContent('title'));
         $fullTitle = $pageTitle !== '' ? $pageTitle : $siteName;
         $pageDesc = trim((string) View::yieldContent('description'));
-        $siteDesc = $siteSettings['site_description'] ?? $siteName;
+        $siteDesc = trim((string) ($siteSettings['site_description'] ?? '')) ?: __('ui.default_description');
         $description = $pageDesc !== '' ? $pageDesc : $siteDesc;
         $ogImage = !empty($siteSettings['site_logo'])
             ? asset('storage/' . $siteSettings['site_logo'])
             : asset('og-image.png');
-        $canonical = url()->current();
+        $canonical = locale_url(app()->getLocale());
     @endphp
     <title>{{ $fullTitle }}</title>
     <meta name="description" content="{{ $description }}">
@@ -27,7 +27,7 @@
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:image" content="{{ $ogImage }}">
     <meta property="og:url" content="{{ $canonical }}">
-    <meta property="og:locale" content="vi_VN">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : 'vi_VN' }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $fullTitle }}">
     <meta name="twitter:description" content="{{ $description }}">
@@ -35,12 +35,15 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="alternate icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="canonical" href="{{ $canonical }}">
+    <link rel="alternate" hreflang="vi" href="{{ locale_url('vi') }}">
+    <link rel="alternate" hreflang="en" href="{{ locale_url('en') }}">
+    <link rel="alternate" hreflang="x-default" href="{{ locale_url('vi') }}">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     @stack('styles')
     @include('partials.theme-head')
 </head>
-<body class="@yield('body-class') {{ request()->routeIs('about', 'contact', 'contact.store', 'policy', 'guide') ? 'info-pages-theme' : '' }} {{ request()->routeIs('policy.*', 'guide', 'contact') ? 'static-info-page' : '' }}">
+<body class="@yield('body-class') {{ localized_route_is('about', 'contact', 'contact.store', 'policy', 'guide') ? 'info-pages-theme' : '' }} {{ localized_route_is('policy.*', 'guide', 'contact') ? 'static-info-page' : '' }}">
     @if(!View::hasSection('skip-navbar'))
         @include('partials.navbar')
     @endif
@@ -69,8 +72,8 @@
                     <div class="floating-chat-header">
                         <div class="floating-chat-header-avatar">A</div>
                         <div class="floating-chat-header-info">
-                            <h3 class="floating-chat-header-title">Hỗ trợ khách hàng</h3>
-                            <div class="floating-chat-header-status">Trực tuyến</div>
+                            <h3 class="floating-chat-header-title">{{ __('ui.support') }}</h3>
+                            <div class="floating-chat-header-status">{{ __('ui.online') }}</div>
                         </div>
                     </div>
 
@@ -80,7 +83,7 @@
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                             </svg>
-                            <p>Chưa có tin nhắn nào.<br>Hãy gửi tin nhắn để bắt đầu trò chuyện!</p>
+                            <p>{{ __('ui.chat_empty') }}</p>
                         </div>
                     </div>
 
@@ -88,7 +91,7 @@
                     <form class="floating-chat-input" id="floatingChatForm">
                         <textarea 
                             id="floatingChatInput" 
-                            placeholder="Nhập tin nhắn..."
+                            placeholder="{{ __('ui.chat_placeholder') }}"
                             rows="1"
                         ></textarea>
                         <button type="submit" id="floatingChatSend">
@@ -133,7 +136,7 @@
 
         // Add to cart helper
         function addToCart(productId, quantity = 1) {
-            fetch('/gio-hang/them', {
+            fetch(@json(localized_route('cart.add')), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -145,7 +148,7 @@
             .then(data => {
                 if (data.success) {
                     updateCartCount(data.cart_count);
-                    showNotification('Đã thêm vào giỏ hàng!', 'success');
+                    showNotification(@json(__('ui.add_to_cart_success')), 'success');
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -209,7 +212,7 @@
 
             // Load messages
             function loadMessages() {
-                fetch('{{ route("chat.messages") }}', {
+                fetch('{{ localized_route("chat.messages") }}', {
                     headers: { 
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Accept': 'application/json'
@@ -264,8 +267,8 @@
                 
                 // Guest users need to login first
                 if (!isLoggedIn) {
-                    alert('Vui lòng đăng nhập để gửi tin nhắn hỗ trợ');
-                    window.location.href = '{{ route("login") }}?redirect=' + encodeURIComponent(window.location.pathname);
+                    alert(@json(__('customer.login.subtitle')));
+                    window.location.href = '{{ localized_route("login") }}?redirect=' + encodeURIComponent(window.location.pathname);
                     return;
                 }
 
@@ -274,7 +277,7 @@
                 sendBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" opacity="0.25"/></svg>';
 
                 try {
-                    const response = await fetch('{{ route("chat.send") }}', {
+                    const response = await fetch('{{ localized_route("chat.send") }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -304,7 +307,7 @@
             setInterval(function() {
                 if (!isOpen) return;
                 
-                fetch('{{ route("chat.poll") }}?after=' + lastMessageId, {
+                fetch('{{ localized_route("chat.poll") }}?after=' + lastMessageId, {
                     headers: { 
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Accept': 'application/json'
@@ -324,7 +327,7 @@
 
             // Unread count
             function updateUnreadCount() {
-                fetch('{{ route("chat.unread-count") }}', {
+                fetch('{{ localized_route("chat.unread-count") }}', {
                     headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
                 })
                 .then(r => r.json())

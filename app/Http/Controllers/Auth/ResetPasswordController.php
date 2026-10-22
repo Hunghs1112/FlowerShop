@@ -14,7 +14,7 @@ class ResetPasswordController extends Controller
     {
         return view('auth.passwords.reset')->with([
             'token' => $token,
-            'email' => $request->email
+            'email' => $request->email,
         ]);
     }
 
@@ -30,7 +30,7 @@ class ResetPasswordController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => Hash::make($password),
                 ])->setRememberToken(Str::random(60));
 
                 $user->save();
@@ -38,7 +38,7 @@ class ResetPasswordController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect(localized_route('login'))->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
 }

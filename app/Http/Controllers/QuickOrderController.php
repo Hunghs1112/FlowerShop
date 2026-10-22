@@ -26,6 +26,7 @@ class QuickOrderController extends Controller
         } catch (\Throwable $e) {
             return back()->withInput()->with('error', $e->getMessage());
         }
-        return redirect()->route('checkout.success', ['inquiry' => $order->id])->with('success', 'Đặt hàng nhanh thành công!');
+
+        return redirect(localized_route('checkout.success', ['inquiry' => $order->id]))->with('success', __('customer.messages.quick_order_success'));
     }
 }

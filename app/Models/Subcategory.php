@@ -11,8 +11,11 @@ class Subcategory extends Model
     protected $fillable = [
         'category_id',
         'name',
+        'name_en',
         'slug',
+        'slug_en',
         'description',
+        'description_en',
         'image',
         'sort_order',
         'is_active',
@@ -42,22 +45,27 @@ class Subcategory extends Model
     // Helpers
     public function getFullPath(): string
     {
-        return $this->category->name . ' > ' . $this->name;
+        return $this->category->name.' > '.$this->name;
     }
 
     public function getDisplayNameAttribute(): string
     {
-        return $this->name;
+        return app()->getLocale() === 'en' && filled($this->name_en) ? $this->name_en : $this->name;
     }
 
     public function getDisplayDescriptionAttribute(): ?string
     {
-        return $this->description;
+        return app()->getLocale() === 'en' && filled($this->description_en) ? $this->description_en : $this->description;
+    }
+
+    public function getDisplaySlugAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->slug_en) ? $this->slug_en : $this->slug;
     }
 
     public function getImageUrlAttribute(): string
     {
-        if (!$this->image) {
+        if (! $this->image) {
             return 'https://via.placeholder.com/400x300/E5E7EB/6B7280?text=Subcategory';
         }
 
@@ -65,6 +73,6 @@ class Subcategory extends Model
             return $this->image;
         }
 
-        return asset('storage/' . ltrim($this->image, '/'));
+        return asset('storage/'.ltrim($this->image, '/'));
     }
 }

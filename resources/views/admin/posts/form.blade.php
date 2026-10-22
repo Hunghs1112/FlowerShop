@@ -77,6 +77,15 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                         <x-post-content-image-upload />
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Ctrl+Enter để lưu ngay</small>
                     </div>
+
+                    <div style="border-top: 1px solid var(--admin-border); padding-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+                        <strong>English content</strong>
+                        @foreach(['title_en' => 'English title', 'slug_en' => 'English slug'] as $field => $placeholder)
+                            <input type="text" name="{{ $field }}" value="{{ old($field, $post->{$field} ?? '') }}" placeholder="{{ $placeholder }}" class="auto-save-input form-input" data-entity="posts" data-id="{{ $post->id ?? '' }}">
+                        @endforeach
+                        <textarea name="excerpt_en" rows="3" placeholder="English excerpt" class="auto-save-input form-input" data-entity="posts" data-id="{{ $post->id ?? '' }}">{{ old('excerpt_en', $post->excerpt_en ?? '') }}</textarea>
+                        <textarea name="content_en" rows="12" placeholder="English content" class="auto-save-input form-input" data-entity="posts" data-id="{{ $post->id ?? '' }}">{{ old('content_en', $post->content_en ?? '') }}</textarea>
+                    </div>
                 </div>
             </div>
         </div>

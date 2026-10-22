@@ -14,18 +14,21 @@ class OrderConfirmationMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Order $order, public array $orderItems, public float $total) {}
+    public function __construct(public Order $order, public array $orderItems, public float $total)
+    {
+        $this->locale(app()->getLocale());
+    }
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'Xác nhận đơn hàng #' . $this->order->id);
+        return new Envelope(subject: __('customer.mail.subject', ['id' => $this->order->id]));
     }
 
     public function content(): Content
     {
         return new Content(view: 'emails.order-confirmation', with: [
             'orderId' => $this->order->id,
-            'customerName' => e($this->order->customer_name),
+            'customerName' => $this->order->customer_name,
             'customerPhone' => e($this->order->customer_phone),
             'customerEmail' => e($this->order->customer_email),
             'orderItems' => $this->orderItems, 'total' => $this->total,
@@ -39,5 +42,8 @@ class OrderConfirmationMail extends Mailable implements ShouldQueue
         ]);
     }
 
-    public function attachments(): array { return []; }
+    public function attachments(): array
+    {
+        return [];
+    }
 }

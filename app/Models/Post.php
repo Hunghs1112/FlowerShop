@@ -19,10 +19,14 @@ class Post extends Model
 
     protected $fillable = [
         'title',
+        'title_en',
         'slug',
+        'slug_en',
         'excerpt',
+        'excerpt_en',
         'category',
         'content',
+        'content_en',
         'thumbnail',
         'is_published',
         'published_at',
@@ -53,20 +57,42 @@ class Post extends Model
     // Helpers
     public function getReadingTime(): int
     {
-        $wordCount = str_word_count(strip_tags($this->content));
+        $wordCount = str_word_count(strip_tags($this->display_content));
+
         return ceil($wordCount / 200); // Assuming 200 words per minute
+    }
+
+    public function getDisplayTitleAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->title_en) ? $this->title_en : $this->title;
+    }
+
+    public function getDisplayExcerptAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->excerpt_en) ? $this->excerpt_en : $this->excerpt;
+    }
+
+    public function getDisplayContentAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->content_en) ? $this->content_en : $this->content;
+    }
+
+    public function getDisplaySlugAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->slug_en) ? $this->slug_en : $this->slug;
     }
 
     public function getImageUrlAttribute(): string
     {
-        if (!$this->thumbnail) {
+        if (! $this->thumbnail) {
             return 'https://via.placeholder.com/800x600/E5E7EB/6B7280?text=No+Image';
         }
         // Already an absolute URL (e.g. Unsplash, http/https)
         if (str_starts_with($this->thumbnail, 'http://') || str_starts_with($this->thumbnail, 'https://')) {
             return $this->thumbnail;
         }
+
         // Relative path → storage disk
-        return asset('storage/' . $this->thumbnail);
+        return asset('storage/'.$this->thumbnail);
     }
 }

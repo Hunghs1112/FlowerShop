@@ -81,7 +81,7 @@
                 <table class="items-table">
                     <thead>
                         <tr>
-                            <th>Sản phẩm</th>
+                            <th>{{ __('ui.products') }}</th>
                             <th>Đơn giá</th>
                             <th>SL</th>
                             <th>Thành tiền</th>

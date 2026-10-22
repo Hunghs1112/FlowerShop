@@ -29,7 +29,7 @@
                 const body = new FormData();
                 body.append('image', file);
 
-                const response = await fetch(@json(route('blog.content-image')), {
+                const response = await fetch(@json(localized_route('blog.content-image')), {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

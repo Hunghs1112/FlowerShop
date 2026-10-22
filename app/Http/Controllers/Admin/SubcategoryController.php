@@ -181,8 +181,11 @@ class SubcategoryController extends Controller
         $fieldConfig = [
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:subcategories,slug,'.$subcategory->id,
+            'name_en' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:subcategories,slug,'.$subcategory->id.'|unique:subcategories,slug_en,'.$subcategory->id,
+            'slug_en' => 'nullable|string|max:255|unique:subcategories,slug_en,'.$subcategory->id.'|unique:subcategories,slug,'.$subcategory->id,
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer',
         ];

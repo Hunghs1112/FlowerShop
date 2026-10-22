@@ -11,8 +11,11 @@ class Category extends Model
     protected $fillable = [
         'parent_id',
         'name',
+        'name_en',
         'slug',
+        'slug_en',
         'description',
+        'description_en',
         'icon',
         'image',
         'hover_image',
@@ -74,14 +77,25 @@ class Category extends Model
         return implode(' > ', $path);
     }
 
-    // Display helpers (locale-aware — simplified since bilingual feature was removed)
-    public function getDisplayNameAttribute(): string { return $this->name; }
-    public function getDisplayDescriptionAttribute(): ?string { return $this->description; }
-    public function getDisplaySlugAttribute(): string { return $this->slug; }
+    // Display helpers (locale-aware — Vietnamese as source, English as fallback)
+    public function getDisplayNameAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->name_en) ? $this->name_en : $this->name;
+    }
+
+    public function getDisplayDescriptionAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->description_en) ? $this->description_en : $this->description;
+    }
+
+    public function getDisplaySlugAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->slug_en) ? $this->slug_en : $this->slug;
+    }
 
     public function getImageUrlAttribute(): string
     {
-        if (!$this->image) {
+        if (! $this->image) {
             return 'https://via.placeholder.com/400x300/E5E7EB/6B7280?text=Category';
         }
 
@@ -91,12 +105,12 @@ class Category extends Model
         }
 
         // Clean path: remove leading slashes and always use /storage/ URL
-        return asset('storage/' . ltrim($this->image, '/'));
+        return asset('storage/'.ltrim($this->image, '/'));
     }
 
     public function getHoverImageUrlAttribute(): ?string
     {
-        if (!$this->hover_image) {
+        if (! $this->hover_image) {
             return null;
         }
 
@@ -111,12 +125,12 @@ class Category extends Model
         }
 
         // Default: stored in the public disk under storage/app/public/
-        return asset('storage/' . $this->hover_image);
+        return asset('storage/'.$this->hover_image);
     }
 
     public function getBannerImageUrlAttribute(): ?string
     {
-        if (!$this->banner_image) {
+        if (! $this->banner_image) {
             return null;
         }
 
@@ -131,6 +145,6 @@ class Category extends Model
         }
 
         // Default: stored in the public disk under storage/app/public/
-        return asset('storage/' . $this->banner_image);
+        return asset('storage/'.$this->banner_image);
     }
 }

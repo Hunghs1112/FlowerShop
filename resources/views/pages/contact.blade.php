@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Liên hệ')
+@section('title', __('customer.contact.title'))
 
 @section('skip-main-wrapper', true)
 
@@ -14,33 +14,33 @@
     $businessHours = $siteInfo['business_hours'] ?: 'Thứ Hai – Thứ Bảy, 08:00–17:00';
 @endphp
 <main class="wrap">
-<section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">KẾT NỐI</p><h1 id="t">Liên hệ</h1>
-<p class="lead">Chúng tôi luôn sẵn lòng lắng nghe và đồng hành cùng bạn. Chọn một quầy bên cạnh, hoặc để lại lời nhắn, LNT sẽ liên hệ lại.</p></div>
-<div class="visual"><img class="bloom" src="{{ $siteBanners['contact'] ?? asset('images/pages/contact-bloom.jpg') }}" alt=""><div class="desk"><div class="dh"><i aria-hidden="true">i</i><div><b>QUẦY THÔNG TIN</b><small>INFORMATION DESK</small></div></div>
-<a class="row" href="tel:{{ $contactPhoneHref }}"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><span><b>Gọi điện</b><span class="t">{{ $contactPhone }} · tư vấn trực tiếp cùng shop</span></span><span class="ar" aria-hidden="true">→</span></a>
-<a class="row" href="{{ $contactZalo }}" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><path d="M4 5h16v11H9l-5 4z" stroke-linejoin="round"/></svg></span><span><b>Nhắn tin Zalo</b><span class="t">Zalo {{ $contactPhone }}</span></span><span class="ar" aria-hidden="true">→</span></a>
+<section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">{{ __('customer.contact.eyebrow') }}</p><h1 id="t">{{ __('ui.contact') }}</h1>
+<p class="lead">{{ __('customer.contact.lead') }}</p></div>
+<div class="visual"><img class="bloom" src="{{ $siteBanners['contact'] ?? asset('images/pages/contact-bloom.jpg') }}" alt=""><div class="desk"><div class="dh"><i aria-hidden="true">i</i><div><b>{{ __('customer.contact.information_desk') }}</b><small>INFORMATION DESK</small></div></div>
+<a class="row" href="tel:{{ $contactPhoneHref }}"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><span><b>{{ __('customer.contact.call') }}</b><span class="t">{{ __('customer.contact.direct_advice', ['phone' => $contactPhone]) }}</span></span><span class="ar" aria-hidden="true">→</span></a>
+<a class="row" href="{{ $contactZalo }}" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><path d="M4 5h16v11H9l-5 4z" stroke-linejoin="round"/></svg></span><span><b>{{ __('customer.contact.zalo') }}</b><span class="t">Zalo {{ $contactPhone }}</span></span><span class="ar" aria-hidden="true">→</span></a>
 <a class="row" href="mailto:{{ $contactEmail }}"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></span><span><b>Email</b><span class="t">{{ $contactEmail }}</span></span><span class="ar" aria-hidden="true">→</span></a>
-<a class="row" href="#diem-den"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span><b>Ghé xưởng hoa</b><span class="t">Hẹn trước qua Zalo để được đón tiếp</span></span><span class="ar" aria-hidden="true">→</span></a></div></div></section>
-<section class="grid2" aria-label="Gửi lời nhắn và thông tin">
-<form class="msg" id="form" action="{{ route('contact.store') }}" method="post" novalidate>@csrf<div class="mh"><span>THẺ GỬI LỜI NHẮN</span><span>LNT · HAN</span></div>
+<a class="row" href="#diem-den"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2C24" stroke-width="2"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span><b>{{ __('customer.contact.visit') }}</b><span class="t">{{ __('customer.contact.visit_hint') }}</span></span><span class="ar" aria-hidden="true">→</span></a></div></div></section>
+<section class="grid2" aria-label="{{ __('customer.contact.section_label') }}">
+<form class="msg" id="form" action="{{ localized_route('contact.store') }}" method="post" novalidate>@csrf<div class="mh"><span>{{ __('customer.contact.message_card') }}</span><span>LNT · HAN</span></div>
 <div class="mb" id="fbody">
-<div class="two"><label>Họ và tên *<input id="f_name" name="name" autocomplete="name" required></label><label>Số điện thoại / Zalo *<input id="f_phone" name="phone" type="tel" autocomplete="tel" required></label></div>
-<label>Email (không bắt buộc)<input id="f_email" name="email" type="email" autocomplete="email"></label>
-<div><label style="margin-bottom:.4rem">Bạn cần hỗ trợ về</label><div class="chips" id="topics" role="group" aria-label="Chủ đề"><button type="button" class="chip" aria-pressed="true">Đặt hoa</button><button type="button" class="chip" aria-pressed="false">Hộp hoa bí ẩn</button><button type="button" class="chip" aria-pressed="false">Giao hàng</button><button type="button" class="chip" aria-pressed="false">Phản hồi đơn hàng</button><button type="button" class="chip" aria-pressed="false">Hợp tác B2B</button><button type="button" class="chip" aria-pressed="false">Khác</button></div></div>
-<label>Lời nhắn *<textarea id="f_msg" name="message" required placeholder="Bạn muốn LNT hỗ trợ điều gì?"></textarea></label>
+<div class="two"><label>{{ __('customer.contact.name') }}<input id="f_name" name="name" autocomplete="name" required></label><label>{{ __('customer.contact.phone') }}<input id="f_phone" name="phone" type="tel" autocomplete="tel" required></label></div>
+<label>{{ __('customer.contact.optional_email') }}<input id="f_email" name="email" type="email" autocomplete="email"></label>
+<div><label style="margin-bottom:.4rem">{{ __('customer.contact.topic_label') }}</label><div class="chips" id="topics" role="group" aria-label="{{ __('customer.contact.topic_label') }}"><button type="button" class="chip" aria-pressed="true">{{ __('customer.contact.topic_order') }}</button><button type="button" class="chip" aria-pressed="false">{{ __('customer.contact.topic_mystery') }}</button><button type="button" class="chip" aria-pressed="false">{{ __('customer.contact.topic_delivery') }}</button><button type="button" class="chip" aria-pressed="false">{{ __('customer.contact.topic_feedback') }}</button><button type="button" class="chip" aria-pressed="false">{{ __('customer.contact.topic_b2b') }}</button><button type="button" class="chip" aria-pressed="false">{{ __('customer.contact.topic_other') }}</button></div></div>
+<label>{{ __('customer.contact.message') }}<textarea id="f_msg" name="message" required placeholder="{{ __('customer.contact.message_placeholder') }}"></textarea></label>
 <p class="err" id="err" aria-live="polite"></p>
-<div class="send"><small>Thông tin chỉ dùng để liên hệ lại với bạn · <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a></small><button class="btn" type="submit">Gửi lời nhắn</button></div></div>
-<div class="ok" id="ok" role="status"><div class="seal">LNT</div><h3>LỜI NHẮN ĐÃ CẤT CÁNH</h3><p id="okText">Lâm Nhiên Thảo sẽ liên hệ lại với bạn qua Zalo hoặc điện thoại.</p></div></form>
+<div class="send"><small>{{ __('customer.contact.privacy') }} · <a href="{{ localized_route('policy.baomat') }}">{{ __('ui.privacy_policy') }}</a></small><button class="btn" type="submit">{{ __('customer.contact.send') }}</button></div></div>
+<div class="ok" id="ok" role="status"><div class="seal">LNT</div><h3>{{ __('customer.contact.sent_title') }}</h3><p id="okText">{{ __('customer.contact.sent_text') }}</p></div></form>
 <div class="side">
-<div class="dest" id="diem-den"><h2>ĐIỂM ĐẾN</h2><p><b>{{ $siteInfo['site_name'] ?: 'Lâm Nhiên Thảo' }}</b></p><p>Địa chỉ xưởng hoa: <span class="ph">{{ $contactAddress }}</span></p><p>Vui lòng hẹn trước qua Zalo <a href="{{ $contactZalo }}" target="_blank" rel="noopener">{{ $contactPhone }}</a> trước khi ghé.</p><p>Giao hàng: {{ $businessHours }}.</p></div>
-<div class="gates2"><h2>CỔNG THÔNG TIN</h2><div class="gl">
-<a href="{{ route('guide') }}"><span>A1</span>Hướng dẫn đặt hàng<span>→</span></a>
-<a href="{{ route('policy.delivery') }}"><span>A2</span>Chính sách giao hàng<span>→</span></a>
-<a href="{{ route('policy.ours') }}"><span>A3</span>Phản hồi &amp; đổi trả<span>→</span></a>
-<a href="{{ route('policy.terms') }}"><span>A4</span>Điều khoản dịch vụ<span>→</span></a>
-<a href="{{ route('policy.baomat') }}"><span>A5</span>Chính sách bảo mật<span>→</span></a></div></div>
+<div class="dest" id="diem-den"><h2>{{ __('customer.contact.destination') }}</h2><p><b>{{ $siteInfo['site_name'] ?: 'Lâm Nhiên Thảo' }}</b></p><p>{{ __('customer.contact.studio_address') }} <span class="ph">{{ $contactAddress }}</span></p><p>{!! __('customer.contact.appointment', ['phone' => '<a href="'.$contactZalo.'" target="_blank" rel="noopener">'.$contactPhone.'</a>']) !!}</p><p>{{ __('customer.contact.delivery_hours', ['hours' => $businessHours]) }}</p></div>
+<div class="gates2"><h2>{{ __('customer.contact.information_gate') }}</h2><div class="gl">
+<a href="{{ localized_route('guide') }}"><span>A1</span>{{ __('ui.ordering_guide') }}<span>→</span></a>
+<a href="{{ localized_route('policy.delivery') }}"><span>A2</span>{{ __('ui.delivery_policy') }}<span>→</span></a>
+<a href="{{ localized_route('policy.ours') }}"><span>A3</span>{{ __('customer.contact.returns') }}<span>→</span></a>
+<a href="{{ localized_route('policy.terms') }}"><span>A4</span>{{ __('ui.terms') }}<span>→</span></a>
+<a href="{{ localized_route('policy.baomat') }}"><span>A5</span>{{ __('ui.privacy_policy') }}<span>→</span></a></div></div>
 </div></section>
-<footer class="foot"><span>© Lâm Nhiên Thảo</span><span>Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp</span></footer>
+<footer class="foot"><span>© Lâm Nhiên Thảo</span><span>{{ __('customer.contact.tagline') }}</span></footer>
 </main>
 @endsection
 
@@ -160,13 +160,13 @@ h1{margin:0;font-weight:600;text-transform:uppercase;color:var(--copper);font-si
 document.querySelectorAll('#topics .chip').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('#topics .chip').forEach(x=>x.setAttribute('aria-pressed',x===c))}));
 document.getElementById('form').addEventListener('submit',async e=>{e.preventDefault();const v=id=>document.getElementById(id).value.trim(),err=document.getElementById('err');
   const d={name:v('f_name'),phone:v('f_phone'),email:v('f_email'),topic:document.querySelector('#topics .chip[aria-pressed="true"]').textContent,message:v('f_msg')};
-  if(!d.name||!d.phone||!d.message){err.textContent='Vui lòng điền họ tên, số điện thoại và lời nhắn.';return}
-  if(!/^[0-9+\s.]{9,15}$/.test(d.phone)){err.textContent='Số điện thoại chưa đúng.';return}
-  if(d.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)){err.textContent='Email chưa đúng định dạng.';return}
+  if(!d.name||!d.phone||!d.message){err.textContent=@json(__('customer.contact.required_error'));return}
+  if(!/^[0-9+\s.]{9,15}$/.test(d.phone)){err.textContent=@json(__('customer.contact.phone_error'));return}
+  if(d.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)){err.textContent=@json(__('customer.contact.email_error'));return}
   err.textContent='';
-  try{const form=e.currentTarget,body=new FormData(form);body.set('message',`Chủ đề: ${d.topic}\n\n${d.message}`);
+  try{const form=e.currentTarget,body=new FormData(form);body.set('message',`${@json(__('customer.contact.topic_prefix'))} ${d.topic}\n\n${d.message}`);
     const r=await fetch(form.action,{method:'POST',body,headers:{'Accept':'application/json','X-CSRF-TOKEN':form.querySelector('input[name="_token"]').value}});if(!r.ok)throw 0}
-  catch(x){err.textContent='Chưa gửi được, bạn vui lòng nhắn Zalo cho LNT nhé.';return}
+  catch(x){err.textContent=@json(__('customer.contact.send_error'));return}
   document.getElementById('fbody').style.display='none';document.getElementById('ok').classList.add('on')});
 </script>
 @endpush

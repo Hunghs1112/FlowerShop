@@ -11,9 +11,7 @@ use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
-    public function __construct(private readonly ImageStorageService $images)
-    {
-    }
+    public function __construct(private readonly ImageStorageService $images) {}
 
     public function index(Request $request)
     {
@@ -26,8 +24,13 @@ class PostController extends Controller
             ->with('author')
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('title', 'like', '%' . $search . '%')
-                      ->orWhere('excerpt', 'like', '%' . $search . '%');
+                    $q->where('title', 'like', '%'.$search.'%')
+                        ->orWhere('excerpt', 'like', '%'.$search.'%');
+                    if (app()->getLocale() === 'en') {
+                        $q->orWhere('title_en', 'like', '%'.$search.'%')
+                            ->orWhere('excerpt_en', 'like', '%'.$search.'%')
+                            ->orWhere('content_en', 'like', '%'.$search.'%');
+                    }
                 });
             });
 
@@ -75,8 +78,8 @@ class PostController extends Controller
 
         $baseSlug = Str::slug($validated['title']) ?: 'bai-viet';
         $slug = $baseSlug;
-        for ($suffix = 2; Post::where('slug', $slug)->exists(); $suffix++) {
-            $slug = $baseSlug . '-' . $suffix;
+        for ($suffix = 2; Post::where('slug', $slug)->orWhere('slug_en', $slug)->exists(); $suffix++) {
+            $slug = $baseSlug.'-'.$suffix;
         }
 
         $validated += [
@@ -104,8 +107,8 @@ class PostController extends Controller
             throw $exception;
         }
 
-        return redirect()->route('blog.show', $post->slug)
-            ->with('success', 'Bài viết của bạn đã được đăng.');
+        return redirect(localized_route('blog.show', $post->display_slug))
+            ->with('success', __('customer.messages.post_published'));
     }
 
     public function uploadContentImage(Request $request)
@@ -122,7 +125,9 @@ class PostController extends Controller
 
     public function show(string $slug)
     {
-        $post = Post::where('slug', $slug)
+        $post = Post::where(fn ($query) => $query
+            ->where('slug', $slug)
+            ->orWhere('slug_en', $slug))
             ->with('author')
             ->published()
             ->firstOrFail();

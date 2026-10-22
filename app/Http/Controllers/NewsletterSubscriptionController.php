@@ -20,6 +20,6 @@ class NewsletterSubscriptionController extends Controller
 
         NewsletterSubscription::firstOrCreate(['email' => $validated['email']]);
 
-        return back()->with('newsletter_success', 'Cảm ơn bạn đã đăng ký nhận bản tin.');
+        return back()->with('newsletter_success', __('customer.messages.newsletter_success'));
     }
 }

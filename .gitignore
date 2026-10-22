@@ -1,33 +1,62 @@
-*.log
+# See https://git-scm.com/docs/gitignore
+# To learn more about ignoring files, visit https://github.com/github/gitignore
+
+# dependencies
+/vendor/
+
+# php
+/composer.lock
+/phpunit.xml
+
+# phpunit
+/phpunit/
+
+# environment
+.env*
+
+# test
+/test-admin*
+/test_*.php
+
+# monitoring
+/monitor-claude-worker.ps1
+
+# extracted
+/extracted_files/
+
+# misc
+/*.key
+/*.pem
+/*.pfx
+/*.db
+
+# IDE
+/.idea/
+/.vscode/
+
+# OS
 .DS_Store
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-/.codex
-/.cursor/
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
-/auth.json
-/bootstrap/cache/*.php
-/node_modules
-/public/build
-/public/fonts-manifest.dev.json
-/public/hot
-/public/storage
-/storage/*.key
-/storage/framework/cache/data/*
-/storage/framework/views/*
-/storage/pail
-/vendor
-_ide_helper.php
-Homestead.json
-Homestead.yaml
-Thumbs.db
+/Local/
+
+# libretranslate related to this repo only
+# (the LibreTranslate Docker container is managed separately)
+# test screenshots / artifacts
+/test-admin*
+/test-admin-*
+/test_*.png
+/test_*.jpg
+
+# php server / runtime
+/app/storage/
+/bootstrap/cache/
+/storage/framework/
+/storage/logs/
+/.phpunit.result.cache
+/monitor-claude.log
+
+# Orca / orchestrator state
+/orca/
+/orchestrated/
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/

@@ -22,14 +22,14 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,'.$user->id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
         ]);
 
         $user->update($validated);
 
-        return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
+        return redirect()->back()->with('success', __('customer.messages.profile_updated'));
     }
 
     public function updatePassword(Request $request)
@@ -44,6 +44,6 @@ class ProfileController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return redirect()->back()->with('success', 'Đổi mật khẩu thành công');
+        return redirect()->back()->with('success', __('customer.messages.password_updated'));
     }
 }

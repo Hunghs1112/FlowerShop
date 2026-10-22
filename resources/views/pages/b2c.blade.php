@@ -14,7 +14,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
         description="Trở thành đối tác B2B của Lâm Nhiên Thảo để tiếp cận nguồn hoa tươi chất lượng, giá xuất xưởng cùng nhiều ưu đãi độc quyền dành cho cửa hàng và thợ cắm hoa."
         label="B2B Partnership"
         :breadcrumbs="[
-            ['label' => 'Trang chủ', 'url' => route('home')],
+            ['label' => 'Trang chủ', 'url' => localized_route('home')],
             ['label' => 'Đăng ký B2B'],
         ]"
         :image="$b2cBanner"
@@ -103,7 +103,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 Cảm ơn bạn đã đăng ký làm đối tác B2B của Lâm Nhiên Thảo.<br>
                                 Đội ngũ của chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ làm việc.
                             </p>
-                            <a href="{{ route('home') }}" class="btn btn-primary btn-lg">Về trang chủ</a>
+                            <a href="{{ localized_route('home') }}" class="btn btn-primary btn-lg">Về trang chủ</a>
                         </div>
                     @else
                         {{-- ── Stepper ────────────────────────────────────── --}}
@@ -133,7 +133,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
                         <form
                             id="b2cForm"
-                            action="{{ route('b2c.store') }}"
+                            action="{{ localized_route('b2c.store') }}"
                             method="POST"
                             novalidate
                             class="b2c-form"
@@ -382,7 +382,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                         Đội ngũ của chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ làm việc.
                                     </p>
                                     <div class="b2c-success-actions">
-                                        <a href="{{ route('home') }}" class="btn btn-primary">Về trang chủ</a>
+                                        <a href="{{ localized_route('home') }}" class="btn btn-primary">Về trang chủ</a>
                                         <button type="button" class="btn btn-outline" id="b2cResetBtn">Đăng ký thêm</button>
                                     </div>
                                 </div>

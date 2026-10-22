@@ -21,7 +21,7 @@
       <p class="pp-sub" id="ppSub">Mỗi đơn hoa nhập từ một quốc gia sẽ được đóng dấu nước đó vào hộ chiếu khi đơn hoàn tất.</p>
       <div class="pp-grid" id="ppGrid"></div>
       <p class="pp-tip" id="ppTip" aria-live="polite"></p>
-      <div class="pp-login" id="ppLogin" hidden><p>Đăng nhập để xem hộ chiếu hoa và những con dấu bạn đã sưu tập.</p><div class="pp-share"><a class="pp-btn" id="ppLoginBtn" href="#">Đăng nhập</a><a class="pp-btn ghost" id="ppRegBtn" href="#">Đăng ký thành viên</a></div></div>
+      <div class="pp-login" id="ppLogin" hidden><p>Đăng nhập để xem hộ chiếu hoa và những con dấu bạn đã sưu tập.</p><div class="pp-share"><a class="pp-btn" id="ppLoginBtn" href="#">{{ __('ui.login') }}</a><a class="pp-btn ghost" id="ppRegBtn" href="#">Đăng ký thành viên</a></div></div>
       <div class="pp-reward" id="ppReward" hidden>
         <p class="pp-k">BẠN ĐÃ ĐI ĐỦ CHÍN VÙNG ĐẤT</p>
         <p class="pp-r" id="ppText"></p>
@@ -212,7 +212,7 @@ show('hn');
         stamps:[ {country:"ec", date:"2026-09-12", order:"#LNT1042"}, ... ] };
    (2) Hoặc đặt PASSPORT_CONFIG.api = "/api/ho-chieu-hoa" trả về JSON cùng định dạng trên.
    Mã nước: cn nl ec za jp my vn co nz. Chỉ đóng dấu khi đơn đã thanh toán & giao thành công. */
-const PASSPORT_CONFIG={api:'{{ route('api.passport') }}',loginUrl:'{{ route('login') }}',registerUrl:'{{ route('register') }}',reward:'Bạn đã sưu tập đủ chín dấu hộ chiếu hoa!',rewardLink:'{{ route('mystery-box.index') }}',category:@json($passportCategories),demo:false};
+const PASSPORT_CONFIG={api:'{{ localized_route('api.passport') }}',loginUrl:'{{ localized_route('login') }}',registerUrl:'{{ localized_route('register') }}',reward:'Bạn đã sưu tập đủ chín dấu hộ chiếu hoa!',rewardLink:'{{ localized_route('mystery-box.index') }}',category:@json($passportCategories),demo:false};
 const CODES={cn:'KMG',nl:'AMS',ec:'UIO',za:'CPT',jp:'CTS',my:'KUL',vn:'DLI',co:'BOG',nz:'CHC'};
 const ORDER=Object.keys(CODES);
 const grid=document.getElementById('ppGrid'),tip=document.getElementById('ppTip');

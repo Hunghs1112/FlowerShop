@@ -16,7 +16,9 @@ class PageRepository extends BaseRepository
 
     protected function getSearchFields(): array
     {
-        return ['title', 'content', 'meta_title', 'meta_description'];
+        return app()->getLocale() === 'en'
+            ? ['title_en', 'content_en', 'title', 'content', 'meta_title', 'meta_description']
+            : ['title', 'content', 'meta_title', 'meta_description'];
     }
 
     /**

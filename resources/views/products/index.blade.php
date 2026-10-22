@@ -19,9 +19,9 @@
         @endunless
         <div class="products-hero-content {{ $activeCategory?->hide_banner_content ? 'products-hero-content--hidden' : '' }}" @if($activeCategory?->hide_banner_content) aria-hidden="true" @endif>
             <div class="products-breadcrumb">
-                <a href="{{ route('home') }}">Trang chủ</a>
+                <a href="{{ localized_route('home') }}">Trang chủ</a>
                 <span>/</span>
-                <a href="{{ route('categories.index') }}">Danh mục</a>
+                <a href="{{ localized_route('categories.index') }}">Danh mục</a>
                 @foreach($breadcrumb as $item)
                 <span>/</span>
                 @if($loop->last)
@@ -45,7 +45,7 @@
             <h3 class="subcategories-title">Danh mục con</h3>
             <div class="subcategories-list">
                 @foreach($category->children as $child)
-                <a href="{{ route('categories.show', $child->slug) }}" class="subcategory-link">
+                <a href="{{ localized_route('categories.show', $child->display_slug) }}" class="subcategory-link">
                     {{ $child->display_name }}
                 </a>
                 @endforeach
@@ -57,9 +57,9 @@
     {{-- Products index page with simple hero --}}
     <x-page-hero
         :title="$activeCategory ? $activeCategory->display_name : 'Sản phẩm'"
-        :description="$activeCategory && $activeCategory->description ? $activeCategory->description : 'Khám phá bộ sưu tập hoa tươi cao cấp của chúng tôi'"
+        :description="$activeCategory && $activeCategory->display_description ? $activeCategory->display_description : 'Khám phá bộ sưu tập hoa tươi cao cấp của chúng tôi'"
         :breadcrumbs="[
-            ['label' => content('breadcrumb_home', 'Trang chủ'), 'url' => route('home')],
+            ['label' => content('breadcrumb_home', 'Trang chủ'), 'url' => localized_route('home')],
             ['label' => $activeCategory ? $activeCategory->display_name : content('breadcrumb_all_products', 'Tất cả sản phẩm')]
         ]"
         :image="$bannerImage ?? ($siteBanners['products'] ?? null)"
@@ -81,7 +81,7 @@
                     $removeParams = request()->query();
                     
                     // Determine the clear URL based on context
-                    $clearRoute = isset($category) ? route('categories.show', $category->slug) : route('products.index');
+                    $clearRoute = isset($category) ? localized_route('categories.show', $category->display_slug) : localized_route('products.index');
                     
                     if ($chip['type'] === 'category') {
                         // Handle both array and string formats
@@ -123,8 +123,8 @@
                     
                     // Build the remove URL based on context
                     $removeUrl = isset($category) 
-                        ? route('categories.show', array_merge(['category' => $category->slug], $removeParams))
-                        : route('products.index', $removeParams);
+                        ? localized_route('categories.show', array_merge(['category' => $category->display_slug], $removeParams))
+                        : localized_route('products.index', $removeParams);
                 @endphp
                 <a href="{{ $removeUrl }}" 
                    class="filter-chip" 
@@ -207,8 +207,8 @@
 
 <!-- Filter Sidebar -->
 @php
-    $filterAction = isset($category) ? route('categories.show', $category->slug) : route('products.index');
-    $clearUrl = isset($category) ? route('categories.show', $category->slug) : route('products.index');
+    $filterAction = isset($category) ? localized_route('categories.show', $category->display_slug) : localized_route('products.index');
+    $clearUrl = isset($category) ? localized_route('categories.show', $category->display_slug) : localized_route('products.index');
 @endphp
 <form id="filterForm" method="GET" action="{{ $filterAction }}" class="products-filter-form">
     <input type="hidden" name="sort_by" value="{{ request('sort_by', 'latest') }}">
@@ -226,7 +226,7 @@
         <div class="products-filter-body">
             <!-- Search in Filter -->
             <div class="products-filter-group">
-                <h4 class="products-filter-group-title">Tìm kiếm</h4>
+                <h4 class="products-filter-group-title">{{ __('ui.search') }}</h4>
                 <div class="filter-search-wrapper">
                     <input type="text"
                            name="q"
@@ -409,7 +409,7 @@
                 </div>
                 
                 @if(request('q') || request('search') || count($activeFilterChips ?? []) > 0)
-                    <a href="{{ route('products.index') }}" class="products-empty-action btn btn-primary">
+                    <a href="{{ localized_route('products.index') }}" class="products-empty-action btn btn-primary">
                         Xem tất cả sản phẩm
                     </a>
                 @endif
@@ -485,12 +485,12 @@
         <div class="suggestion-block" style="--accent: {{ $collection->accent_color }};">
             <header class="suggestion-block-header">
                 <div>
-                    <h3 class="suggestion-block-title">{{ $collection->name }}</h3>
-                    @if($collection->criterion)
-                        <p class="suggestion-block-criterion">{{ $collection->criterion }}</p>
+                    <h3 class="suggestion-block-title">{{ $collection->display_name }}</h3>
+                    @if($collection->display_criterion)
+                        <p class="suggestion-block-criterion">{{ $collection->display_criterion }}</p>
                     @endif
                 </div>
-                <a href="{{ route('products.index', ['collection' => $collection->slug]) }}" class="suggestion-block-link">Xem tất cả →</a>
+                <a href="{{ localized_route('products.index', ['collection' => $collection->display_slug]) }}" class="suggestion-block-link">Xem tất cả →</a>
             </header>
             <div class="suggestion-block-grid products-grid">
                 @foreach($collection->products as $product)
@@ -516,7 +516,7 @@
             <div class="products-editorial-eyebrow">FLOWER JOURNAL</div>
             <h2 class="products-editorial-heading">Câu chuyện về hoa</h2>
             <p class="products-editorial-description">Khám phá thế giới hoa tươi, những ý nghĩa đằng sau mỗi loài hoa và cách chăm sóc để giữ hoa tươi lâu hơn.</p>
-            <a href="{{ route('blog.index') }}" class="products-editorial-button">
+            <a href="{{ localized_route('blog.index') }}" class="products-editorial-button">
                 Đọc ngay
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>

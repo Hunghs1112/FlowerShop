@@ -11,42 +11,41 @@
 --}}
 
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác nhận đơn hàng #{{ $orderId }}</title>
+    <title>{{ __('customer.mail.title', ['id' => $orderId]) }}</title>
 </head>
 <body>
     <div class="email-wrapper">
         {{-- Header --}}
         <div class="email-header">
             <h1>🌸 Lâm Nhiên Thảo</h1>
-            <p>Xác nhận đơn hàng thành công</p>
+            <p>{{ __('customer.mail.confirmed') }}</p>
         </div>
 
         {{-- Body --}}
         <div class="email-body">
             {{-- Greeting --}}
             <div class="greeting">
-                Xin chào <strong>{{ $customerName }}</strong>!
+                {{ __('customer.mail.hello_prefix') }} <strong>{{ $customerName }}</strong>!
             </div>
 
             {{-- Order Confirmation Message --}}
             <p>
-                Cảm ơn bạn đã đặt hàng tại <strong>Lâm Nhiên Thảo</strong>. 
-                Chúng tôi đã tiếp nhận đơn hàng của bạn và sẽ liên hệ trong thời gian sớm nhất để xác nhận.
+                {!! __('customer.mail.thanks') !!}
             </p>
 
             {{-- Order Info --}}
             <div class="order-info">
-                <h3>📋 Thông tin đơn hàng #{{ $orderId }}</h3>
+                <h3>📋 {{ __('customer.mail.order_info', ['id' => $orderId]) }}</h3>
                 <div class="info-row">
-                    <span class="info-label">Ngày đặt:</span>
+                    <span class="info-label">{{ __('customer.mail.order_date') }}</span>
                     <span class="info-value">{{ $orderDate }}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Số điện thoại:</span>
+                    <span class="info-label">{{ __('customer.mail.phone') }}</span>
                     <span class="info-value">{{ $customerPhone }}</span>
                 </div>
                 @if($customerEmail)
@@ -56,12 +55,12 @@
                 </div>
                 @endif
                 <div class="info-row">
-                    <span class="info-label">Địa chỉ giao hàng:</span>
+                    <span class="info-label">{{ __('customer.mail.address') }}</span>
                     <span class="info-value">{{ $deliveryAddress }}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Thời gian mong muốn:</span>
-                    <span class="info-value">{{ $deliveryDate }} lúc {{ $deliveryTime }}</span>
+                    <span class="info-label">{{ __('customer.mail.delivery_time') }}</span>
+                    <span class="info-value">{{ $deliveryDate }} {{ __('customer.mail.at') }} {{ $deliveryTime }}</span>
                 </div>
             </div>
 
@@ -69,10 +68,10 @@
             <table class="items-table">
                 <thead>
                     <tr>
-                        <th>Sản phẩm</th>
-                        <th>Đơn giá</th>
-                        <th>SL</th>
-                        <th>Thành tiền</th>
+                        <th>{{ __('ui.products') }}</th>
+                        <th>{{ __('customer.mail.unit_price') }}</th>
+                        <th>{{ __('customer.mail.quantity') }}</th>
+                        <th>{{ __('customer.mail.line_total') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,15 +87,15 @@
                     </tr>
                     @endforeach
                     <tr>
-                        <td colspan="3">Tạm tính</td>
+                        <td colspan="3">{{ __('customer.mail.subtotal') }}</td>
                         <td>{{ number_format($subtotal, 0, ',', '.') }}₫</td>
                     </tr>
                     <tr>
-                        <td colspan="3">Phí vận chuyển</td>
-                        <td>{{ $shippingFee === null ? 'Chờ xác nhận' : number_format($shippingFee, 0, ',', '.').'₫' }}</td>
+                        <td colspan="3">{{ __('customer.mail.shipping') }}</td>
+                        <td>{{ $shippingFee === null ? __('customer.mail.pending') : number_format($shippingFee, 0, ',', '.').'₫' }}</td>
                     </tr>
                     <tr class="total-row">
-                        <td colspan="3"><strong>{{ $shippingFee === null ? 'TẠM TÍNH (CHƯA GỒM PHÍ GIAO HÀNG)' : 'TỔNG CỘNG' }}</strong></td>
+                        <td colspan="3"><strong>{{ $shippingFee === null ? __('customer.mail.estimated_total') : __('customer.mail.total') }}</strong></td>
                         <td><strong>{{ number_format($total, 0, ',', '.') }}₫</strong></td>
                     </tr>
                 </tbody>
@@ -105,29 +104,29 @@
             {{-- Customer Note --}}
             @if($customerNote)
             <div class="note-section">
-                <h4>📝 Ghi chú của bạn:</h4>
+                <h4>📝 {{ __('customer.mail.note') }}</h4>
                 <p>{{ $customerNote }}</p>
             </div>
             @endif
 
             {{-- Next Steps --}}
             <div class="contact-section">
-                <h3>Bước tiếp theo</h3>
-                <p>📞 Chúng tôi sẽ gọi điện xác nhận đơn hàng trong vài phút tới</p>
-                <p>💬 Nếu có thắc mắc, vui lòng liên hệ hotline hoặc Zalo</p>
+                <h3>{{ __('customer.mail.next') }}</h3>
+                <p>📞 {{ __('customer.mail.call') }}</p>
+                <p>💬 {{ __('customer.mail.help') }}</p>
             </div>
         </div>
 
         {{-- Footer --}}
         <div class="email-footer">
             <p><strong>Lâm Nhiên Thảo</strong> - Flowers & Gifts</p>
-            <p>Địa chỉ: {{ config('app.address', 'TP. Hồ Chí Minh') }}</p>
+            <p>{{ __('customer.mail.address_label') }} {{ config('app.address', 'TP. Hồ Chí Minh') }}</p>
             <div class="social-links">
                 <a href="{{ config('services.zalo.hotline', '#') }}">Zalo</a> | 
                 <a href="{{ config('app.url', '#') }}">Website</a>
             </div>
             <p>
-                Email này được gửi tự động. Vui lòng không reply email này.
+                {{ __('customer.mail.automatic') }}
             </p>
         </div>
     </div>

@@ -26,6 +26,11 @@
                     </div>
 
                     <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">English title</label>
+                        <input type="text" name="title_en" value="{{ old('title_en', $page->title_en ?? '') }}" class="auto-save-input form-input" data-entity="pages" data-id="{{ $page->id ?? '' }}" style="width: 100%;">
+                    </div>
+
+                    <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">
                             Slug
                             @if((isset($isPolicy) && $isPolicy) || (isset($isSeasonal) && $isSeasonal) || (isset($isGuide) && $isGuide))
@@ -67,6 +72,8 @@
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội Dung</label>
                         <textarea name="content" rows="15" id="contentEditor" class="auto-save-input" data-entity="pages" data-id="{{ $page->id }}"
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;">{{ old('content', $page->content ?? '') }}</textarea>
+                        <label style="display: block; font-size: 13px; font-weight: 600; margin: 16px 0 6px;">English content</label>
+                        <textarea name="content_en" rows="15" class="auto-save-input form-input" data-entity="pages" data-id="{{ $page->id ?? '' }}">{{ old('content_en', $page->content_en ?? '') }}</textarea>
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">{{ ($isSeasonal ?? false) ? 'Cấu hình mùa lễ dạng JSON (hub và danh sách mùa, sản phẩm, lựa chọn cây, phụ kiện, dịch vụ, câu hỏi). Giữ đúng cấu trúc JSON để trang hiển thị.' : 'Ctrl+Enter để lưu ngay' }}</small>
                     </div>
                     @endif

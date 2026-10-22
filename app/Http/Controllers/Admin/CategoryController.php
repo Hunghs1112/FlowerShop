@@ -47,8 +47,11 @@ class CategoryController extends Controller
         // Define allowed fields with validation rules
         $fieldConfig = [
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:categories,slug,'.$category->id,
+            'name_en' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:categories,slug,'.$category->id.'|unique:categories,slug_en,'.$category->id,
+            'slug_en' => 'nullable|string|max:255|unique:categories,slug_en,'.$category->id.'|unique:categories,slug,'.$category->id,
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
             'icon' => 'nullable|string|max:50',
             'hide_banner_content' => 'boolean',
             'is_active' => 'boolean',

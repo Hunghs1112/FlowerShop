@@ -13,7 +13,7 @@ class CareerController extends Controller
     public function index(): View
     {
         $page = Page::where('slug', 'tuyen-dung')->active()->firstOrFail();
-        $config = json_decode($page->content, true, flags: JSON_THROW_ON_ERROR);
+        $config = json_decode($page->display_content, true, flags: JSON_THROW_ON_ERROR);
 
         return view('pages.career', compact('page', 'config'));
     }
@@ -35,7 +35,7 @@ class CareerController extends Controller
         ]);
 
         $job = $jobs->get($validated['position']);
-        abort_unless($job && ($job['status'] ?? null) === 'open', 422, 'Vị trí này hiện không nhận hồ sơ.');
+        abort_unless($job && ($job['status'] ?? null) === 'open', 422, __('customer.messages.career_closed'));
 
         Inquiry::create([
             'user_id' => auth()->id(),
@@ -53,6 +53,6 @@ class CareerController extends Controller
             'status' => 'new',
         ]);
 
-        return response()->json(['message' => 'Đã nhận phiếu ứng tuyển.'], 201);
+        return response()->json(['message' => __('customer.messages.career_received')], 201);
     }
 }

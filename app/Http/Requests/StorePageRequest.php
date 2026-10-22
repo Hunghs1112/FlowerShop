@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use App\Models\Page;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class StorePageRequest extends FormRequest
 {
@@ -18,8 +18,10 @@ class StorePageRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
             'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug', Rule::notIn(Page::STATIC_SLUGS)],
             'content' => 'required|string',
+            'content_en' => 'nullable|string',
             'is_active' => 'boolean',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
@@ -43,7 +45,7 @@ class StorePageRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         // Auto-generate slug if empty
-        if (empty($this->input('slug')) && !empty($this->input('title'))) {
+        if (empty($this->input('slug')) && ! empty($this->input('title'))) {
             $this->merge(['slug' => Str::slug($this->input('title'))]);
         }
 

@@ -16,8 +16,8 @@ class ActiveUserMiddleware
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->withErrors([
-                'email' => 'Tài khoản của bạn đã bị khóa.',
+            return redirect(localized_route('login'))->withErrors([
+                'email' => __('customer.account_locked'),
             ]);
         }
 

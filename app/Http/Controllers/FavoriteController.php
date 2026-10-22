@@ -27,7 +27,7 @@ class FavoriteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id'
+            'product_id' => 'required|exists:products,id',
         ]);
 
         $userId = Auth::id();
@@ -41,21 +41,23 @@ class FavoriteController extends Controller
         if ($favorite) {
             // Remove from favorites
             $favorite->delete();
+
             return response()->json([
                 'success' => true,
                 'action' => 'removed',
-                'message' => 'Đã xóa khỏi danh sách yêu thích'
+                'message' => __('customer.messages.favorite_removed'),
             ]);
         } else {
             // Add to favorites
             Favorite::create([
                 'user_id' => $userId,
-                'product_id' => $productId
+                'product_id' => $productId,
             ]);
+
             return response()->json([
                 'success' => true,
                 'action' => 'added',
-                'message' => 'Đã thêm vào danh sách yêu thích'
+                'message' => __('customer.messages.favorite_added'),
             ]);
         }
     }
@@ -73,7 +75,7 @@ class FavoriteController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Đã xóa khỏi danh sách yêu thích'
+            'message' => __('customer.messages.favorite_removed'),
         ]);
     }
 }

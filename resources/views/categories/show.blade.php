@@ -14,9 +14,9 @@
     <div class="products-hero-overlay"></div>
     <div class="products-hero-content">
         <div class="products-breadcrumb">
-            <a href="{{ route('home') }}">Trang chủ</a>
+            <a href="{{ localized_route('home') }}">Trang chủ</a>
             <span>/</span>
-            <a href="{{ route('categories.index') }}">Danh mục</a>
+            <a href="{{ localized_route('categories.index') }}">Danh mục</a>
             @foreach($breadcrumb as $item)
             <span>/</span>
             @if($loop->last)
@@ -41,7 +41,7 @@
         <h3 class="subcategories-title">Danh mục con</h3>
         <div class="subcategories-list">
             @foreach($category->children as $child)
-            <a href="{{ route('categories.show', $child->slug) }}" class="subcategory-link">
+            <a href="{{ localized_route('categories.show', $child->display_slug) }}" class="subcategory-link">
                 {{ $child->display_name }}
             </a>
             @endforeach
@@ -101,7 +101,7 @@
         </button>
     </div>
     
-    <form action="{{ route('categories.show', $category->slug) }}" method="GET" id="filterForm">
+    <form action="{{ localized_route('categories.show', $category->display_slug) }}" method="GET" id="filterForm">
         <div class="products-filter-body">
             <!-- Khoảng giá -->
             <div class="products-filter-group">
@@ -126,7 +126,7 @@
         </div>
         
         <div class="products-filter-footer">
-            <a href="{{ route('categories.show', $category->slug) }}" class="products-filter-clear">Đặt lại</a>
+            <a href="{{ localized_route('categories.show', $category->display_slug) }}" class="products-filter-clear">Đặt lại</a>
             <button type="submit" class="products-filter-apply">Áp dụng</button>
         </div>
     </form>

@@ -21,6 +21,12 @@
                         <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Tiêu chí (mô tả ngắn)</label>
                         <input type="text" name="criterion" value="{{ old('criterion', $collection->criterion) }}" class="form-input" placeholder="VD: Hoa có sắc đỏ, hồng đậm" style="width: 100%;">
                     </div>
+                    <div style="border-top: 1px solid var(--admin-border); padding-top: 16px; display: flex; flex-direction: column; gap: 16px;">
+                        <strong>English content</strong>
+                        <input type="text" name="name_en" value="{{ old('name_en', $collection->name_en) }}" class="form-input" placeholder="English name" style="width: 100%;">
+                        <input type="text" name="slug_en" value="{{ old('slug_en', $collection->slug_en) }}" class="form-input" placeholder="English slug" style="width: 100%;">
+                        <input type="text" name="criterion_en" value="{{ old('criterion_en', $collection->criterion_en) }}" class="form-input" placeholder="English criterion" style="width: 100%;">
+                    </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Màu nhấn</label>

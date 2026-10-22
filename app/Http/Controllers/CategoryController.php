@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Subcategory;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -31,8 +32,9 @@ class CategoryController extends Controller
     public function show(string $slug, Request $request)
     {
         // Support both EN and VI slugs
-        $category = Category::where('slug', $slug)
-            ->orWhere('slug_en', $slug)
+        $category = Category::where(fn ($query) => $query
+            ->where('slug', $slug)
+            ->orWhere('slug_en', $slug))
             ->active()
             ->with(['children'])
             ->firstOrFail();
@@ -60,9 +62,9 @@ class CategoryController extends Controller
 
         // Get all categories for filter sidebar
         $categories = $this->categoryService->getActiveCategories();
-        
+
         // Get subcategories with product counts
-        $subcategories = \App\Models\Subcategory::where('is_active', true)
+        $subcategories = Subcategory::where('is_active', true)
             ->with('category')
             ->withCount('products')
             ->orderBy('category_id')
@@ -77,10 +79,10 @@ class CategoryController extends Controller
         $bannerImage = $category->banner_image ? $category->banner_image_url : null;
 
         return view('products.index', compact(
-            'category', 
-            'products', 
-            'breadcrumb', 
-            'filters', 
+            'category',
+            'products',
+            'breadcrumb',
+            'filters',
             'bannerKey',
             'categories',
             'subcategories',
@@ -96,7 +98,7 @@ class CategoryController extends Controller
     protected function getActiveFilterChips(Request $request, array $categoryIds, Category $category): array
     {
         $chips = [];
-        
+
         // Add the current category as a filter chip
         $chips[] = [
             'type' => 'category',
@@ -104,45 +106,45 @@ class CategoryController extends Controller
             'value' => $category->id,
             'param' => 'categories',
         ];
-        
+
         // Search query
         $searchQuery = $request->input('q') ?: $request->input('search');
         if ($searchQuery) {
             $chips[] = [
                 'type' => 'search',
-                'label' => 'Tìm: "' . e($searchQuery) . '"',
+                'label' => __('customer.messages.search_prefix').' "'.e($searchQuery).'"',
                 'value' => $searchQuery,
                 'param' => 'q',
             ];
         }
-        
+
         // Subcategories
         $subcategoryIds = $request->input('subcategories', []);
-        if (!empty($subcategoryIds)) {
-            $subcategories = \App\Models\Subcategory::whereIn('id', $subcategoryIds)->with('category')->get();
+        if (! empty($subcategoryIds)) {
+            $subcategories = Subcategory::whereIn('id', $subcategoryIds)->with('category')->get();
             foreach ($subcategories as $subcategory) {
                 $chips[] = [
                     'type' => 'subcategory',
-                    'label' => $subcategory->category->name . ' → ' . $subcategory->name,
+                    'label' => $subcategory->category->display_name.' → '.$subcategory->display_name,
                     'value' => $subcategory->id,
                     'param' => 'subcategories',
                 ];
             }
         }
-        
+
         // Price range
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
-        
+
         if ($minPrice !== null || $maxPrice !== null) {
             $label = '';
             if ($minPrice !== null && $maxPrice !== null) {
-                $label = number_format($minPrice / 1000, 0, ',', '.') . 'K - ' 
-                       . number_format($maxPrice / 1000, 0, ',', '.') . 'K';
+                $label = number_format($minPrice / 1000, 0, ',', '.').'K - '
+                       .number_format($maxPrice / 1000, 0, ',', '.').'K';
             } elseif ($minPrice !== null) {
-                $label = 'Từ ' . number_format($minPrice / 1000, 0, ',', '.') . 'K';
+                $label = __('customer.messages.price_from').' '.number_format($minPrice / 1000, 0, ',', '.').'K';
             } else {
-                $label = 'Đến ' . number_format($maxPrice / 1000, 0, ',', '.') . 'K';
+                $label = __('customer.messages.price_to').' '.number_format($maxPrice / 1000, 0, ',', '.').'K';
             }
             $chips[] = [
                 'type' => 'price',
@@ -151,17 +153,17 @@ class CategoryController extends Controller
                 'param' => 'price',
             ];
         }
-        
+
         // In stock filter
         if ($request->boolean('in_stock')) {
             $chips[] = [
                 'type' => 'stock',
-                'label' => 'Còn hàng',
+                'label' => __('customer.messages.in_stock'),
                 'value' => '1',
                 'param' => 'in_stock',
             ];
         }
-        
+
         return $chips;
     }
 }

@@ -18,9 +18,9 @@
     <div class="inspiration-shell">
         <section class="journal-header">
             <div class="journal-breadcrumb">
-                <a href="{{ route('home') }}">Trang chủ</a>
+                <a href="{{ localized_route('home') }}">Trang chủ</a>
                 <span aria-hidden="true">/</span>
-                <span>Góc cảm hứng</span>
+                <span>{{ __('ui.inspiration') }}</span>
             </div>
 
             <p class="journal-eyebrow">GÓC CẢM HỨNG</p>
@@ -30,13 +30,13 @@
             <div class="journal-toolbar">
                 <div class="journal-tabs" role="group" aria-label="Chuyên mục bài viết">
                     @foreach($journalCategories as $key => $label)
-                        <a class="journal-tab" href="{{ route('blog.index', array_filter(['category' => $key === 'all' ? null : $key, 'search' => $search])) }}" aria-pressed="{{ ($category ?? null) === ($key === 'all' ? null : $key) ? 'true' : 'false' }}">
+                        <a class="journal-tab" href="{{ localized_route('blog.index', array_filter(['category' => $key === 'all' ? null : $key, 'search' => $search])) }}" aria-pressed="{{ ($category ?? null) === ($key === 'all' ? null : $key) ? 'true' : 'false' }}">
                             {{ $label }}
                         </a>
                     @endforeach
                 </div>
 
-                <form method="GET" action="{{ route('blog.index') }}" class="journal-search" role="search">
+                <form method="GET" action="{{ localized_route('blog.index') }}" class="journal-search" role="search">
                     @if($category)<input type="hidden" name="category" value="{{ $category }}">@endif
                     <label class="sr-only" for="journal-search-input">Tìm kiếm bài viết</label>
                     <input id="journal-search-input" type="search" name="search" value="{{ $search }}" placeholder="Tìm trong journal...">
@@ -45,7 +45,7 @@
                     </button>
                 </form>
 
-                <a class="btn btn-primary" href="{{ route('blog.create') }}">Thêm bài viết</a>
+                <a class="btn btn-primary" href="{{ localized_route('blog.create') }}">Thêm bài viết</a>
             </div>
         </section>
 
@@ -54,16 +54,16 @@
         @endif
 
         @if($featuredPost)
-            <a class="journal-feature" data-category="{{ $resolveCategory($featuredPost) }}" href="{{ route('blog.show', $featuredPost->slug) }}">
+            <a class="journal-feature" data-category="{{ $resolveCategory($featuredPost) }}" href="{{ localized_route('blog.show', $featuredPost->display_slug) }}">
                 <div class="journal-cover journal-cover--feature">
                     <span class="journal-mark">LNT JOURNAL</span>
                     <span class="journal-issue">SỐ MỚI NHẤT</span>
-                    <img src="{{ $featuredPost->image_url }}" alt="{{ $featuredPost->title }}" loading="eager">
+                    <img src="{{ $featuredPost->image_url }}" alt="{{ $featuredPost->display_title }}" loading="eager">
                 </div>
                 <div class="journal-feature-copy">
                     <span class="journal-kicker">SỐ MỚI NHẤT · {{ $journalCategories[$resolveCategory($featuredPost)] }}</span>
-                    <h2>{{ $featuredPost->title }}</h2>
-                    <p>{{ Str::limit($featuredPost->excerpt ?: strip_tags($featuredPost->content), 180) }}</p>
+                    <h2>{{ $featuredPost->display_title }}</h2>
+                    <p>{{ Str::limit($featuredPost->display_excerpt ?: strip_tags($featuredPost->display_content), 180) }}</p>
                     <span class="journal-meta">{{ $featuredPost->published_at->translatedFormat('d.m.Y') }}@if($featuredPost->author) · {{ $featuredPost->author->name }}@endif · Đọc bài <span aria-hidden="true">→</span></span>
                 </div>
             </a>
@@ -72,14 +72,14 @@
         <div class="journal-grid" id="journal-grid">
             @foreach($gridPosts as $post)
                 @php($cardCategory = $resolveCategory($post))
-                <a class="journal-card" data-category="{{ $cardCategory }}" href="{{ route('blog.show', $post->slug) }}">
+                <a class="journal-card" data-category="{{ $cardCategory }}" href="{{ localized_route('blog.show', $post->display_slug) }}">
                     <div class="journal-cover">
                         <span class="journal-mark">LNT JOURNAL</span>
                         <span class="journal-issue">{{ $post->published_at->format('d.m.Y') }}</span>
-                        <img src="{{ $post->image_url }}" alt="{{ $post->title }}" loading="lazy">
+                        <img src="{{ $post->image_url }}" alt="{{ $post->display_title }}" loading="lazy">
                     </div>
-                    <h3>{{ $post->title }}</h3>
-                    <p>{{ Str::limit($post->excerpt ?: strip_tags($post->content), 120) }}</p>
+                    <h3>{{ $post->display_title }}</h3>
+                    <p>{{ Str::limit($post->display_excerpt ?: strip_tags($post->display_content), 120) }}</p>
                     <span class="journal-meta">{{ $journalCategories[$cardCategory] }}@if($post->author) · {{ $post->author->name }}@endif</span>
                 </a>
             @endforeach

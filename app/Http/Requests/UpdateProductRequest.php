@@ -20,13 +20,17 @@ class UpdateProductRequest extends FormRequest
 
         return [
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:products,slug,' . $product->id,
+            'name_en' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:products,slug,'.$product->id.'|unique:products,slug_en,'.$product->id,
+            'slug_en' => 'nullable|string|max:255|unique:products,slug_en,'.$product->id.'|unique:products,slug,'.$product->id,
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0|max:999999999',
             'stock' => 'required|integer|min:0|max:999999',
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
             'short_description' => 'nullable|string|max:500',
+            'short_description_en' => 'nullable|string|max:500',
             'length' => 'nullable|string|max:50',
             'min_order_quantity' => 'nullable|integer|min:1',
             'origin' => 'nullable|string|max:100',
@@ -61,9 +65,9 @@ class UpdateProductRequest extends FormRequest
             'stock.integer' => 'Số lượng tồn kho phải là số nguyên',
             'stock.min' => 'Số lượng tồn kho không được âm',
             'slug.unique' => 'Slug sản phẩm đã tồn tại',
-            'images.max' => 'Tối đa ' . config('upload.limits.product_images.max_count', 10) . ' hình ảnh',
+            'images.max' => 'Tối đa '.config('upload.limits.product_images.max_count', 10).' hình ảnh',
             'images.*.mimes' => 'Hình ảnh phải có định dạng: jpg, jpeg, png, gif, webp',
-            'images.*.max' => 'Kích thước hình ảnh không được vượt quá ' . config('upload.limits.product_images.max_size', 2048) . ' KB',
+            'images.*.max' => 'Kích thước hình ảnh không được vượt quá '.config('upload.limits.product_images.max_size', 2048).' KB',
             'delete_images.*.exists' => 'Một số hình ảnh không tồn tại',
             'primary_image.exists' => 'Hình ảnh chính không tồn tại',
         ];
@@ -72,7 +76,7 @@ class UpdateProductRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         // Auto-generate slug if empty
-        if (empty($this->input('slug')) && !empty($this->input('name'))) {
+        if (empty($this->input('slug')) && ! empty($this->input('name'))) {
             $this->merge(['slug' => Str::slug($this->input('name'))]);
         }
 

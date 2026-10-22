@@ -130,7 +130,7 @@
  <circle cx="0" cy="-30" r="15" fill="#9A5A40"/><text x="0" y="-26" text-anchor="middle" font-size="10" font-weight="600" fill="#F6E3D3" font-family="Josefin Sans,sans-serif">LNT</text></g>
 </svg></div>
 <div class="list" id="list" aria-label="Các món đồ cần tìm"></div>
-<div class="status"><p id="ptext"></p><span class="note">Thông tin nhận hàng chỉ dùng để xử lý đơn · <a href="{{ route('policy.baomat') }}">Chính sách bảo mật</a></span>
+<div class="status"><p id="ptext"></p><span class="note">Thông tin nhận hàng chỉ dùng để xử lý đơn · <a href="{{ localized_route('policy.baomat') }}">{{ __('ui.privacy_policy') }}</a></span>
 <button class="btn primary" id="send" type="button" disabled>Niêm phong &amp; gửi hộp hoa</button></div>
 </main>
 @endsection
@@ -292,7 +292,7 @@ function body(f){const v=data[f.id]||{sel:[],extra:''};
   <label>Địa chỉ nhận hoa *<input id="c_addr" autocomplete="street-address" value="${esc(c.addr||'')}"></label>
   <label>Ngày nhận mong muốn *<input id="c_date" type="date" min="${t.toISOString().slice(0,10)}" value="${esc(c.date||'')}"></label>
   <label>Lưu ý thêm (không bắt buộc)<textarea id="c_note" maxlength="400" style="min-height:70px" placeholder="Dị ứng phấn hoa, màu hay loài hoa muốn tránh, dịp tặng, lời nhắn kèm thiệp…">${esc((data.note&&data.note.text)||'')}</textarea></label></div>
-  <label class="check"><input type="checkbox" id="c_ok" ${c.ok?'checked':''}> <span>Tôi đã đọc <a href="{{ route('policy.ours') }}" target="_blank" rel="noopener">chính sách đổi trả</a> và đồng ý để LNT liên hệ xác nhận đơn.</span></label>`}
+  <label class="check"><input type="checkbox" id="c_ok" ${c.ok?'checked':''}> <span>Tôi đã đọc <a href="{{ localized_route('policy.ours') }}" target="_blank" rel="noopener">chính sách đổi trả</a> và đồng ý để LNT liên hệ xác nhận đơn.</span></label>`}
 }
 function openPanel(f,from){busy=true;const stage=$('#stage');const bd=document.createElement('div');bd.className='backdrop';stage.appendChild(bd);
  const p=document.createElement('div');p.className='panel';p.setAttribute('role','dialog');p.setAttribute('aria-modal','true');p.setAttribute('aria-labelledby','pl');
@@ -341,7 +341,7 @@ async function onSubmit(payload){
   note,delivery_address:c.addr,delivery_date:c.date
  };
  try{
-  const response=await fetch('{{ route('mystery-box.store') }}',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').content},body:JSON.stringify(body)});
+  const response=await fetch('{{ localized_route('mystery-box.store') }}',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').content},body:JSON.stringify(body)});
   const result=await response.json();
   if(!response.ok){alert(result.message||Object.values(result.errors||{})[0]?.[0]||'Không thể gửi yêu cầu.');return}
   window.location.href=result.redirect;

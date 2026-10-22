@@ -12,7 +12,7 @@ class RegisterController extends Controller
             return redirect()->route('admin.users.create');
         }
 
-        return redirect()->route('login')
-            ->with('status', 'Tài khoản mới do cửa hàng tạo. Vui lòng liên hệ quản trị viên để được cấp tài khoản.');
+        return redirect(localized_route('login'))
+            ->with('status', __('customer.registration_disabled'));
     }
 }

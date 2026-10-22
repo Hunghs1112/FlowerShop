@@ -141,17 +141,19 @@ class PageController extends Controller
         abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && ! $isPolicy && ! $isSeasonal && ! $isGuide, 404);
 
         $allowedFields = $isPolicy
-            ? ['title', 'policy_intro', 'policy_updated_at_display', 'policy_content_override', 'is_active']
+            ? ['title', 'title_en', 'policy_intro', 'policy_updated_at_display', 'policy_content_override', 'is_active']
             : (($isSeasonal || $isGuide)
-                ? ['title', 'content', 'is_active']
-                : ['title', 'slug', 'content', 'is_active', 'meta_title', 'meta_description', 'header_image', 'hide_header_overlay']);
+                ? ['title', 'title_en', 'content', 'content_en', 'is_active']
+                : ['title', 'title_en', 'slug', 'content', 'content_en', 'is_active', 'meta_title', 'meta_description', 'header_image', 'hide_header_overlay']);
 
         return $this->handleAjaxFieldUpdate($request, $page, [
             'allowed_fields' => $allowedFields,
             'rules' => [
                 'title' => 'required|string|max:255',
+                'title_en' => 'nullable|string|max:255',
                 'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug,'.$page->id, Rule::notIn(Page::STATIC_SLUGS)],
                 'content' => $isSeasonal ? 'required|json' : 'required|string',
+                'content_en' => $isSeasonal ? 'nullable|json' : 'nullable|string',
                 'is_active' => 'boolean',
                 'meta_title' => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',

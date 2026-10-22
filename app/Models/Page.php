@@ -33,8 +33,10 @@ class Page extends Model
 
     protected $fillable = [
         'title',
+        'title_en',
         'slug',
         'content',
+        'content_en',
         'is_active',
         'header_image',
         'hide_header_overlay',
@@ -57,7 +59,7 @@ class Page extends Model
     // Accessors
     public function getHeaderImageUrlAttribute(): ?string
     {
-        if (!$this->header_image) {
+        if (! $this->header_image) {
             return null;
         }
 
@@ -69,6 +71,22 @@ class Page extends Model
             return asset($this->header_image);
         }
 
-        return asset('storage/' . ltrim($this->header_image, '/'));
+        return asset('storage/'.ltrim($this->header_image, '/'));
+    }
+
+    // Display helpers (locale-aware — Vietnamese as source, English as fallback)
+    public function getDisplayTitleAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->title_en) ? $this->title_en : $this->title;
+    }
+
+    public function getDisplayContentAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->content_en) ? $this->content_en : $this->content;
+    }
+
+    public function getDisplaySlugAttribute(): string
+    {
+        return $this->slug; // slug not translated currently
     }
 }

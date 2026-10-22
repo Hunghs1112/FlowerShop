@@ -10,9 +10,7 @@ use Illuminate\Validation\Rule;
 
 class MysteryBoxController extends Controller
 {
-    public function __construct(private MysteryBoxContentService $contentService)
-    {
-    }
+    public function __construct(private MysteryBoxContentService $contentService) {}
 
     /**
      * Display mystery box form.
@@ -72,11 +70,11 @@ class MysteryBoxController extends Controller
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'redirect' => route('mystery-box.success', $mysteryBoxRequest),
+                'redirect' => localized_route('mystery-box.success', $mysteryBoxRequest),
             ]);
         }
 
-        return redirect()->route('mystery-box.success', $mysteryBoxRequest);
+        return redirect(localized_route('mystery-box.success', $mysteryBoxRequest));
     }
 
     /**

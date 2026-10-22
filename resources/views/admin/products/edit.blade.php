@@ -125,6 +125,16 @@
                                       style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('description', $product->description) }}</textarea>
                         </div>
 
+                        <div style="border-top: 1px solid var(--admin-border); padding-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+                            <strong>English content</strong>
+                            @foreach(['name_en' => 'English name', 'slug_en' => 'English slug'] as $field => $placeholder)
+                                <input type="text" name="{{ $field }}" value="{{ old($field, $product->{$field}) }}" placeholder="{{ $placeholder }}" class="auto-save-input form-input" data-entity="products" data-id="{{ $product->id }}" data-save-url="{{ route('admin.products.updateField', $product) }}">
+                            @endforeach
+                            @foreach(['short_description_en' => 'English short description', 'description_en' => 'English description'] as $field => $placeholder)
+                                <textarea name="{{ $field }}" rows="{{ $field === 'description_en' ? 6 : 3 }}" placeholder="{{ $placeholder }}" class="auto-save-input form-input" data-entity="products" data-id="{{ $product->id }}" data-save-url="{{ route('admin.products.updateField', $product) }}">{{ old($field, $product->{$field}) }}</textarea>
+                            @endforeach
+                        </div>
+
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                             <div>
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Chiều Dài</label>

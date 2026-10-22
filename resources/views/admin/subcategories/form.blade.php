@@ -59,6 +59,14 @@
                               @if(isset($isEdit) && $isEdit) class="auto-save-input" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @endif
                               style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical;">{{ old('description', $subcategory->description ?? '') }}</textarea>
                 </div>
+
+                <div style="border-top: 1px solid var(--admin-border); padding-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+                    <strong>English content</strong>
+                    @foreach(['name_en' => 'English name', 'slug_en' => 'English slug'] as $field => $placeholder)
+                        <input type="text" name="{{ $field }}" value="{{ old($field, $subcategory->{$field} ?? '') }}" placeholder="{{ $placeholder }}" @if(isset($isEdit) && $isEdit) class="auto-save-input form-input" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @else class="form-input" @endif>
+                    @endforeach
+                    <textarea name="description_en" rows="4" placeholder="English description" @if(isset($isEdit) && $isEdit) class="auto-save-input form-input" data-entity="subcategories" data-id="{{ $subcategory->id }}" data-save-url="{{ route('admin.subcategories.autoSave', $subcategory) }}" @else class="form-input" @endif>{{ old('description_en', $subcategory->description_en ?? '') }}</textarea>
+                </div>
             </div>
 
             {{-- Right Column - Settings & Image --}}
