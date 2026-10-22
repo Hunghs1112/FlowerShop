@@ -81,4 +81,19 @@ return [
         'enabled' => env('MAIL_NOTIFICATIONS_ENABLED', true),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | LibreTranslate Service
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for LibreTranslate API integration.
+    |
+    */
+
+    'libretranslate' => [
+        'url' => env('LIBRETRANSLATE_URL', 'http://127.0.0.1:5000'),
+        'api_key' => env('LIBRETRANSLATE_API_KEY'),
+        'timeout' => (int) env('LIBRETRANSLATE_TIMEOUT', 5),
+    ],
+
 ];

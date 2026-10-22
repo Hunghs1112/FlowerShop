@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FlowerOriginController;
 use App\Http\Controllers\Admin\GalleryImageController;
 use App\Http\Controllers\Admin\InquiryController;
+use App\Http\Controllers\Admin\LibreTranslateController;
 use App\Http\Controllers\Admin\MysteryBoxContentController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PopupController;
@@ -44,147 +45,163 @@ use Illuminate\Support\Facades\Route;
 // ============================================================
 // Customer-facing routes
 // ============================================================
+$customerRoutes = function (): void {
 
-// Home
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::post('/newsletter', [NewsletterSubscriptionController::class, 'store'])
-    ->middleware('throttle:5,1')
-    ->name('newsletter.store');
+    // Home
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::post('/newsletter', [NewsletterSubscriptionController::class, 'store'])
+        ->middleware('throttle:5,1')
+        ->name('newsletter.store');
 
-// Products
-Route::get('/san-pham', [ProductController::class, 'index'])->name('products.index');
-Route::get('/san-pham/anh/{type}/{id}', [ProductController::class, 'watermarkedImage'])
-    ->whereIn('type', ['product', 'variant'])
-    ->whereNumber('id')
-    ->name('products.watermarked-image');
-Route::get('/san-pham/{product}', [ProductController::class, 'show'])->name('products.show');
+    // Products
+    Route::get('/san-pham', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/san-pham/anh/{type}/{id}', [ProductController::class, 'watermarkedImage'])
+        ->whereIn('type', ['product', 'variant'])
+        ->whereNumber('id')
+        ->name('products.watermarked-image');
+    Route::get('/san-pham/{product}', [ProductController::class, 'show'])->name('products.show');
 
-// Categories
-Route::get('/danh-muc', [CategoryController::class, 'index'])->name('categories.index');
-Route::get('/danh-muc/{category}', [CategoryController::class, 'show'])->name('categories.show');
+    // Categories
+    Route::get('/danh-muc', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/danh-muc/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
-// Blog
-Route::get('/bai-viet', [PostController::class, 'index'])->name('blog.index');
-Route::middleware(['auth', 'active'])->group(function () {
-    Route::get('/bai-viet/them-moi', [PostController::class, 'create'])->name('blog.create');
-    Route::post('/bai-viet/them-moi', [PostController::class, 'store'])->middleware('throttle:5,1')->name('blog.store');
-    Route::post('/bai-viet/tai-anh-noi-dung', [PostController::class, 'uploadContentImage'])->name('blog.content-image');
-});
-Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show');
+    // Blog
+    Route::get('/bai-viet', [PostController::class, 'index'])->name('blog.index');
+    Route::middleware(['auth', 'active'])->group(function () {
+        Route::get('/bai-viet/them-moi', [PostController::class, 'create'])->name('blog.create');
+        Route::post('/bai-viet/them-moi', [PostController::class, 'store'])->middleware('throttle:5,1')->name('blog.store');
+        Route::post('/bai-viet/tai-anh-noi-dung', [PostController::class, 'uploadContentImage'])->name('blog.content-image');
+    });
+    Route::get('/bai-viet/{post}', [PostController::class, 'show'])->name('blog.show');
 
-// Pages
-Route::get('/gioi-thieu', [PageController::class, 'about'])->name('about');
-Route::get('/ve-chung-toi', [PageController::class, 'about']);
-Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
-Route::post('/lien-he', [PageController::class, 'contactSubmit'])->middleware('throttle:10,1')->name('contact.store');
-Route::get('/tuyen-dung', [CareerController::class, 'index'])->name('career.index');
-Route::post('/tuyen-dung/ung-tuyen', [CareerController::class, 'store'])->middleware('throttle:5,1')->name('career.store');
-Route::get('/huong-dan-dat-hang', [PageController::class, 'guide'])->name('guide');
-Route::get('/trang/huong-dan-dat-hang', fn () => redirect()->route('guide'));
-Route::get('/trang/huong-dan-mua-hang', fn () => redirect()->route('guide'));
-Route::redirect('/trang/lien-he', '/lien-he');
-Route::redirect('/trang/gioi-thieu', '/gioi-thieu');
+    // Pages
+    Route::get('/gioi-thieu', [PageController::class, 'about'])->name('about');
+    Route::get('/ve-chung-toi', [PageController::class, 'about']);
+    Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
+    Route::post('/lien-he', [PageController::class, 'contactSubmit'])->middleware('throttle:10,1')->name('contact.store');
+    Route::get('/tuyen-dung', [CareerController::class, 'index'])->name('career.index');
+    Route::post('/tuyen-dung/ung-tuyen', [CareerController::class, 'store'])->middleware('throttle:5,1')->name('career.store');
+    Route::get('/huong-dan-dat-hang', [PageController::class, 'guide'])->name('guide');
+    Route::get('/trang/huong-dan-dat-hang', fn () => redirect(localized_route('guide')));
+    Route::get('/trang/huong-dan-mua-hang', fn () => redirect(localized_route('guide')));
+    Route::get('/trang/lien-he', fn () => redirect(localized_route('contact')));
+    Route::get('/trang/gioi-thieu', fn () => redirect(localized_route('about')));
 
-// Individual policy static pages (MUST come before /trang/{slug})
-Route::get('/chinh-sach-bao-mat', [PageController::class, 'policyBaoMat'])->name('policy.baomat');
-Route::redirect('/trang/chinh-sach-bao-mat', '/chinh-sach-bao-mat');
-Route::get('/chinh-sach-cua-chung-toi', [PageController::class, 'policyOurs'])->name('policy.ours');
-Route::redirect('/trang/chinh-sach-cua-chung-toi', '/chinh-sach-cua-chung-toi');
-Route::redirect('/trang/chinh-sach-doi-tra', '/chinh-sach-cua-chung-toi');
-Route::get('/chinh-sach-giao-hang', [PageController::class, 'policyDelivery'])->name('policy.delivery');
-Route::redirect('/trang/chinh-sach-giao-hang', '/chinh-sach-giao-hang');
-Route::get('/dieu-khoan-dich-vu', [PageController::class, 'policyDieuKhoan'])->name('policy.terms');
-Route::redirect('/trang/dieu-khoan-dich-vu', '/dieu-khoan-dich-vu');
+    // Individual policy static pages (MUST come before /trang/{slug})
+    Route::get('/chinh-sach-bao-mat', [PageController::class, 'policyBaoMat'])->name('policy.baomat');
+    Route::get('/trang/chinh-sach-bao-mat', fn () => redirect(localized_route('policy.baomat')));
+    Route::get('/chinh-sach-cua-chung-toi', [PageController::class, 'policyOurs'])->name('policy.ours');
+    Route::get('/trang/chinh-sach-cua-chung-toi', fn () => redirect(localized_route('policy.ours')));
+    Route::get('/trang/chinh-sach-doi-tra', fn () => redirect(localized_route('policy.ours')));
+    Route::get('/chinh-sach-giao-hang', [PageController::class, 'policyDelivery'])->name('policy.delivery');
+    Route::get('/trang/chinh-sach-giao-hang', fn () => redirect(localized_route('policy.delivery')));
+    Route::get('/dieu-khoan-dich-vu', [PageController::class, 'policyDieuKhoan'])->name('policy.terms');
+    Route::get('/trang/dieu-khoan-dich-vu', fn () => redirect(localized_route('policy.terms')));
 
-// Cánh phong bí ẩn
-Route::get('/can-phong-bi-mat', [PageController::class, 'canPhong'])->name('can-phong-bi-mat');
-Route::redirect('/trang/can-phong-bi-mat', '/can-phong-bi-mat');
+    // Cánh phong bí ẩn
+    Route::get('/can-phong-bi-mat', [PageController::class, 'canPhong'])->name('can-phong-bi-mat');
+    Route::get('/trang/can-phong-bi-mat', fn () => redirect(localized_route('can-phong-bi-mat')));
 
-// Seasonal hub pages
-Route::get('/phu-kien-cay-thong', [PageController::class, 'seasonDanishTree'])
-    ->name('season.phu-kien');
-Route::redirect('/trang/phu-kien-cay-thong', '/phu-kien-cay-thong');
-Route::get('/mua-le-hoi', [PageController::class, 'seasonHub'])->name('season.mua-le-hoi');
-Route::get('/mua-le-hoi/hoi-mua-thu', [PageController::class, 'seasonAutumn'])->name('season.autumn');
-Route::get('/mua-le-hoi/halloween', [PageController::class, 'seasonHalloween'])->name('season.halloween');
-Route::get('/mua-le-hoi/cay-thong-dan-mach', [PageController::class, 'seasonDanishTree'])->name('season.danish-tree');
-Route::redirect('/trang/mua-le-hoi', '/mua-le-hoi');
-Route::post('/mua-le-hoi/dat-truoc', [PageController::class, 'seasonPreorder'])
-    ->middleware('throttle:5,1')
-    ->name('season.preorder');
+    // Seasonal hub pages
+    Route::get('/phu-kien-cay-thong', [PageController::class, 'seasonDanishTree'])
+        ->name('season.phu-kien');
+    Route::get('/trang/phu-kien-cay-thong', fn () => redirect(localized_route('season.phu-kien')));
+    Route::get('/mua-le-hoi', [PageController::class, 'seasonHub'])->name('season.mua-le-hoi');
+    Route::get('/mua-le-hoi/hoi-mua-thu', [PageController::class, 'seasonAutumn'])->name('season.autumn');
+    Route::get('/mua-le-hoi/halloween', [PageController::class, 'seasonHalloween'])->name('season.halloween');
+    Route::get('/mua-le-hoi/cay-thong-dan-mach', [PageController::class, 'seasonDanishTree'])->name('season.danish-tree');
+    Route::get('/trang/mua-le-hoi', fn () => redirect(localized_route('season.mua-le-hoi')));
+    Route::post('/mua-le-hoi/dat-truoc', [PageController::class, 'seasonPreorder'])
+        ->middleware('throttle:5,1')
+        ->name('season.preorder');
 
-// Generic page route must follow all fixed /trang redirects.
-Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
+    // Generic page route must follow all fixed /trang redirects.
+    Route::get('/trang/{slug}', [PageController::class, 'policy'])->name('policy');
 
-// Cart
-Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
-Route::post('/gio-hang/them', [CartController::class, 'add'])->name('cart.add');
-Route::patch('/gio-hang/{cartItem}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/gio-hang/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
-Route::delete('/gio-hang', [CartController::class, 'clear'])->name('cart.clear');
+    // Cart
+    Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/gio-hang/them', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/gio-hang/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/gio-hang/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::delete('/gio-hang', [CartController::class, 'clear'])->name('cart.clear');
 
-// Quick order
-Route::post('/dat-hang-nhanh', [QuickOrderController::class, 'store'])->middleware(['auth', 'throttle:10,1'])->name('quick-order.store');
+    // Quick order
+    Route::post('/dat-hang-nhanh', [QuickOrderController::class, 'store'])->middleware(['auth', 'throttle:10,1'])->name('quick-order.store');
 
-// B2B landing & registration
-Route::post('/b2c', [B2cController::class, 'store'])->middleware('throttle:5,1');
-Route::redirect('/b2c', '/b2b', 301);
-Route::get('/b2b', [B2cController::class, 'index'])->name('b2c');
-Route::post('/b2b', [B2cController::class, 'store'])->middleware('throttle:5,1')->name('b2c.store');
+    // B2B landing & registration
+    Route::post('/b2c', [B2cController::class, 'store'])->middleware('throttle:5,1');
+    Route::get('/b2c', fn () => redirect(localized_route('b2c'), 301));
+    Route::get('/b2b', [B2cController::class, 'index'])->name('b2c');
+    Route::post('/b2b', [B2cController::class, 'store'])->middleware('throttle:5,1')->name('b2c.store');
 
-// Auth
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'showRegistrationForm']);
+    // Auth
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'showRegistrationForm']);
 
-// Password Reset
-Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+    // Password Reset
+    Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-// ============================================================
-// Authenticated routes
-// ============================================================
-Route::middleware(['auth', 'active'])->group(function () {
-    // Checkout
-    Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/thanh-toan', [CheckoutController::class, 'store'])->middleware('throttle:10,1')->name('checkout.store');
-    Route::get('/thanh-toan/thanh-cong/{inquiry?}', [CheckoutController::class, 'success'])->name('checkout.success');
+    // ============================================================
+    // Authenticated routes
+    // ============================================================
+    Route::middleware(['auth', 'active'])->group(function () {
+        // Checkout
+        Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
+        Route::post('/thanh-toan', [CheckoutController::class, 'store'])->middleware('throttle:10,1')->name('checkout.store');
+        Route::get('/thanh-toan/thanh-cong/{inquiry?}', [CheckoutController::class, 'success'])->name('checkout.success');
 
-    // Mystery Box
-    Route::get('/hop-hoa-bi-an', [MysteryBoxController::class, 'index'])->name('mystery-box.index');
-    Route::post('/hop-hoa-bi-an', [MysteryBoxController::class, 'store'])->middleware('throttle:5,1')->name('mystery-box.store');
-    Route::get('/hop-hoa-bi-an/thanh-cong/{request}', [MysteryBoxController::class, 'success'])->name('mystery-box.success');
+        // Mystery Box
+        Route::get('/hop-hoa-bi-an', [MysteryBoxController::class, 'index'])->name('mystery-box.index');
+        Route::post('/hop-hoa-bi-an', [MysteryBoxController::class, 'store'])->middleware('throttle:5,1')->name('mystery-box.store');
+        Route::get('/hop-hoa-bi-an/thanh-cong/{request}', [MysteryBoxController::class, 'success'])->name('mystery-box.success');
 
-    // Profile
-    Route::get('/tai-khoan', [ProfileController::class, 'show'])->name('profile.show');
-    Route::patch('/tai-khoan', [ProfileController::class, 'update'])->name('profile.update');
-    Route::patch('/tai-khoan/mat-khau', [ProfileController::class, 'updatePassword'])->name('profile.password');
+        // Profile
+        Route::get('/tai-khoan', [ProfileController::class, 'show'])->name('profile.show');
+        Route::patch('/tai-khoan', [ProfileController::class, 'update'])->name('profile.update');
+        Route::patch('/tai-khoan/mat-khau', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
-    // Favorites
-    Route::get('/yeu-thich', [FavoriteController::class, 'index'])->name('favorites.index');
-    Route::post('/yeu-thich', [FavoriteController::class, 'store'])->name('favorites.store');
-    Route::delete('/yeu-thich/{id}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+        // Favorites
+        Route::get('/yeu-thich', [FavoriteController::class, 'index'])->name('favorites.index');
+        Route::post('/yeu-thich', [FavoriteController::class, 'store'])->name('favorites.store');
+        Route::delete('/yeu-thich/{id}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
 
-    // Chat
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/messages', [ChatController::class, 'messages'])->name('chat.messages');
-    Route::get('/chat/poll', [ChatController::class, 'poll'])->name('chat.poll');
-    Route::get('/chat/unread-count', [ChatController::class, 'unreadCount'])->name('chat.unread-count');
-    Route::post('/chat/send', [ChatController::class, 'store'])->name('chat.send');
+        // Chat
+        Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+        Route::get('/chat/messages', [ChatController::class, 'messages'])->name('chat.messages');
+        Route::get('/chat/poll', [ChatController::class, 'poll'])->name('chat.poll');
+        Route::get('/chat/unread-count', [ChatController::class, 'unreadCount'])->name('chat.unread-count');
+        Route::post('/chat/send', [ChatController::class, 'store'])->name('chat.send');
 
-    // Passport flower stamps API
-    Route::middleware('auth:sanctum')->get('/api/passport', [PassportController::class, 'index'])->name('api.passport');
-});
+        // Passport flower stamps API
+        Route::middleware('auth:sanctum')->get('/api/passport', [PassportController::class, 'index'])->name('api.passport');
+    });
 
-// ============================================================
-// API routes
-// ============================================================
-Route::get('/api/products', [ApiProductController::class, 'getProducts'])->name('api.products');
-Route::get('/api/search', [SearchController::class, 'autocomplete'])->name('api.search.autocomplete');
+    // ============================================================
+    // API routes
+    // ============================================================
+    Route::get('/api/products', [ApiProductController::class, 'getProducts'])->name('api.products');
+    Route::get('/api/search', [SearchController::class, 'autocomplete'])->name('api.search.autocomplete');
+
+};
+
+Route::middleware('locale')->group($customerRoutes);
+Route::prefix('en')->name('en.')->middleware('locale')->group($customerRoutes);
+
+// Laravel applies a group name prefix to unnamed routes too, which breaks route caching.
+foreach (Route::getRoutes() as $route) {
+    if ($route->getName() === 'en.') {
+        $action = $route->getAction();
+        unset($action['as']);
+        $route->setAction($action);
+    }
+}
+Route::getRoutes()->refreshNameLookups();
 
 // ============================================================
 // Utility routes
@@ -195,6 +212,7 @@ Route::get('/api/search', [SearchController::class, 'autocomplete'])->name('api.
 // ============================================================
 Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('translate', [LibreTranslateController::class, 'translate'])->name('translate');
 
     // Catalog unified management (Gộp 3 phần: Categories, Subcategories, Products)
     Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
