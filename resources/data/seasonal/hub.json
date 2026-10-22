@@ -6,8 +6,11 @@
   "orderEndpoint": "",
   "hub": {
     "eyebrow": "MÙA LỄ HỘI",
+    "eyebrow_en": "SEASONAL",
     "title": "Chuyến bay mùa lễ",
+    "title_en": "Seasonal flight",
     "intro": "Mỗi mùa lễ là một chuyến bay đặc biệt. Chọn chuyến của bạn: sắc thu ấm áp, đêm Halloween huyền bí, hay cây thông bay về từ Bắc Âu.",
+    "intro_en": "Every seasonal festival is a special flight. Choose yours: warm autumn tones, a mysterious Halloween night, or a Christmas tree flown in from Northern Europe.",
     "url": "/mua-le-hoi"
   },
   "seasons": [
@@ -16,13 +19,18 @@
       "code": "AUT",
       "theme": "autumn",
       "name": "Hội mùa thu",
+      "name_en": "Autumn festival",
       "tagline": "Chuyến bay mùa lá đỏ",
+      "tagline_en": "The fall foliage flight",
       "status": "Đang bay",
+      "status_en": "In flight",
       "date": "",
       "img": "/images/seasonal/aut_hero.jpg",
       "intro": "Những gam màu ấm của mùa thu: đỏ rượu vang, cam đất, vàng nắng. Hoa tông thu cho bàn ăn, góc làm việc và những buổi hẹn cuối năm.",
+      "intro_en": "The warm tones of autumn: wine red, burnt orange, golden yellow. Autumn-toned flowers for the dining table, work corner, and year-end gatherings.",
       "cta": {
         "label": "Xem bộ sưu tập mùa thu",
+        "label_en": "View autumn collection",
         "link": "/san-pham"
       },
       "url": "/mua-le-hoi/hoi-mua-thu"
@@ -32,13 +40,18 @@
       "code": "HLW",
       "theme": "night",
       "name": "Halloween",
+      "name_en": "Halloween",
       "tagline": "Chuyến bay đêm 31/10",
+      "tagline_en": "Night flight 31/10",
       "status": "Mở đặt trước",
+      "status_en": "Pre-order open",
       "date": "2026-10-31",
       "img": "/images/seasonal/hlw_hero.jpg",
       "intro": "Đêm 31/10, những đoá hoa khoác lên mình sắc cam, đỏ thẫm và tím đêm. Đặt sớm để nhận hoa đúng đêm hội.",
+      "intro_en": "On the night of 31/10, flowers take on tones of orange, deep red, and midnight purple. Order early to receive your flowers on the night of the festival.",
       "cta": {
         "label": "Đặt hoa Halloween",
+        "label_en": "Order Halloween flowers",
         "link": "/san-pham"
       },
       "url": "/mua-le-hoi/halloween"
@@ -48,13 +61,18 @@
       "code": "CPH",
       "theme": "nordic",
       "name": "Cây thông Đan Mạch",
+      "name_en": "Danish Christmas tree",
       "tagline": "Chuyến bay từ Bắc Âu · CPH → HAN",
+      "tagline_en": "Flight from Northern Europe · CPH → HAN",
       "status": "Mở đặt trước",
+      "status_en": "Pre-order open",
       "date": "2026-12-25",
       "img": "",
       "intro": "Thông Nordmann nhập từ Đan Mạch, tán dày, lá mềm, xanh lâu và hương gỗ thông dịu nhẹ cho mùa Giáng sinh. Số lượng mỗi chuyến có hạn, đặt trước để giữ cây.",
+      "intro_en": "Nordmann fir imported from Denmark — dense canopy, soft needles, long-lasting freshness, and a gentle pine scent for the Christmas season. Quantities per shipment are limited; pre-order to secure your tree.",
       "cta": {
         "label": "Đặt trước cây thông",
+        "label_en": "Pre-order your tree",
         "link": "#dat-truoc"
       },
       "url": "/mua-le-hoi/cay-thong-dan-mach"

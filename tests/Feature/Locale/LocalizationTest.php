@@ -91,6 +91,29 @@ class LocalizationTest extends TestCase
             ->assertSee('action="'.url('/en/newsletter').'"', false);
     }
 
+    public function test_english_static_pages_render_their_english_copy(): void
+    {
+        $pages = [
+            '/en/ve-chung-toi' => 'Nine origins',
+            '/en/tuyen-dung' => 'APPLICATION FORM',
+            '/en/huong-dan-dat-hang' => 'How to order',
+            '/en/chinh-sach-bao-mat' => 'Privacy policy',
+            '/en/chinh-sach-giao-hang' => 'Delivery Policy',
+            '/en/chinh-sach-cua-chung-toi' => 'Our Policies',
+            '/en/dieu-khoan-dich-vu' => 'Terms of service',
+        ];
+
+        foreach ($pages as $url => $copy) {
+            $this->get($url)->assertOk()->assertSee($copy);
+        }
+
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->get('/en/hop-hoa-bi-an')
+            ->assertOk()
+            ->assertSee('Mystery flower box');
+    }
+
     public function test_canonical_and_hreflang_urls_use_the_target_locale_slug(): void
     {
         $category = Category::create([

@@ -255,7 +255,7 @@ class PageController extends Controller
         $config['csrfToken'] = csrf_token();
         $config['seasonSlug'] = $slug;
 
-        return $config;
+        return $this->localizeSeasonalData($config);
     }
 
     private function seasonalFile(string $file): array
@@ -276,6 +276,46 @@ class PageController extends Controller
         }
 
         return $defaults;
+    }
+
+    /**
+     * Walk a JSON-decoded array and replace every "key" with "key_en" value
+     * when the current locale is English and a "key_en" sibling exists.
+     */
+    private function localizeSeasonalData(array $data): array
+    {
+        if (app()->getLocale() !== 'en') {
+            return $data;
+        }
+
+        $result = [];
+        foreach ($data as $key => $value) {
+            // Skip _en keys themselves — they will replace their base key below
+            if (str_ends_with((string) $key, '_en')) {
+                continue;
+            }
+
+            $enKey = $key . '_en';
+            if (array_key_exists($enKey, $data)) {
+                // Override with English value
+                $enValue = $data[$enKey];
+                $result[$key] = is_array($enValue) ? $this->localizeSeasonalData($enValue) : $enValue;
+            } elseif (is_array($value)) {
+                if (array_is_list($value)) {
+                    // Recurse into each list item
+                    $result[$key] = array_map(
+                        fn ($item) => is_array($item) ? $this->localizeSeasonalData($item) : $item,
+                        $value
+                    );
+                } else {
+                    $result[$key] = $this->localizeSeasonalData($value);
+                }
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 
     public function seasonPreorder(Request $request)

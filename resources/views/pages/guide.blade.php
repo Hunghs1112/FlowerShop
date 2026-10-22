@@ -1,17 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Hướng dẫn đặt hàng')
+@section('title', __('pages.guide.title'))
 
 @section('skip-main-wrapper', true)
 
 @section('content')
 <main class="wrap">
-<section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">HỖ TRỢ KHÁCH HÀNG</p><h1 id="t">Hướng dẫn<br>đặt hàng</h1><p class="lead">Năm bước đơn giản để những đoá hoa bay đến không gian của bạn. Chạm vào từng chặng trên lịch trình để xem chi tiết.</p></div>
-<div class="visual"><img class="tk" src="{{ asset('images/pages/guide-itinerary.jpg') }}" alt=""><div class="itin"><div class="ih"><span>LỊCH TRÌNH · ITINERARY</span><span>LNT·01</span></div>
-<ol class="legs"><span class="plane" aria-hidden="true"></span><li><button type="button" class="leg" data-t="o1"><i aria-hidden="true"></i><span><small>01 · CHECK-IN</small><b>Chọn hoa</b><em>Chọn bó hoa bạn yêu thích</em></span></button></li><li><button type="button" class="leg" data-t="o2"><i aria-hidden="true"></i><span><small>02 · HÀNH LÝ</small><b>Thêm vào giỏ hàng</b><em>Gửi bó hoa vào giỏ của bạn</em></span></button></li><li><button type="button" class="leg" data-t="o3"><i aria-hidden="true"></i><span><small>03 · LÊN MÁY BAY</small><b>Thanh toán</b><em>Tiền mặt hoặc chuyển khoản</em></span></button></li><li><button type="button" class="leg" data-t="o4"><i aria-hidden="true"></i><span><small>04 · KHAI BÁO</small><b>Thông tin nhận hàng</b><em>Người nhận, địa chỉ, thời gian</em></span></button></li><li><button type="button" class="leg" data-t="o5"><i aria-hidden="true"></i><span><small>05 · HẠ CÁNH</small><b>Nhận hoa</b><em>Kiểm tra hoa ngay khi nhận</em></span></button></li></ol>
-<div class="ifoot"><div><small>TỪ</small>Vườn hoa</div><div style="text-align:right"><small>ĐẾN</small>Không gian của bạn</div></div></div></div></section>
+<section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">{{ __('pages.guide.support') }}</p><h1 id="t">{{ __('pages.guide.heading') }}<br>{{ __('pages.guide.order') }}</h1><p class="lead">{{ __('pages.guide.lead') }}</p></div>
+<div class="visual"><img class="tk" src="{{ asset('images/pages/guide-itinerary.jpg') }}" alt=""><div class="itin"><div class="ih"><span>{{ __('pages.guide.itinerary') }}</span><span>LNT·01</span></div>
+<ol class="legs"><span class="plane" aria-hidden="true"></span><li><button type="button" class="leg" data-t="o1"><i aria-hidden="true"></i><span><small>{{ __('pages.guide.phase1') }}</small><b>{{ __('pages.guide.checkin') }}</b><em>{{ __('pages.guide.choose_fav') }}</em></span></button></li><li><button type="button" class="leg" data-t="o2"><i aria-hidden="true"></i><span><small>{{ __('pages.guide.phase2') }}</small><b>{{ __('pages.guide.luggage') }}</b><em>{{ __('pages.guide.add_cart') }}</em></span></button></li><li><button type="button" class="leg" data-t="o3"><i aria-hidden="true"></i><span><small>{{ __('pages.guide.phase3') }}</small><b>{{ __('pages.guide.board') }}</b><em>{{ __('pages.guide.payment') }}</em></span></button></li><li><button type="button" class="leg" data-t="o4"><i aria-hidden="true"></i><span><small>{{ __('pages.guide.phase4') }}</small><b>{{ __('pages.guide.declare') }}</b><em>{{ __('pages.guide.recipient_address_time') }}</em></span></button></li><li><button type="button" class="leg" data-t="o5"><i aria-hidden="true"></i><span><small>{{ __('pages.guide.phase5') }}</small><b>{{ __('pages.guide.landing') }}</b><em>{{ __('pages.guide.inspect') }}</em></span></button></li></ol>
+<div class="ifoot"><div><small>{{ __('pages.guide.from') }}</small>{{ __('pages.guide.garden') }}</div><div style="text-align:right"><small>{{ __('pages.guide.to') }}</small>{{ __('pages.guide.your_space') }}</div></div></div></div></section>
 @if(!empty(trim($page?->content ?? '')))
 <section class="body guide-editable-content"><x-markdown-renderer :content="$page->display_content" /></section>
+@else
+@if(app()->getLocale() === 'en')
+<div class="toolbar"><p>{{ __('pages.guide.stages') }}</p><button class="btn-ghost" id="toggleAll" type="button">{{ __('pages.guide.toggle_open') }}</button></div>
+<section class="gates" aria-label="{{ __('pages.guide.content') }}">
+@foreach(range(1, 5) as $n)
+<details class="gate" id="o{{ $n }}" @if($n === 1) open @endif><summary><span class="code">0{{ $n }}</span><h2>{{ __('pages.guide.s'.$n.'_title') }}</h2><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 5l5 5-5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></summary><div class="body"><p class="tldr">{{ __('pages.guide.s'.$n.'_tldr') }}</p>{!! __('pages.guide.s'.$n.'_body', ['products' => __('ui.products'), 'delivery_url' => localized_route('policy', 'chinh-sach-giao-hang'), 'delivery_policy' => __('ui.delivery_policy'), 'policy_url' => localized_route('policy.ours'), 'policy' => __('ui.our_policy')]) !!}</div></details>
+@endforeach
+</section>
+<section class="help" aria-labelledby="help-t"><div><h2>{{ __('pages.guide.help') }}</h2><p>{{ __('pages.guide.help_text') }}</p></div>
+@include('partials.contact-actions')</section>
+<footer class="foot"><span>© Lâm Nhiên Thảo</span><span>{{ __('pages.guide.footer') }}</span></footer>
 @else
 <div class="toolbar"><p>05 CHẶNG</p><button class="btn-ghost" id="toggleAll" type="button">Mở tất cả</button></div>
 <section class="gates" aria-label="Nội dung"><details class="gate" id="o1" open><summary><span class="code">01</span><h2>Chọn hoa</h2><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></summary><div class="body"><p class="tldr">Chọn hoa trên website; nếu có yêu cầu riêng về màu sắc hay đặc điểm hoa, hãy trao đổi với LNT trước khi đặt.</p><p>Xem các danh mục <strong>{{ __('ui.products') }}</strong> hoặc <strong>Hộp hoa bí ẩn</strong> để chọn bó hoa phù hợp.</p><ul><li>Hoa tươi là sản phẩm tự nhiên nên màu sắc, kích thước, độ nở và số lượng cành thực tế có thể khác đôi chút so với hình ảnh trên website.</li><li>Với hoa nhập khẩu, nguồn cung có thể thay đổi theo mùa vụ, thời tiết và vận chuyển. Nếu sản phẩm không còn sẵn hoặc có thay đổi đáng kể, LNT sẽ chủ động trao đổi với bạn trước khi thực hiện đơn.</li><li>Nếu có yêu cầu cụ thể về đặc điểm của hoa, vui lòng trao đổi với LNT trước thời điểm đặt hàng.</li></ul></div></details>
@@ -22,6 +33,7 @@
 <section class="help" aria-labelledby="help-t"><div><h2 id="help-t">Cần hỗ trợ?</h2><p>Lâm Nhiên Thảo luôn sẵn sàng lắng nghe và đồng hành cùng bạn.</p></div>
 @include('partials.contact-actions')</section>
 <footer class="foot"><span>© Lâm Nhiên Thảo</span><span>Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp</span></footer>
+@endif
 </main>
 @endif
 @endsection
@@ -113,7 +125,7 @@ h1{margin:0;font-weight:600;text-transform:uppercase;color:var(--copper);font-si
 @push('scripts')
 <script>
 (function(){const b=document.getElementById('toggleAll');if(!b)return;const g=[...document.querySelectorAll('.gate')];
-function upd(){const all=g.every(d=>d.open);b.textContent=all?'Thu gọn tất cả':'Mở tất cả';b.setAttribute('aria-expanded',all)}
+function upd(){const all=g.every(d=>d.open);b.textContent=all?@json(__('pages.guide.toggle_close')):@json(__('pages.guide.toggle_open'));b.setAttribute('aria-expanded',all)}
 b.addEventListener('click',()=>{const all=g.every(d=>d.open);g.forEach(d=>d.open=!all);upd()});g.forEach(d=>d.addEventListener('toggle',upd));upd();
 if(location.hash){const t=document.querySelector(location.hash);if(t&&t.tagName==='DETAILS')t.open=true}})();
 </script>

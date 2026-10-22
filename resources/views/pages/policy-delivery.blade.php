@@ -1,18 +1,29 @@
 @extends('layouts.app')
 
-@section('title', $page?->title ?: 'Chính sách giao hàng')
+@section('title', app()->isLocale('en') ? ($page?->title_en ?: __('pages.delivery.title')) : ($page?->title ?: __('pages.delivery.title')))
 
 @section('skip-main-wrapper', true)
 
 @section('content')
 <main class="wrap">
-<section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">DỊCH VỤ</p><h1 id="t">{{ $page?->title ?: 'Chính sách giao hàng' }}</h1><p class="lead">{{ $page?->policy_intro ?: 'LNT cung cấp dịch vụ giao hoa tận nơi, với phương thức vận chuyển được lựa chọn phù hợp theo từng đơn hàng và khu vực nhận hàng.' }}</p></div>
-<div class="visual"><img class="bb" src="{{ asset('images/pages/policy-delivery-bouquet.jpg') }}" alt=""><div class="trk" role="img" aria-label="Thẻ theo dõi đơn hoa minh hoạ quy trình giao hàng 5 bước"><div class="th"><span>THEO DÕI ĐƠN HOA</span><span>LNT·01</span></div>
-<div class="tt">Đang trên đường đến bạn</div><div class="route"><div><b>VƯỜN</b><small>Xưởng hoa LNT</small></div><div class="r"><b>BẠN</b><small>Không gian của bạn</small></div></div>
-<div class="prog"><i></i></div><ol class="steps"><li data-i="0">Xác nhận đơn</li><li data-i="1">Chuẩn bị hoa</li><li data-i="2">Bàn giao vận chuyển</li><li data-i="3">Liên hệ trước khi đến</li><li data-i="4">Giao thành công</li></ol>
-<div class="facts"><span>Thứ Hai – Thứ Bảy · 08:00–17:00</span><span>Giao trong ngày: xác nhận trước 14:00</span><span>Hà Nội &amp; khu vực lân cận</span></div></div></div></section>
-@if(filled($page?->policy_content_override))
-<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="$page->policy_content_override" /></section>
+<section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">{{ __('pages.delivery.eyebrow') }}</p><h1 id="t">{{ app()->isLocale('en') ? ($page?->title_en ?: __('pages.delivery.title')) : ($page?->title ?: __('pages.delivery.title')) }}</h1><p class="lead">{{ app()->isLocale('en') ? __('pages.delivery.intro') : ($page?->policy_intro ?: __('pages.delivery.intro')) }}</p></div>
+<div class="visual"><img class="bb" src="{{ asset('images/pages/policy-delivery-bouquet.jpg') }}" alt=""><div class="trk" role="img" aria-label="{{ __('pages.delivery.track_aria') }}"><div class="th"><span>{{ __('pages.delivery.track_title') }}</span><span>LNT·01</span></div>
+<div class="tt">{{ __('pages.delivery.track_status') }}</div><div class="route"><div><b>{{ __('pages.delivery.origin') }}</b><small>{{ __('pages.delivery.origin_name') }}</small></div><div class="r"><b>{{ __('pages.delivery.destination') }}</b><small>{{ __('pages.delivery.destination_name') }}</small></div></div>
+<div class="prog"><i></i></div><ol class="steps">@foreach(__('pages.delivery.steps') as $step)<li data-i="{{ $loop->index }}">{{ $step }}</li>@endforeach</ol>
+<div class="facts">@foreach(__('pages.delivery.facts') as $fact)<span>{{ $fact }}</span>@endforeach</div></div></div></section>
+@if(filled(app()->isLocale('en') ? $page?->content_en : $page?->policy_content_override))
+<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="app()->isLocale('en') ? $page->display_content : $page->policy_content_override" /></section>
+@else
+@if(app()->getLocale() === 'en')
+<div class="toolbar"><p>{{ __('pages.delivery.sections_label') }}</p><button class="btn-ghost" id="toggleAll" type="button">{{ __('pages.delivery.toggle_open') }}</button></div>
+<section class="gates" aria-label="{{ __('pages.delivery.content_label') }}">
+@foreach(__('pages.delivery.sections') as $i => $section)
+<details class="gate" id="g{{ $loop->iteration }}" @if($loop->first) open @endif><summary><span class="code">0{{ $loop->iteration }}</span><h2>{{ $section['title'] }}</h2><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></summary><div class="body">@if($section['summary'] !== '')<p class="tldr">{{ $section['summary'] }}</p>@endif{!! str_replace(':policy_url', localized_route('policy.ours'), $section['body']) !!}</div></details>
+@endforeach
+</section>
+<section class="help" aria-labelledby="help-t"><div><h2>{{ __('pages.delivery.help') }}</h2><p>{{ __('pages.delivery.help_text') }}</p></div>
+@include('partials.contact-actions')</section>
+<footer class="foot"><span>© Lâm Nhiên Thảo</span><span>{{ __('pages.delivery.footer') }}</span></footer>
 @else
 <div class="toolbar"><p>08 CÁC MỤC</p><button class="btn-ghost" id="toggleAll" type="button">Mở tất cả</button></div>
 <section class="gates" aria-label="Nội dung"><details class="gate" id="g1" open><summary><span class="code">01</span><h2>Khu vực giao hàng</h2><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></summary><div class="body"><p class="tldr">Hà Nội và một số khu vực lân cận.</p><p>LNT hiện hỗ trợ giao hàng tại <strong>TP. Hà Nội và một số khu vực lân cận</strong>.</p><p>Phạm vi giao hàng có thể thay đổi tùy theo địa chỉ, thời điểm và điều kiện vận chuyển. Vui lòng cung cấp đầy đủ địa chỉ khi đặt hàng để LNT kiểm tra và xác nhận khả năng giao nhận.</p></div></details>
@@ -26,6 +37,7 @@
 <section class="help" aria-labelledby="help-t"><div><h2 id="help-t">Cần hỗ trợ?</h2><p>Lâm Nhiên Thảo luôn sẵn sàng lắng nghe và đồng hành cùng bạn.</p></div>
 @include('partials.contact-actions')</section>
 <footer class="foot"><span>© Lâm Nhiên Thảo</span><span>Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp</span></footer>
+@endif
 @endif
 </main>
 @endsection
@@ -110,7 +122,7 @@ h1{margin:0;font-weight:600;text-transform:uppercase;color:var(--copper);font-si
 @push('scripts')
 <script>
 (function(){const b=document.getElementById('toggleAll');if(!b)return;const g=[...document.querySelectorAll('.gate')];
-function upd(){const all=g.every(d=>d.open);b.textContent=all?'Thu gọn tất cả':'Mở tất cả';b.setAttribute('aria-expanded',all)}
+function upd(){const all=g.every(d=>d.open);b.textContent=all?@json(__('pages.delivery.toggle_close')):@json(__('pages.delivery.toggle_open'));b.setAttribute('aria-expanded',all)}
 b.addEventListener('click',()=>{const all=g.every(d=>d.open);g.forEach(d=>d.open=!all);upd()});g.forEach(d=>d.addEventListener('toggle',upd));upd();
 if(location.hash){const t=document.querySelector(location.hash);if(t&&t.tagName==='DETAILS')t.open=true}})();
 </script>

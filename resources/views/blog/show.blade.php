@@ -7,8 +7,8 @@
     title="{{ $post->display_title }}"
     :description="$post->display_excerpt ?? ''"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => localized_route('home')],
-        ['label' => 'Bài viết', 'url' => localized_route('blog.index')],
+        ['label' => __('ui.home'), 'url' => localized_route('home')],
+        ['label' => __('storefront.journal'), 'url' => localized_route('blog.index')],
         ['label' => Str::limit($post->display_title, 30)]
     ]"
     :image="$siteBanners['blog'] ?? null"
@@ -25,7 +25,7 @@
         <!-- Post Meta -->
         <div class="post-detail-meta">
             @if($post->author)
-                <span class="post-meta-item">Tác giả: {{ $post->author->name }}</span>
+                <span class="post-meta-item">{{ __('storefront.author', ['name' => $post->author->name]) }}</span>
             @endif
             <span class="post-meta-item">
                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
@@ -37,7 +37,7 @@
                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                {{ $post->getReadingTime() }} phút đọc
+                {{ __('storefront.minutes_read', ['minutes' => $post->getReadingTime()]) }}
             </span>
         </div>
 
@@ -54,7 +54,7 @@
         <!-- Related Posts -->
         @if($relatedPosts->count() > 0)
             <section class="related-posts">
-                <h2 class="section-title">Bài viết liên quan</h2>
+                <h2 class="section-title">{{ __('storefront.related_articles') }}</h2>
                 <div class="blog-grid">
                     @foreach($relatedPosts as $relatedPost)
                         <article class="post-card">
@@ -95,7 +95,7 @@
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-                Quay lại danh sách
+                {{ __('storefront.back_to_articles') }}
             </a>
         </div>
     </div>

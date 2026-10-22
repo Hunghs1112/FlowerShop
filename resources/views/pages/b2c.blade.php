@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Đăng ký đối tác B2B')
+@section('title', __('ui.b2b_title'))
 
 @php
 $b2cBanner = $siteBanners['b2c'] ?? null;
@@ -10,12 +10,12 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 @section('content')
 <div class="partner-waybill-page">
     <x-page-hero
-        title="Đăng ký đối tác B2B"
-        description="Trở thành đối tác B2B của Lâm Nhiên Thảo để tiếp cận nguồn hoa tươi chất lượng, giá xuất xưởng cùng nhiều ưu đãi độc quyền dành cho cửa hàng và thợ cắm hoa."
-        label="B2B Partnership"
+        :title="__('ui.b2b_title')"
+        :description="__('ui.b2b_description')"
+        :label="__('ui.b2b_label')"
         :breadcrumbs="[
-            ['label' => 'Trang chủ', 'url' => localized_route('home')],
-            ['label' => 'Đăng ký B2B'],
+            ['label' => __('ui.home'), 'url' => localized_route('home')],
+            ['label' => __('ui.b2b_title')],
         ]"
         :image="$b2cBanner"
         :hideOverlay="$siteBannerHideOverlay['b2c'] ?? false"
@@ -32,11 +32,10 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
                 {{-- ── Sidebar: lợi ích ─────────────────────────────── --}}
                 <aside class="b2c-sidebar">
-                    <span class="b2c-sidebar-label">Vì sao chọn Lâm Nhiên Thảo?</span>
-                    <h2 class="b2c-sidebar-title">Đồng hành cùng các cửa hàng hoa đang tìm nguồn hoa nhập khẩu chất lượng</h2>
+                    <span class="b2c-sidebar-label">{{ __('ui.b2b_sidebar_eyebrow') }}</span>
+                    <h2 class="b2c-sidebar-title">{{ __('ui.b2b_sidebar_title') }}</h2>
                     <p class="b2c-sidebar-text">
-                        Chúng tôi cung cấp nguồn hoa tươi ổn định với giá xuất xưởng, hỗ trợ vận chuyển nhanh
-                        và chính sách đổi trả linh hoạt dành riêng cho đối tác B2B.
+                        {{ __('ui.b2b_sidebar_text') }}
                     </p>
 
                     <ul class="b2c-benefits">
@@ -47,8 +46,8 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 </svg>
                             </span>
                             <div>
-                                <strong>Giá xuất xưởng cạnh tranh</strong>
-                                <span>Chiết khấu hấp dẫn theo doanh số tháng.</span>
+                                <strong>{{ __('ui.b2b_benefit_1_title') }}</strong>
+                                <span>{{ __('ui.b2b_benefit_1_text') }}</span>
                             </div>
                         </li>
                         <li>
@@ -58,8 +57,8 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 </svg>
                             </span>
                             <div>
-                                <strong>Vận chuyển nhanh chóng</strong>
-                                <span>Giao tận nơi trong vòng 24 giờ nội thành.</span>
+                                <strong>{{ __('ui.b2b_benefit_2_title') }}</strong>
+                                <span>{{ __('ui.b2b_benefit_2_text') }}</span>
                             </div>
                         </li>
                         <li>
@@ -69,8 +68,8 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 </svg>
                             </span>
                             <div>
-                                <strong>Hỗ trợ chuyên nghiệp</strong>
-                                <span>Đội ngũ tư vấn riêng cho từng đối tác.</span>
+                                <strong>{{ __('ui.b2b_benefit_3_title') }}</strong>
+                                <span>{{ __('ui.b2b_benefit_3_text') }}</span>
                             </div>
                         </li>
                         <li>
@@ -80,8 +79,8 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 </svg>
                             </span>
                             <div>
-                                <strong>Chất lượng đảm bảo</strong>
-                                <span>Cam kết hoa tươi, hoàn tiền nếu không hài lòng.</span>
+                                <strong>{{ __('ui.b2b_benefit_4_title') }}</strong>
+                                <span>{{ __('ui.b2b_benefit_4_text') }}</span>
                             </div>
                         </li>
                     </ul>
@@ -98,31 +97,30 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>
-                            <h2>Đăng ký thành công!</h2>
+                            <h2>{{ __('ui.b2b_success_heading') }}</h2>
                             <p>
-                                Cảm ơn bạn đã đăng ký làm đối tác B2B của Lâm Nhiên Thảo.<br>
-                                Đội ngũ của chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ làm việc.
+                                {!! __('ui.b2b_success_text') !!}
                             </p>
-                            <a href="{{ localized_route('home') }}" class="btn btn-primary btn-lg">Về trang chủ</a>
+                            <a href="{{ localized_route('home') }}" class="btn btn-primary btn-lg">{{ __('ui.b2b_back_home') }}</a>
                         </div>
                     @else
                         {{-- ── Stepper ────────────────────────────────────── --}}
-                        <div class="b2c-stepper" aria-label="Tiến trình đăng ký">
+                        <div class="b2c-stepper" aria-label="{{ __('ui.b2b_stepper_aria') }}">
                             <div class="b2c-step b2c-step--active" data-step="1">
                                 <span class="b2c-step-number">1</span>
-                                <span class="b2c-step-label">Thông tin cơ bản</span>
+                                <span class="b2c-step-label">{{ __('ui.b2b_step1_label') }}</span>
                             </div>
                             <div class="b2c-step-divider" aria-hidden="true"></div>
                             <div class="b2c-step" data-step="2">
                                 <span class="b2c-step-number">2</span>
-                                <span class="b2c-step-label">Thông tin doanh nghiệp</span>
+                                <span class="b2c-step-label">{{ __('ui.b2b_step2_label') }}</span>
                             </div>
                         </div>
 
                         {{-- Form errors (server-side, fallback) --}}
                         @if($errors->any())
                             <div class="b2c-alert b2c-alert--error" role="alert">
-                                <strong>Vui lòng kiểm tra lại thông tin:</strong>
+                                <strong>{{ __('ui.b2b_form_error_intro') }}</strong>
                                 <ul>
                                     @foreach($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -142,11 +140,11 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
                             {{-- ──────────── STEP 1 ──────────── --}}
                             <fieldset class="b2c-step-panel b2c-step-panel--active" data-step="1" aria-labelledby="b2cStep1Title">
-                                <h3 id="b2cStep1Title" class="b2c-step-title">Bước 1 · Thông tin cơ bản</h3>
-                                <p class="b2c-step-subtitle">Cho chúng tôi biết về loại hình kinh doanh của bạn.</p>
+                                <h3 id="b2cStep1Title" class="b2c-step-title">{{ __('ui.b2b_step1_title') }}</h3>
+                                <p class="b2c-step-subtitle">{{ __('ui.b2b_step1_subtitle') }}</p>
 
                                 <div class="form-group">
-                                    <label class="form-label form-label-required">Loại hình kinh doanh</label>
+                                    <label class="form-label form-label-required">{{ __('ui.b2b_business_type_label') }}</label>
                                     <div class="b2c-radio-grid" role="radiogroup" aria-required="true">
                                         @foreach($businessTypes as $value => $label)
                                             <label class="b2c-radio-card">
@@ -183,13 +181,13 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="contact_name" class="form-label form-label-required">Họ và tên người liên hệ</label>
+                                    <label for="contact_name" class="form-label form-label-required">{{ __('ui.b2b_contact_name_label') }}</label>
                                     <input
                                         type="text"
                                         id="contact_name"
                                         name="contact_name"
                                         class="form-input"
-                                        placeholder="Nguyễn Văn A"
+                                        placeholder="{{ __('ui.b2b_contact_name_placeholder') }}"
                                         value="{{ old('contact_name') }}"
                                         data-validate="required|max:255"
                                         autocomplete="name"
@@ -198,7 +196,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="contact_email" class="form-label">Email <span class="b2c-label-hint">(không bắt buộc)</span></label>
+                                    <label for="contact_email" class="form-label">{{ __('ui.b2b_contact_email_label') }} <span class="b2c-label-hint">{{ __('ui.b2b_contact_email_optional') }}</span></label>
                                     <input
                                         type="email"
                                         id="contact_email"
@@ -215,7 +213,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 <div class="b2c-step-actions">
                                     <span></span>
                                     <button type="button" class="btn btn-primary btn-lg" data-action="next">
-                                        Tiếp tục
+                                        {{ __('ui.b2b_next_button') }}
                                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                                         </svg>
@@ -225,17 +223,17 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
                             {{-- ──────────── STEP 2 ──────────── --}}
                             <fieldset class="b2c-step-panel" data-step="2" aria-labelledby="b2cStep2Title" hidden>
-                                <h3 id="b2cStep2Title" class="b2c-step-title">Bước 2 · Thông tin doanh nghiệp</h3>
-                                <p class="b2c-step-subtitle">Hoàn tất thông tin để chúng tôi có thể hỗ trợ bạn tốt nhất.</p>
+                                <h3 id="b2cStep2Title" class="b2c-step-title">{{ __('ui.b2b_step2_title') }}</h3>
+                                <p class="b2c-step-subtitle">{{ __('ui.b2b_step2_subtitle') }}</p>
 
                                 <div class="form-group">
-                                    <label for="business_name" class="form-label form-label-required">Tên cửa hàng / đơn vị</label>
+                                    <label for="business_name" class="form-label form-label-required">{{ __('ui.b2b_business_name_label') }}</label>
                                     <input
                                         type="text"
                                         id="business_name"
                                         name="business_name"
                                         class="form-input"
-                                        placeholder="Shop Hoa Tươi ABC"
+                                        placeholder="{{ __('ui.b2b_business_name_placeholder') }}"
                                         value="{{ old('business_name') }}"
                                         data-validate="required|max:255"
                                     >
@@ -243,13 +241,13 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="address" class="form-label form-label-required">Địa chỉ</label>
+                                    <label for="address" class="form-label form-label-required">{{ __('ui.b2b_address_label') }}</label>
                                     <input
                                         type="text"
                                         id="address"
                                         name="address"
                                         class="form-input"
-                                        placeholder="123 Nguyễn Huệ, Quận 1, TP. HCM"
+                                        placeholder="{{ __('ui.b2b_address_placeholder') }}"
                                         value="{{ old('address') }}"
                                         data-validate="required|max:500"
                                         autocomplete="street-address"
@@ -259,7 +257,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
                                 <div class="b2c-grid-2">
                                     <div class="form-group">
-                                        <label for="phone" class="form-label form-label-required">Số điện thoại</label>
+                                        <label for="phone" class="form-label form-label-required">{{ __('ui.b2b_phone_label') }}</label>
                                         <input
                                             type="tel"
                                             id="phone"
@@ -274,13 +272,13 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="years_in_business" class="form-label form-label-required">Số năm hoạt động</label>
+                                        <label for="years_in_business" class="form-label form-label-required">{{ __('ui.b2b_years_label') }}</label>
                                         <input
                                             type="number"
                                             id="years_in_business"
                                             name="years_in_business"
                                             class="form-input"
-                                            placeholder="VD: 3"
+                                            placeholder="{{ __('ui.b2b_years_placeholder') }}"
                                             min="0"
                                             max="200"
                                             value="{{ old('years_in_business') }}"
@@ -291,7 +289,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="social_media" class="form-label form-label-required">Trang mạng xã hội</label>
+                                    <label for="social_media" class="form-label form-label-required">{{ __('ui.b2b_social_label') }}</label>
                                     <input
                                         type="url"
                                         id="social_media"
@@ -306,7 +304,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
 
                                 <div class="b2c-grid-2">
                                     <div class="form-group">
-                                        <label for="tax_code" class="form-label form-label-required">Mã số thuế (MST)</label>
+                                        <label for="tax_code" class="form-label form-label-required">{{ __('ui.b2b_tax_code_label') }}</label>
                                         <input
                                             type="text"
                                             id="tax_code"
@@ -320,28 +318,28 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="business_license" class="form-label form-label-required">Số giấy phép kinh doanh</label>
+                                        <label for="business_license" class="form-label form-label-required">{{ __('ui.b2b_license_label') }}</label>
                                         <input
                                             type="text"
                                             id="business_license"
                                             name="business_license"
                                             class="form-input"
-                                            placeholder='VD: 41A8023456 hoặc "Đang xin cấp"'
+                                            placeholder="{{ __('ui.b2b_license_placeholder') }}"
                                             value="{{ old('business_license') }}"
                                             data-validate="required|max:100"
                                             list="b2cLicenseHints"
                                         >
                                         <datalist id="b2cLicenseHints">
-                                            <option value="Đang xin cấp">
-                                            <option value="Chưa có">
+                                            <option value="{{ __('ui.b2b_license_pending') }}">
+                                            <option value="{{ __('ui.b2b_license_none') }}">
                                         </datalist>
-                                        <p class="b2c-field-hint">Có thể nhập "Đang xin cấp" hoặc "Chưa có".</p>
+                                        <p class="b2c-field-hint">{{ __('ui.b2b_license_hint') }}</p>
                                         <p class="b2c-field-error" data-error-for="business_license"></p>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="vat_email" class="form-label form-label-required">Email nhận hóa đơn VAT</label>
+                                    <label for="vat_email" class="form-label form-label-required">{{ __('ui.b2b_vat_email_label') }}</label>
                                     <input
                                         type="email"
                                         id="vat_email"
@@ -359,10 +357,10 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                                         </svg>
-                                        Quay lại
+                                        {{ __('ui.b2b_back_button') }}
                                     </button>
                                     <button type="submit" class="btn btn-primary btn-lg" data-action="submit" id="b2cSubmitBtn">
-                                        <span class="b2c-submit-text">Gửi đăng ký</span>
+                                        <span class="b2c-submit-text">{{ __('ui.b2b_submit_button') }}</span>
                                         <span class="b2c-submit-spinner" aria-hidden="true"></span>
                                     </button>
                                 </div>
@@ -376,14 +374,13 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                         </svg>
                                     </div>
-                                    <h2>Đăng ký thành công!</h2>
+                                    <h2>{{ __('ui.b2b_ajax_success_heading') }}</h2>
                                     <p id="b2cSuccessMessage">
-                                        Cảm ơn bạn đã đăng ký làm đối tác B2B của Lâm Nhiên Thảo.<br>
-                                        Đội ngũ của chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ làm việc.
+                                        {!! __('ui.b2b_ajax_success_text') !!}
                                     </p>
                                     <div class="b2c-success-actions">
-                                        <a href="{{ localized_route('home') }}" class="btn btn-primary">Về trang chủ</a>
-                                        <button type="button" class="btn btn-outline" id="b2cResetBtn">Đăng ký thêm</button>
+                                        <a href="{{ localized_route('home') }}" class="btn btn-primary">{{ __('ui.b2b_back_home') }}</a>
+                                        <button type="button" class="btn btn-outline" id="b2cResetBtn">{{ __('ui.b2b_register_another') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -396,9 +393,9 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M4.93 19h14.14c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.2 16c-.77 1.33.19 3 1.73 3z"/>
                                         </svg>
                                     </div>
-                                    <h2>Đã có lỗi xảy ra</h2>
-                                    <p id="b2cErrorMessage">Vui lòng thử lại sau hoặc liên hệ với chúng tôi qua hotline.</p>
-                                    <button type="button" class="btn btn-primary" id="b2cRetryBtn">Thử lại</button>
+                                    <h2>{{ __('ui.b2b_error_heading') }}</h2>
+                                    <p id="b2cErrorMessage">{{ __('ui.b2b_error_text') }}</p>
+                                    <button type="button" class="btn btn-primary" id="b2cRetryBtn">{{ __('ui.b2b_retry_button') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -948,32 +945,42 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
             };
 
             // ── Validators ────────────────────────────────────────
+            const _t = {
+                required: @json(__('ui.b2b_validate_required')),
+                email:    @json(__('ui.b2b_validate_email')),
+                url:      @json(__('ui.b2b_validate_url')),
+                phone:    @json(__('ui.b2b_validate_phone')),
+                integer:  @json(__('ui.b2b_validate_integer')),
+                minVal:   @json(__('ui.b2b_validate_min')),
+                maxLen:   @json(__('ui.b2b_validate_max')),
+                radio:    @json(__('ui.b2b_validate_radio')),
+            };
             const validators = {
-                required: (val) => val !== null && val !== undefined && String(val).trim() !== '' || 'Vui lòng nhập thông tin này.',
+                required: (val) => val !== null && val !== undefined && String(val).trim() !== '' || _t.required,
                 email:    (val) => {
                     if (!val) return true;
-                    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || 'Email không đúng định dạng.';
+                    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || _t.email;
                 },
                 url:      (val) => {
                     if (!val) return true;
-                    try { new URL(val); return true; } catch (_) { return 'Đường dẫn không hợp lệ (phải bắt đầu bằng http:// hoặc https://).'; }
+                    try { new URL(val); return true; } catch (_) { return _t.url; }
                 },
                 phone:    (val) => {
                     if (!val) return true;
-                    return /^[0-9+\-\s().]+$/.test(val) || 'Số điện thoại không hợp lệ.';
+                    return /^[0-9+\-\s().]+$/.test(val) || _t.phone;
                 },
                 integer:  (val) => {
                     if (val === '' || val === null) return true;
-                    return /^-?\d+$/.test(String(val)) || 'Vui lòng nhập số nguyên.';
+                    return /^-?\d+$/.test(String(val)) || _t.integer;
                 },
                 min:      (val, rule) => {
                     const n = Number(val);
                     if (val === '' || isNaN(n)) return true;
-                    return n >= Number(rule) || `Giá trị tối thiểu là ${rule}.`;
+                    return n >= Number(rule) || _t.minVal.replace(':min', rule);
                 },
                 max:      (val, rule) => {
                     if (val === null || val === undefined) return true;
-                    return String(val).length <= Number(rule) || `Không được vượt quá ${rule} ký tự.`;
+                    return String(val).length <= Number(rule) || _t.maxLen.replace(':max', rule);
                 },
             };
 
@@ -987,7 +994,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                     const group    = form.querySelectorAll(`input[name="${name}"]`);
                     const required = rules.includes('required');
                     const checked  = Array.from(group).some(r => r.checked);
-                    if (required && !checked) return 'Vui lòng chọn một lựa chọn.';
+                    if (required && !checked) return _t.radio;
                     return true;
                 }
 
@@ -1103,7 +1110,7 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                 submitBtn.classList.add('is-loading');
                 submitBtn.disabled = true;
                 const originalHtml = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<span class="b2c-submit-text">Đang gửi...</span><span class="b2c-submit-spinner"></span>';
+                submitBtn.innerHTML = `<span class="b2c-submit-text">{{ __('ui.b2b_submitting') }}</span><span class="b2c-submit-spinner"></span>`;
                 submitBtn.classList.add('is-loading');
 
                 try {
@@ -1142,13 +1149,13 @@ $b2cBanner = $siteBanners['b2c'] ?? null;
                     }
 
                     // Other failure
-                    throw new Error(data.message || 'Có lỗi xảy ra, vui lòng thử lại.');
+                    throw new Error(data.message || @json(__('ui.b2b_error_text')));
                 } catch (err) {
                     console.error('[B2B] Submit error:', err);
                     const errorPanel  = panels.error;
                     const errorMsgEl  = document.getElementById('b2cErrorMessage');
                     if (errorMsgEl) {
-                        errorMsgEl.textContent = err.message || 'Vui lòng thử lại sau hoặc liên hệ với chúng tôi qua hotline.';
+                        errorMsgEl.textContent = err.message || @json(__('ui.b2b_error_text'));
                     }
                     if (errorPanel) {
                         errorPanel.hidden = false;

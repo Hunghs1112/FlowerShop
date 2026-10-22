@@ -34,16 +34,16 @@
 
             <div class="product-card__badges">
                 @if($product->isSoldOut())
-                    <span class="product-card__badge product-card__badge--sold-out">Hết hàng</span>
+                    <span class="product-card__badge product-card__badge--sold-out">{{ __('storefront.sold_out') }}</span>
                 @endif
                 @if($product->hasNewArrivalBadge() || $showNewArrival)
-                    <span class="product-card__badge product-card__badge--new">Mới về</span>
+                    <span class="product-card__badge product-card__badge--new">{{ __('storefront.new_arrival') }}</span>
                 @endif
                 @if($product->hasBestsellerBadge())
-                    <span class="product-card__badge product-card__badge--bestseller">Bán chạy</span>
+                    <span class="product-card__badge product-card__badge--bestseller">{{ __('storefront.bestseller') }}</span>
                 @endif
                 @if($product->is_featured)
-                    <span class="product-card__badge product-card__badge--featured">Nổi bật</span>
+                    <span class="product-card__badge product-card__badge--featured">{{ __('storefront.featured') }}</span>
                 @endif
             </div>
 
@@ -55,7 +55,7 @@
             {{-- Hover overlay with CTA --}}
             <div class="product-card__overlay">
                 <span class="product-card__cta">
-                    <span>Xem chi tiết</span>
+                    <span>{{ __('storefront.view_details') }}</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"/>
                         <polyline points="12 5 19 12 12 19"/>

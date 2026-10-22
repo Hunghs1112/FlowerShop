@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Giỏ hàng')
+@section('title', __('ui.cart_title'))
 
 @section('content')
 <x-page-hero
-    title="Giỏ hàng"
-    description="Xem lại các sản phẩm bạn đã chọn trước khi thanh toán"
+    :title="__('ui.cart_title')"
+    :description="__('ui.cart_description')"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => localized_route('home')],
-        ['label' => 'Giỏ hàng']
+        ['label' => __('ui.home'), 'url' => localized_route('home')],
+        ['label' => __('ui.cart_title')]
     ]"
     :image="$siteBanners['cart'] ?? null"
     :hideOverlay="$siteBannerHideOverlay['cart'] ?? false"
@@ -22,7 +22,7 @@
             <!-- Cart Items -->
             <div class="cart-items">
                 <div class="cart-items-header">
-                    <h2 class="cart-items-title">Sản phẩm trong giỏ ({{ $cartItems->count() }})</h2>
+                    <h2 class="cart-items-title">{{ __('ui.cart_items_title', ['count' => $cartItems->count()]) }}</h2>
                 </div>
                 <div class="cart-items-body">
                     @foreach($cartItems as $item)
@@ -46,9 +46,9 @@
                                     $availableStock = $item->variant ? $item->variant->stock : $item->product->stock;
                                 @endphp
                                 @if($availableStock <= 0)
-                                    <span class="badge badge-error">Hết hàng</span>
+                                    <span class="badge badge-error">{{ __('ui.cart_out_of_stock') }}</span>
                                 @elseif($availableStock < $item->quantity)
-                                    <span class="badge badge-warning">Chỉ còn {{ $availableStock }}</span>
+                                    <span class="badge badge-warning">{{ __('ui.cart_low_stock', ['count' => $availableStock]) }}</span>
                                 @endif
                             </div>
                             <div class="cart-item-price">
@@ -74,7 +74,7 @@
                                 <form action="{{ localized_route('cart.destroy', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="cart-item-remove" title="Xóa" aria-label="Xóa">
+                                    <button type="submit" class="cart-item-remove" title="{{ __('ui.cart_remove') }}" aria-label="{{ __('ui.cart_remove') }}">
                                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
@@ -92,15 +92,15 @@
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
-                        Tiếp tục mua sắm
+                        {{ __('ui.cart_continue_shopping') }}
                     </a>
                 </div>
                 <div class="cart-actions-right">
                     <form action="{{ localized_route('cart.clear') }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-secondary" onclick="return confirm('Xóa tất cả sản phẩm khỏi giỏ hàng?')">
-                            Xóa giỏ hàng
+                        <button type="submit" class="btn btn-secondary" onclick="return confirm('{{ __('ui.cart_clear_confirm') }}')">
+                            {{ __('ui.cart_clear') }}
                         </button>
                     </form>
                 </div>
@@ -115,32 +115,32 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                             </svg>
                         </div>
-                        <h2 class="cart-summary-title">Tổng cộng</h2>
+                        <h2 class="cart-summary-title">{{ __('ui.cart_total_heading') }}</h2>
                     </div>
                     <div class="cart-summary-body">
                         <div class="cart-summary-row">
-                            <span class="cart-summary-label">Tạm tính ({{ $cartItems->count() }} sản phẩm)</span>
+                            <span class="cart-summary-label">{{ __('ui.cart_subtotal', ['count' => $cartItems->count()]) }}</span>
                             <span class="cart-summary-value">{{ number_format($total, 0, ',', '.') }}₫</span>
                         </div>
                         <div class="cart-summary-row">
-                            <span class="cart-summary-label">Phí vận chuyển</span>
-                            <span class="cart-summary-value">Tính khi đặt</span>
+                            <span class="cart-summary-label">{{ __('ui.cart_shipping') }}</span>
+                            <span class="cart-summary-value">{{ __('ui.cart_shipping_pending') }}</span>
                         </div>
                         <div class="cart-summary-divider"></div>
                         <div class="cart-summary-total">
-                            <span class="cart-summary-total-label">Tổng cộng</span>
+                            <span class="cart-summary-total-label">{{ __('ui.cart_grand_total') }}</span>
                             <span class="cart-summary-total-value">{{ number_format($total, 0, ',', '.') }}₫</span>
                         </div>
                         <div class="cart-summary-actions">
                             <a href="{{ localized_route('checkout.index') }}" class="btn btn-primary btn-lg">
-                                Thanh toán
+                                {{ __('ui.cart_checkout') }}
                             </a>
                         </div>
                         <div class="cart-summary-note">
                             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <span>Chúng tôi sẽ liên hệ xác nhận đơn hàng sau khi bạn đặt.</span>
+                            <span>{{ __('ui.cart_confirm_note') }}</span>
                         </div>
                     </div>
                 </div>
@@ -161,13 +161,13 @@
                     </svg>
                 </div>
             </div>
-            <h2 class="cart-empty-title">Giỏ hàng trống</h2>
-            <p class="cart-empty-description">Hãy chọn những sản phẩm yêu thích của bạn!</p>
+            <h2 class="cart-empty-title">{{ __('ui.cart_empty_title') }}</h2>
+            <p class="cart-empty-description">{{ __('ui.cart_empty_description') }}</p>
             <a href="{{ localized_route('products.index') }}" class="btn btn-primary btn-lg">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                 </svg>
-                Khám phá sản phẩm
+                {{ __('ui.cart_explore') }}
             </a>
         </div>
     @endif

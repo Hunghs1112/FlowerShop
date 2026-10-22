@@ -14,9 +14,9 @@
     <div class="products-hero-overlay"></div>
     <div class="products-hero-content">
         <div class="products-breadcrumb">
-            <a href="{{ localized_route('home') }}">Trang chủ</a>
+            <a href="{{ localized_route('home') }}">{{ __('ui.home') }}</a>
             <span>/</span>
-            <a href="{{ localized_route('categories.index') }}">Danh mục</a>
+            <a href="{{ localized_route('categories.index') }}">{{ __('ui.categories_label') }}</a>
             @foreach($breadcrumb as $item)
             <span>/</span>
             @if($loop->last)
@@ -38,7 +38,7 @@
 @if($category->children && $category->children->count() > 0)
 <section class="subcategories-bar">
     <div class="subcategories-inner">
-        <h3 class="subcategories-title">Danh mục con</h3>
+        <h3 class="subcategories-title">{{ __('storefront.subcategories') }}</h3>
         <div class="subcategories-list">
             @foreach($category->children as $child)
             <a href="{{ localized_route('categories.show', $child->display_slug) }}" class="subcategory-link">
@@ -57,22 +57,22 @@
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
             </svg>
-            Lọc
+            {{ __('storefront.filter') }}
         </button>
         <span class="products-count">
-            {{ content('products_showing', 'Hiển thị') }} {{ $products->count() }} / {{ $products->total() }} {{ content('products_suffix', 'sản phẩm') }}
+            {{ __('ui.products_showing') }} {{ $products->count() }} / {{ $products->total() }} {{ __('ui.products_suffix') }}
         </span>
     </div>
     
     <div class="products-toolbar-right">
         <div class="products-sort-dropdown">
             <button class="products-sort-button" id="sortToggle">
-                <span>Sắp xếp: <span id="sortLabel">
+                <span>{{ __('storefront.sort') }} <span id="sortLabel">
                     @switch($filters['sort_by'] ?? 'latest')
-                        @case('price_asc') Giá: Thấp đến cao @break
-                        @case('price_desc') Giá: Cao đến thấp @break
-                        @case('name') Tên A-Z @break
-                        @default Mới nhất
+                        @case('price_asc') {{ __('storefront.price_low_high') }} @break
+                        @case('price_desc') {{ __('storefront.price_high_low') }} @break
+                        @case('name') {{ __('storefront.name_az') }} @break
+                        @default {{ __('storefront.newest') }}
                     @endswitch
                 </span></span>
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,10 +80,10 @@
                 </svg>
             </button>
             <div class="products-sort-menu" id="sortMenu">
-                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'latest']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? 'latest') === 'latest' ? 'active' : '' }}">Mới nhất</a>
-                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'price_asc']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'price_asc' ? 'active' : '' }}">Giá: Thấp đến cao</a>
-                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'price_desc']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'price_desc' ? 'active' : '' }}">Giá: Cao đến thấp</a>
-                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'name']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'name' ? 'active' : '' }}">Tên A-Z</a>
+                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'latest']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? 'latest') === 'latest' ? 'active' : '' }}">{{ __('storefront.newest') }}</a>
+                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'price_asc']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'price_asc' ? 'active' : '' }}">{{ __('storefront.price_low_high') }}</a>
+                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'price_desc']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'price_desc' ? 'active' : '' }}">{{ __('storefront.price_high_low') }}</a>
+                <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'name']) }}" class="products-sort-item {{ ($filters['sort_by'] ?? '') === 'name' ? 'active' : '' }}">{{ __('storefront.name_az') }}</a>
             </div>
         </div>
     </div>
@@ -93,7 +93,7 @@
 <div class="products-filter-overlay" id="filterOverlay"></div>
 <aside class="products-filter-sidebar" id="filterSidebar">
     <div class="products-filter-header">
-        <h3 class="products-filter-title">Lọc</h3>
+        <h3 class="products-filter-title">{{ __('storefront.filter') }}</h3>
         <button class="products-filter-close" id="filterClose">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -105,29 +105,29 @@
         <div class="products-filter-body">
             <!-- Khoảng giá -->
             <div class="products-filter-group">
-                <h4 class="products-filter-group-title">Khoảng giá</h4>
+                <h4 class="products-filter-group-title">{{ __('storefront.price_range') }}</h4>
                 <div class="products-filter-options">
                     <div class="filter-price-group">
-                        <input type="number" name="min_price" placeholder="Từ" value="{{ $filters['min_price'] ?? '' }}"
+                        <input type="number" name="min_price" placeholder="{{ __('storefront.from') }}" value="{{ $filters['min_price'] ?? '' }}"
                                class="filter-price-input">
-                        <input type="number" name="max_price" placeholder="Đến" value="{{ $filters['max_price'] ?? '' }}"
+                        <input type="number" name="max_price" placeholder="{{ __('storefront.to') }}" value="{{ $filters['max_price'] ?? '' }}"
                                class="filter-price-input">
                     </div>
                 </div>
             </div>
             
-            <!-- Còn hàng -->
+            <!-- Availability -->
             <div class="products-filter-group">
                 <label class="products-filter-option">
                     <input type="checkbox" name="in_stock" value="1" {{ ($filters['in_stock'] ?? false) ? 'checked' : '' }} class="products-filter-checkbox">
-                    <span class="products-filter-label">Chỉ hiển thị sản phẩm còn hàng</span>
+                    <span class="products-filter-label">{{ __('storefront.in_stock') }}</span>
                 </label>
             </div>
         </div>
         
         <div class="products-filter-footer">
-            <a href="{{ localized_route('categories.show', $category->display_slug) }}" class="products-filter-clear">Đặt lại</a>
-            <button type="submit" class="products-filter-apply">Áp dụng</button>
+            <a href="{{ localized_route('categories.show', $category->display_slug) }}" class="products-filter-clear">{{ __('storefront.reset') }}</a>
+            <button type="submit" class="products-filter-apply">{{ __('storefront.apply') }}</button>
         </div>
     </form>
 </aside>
@@ -140,7 +140,7 @@
             <x-product-card :product="$product" />
             @empty
             <div class="products-empty">
-                <p>Không có sản phẩm nào.</p>
+                <p>{{ __('storefront.no_products') }}</p>
             </div>
             @endforelse
         </div>

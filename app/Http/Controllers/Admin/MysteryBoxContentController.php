@@ -8,16 +8,19 @@ use Illuminate\Http\Request;
 
 class MysteryBoxContentController extends Controller
 {
+    /** Admin edits the Vietnamese content set. */
+    private const EDIT_LOCALE = 'vi';
+
     public function edit(MysteryBoxContentService $contentService)
     {
         return view('admin.mystery-box-content.edit', [
-            'content' => $contentService->get(),
+            'content' => $contentService->get(self::EDIT_LOCALE),
         ]);
     }
 
     public function update(Request $request, MysteryBoxContentService $contentService)
     {
-        $defaults = $contentService->defaults();
+        $defaults = $contentService->defaults(self::EDIT_LOCALE);
         $rules = [];
 
         foreach ($defaults as $key => $value) {
@@ -49,7 +52,7 @@ class MysteryBoxContentController extends Controller
             ]);
         }
 
-        $contentService->save($content);
+        $contentService->save($content, self::EDIT_LOCALE);
 
         return redirect()->route('admin.mystery-box-content.edit')->with('success', 'Đã cập nhật nội dung Mystery Box.');
     }
@@ -63,7 +66,7 @@ class MysteryBoxContentController extends Controller
             return response()->json(['success' => false, 'message' => 'Thiếu tên trường'], 422);
         }
 
-        $content = $contentService->updateField($field, $value);
+        $content = $contentService->updateField($field, $value, self::EDIT_LOCALE);
 
         return response()->json([
             'success' => true,

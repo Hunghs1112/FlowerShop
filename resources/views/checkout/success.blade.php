@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Đặt hàng thành công')
+@section('title', __('account.order_success_title'))
 
 @section('content')
 <div class="checkout-page success-page">
@@ -12,30 +12,30 @@
                 </svg>
             </div>
 
-            <h1 class="success-title">Đặt hàng thành công!</h1>
-            <p class="success-message">Cảm ơn bạn đã tin tưởng và lựa chọn LNT Flower. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng.</p>
+            <h1 class="success-title">{{ __('account.order_success_title') }}</h1>
+            <p class="success-message">{{ __('account.order_success_message') }}</p>
 
             @if($order ?? null)
             <div class="success-order-info">
                 <div class="order-info-item">
-                    <span class="order-info-label">Mã đơn hàng</span>
+                    <span class="order-info-label">{{ __('account.order_code') }}</span>
                     <span class="order-info-value">#{{ $order->id }}</span>
                 </div>
                 <div class="order-info-divider"></div>
                 <div class="order-info-item">
-                    <span class="order-info-label">Ngày đặt</span>
+                    <span class="order-info-label">{{ __('account.order_date') }}</span>
                     <span class="order-info-value">{{ $order->created_at->format('d/m/Y') }}</span>
                 </div>
             </div>
             @elseif($inquiry ?? null)
             <div class="success-order-info">
                 <div class="order-info-item">
-                    <span class="order-info-label">Mã đơn hàng</span>
+                    <span class="order-info-label">{{ __('account.order_code') }}</span>
                     <span class="order-info-value">#{{ $inquiry->id }}</span>
                 </div>
                 <div class="order-info-divider"></div>
                 <div class="order-info-item">
-                    <span class="order-info-label">Ngày đặt</span>
+                    <span class="order-info-label">{{ __('account.order_date') }}</span>
                     <span class="order-info-value">{{ $inquiry->created_at->format('d/m/Y') }}</span>
                 </div>
             </div>
@@ -49,8 +49,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3>Tiếp theo là gì?</h3>
-                        <p>Chúng tôi sẽ liên hệ xác nhận đơn hàng qua Zalo hoặc điện thoại trong thời gian sớm nhất.</p>
+                        <h3>{{ __('account.what_next') }}</h3>
+                        <p>{{ __('account.order_confirmation_notice') }}</p>
                     </div>
                 </div>
 
@@ -62,8 +62,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3>Theo dõi đơn hàng</h3>
-                        <p>Nhắn tin cho chúng tôi bất cứ lúc nào qua chat để được tư vấn và cập nhật đơn hàng.</p>
+                        <h3>{{ __('account.track_order') }}</h3>
+                        <p>{{ __('account.chat_order_notice') }}</p>
                     </div>
                 </div>
             </div>
@@ -73,14 +73,14 @@
                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
-                    Tiếp tục mua sắm
+                    {{ __('account.continue_shopping') }}
                 </a>
                 @auth
                     <a href="{{ localized_route('profile.show') }}" class="btn btn-outline btn-lg">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        Xem tài khoản
+                        {{ __('account.view_account') }}
                     </a>
                 @endauth
             </div>

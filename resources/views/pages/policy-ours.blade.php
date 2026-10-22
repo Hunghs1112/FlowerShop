@@ -1,16 +1,27 @@
 @extends('layouts.app')
 
-@section('title', $page?->title ?: 'Chính sách của chúng tôi')
+@section('title', app()->isLocale('en') ? ($page?->title_en ?: __('pages.ours.title')) : ($page?->title ?: __('pages.ours.title')))
 
 @section('skip-main-wrapper', true)
 
 @section('content')
 <main class="wrap">
-<section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">CAM KẾT</p><h1 id="t">{{ $page?->title ?: 'Chính sách của chúng tôi' }}</h1><p class="lead">{{ $page?->policy_intro ?: 'Tại Lâm Nhiên Thảo, sự hài lòng và quyền lợi của khách hàng luôn là ưu tiên hàng đầu. Vui lòng đọc kỹ các chính sách dưới đây để hiểu rõ quyền lợi và trách nhiệm trong quá trình sử dụng dịch vụ.' }}</p></div>
-<div class="visual"><img class="bloom" src="{{ asset('images/pages/policy-ours-bloom.jpg') }}" alt=""><div class="board"><div class="bh"><span>KHỞI HÀNH · DEPARTURES</span><time id="clock">--:--</time></div>
-<div class="cols" aria-hidden="true"><span>CHUYẾN</span><span>ĐIỂM ĐẾN</span><span>TRẠNG THÁI</span></div><div id="rows"></div><p class="bn">Chạm vào một chuyến để xem chi tiết</p></div></div></section>
-@if(filled($page?->policy_content_override))
-<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="$page->policy_content_override" /></section>
+<section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">{{ __('pages.ours.eyebrow') }}</p><h1 id="t">{{ app()->isLocale('en') ? ($page?->title_en ?: __('pages.ours.title')) : ($page?->title ?: __('pages.ours.title')) }}</h1><p class="lead">{{ app()->isLocale('en') ? __('pages.ours.intro') : ($page?->policy_intro ?: __('pages.ours.intro')) }}</p></div>
+<div class="visual"><img class="bloom" src="{{ asset('images/pages/policy-ours-bloom.jpg') }}" alt=""><div class="board"><div class="bh"><span>{{ __('pages.ours.board_title') }}</span><time id="clock">--:--</time></div>
+<div class="cols" aria-hidden="true">@foreach(__('pages.ours.board_cols') as $column)<span>{{ $column }}</span>@endforeach</div><div id="rows"></div><p class="bn">{{ __('pages.ours.board_hint') }}</p></div></div></section>
+@if(filled(app()->isLocale('en') ? $page?->content_en : $page?->policy_content_override))
+<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="app()->isLocale('en') ? $page->display_content : $page->policy_content_override" /></section>
+@else
+@if(app()->getLocale() === 'en')
+<div class="toolbar"><p>{{ __('pages.ours.sections_label') }}</p><button class="btn-ghost" id="toggleAll" type="button">{{ __('pages.ours.toggle_open') }}</button></div>
+<section class="gates" aria-label="{{ __('pages.ours.content_label') }}">
+@foreach(__('pages.ours.sections') as $section)
+<details class="gate" id="s{{ $loop->iteration }}" @if($loop->first) open @endif><summary><span class="code">0{{ $loop->iteration }}</span><h2>{{ $section['title'] }}</h2><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 5l5 5-5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></summary><div class="body"><p class="tldr">{{ $section['summary'] }}</p>{!! $section['body'] !!}</div></details>
+@endforeach
+</section>
+<section class="help" aria-labelledby="help-t"><div><h2 id="help-t">{{ __('pages.ours.help') }}</h2><p>{{ __('pages.ours.help_text') }}</p></div>
+@include('partials.contact-actions')</section>
+<footer class="foot"><span>© Lâm Nhiên Thảo</span><span>{{ __('pages.ours.footer') }}</span></footer>
 @else
 <div class="toolbar"><p>06 CÁC MỤC</p><button class="btn-ghost" id="toggleAll" type="button">Mở tất cả</button></div>
 <section class="gates" aria-label="Nội dung"><details class="gate" id="s1" open><summary><span class="code">01</span><h2>Về sản phẩm hoa tươi</h2><span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></summary><div class="body"><p class="tldr">Hoa tươi là sản phẩm tự nhiên, vì vậy cần được kiểm tra ngay khi nhận và bảo quản đúng cách.</p><p>Mỗi cành hoa đều có đặc tính và độ bền riêng. Là sản phẩm tự nhiên, hoa tươi có vòng đời ngắn và trạng thái của hoa có thể thay đổi theo quá trình vận chuyển, nhiệt độ và cách chăm sóc sau khi giao nhận.</p><p>Vì vậy, việc kiểm tra ngay khi nhận hàng và duy trì điều kiện bảo quản phù hợp là yếu tố quan trọng để đảm bảo chất lượng hoa. Chính sách khiếu nại của LNT được xây dựng dựa trên những đặc tính riêng này.</p></div></details>
@@ -22,6 +33,7 @@
 <section class="help" aria-labelledby="help-t"><div><h2 id="help-t">Cần hỗ trợ?</h2><p>Lâm Nhiên Thảo luôn sẵn sàng lắng nghe và đồng hành cùng bạn.</p></div>
 @include('partials.contact-actions')</section>
 <footer class="foot"><span>© Lâm Nhiên Thảo</span><span>Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp</span></footer>
+@endif
 @endif
 </main>
 @endsection
@@ -106,15 +118,15 @@ h1{margin:0;font-weight:600;text-transform:uppercase;color:var(--copper);font-si
 @push('scripts')
 <script>
 (function(){const b=document.getElementById('toggleAll');if(!b)return;const g=[...document.querySelectorAll('.gate')];
-function upd(){const all=g.every(d=>d.open);b.textContent=all?'Thu gọn tất cả':'Mở tất cả';b.setAttribute('aria-expanded',all)}
+function upd(){const all=g.every(d=>d.open);b.textContent=all?@json(__('pages.ours.toggle_close')):@json(__('pages.ours.toggle_open'));b.setAttribute('aria-expanded',all)}
 b.addEventListener('click',()=>{const all=g.every(d=>d.open);g.forEach(d=>d.open=!all);upd()});g.forEach(d=>d.addEventListener('toggle',upd));upd();
 if(location.hash){const t=document.querySelector(location.hash);if(t&&t.tagName==='DETAILS')t.open=true}})();
 </script>
-<script>const ROWS=[["s1", "LNT 01", "SẢN PHẨM", "HOA TƯƠI"], ["s2", "LNT 02", "PHẢN HỒI", "TRONG 2 GIỜ"], ["s3", "LNT 03", "MINH CHỨNG", "ẢNH, VIDEO"], ["s4", "LNT 04", "XỬ LÝ", "MINH BẠCH"], ["s5", "LNT 05", "ĐÁNH GIÁ", "THỰC TẾ"], ["s6", "LNT 06", "LIÊN HỆ", "HỖ TRỢ"]];
-const COLS=[6,10,11],CH='ABCDEGHIKLMNOPQRSTUVXYĐƯƠÔÂÊ0123456789',rows=document.getElementById('rows'),red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+<script>const ROWS=@json(__('pages.ours.rows'));
+const COLS=[6,10,11],CH=@json(app()->getLocale() === 'en' ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' : 'ABCDEGHIKLMNOPQRSTUVXYĐƯƠÔÂÊ0123456789'),rows=document.getElementById('rows'),red=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function cells(t,n,c){const w=document.createElement('div');w.className='cells '+(c||'');t=t.padEnd(n,' ');for(let i=0;i<n;i++){const s=document.createElement('span');s.className='f';s.dataset.c=t[i];s.textContent=red?t[i]:'';w.appendChild(s)}return w}
 ROWS.forEach(([id,c,d,s])=>{const b=document.createElement('button');b.type='button';b.className='row';b.setAttribute('aria-label',c+' '+d+': '+s.toLowerCase());
 b.append(cells(c,6),cells(d,10),cells(s,11,'st'));b.onclick=()=>{const g=document.getElementById(id);g.open=true;g.scrollIntoView({block:'start'});g.querySelector('summary').focus({preventScroll:true})};rows.appendChild(b)});
 if(!red)document.querySelectorAll('.f').forEach((s,i)=>{const t=s.dataset.c;let n=6+Math.floor(Math.random()*10)+Math.floor(i%27/3);setTimeout(function k(){if(n--<=0||t===' '){s.textContent=t;return}s.textContent=CH[Math.floor(Math.random()*CH.length)];s.classList.remove('flip');void s.offsetWidth;s.classList.add('flip');setTimeout(k,70)},250+(i%27)*25)});
-const ck=document.getElementById('clock');function tk(){ck.textContent=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}tk();setInterval(tk,30000);</script>
+const ck=document.getElementById('clock');function tk(){ck.textContent=new Date().toLocaleTimeString(@json(app()->getLocale() === 'en' ? 'en-US' : 'vi-VN'),{hour:'2-digit',minute:'2-digit'})}tk();setInterval(tk,30000);</script>
 @endpush

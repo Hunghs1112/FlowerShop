@@ -11,7 +11,7 @@
     $contactEmail = $siteInfo['email'] ?: 'support@lamnhienthao.com';
     $contactZalo = $siteInfo['zalo_url'] ?: 'https://zalo.me/' . $contactPhoneHref;
     $contactAddress = $siteInfo['address'] ?: 'Hà Nội';
-    $businessHours = $siteInfo['business_hours'] ?: 'Thứ Hai – Thứ Bảy, 08:00–17:00';
+    $businessHours = $siteInfo['business_hours'] ?: __('pages.contact_default_hours');
 @endphp
 <main class="wrap">
 <section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">{{ __('customer.contact.eyebrow') }}</p><h1 id="t">{{ __('ui.contact') }}</h1>

@@ -1,7 +1,7 @@
 <div style="display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:8px;">
     <input id="postContentImages" type="file" accept=".jpg,.jpeg,.png,.gif,.webp" multiple hidden>
-    <button id="postContentImagesButton" class="btn btn-secondary" type="button">Thêm ảnh vào nội dung</button>
-    <small id="postContentImagesStatus">Có thể chọn nhiều ảnh và tải thêm nhiều lần.</small>
+    <button id="postContentImagesButton" class="btn btn-secondary" type="button">{{ __('storefront.upload_content_images') }}</button>
+    <small id="postContentImagesStatus">{{ __('storefront.upload_content_images_hint') }}</small>
 </div>
 
 @once
@@ -25,7 +25,7 @@
 
         try {
             for (const [index, file] of files.entries()) {
-                status.textContent = `Đang tải ảnh ${index + 1}/${files.length}...`;
+                status.textContent = @json(__('storefront.uploading_image', ['current' => ':current', 'total' => ':total'])).replace(':current', index + 1).replace(':total', files.length);
                 const body = new FormData();
                 body.append('image', file);
 
@@ -41,7 +41,7 @@
 
                 if (!response.ok) {
                     const error = Object.values(result.errors ?? {}).flat()[0];
-                    throw new Error(error ?? result.message ?? 'Không thể tải ảnh.');
+                    throw new Error(error ?? result.message ?? @json(__('storefront.upload_image_error')));
                 }
 
                 const alt = file.name.replace(/[\\[\]()]/g, '');
@@ -51,7 +51,7 @@
                 inserted = true;
             }
 
-            status.textContent = `Đã thêm ${files.length} ảnh vào nội dung.`;
+            status.textContent = @json(__('storefront.images_added', ['count' => ':count'])).replace(':count', files.length);
         } catch (error) {
             status.textContent = error.message;
         } finally {

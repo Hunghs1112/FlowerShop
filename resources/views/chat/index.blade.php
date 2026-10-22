@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Chat với Admin')
+@section('title', __('account.chat_title'))
 
 @section('content')
 <div class="chat-page">
@@ -15,13 +15,13 @@
                     </svg>
                 </div>
                 <div class="chat-header-text">
-                    <h1 class="chat-header-title">Chat với Admin</h1>
-                    <p class="chat-header-subtitle">Chúng tôi sẵn sàng hỗ trợ bạn</p>
+                    <h1 class="chat-header-title">{{ __('account.chat_title') }}</h1>
+                    <p class="chat-header-subtitle">{{ __('account.chat_subtitle') }}</p>
                 </div>
             </div>
             <span class="chat-status connected" id="connectionStatus">
                 <span class="status-dot"></span>
-                <span class="status-text">Đã kết nối</span>
+                <span class="status-text">{{ __('account.chat_connected') }}</span>
             </span>
         </div>
 
@@ -48,8 +48,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                         </svg>
                     </div>
-                    <h3 class="chat-empty-title">Bắt đầu cuộc trò chuyện</h3>
-                    <p class="chat-empty-text">Hãy gửi tin nhắn cho chúng tôi, đội ngũ hỗ trợ sẽ phản hồi trong thời gian sớm nhất.</p>
+                    <h3 class="chat-empty-title">{{ __('account.chat_start') }}</h3>
+                    <p class="chat-empty-text">{{ __('account.chat_empty') }}</p>
                 </div>
             @endforelse
         </div>
@@ -61,12 +61,12 @@
                 type="text"
                 id="messageInput"
                 class="chat-input"
-                placeholder="Nhập tin nhắn của bạn..."
+                placeholder="{{ __('account.chat_placeholder') }}"
                 maxlength="1000"
                 autocomplete="off"
                 required
             >
-            <button type="submit" class="chat-send-btn" id="sendBtn" aria-label="Gửi tin nhắn">
+            <button type="submit" class="chat-send-btn" id="sendBtn" aria-label="{{ __('account.chat_send') }}">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                 </svg>
@@ -138,7 +138,7 @@
         bubble.className = 'message-bubble';
         bubble.innerHTML =
             '<div class="message-text">' + escapeHtml(data.message) + '</div>' +
-            '<div class="message-time">' + escapeHtml(data.created_at || 'Vừa xong') + '</div>';
+            '<div class="message-time">' + escapeHtml(data.created_at || @json(__('account.just_now'))) + '</div>';
         wrapper.appendChild(bubble);
 
         messagesDiv.appendChild(wrapper);
@@ -198,7 +198,7 @@
                     id: data.message.id,
                     message: data.message.message,
                     is_admin: false,
-                    created_at: 'Vừa xong'
+                    created_at: @json(__('account.just_now'))
                 });
                 
                 // Update last message ID
@@ -211,11 +211,11 @@
                 input.focus();
             } else {
                 console.error('Chat send failed:', data);
-                alert('Không thể gửi tin nhắn. Vui lòng thử lại.');
+                alert(@json(__('account.chat_send_error')));
             }
         } catch (err) {
             console.error('Chat error:', err);
-            alert('Lỗi kết nối. Vui lòng thử lại.');
+            alert(@json(__('account.chat_connection_error')));
         } finally {
             sendBtn.disabled = false;
             sendBtn.innerHTML = originalContent;

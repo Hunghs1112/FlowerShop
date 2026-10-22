@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Danh mục sản phẩm')
+@section('title', __('storefront.category_title'))
 
 
 @section('content')
@@ -8,15 +8,15 @@
 <section class="categories-hero">
     <img
         src="{{ $siteBanners['categories'] ?? asset('images/banners/danh-muc-hero.jpg') }}"
-        alt="Danh mục sản phẩm"
+        alt="{{ __('storefront.category_title') }}"
         class="categories-hero-image"
     >
     @unless($siteBannerHideOverlay['categories'] ?? false)
     <div class="categories-hero-overlay"></div>
     @endunless
     <div class="categories-hero-content">
-        <h1 class="categories-hero-heading">Danh mục sản phẩm</h1>
-        <p class="categories-hero-description">Khám phá các danh mục hoa tươi đa dạng của chúng tôi</p>
+        <h1 class="categories-hero-heading">{{ __('storefront.category_title') }}</h1>
+        <p class="categories-hero-description">{{ __('storefront.category_description') }}</p>
     </div>
 </section>
 
@@ -32,12 +32,12 @@
             >
             <div class="category-card-overlay">
                 <h3 class="category-card-name">{{ $category->display_name }}</h3>
-                <p class="category-card-count">{{ $category->products_count ?? 0 }} sản phẩm</p>
+                <p class="category-card-count">{{ __('storefront.product_count', ['count' => $category->products_count ?? 0]) }}</p>
             </div>
         </a>
         @empty
         <div class="categories-empty">
-            <p>Không có danh mục nào.</p>
+            <p>{{ __('storefront.empty_categories') }}</p>
         </div>
         @endforelse
     </div>

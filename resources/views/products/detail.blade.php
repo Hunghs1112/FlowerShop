@@ -10,9 +10,9 @@
     <div class="container">
         <!-- Breadcrumb -->
         <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="{{ localized_route('home') }}">{{ content('breadcrumb_home', 'Trang chủ') }}</a>
+            <a href="{{ localized_route('home') }}">{{ content('breadcrumb_home', __('ui.home')) }}</a>
             <span class="separator">/</span>
-            <a href="{{ localized_route('products.index') }}">{{ content('breadcrumb_products', 'Sản phẩm') }}</a>
+            <a href="{{ localized_route('products.index') }}">{{ content('breadcrumb_products', __('ui.products_title')) }}</a>
             @if($product->category)
                 <span class="separator">/</span>
                 <a href="{{ localized_route('products.index') }}?categories[]={{ $product->category->id }}">{{ $product->category->display_name }}</a>
@@ -121,7 +121,7 @@
                 @if($product->discount_percent)
                     <div class="info-badge">-{{ $product->discount_percent }}%</div>
                 @elseif($product->is_featured)
-                    <div class="info-badge">{{ content('product_featured_badge', 'Nổi bật') }}</div>
+                    <div class="info-badge">{{ content('product_featured_badge', __('customer.messages.new')) }}</div>
                 @endif
 
                 {{-- Product Title --}}
@@ -137,7 +137,7 @@
                     </div>
                     @if($product->original_price && $product->original_price > ($product->sale_price ?? $product->price))
                         <div class="price-saved">
-                            Tiết kiệm {{ number_format($product->original_price - ($product->sale_price ?? $product->price), 0, ',', '.') }} đ
+                            {{ __('ui.product_save', ['amount' => number_format($product->original_price - ($product->sale_price ?? $product->price), 0, ',', '.')]) }}
                         </div>
                     @endif
                 </div>
@@ -145,7 +145,7 @@
                 {{-- Variants Selector --}}
                 @if($product->variants && $product->variants->count() > 0)
                     <div class="product-options">
-                        <label class="options-label">Chọn phiên bản</label>
+                        <label class="options-label">{{ __('ui.product_choose_variant') }}</label>
                         <div class="options-buttons" id="variantSelector">
                             @foreach($product->variants->where('is_active', true) as $index => $variant)
                                 @php
@@ -175,7 +175,7 @@
                     </div>
                 @elseif($product->volume || $product->size)
                     <div class="product-options">
-                        <label class="options-label">Dung tích</label>
+                        <label class="options-label">{{ __('ui.product_volume_label') }}</label>
                         <div class="options-buttons">
                             <button type="button" class="option-btn active">{{ $product->volume ?? $product->size }}</button>
                         </div>
@@ -184,14 +184,14 @@
 
                 {{-- Short Description --}}
                 <div class="product-description">
-                    <p><strong>ĐẶC QUYỀN ĐỐI TÁC:</strong> Mức giá hiển thị là giá bán lẻ. Đăng ký để khám phá hệ thống đặc quyền và chính sách giá dành riêng cho đối tác LNT.</p>
+                    <p>{!! __('ui.product_b2b_note') !!}</p>
                     @if($product->display_short_description)
                         <x-markdown-renderer :content="$product->display_short_description" />
                     @endif
                 </div>
 
                 {{-- Stock --}}
-                <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', 'sản phẩm có sẵn') }}</div>
+                <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', __('customer.messages.in_stock')) }}</div>
 
                 {{-- Quantity + Add to Cart --}}
                 <form action="{{ localized_route('cart.add') }}" method="POST" class="cart-form" id="cartForm">
@@ -200,22 +200,22 @@
                     <input type="hidden" name="variant_id" value="" id="variantIdInput">
                     <div class="cart-actions">
                         <div class="quantity-selector">
-                            <button type="button" class="qty-btn" onclick="decreaseQty()" aria-label="{{ content('product_qty_decrease', 'Giảm') }}">−</button>
+                            <button type="button" class="qty-btn" onclick="decreaseQty()" aria-label="{{ content('product_qty_decrease', __('ui.filter_reset')) }}">−</button>
                             <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $product->stock }}" readonly>
-                            <button type="button" class="qty-btn" onclick="increaseQty({{ $product->stock }})" aria-label="{{ content('product_qty_increase', 'Tăng') }}">+</button>
+                            <button type="button" class="qty-btn" onclick="increaseQty({{ $product->stock }})" aria-label="{{ content('product_qty_increase', '+') }}">+</button>
                         </div>
                         <button type="submit" class="btn-add-cart" id="addToCartBtn" {{ $product->stock <= 0 ? 'disabled' : '' }}>
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
-                            {{ content('product_add_to_cart', 'Thêm vào giỏ') }}
+                            {{ content('product_add_to_cart', __('customer.messages.order_now')) }}
                         </button>
                     </div>
                 </form>
 
                 {{-- Buy Now --}}
                 <button type="submit" form="cartForm" name="buy_now" value="1" class="btn-buy-now" {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                    {{ content('product_buy_now', 'Đặt hàng nhanh') }}
+                    {{ content('product_buy_now', __('ui.cart_checkout')) }}
                 </button>
 
                 {{-- Accordion --}}
@@ -223,7 +223,7 @@
                     @if($product->display_description)
                         <div class="accordion-item">
                             <button type="button" class="accordion-header">
-                                <span>Mô tả sản phẩm</span>
+                                <span>{{ __('ui.product_accordion_description') }}</span>
                                 <span class="accordion-icon" aria-hidden="true">+</span>
                             </button>
                             <div class="accordion-content">
@@ -235,16 +235,16 @@
                     @if($product->specification || $product->length || $product->origin || $product->min_order_quantity || $product->unit)
                         <div class="accordion-item">
                             <button type="button" class="accordion-header">
-                                <span>Quy cách đóng gói & thông số sản phẩm</span>
+                                <span>{{ __('ui.product_accordion_specs') }}</span>
                                 <span class="accordion-icon" aria-hidden="true">+</span>
                             </button>
                             <div class="accordion-content">
                                 <ul class="product-spec-list">
-                                    @if($product->specification)<li><strong>Quy cách đóng gói:</strong> {{ $product->specification }}{{ $product->unit ? ' / ' . $product->unit : '' }}</li>@endif
-                                    @if($product->length)<li><strong>Chiều dài:</strong> {{ $product->length }}</li>@endif
-                                    @if($product->origin)<li><strong>Xuất xứ:</strong> {{ $product->origin }}</li>@endif
-                                    @if($product->min_order_quantity)<li><strong>Số lượng đặt tối thiểu:</strong> {{ $product->min_order_quantity }} {{ $product->unit }}</li>@endif
-                                    @if(!$product->specification && $product->unit)<li><strong>Đơn vị tính:</strong> {{ $product->unit }}</li>@endif
+                                    @if($product->specification)<li><strong>{{ __('ui.product_spec_packaging') }}</strong> {{ $product->specification }}{{ $product->unit ? ' / ' . $product->unit : '' }}</li>@endif
+                                    @if($product->length)<li><strong>{{ __('ui.product_spec_length') }}</strong> {{ $product->length }}</li>@endif
+                                    @if($product->origin)<li><strong>{{ __('ui.product_spec_origin') }}</strong> {{ $product->origin }}</li>@endif
+                                    @if($product->min_order_quantity)<li><strong>{{ __('ui.product_spec_min_qty') }}</strong> {{ $product->min_order_quantity }} {{ $product->unit }}</li>@endif
+                                    @if(!$product->specification && $product->unit)<li><strong>{{ __('ui.product_spec_unit') }}</strong> {{ $product->unit }}</li>@endif
                                 </ul>
                             </div>
                         </div>
@@ -252,11 +252,11 @@
                     
                     <div class="accordion-item">
                         <button type="button" class="accordion-header">
-                            <span>Chính sách đổi trả</span>
+                            <span>{{ __('ui.product_accordion_returns') }}</span>
                             <span class="accordion-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="accordion-content">
-                            <p class="return-policy-link"><a href="{{ localized_route('guide') }}">Xem hướng dẫn mua và đặt hàng</a></p>
+                            <p class="return-policy-link"><a href="{{ localized_route('guide') }}">{{ __('ui.product_returns_link') }}</a></p>
                         </div>
                     </div>
                 </div>
@@ -267,12 +267,12 @@
 {{-- ============= Recommended Products ============= --}}
 <section class="recommended" style="margin-bottom: 4rem;">
     <div class="container">
-        <h2 class="section-header">{{ content('product_recommended_title', 'Có thể bạn cũng thích') }}</h2>
+        <h2 class="section-header">{{ content('product_recommended_title', __('customer.messages.order_now')) }}</h2>
         <div class="products-grid">
             @forelse($recommendedProducts as $recommendedProduct)
                 <x-product-card :product="$recommendedProduct" />
             @empty
-                <p class="empty-text">{{ content('product_recommended_empty', 'Đang cập nhật sản phẩm...') }}</p>
+                <p class="empty-text">{{ content('product_recommended_empty', __('ui.products_empty_default')) }}</p>
             @endforelse
         </div>
     </div>
@@ -281,12 +281,12 @@
 {{-- ============= Recently Viewed ============= --}}
 <section class="recently-viewed" style="margin-bottom: 4rem;">
     <div class="container">
-        <h2 class="section-header">{{ content('product_recently_viewed_title', 'Sản phẩm đã xem gần đây') }}</h2>
+        <h2 class="section-header">{{ content('product_recently_viewed_title', __('ui.products_title')) }}</h2>
         <div class="products-grid">
             @forelse($recentlyViewed as $viewedProduct)
                 <x-product-card :product="$viewedProduct" />
             @empty
-                <p class="empty-text">{{ content('product_recently_viewed_empty', 'Chưa có sản phẩm đã xem.') }}</p>
+                <p class="empty-text">{{ content('product_recently_viewed_empty', __('ui.products_empty_default')) }}</p>
             @endforelse
         </div>
     </div>
@@ -348,7 +348,7 @@
         currentStock = variantStock;
         const stockElement = document.querySelector('.product-stock');
         if (stockElement) {
-            stockElement.textContent = variantStock + ' {{ content("product_stock_suffix", "sản phẩm có sẵn") }}';
+            stockElement.textContent = variantStock + ' {{ content("product_stock_suffix", __("customer.messages.in_stock")) }}';
         }
         
         // Update quantity max

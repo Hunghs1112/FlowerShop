@@ -1,36 +1,36 @@
 @extends('layouts.app')
 
-@section('title', 'Tài khoản')
+@section('title', __('account.profile_title'))
 
 @section('content')
 <section class="profile-page">
 <div class="container profile-container">
     <header class="profile-heading">
         <div>
-            <p class="profile-eyebrow">KHÔNG GIAN CỦA BẠN</p>
+            <p class="profile-eyebrow">{{ __('account.profile_eyebrow') }}</p>
             <h1>{{ __('ui.account') }}</h1>
-            <p class="profile-heading-copy">Quản lý thông tin cá nhân và theo dõi những yêu cầu đặt hoa của bạn.</p>
+            <p class="profile-heading-copy">{{ __('account.profile_intro') }}</p>
         </div>
-        <a class="profile-back-link" href="{{ localized_route('home') }}">← Tiếp tục mua sắm</a>
+        <a class="profile-back-link" href="{{ localized_route('home') }}">{{ __('account.continue_shopping') }}</a>
     </header>
 
     <div class="profile-dashboard">
-        <aside class="profile-sidebar" aria-label="Tóm tắt tài khoản">
+        <aside class="profile-sidebar" aria-label="{{ __('account.account_summary') }}">
             <div class="profile-identity">
                 <div class="profile-avatar" aria-hidden="true">{{ mb_strtoupper(mb_substr($user->name, 0, 1)) }}</div>
                 <div class="profile-identity-copy">
-                    <span class="profile-kicker">THÀNH VIÊN</span>
+                    <span class="profile-kicker">{{ __('account.member') }}</span>
                     <h2>{{ $user->name }}</h2>
                     <p>{{ $user->email }}</p>
-                    <p>Hạng thành viên: <strong>{{ $user->vipLevel?->is_active ? $user->vipLevel->name : 'Khách hàng thường' }}</strong></p>
+                    <p>{{ __('account.member_rank') }} <strong>{{ $user->vipLevel?->is_active ? $user->vipLevel->name : __('account.regular_customer') }}</strong></p>
                 </div>
             </div>
-            <nav class="profile-nav" aria-label="Điều hướng tài khoản">
-                <a href="#profile-information"><span>01</span> Thông tin hồ sơ</a>
-                <a href="#profile-password"><span>02</span> Bảo mật</a>
-                <a href="#profile-inquiries"><span>03</span> Yêu cầu của tôi <i>{{ $inquiries->total() }}</i></a>
+            <nav class="profile-nav" aria-label="{{ __('account.account_navigation') }}">
+                <a href="#profile-information"><span>01</span> {{ __('account.profile_information') }}</a>
+                <a href="#profile-password"><span>02</span> {{ __('account.security') }}</a>
+                <a href="#profile-inquiries"><span>03</span> {{ __('account.my_requests') }} <i>{{ $inquiries->total() }}</i></a>
             </nav>
-            <p class="profile-sidebar-note">Thông tin của bạn được sử dụng để hỗ trợ các đơn hoa và yêu cầu tư vấn.</p>
+            <p class="profile-sidebar-note">{{ __('account.profile_note') }}</p>
         </aside>
 
         <!-- Account Main Content -->
@@ -38,8 +38,8 @@
             <!-- Profile Information -->
             <div class="account-card" id="profile-information">
                 <div class="account-card-header">
-                    <h2 class="account-card-title">Thông tin hồ sơ</h2>
-                    <p>Cập nhật cách chúng tôi liên hệ với bạn.</p>
+                    <h2 class="account-card-title">{{ __('account.profile_information') }}</h2>
+                    <p>{{ __('account.profile_contact_intro') }}</p>
                 </div>
                 <div class="account-card-body">
                     @if(session('success'))
@@ -54,7 +54,7 @@
 
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="name" class="form-label">Họ và tên</label>
+                                <label for="name" class="form-label">{{ __('account.full_name') }}</label>
                                 <input type="text" id="name" name="name" 
                                        value="{{ old('name', auth()->user()->name) }}" 
                                        class="form-input @error('name') error @enderror" required>
@@ -64,7 +64,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">{{ __('account.email') }}</label>
                                 <input type="email" id="email" name="email" 
                                        value="{{ old('email', auth()->user()->email) }}" 
                                        class="form-input @error('email') error @enderror" required>
@@ -74,7 +74,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="phone" class="form-label">Số điện thoại</label>
+                                <label for="phone" class="form-label">{{ __('account.phone') }}</label>
                                 <input type="tel" id="phone" name="phone" 
                                        value="{{ old('phone', auth()->user()->phone) }}" 
                                        class="form-input @error('phone') error @enderror">
@@ -84,7 +84,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="address" class="form-label">Địa chỉ</label>
+                                <label for="address" class="form-label">{{ __('account.address') }}</label>
                                 <textarea id="address" name="address" rows="3" 
                                           class="form-input @error('address') error @enderror">{{ old('address', auth()->user()->address) }}</textarea>
                                 @error('address')
@@ -94,7 +94,7 @@
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                            <button type="submit" class="btn btn-primary">{{ __('account.update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -103,8 +103,8 @@
             <!-- Change Password -->
             <div class="account-card" id="profile-password">
                 <div class="account-card-header">
-                    <h2 class="account-card-title">Đổi mật khẩu</h2>
-                    <p>Dùng mật khẩu mạnh để bảo vệ tài khoản của bạn.</p>
+                    <h2 class="account-card-title">{{ __('account.change_password') }}</h2>
+                    <p>{{ __('account.password_security_intro') }}</p>
                 </div>
                 <div class="account-card-body">
                     <form action="{{ localized_route('profile.password') }}" method="POST">
@@ -112,7 +112,7 @@
                         @method('PATCH')
 
                         <div class="form-group">
-                            <label for="current_password" class="form-label">Mật khẩu hiện tại</label>
+                            <label for="current_password" class="form-label">{{ __('account.current_password') }}</label>
                             <input type="password" id="current_password" name="current_password" 
                                    class="form-input @error('current_password') error @enderror" required>
                             @error('current_password')
@@ -122,7 +122,7 @@
 
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="password" class="form-label">Mật khẩu mới</label>
+                                <label for="password" class="form-label">{{ __('account.new_password') }}</label>
                                 <input type="password" id="password" name="password" 
                                        class="form-input @error('password') error @enderror" required>
                                 @error('password')
@@ -131,14 +131,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="password_confirmation" class="form-label">Xác nhận mật khẩu</label>
+                                <label for="password_confirmation" class="form-label">{{ __('account.confirm_password') }}</label>
                                 <input type="password" id="password_confirmation" name="password_confirmation" 
                                        class="form-input" required>
                             </div>
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                            <button type="submit" class="btn btn-primary">{{ __('account.change_password') }}</button>
                         </div>
                     </form>
                 </div>
@@ -147,8 +147,8 @@
             <!-- Inquiry History -->
             <div class="account-card" id="profile-inquiries">
                 <div class="account-card-header">
-                    <h2 class="account-card-title">Yêu cầu của tôi</h2>
-                    <p>Lịch sử tư vấn và yêu cầu đặt hoa.</p>
+                    <h2 class="account-card-title">{{ __('account.my_requests') }}</h2>
+                    <p>{{ __('account.requests_intro') }}</p>
                 </div>
                 <div class="account-card-body">
                     @if($inquiries->count() > 0)
@@ -158,13 +158,13 @@
                                     <div class="inquiry-header">
                                         <div class="inquiry-id">#{{ $inquiry->id }}</div>
                                         <span class="badge badge-{{ $inquiry->status }}">
-                                            {{ match($inquiry->status) {'new' => 'Mới', 'contacted' => 'Đã liên hệ', 'completed' => 'Hoàn thành', 'cancelled' => 'Đã hủy', default => ucfirst($inquiry->status)} }}
+                                            {{ match($inquiry->status) {'new' => __('account.status_new'), 'contacted' => __('account.status_contacted'), 'completed' => __('account.status_completed'), 'cancelled' => __('account.status_cancelled'), default => ucfirst($inquiry->status)} }}
                                         </span>
                                     </div>
                                     <div class="inquiry-meta">
                                         <span>{{ $inquiry->created_at->format('d/m/Y · H:i') }}</span>
                                         <span>•</span>
-                                        <span>{{ count($inquiry->product_ids ?? []) }} sản phẩm</span>
+                                        <span>{{ __('account.products_count', ['count' => count($inquiry->product_ids ?? [])]) }}</span>
                                     </div>
                                     @if($inquiry->message)
                                         <p class="inquiry-message">{{ Str::limit($inquiry->message, 100) }}</p>
@@ -184,8 +184,8 @@
                             <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
-                            <p>Bạn chưa có yêu cầu nào.</p>
-                            <a href="{{ localized_route('products.index') }}" class="btn btn-primary">Xem sản phẩm</a>
+                            <p>{{ __('account.no_requests') }}</p>
+                            <a href="{{ localized_route('products.index') }}" class="btn btn-primary">{{ __('account.view_products') }}</a>
                         </div>
                     @endif
                 </div>

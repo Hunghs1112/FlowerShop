@@ -8,10 +8,10 @@
         const applyTheme = theme => {
             document.documentElement.dataset.theme = theme;
             document.querySelectorAll('[data-theme-toggle]').forEach(button => {
-                const next = theme === 'dark' ? 'sáng' : 'tối';
+                const next = theme === 'dark' ? @json(__('storefront.theme_light')) : @json(__('storefront.theme_dark'));
                 button.dataset.themeCurrent = theme;
-                button.setAttribute('aria-label', `Chuyển sang giao diện ${next}`);
-                button.setAttribute('title', `Giao diện ${next}`);
+                button.setAttribute('aria-label', @json(__('storefront.theme_toggle')));
+                button.setAttribute('title', `${@json(__('storefront.theme_toggle'))}: ${next}`);
                 button.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
             });
         };

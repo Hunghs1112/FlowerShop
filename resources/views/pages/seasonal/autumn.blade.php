@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'Hội mùa thu')
+@section('title', __('pages.season_autumn_title'))
 
 @include('pages.seasonal._content', ['seasonView' => 'thu'])

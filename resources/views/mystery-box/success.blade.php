@@ -7,9 +7,9 @@
     title="{{ $mysteryContent['success_page_title'] }}"
     description="{{ $mysteryContent['success_page_description'] }}"
     :breadcrumbs="[
-        ['label' => 'Trang chủ', 'url' => localized_route('home')],
-        ['label' => 'Hộp Hoa Bí Ẩn', 'url' => localized_route('mystery-box.index')],
-        ['label' => 'Thành công']
+        ['label' => __('ui.home'), 'url' => localized_route('home')],
+        ['label' => __('mystery.ui.hero_title'), 'url' => localized_route('mystery-box.index')],
+        ['label' => __('account.mystery_success')]
     ]"
     :image="$siteBanners['mystery-box'] ?? null"
     :hideOverlay="$siteBannerHideOverlay['mystery-box'] ?? false"
@@ -33,7 +33,7 @@
 
             <div class="success-message">
                 <p>{{ $mysteryContent['success_message'] }}</p>
-                <p>{{ $mysteryContent['success_contact_message'] }} <strong>{{ $mysteryBoxRequest->phone }}</strong> trong thời gian sớm nhất.</p>
+                <p>{{ $mysteryContent['success_contact_message'] }} <strong>{{ $mysteryBoxRequest->phone }}</strong></p>
             </div>
 
             <div class="summary-box">
@@ -75,13 +75,13 @@
 
                     @if($mysteryBoxRequest->flower_preferences)
                     <div class="summary-item full-width">
-                        <span class="summary-label">Loài hoa mong muốn</span>
+                        <span class="summary-label">{{ __('account.mystery_flower') }}</span>
                         <span class="summary-value">{{ implode(', ', $mysteryBoxRequest->flower_preferences) }}</span>
                     </div>
                     @endif
 
                     <div class="summary-item full-width">
-                        <span class="summary-label">Giao hoa</span>
+                        <span class="summary-label">{{ __('account.delivery_address') }}</span>
                         <span class="summary-value">{{ $mysteryBoxRequest->delivery_address }} · {{ $mysteryBoxRequest->delivery_date?->format('d/m/Y') }}</span>
                     </div>
 

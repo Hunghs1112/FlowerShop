@@ -1,5 +1,5 @@
 <div class="promotion-bar">
     <div class="promotion-bar-content">
-        Nhập mã <strong>FELLOWHELLO</strong> giảm ngay 10% cho đơn hàng đầu tiên.
+        {!! __('storefront.promotion') !!}
     </div>
 </div>

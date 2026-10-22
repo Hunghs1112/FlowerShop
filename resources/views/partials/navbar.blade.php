@@ -12,14 +12,14 @@
             {{-- Mùa lễ hội — gradient shimmer text --}}
             <li class="navbar-nav-item">
                 <a href="{{ localized_route('season.mua-le-hoi') }}" class="nav-season-link {{ localized_route_is('season.*') ? 'active' : '' }}">
-                    Mùa lễ hội
+                    {{ __('storefront.festival') }}
                 </a>
             </li>
 
             {{-- Sản phẩm — Mega Menu (danh mục từ DB) --}}
             <li class="navbar-nav-item" data-dropdown="mega">
                 <a href="{{ localized_route('products.index') }}" class="navbar-nav-link {{ localized_route_is('products.*') || localized_route_is('categories.*') ? 'active' : '' }}">
-                    Sản phẩm
+                    {{ __('ui.products') }}
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -36,7 +36,7 @@
 
                             {{-- Tất cả sản phẩm --}}
                             <a href="{{ localized_route('products.index') }}" class="mega-menu-item mega-menu-item-all">
-                                Xem tất cả sản phẩm
+                                {{ __('storefront.all_products') }}
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                                 </svg>
@@ -45,7 +45,7 @@
                     @else
                         <div class="mega-menu-grid-simple">
                             <a href="{{ localized_route('products.index') }}" class="mega-menu-item mega-menu-item-all">
-                                Xem tất cả sản phẩm
+                                {{ __('storefront.all_products') }}
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                                 </svg>
@@ -58,14 +58,14 @@
             {{-- Góc cảm hứng — link thẳng, không dropdown hardcode --}}
             <li class="navbar-nav-item">
                 <a href="{{ localized_route('blog.index') }}" class="navbar-nav-link {{ localized_route_is('blog.*') ? 'active' : '' }}">
-                    Góc cảm hứng
+                    {{ __('storefront.journal') }}
                 </a>
             </li>
 
             {{-- Thông tin --}}
             <li class="navbar-nav-item" data-dropdown="standard">
                 <a href="#" class="navbar-nav-link">
-                    Thông tin
+                    {{ __('storefront.information') }}
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -83,7 +83,7 @@
             {{-- Tuyển dụng — nút riêng --}}
             <li class="navbar-nav-item">
                 <a href="{{ localized_route('career.index') }}" class="navbar-nav-link {{ localized_route_is('career.*') ? 'active' : '' }}">
-                    Tuyển dụng
+                    {{ __('storefront.careers') }}
                 </a>
             </li>
 
@@ -111,7 +111,7 @@
                 {{ app()->getLocale() === 'en' ? 'VI' : 'EN' }}
             </a>
 
-            <button type="button" class="navbar-action-btn theme-toggle" data-theme-toggle aria-label="Chuyển giao diện">
+            <button type="button" class="navbar-action-btn theme-toggle" data-theme-toggle aria-label="{{ __('storefront.theme_toggle') }}">
                 <svg class="theme-icon-light" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3V2m0 20v-1m9-9h1M2 12h1m15.36-6.36.71-.71M4.93 19.07l.71-.71m12.72 0 .71.71M4.93 4.93l.71.71M17 12a5 5 0 11-10 0 5 5 0 0110 0z"/>
                 </svg>
@@ -121,14 +121,14 @@
             </button>
 
             {{-- Search --}}
-            <button class="navbar-action-btn navbar-search-btn" id="searchToggle" title="Tìm kiếm" aria-label="Tìm kiếm" aria-expanded="false">
+            <button class="navbar-action-btn navbar-search-btn" id="searchToggle" title="{{ __('storefront.search') }}" aria-label="{{ __('storefront.search') }}" aria-expanded="false">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
             </button>
 
             {{-- Cart --}}
-            <a href="{{ localized_route('cart.index') }}" class="navbar-action-btn navbar-cart-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
+            <a href="{{ localized_route('cart.index') }}" class="navbar-action-btn navbar-cart-btn" title="{{ __('storefront.cart') }}" aria-label="{{ __('storefront.cart') }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
@@ -140,7 +140,7 @@
                     {{-- User Menu --}}
                     @auth
                         <div class="navbar-user-menu">
-                            <button class="navbar-user-toggle" id="userMenuToggle" aria-label="Tài khoản" aria-expanded="false">
+                            <button class="navbar-user-toggle" id="userMenuToggle" aria-label="{{ __('storefront.account') }}" aria-expanded="false">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
@@ -160,7 +160,7 @@
                             </div>
                         </div>
                     @else
-                        <a href="{{ localized_route('login') }}" class="navbar-action-btn navbar-auth-btn" title="Đăng nhập" aria-label="Đăng nhập">
+                        <a href="{{ localized_route('login') }}" class="navbar-action-btn navbar-auth-btn" title="{{ __('storefront.login') }}" aria-label="{{ __('storefront.login') }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
@@ -192,17 +192,17 @@
                     placeholder="{{ __('ui.search_products') }}"
                     value="{{ request('q') ?: request('search') }}"
                     autocomplete="off"
-                    aria-label="Tìm kiếm sản phẩm"
+                    aria-label="{{ __('ui.search_products') }}"
                     id="searchInput"
                 >
-                <button type="button" class="search-clear-btn" id="searchClear" aria-label="Xóa tìm kiếm" style="display: none;">
+                <button type="button" class="search-clear-btn" id="searchClear" aria-label="{{ __('storefront.clear_search') }}" style="display: none;">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
             <button type="submit" class="search-submit-btn">
-                Tìm kiếm
+                {{ __('storefront.search') }}
             </button>
         </form>
     </div>
@@ -233,7 +233,7 @@
             {{-- Sản phẩm accordion --}}
             <li class="navbar-mobile-accordion-item">
                 <button class="navbar-mobile-accordion-toggle" aria-expanded="false">
-                    Sản phẩm
+                    {{ __('ui.products') }}
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -249,12 +249,12 @@
             </li>
 
             {{-- Góc cảm hứng --}}
-            <li><a href="{{ localized_route('blog.index') }}">Bài viết</a></li>
+            <li><a href="{{ localized_route('blog.index') }}">{{ __('storefront.journal') }}</a></li>
 
             {{-- Thông tin --}}
             <li class="navbar-mobile-accordion-item">
                 <button class="navbar-mobile-accordion-toggle" aria-expanded="false">
-                    Thông tin
+                    {{ __('storefront.information') }}
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>

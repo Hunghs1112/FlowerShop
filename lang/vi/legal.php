@@ -1,0 +1,152 @@
+<?php
+
+return [
+    'open_all' => 'Mở tất cả',
+    'close_all' => 'Thu gọn tất cả',
+    'contents' => 'Nội dung',
+    'help' => 'Cần hỗ trợ?',
+    'help_text' => 'Lâm Nhiên Thảo luôn sẵn sàng lắng nghe và đồng hành cùng bạn.',
+    'footer' => 'Từ những vùng đất đặc biệt đến những nơi tuyệt đẹp',
+    'privacy' => [
+        'title' => 'Chính sách bảo mật',
+        'eyebrow' => 'QUYỀN RIÊNG TƯ',
+        'intro' => 'Lâm Nhiên Thảo trân trọng sự tin tưởng của quý khách và cam kết bảo vệ quyền riêng tư, thông tin cá nhân của quý khách trong suốt quá trình sử dụng website và dịch vụ.',
+        'updated' => 'Cập nhật lần cuối',
+        'default_date' => 'Tháng 9, 2026',
+        'pass_label' => 'BẢO MẬT',
+        'protected' => 'ĐƯỢC BẢO VỆ',
+        'hint' => 'Rê chuột hoặc chạm vào từng ô để xem thông tin được dùng vào việc gì',
+        'section_count' => '08 CÁC MỤC',
+        'rights_contact' => 'Mọi yêu cầu liên quan đến các quyền nêu trên xin vui lòng gửi đến chúng tôi qua thông tin liên hệ tại',
+        'section_8' => 'Mục 8',
+        'fields' => [
+            ['label' => 'HỌ VÀ TÊN', 'purpose' => 'Để xác nhận và xử lý đơn hàng'],
+            ['label' => 'SỐ ĐIỆN THOẠI · EMAIL', 'purpose' => 'Để tư vấn, chăm sóc và hỗ trợ bạn'],
+            ['label' => 'ĐỊA CHỈ GIAO HÀNG', 'purpose' => 'Để giao hoa đúng địa chỉ, đúng hẹn'],
+            ['label' => 'ID ZALO', 'purpose' => 'Khi bạn liên hệ qua Zalo'],
+            ['label' => 'NỘI DUNG TRAO ĐỔI', 'purpose' => 'Để cải thiện sản phẩm và dịch vụ'],
+        ],
+        'sections' => [
+            [
+                'title' => 'Phạm vi áp dụng',
+                'tldr' => 'Áp dụng cho thông tin thu thập qua website, các kênh liên hệ trực tuyến (bao gồm Zalo) và quá trình đặt hàng.',
+                'paragraphs' => ['Chính sách này áp dụng đối với toàn bộ thông tin cá nhân mà Lâm Nhiên Thảo thu thập thông qua website, các kênh liên hệ trực tuyến (bao gồm Zalo) và quá trình đặt hàng, giao dịch với khách hàng.'],
+            ],
+            [
+                'title' => 'Thông tin chúng tôi thu thập',
+                'tldr' => 'Họ tên, số điện thoại, email, địa chỉ giao hàng, ID Zalo và nội dung trao đổi.',
+                'paragraphs' => ['Trong quá trình quý khách sử dụng dịch vụ, chúng tôi có thể thu thập các loại thông tin sau:'],
+                'items' => ['Họ và tên', 'Số điện thoại và địa chỉ email', 'Địa chỉ giao hàng', 'ID Zalo (trong trường hợp quý khách liên hệ qua kênh này)', 'Nội dung trao đổi, tư vấn và yêu cầu đặt hàng'],
+            ],
+            [
+                'title' => 'Mục đích sử dụng thông tin',
+                'tldr' => 'Chỉ dùng để xử lý đơn, hỗ trợ bạn, giao hoa đúng hẹn và cải thiện dịch vụ.',
+                'paragraphs' => ['Thông tin cá nhân được thu thập nhằm phục vụ các mục đích sau:'],
+                'items' => ['Xác nhận, xử lý và thực hiện đơn hàng theo đúng yêu cầu của quý khách', 'Liên hệ tư vấn, chăm sóc và hỗ trợ khách hàng trước, trong và sau khi mua hàng', 'Đảm bảo giao hoa đúng địa chỉ, đúng thời gian theo thỏa thuận', 'Ghi nhận phản hồi nhằm cải thiện chất lượng sản phẩm và dịch vụ'],
+                'after' => 'Chúng tôi cam kết chỉ sử dụng thông tin cá nhân trong phạm vi các mục đích nêu trên, trừ trường hợp có quy định khác của pháp luật hoặc được quý khách đồng ý.',
+            ],
+            [
+                'title' => 'Chia sẻ thông tin với bên thứ ba',
+                'tldr' => 'Không bán, cho thuê hay trao đổi thông tin; chỉ chia sẻ với đối tác vận chuyển khi cần để giao hàng.',
+                'paragraphs' => ['Lâm Nhiên Thảo cam kết không bán, cho thuê hoặc trao đổi thông tin cá nhân của quý khách với bất kỳ bên thứ ba nào vì mục đích thương mại. Thông tin cá nhân chỉ được chia sẻ với đối tác vận chuyển trong phạm vi cần thiết để thực hiện việc giao hàng, và các đối tác này có trách nhiệm bảo mật thông tin theo thỏa thuận với chúng tôi.'],
+            ],
+            [
+                'title' => 'Biện pháp bảo mật dữ liệu',
+                'tldr' => 'Áp dụng các biện pháp kỹ thuật và quản lý phù hợp để bảo vệ thông tin của bạn.',
+                'paragraphs' => ['Chúng tôi áp dụng các biện pháp kỹ thuật và quản lý phù hợp nhằm bảo vệ thông tin cá nhân của quý khách khỏi các hành vi truy cập trái phép, sử dụng sai mục đích, thay đổi hoặc tiết lộ không được cho phép.'],
+            ],
+            [
+                'title' => 'Quyền của khách hàng',
+                'tldr' => 'Bạn có quyền xem, chỉnh sửa hoặc yêu cầu xóa thông tin cá nhân của mình.',
+                'paragraphs' => ['Quý khách có quyền:'],
+                'items' => ['Yêu cầu truy cập và xem lại thông tin cá nhân mà chúng tôi đang lưu trữ', 'Yêu cầu chỉnh sửa, cập nhật thông tin chưa chính xác', 'Yêu cầu xóa thông tin cá nhân khỏi hệ thống của chúng tôi'],
+            ],
+            [
+                'title' => 'Thay đổi chính sách',
+                'tldr' => 'Chính sách có thể được cập nhật; phiên bản mới được đăng kèm thời điểm cập nhật.',
+                'paragraphs' => ['Lâm Nhiên Thảo có thể điều chỉnh hoặc cập nhật Chính sách Bảo mật này để phù hợp với sự thay đổi trong hoạt động kinh doanh, hệ thống website hoặc các quy định pháp luật có liên quan.', 'Phiên bản cập nhật sẽ được đăng tải trên website cùng với thời điểm cập nhật. Việc tiếp tục sử dụng website sau khi chính sách được cập nhật được hiểu là khách hàng đã tiếp cận phiên bản chính sách mới.'],
+            ],
+            [
+                'title' => 'Thông tin liên hệ',
+                'paragraphs' => ['Nếu quý khách có bất kỳ thắc mắc nào liên quan đến chính sách bảo mật này, vui lòng dùng thông tin liên hệ mới nhất bên dưới.'],
+            ],
+        ],
+    ],
+    'terms' => [
+        'title' => 'Điều khoản dịch vụ',
+        'eyebrow' => 'THÔNG TIN',
+        'intro' => 'Chào mừng bạn đến với website của Lâm Nhiên Thảo. Vui lòng đọc kỹ các điều khoản dịch vụ dưới đây khi sử dụng các dịch vụ do LNT cung cấp.',
+        'visa_aria' => 'Thẻ visa minh hoạ: Flower Entry, hoa tươi nhập khẩu',
+        'type' => 'LOẠI',
+        'imported_flowers' => 'Hoa tươi nhập khẩu',
+        'origin' => 'XUẤT XỨ',
+        'distant_gardens' => 'Những vườn hoa xa xôi',
+        'destination' => 'ĐIỂM ĐẾN',
+        'your_space' => 'Không gian của bạn',
+        'validity' => 'HIỆU LỰC',
+        'every_order' => 'Cho mỗi đơn hàng',
+        'approved' => 'ĐÃ DUYỆT',
+        'section_count' => '07 CÁC MỤC',
+        'delivery_more' => 'Xem chi tiết tại',
+        'returns_prefix' => 'Việc xử lý đổi trả và hoàn tiền được thực hiện theo',
+        'returns_link' => 'Chính sách Đổi trả & Hoàn tiền',
+        'returns_suffix' => 'được công bố trên website.',
+        'sections' => [
+            [
+                'title' => 'Chấp thuận điều khoản',
+                'tldr' => 'Tiếp tục sử dụng website hoặc dịch vụ nghĩa là bạn đồng ý với các điều khoản hiện hành.',
+                'paragraphs' => ['Khi tiếp tục sử dụng website hoặc dịch vụ, khách hàng xác nhận rằng mình đồng ý tuân thủ các điều khoản hiện hành.'],
+            ],
+            [
+                'title' => 'Sản phẩm và dịch vụ',
+                'tldr' => 'Hoa thực tế có thể khác đôi chút so với hình ảnh; nếu có thay đổi đáng kể, LNT sẽ trao đổi với bạn trước.',
+                'paragraphs' => [
+                    'LNT nỗ lực cung cấp hình ảnh, thông tin và mô tả sản phẩm một cách chính xác, đầy đủ và cập nhật nhất.',
+                    'Tuy nhiên, hoa tươi là sản phẩm tự nhiên nên có sự khác biệt nhất định giữa từng mùa hoa, lô hàng và thời điểm thu hoạch. Màu sắc, kích thước, độ nở, hình dáng, số lượng cành và trạng thái thực tế của hoa có thể thay đổi đôi chút so với hình ảnh hiển thị trên website.',
+                    'Đối với các sản phẩm hoa nhập khẩu, tình trạng nguồn cung, mùa vụ, thời tiết, vận chuyển và các yếu tố khách quan khác có thể ảnh hưởng đến khả năng cung cấp hoặc thời điểm giao hàng.',
+                    'Trong trường hợp một sản phẩm không còn sẵn hoặc có thay đổi đáng kể về chất lượng, LNT sẽ chủ động trao đổi với khách hàng để thống nhất phương án phù hợp trước khi thực hiện đơn hàng.',
+                ],
+            ],
+            [
+                'title' => 'Đặt hàng và thanh toán',
+                'tldr' => 'Đơn hàng được xác nhận qua Zalo hoặc điện thoại; thanh toán bằng tiền mặt hoặc chuyển khoản.',
+                'items' => [
+                    'Mọi đơn hàng cần được xác nhận qua Zalo hoặc điện thoại trước khi thực hiện.',
+                    'Chúng tôi chấp nhận hình thức thanh toán bằng tiền mặt hoặc chuyển khoản ngân hàng.',
+                    'Đơn hàng chỉ được xác nhận chính thức sau khi hoàn tất thanh toán hoặc theo thỏa thuận cụ thể giữa hai bên.',
+                    'Giá sản phẩm có thể thay đổi tùy theo mùa vụ và nguồn cung hoa, đặc biệt đối với hoa nhập khẩu.',
+                ],
+            ],
+            [
+                'title' => 'Giao hàng',
+                'tldr' => 'Thời gian và phí giao hàng được thỏa thuận cụ thể khi đặt hàng.',
+                'items' => [
+                    'Thời gian và phí giao hàng sẽ được thỏa thuận cụ thể tại thời điểm đặt hàng.',
+                    'Chúng tôi không chịu trách nhiệm đối với các trường hợp chậm trễ giao hàng do thiên tai, tình trạng giao thông hoặc các sự kiện bất khả kháng nằm ngoài tầm kiểm soát của chúng tôi.',
+                    'Quý khách vui lòng đảm bảo có mặt tại địa điểm nhận hàng vào thời gian đã hẹn, hoặc thông báo trước thông tin người nhận thay.',
+                ],
+            ],
+            [
+                'title' => 'Đổi, trả, hoàn tiền và xử lý khiếu nại',
+                'tldr' => 'Không đổi trả vì thay đổi nhu cầu sau khi đã nhận hàng; nếu vấn đề thuộc trách nhiệm của LNT, chúng tôi sẽ kiểm tra và đưa ra phương án phù hợp.',
+                'paragraphs' => [
+                    'Hoa tươi là sản phẩm có thời gian sử dụng ngắn và chất lượng có thể thay đổi theo điều kiện bảo quản. Vì vậy, LNT không áp dụng đổi trả sản phẩm chỉ vì thay đổi nhu cầu hoặc ý kiến của khách hàng sau khi đơn hàng đã được giao và tiếp nhận.',
+                    'Trong trường hợp sản phẩm được giao không đúng với nội dung đã xác nhận hoặc phát sinh vấn đề thuộc trách nhiệm của Lâm Nhiên Thảo, khách hàng vui lòng liên hệ sớm để chúng tôi kiểm tra và đưa ra phương án xử lý phù hợp.',
+                    'Tùy từng trường hợp, phương án hỗ trợ có thể bao gồm đổi sản phẩm, bổ sung sản phẩm, hoàn lại một phần hoặc toàn bộ giá trị tương ứng, hoặc một phương án khác được hai bên thống nhất.',
+                ],
+            ],
+            [
+                'title' => 'Thay đổi điều khoản',
+                'tldr' => 'Điều khoản có thể được cập nhật khi cần; phiên bản mới được đăng kèm thời điểm cập nhật.',
+                'paragraphs' => [
+                    'LNT có thể sửa đổi hoặc cập nhật Điều khoản Dịch vụ khi cần thiết nhằm phù hợp với hoạt động kinh doanh, dịch vụ cung cấp hoặc các quy định pháp luật hiện hành.',
+                    'Phiên bản cập nhật sẽ được đăng tải trên website cùng với thời điểm cập nhật.',
+                ],
+            ],
+            [
+                'title' => 'Thông tin liên hệ',
+                'paragraphs' => ['Nếu có bất kỳ thắc mắc nào liên quan đến Điều khoản Dịch vụ, vui lòng dùng thông tin liên hệ mới nhất bên dưới.'],
+            ],
+        ],
+    ],
+];

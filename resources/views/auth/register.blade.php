@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Đăng ký tài khoản')
+@section('title', __('account.register_title'))
 
 @section('content')
 <div class="auth-split">
@@ -66,13 +66,11 @@
             </div>
 
             <blockquote class="auth-panel__quote">
-                Đăng ký ngay để nhận<br>
-                <em>ưu đãi đặc biệt</em><br>
-                dành riêng cho thành viên.
+                {!! __('account.register_quote') !!}
             </blockquote>
 
             <p class="auth-panel__subtext">
-                Tham gia cộng đồng yêu hoa tại Lâm Nhiên Thảo. Đăng ký nhanh chóng để theo dõi đơn hàng, lưu sản phẩm yêu thích và nhận ưu đãi hấp dẫn.
+                {{ __('account.register_intro') }}
             </p>
 
             <div class="auth-panel__badges">
@@ -80,19 +78,19 @@
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    Đăng ký trong 30 giây
+                    {{ __('account.register_badge_time') }}
                 </span>
                 <span class="auth-panel__badge">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
                     </svg>
-                    Miễn phí vận chuyển
+                    {{ __('account.register_badge_shipping') }}
                 </span>
                 <span class="auth-panel__badge">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    Không phí ẩn
+                    {{ __('account.register_badge_fee') }}
                 </span>
             </div>
         </div>
@@ -107,14 +105,14 @@
                 {{-- Tabs: Login / Register --}}
                 <div class="auth-tabs">
                     <a href="{{ localized_route('login') }}" class="auth-tab">{{ __('ui.login') }}</a>
-                    <a href="{{ localized_route('register') }}" class="auth-tab is-active">Đăng ký</a>
+                    <a href="{{ localized_route('register') }}" class="auth-tab is-active">{{ __('account.register_tab') }}</a>
                 </div>
 
                 {{-- Header --}}
                 <div class="auth-header">
-                    <h1 class="auth-title">Tạo tài khoản mới</h1>
+                    <h1 class="auth-title">{{ __('account.register_heading') }}</h1>
                     <p class="auth-subtitle">
-                        Tham gia cùng hơn 10.000+ khách hàng yêu hoa tại Lâm Nhiên Thảo.
+                        {{ __('account.register_subtitle') }}
                     </p>
                 </div>
 
@@ -143,14 +141,14 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="name" class="form-label">Họ và tên</label>
+                        <label for="name" class="form-label">{{ __('account.full_name') }}</label>
                         <input
                             type="text"
                             id="name"
                             name="name"
                             value="{{ old('name') }}"
                             class="form-input @error('name') error @enderror"
-                            placeholder="Nguyễn Văn A"
+                            placeholder="{{ __('account.name_example') }}"
                             required
                             autofocus
                             autocomplete="name"
@@ -188,7 +186,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="phone" class="form-label">Số điện thoại <span style="color: var(--color-text-muted); font-weight:400;">(tùy chọn)</span></label>
+                        <label for="phone" class="form-label">{{ __('account.phone') }} <span style="color: var(--color-text-muted); font-weight:400;">{{ __('account.optional') }}</span></label>
                         <input
                             type="tel"
                             id="phone"
@@ -209,19 +207,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="form-label">Mật khẩu</label>
+                        <label for="password" class="form-label">{{ __('account.password') }}</label>
                         <div class="form-password-wrap">
                             <input
                                 type="password"
                                 id="password"
                                 name="password"
                                 class="form-input @error('password') error @enderror"
-                                placeholder="Ít nhất 8 ký tự"
+                                placeholder="{{ __('account.password_min') }}"
                                 required
                                 autocomplete="new-password"
                                 minlength="8"
                             >
-                            <button type="button" class="form-password-toggle" onclick="togglePassword('password', this)" aria-label="Hiện/Ẩn mật khẩu">
+                            <button type="button" class="form-password-toggle" onclick="togglePassword('password', this)" aria-label="{{ __('account.toggle_password') }}">
                                 <svg class="icon-eye" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -242,18 +240,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password_confirmation" class="form-label">Xác nhận mật khẩu</label>
+                        <label for="password_confirmation" class="form-label">{{ __('account.confirm_password') }}</label>
                         <div class="form-password-wrap">
                             <input
                                 type="password"
                                 id="password_confirmation"
                                 name="password_confirmation"
                                 class="form-input"
-                                placeholder="Nhập lại mật khẩu"
+                                placeholder="{{ __('account.repeat_password') }}"
                                 required
                                 autocomplete="new-password"
                             >
-                            <button type="button" class="form-password-toggle" onclick="togglePassword('password_confirmation', this)" aria-label="Hiện/Ẩn mật khẩu">
+                            <button type="button" class="form-password-toggle" onclick="togglePassword('password_confirmation', this)" aria-label="{{ __('account.toggle_password') }}">
                                 <svg class="icon-eye" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -275,19 +273,19 @@
                             required
                         >
                         <label for="terms" class="form-checkbox-label">
-                            Tôi đồng ý với <a href="{{ localized_route('policy.terms') }}" target="_blank">{{ __('ui.terms') }}</a> và <a href="{{ localized_route('policy.baomat') }}" target="_blank">{{ __('ui.privacy_policy') }}</a>
+                            {{ __('account.terms_agree') }} <a href="{{ localized_route('policy.terms') }}" target="_blank">{{ __('ui.terms') }}</a> {{ __('account.terms_joiner') }} <a href="{{ localized_route('policy.baomat') }}" target="_blank">{{ __('ui.privacy_policy') }}</a>
                         </label>
                     </div>
 
                     <button type="submit" class="auth-submit" id="register-btn">
-                        Tạo tài khoản
+                        {{ __('account.create_account') }}
                     </button>
                 </form>
 
                 {{-- Login link --}}
                 <div class="auth-footer">
-                    Đã có tài khoản?
-                    <a href="{{ localized_route('login') }}" class="auth-footer-link">Đăng nhập ngay</a>
+                    {{ __('account.have_account') }}
+                    <a href="{{ localized_route('login') }}" class="auth-footer-link">{{ __('account.login_now') }}</a>
                 </div>
             </div>
         </div>
@@ -315,7 +313,7 @@ document.getElementById('register-form')?.addEventListener('submit', function() 
     const btn = document.getElementById('register-btn');
     if (btn) {
         btn.disabled = true;
-        btn.textContent = 'Đang xử lý...';
+        btn.textContent = @json(__('account.processing'));
     }
 });
 </script>

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Hộp hoa bí ẩn · Lâm Nhiên Thảo')
+@section('title', __('mystery.ui.page_title'))
 
 @section('skip-main-wrapper', true)
 
 @section('content')
 <main class="wrap">
-<header class="top"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">MYSTERY BOX</p><h1>Hộp hoa bí ẩn</h1>
-<p class="lead">Tám món đồ đang ẩn mình trong căn phòng bí mật. Mỗi món giữ một điều bạn muốn gửi gắm cho hộp hoa: tông màu, loài hoa, phong cách, sở thích… Tìm đủ, rồi dùng chiếc chìa khoá cuối cùng để khoá căn phòng lại.</p></div>
-<div class="tools"><button class="btn" id="hint" type="button">💡 Gợi ý</button><button class="btn" id="reveal" type="button">Hiện tất cả món đồ</button></div></header>
-<div class="stage" id="stage"><svg class="scene" id="scene" viewBox="0 0 1200 680" role="group" aria-label="Căn phòng bí mật. Tìm 6 món đồ ẩn.">
+<header class="top"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">MYSTERY BOX</p><h1>{{ __('mystery.ui.hero_title') }}</h1>
+<p class="lead">{{ __('mystery.ui.hero_lead') }}</p></div>
+<div class="tools"><button class="btn" id="hint" type="button">{{ __('mystery.ui.hint_button') }}</button><button class="btn" id="reveal" type="button">{{ __('mystery.ui.reveal_button') }}</button></div></header>
+<div class="stage" id="stage"><svg class="scene" id="scene" viewBox="0 0 1200 680" role="group" aria-label="{{ __('mystery.ui.aria_secret_room') }}">
 <defs>
  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3E7DD"/><stop offset="1" stop-color="#EBDACC"/></linearGradient>
  <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8EFE3"/><stop offset="1" stop-color="#CFDCC6"/></linearGradient>
@@ -78,47 +78,47 @@
 <g><path d="M516 398c0-20 10-28 26-28s26 8 26 28z" fill="#8F5B47"/><circle cx="542" cy="388" r="9" fill="#E9D3BD"/><path d="M512 368c6-10 54-10 60 0l-4 6c-14-6-38-6-52 0z" fill="#7A4A38"/></g>
 <g><rect x="808" y="276" width="44" height="50" rx="4" fill="#FCF6EF" stroke="#D9C3AF"/><rect x="808" y="276" width="44" height="13" rx="3" fill="#C78E66"/><g fill="#C9B3A0"><rect x="814" y="295" width="7" height="6"/><rect x="826" y="295" width="7" height="6"/><rect x="838" y="295" width="7" height="6"/><rect x="814" y="306" width="7" height="6"/><rect x="826" y="306" width="7" height="6"/><rect x="838" y="306" width="7" height="6"/></g></g>
 <!-- 1 palette: on desk between lamp and books -->
-<g class="hid" data-f="color" tabindex="0" role="button" aria-label="Món đồ ẩn">
+<g class="hid" data-f="color" tabindex="0" role="button" aria-label="{{ __('mystery.ui.aria_hidden_item') }}">
  <circle class="hit" cx="580" cy="390" r="30"/>
  <g class="obj"><path d="M560 396c-6-10 4-20 22-20 16 0 24 8 22 14-2 5-8 3-10 7s4 7-4 9c-10 2-26 0-30-10z" fill="#EFE3D3" stroke="#CDB59E"/><g><circle cx="572" cy="386" r="3.4" fill="#D7A3A0"/><circle cx="582" cy="382" r="3.4" fill="#C98E6A"/><circle cx="592" cy="385" r="3.4" fill="#9AA07A"/><circle cx="569" cy="394" r="3.4" fill="#B98CB4"/></g></g>
  <circle class="hint-ring" cx="580" cy="390" r="14"/></g>
 <!-- lamp after palette -->
 <path d="M470 398h44l-8-10h-28z" fill="#8E6649"/><rect x="488" y="300" width="8" height="90" fill="#8E6649"/><path d="M456 312l14-56h44l14 56z" fill="#EAD7BE"/>
 <!-- 2 botanical book: on top of bookshelf -->
-<g class="hid" data-f="flower" tabindex="0" role="button" aria-label="Món đồ ẩn">
+<g class="hid" data-f="flower" tabindex="0" role="button" aria-label="{{ __('mystery.ui.aria_hidden_item') }}">
  <circle class="hit" cx="972" cy="58" r="32"/>
  <g class="obj"><rect x="944" y="54" width="58" height="14" rx="2" fill="#7E8A52"/><rect x="948" y="44" width="52" height="12" rx="2" fill="#E6D3C6"/><circle cx="974" cy="50" r="4" fill="#D7A3A0"/><path d="M974 54v4" stroke="#7E8A52" stroke-width="1.5"/></g>
  <circle class="hint-ring" cx="972" cy="58" r="14"/></g>
 <!-- 3 style: small oval frame left wall -->
-<g class="hid" data-f="style" tabindex="0" role="button" aria-label="Món đồ ẩn">
+<g class="hid" data-f="style" tabindex="0" role="button" aria-label="{{ __('mystery.ui.aria_hidden_item') }}">
  <circle class="hit" cx="80" cy="300" r="34"/>
  <g class="obj"><ellipse cx="80" cy="300" rx="22" ry="28" fill="#B28A6C"/><ellipse cx="80" cy="300" rx="16" ry="22" fill="#F1E2D4"/><circle cx="76" cy="296" r="5" fill="#C79A8F"/><circle cx="85" cy="300" r="4" fill="#D7A3A0"/><path d="M80 304v12" stroke="#7E8A52" stroke-width="2"/><line x1="80" y1="260" x2="80" y2="272" stroke="#9C7458" stroke-width="1.5"/></g>
  <circle class="hint-ring" cx="80" cy="300" r="14"/></g>
 <!-- 4 interest: vinyl record behind desk leg -->
-<g class="hid" data-f="interest" tabindex="0" role="button" aria-label="Món đồ ẩn">
+<g class="hid" data-f="interest" tabindex="0" role="button" aria-label="{{ __('mystery.ui.aria_hidden_item') }}">
  <circle class="hit" cx="796" cy="516" r="32"/>
  <g class="obj"><circle cx="796" cy="516" r="22" fill="#2E2420"/><circle cx="796" cy="516" r="15" fill="none" stroke="#4A3A32" stroke-width="1.5"/><circle cx="796" cy="516" r="7" fill="#C78E66"/><circle cx="796" cy="516" r="1.6" fill="#2E2420"/></g>
  <circle class="hint-ring" cx="796" cy="516" r="14"/></g>
 <rect x="760" y="416" width="14" height="140" fill="#8E6649"/>
 <!-- 5 budget: piggy bank under armchair -->
-<g class="hid" data-f="budget" tabindex="0" role="button" aria-label="Món đồ ẩn">
+<g class="hid" data-f="budget" tabindex="0" role="button" aria-label="{{ __('mystery.ui.aria_hidden_item') }}">
  <circle class="hit" cx="226" cy="556" r="30"/>
  <g class="obj"><ellipse cx="226" cy="556" rx="20" ry="13" fill="#E3AFA8"/><circle cx="244" cy="553" r="6" fill="#E3AFA8"/><circle cx="247" cy="553" r="1.4" fill="#8F5B47"/><path d="M214 545l4-6 4 6z" fill="#D59A92"/><rect x="222" y="543" width="9" height="2.4" rx="1" fill="#8F5B47"/><g fill="#D59A92"><rect x="212" y="565" width="5" height="6"/><rect x="234" y="565" width="5" height="6"/></g></g>
  <circle class="hint-ring" cx="226" cy="556" r="14"/></g>
 <!-- 6 surprise: small gift on window sill behind plant leaves -->
-<g class="hid" data-f="surprise" tabindex="0" role="button" aria-label="Món đồ ẩn">
+<g class="hid" data-f="surprise" tabindex="0" role="button" aria-label="{{ __('mystery.ui.aria_hidden_item') }}">
  <circle class="hit" cx="350" cy="336" r="30"/>
  <g class="obj"><rect x="334" y="328" width="32" height="24" rx="2" fill="#C79A8F"/><rect x="331" y="322" width="38" height="9" rx="2" fill="#B98C7C"/><rect x="347" y="322" width="6" height="30" fill="#F3E2D2"/><path d="M350 322c-8-10-18-7-15-2 2 4 10 3 15 2zM350 322c8-10 18-7 15-2-2 4-10 3-15 2z" fill="#F3E2D2"/></g>
  <circle class="hint-ring" cx="350" cy="336" r="14"/></g>
 <g fill="#7E8A52"><ellipse cx="372" cy="318" rx="8" ry="20" transform="rotate(25 372 318)"/></g>
 <!-- 7 note: notebook + pen on armchair -->
-<g class="hid" data-f="note" tabindex="0" role="button" aria-label="Món đồ ẩn">
+<g class="hid" data-f="note" tabindex="0" role="button" aria-label="{{ __('mystery.ui.aria_hidden_item') }}">
  <circle class="hit" cx="282" cy="486" r="32"/>
  <g class="obj" transform="rotate(10 282 485)"><rect x="262" y="468" width="38" height="32" rx="3" fill="#A86E4E"/><rect x="266" y="470" width="32" height="28" rx="2" fill="#FBF4EC"/><g stroke="#C9B3A0" stroke-width="1.4"><line x1="270" y1="478" x2="294" y2="478"/><line x1="270" y1="484" x2="294" y2="484"/><line x1="270" y1="490" x2="288" y2="490"/></g>
  <line x1="296" y1="468" x2="316" y2="450" stroke="#7A4A38" stroke-width="4" stroke-linecap="round"/></g>
  <circle class="hint-ring" cx="282" cy="486" r="14"/></g>
 <!-- 8 confirm: key under rug -->
-<g class="hid" data-f="confirm" tabindex="0" role="button" aria-label="Món đồ ẩn">
+<g class="hid" data-f="confirm" tabindex="0" role="button" aria-label="{{ __('mystery.ui.aria_hidden_item') }}">
  <circle class="hit" cx="905" cy="620" r="34"/>
  <g class="obj" transform="rotate(-18 905 620)"><circle cx="890" cy="620" r="9" fill="none" stroke="#D9A85E" stroke-width="5"/><rect x="898" y="617" width="30" height="6" rx="2" fill="#D9A85E"/><rect x="918" y="622" width="5" height="8" fill="#D9A85E"/><rect x="926" y="622" width="4" height="6" fill="#D9A85E"/></g>
  <circle class="hint-ring" cx="905" cy="620" r="14"/></g>
@@ -129,9 +129,9 @@
  <rect x="-7" y="-90" width="14" height="100" fill="#F3E2D2"/><path d="M0-90c-18-22-40-16-34-4 4 8 22 6 34 4zM0-90c18-22 40-16 34-4-4 8-22 6-34 4z" fill="#F3E2D2"/>
  <circle cx="0" cy="-30" r="15" fill="#9A5A40"/><text x="0" y="-26" text-anchor="middle" font-size="10" font-weight="600" fill="#F6E3D3" font-family="Josefin Sans,sans-serif">LNT</text></g>
 </svg></div>
-<div class="list" id="list" aria-label="Các món đồ cần tìm"></div>
-<div class="status"><p id="ptext"></p><span class="note">Thông tin nhận hàng chỉ dùng để xử lý đơn · <a href="{{ localized_route('policy.baomat') }}">{{ __('ui.privacy_policy') }}</a></span>
-<button class="btn primary" id="send" type="button" disabled>Niêm phong &amp; gửi hộp hoa</button></div>
+<div class="list" id="list" aria-label="{{ __('mystery.ui.aria_items_list') }}"></div>
+<div class="status"><p id="ptext"></p><span class="note">{{ __('mystery.ui.privacy_note') }} · <a href="{{ localized_route('policy.baomat') }}">{{ __('ui.privacy_policy') }}</a></span>
+<button class="btn primary" id="send" type="button" disabled>{{ __('mystery.ui.seal_button') }}</button></div>
 </main>
 @endsection
 
@@ -236,31 +236,23 @@ svg.scene{display:block;width:100%;height:auto}
 @php
   $mysteryColors = collect($mysteryContent['colors'])->values();
   $mysteryBudgets = collect($mysteryContent['budgets'])->values();
+  $mysteryTranslations = __('mystery.ui');
+  $mysteryConfig = [
+    'colors' => $mysteryColors->map(fn ($color, $index) => [$color, ['#F6EFE4', '#D9C3AF', '#F2C4C4', '#9AA07A', '#9E2B33', '#C9B3DA', 'linear-gradient(135deg,#F2C4C4,#C9B3DA,#F2A97E)'][$index % 7]])->all(),
+    'flowers' => __('mystery.ui.flowers'),
+    'styles' => collect($mysteryContent['styles'])->map(fn ($style) => [$style, ''])->all(),
+    'interests' => array_values($mysteryContent['preferences']),
+    'budgets' => $mysteryBudgets->pluck('label')->all(),
+    'budgetValues' => $mysteryBudgets->pluck('value', 'label')->all(),
+    'surprises' => collect($mysteryContent['surprise_levels'])->map(fn ($level) => [$level, ''])->all(),
+  ];
 @endphp
-const CONFIG={
- colors:@json($mysteryColors->map(fn ($color, $index) => [$color, ['#F6EFE4','#D9C3AF','#F2C4C4','#9AA07A','#9E2B33','#C9B3DA','linear-gradient(135deg,#F2C4C4,#C9B3DA,#F2A97E)'][$index % 7]])->all(),
- flowers:['Mẫu đơn','Tulip','Mao lương','Hồng Ecuador','Protea','Lan hồ điệp','Cẩm chướng','Cúc Malaysia','Ly','Không có yêu cầu'],
- styles:@json(collect($mysteryContent['styles'])->map(fn ($style) => [$style, ''])->all()),
- interests:@json(array_values($mysteryContent['preferences'])),
- budgets:@json($mysteryBudgets->pluck('label')->all()),
- budgetValues:@json($mysteryBudgets->pluck('value', 'label')->all()),
- surprises:@json(collect($mysteryContent['surprise_levels'])->map(fn ($level) => [$level, ''])->all())
-};
-const FIELDS=[
- {id:'color',obj:'Bảng màu',label:'Tông màu hoa',help:'Chọn tối đa 3 tông màu bạn muốn.',type:'chips',opts:CONFIG.colors.map(c=>({t:c[0],sw:c[1]})),multi:3,req:true},
- {id:'flower',obj:'Sách thực vật',label:'Loại hoa đặc biệt',help:'Loài hoa bạn mong có trong hộp, nếu có.',type:'chips',opts:CONFIG.flowers.map(t=>({t})),multi:4,req:false},
- {id:'style',obj:'Khung tranh',label:'Phong cách',help:'Bạn muốn hộp hoa mang cảm giác nào?',type:'chips',opts:CONFIG.styles.map(s=>({t:s[0],d:s[1]})),multi:1,req:true,big:true},
- {id:'interest',obj:'Đĩa nhạc',label:'Sở thích',help:'Người nhận (hoặc bạn) yêu thích điều gì? LNT sẽ dựa vào đó để chọn hoa và chi tiết đi kèm.',type:'chips',opts:CONFIG.interests.map(t=>({t})),multi:4,req:true,extra:'Kể thêm một chút (không bắt buộc)'},
- {id:'budget',obj:'Heo đất',label:'Ngân sách',help:'Chọn mức ngân sách cho hộp hoa.',type:'chips',opts:CONFIG.budgets.map(t=>({t})),multi:1,req:true},
- {id:'surprise',obj:'Hộp quà nhỏ',label:'Mức độ bất ngờ',help:'Bạn muốn bất ngờ đến đâu?',type:'chips',opts:CONFIG.surprises.map(s=>({t:s[0],d:s[1]})),multi:1,req:false,big:true},
- {id:'note',obj:'Cuốn sổ',label:'Lưu ý',help:'Dị ứng phấn hoa, màu hay loài hoa muốn tránh, dịp tặng, lời nhắn kèm thiệp…',type:'textarea',req:false},
- {id:'confirm',obj:'Chiếc chìa khoá',label:'Xác nhận',help:'Thông tin nhận hàng. Chìa khoá cuối cùng để khoá căn phòng.',type:'contact',req:true}
-];
-const ICON={"color": "<svg viewBox=\"0 0 42 42\"><path d=\"M8 26c-4-10 4-18 15-18 10 0 15 5 13 10-1 3-6 2-7 5s3 5-3 6c-7 2-15 0-18-3z\" fill=\"#EFE3D3\" stroke=\"#CDB59E\"/><circle cx=\"16\" cy=\"18\" r=\"3\" fill=\"#D7A3A0\"/><circle cx=\"23\" cy=\"14\" r=\"3\" fill=\"#C98E6A\"/><circle cx=\"30\" cy=\"17\" r=\"3\" fill=\"#9AA07A\"/><circle cx=\"14\" cy=\"25\" r=\"3\" fill=\"#B98CB4\"/></svg>", "flower": "<svg viewBox=\"0 0 42 42\"><rect x=\"6\" y=\"22\" width=\"30\" height=\"10\" rx=\"2\" fill=\"#7E8A52\"/><rect x=\"8\" y=\"13\" width=\"26\" height=\"10\" rx=\"2\" fill=\"#E6D3C6\"/><circle cx=\"21\" cy=\"18\" r=\"3.4\" fill=\"#D7A3A0\"/></svg>", "style": "<svg viewBox=\"0 0 42 42\"><ellipse cx=\"21\" cy=\"21\" rx=\"12\" ry=\"15\" fill=\"#B28A6C\"/><ellipse cx=\"21\" cy=\"21\" rx=\"8\" ry=\"11\" fill=\"#F1E2D4\"/><circle cx=\"19\" cy=\"19\" r=\"3\" fill=\"#C79A8F\"/></svg>", "interest": "<svg viewBox=\"0 0 42 42\"><circle cx=\"21\" cy=\"21\" r=\"14\" fill=\"#2E2420\"/><circle cx=\"21\" cy=\"21\" r=\"9\" fill=\"none\" stroke=\"#4A3A32\"/><circle cx=\"21\" cy=\"21\" r=\"4.5\" fill=\"#C78E66\"/></svg>", "budget": "<svg viewBox=\"0 0 42 42\"><ellipse cx=\"20\" cy=\"23\" rx=\"13\" ry=\"9\" fill=\"#E3AFA8\"/><circle cx=\"32\" cy=\"21\" r=\"4\" fill=\"#E3AFA8\"/><rect x=\"16\" y=\"13\" width=\"7\" height=\"2\" fill=\"#8F5B47\"/><rect x=\"12\" y=\"30\" width=\"3\" height=\"5\" fill=\"#D59A92\"/><rect x=\"25\" y=\"30\" width=\"3\" height=\"5\" fill=\"#D59A92\"/></svg>", "surprise": "<svg viewBox=\"0 0 42 42\"><rect x=\"10\" y=\"17\" width=\"22\" height=\"17\" rx=\"2\" fill=\"#C79A8F\"/><rect x=\"8\" y=\"13\" width=\"26\" height=\"6\" rx=\"2\" fill=\"#B98C7C\"/><rect x=\"19\" y=\"13\" width=\"4\" height=\"21\" fill=\"#F3E2D2\"/><path d=\"M21 13c-6-7-12-5-10-1 1 3 7 2 10 1zM21 13c6-7 12-5 10-1-1 3-7 2-10 1z\" fill=\"#F3E2D2\"/></svg>", "note": "<svg viewBox=\"0 0 42 42\"><rect x=\"9\" y=\"10\" width=\"22\" height=\"24\" rx=\"2\" fill=\"#A86E4E\"/><rect x=\"12\" y=\"12\" width=\"18\" height=\"20\" fill=\"#FBF4EC\"/><path d=\"M14 18h14M14 22h14M14 26h10\" stroke=\"#C9B3A0\"/><path d=\"M30 12l6-6\" stroke=\"#7A4A38\" stroke-width=\"3\" stroke-linecap=\"round\"/></svg>", "confirm": "<svg viewBox=\"0 0 42 42\"><circle cx=\"13\" cy=\"21\" r=\"6\" fill=\"none\" stroke=\"#D9A85E\" stroke-width=\"4\"/><rect x=\"18\" y=\"19\" width=\"18\" height=\"4\" fill=\"#D9A85E\"/><rect x=\"30\" y=\"23\" width=\"3\" height=\"6\" fill=\"#D9A85E\"/></svg>"};
+const T=@json($mysteryTranslations);
+const CONFIG=@json($mysteryConfig);const F=(id,key)=>T.fields[id][key];const FIELDS=[ {id:'color',obj:F('color','obj'),label:F('color','label'),help:F('color','help'),type:'chips',opts:CONFIG.colors.map(c=>({t:c[0],sw:c[1]})),multi:3,req:true}, {id:'flower',obj:F('flower','obj'),label:F('flower','label'),help:F('flower','help'),type:'chips',opts:CONFIG.flowers.map(t=>({t})),multi:4,req:false}, {id:'style',obj:F('style','obj'),label:F('style','label'),help:F('style','help'),type:'chips',opts:CONFIG.styles.map(s=>({t:s[0],d:s[1]})),multi:1,req:true,big:true}, {id:'interest',obj:F('interest','obj'),label:F('interest','label'),help:F('interest','help'),type:'chips',opts:CONFIG.interests.map(t=>({t})),multi:4,req:true,extra:F('interest','extra')}, {id:'budget',obj:F('budget','obj'),label:F('budget','label'),help:F('budget','help'),type:'chips',opts:CONFIG.budgets.map(t=>({t})),multi:1,req:true}, {id:'surprise',obj:F('surprise','obj'),label:F('surprise','label'),help:F('surprise','help'),type:'chips',opts:CONFIG.surprises.map(s=>({t:s[0],d:s[1]})),multi:1,req:false,big:true}, {id:'note',obj:F('note','obj'),label:F('note','label'),help:F('note','help'),type:'textarea',req:false}, {id:'confirm',obj:F('confirm','obj'),label:F('confirm','label'),help:F('confirm','help'),type:'contact',req:true}];const ICON={"color": "<svg viewBox=\"0 0 42 42\"><path d=\"M8 26c-4-10 4-18 15-18 10 0 15 5 13 10-1 3-6 2-7 5s3 5-3 6c-7 2-15 0-18-3z\" fill=\"#EFE3D3\" stroke=\"#CDB59E\"/><circle cx=\"16\" cy=\"18\" r=\"3\" fill=\"#D7A3A0\"/><circle cx=\"23\" cy=\"14\" r=\"3\" fill=\"#C98E6A\"/><circle cx=\"30\" cy=\"17\" r=\"3\" fill=\"#9AA07A\"/><circle cx=\"14\" cy=\"25\" r=\"3\" fill=\"#B98CB4\"/></svg>", "flower": "<svg viewBox=\"0 0 42 42\"><rect x=\"6\" y=\"22\" width=\"30\" height=\"10\" rx=\"2\" fill=\"#7E8A52\"/><rect x=\"8\" y=\"13\" width=\"26\" height=\"10\" rx=\"2\" fill=\"#E6D3C6\"/><circle cx=\"21\" cy=\"18\" r=\"3.4\" fill=\"#D7A3A0\"/></svg>", "style": "<svg viewBox=\"0 0 42 42\"><ellipse cx=\"21\" cy=\"21\" rx=\"12\" ry=\"15\" fill=\"#B28A6C\"/><ellipse cx=\"21\" cy=\"21\" rx=\"8\" ry=\"11\" fill=\"#F1E2D4\"/><circle cx=\"19\" cy=\"19\" r=\"3\" fill=\"#C79A8F\"/></svg>", "interest": "<svg viewBox=\"0 0 42 42\"><circle cx=\"21\" cy=\"21\" r=\"14\" fill=\"#2E2420\"/><circle cx=\"21\" cy=\"21\" r=\"9\" fill=\"none\" stroke=\"#4A3A32\"/><circle cx=\"21\" cy=\"21\" r=\"4.5\" fill=\"#C78E66\"/></svg>", "budget": "<svg viewBox=\"0 0 42 42\"><ellipse cx=\"20\" cy=\"23\" rx=\"13\" ry=\"9\" fill=\"#E3AFA8\"/><circle cx=\"32\" cy=\"21\" r=\"4\" fill=\"#E3AFA8\"/><rect x=\"16\" y=\"13\" width=\"7\" height=\"2\" fill=\"#8F5B47\"/><rect x=\"12\" y=\"30\" width=\"3\" height=\"5\" fill=\"#D59A92\"/><rect x=\"25\" y=\"30\" width=\"3\" height=\"5\" fill=\"#D59A92\"/></svg>", "surprise": "<svg viewBox=\"0 0 42 42\"><rect x=\"10\" y=\"17\" width=\"22\" height=\"17\" rx=\"2\" fill=\"#C79A8F\"/><rect x=\"8\" y=\"13\" width=\"26\" height=\"6\" rx=\"2\" fill=\"#B98C7C\"/><rect x=\"19\" y=\"13\" width=\"4\" height=\"21\" fill=\"#F3E2D2\"/><path d=\"M21 13c-6-7-12-5-10-1 1 3 7 2 10 1zM21 13c6-7 12-5 10-1-1 3-7 2-10 1z\" fill=\"#F3E2D2\"/></svg>", "note": "<svg viewBox=\"0 0 42 42\"><rect x=\"9\" y=\"10\" width=\"22\" height=\"24\" rx=\"2\" fill=\"#A86E4E\"/><rect x=\"12\" y=\"12\" width=\"18\" height=\"20\" fill=\"#FBF4EC\"/><path d=\"M14 18h14M14 22h14M14 26h10\" stroke=\"#C9B3A0\"/><path d=\"M30 12l6-6\" stroke=\"#7A4A38\" stroke-width=\"3\" stroke-linecap=\"round\"/></svg>", "confirm": "<svg viewBox=\"0 0 42 42\"><circle cx=\"13\" cy=\"21\" r=\"6\" fill=\"none\" stroke=\"#D9A85E\" stroke-width=\"4\"/><rect x=\"18\" y=\"19\" width=\"18\" height=\"4\" fill=\"#D9A85E\"/><rect x=\"30\" y=\"23\" width=\"3\" height=\"6\" fill=\"#D9A85E\"/></svg>"};
 const $=s=>document.querySelector(s),data={},found=new Set(),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let busy=false;
 const byId=Object.fromEntries(FIELDS.map(f=>[f.id,f]));
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-function short(f){const v=data[f.id];if(!v)return'';if(f.id==='confirm')return'Đã niêm phong ✓';if(f.type==='textarea')return'Đã ghi lại ✓';
+function short(f){const v=data[f.id];if(!v)return'';if(f.id==='confirm')return @json(__('mystery.ui.sealed_text'));if(f.type==='textarea')return @json(__('mystery.ui.noted_text'));
  const t=v.sel.join(', ');return (t.length>26?t.slice(0,24)+'…':t)+' ✓'}
 /* list */
 FIELDS.forEach(f=>{const s=document.createElement('button');s.type='button';s.className='slot';s.dataset.id=f.id;
@@ -271,7 +263,7 @@ document.querySelectorAll('.hid').forEach(g=>{const f=byId[g.dataset.f];
  const go=()=>{if(busy)return;if(!found.has(f.id)){found.add(f.id);g.classList.add('found');celebrate(g,()=>openPanel(f,g))}else openPanel(f,g)};
  g.addEventListener('click',e=>{e.stopPropagation();go()});g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}})});
 $('#scene').addEventListener('click',e=>{if(busy||reduce)return;const r=$('#stage').getBoundingClientRect();const m=document.createElement('span');m.className='miss';
- m.textContent=['Không phải đây…','Thử chỗ khác nhé','Hmm…'][Math.floor(Math.random()*3)];m.style.left=(e.clientX-r.left-40)+'px';m.style.top=(e.clientY-r.top-20)+'px';$('#stage').appendChild(m);setTimeout(()=>m.remove(),900)});
+ m.textContent=@json(__('mystery.ui.miss_messages'))[Math.floor(Math.random()*3)];m.style.left=(e.clientX-r.left-40)+'px';m.style.top=(e.clientY-r.top-20)+'px';$('#stage').appendChild(m);setTimeout(()=>m.remove(),900)});
 function celebrate(g,cb){if(reduce){cb();return}const ring=g.querySelector('.hint-ring');const cx=+ring.getAttribute('cx'),cy=+ring.getAttribute('cy');
  const ns='http://www.w3.org/2000/svg',grp=document.createElementNS(ns,'g');grp.setAttribute('class','spark');
  for(let k=0;k<10;k++){const c=document.createElementNS(ns,'circle');c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',3);c.setAttribute('fill',k%2?'#FFE2B8':'#C78E66');grp.appendChild(c);
@@ -285,24 +277,24 @@ function body(f){const v=data[f.id]||{sel:[],extra:''};
  if(f.type==='chips')return`<div class="chips" role="group" aria-label="${esc(f.label)}">${f.opts.map(o=>`<button type="button" class="chip${f.big?' big':''}" aria-pressed="${v.sel.includes(o.t)}" data-t="${esc(o.t)}">${o.sw?`<span class="sw" style="background:${o.sw}"></span>`:''}${f.big?`<span>${esc(o.t)}<small>${esc(o.d)}</small></span>`:esc(o.t)}</button>`).join('')}</div>${f.extra?`<label class="extra" style="font-size:.85rem;font-weight:400;color:var(--soft)">${f.extra}<textarea id="pextra" maxlength="200" style="min-height:70px;margin-top:.3rem">${esc(v.extra||'')}</textarea></label>`:''}`;
  if(f.type==='textarea')return`<textarea id="pin" maxlength="400" aria-label="${esc(f.label)}">${esc(v.text||'')}</textarea>`;
  if(f.type==='contact'){const c=v.c||{};const t=new Date();t.setMinutes(t.getMinutes()-t.getTimezoneOffset());
-  const rows=FIELDS.filter(x=>x.id!=='confirm'&&data[x.id]).map(x=>`<div><b>${x.label}:</b> ${esc(x.type==='textarea'?data[x.id].text:data[x.id].sel.join(', '))}</div>`).join('')||'<div>Bạn chưa chọn sở thích nào. LNT sẽ tự do sáng tạo.</div>';
+  const rows=FIELDS.filter(x=>x.id!=='confirm'&&data[x.id]).map(x=>`<div><b>${x.label}:</b> ${esc(x.type==='textarea'?data[x.id].text:data[x.id].sel.join(', '))}</div>`).join('')||`<div>${@json(__('mystery.ui.no_selection'))}</div>`;
   return`<div class="sum">${rows}</div><div class="fgrid">
-  <label>Họ và tên *<input id="c_name" autocomplete="name" value="${esc(c.name||'')}"></label>
-  <label>Số điện thoại / Zalo *<input id="c_phone" type="tel" autocomplete="tel" value="${esc(c.phone||'')}"></label>
-  <label>Địa chỉ nhận hoa *<input id="c_addr" autocomplete="street-address" value="${esc(c.addr||'')}"></label>
-  <label>Ngày nhận mong muốn *<input id="c_date" type="date" min="${t.toISOString().slice(0,10)}" value="${esc(c.date||'')}"></label>
-  <label>Lưu ý thêm (không bắt buộc)<textarea id="c_note" maxlength="400" style="min-height:70px" placeholder="Dị ứng phấn hoa, màu hay loài hoa muốn tránh, dịp tặng, lời nhắn kèm thiệp…">${esc((data.note&&data.note.text)||'')}</textarea></label></div>
-  <label class="check"><input type="checkbox" id="c_ok" ${c.ok?'checked':''}> <span>Tôi đã đọc <a href="{{ localized_route('policy.ours') }}" target="_blank" rel="noopener">chính sách đổi trả</a> và đồng ý để LNT liên hệ xác nhận đơn.</span></label>`}
+  <label>${@json(__('mystery.ui.contact_name'))}<input id="c_name" autocomplete="name" value="${esc(c.name||'')}"></label>
+  <label>${@json(__('mystery.ui.contact_phone'))}<input id="c_phone" type="tel" autocomplete="tel" value="${esc(c.phone||'')}"></label>
+  <label>${@json(__('mystery.ui.contact_address'))}<input id="c_addr" autocomplete="street-address" value="${esc(c.addr||'')}"></label>
+  <label>${@json(__('mystery.ui.contact_date'))}<input id="c_date" type="date" min="${t.toISOString().slice(0,10)}" value="${esc(c.date||'')}"></label>
+  <label>${@json(__('mystery.ui.contact_note'))}<textarea id="c_note" maxlength="400" style="min-height:70px" placeholder="${@json(__('mystery.ui.contact_note_placeholder'))}">${esc((data.note&&data.note.text)||'')}</textarea></label></div>
+  <label class="check"><input type="checkbox" id="c_ok" ${c.ok?'checked':''}> <span>${@json(__('mystery.ui.consent_text'))} <a href="{{ localized_route('policy.ours') }}" target="_blank" rel="noopener">${@json(__('mystery.ui.consent_link'))}</a> ${@json(__('mystery.ui.consent_tail'))}</span></label>`}
 }
 function openPanel(f,from){busy=true;const stage=$('#stage');const bd=document.createElement('div');bd.className='backdrop';stage.appendChild(bd);
  const p=document.createElement('div');p.className='panel';p.setAttribute('role','dialog');p.setAttribute('aria-modal','true');p.setAttribute('aria-labelledby','pl');
- p.innerHTML=`<p class="k">BẠN ĐÃ TÌM THẤY · ${f.obj.toUpperCase()}</p><label id="pl">${f.label}${f.req?' *':''}</label><p class="help">${f.help}</p>${body(f)}<p class="err" id="perr" aria-live="polite"></p>
- <div class="row"><button class="btn" id="pc" type="button">Để sau</button><button class="btn primary" id="pok" type="button">${f.id==='confirm'?'Khoá căn phòng':'Cất giữ'}</button></div>`;
+ p.innerHTML=`<p class="k">${@json(__('mystery.ui.panel_kicker'))} · ${f.obj.toUpperCase()}</p><label id="pl">${f.label}${f.req?' *':''}</label><p class="help">${f.help}</p>${body(f)}<p class="err" id="perr" aria-live="polite"></p>
+ <div class="row"><button class="btn" id="pc" type="button">${@json(__('mystery.ui.later_button'))}</button><button class="btn primary" id="pok" type="button">${f.id==='confirm'?@json(__('mystery.ui.lock_button')):@json(__('mystery.ui.keep_button'))}</button></div>`;
  stage.appendChild(p);
  p.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{const on=ch.getAttribute('aria-pressed')==='true';const all=[...p.querySelectorAll('.chip')];
   if(f.multi===1){all.forEach(x=>x.setAttribute('aria-pressed','false'));ch.setAttribute('aria-pressed',!on);return}
   const cnt=all.filter(x=>x.getAttribute('aria-pressed')==='true').length;
-  if(!on&&cnt>=f.multi){$('#perr').textContent=`Chọn tối đa ${f.multi} mục.`;return}$('#perr').textContent='';ch.setAttribute('aria-pressed',!on)});
+  if(!on&&cnt>=f.multi){$('#perr').textContent=T.err_max_items.replace(':max', f.multi);return}$('#perr').textContent='';ch.setAttribute('aria-pressed',!on)});
  const first=p.querySelector('.chip,textarea,input');setTimeout(()=>first&&first.focus(),reduce?0:200);
  const close=saved=>{const fin=()=>{p.remove();bd.remove();busy=false;sync(f);from&&from.focus&&from.focus()};
   if(saved&&!reduce){const slot=document.querySelector(`.slot[data-id="${f.id}"]`).getBoundingClientRect(),r=p.getBoundingClientRect();const base=getComputedStyle(p).transform==='none'?'':getComputedStyle(p).transform;
@@ -311,13 +303,13 @@ function openPanel(f,from){busy=true;const stage=$('#stage');const bd=document.c
  const err=m=>{$('#perr').textContent=m};
  p.querySelector('#pok').onclick=()=>{
   if(f.type==='chips'){const sel=[...p.querySelectorAll('.chip[aria-pressed="true"]')].map(x=>x.dataset.t);const extra=(p.querySelector('#pextra')||{}).value||'';
-   if(f.req&&!sel.length)return err('Hãy chọn ít nhất một lựa chọn.');if(sel.length||extra.trim())data[f.id]={sel,extra:extra.trim()};else delete data[f.id]}
+   if(f.req&&!sel.length)return err(@json(__('mystery.ui.err_min_choice')));if(sel.length||extra.trim())data[f.id]={sel,extra:extra.trim()};else delete data[f.id]}
   else if(f.type==='textarea'){const t=p.querySelector('#pin').value.trim();if(t)data[f.id]={text:t};else delete data[f.id]}
   else{const g=id=>p.querySelector(id).value.trim();const c={name:g('#c_name'),phone:g('#c_phone'),addr:g('#c_addr'),date:g('#c_date'),ok:p.querySelector('#c_ok').checked};
-   if(!c.name||!c.phone||!c.addr||!c.date)return err('Vui lòng điền đủ các thông tin có dấu *.');
-   if(!/^[0-9+\s.-]{9,20}$/.test(c.phone))return err('Số điện thoại chưa đúng.');
-   if(!c.ok)return err('Vui lòng xác nhận đã đọc chính sách.');
-   const miss=FIELDS.filter(x=>x.req&&x.id!=='confirm'&&!data[x.id]).map(x=>x.label);if(miss.length)return err('Còn thiếu: '+miss.join(', ')+'. Hãy tìm món đồ tương ứng trong phòng.');
+   if(!c.name||!c.phone||!c.addr||!c.date)return err(@json(__('mystery.ui.err_required_fields')));
+   if(!/^[0-9+\s.-]{9,20}$/.test(c.phone))return err(@json(__('mystery.ui.err_invalid_phone')));
+   if(!c.ok)return err(@json(__('mystery.ui.err_consent')));
+   const miss=FIELDS.filter(x=>x.req&&x.id!=='confirm'&&!data[x.id]).map(x=>x.label);if(miss.length)return err(T.err_missing.replace(':list', miss.join(', ')));
    const nt=p.querySelector('#c_note').value.trim();if(nt){data.note={text:nt};found.add('note');document.querySelector('.hid[data-f="note"]').classList.add('found');sync(byId.note)}else if(data.note){delete data.note;sync(byId.note)}
    data[f.id]={c}}
   close(true)};
@@ -325,15 +317,15 @@ function openPanel(f,from){busy=true;const stage=$('#stage');const bd=document.c
    if(e.shiftKey&&i===0){e.preventDefault();fs[fs.length-1].focus()}else if(!e.shiftKey&&i===fs.length-1){e.preventDefault();fs[0].focus()}}});
 }
 function sync(f){const s=document.querySelector(`.slot[data-id="${f.id}"]`),isF=found.has(f.id);s.classList.toggle('found',isF);s.classList.toggle('done',!!data[f.id]);
- s.querySelector('[data-s]').textContent=data[f.id]?short(f):(isF?'Chạm để chọn':'Chưa tìm thấy');
- s.setAttribute('aria-label',`${f.label}${f.req?' (bắt buộc)':''}. ${data[f.id]?'Đã cất giữ.':isF?'Đã tìm thấy, chưa chọn.':'Chưa tìm thấy, chạm để xem gợi ý.'}`);
- const g=document.querySelector(`.hid[data-f="${f.id}"]`);g.setAttribute('aria-label',isF?`${f.obj}: ${f.label}`:'Món đồ ẩn');update()}
+ s.querySelector('[data-s]').textContent=data[f.id]?short(f):(isF?@json(__('mystery.ui.tap_to_choose')):@json(__('mystery.ui.not_found')));
+ s.setAttribute('aria-label',`${f.label}${f.req?' ('+@json(__('mystery.ui.required_label'))+')':''}. ${data[f.id]?@json(__('mystery.ui.stored_label')):isF?@json(__('mystery.ui.found_label')):@json(__('mystery.ui.hint_label'))}`);
+ const g=document.querySelector(`.hid[data-f="${f.id}"]`);g.setAttribute('aria-label',isF?`${f.obj}: ${f.label}`:@json(__('mystery.ui.hidden_item_aria')));update()}
 function update(){const n=found.size,filled=FIELDS.filter(f=>data[f.id]).length,ok=FIELDS.filter(f=>f.req).every(f=>data[f.id]);
- $('#ptext').textContent=`Đã tìm thấy ${n}/${FIELDS.length} món đồ · đã cất giữ ${filled} điều`+(ok?' · sẵn sàng niêm phong':'');$('#send').disabled=!ok}
-FIELDS.forEach(f=>{document.querySelector(`.slot[data-id="${f.id}"] [data-s]`).textContent='Chưa tìm thấy'});
+ $('#ptext').textContent=T.status_found.replace(':found',n).replace(':total',FIELDS.length).replace(':filled',filled)+(ok?T.status_ready:'');$('#send').disabled=!ok}
+FIELDS.forEach(f=>{document.querySelector(`.slot[data-id="${f.id}"] [data-s]`).textContent=@json(__('mystery.ui.not_found'))});
 async function onSubmit(payload){
  const c=payload.confirm.c;
- const note=[payload.interest?.extra&&`Sở thích thêm: ${payload.interest.extra}`,payload.note?.text].filter(Boolean).join('\n')||null;
+ const note=[payload.interest?.extra&&`${@json(__('mystery.ui.extra_note_prefix'))}${payload.interest.extra}`,payload.note?.text].filter(Boolean).join('\n')||null;
  const body={
   name:c.name,phone:c.phone,style:payload.style.sel[0],colors:payload.color.sel,
   preferences:payload.interest?.sel||[],flower_preferences:payload.flower?.sel||[],
@@ -343,9 +335,9 @@ async function onSubmit(payload){
  try{
   const response=await fetch('{{ localized_route('mystery-box.store') }}',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').content},body:JSON.stringify(body)});
   const result=await response.json();
-  if(!response.ok){alert(result.message||Object.values(result.errors||{})[0]?.[0]||'Không thể gửi yêu cầu.');return}
+  if(!response.ok){alert(result.message||Object.values(result.errors||{})[0]?.[0]||@json(__('mystery.ui.err_send_failed')));return}
   window.location.href=result.redirect;
- }catch(error){alert('Không thể kết nối. Vui lòng thử lại.');}
+ }catch(error){alert(@json(__('mystery.ui.err_network')));}
 }
 $('#send').onclick=async event=>{event.currentTarget.disabled=true;try{await onSubmit(JSON.parse(JSON.stringify(data)))}finally{update()}};
 update();

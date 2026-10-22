@@ -1,0 +1,152 @@
+<?php
+
+return [
+    'open_all' => 'Expand all',
+    'close_all' => 'Collapse all',
+    'contents' => 'Contents',
+    'help' => 'Need help?',
+    'help_text' => 'Lam Nhien Thao is always ready to listen and help.',
+    'footer' => 'From special places to beautiful destinations',
+    'privacy' => [
+        'title' => 'Privacy policy',
+        'eyebrow' => 'PRIVACY',
+        'intro' => 'Lam Nhien Thao values your trust and is committed to protecting your privacy and personal information while you use our website and services.',
+        'updated' => 'Last updated',
+        'default_date' => 'September 2026',
+        'pass_label' => 'PRIVACY',
+        'protected' => 'PROTECTED',
+        'hint' => 'Hover over or tap each field to see how the information is used',
+        'section_count' => '08 SECTIONS',
+        'rights_contact' => 'To exercise any of these rights, please contact us using the details in',
+        'section_8' => 'Section 8',
+        'fields' => [
+            ['label' => 'FULL NAME', 'purpose' => 'To confirm and process orders'],
+            ['label' => 'PHONE · EMAIL', 'purpose' => 'To advise, support and assist you'],
+            ['label' => 'DELIVERY ADDRESS', 'purpose' => 'To deliver flowers to the right place on time'],
+            ['label' => 'ZALO ID', 'purpose' => 'When you contact us through Zalo'],
+            ['label' => 'MESSAGES', 'purpose' => 'To improve our products and services'],
+        ],
+        'sections' => [
+            [
+                'title' => 'Scope',
+                'tldr' => 'This policy covers information collected through the website, online contact channels including Zalo, and the ordering process.',
+                'paragraphs' => ['This policy applies to all personal information Lam Nhien Thao collects through the website, online contact channels including Zalo, and customer orders and transactions.'],
+            ],
+            [
+                'title' => 'Information we collect',
+                'tldr' => 'Name, phone number, email, delivery address, Zalo ID and the content of your communications.',
+                'paragraphs' => ['When you use our services, we may collect the following information:'],
+                'items' => ['Full name', 'Phone number and email address', 'Delivery address', 'Zalo ID when you contact us through that channel', 'Messages, consultation details and order requests'],
+            ],
+            [
+                'title' => 'How we use information',
+                'tldr' => 'We use it only to process orders, support you, deliver flowers on time and improve our services.',
+                'paragraphs' => ['We collect personal information for the following purposes:'],
+                'items' => ['Confirming, processing and fulfilling orders as requested', 'Providing advice, customer care and support before, during and after a purchase', 'Delivering flowers to the agreed address and on time', 'Recording feedback to improve product and service quality'],
+                'after' => 'We use personal information only for the purposes listed above, unless otherwise required by law or agreed by you.',
+            ],
+            [
+                'title' => 'Sharing information with third parties',
+                'tldr' => 'We do not sell, rent or trade your information; we share it with delivery partners only as needed to complete delivery.',
+                'paragraphs' => ['Lam Nhien Thao does not sell, rent or trade your personal information to third parties for commercial purposes. We share personal information with delivery partners only to the extent needed to complete delivery, and those partners are required to protect it under their agreements with us.'],
+            ],
+            [
+                'title' => 'Data security',
+                'tldr' => 'We apply appropriate technical and organisational measures to protect your information.',
+                'paragraphs' => ['We apply appropriate technical and organisational measures to protect your personal information from unauthorised access, misuse, alteration or disclosure.'],
+            ],
+            [
+                'title' => 'Your rights',
+                'tldr' => 'You may view, correct or request deletion of your personal information.',
+                'paragraphs' => ['You have the right to:'],
+                'items' => ['Request access to and review the personal information we hold', 'Request correction or updating of inaccurate information', 'Request deletion of your personal information from our systems'],
+            ],
+            [
+                'title' => 'Changes to this policy',
+                'tldr' => 'This policy may be updated; the new version will be published with its update date.',
+                'paragraphs' => ['Lam Nhien Thao may amend or update this Privacy Policy to reflect changes in its business, website systems or applicable law.', 'The updated version will be published on the website together with its update date. Continued use of the website after an update means that the customer has had access to the new policy.'],
+            ],
+            [
+                'title' => 'Contact information',
+                'paragraphs' => ['If you have any questions about this Privacy Policy, please use the latest contact information below.'],
+            ],
+        ],
+    ],
+    'terms' => [
+        'title' => 'Terms of service',
+        'eyebrow' => 'INFORMATION',
+        'intro' => 'Welcome to the Lam Nhien Thao website. Please read these terms carefully when using services provided by LNT.',
+        'visa_aria' => 'Illustrated Flower Entry visa for imported fresh flowers',
+        'type' => 'TYPE',
+        'imported_flowers' => 'Imported fresh flowers',
+        'origin' => 'ORIGIN',
+        'distant_gardens' => 'Gardens around the world',
+        'destination' => 'DESTINATION',
+        'your_space' => 'Your space',
+        'validity' => 'VALID FOR',
+        'every_order' => 'Every order',
+        'approved' => 'APPROVED',
+        'section_count' => '07 SECTIONS',
+        'delivery_more' => 'See details in our',
+        'returns_prefix' => 'Returns and refunds are handled under the',
+        'returns_link' => 'Returns & Refunds Policy',
+        'returns_suffix' => 'published on this website.',
+        'sections' => [
+            [
+                'title' => 'Acceptance of terms',
+                'tldr' => 'By continuing to use the website or services, you agree to the current terms.',
+                'paragraphs' => ['By continuing to use the website or services, you confirm that you agree to comply with the current terms.'],
+            ],
+            [
+                'title' => 'Products and services',
+                'tldr' => 'Actual flowers may differ slightly from the images; LNT will contact you before making any significant change.',
+                'paragraphs' => [
+                    'LNT makes every effort to provide accurate, complete and up-to-date product images, information and descriptions.',
+                    'Fresh flowers are natural products, so there may be differences between seasons, shipments and harvest times. Colour, size, bloom stage, shape, stem count and the actual condition of the flowers may vary slightly from the images shown on the website.',
+                    'For imported flowers, availability, seasonality, weather, transport and other external factors may affect supply or delivery times.',
+                    'If a product is unavailable or its quality changes significantly, LNT will contact you to agree on a suitable solution before fulfilling the order.',
+                ],
+            ],
+            [
+                'title' => 'Orders and payment',
+                'tldr' => 'Orders are confirmed by Zalo or phone; payment is accepted in cash or by bank transfer.',
+                'items' => [
+                    'Every order must be confirmed by Zalo or phone before it is fulfilled.',
+                    'We accept cash and bank transfer payments.',
+                    'An order is officially confirmed only after payment is completed or as otherwise agreed by both parties.',
+                    'Product prices may change according to season and flower availability, especially for imported flowers.',
+                ],
+            ],
+            [
+                'title' => 'Delivery',
+                'tldr' => 'Delivery times and fees are agreed when the order is placed.',
+                'items' => [
+                    'Delivery times and fees will be agreed at the time of ordering.',
+                    'We are not responsible for delivery delays caused by natural disasters, traffic conditions or other events beyond our reasonable control.',
+                    'Please ensure someone is available at the delivery address at the agreed time, or tell us in advance who will receive the order instead.',
+                ],
+            ],
+            [
+                'title' => 'Returns, refunds and complaints',
+                'tldr' => 'We do not accept returns due to a change of mind after delivery; if LNT is responsible for an issue, we will review it and offer an appropriate solution.',
+                'paragraphs' => [
+                    'Fresh flowers have a short lifespan and their quality depends on storage conditions. LNT therefore does not accept returns solely because a customer changes their mind after an order has been delivered and accepted.',
+                    'If the delivered product does not match the confirmed order, or if an issue is LNT’s responsibility, please contact us promptly so we can review it and offer an appropriate solution.',
+                    'Depending on the circumstances, support may include a replacement, additional products, a partial or full refund of the relevant amount, or another solution agreed by both parties.',
+                ],
+            ],
+            [
+                'title' => 'Changes to these terms',
+                'tldr' => 'These terms may be updated when necessary; the new version will be published with its update date.',
+                'paragraphs' => [
+                    'LNT may amend or update these Terms of Service when necessary to reflect its business operations, services or applicable law.',
+                    'The updated version will be published on the website together with its update date.',
+                ],
+            ],
+            [
+                'title' => 'Contact information',
+                'paragraphs' => ['If you have any questions about these Terms of Service, please use the latest contact information below.'],
+            ],
+        ],
+    ],
+];

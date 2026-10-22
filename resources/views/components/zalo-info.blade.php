@@ -14,8 +14,8 @@
             <path d="M24 10C16.268 10 10 15.82 10 23c0 3.398 1.478 6.467 3.846 8.723L12 38l6.744-2.115C20.136 36.628 22.017 37 24 37c7.732 0 14-5.82 14-13s-6.268-13-14-13z" fill="white"/>
         </svg>
         <div>
-            <h3 class="zalo-title">Nhận thông báo qua Zalo</h3>
-            <p class="zalo-subtitle">Cập nhật trạng thái đơn hàng nhanh chóng</p>
+            <h3 class="zalo-title">{{ __('storefront.zalo_updates') }}</h3>
+            <p class="zalo-subtitle">{{ __('storefront.order_status_updates') }}</p>
         </div>
     </div>
 
@@ -25,25 +25,25 @@
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
-                <span>Xác nhận đơn hàng tức thì</span>
+                <span>{{ __('storefront.instant_confirmation') }}</span>
             </div>
             <div class="benefit-item">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
-                <span>Theo dõi tiến trình giao hàng</span>
+                <span>{{ __('storefront.track_delivery') }}</span>
             </div>
             <div class="benefit-item">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
-                <span>Hỗ trợ và tư vấn nhanh chóng</span>
+                <span>{{ __('storefront.fast_support') }}</span>
             </div>
         </div>
 
         @if($showQr && isset($settings['zalo_qr']) && $settings['zalo_qr'])
             <div class="zalo-qr-section">
-                <p class="zalo-qr-label">Quét mã QR để kết nối với chúng tôi:</p>
+                <p class="zalo-qr-label">{{ __('storefront.scan_qr') }}</p>
                 <div class="zalo-qr-code">
                     <img src="{{ asset('storage/' . $settings['zalo_qr']) }}" alt="Zalo QR Code">
                 </div>
@@ -53,7 +53,7 @@
                             <rect width="48" height="48" rx="12" fill="currentColor"/>
                             <path d="M24 10C16.268 10 10 15.82 10 23c0 3.398 1.478 6.467 3.846 8.723L12 38l6.744-2.115C20.136 36.628 22.017 37 24 37c7.732 0 14-5.82 14-13s-6.268-13-14-13z" fill="white"/>
                         </svg>
-                        Mở Zalo
+                        {{ __('storefront.open_zalo') }}
                     </a>
                 @endif
             </div>
@@ -61,16 +61,16 @@
 
         <div class="zalo-how-to">
             <details>
-                <summary>Làm thế nào để lấy Zalo ID của tôi?</summary>
+                <summary>{{ __('storefront.get_zalo_id') }}</summary>
                 <div class="how-to-content">
                     <ol>
-                        <li>Mở ứng dụng <strong>Zalo</strong> trên điện thoại</li>
-                        <li>Vào <strong>Cá nhân</strong> (biểu tượng người ở góc phải dưới)</li>
-                        <li>Nhấn vào <strong>Cài đặt</strong> (biểu tượng bánh răng)</li>
-                        <li>Chọn <strong>Tài khoản và bảo mật</strong></li>
-                        <li>Xem <strong>Zalo ID</strong> của bạn (thường là số điện thoại hoặc tên người dùng)</li>
+                        <li>{{ __('storefront.open_zalo_app') }}</li>
+                        <li>{{ __('storefront.personal_tab') }}</li>
+                        <li>{{ __('storefront.settings') }}</li>
+                        <li>{{ __('storefront.account_security') }}</li>
+                        <li>{{ __('storefront.find_zalo_id') }}</li>
                     </ol>
-                    <p class="note">💡 <strong>Mẹo:</strong> Bạn có thể điền số điện thoại đã đăng ký Zalo thay cho Zalo ID</p>
+                    <p class="note">💡 <strong>{{ __('storefront.tip') }}</strong> {{ __('storefront.zalo_phone_tip') }}</p>
                 </div>
             </details>
         </div>
@@ -85,8 +85,8 @@
         <path d="M24 10C16.268 10 10 15.82 10 23c0 3.398 1.478 6.467 3.846 8.723L12 38l6.744-2.115C20.136 36.628 22.017 37 24 37c7.732 0 14-5.82 14-13s-6.268-13-14-13z" fill="white"/>
     </svg>
     <div class="zalo-compact-text">
-        <strong>Nhận thông báo qua Zalo</strong>
-        <p>Nhập Zalo ID để nhận xác nhận đơn hàng và cập nhật giao hàng</p>
+        <strong>{{ __('storefront.zalo_updates') }}</strong>
+        <p>{{ __('storefront.enter_zalo_id') }}</p>
     </div>
 </div>
 @endif

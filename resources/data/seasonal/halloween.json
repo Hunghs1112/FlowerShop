@@ -3,62 +3,85 @@
   "code": "HLW",
   "theme": "night",
   "name": "Halloween",
+  "name_en": "Halloween",
   "tagline": "Chuyến bay đêm 31/10",
+  "tagline_en": "Night flight 31/10",
   "status": "Mở đặt trước",
+  "status_en": "Pre-order open",
   "date": "2026-10-31",
   "img": "/images/seasonal/hlw_hero.jpg",
   "intro": "Đêm 31/10, những đoá hoa khoác lên mình sắc cam, đỏ thẫm và tím đêm. Đặt sớm để nhận hoa đúng đêm hội.",
+  "intro_en": "On the night of 31/10, flowers take on tones of orange, deep red, and midnight purple. Order early to receive your flowers on the night of the festival.",
   "products": [
     {
       "name": "Pincushion cam lửa",
+      "name_en": "Fire orange pincushion",
       "origin": "Nam Phi",
+      "origin_en": "South Africa",
       "code": "CPT",
       "img": "/images/seasonal/hlw1.jpg",
       "link": "#",
-      "badge": "ĐÊM HỘI"
+      "badge": "ĐÊM HỘI",
+      "badge_en": "NIGHT FESTIVAL"
     },
     {
       "name": "Hồng đỏ thẫm",
+      "name_en": "Deep red rose",
       "origin": "Ecuador",
+      "origin_en": "Ecuador",
       "code": "UIO",
       "img": "/images/seasonal/hlw2.jpg",
       "link": "#",
-      "badge": ""
+      "badge": "",
+      "badge_en": ""
     },
     {
       "name": "Cẩm chướng tím đêm",
+      "name_en": "Midnight purple carnation",
       "origin": "Colombia",
+      "origin_en": "Colombia",
       "code": "BOG",
       "img": "/images/seasonal/hlw3.jpg",
       "link": "#",
-      "badge": ""
+      "badge": "",
+      "badge_en": ""
     },
     {
       "name": "Protea vua",
+      "name_en": "King protea",
       "origin": "Nam Phi",
+      "origin_en": "South Africa",
       "code": "CPT",
       "img": "/images/seasonal/hlw4.jpg",
       "link": "#",
-      "badge": "BÍ ẨN"
+      "badge": "BÍ ẨN",
+      "badge_en": "MYSTERY"
     }
   ],
   "trickTreat": {
     "title": "Hộp hoa bí ẩn · Trick or Treat",
+    "title_en": "Mystery flower box · Trick or Treat",
     "intro": "Chọn một lá bài. Bạn sẽ không biết trước loài hoa, chỉ biết tinh thần của chiếc hộp.",
+    "intro_en": "Pick a card. You won't know the flowers in advance — only the spirit of the box.",
     "trick": {
       "label": "TRICK",
       "title": "Tinh nghịch, phá cách",
-      "desc": "Tông tối, đỏ thẫm và cam lửa, phom dáng bất ngờ."
+      "title_en": "Bold and surprising",
+      "desc": "Tông tối, đỏ thẫm và cam lửa, phom dáng bất ngờ.",
+      "desc_en": "Dark tones, deep red and fiery orange, unexpected shapes."
     },
     "treat": {
       "label": "TREAT",
       "title": "Ngọt ngào, dịu dàng",
-      "desc": "Tông hồng đào, cam sữa, nhiều lớp cánh mềm."
+      "title_en": "Sweet and gentle",
+      "desc": "Tông hồng đào, cam sữa, nhiều lớp cánh mềm.",
+      "desc_en": "Peach and milky orange tones, many layers of soft petals."
     },
     "link": "/hop-hoa-bi-an"
   },
   "cta": {
     "label": "Đặt hoa Halloween",
+    "label_en": "Order Halloween flowers",
     "link": "/san-pham"
   },
   "url": "/mua-le-hoi/halloween"

@@ -3,95 +3,76 @@
   "code": "CPH",
   "theme": "nordic",
   "name": "Cây thông Đan Mạch",
+  "name_en": "Danish Christmas tree",
   "tagline": "Chuyến bay từ Bắc Âu · CPH → HAN",
+  "tagline_en": "Flight from Northern Europe · CPH → HAN",
   "status": "Mở đặt trước",
+  "status_en": "Pre-order open",
   "date": "2026-12-25",
   "img": "",
   "intro": "Thông Nordmann nhập từ Đan Mạch, tán dày, lá mềm, xanh lâu và hương gỗ thông dịu nhẹ cho mùa Giáng sinh. Số lượng mỗi chuyến có hạn, đặt trước để giữ cây.",
+  "intro_en": "Nordmann fir imported from Denmark — dense canopy, soft needles, long-lasting freshness, and a gentle pine scent for the Christmas season. Quantities per shipment are limited; pre-order to secure your tree.",
   "tree": {
     "deadline": "2026-11-20",
     "arrival": "[ngày hàng về dự kiến]",
+    "arrival_en": "[expected delivery date]",
     "deposit": "[mức cọc, ví dụ 50%]",
+    "deposit_en": "[deposit amount, e.g. 50%]",
     "sizes": [
-      {
-        "cm_min": 100,
-        "cm_max": 125,
-        "price": ""
-      },
-      {
-        "cm_min": 125,
-        "cm_max": 150,
-        "price": ""
-      },
-      {
-        "cm_min": 150,
-        "cm_max": 175,
-        "price": ""
-      },
-      {
-        "cm_min": 175,
-        "cm_max": 200,
-        "price": ""
-      },
-      {
-        "cm_min": 200,
-        "cm_max": 225,
-        "price": ""
-      },
-      {
-        "cm_min": 225,
-        "cm_max": 250,
-        "price": ""
-      }
+      {"cm_min": 100, "cm_max": 125, "price": ""},
+      {"cm_min": 125, "cm_max": 150, "price": ""},
+      {"cm_min": 150, "cm_max": 175, "price": ""},
+      {"cm_min": 175, "cm_max": 200, "price": ""},
+      {"cm_min": 200, "cm_max": 225, "price": ""},
+      {"cm_min": 225, "cm_max": 250, "price": ""}
     ],
     "addons": [
       {
         "name": "Giao & dựng cây tại nhà",
+        "name_en": "Delivery & setup at home",
         "price": ""
       },
       {
         "name": "Trang trí tại nhà theo bộ đã chọn",
+        "name_en": "In-home decoration with chosen set",
         "price": ""
       },
       {
         "name": "Thu gom cây sau mùa lễ",
+        "name_en": "Tree collection after the season",
         "price": ""
       }
     ],
     "packages": {
       "title": "Bộ trang trí trọn gói",
+      "title_en": "All-in-one decoration set",
       "intro": "Chọn một tông màu, LNT chuẩn bị đủ bộ đồ trang trí hợp với cỡ cây.",
+      "intro_en": "Choose a color tone and LNT will prepare a complete decoration set to match your tree size.",
       "items": [
         {
           "name": "Đỏ cổ điển",
+          "name_en": "Classic red",
           "desc": "Quả châu đỏ nhung, ruy băng đỏ, đèn vàng ấm",
-          "colors": [
-            "#8E1F2B",
-            "#C9A24A",
-            "#F3E2C2"
-          ],
+          "desc_en": "Velvet red baubles, red ribbon, warm yellow lights",
+          "colors": ["#8E1F2B", "#C9A24A", "#F3E2C2"],
           "price": "",
           "img": ""
         },
         {
           "name": "Vàng đồng",
+          "name_en": "Copper gold",
           "desc": "Quả châu đồng, vàng sâm panh, đèn vàng ấm",
-          "colors": [
-            "#B07A52",
-            "#D9B36A",
-            "#F4E8DC"
-          ],
+          "desc_en": "Copper baubles, champagne gold, warm yellow lights",
+          "colors": ["#B07A52", "#D9B36A", "#F4E8DC"],
           "price": "",
           "img": ""
         },
         {
           "name": "Bạc tuyết",
+          "name_en": "Silver snow",
           "desc": "Quả châu trắng bạc, ruy băng kem, đèn trắng",
-          "colors": [
-            "#E9EEF0",
-            "#B9C4C9",
-            "#FFFFFF"
-          ],
+          "desc_en": "Silver-white baubles, cream ribbon, white lights",
+          "colors": ["#E9EEF0", "#B9C4C9", "#FFFFFF"],
           "price": "",
           "img": ""
         }
@@ -100,121 +81,63 @@
     "accessories": [
       {
         "group": "Đồ trang trí cây",
+        "group_en": "Tree decorations",
         "items": [
-          {
-            "name": "Bộ quả châu (12 quả)",
-            "desc": "Nhiều tông màu",
-            "icon": "chau",
-            "price": "",
-            "img": ""
-          },
-          {
-            "name": "Dây đèn LED 10 m",
-            "desc": "Ánh vàng ấm, ít toả nhiệt",
-            "icon": "den",
-            "price": "",
-            "img": ""
-          },
-          {
-            "name": "Ngôi sao đỉnh cây",
-            "desc": "Đồng ánh kim",
-            "icon": "sao",
-            "price": "",
-            "img": ""
-          },
-          {
-            "name": "Ruy băng nhung",
-            "desc": "Cuộn 5 m",
-            "icon": "ruybang",
-            "price": "",
-            "img": ""
-          },
-          {
-            "name": "Quả thông khô",
-            "desc": "Túi 10 quả",
-            "icon": "thong",
-            "price": "",
-            "img": ""
-          }
+          {"name": "Bộ quả châu (12 quả)", "name_en": "Bauble set (12 pieces)", "desc": "Nhiều tông màu", "desc_en": "Multiple color tones", "icon": "chau", "price": "", "img": ""},
+          {"name": "Dây đèn LED 10 m", "name_en": "10 m LED light string", "desc": "Ánh vàng ấm, ít toả nhiệt", "desc_en": "Warm golden glow, low heat", "icon": "den", "price": "", "img": ""},
+          {"name": "Ngôi sao đỉnh cây", "name_en": "Tree-top star", "desc": "Đồng ánh kim", "desc_en": "Metallic bronze", "icon": "sao", "price": "", "img": ""},
+          {"name": "Ruy băng nhung", "name_en": "Velvet ribbon", "desc": "Cuộn 5 m", "desc_en": "5 m roll", "icon": "ruybang", "price": "", "img": ""},
+          {"name": "Quả thông khô", "name_en": "Dried pine cones", "desc": "Túi 10 quả", "desc_en": "Bag of 10", "icon": "thong", "price": "", "img": ""}
         ]
       },
       {
         "group": "Phụ kiện cho cây",
+        "group_en": "Tree accessories",
         "items": [
-          {
-            "name": "Chân đế giữ nước",
-            "desc": "Giữ cây đứng vững, tươi lâu",
-            "icon": "de",
-            "price": "",
-            "img": ""
-          },
-          {
-            "name": "Thảm chân cây",
-            "desc": "Che chân đế, đặt quà",
-            "icon": "tham",
-            "price": "",
-            "img": ""
-          },
-          {
-            "name": "Vòng nguyệt quế thông tươi",
-            "desc": "Treo cửa",
-            "icon": "vong",
-            "price": "",
-            "img": ""
-          },
-          {
-            "name": "Hộp quà trang trí",
-            "desc": "Bộ 3 hộp",
-            "icon": "hop",
-            "price": "",
-            "img": ""
-          }
+          {"name": "Chân đế giữ nước", "name_en": "Water-holding stand", "desc": "Giữ cây đứng vững, tươi lâu", "desc_en": "Keeps the tree upright and fresh longer", "icon": "de", "price": "", "img": ""},
+          {"name": "Thảm chân cây", "name_en": "Tree skirt", "desc": "Che chân đế, đặt quà", "desc_en": "Covers the stand, place gifts underneath", "icon": "tham", "price": "", "img": ""},
+          {"name": "Vòng nguyệt quế thông tươi", "name_en": "Fresh pine wreath", "desc": "Treo cửa", "desc_en": "Door hanging", "icon": "vong", "price": "", "img": ""},
+          {"name": "Hộp quà trang trí", "name_en": "Decorative gift boxes", "desc": "Bộ 3 hộp", "desc_en": "Set of 3 boxes", "icon": "hop", "price": "", "img": ""}
         ]
       }
     ],
     "faq": [
       {
         "q": "Khi nào cây về và được giao?",
-        "a": "[Câu trả lời của shop]"
+        "q_en": "When will the trees arrive and be delivered?",
+        "a": "[Câu trả lời của shop]",
+        "a_en": "[Shop answer]"
       },
       {
         "q": "Đặt cọc và thanh toán như thế nào?",
-        "a": "[Câu trả lời của shop]"
+        "q_en": "How does the deposit and payment work?",
+        "a": "[Câu trả lời của shop]",
+        "a_en": "[Shop answer]"
       },
       {
         "q": "Cây giữ được bao lâu?",
-        "a": "[Câu trả lời của shop]"
+        "q_en": "How long will the tree stay fresh?",
+        "a": "[Câu trả lời của shop]",
+        "a_en": "[Shop answer]"
       },
       {
         "q": "Có giao ngoài Hà Nội không?",
-        "a": "[Câu trả lời của shop]"
+        "q_en": "Do you deliver outside Hanoi?",
+        "a": "[Câu trả lời của shop]",
+        "a_en": "[Shop answer]"
       }
     ],
     "care": [
-      [
-        "Tên",
-        "Thông Nordmann · Đan Mạch"
-      ],
-      [
-        "Vị trí",
-        "Nơi thoáng mát, tránh nắng gắt, lò sưởi và điều hoà thổi trực tiếp"
-      ],
-      [
-        "Nước",
-        "Giữ chân đế luôn có nước, kiểm tra mỗi ngày"
-      ],
-      [
-        "Cắt gốc",
-        "[Hướng dẫn của shop]"
-      ],
-      [
-        "Đèn",
-        "Dùng đèn LED ít toả nhiệt"
-      ]
+      ["Tên", "Thông Nordmann · Đan Mạch", "Name", "Nordmann fir · Denmark"],
+      ["Vị trí", "Nơi thoáng mát, tránh nắng gắt, lò sưởi và điều hoà thổi trực tiếp", "Placement", "Cool spot, away from direct sunlight, heaters, and air-con drafts"],
+      ["Nước", "Giữ chân đế luôn có nước, kiểm tra mỗi ngày", "Water", "Keep the stand topped up with water, check daily"],
+      ["Cắt gốc", "[Hướng dẫn của shop]", "Cutting the base", "[Shop guidance]"],
+      ["Đèn", "Dùng đèn LED ít toả nhiệt", "Lights", "Use low-heat LED lights"]
     ]
   },
   "cta": {
     "label": "Đặt trước cây thông",
+    "label_en": "Pre-order your tree",
     "link": "#dat-truoc"
   },
   "url": "/mua-le-hoi/cay-thong-dan-mach"
