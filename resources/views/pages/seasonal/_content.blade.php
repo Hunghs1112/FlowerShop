@@ -14,6 +14,7 @@
     <script>
         window.LNT_SEASON_CONFIG = @json($seasonConfig);
         window.LNT_SEASON_VIEW = @json($seasonView);
+        window.LNT_SEASON_COPY = @json(__('seasonal.js'));
     </script>
     <script src="{{ asset('js/seasonal.js') }}?v={{ filemtime(public_path('js/seasonal.js')) }}"></script>
 @endpush

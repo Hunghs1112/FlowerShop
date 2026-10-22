@@ -36,6 +36,17 @@ class SeasonalRoutesTest extends TestCase
         $this->get('/trang/phu-kien-cay-thong')->assertRedirect('/phu-kien-cay-thong');
     }
 
+    public function test_english_tree_page_localizes_template_copy_and_faq(): void
+    {
+        $this->get('/en/mua-le-hoi/cay-thong-dan-mach')
+            ->assertOk()
+            ->assertSee('YOUR PLACE ON THE CPH')
+            ->assertSee('When will the trees arrive and be delivered?')
+            ->assertSee('Choose a tree height')
+            ->assertDontSee('ĐÃ GIỮ CHỖ TRÊN CHUYẾN CPH')
+            ->assertDontSee('Chọn chiều cao cây');
+    }
+
     public function test_tree_preorder_is_saved_and_invalid_input_is_rejected(): void
     {
         $payload = [
@@ -61,6 +72,21 @@ class SeasonalRoutesTest extends TestCase
         $this->postJson('/mua-le-hoi/dat-truoc', [...$payload, 'size' => '5 m'])
             ->assertUnprocessable();
         $this->assertDatabaseCount('inquiries', 1);
+    }
+
+    public function test_english_tree_preorder_accepts_localized_package_names(): void
+    {
+        $this->postJson('/en/mua-le-hoi/dat-truoc', [
+            'season_slug' => 'mua-le-hoi',
+            'size' => '175-200 cm',
+            'accessories' => ['Set Classic red'],
+            'addons' => ['Delivery & setup at home'],
+            'name' => 'Alex Nguyen',
+            'phone' => '0901234567',
+            'address' => 'Hanoi',
+        ])->assertCreated();
+
+        $this->assertDatabaseHas('inquiries', ['name' => 'Alex Nguyen']);
     }
 
     public function test_hub_uses_the_season_image_managed_in_admin(): void

@@ -237,7 +237,9 @@ class PageController extends Controller
                 }
                 $tree['faq'] = collect($tree['faq'] ?? [])->map(fn ($item) => [
                     'q' => $item['q'] ?? $item['question'] ?? '',
+                    'q_en' => $item['q_en'] ?? $item['question_en'] ?? $item['q'] ?? $item['question'] ?? '',
                     'a' => $item['a'] ?? $item['answer'] ?? '',
+                    'a_en' => $item['a_en'] ?? $item['answer_en'] ?? $item['a'] ?? $item['answer'] ?? '',
                 ])->all();
             }
 
@@ -325,7 +327,7 @@ class PageController extends Controller
         $treeSeason = collect($seasonConfig['seasons'] ?? [])->first(fn ($season) => isset($season['tree']));
         $tree = $treeSeason['tree'] ?? [];
         $accessoryNames = collect($tree['accessories'] ?? [])->flatMap(fn ($group) => collect($group['items'] ?? [])->pluck('name')
-        )->merge(collect($tree['packages']['items'] ?? [])->pluck('name')->map(fn ($name) => "Bộ {$name}"))->all();
+        )->merge(collect($tree['packages']['items'] ?? [])->pluck('name')->map(fn ($name) => __('seasonal.js.package_prefix').$name))->all();
         $addonNames = collect($tree['addons'] ?? [])->pluck('name')->all();
 
         $validSizes = collect($tree['sizes'] ?? [])->map(function ($s) {

@@ -107,6 +107,16 @@ class LocalizationTest extends TestCase
             $this->get($url)->assertOk()->assertSee($copy);
         }
 
+        $this->get('/en/huong-dan-dat-hang')
+            ->assertSee('Choose flowers')
+            ->assertDontSee('Thêm vào giỏ hàng');
+        $this->get('/en/chinh-sach-giao-hang')
+            ->assertSee('Delivery areas')
+            ->assertDontSee('Khu vực giao hàng');
+        $this->get('/en/chinh-sach-cua-chung-toi')
+            ->assertSee('About fresh flowers')
+            ->assertDontSee('Về sản phẩm hoa tươi');
+
         $user = User::factory()->create();
         $this->actingAs($user)
             ->get('/en/hop-hoa-bi-an')
