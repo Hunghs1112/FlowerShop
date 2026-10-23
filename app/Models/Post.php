@@ -30,6 +30,7 @@ class Post extends Model
         'thumbnail',
         'is_published',
         'published_at',
+        'sort_order',
         'author_id',
         'meta_title',
         'meta_description',
@@ -52,6 +53,15 @@ class Post extends Model
         return $query->where('is_published', true)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
+    }
+
+    public function scopeDisplayOrder($query)
+    {
+        return $query
+            ->orderByRaw('CASE WHEN sort_order = 0 THEN 1 ELSE 0 END')
+            ->orderBy('sort_order')
+            ->latest('published_at')
+            ->latest('id');
     }
 
     // Helpers

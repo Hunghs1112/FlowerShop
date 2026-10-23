@@ -74,6 +74,7 @@ class PostController extends Controller
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'is_published' => 'boolean',
+            'sort_order' => 'required|integer|min:0',
         ];
 
         return $this->ajaxFieldService->handleAjaxFieldUpdate(
@@ -105,7 +106,7 @@ class PostController extends Controller
             $query->where('is_published', $filters['is_published']);
         }
 
-        $posts = $query->latest()->paginate(15);
+        $posts = $query->displayOrder()->paginate(15);
 
         return view('admin.posts.index', compact('posts', 'filters'));
     }

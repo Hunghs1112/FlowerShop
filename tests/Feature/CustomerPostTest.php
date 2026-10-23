@@ -65,6 +65,27 @@ class CustomerPostTest extends TestCase
             ->assertSee('feedback từ khách hàng', false);
     }
 
+    public function test_home_and_blog_use_configured_display_order(): void
+    {
+        $auto = Post::create([
+            'title' => 'Automatic', 'slug' => 'automatic', 'content' => 'Content', 'category' => 'cam-hung',
+            'is_published' => true, 'published_at' => now(), 'sort_order' => 0,
+        ]);
+        $third = Post::create([
+            'title' => 'Third', 'slug' => 'third', 'content' => 'Content', 'category' => 'cam-hung',
+            'is_published' => true, 'published_at' => now()->subDay(), 'sort_order' => 30,
+        ]);
+        $first = Post::create([
+            'title' => 'First', 'slug' => 'first', 'content' => 'Content', 'category' => 'cam-hung',
+            'is_published' => true, 'published_at' => now()->subDays(2), 'sort_order' => 10,
+        ]);
+
+        $expected = [$first->id, $third->id, $auto->id];
+
+        $this->get(route('home'))->assertViewHas('latestPosts', fn ($posts) => $posts->modelKeys() === $expected);
+        $this->get(route('blog.index'))->assertViewHas('posts', fn ($posts) => $posts->getCollection()->modelKeys() === $expected);
+    }
+
     public function test_empty_feedback_category_shows_the_standard_empty_state(): void
     {
         $this->get(route('blog.index', ['category' => 'du-an']))

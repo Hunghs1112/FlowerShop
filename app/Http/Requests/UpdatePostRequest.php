@@ -32,6 +32,7 @@ class UpdatePostRequest extends FormRequest
             'thumbnail' => "nullable|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'status' => ['required', Rule::in(['draft', 'published'])],
             'published_at' => 'nullable|date',
+            'sort_order' => 'nullable|integer|min:0',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
         ];

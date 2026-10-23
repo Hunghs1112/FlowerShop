@@ -178,6 +178,19 @@ $isEdit = isset($isEdit) ? $isEdit : false;
                                style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống để xuất bản ngay</small>
                     </div>
+
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Thứ Tự Hiển Thị</label>
+                        <input type="number"
+                               name="sort_order"
+                               min="0"
+                               value="{{ old('sort_order', $post->sort_order ?? 0) }}"
+                               class="auto-save-input"
+                               data-entity="posts"
+                               data-id="{{ $post->id ?? '' }}"
+                               style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Số nhỏ hiển thị trước; để 0 để tự động theo ngày xuất bản.</small>
+                    </div>
                 </div>
             </div>
         </div>
