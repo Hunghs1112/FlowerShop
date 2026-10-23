@@ -9,8 +9,8 @@
 <section class="hero" aria-labelledby="t"><div><img class="logo" src="{{ asset('images/brand/lnt-logo.png') }}" alt="Lâm Nhiên Thảo"><p class="eyebrow">{{ __('pages.ours.eyebrow') }}</p><h1 id="t">{{ app()->isLocale('en') ? ($page?->title_en ?: __('pages.ours.title')) : ($page?->title ?: __('pages.ours.title')) }}</h1><p class="lead">{{ app()->isLocale('en') ? __('pages.ours.intro') : ($page?->policy_intro ?: __('pages.ours.intro')) }}</p></div>
 <div class="visual"><img class="bloom" src="{{ asset('images/pages/policy-ours-bloom.jpg') }}" alt=""><div class="board"><div class="bh"><span>{{ __('pages.ours.board_title') }}</span><time id="clock">--:--</time></div>
 <div class="cols" aria-hidden="true">@foreach(__('pages.ours.board_cols') as $column)<span>{{ $column }}</span>@endforeach</div><div id="rows"></div><p class="bn">{{ __('pages.ours.board_hint') }}</p></div></div></section>
-@if(filled(app()->isLocale('en') ? $page?->content_en : $page?->policy_content_override))
-<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="app()->isLocale('en') ? $page->display_content : $page->policy_content_override" /></section>
+@if(!app()->isLocale('en') && filled($page?->policy_content_override))
+<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="$page->policy_content_override" /></section>
 @else
 @if(app()->getLocale() === 'en')
 <div class="toolbar"><p>{{ __('pages.ours.sections_label') }}</p><button class="btn-ghost" id="toggleAll" type="button">{{ __('pages.ours.toggle_open') }}</button></div>

@@ -35,8 +35,11 @@ class Product extends Model
         'length',
         'min_order_quantity',
         'origin',
+        'origin_en',
         'specification',
+        'specification_en',
         'unit',
+        'unit_en',
         'return_policy',
         'video_url',
         'video_type',
@@ -266,6 +269,21 @@ class Product extends Model
     public function getDisplaySlugAttribute(): string
     {
         return app()->getLocale() === 'en' && filled($this->slug_en) ? $this->slug_en : $this->slug;
+    }
+
+    public function getDisplayOriginAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->origin_en) ? $this->origin_en : $this->origin;
+    }
+
+    public function getDisplaySpecificationAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->specification_en) ? $this->specification_en : $this->specification;
+    }
+
+    public function getDisplayUnitAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->unit_en) ? $this->unit_en : $this->unit;
     }
 
     public function isFavoritedBy($user): bool

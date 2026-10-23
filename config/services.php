@@ -83,17 +83,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | LibreTranslate Service
+    | Ollama Translation Service
     |--------------------------------------------------------------------------
     |
-    | Configuration for LibreTranslate API integration.
+    | Configuration for the local Ollama translation model.
     |
     */
 
-    'libretranslate' => [
-        'url' => env('LIBRETRANSLATE_URL', 'http://127.0.0.1:5000'),
-        'api_key' => env('LIBRETRANSLATE_API_KEY'),
-        'timeout' => (int) env('LIBRETRANSLATE_TIMEOUT', 5),
+    'ollama' => [
+        'url' => env('OLLAMA_URL', 'http://127.0.0.1:11434'),
+        'model' => env('OLLAMA_TRANSLATION_MODEL', 'flowershop-translator'),
+        'timeout' => (int) env('OLLAMA_TIMEOUT', 120),
     ],
 
 ];

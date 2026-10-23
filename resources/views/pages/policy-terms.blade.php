@@ -11,8 +11,8 @@
 <div class="vg"><img src="{{ asset('images/pages/policy-terms-bouquet.jpg') }}" alt=""><div class="vf"><div><small>{{ __('legal.terms.type') }}</small><em>{{ __('legal.terms.imported_flowers') }}</em></div><div><small>{{ __('legal.terms.origin') }}</small><em>{{ __('legal.terms.distant_gardens') }}</em></div><div><small>{{ __('legal.terms.destination') }}</small><em>{{ __('legal.terms.your_space') }}</em></div><div><small>{{ __('legal.terms.validity') }}</small><em>{{ __('legal.terms.every_order') }}</em></div></div></div>
 <div class="mrz">V&lt;VNMLAM&lt;NHIEN&lt;THAO&lt;&lt;FLOWERS&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>LNT&lt;&lt;HAN&lt;&lt;TERMS&lt;&lt;OF&lt;&lt;SERVICE&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
 <div class="vst">{{ __('legal.terms.approved') }}<br>APPROVED</div></div></div></section>
-@if(filled(app()->isLocale('en') ? $page?->content_en : $page?->policy_content_override))
-<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="app()->isLocale('en') ? $page->display_content : $page->policy_content_override" /></section>
+@if(!app()->isLocale('en') && filled($page?->policy_content_override))
+<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="$page->policy_content_override" /></section>
 @else
 <div class="toolbar"><p>{{ __('legal.terms.section_count') }}</p><button class="btn-ghost" id="toggleAll" type="button">{{ __('legal.open_all') }}</button></div>
 <section class="gates" aria-label="{{ __('legal.contents') }}">

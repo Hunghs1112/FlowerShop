@@ -11,8 +11,8 @@
 <div class="tt">{{ __('pages.delivery.track_status') }}</div><div class="route"><div><b>{{ __('pages.delivery.origin') }}</b><small>{{ __('pages.delivery.origin_name') }}</small></div><div class="r"><b>{{ __('pages.delivery.destination') }}</b><small>{{ __('pages.delivery.destination_name') }}</small></div></div>
 <div class="prog"><i></i></div><ol class="steps">@foreach(__('pages.delivery.steps') as $step)<li data-i="{{ $loop->index }}">{{ $step }}</li>@endforeach</ol>
 <div class="facts">@foreach(__('pages.delivery.facts') as $fact)<span>{{ $fact }}</span>@endforeach</div></div></div></section>
-@if(filled(app()->isLocale('en') ? $page?->content_en : $page?->policy_content_override))
-<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="app()->isLocale('en') ? $page->display_content : $page->policy_content_override" /></section>
+@if(!app()->isLocale('en') && filled($page?->policy_content_override))
+<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="$page->policy_content_override" /></section>
 @else
 @if(app()->getLocale() === 'en')
 <div class="toolbar"><p>{{ __('pages.delivery.sections_label') }}</p><button class="btn-ghost" id="toggleAll" type="button">{{ __('pages.delivery.toggle_open') }}</button></div>

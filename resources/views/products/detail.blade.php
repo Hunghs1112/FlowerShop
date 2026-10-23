@@ -232,7 +232,7 @@
                         </div>
                     @endif
 
-                    @if($product->specification || $product->length || $product->origin || $product->min_order_quantity || $product->unit)
+                    @if($product->display_specification || $product->length || $product->display_origin || $product->min_order_quantity || $product->display_unit)
                         <div class="accordion-item">
                             <button type="button" class="accordion-header">
                                 <span>{{ __('ui.product_accordion_specs') }}</span>
@@ -240,11 +240,11 @@
                             </button>
                             <div class="accordion-content">
                                 <ul class="product-spec-list">
-                                    @if($product->specification)<li><strong>{{ __('ui.product_spec_packaging') }}</strong> {{ $product->specification }}{{ $product->unit ? ' / ' . $product->unit : '' }}</li>@endif
+                                    @if($product->display_specification)<li><strong>{{ __('ui.product_spec_packaging') }}</strong> {{ $product->display_specification }}{{ $product->display_unit ? ' / ' . $product->display_unit : '' }}</li>@endif
                                     @if($product->length)<li><strong>{{ __('ui.product_spec_length') }}</strong> {{ $product->length }}</li>@endif
-                                    @if($product->origin)<li><strong>{{ __('ui.product_spec_origin') }}</strong> {{ $product->origin }}</li>@endif
-                                    @if($product->min_order_quantity)<li><strong>{{ __('ui.product_spec_min_qty') }}</strong> {{ $product->min_order_quantity }} {{ $product->unit }}</li>@endif
-                                    @if(!$product->specification && $product->unit)<li><strong>{{ __('ui.product_spec_unit') }}</strong> {{ $product->unit }}</li>@endif
+                                    @if($product->display_origin)<li><strong>{{ __('ui.product_spec_origin') }}</strong> {{ $product->display_origin }}</li>@endif
+                                    @if($product->min_order_quantity)<li><strong>{{ __('ui.product_spec_min_qty') }}</strong> {{ $product->min_order_quantity }} {{ $product->display_unit }}</li>@endif
+                                    @if(!$product->display_specification && $product->display_unit)<li><strong>{{ __('ui.product_spec_unit') }}</strong> {{ $product->display_unit }}</li>@endif
                                 </ul>
                             </div>
                         </div>

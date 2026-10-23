@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class FlowerOrigin extends Model
 {
     protected $fillable = [
-        'slug', 'map_x', 'map_y', 'country', 'country_code', 'lat', 'lon',
-        'flower', 'latin', 'region', 'coordinate', 'image', 'sort_order', 'is_active',
+        'slug', 'map_x', 'map_y', 'country', 'country_en', 'country_code', 'lat', 'lon',
+        'flower', 'flower_en', 'latin', 'region', 'region_en', 'coordinate', 'image', 'sort_order', 'is_active',
     ];
 
     protected $casts = ['is_active' => 'boolean'];
@@ -27,5 +27,20 @@ class FlowerOrigin extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function getDisplayCountryAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->country_en) ? $this->country_en : $this->country;
+    }
+
+    public function getDisplayFlowerAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->flower_en) ? $this->flower_en : $this->flower;
+    }
+
+    public function getDisplayRegionAttribute(): string
+    {
+        return app()->getLocale() === 'en' && filled($this->region_en) ? $this->region_en : $this->region;
     }
 }

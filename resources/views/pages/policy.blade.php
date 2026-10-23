@@ -10,8 +10,8 @@
 <div class="visual"><div><div class="pass"><div class="pm"><div class="ph">FLOWER PASS · {{ __('legal.privacy.pass_label') }}</div><div class="pf">@foreach(__('legal.privacy.fields') as $field)<button type="button" class="fld{{ $loop->last ? ' wide' : '' }}" aria-label="{{ $field['label'] }}: {{ $field['purpose'] }}"><small>{{ $field['label'] }}</small><span class="bar">{{ $field['purpose'] }}</span></button>@endforeach</div></div>
 <div class="ps"><svg width="54" height="64" viewBox="0 0 54 64" aria-hidden="true"><path d="M13 28V19a14 14 0 0 1 28 0v9" fill="none" stroke="currentColor" stroke-width="6"/><rect x="4" y="27" width="46" height="35" rx="7" fill="currentColor"/><circle cx="27" cy="42" r="5" fill="var(--paper)"/><rect x="25" y="44" width="4" height="10" fill="var(--paper)"/></svg><b>{{ __('legal.privacy.protected') }}</b></div></div>
 <p class="hint2">{{ __('legal.privacy.hint') }}</p></div></div></section>
-@if(filled(app()->isLocale('en') ? $page?->content_en : $page?->policy_content_override))
-<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="app()->isLocale('en') ? $page->display_content : $page->policy_content_override" /></section>
+@if(!app()->isLocale('en') && filled($page?->policy_content_override))
+<section class="body policy-editable-content" aria-label="Policy content"><x-markdown-renderer :content="$page->policy_content_override" /></section>
 @else
 <div class="toolbar"><p>{{ __('legal.privacy.section_count') }}</p><button class="btn-ghost" id="toggleAll" type="button">{{ __('legal.open_all') }}</button></div>
 <section class="gates" aria-label="{{ __('legal.contents') }}">

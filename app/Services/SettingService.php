@@ -26,6 +26,13 @@ class SettingService
      */
     public function get(string $key, $default = null)
     {
+        if (app()->getLocale() === 'en') {
+            $translated = Setting::get($key.'_en');
+            if (filled($translated)) {
+                return $translated;
+            }
+        }
+
         return Setting::get($key, $default);
     }
 

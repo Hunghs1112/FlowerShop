@@ -235,9 +235,9 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
   <div class="wins">
     @forelse($galleryImages as $img)
       <figure>
-        <div class="win"><img src="{{ $img->image_url }}" alt="{{ $img->alt_text ?? $img->title ?? '' }}" title="{{ $img->title ?? $img->caption }}"></div>
-        @if($img->caption || $img->title)
-          <figcaption>{{ $img->caption ?? $img->title }}</figcaption>
+        <div class="win"><img src="{{ $img->image_url }}" alt="{{ $img->display_alt_text ?? $img->display_title ?? '' }}" title="{{ $img->display_title ?? $img->display_caption }}"></div>
+        @if($img->display_caption || $img->display_title)
+          <figcaption>{{ $img->display_caption ?? $img->display_title }}</figcaption>
         @endif
       </figure>
     @empty

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class GalleryImage extends Model
 {
-    protected $fillable = ['title', 'caption', 'image', 'alt_text', 'sort_order', 'is_active'];
+    protected $fillable = ['title', 'title_en', 'caption', 'caption_en', 'image', 'alt_text', 'alt_text_en', 'sort_order', 'is_active'];
 
     protected $casts = ['is_active' => 'boolean'];
 
@@ -24,5 +24,20 @@ class GalleryImage extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function getDisplayTitleAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->title_en) ? $this->title_en : $this->title;
+    }
+
+    public function getDisplayCaptionAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->caption_en) ? $this->caption_en : $this->caption;
+    }
+
+    public function getDisplayAltTextAttribute(): ?string
+    {
+        return app()->getLocale() === 'en' && filled($this->alt_text_en) ? $this->alt_text_en : $this->alt_text;
     }
 }

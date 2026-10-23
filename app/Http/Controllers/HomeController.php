@@ -49,7 +49,7 @@ class HomeController extends Controller
         $homeData = [
             'products' => $newArrivalProducts->take(4)->map(fn ($product) => [
                 'name' => $product->display_name,
-                'origin' => $product->origin ?: __('customer.messages.imported_flowers'),
+                'origin' => $product->display_origin ?: __('customer.messages.imported_flowers'),
                 'url' => localized_route('products.show', $product->display_slug),
                 'image' => $product->getPrimaryImageUrl(),
                 'code' => Str::upper(Str::substr((string) preg_replace('/[^A-Za-z0-9]/', '', $product->sku), 0, 3)) ?: 'LNT',

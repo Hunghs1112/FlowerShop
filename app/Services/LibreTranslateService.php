@@ -9,15 +9,15 @@ class LibreTranslateService
 {
     protected string $baseUrl;
 
-    protected ?string $apiKey;
+    protected string $model;
 
     protected int $timeout;
 
     public function __construct()
     {
-        $this->baseUrl = rtrim(config('services.libretranslate.url', 'http://127.0.0.1:5000'), '/');
-        $this->apiKey = config('services.libretranslate.api_key');
-        $this->timeout = (int) config('services.libretranslate.timeout', 5);
+        $this->baseUrl = rtrim(config('services.ollama.url', 'http://127.0.0.1:11434'), '/');
+        $this->model = config('services.ollama.model', 'flowershop-translator');
+        $this->timeout = (int) config('services.ollama.timeout', 120);
     }
 
     public function translate(
@@ -30,23 +30,24 @@ class LibreTranslateService
             return $existingTranslation;
         }
 
-        $body = [
-            'q' => $text,
-            'source' => $source,
-            'target' => $target,
-            'format' => 'text',
-        ];
-        if ($this->apiKey) {
-            $body['api_key'] = $this->apiKey;
-        }
-
         $translated = Http::timeout($this->timeout)
-            ->post("{$this->baseUrl}/translate", $body)
+            ->post("{$this->baseUrl}/api/chat", [
+                'model' => $this->model,
+                'stream' => false,
+                'think' => false,
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => "Translate faithfully from {$source} to {$target}. Return only the translation. Preserve formatting, names, numbers, and punctuation.",
+                    ],
+                    ['role' => 'user', 'content' => $text],
+                ],
+            ])
             ->throw()
-            ->json('translatedText');
+            ->json('message.content');
 
         if (! is_string($translated) || $translated === '') {
-            throw new RuntimeException('LibreTranslate returned no translation.');
+            throw new RuntimeException('Ollama returned no translation.');
         }
 
         return $translated;

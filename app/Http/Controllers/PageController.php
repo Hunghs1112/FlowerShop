@@ -33,10 +33,10 @@ class PageController extends Controller
         $flowers = FlowerOrigin::active()->orderBy('sort_order')->get();
         $flowerMapData = $flowers->map(fn ($f) => [
             'id' => $f->country_code ?? Str::lower(Str::substr($f->slug, 0, 2)),
-            'country' => $f->country,
-            'flower' => $f->flower,
+            'country' => $f->display_country,
+            'flower' => $f->display_flower,
             'latin' => $f->latin,
-            'region' => $f->region,
+            'region' => $f->display_region,
             'lon' => (float) $f->lon,
             'lat' => (float) $f->lat,
             'map_x' => (int) $f->map_x,
@@ -164,7 +164,7 @@ class PageController extends Controller
         // Build products array matching the JSON structure
         $dbProducts = $seasonProducts->map(fn ($p) => [
             'name' => $p->display_name,
-            'origin' => $p->origin ?? '',
+            'origin' => $p->display_origin ?? '',
             'code' => strtoupper(substr($p->category->slug ?? $p->slug, 0, 3)),
             'img' => $p->getPrimaryImageUrl(),
             'link' => localized_route('products.show', $p->display_slug),
