@@ -47,6 +47,7 @@
                         <th style="width: 80px;">Hình Ảnh</th>
                         <th>Tiêu Đề</th>
                         <th>Tác Giả</th>
+                        <th style="width: 100px;">Thứ Tự</th>
                         <th style="width: 160px;">Ngày Xuất Bản</th>
                         <th style="width: 120px;">Trạng Thái</th>
                         <th style="width: 140px;">Thao Tác</th>
@@ -70,6 +71,7 @@
                                 <div class="table-product-name">{{ $post->title }}</div>
                             </td>
                             <td style="color: var(--admin-text-secondary);">{{ $post->author->name ?? '-' }}</td>
+                            <td class="text-mono" style="color: var(--admin-text-secondary);">{{ $post->sort_order ?: 'Tự động' }}</td>
                             <td class="text-mono" style="color: var(--admin-text-secondary);">
                                 {{ $post->published_at ? $post->published_at->format('d/m/Y H:i') : '-' }}
                             </td>
@@ -106,7 +108,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="empty-state-sm">
                                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>

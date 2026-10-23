@@ -33,7 +33,7 @@ class HomeController extends Controller
             $newArrivalProducts = $query->latest()->limit(8)->get();
         }
         $categories = $this->categoryService->getActiveCategories();
-        $latestPosts = Post::published()->latest('published_at')->limit(3)->get();
+        $latestPosts = Post::published()->displayOrder()->limit(3)->get();
         $banners = collect();
         $siteSettings = $this->settingService->getSiteInfo();
         $galleryImages = GalleryImage::active()->orderBy('sort_order')->get();

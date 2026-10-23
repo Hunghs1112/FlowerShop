@@ -51,7 +51,7 @@ class PostController extends Controller
         }
 
         $posts = $postsQuery
-            ->latest('published_at')
+            ->displayOrder()
             ->paginate(9)
             ->withQueryString();
 
