@@ -101,6 +101,7 @@ h1{margin:0;font-weight:600;text-transform:uppercase;color:var(--copper);font-si
 @endpush
 
 @push('scripts')
+@if(empty($enterprise))
 <script>
 (function(){const b=document.getElementById('toggleAll');if(!b)return;const g=[...document.querySelectorAll('.gate')];
 function upd(){const all=g.every(d=>d.open);b.textContent=all?@json(__('legal.close_all')):@json(__('legal.open_all'));b.setAttribute('aria-expanded',all)}
@@ -108,4 +109,5 @@ b.addEventListener('click',()=>{const all=g.every(d=>d.open);g.forEach(d=>d.open
 if(location.hash){const t=document.querySelector(location.hash);if(t&&t.tagName==='DETAILS')t.open=true}})();
 </script>
 <script>document.querySelectorAll('.fld').forEach(f=>f.addEventListener('click',()=>f.classList.toggle('on')))</script>
+@endif
 @endpush

@@ -30,7 +30,10 @@ class BackfillTranslations extends Command
         $failed = 0;
 
         foreach ([
-            Product::class => ['name' => 'name_en', 'short_description' => 'short_description_en', 'description' => 'description_en'],
+            Product::class => [
+                'name' => 'name_en', 'short_description' => 'short_description_en', 'description' => 'description_en',
+                'specification' => 'specification_en', 'unit' => 'unit_en',
+            ],
             Category::class => ['name' => 'name_en', 'description' => 'description_en'],
             Subcategory::class => ['name' => 'name_en', 'description' => 'description_en'],
             Post::class => ['title' => 'title_en', 'excerpt' => 'excerpt_en', 'content' => 'content_en'],

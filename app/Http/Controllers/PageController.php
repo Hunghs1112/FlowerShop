@@ -9,8 +9,10 @@ use App\Models\Page;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Services\ImageStorageService;
+use App\Services\NotificationService;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -19,6 +21,7 @@ class PageController extends Controller
     public function __construct(
         protected SettingService $settingService,
         protected ImageStorageService $images,
+        protected NotificationService $notifications,
     ) {}
 
     public function about()
@@ -104,6 +107,22 @@ class PageController extends Controller
             'message' => $validated['message'],
             'status' => 'new',
         ]);
+
+        try {
+            if ($this->notifications->isEmailEnabled() && $recipient = $this->notifications->getContactEmail()) {
+                $this->notifications->applyMailConfig();
+                Mail::raw(implode("\n", [
+                    'Khách hàng: '.$inquiry->name,
+                    'Số điện thoại: '.$inquiry->phone,
+                    'Email: '.($inquiry->email ?: '-'),
+                    'Zalo: '.($inquiry->zalo_id ?: '-'),
+                    '',
+                    $inquiry->message,
+                ]), fn ($mail) => $mail->to($recipient)->subject('[Liên hệ] Yêu cầu mới từ website'));
+            }
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return redirect()->back()->with('success', __('customer.messages.contact_success'));
     }
@@ -417,6 +436,14 @@ class PageController extends Controller
         $page = Page::where('slug', 'chinh-sach-giao-hang')->active()->first();
 
         return view('pages.policy-delivery', compact('siteInfo', 'page'));
+    }
+
+    public function policyEnterprise()
+    {
+        $siteInfo = $this->settingService->getSiteInfo();
+        $page = Page::where('slug', 'chinh-sach-uu-dai-doanh-nghiep')->active()->first();
+
+        return view('pages.policy-enterprise', compact('siteInfo', 'page'))->with('enterprise', true);
     }
 
     public function policyDieuKhoan()

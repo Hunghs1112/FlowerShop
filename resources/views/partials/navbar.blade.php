@@ -72,6 +72,7 @@
                 </a>
                 <div class="navbar-dropdown">
                     <a href="{{ localized_route('policy.delivery') }}" class="navbar-dropdown-item">{{ __('ui.delivery_policy') }}</a>
+                    <a href="{{ localized_route('policy.enterprise') }}" class="navbar-dropdown-item">{{ __('ui.enterprise_policy') }}</a>
                     <a href="{{ localized_route('policy.baomat') }}" class="navbar-dropdown-item">{{ __('ui.privacy_policy') }}</a>
                     <a href="{{ localized_route('policy.ours') }}" class="navbar-dropdown-item">{{ __('ui.our_policy') }}</a>
                     <a href="{{ localized_route('policy.terms') }}" class="navbar-dropdown-item">{{ __('ui.terms') }}</a>
@@ -262,6 +263,7 @@
                 <div class="navbar-mobile-accordion-content">
                     <div class="navbar-mobile-accordion-links">
                         <a href="{{ localized_route('policy.delivery') }}" class="navbar-mobile-accordion-link">{{ __('ui.delivery_policy') }}</a>
+                        <a href="{{ localized_route('policy.enterprise') }}" class="navbar-mobile-accordion-link">{{ __('ui.enterprise_policy') }}</a>
                         <a href="{{ localized_route('policy.baomat') }}" class="navbar-mobile-accordion-link">{{ __('ui.privacy_policy') }}</a>
                         <a href="{{ localized_route('policy.ours') }}" class="navbar-mobile-accordion-link">{{ __('ui.our_policy') }}</a>
                         <a href="{{ localized_route('policy.terms') }}" class="navbar-mobile-accordion-link">{{ __('ui.terms') }}</a>

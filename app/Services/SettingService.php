@@ -107,6 +107,7 @@ class SettingService
             'social_youtube',
             'about',
             'business_hours',
+            'google_analytics',
             'product_watermark_logo',
             'product_watermark_variant',
             'product_watermark_position',

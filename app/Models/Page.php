@@ -12,6 +12,7 @@ class Page extends Model
         'chinh-sach-bao-mat',
         'chinh-sach-cua-chung-toi',
         'chinh-sach-giao-hang',
+        'chinh-sach-uu-dai-doanh-nghiep',
         'dieu-khoan-dich-vu',
     ];
 
@@ -24,6 +25,7 @@ class Page extends Model
         'chinh-sach-giao-hang',
         'chinh-sach-bao-mat',
         'chinh-sach-cua-chung-toi',
+        'chinh-sach-uu-dai-doanh-nghiep',
         'dieu-khoan-dich-vu',
         ...self::GUIDE_SLUGS,
         'lien-he',
@@ -43,6 +45,7 @@ class Page extends Model
         'policy_intro',
         'policy_updated_at_display',
         'policy_content_override',
+        'policy_content_override_en',
     ];
 
     protected $casts = [

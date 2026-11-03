@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @include('partials.google-analytics')
+
     @php
         $siteName = trim((string) ($siteSettings['site_name'] ?? '')) ?: config('app.name', 'Flower Shop');
         $pageTitle = trim((string) View::yieldContent('title'));

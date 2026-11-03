@@ -49,10 +49,33 @@
                         <span class="admin-nav-text">Quản Lý Catalog</span>
                     </a>
                 </li>
+            </ul>
+        </div>
 
+        <div class="admin-nav-section">
+            <div class="admin-nav-section-title">Đơn Hàng</div>
+            <ul class="admin-nav">
                 <li class="admin-nav-item">
                     <a href="{{ route('admin.orders.index') }}" class="admin-nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
-                        <span class="admin-nav-text">Đơn hàng</span>
+                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M7 3h10a2 2 0 012 2v16l-3-2-4 2-4-2-3 2V5a2 2 0 012-2z"/>
+                        </svg>
+                        <span class="admin-nav-text">Đơn đặt hàng</span>
+                        @if(($adminBadgeCounts['orders'] ?? 0) > 0)
+                            <span class="admin-nav-badge" data-admin-badge="orders">{{ $adminBadgeCounts['orders'] }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="admin-nav-item">
+                    <a href="{{ route('admin.b2b-inquiries.index') }}" class="admin-nav-link {{ request()->routeIs('admin.b2b-inquiries.*') ? 'active' : '' }}">
+                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M5 21V7l7-4 7 4v14M9 10h.01M9 14h.01M15 10h.01M15 14h.01M10 21v-3h4v3"/>
+                        </svg>
+                        <span class="admin-nav-text">Đăng ký B2B</span>
+                        @if(($adminBadgeCounts['b2b'] ?? 0) > 0)
+                            <span class="admin-nav-badge" data-admin-badge="b2b">{{ $adminBadgeCounts['b2b'] }}</span>
+                        @endif
                     </a>
                 </li>
 
@@ -63,8 +86,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                         <span class="admin-nav-text">Liên Hệ</span>
-                        @if(isset($stats['new_inquiries']) && $stats['new_inquiries'] > 0)
-                            <span class="admin-nav-badge">{{ $stats['new_inquiries'] }}</span>
+                        @if(($adminBadgeCounts['contacts'] ?? 0) > 0)
+                            <span class="admin-nav-badge" data-admin-badge="contacts">{{ $adminBadgeCounts['contacts'] }}</span>
                         @endif
                     </a>
                 </li>
@@ -76,11 +99,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                         </svg>
                         <span class="admin-nav-text">Đặt Trước Cây Thông</span>
-                        @php
-                            $newTreePreorderCount = \App\Models\Inquiry::where('type', 'tree_preorder')->where('status', 'new')->count();
-                        @endphp
-                        @if($newTreePreorderCount > 0)
-                            <span class="admin-nav-badge">{{ $newTreePreorderCount }}</span>
+                        @if(($adminBadgeCounts['tree_preorders'] ?? 0) > 0)
+                            <span class="admin-nav-badge" data-admin-badge="tree-preorders">{{ $adminBadgeCounts['tree_preorders'] }}</span>
                         @endif
                     </a>
                 </li>
@@ -92,15 +112,38 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                         </svg>
                         <span class="admin-nav-text">Mystery Box</span>
-                        @php
-                            $newMysteryBoxCount = \App\Models\MysteryBoxRequest::where('status', 'new')->count();
-                        @endphp
-                        @if($newMysteryBoxCount > 0)
-                            <span class="admin-nav-badge">{{ $newMysteryBoxCount }}</span>
+                        @if(($adminBadgeCounts['mystery_boxes'] ?? 0) > 0)
+                            <span class="admin-nav-badge" data-admin-badge="mystery-boxes">{{ $adminBadgeCounts['mystery_boxes'] }}</span>
                         @endif
                     </a>
                 </li>
 
+                <li class="admin-nav-item">
+                    <a href="{{ route('admin.career.applications') }}" class="admin-nav-link {{ request()->routeIs('admin.career.applications') ? 'active' : '' }}">
+                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6V4h6v2m-9 4h12m-13 9h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v9a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="admin-nav-text">Hồ sơ tuyển dụng</span>
+                        @if(($adminBadgeCounts['career'] ?? 0) > 0)
+                            <span class="admin-nav-badge" data-admin-badge="career">{{ $adminBadgeCounts['career'] }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="admin-nav-item">
+                    <a href="{{ route('admin.newsletter-subscriptions.index') }}" class="admin-nav-link {{ request()->routeIs('admin.newsletter-subscriptions.*') ? 'active' : '' }}">
+                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="admin-nav-text">Đăng ký nhận tin</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="admin-nav-section">
+            <div class="admin-nav-section-title">Nội Dung</div>
+            <ul class="admin-nav">
                 <li class="admin-nav-item">
                     <a href="{{ route('admin.posts.index') }}" 
                        class="admin-nav-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
@@ -228,11 +271,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                         </svg>
                         <span class="admin-nav-text">Chat</span>
-                        @php
-                            $unreadChatCount = \App\Models\ChatMessage::where('is_admin', false)->where('is_read', false)->count();
-                        @endphp
-                        @if($unreadChatCount > 0)
-                            <span class="admin-nav-badge">{{ $unreadChatCount }}</span>
+                        @if(($adminBadgeCounts['chats'] ?? 0) > 0)
+                            <span class="admin-nav-badge" data-admin-badge="chats">{{ $adminBadgeCounts['chats'] }}</span>
                         @endif
                     </a>
                 </li>

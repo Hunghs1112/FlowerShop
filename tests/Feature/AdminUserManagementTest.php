@@ -109,20 +109,25 @@ class AdminUserManagementTest extends TestCase
             ->assertSee('password_confirmation', false);
     }
 
-    public function test_registration_moves_to_admin_creation_and_customers_keep_profile_editing(): void
+    public function test_public_registration_creates_customer_and_admin_registration_moves_to_user_creation(): void
     {
         $this->get(route('register'))
-            ->assertRedirect(route('login'))
-            ->assertSessionHas('status');
+            ->assertOk();
 
         $this->post(route('register'), [
             'name' => 'Public Registration',
             'email' => 'public@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-        ])->assertRedirect(route('login'));
+            'terms' => 'on',
+        ])->assertRedirect(localized_route('home'));
 
-        $this->assertDatabaseMissing('users', ['email' => 'public@example.com']);
+        $this->assertAuthenticated();
+        $this->assertDatabaseHas('users', [
+            'email' => 'public@example.com',
+            'role' => 'customer',
+            'is_active' => true,
+        ]);
 
         $admin = User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin)

@@ -85,6 +85,7 @@
                 <h3 class="footer-column-heading">{{ __('ui.information') }}</h3>
                 <nav class="footer-links">
                     <a href="{{ localized_route('policy.delivery') }}" class="footer-link">{{ __('ui.delivery_policy') }}</a>
+                    <a href="{{ localized_route('policy.enterprise') }}" class="footer-link">{{ __('ui.enterprise_policy') }}</a>
                     <a href="{{ localized_route('policy.baomat') }}" class="footer-link">{{ __('ui.privacy_policy') }}</a>
                     <a href="{{ localized_route('policy.ours') }}" class="footer-link">{{ __('ui.our_policy') }}</a>
                     <a href="{{ localized_route('policy.terms') }}" class="footer-link">{{ __('ui.terms') }}</a>
