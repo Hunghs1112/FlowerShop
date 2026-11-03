@@ -30,6 +30,7 @@ class UpdatePageRequest extends FormRequest
                 'policy_intro' => 'nullable|string|max:1000',
                 'policy_updated_at_display' => 'nullable|string|max:60',
                 'policy_content_override' => 'nullable|string|max:200000',
+                'policy_content_override_en' => 'nullable|string|max:200000',
                 'is_active' => 'boolean',
             ];
         }

@@ -141,7 +141,7 @@ class PageController extends Controller
         abort_if(in_array($page->slug, Page::STATIC_SLUGS, true) && ! $isPolicy && ! $isSeasonal && ! $isGuide, 404);
 
         $allowedFields = $isPolicy
-            ? ['title', 'title_en', 'policy_intro', 'policy_updated_at_display', 'policy_content_override', 'is_active']
+            ? ['title', 'title_en', 'policy_intro', 'policy_updated_at_display', 'policy_content_override', 'policy_content_override_en', 'is_active']
             : (($isSeasonal || $isGuide)
                 ? ['title', 'title_en', 'content', 'content_en', 'is_active']
                 : ['title', 'title_en', 'slug', 'content', 'content_en', 'is_active', 'meta_title', 'meta_description', 'header_image', 'hide_header_overlay']);
@@ -162,6 +162,7 @@ class PageController extends Controller
                 'policy_intro' => 'nullable|string|max:1000',
                 'policy_updated_at_display' => 'nullable|string|max:60',
                 'policy_content_override' => 'nullable|string|max:200000',
+                'policy_content_override_en' => 'nullable|string|max:200000',
             ],
         ]);
     }

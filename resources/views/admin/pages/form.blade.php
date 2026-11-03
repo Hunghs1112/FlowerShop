@@ -67,6 +67,12 @@
                                   style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;">{{ old('policy_content_override', $page->policy_content_override ?? '') }}</textarea>
                         <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống để giữ nội dung và bố cục mặc định. Khi nhập, nội dung này thay toàn bộ phần dưới tiêu đề; dùng ## cho tiêu đề mục, danh sách và Markdown links. HTML sẽ bị loại bỏ.</small>
                     </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">English policy content (Markdown)</label>
+                        <textarea name="policy_content_override_en" rows="18" class="auto-save-input form-input" data-entity="pages" data-id="{{ $page->id }}"
+                                  style="width: 100%; padding: 12px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; resize: vertical; font-family: inherit; line-height: 1.6;">{{ old('policy_content_override_en', $page->policy_content_override_en ?? '') }}</textarea>
+                        <small style="display: block; margin-top: 4px; color: var(--admin-text-muted);">Để trống để dùng nội dung tiếng Anh mặc định.</small>
+                    </div>
                     @else
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Nội Dung</label>

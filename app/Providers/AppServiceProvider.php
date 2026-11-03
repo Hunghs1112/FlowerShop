@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\B2cInquiry;
+use App\Models\ChatMessage;
+use App\Models\Inquiry;
+use App\Models\MysteryBoxRequest;
+use App\Models\Order;
 use App\Services\BannerService;
 use App\Services\SettingService;
 use Illuminate\Support\Facades\View;
@@ -50,6 +55,18 @@ class AppServiceProvider extends ServiceProvider
                 $categories = Category::active()->orderBy('sort_order')->withCount('products')->get();
             } catch (\Throwable) { $categories = collect(); }
             $view->with('navCategories', $categories);
+        });
+
+        View::composer('admin.partials.sidebar', function ($view) {
+            $view->with('adminBadgeCounts', [
+                'orders' => Order::where('status', 'new')->count(),
+                'b2b' => B2cInquiry::where('status', 'new')->count(),
+                'contacts' => Inquiry::where('type', 'contact')->where('status', 'new')->count(),
+                'tree_preorders' => Inquiry::where('type', 'tree_preorder')->where('status', 'new')->count(),
+                'career' => Inquiry::where('type', 'career_application')->where('status', 'new')->count(),
+                'mystery_boxes' => MysteryBoxRequest::where('status', 'new')->count(),
+                'chats' => ChatMessage::where('is_admin', false)->where('is_read', false)->count(),
+            ]);
         });
 
     }

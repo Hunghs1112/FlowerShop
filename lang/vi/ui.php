@@ -10,6 +10,7 @@ return [
     'inspiration' => 'Góc cảm hứng',
     'information' => 'Thông tin',
     'delivery_policy' => 'Chính sách giao hàng',
+    'enterprise_policy' => 'Ưu đãi đối tác doanh nghiệp',
     'privacy_policy' => 'Chính sách bảo mật',
     'our_policy' => 'Chính sách của chúng tôi',
     'terms' => 'Điều khoản dịch vụ',

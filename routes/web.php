@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CareerPageController;
+use App\Http\Controllers\Admin\B2bInquiryController;
 use App\Http\Controllers\Admin\CatalogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FlowerOriginController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Admin\GalleryImageController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\Admin\LibreTranslateController;
 use App\Http\Controllers\Admin\MysteryBoxContentController;
+use App\Http\Controllers\Admin\NewsletterSubscriptionController as AdminNewsletterSubscriptionController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PopupController;
 use App\Http\Controllers\Admin\ProductCollectionController;
@@ -95,6 +97,8 @@ $customerRoutes = function (): void {
     Route::get('/trang/chinh-sach-doi-tra', fn () => redirect(localized_route('policy.ours')));
     Route::get('/chinh-sach-giao-hang', [PageController::class, 'policyDelivery'])->name('policy.delivery');
     Route::get('/trang/chinh-sach-giao-hang', fn () => redirect(localized_route('policy.delivery')));
+    Route::get('/chinh-sach-uu-dai-doanh-nghiep', [PageController::class, 'policyEnterprise'])->name('policy.enterprise');
+    Route::get('/trang/chinh-sach-uu-dai-doanh-nghiep', fn () => redirect(localized_route('policy.enterprise')));
     Route::get('/dieu-khoan-dich-vu', [PageController::class, 'policyDieuKhoan'])->name('policy.terms');
     Route::get('/trang/dieu-khoan-dich-vu', fn () => redirect(localized_route('policy.terms')));
 
@@ -139,7 +143,7 @@ $customerRoutes = function (): void {
     Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [RegisterController::class, 'showRegistrationForm']);
+    Route::post('/register', [RegisterController::class, 'register'])->middleware('throttle:5,1');
 
     // Password Reset
     Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
@@ -350,6 +354,9 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')-
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::patch('orders/{order}/auto-save', [OrderController::class, 'autoSave'])->name('orders.autoSave');
+    Route::get('b2b-inquiries', [B2bInquiryController::class, 'index'])->name('b2b-inquiries.index');
+    Route::get('b2b-inquiries/{b2bInquiry}', [B2bInquiryController::class, 'show'])->name('b2b-inquiries.show');
+    Route::patch('b2b-inquiries/{b2bInquiry}/status', [B2bInquiryController::class, 'updateStatus'])->name('b2b-inquiries.updateStatus');
     Route::get('inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
     Route::get('inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
     Route::patch('inquiries/{inquiry}/status', [InquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
@@ -360,6 +367,7 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')-
     Route::get('tree-preorders/{inquiry}', [TreePreorderController::class, 'show'])->name('tree-preorders.show');
     Route::patch('tree-preorders/{inquiry}/status', [TreePreorderController::class, 'updateStatus'])->name('tree-preorders.updateStatus');
     Route::patch('tree-preorders/{inquiry}/auto-save', [TreePreorderController::class, 'autoSave'])->name('tree-preorders.autoSave');
+    Route::get('newsletter-subscriptions', [AdminNewsletterSubscriptionController::class, 'index'])->name('newsletter-subscriptions.index');
 
     // Settings (main routes)
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');

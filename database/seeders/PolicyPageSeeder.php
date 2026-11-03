@@ -13,6 +13,7 @@ class PolicyPageSeeder extends Seeder
             'chinh-sach-bao-mat' => 'Chính sách bảo mật',
             'chinh-sach-cua-chung-toi' => 'Chính sách của chúng tôi',
             'chinh-sach-giao-hang' => 'Chính sách giao hàng',
+            'chinh-sach-uu-dai-doanh-nghiep' => 'Chính sách ưu đãi doanh nghiệp',
             'dieu-khoan-dich-vu' => 'Điều khoản dịch vụ',
         ] as $slug => $title) {
             Page::firstOrCreate(

@@ -10,6 +10,7 @@ return [
     'inspiration' => 'Inspiration',
     'information' => 'Information',
     'delivery_policy' => 'Delivery policy',
+    'enterprise_policy' => 'Corporate partner benefits',
     'privacy_policy' => 'Privacy policy',
     'our_policy' => 'Our policy',
     'terms' => 'Terms of service',

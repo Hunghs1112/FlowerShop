@@ -188,10 +188,25 @@
                                        data-save-url="{{ route('admin.products.updateField', $product) }}"
                                        style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
                                        placeholder="VD: 20 viên, 2 bông">
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin: 12px 0 6px;">Quy Cách Đóng Gói (English)</label>
+                                <input type="text"
+                                       name="specification_en"
+                                       value="{{ old('specification_en', $product->specification_en) }}"
+                                       class="auto-save-input"
+                                       data-entity="products"
+                                       data-id="{{ $product->id }}"
+                                       data-save-url="{{ route('admin.products.updateField', $product) }}"
+                                       style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
+                                       placeholder="E.g. 20 blooms, 2 stems">
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin: 12px 0 6px;">Đơn Vị Tính</label>
                                 <input type="text" name="unit" value="{{ old('unit', $product->unit ?? 'bó') }}" required
                                        class="auto-save-input" data-entity="products" data-id="{{ $product->id }}" data-save-url="{{ route('admin.products.updateField', $product) }}"
                                        placeholder="VD: thùng, bó, chiếc, chai"
+                                       style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin: 12px 0 6px;">Đơn Vị Tính (English)</label>
+                                <input type="text" name="unit_en" value="{{ old('unit_en', $product->unit_en) }}"
+                                       class="auto-save-input" data-entity="products" data-id="{{ $product->id }}" data-save-url="{{ route('admin.products.updateField', $product) }}"
+                                       placeholder="E.g. box, bunch, stem, bottle"
                                        style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;">
                             </div>
                         </div>
