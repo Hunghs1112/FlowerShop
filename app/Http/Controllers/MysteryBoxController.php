@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\MysteryBoxRequest;
 use App\Services\MysteryBoxContentService;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class MysteryBoxController extends Controller
 {
-    public function __construct(private MysteryBoxContentService $contentService) {}
+    public function __construct(
+        private MysteryBoxContentService $contentService,
+        private NotificationService $notifications,
+    ) {}
 
     /**
      * Display mystery box form.
@@ -65,6 +69,22 @@ class MysteryBoxController extends Controller
             'delivery_address' => strip_tags($validated['delivery_address']),
             'delivery_date' => $validated['delivery_date'],
             'status' => 'new',
+        ]);
+
+        $this->notifications->notifyAdmin('[Hộp hoa bí ẩn] Yêu cầu mới', [
+            'Họ tên: '.$mysteryBoxRequest->name,
+            'Số điện thoại: '.$mysteryBoxRequest->phone,
+            'Email: '.($mysteryBoxRequest->email ?: '-'),
+            'Phong cách: '.$mysteryBoxRequest->style,
+            'Màu sắc: '.implode(', ', $mysteryBoxRequest->colors),
+            'Sở thích: '.implode(', ', $mysteryBoxRequest->preferences),
+            'Hoa yêu thích: '.implode(', ', $mysteryBoxRequest->flower_preferences ?: ['-']),
+            'Ngân sách: '.$mysteryBoxRequest->budget_range,
+            'Mức độ bất ngờ: '.$mysteryBoxRequest->surprise_level,
+            'Địa chỉ: '.$mysteryBoxRequest->delivery_address,
+            'Ngày nhận: '.$mysteryBoxRequest->delivery_date,
+            '',
+            $mysteryBoxRequest->note ?? '',
         ]);
 
         if ($request->wantsJson()) {

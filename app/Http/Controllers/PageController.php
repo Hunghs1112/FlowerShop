@@ -409,6 +409,19 @@ class PageController extends Controller
             'status' => 'new',
         ]);
 
+        $this->notifications->notifyAdmin('[Đặt trước lễ hội] Yêu cầu mới', [
+            'Trang: '.$validated['season_slug'],
+            'Họ tên: '.$validated['name'],
+            'Số điện thoại: '.$validated['phone'],
+            'Cỡ cây: '.$validated['size'],
+            'Phụ kiện: '.($accessorySummary ?: '-'),
+            'Dịch vụ: '.(implode(', ', $validated['addons'] ?? []) ?: '-'),
+            'Địa chỉ: '.$validated['address'],
+            'Ngày nhận: '.($validated['delivery_date'] ?? '-'),
+            '',
+            $validated['notes'] ?? '',
+        ]);
+
         return response()->json([
             'message' => __('customer.messages.preorder_received'),
         ], 201);

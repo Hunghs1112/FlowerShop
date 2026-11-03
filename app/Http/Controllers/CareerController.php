@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Inquiry;
 use App\Models\Page;
+use App\Services\NotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CareerController extends Controller
 {
+    public function __construct(private NotificationService $notifications)
+    {
+    }
+
     public function index(): View
     {
         $page = Page::where('slug', 'tuyen-dung')->active()->firstOrFail();
@@ -51,6 +56,17 @@ class CareerController extends Controller
                 'cv' => $validated['cv'] ?? null,
             ],
             'status' => 'new',
+        ]);
+
+        $this->notifications->notifyAdmin('[Tuyển dụng] Hồ sơ ứng tuyển mới', [
+            'Vị trí: '.$job['title'],
+            'Họ tên: '.$validated['name'],
+            'Số điện thoại: '.$validated['phone'],
+            'Email: '.$validated['email'],
+            'Năm sinh: '.($validated['year'] ?? '-'),
+            'CV: '.($validated['cv'] ?? '-'),
+            '',
+            $validated['note'] ?? '',
         ]);
 
         return response()->json(['message' => __('customer.messages.career_received')], 201);

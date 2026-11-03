@@ -2,7 +2,12 @@
 
 namespace App\Services;
 
+use App\Mail\AdminOrderNotificationMail;
+use App\Mail\OrderConfirmationMail;
+use App\Models\Order;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class NotificationService
 {
@@ -152,5 +157,82 @@ class NotificationService
     {
         $password = $this->getSmtpPassword();
         return $password ? '••••••••' : '';
+    }
+
+    /**
+     * Notify the admin about a public form submission.
+     *
+     * Sends a plain-text email to the order notification address. Failures are
+     * logged and swallowed so a broken mailer never blocks the form submission.
+     */
+    public function notifyAdmin(string $subject, array $lines): void
+    {
+        if (! $this->isEmailEnabled()) {
+            return;
+        }
+
+        $recipient = $this->getAdminEmail();
+
+        if (empty($recipient)) {
+            Log::debug('Admin email not configured, skipping notification', ['subject' => $subject]);
+
+            return;
+        }
+
+        try {
+            $this->applyMailConfig();
+
+            Mail::raw(implode("\n", $lines), fn ($mail) => $mail->to($recipient)->subject($subject));
+
+            Log::info('Admin notification email sent', [
+                'subject' => $subject,
+                'recipient' => $recipient,
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Failed to send admin notification email', [
+                'subject' => $subject,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Send the order confirmation to the customer and the order notification to the admin.
+     *
+     * Failures are logged and swallowed so a broken mailer never blocks the order.
+     */
+    public function notifyOrderPlaced(Order $order): void
+    {
+        if (! $this->isEmailEnabled()) {
+            return;
+        }
+
+        $items = $order->items->map(fn ($item) => [
+            'name' => $item->product_name,
+            'price' => $item->unit_price,
+            'quantity' => $item->quantity,
+            'subtotal' => $item->subtotal,
+        ])->all();
+
+        $total = (float) $order->total;
+
+        try {
+            $this->applyMailConfig();
+
+            if ($order->customer_email) {
+                Mail::to($order->customer_email)->send(new OrderConfirmationMail($order, $items, $total));
+            }
+
+            if ($admin = $this->getAdminEmail()) {
+                Mail::to($admin)->send(new AdminOrderNotificationMail($order, $items, $total));
+            }
+
+            Log::info('Order notification emails sent', ['order_id' => $order->id]);
+        } catch (\Throwable $e) {
+            Log::error('Failed to send order notification emails', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

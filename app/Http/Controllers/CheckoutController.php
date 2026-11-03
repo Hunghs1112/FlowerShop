@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Domain\Ordering\Actions\PlaceOrderAction;
 use App\Domain\Ordering\Data\PlaceOrderData;
-use App\Mail\AdminOrderNotificationMail;
-use App\Mail\OrderConfirmationMail;
 use App\Models\Inquiry;
 use App\Models\Order;
 use App\Services\CartService;
@@ -14,7 +12,6 @@ use App\Services\SettingService;
 use App\Services\ZaloService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -86,15 +83,7 @@ class CheckoutController extends Controller
                 if ($this->notificationService->isZaloEnabled()) {
                     $this->zaloService->notifyAdminNewOrder($payload);
                 }
-                if ($this->notificationService->isEmailEnabled()) {
-                    $this->notificationService->applyMailConfig();
-                    if ($order->customer_email) {
-                        Mail::to($order->customer_email)->send(new OrderConfirmationMail($order, $payload['items'], $payload['total']));
-                    }
-                    if ($admin = $this->notificationService->getAdminEmail()) {
-                        Mail::to($admin)->send(new AdminOrderNotificationMail($order, $payload['items'], $payload['total']));
-                    }
-                }
+                $this->notificationService->notifyOrderPlaced($order);
             } catch (\Throwable $e) {
                 report($e);
             }
