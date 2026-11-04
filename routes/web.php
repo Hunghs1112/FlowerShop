@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CareerPageController;
 use App\Http\Controllers\Admin\B2bInquiryController;
 use App\Http\Controllers\Admin\CatalogController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DiscountGroupController;
 use App\Http\Controllers\Admin\FlowerOriginController;
 use App\Http\Controllers\Admin\GalleryImageController;
 use App\Http\Controllers\Admin\InquiryController;
@@ -329,6 +330,10 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')-
     // Product Collections (gợi ý theo bộ sưu tập trên trang sản phẩm)
     Route::resource('product-collections', ProductCollectionController::class)->except('show');
     Route::patch('product-collections/{productCollection}/auto-save', [ProductCollectionController::class, 'autoSave'])->name('product-collections.autoSave');
+
+    // Discount Groups (Ưu đãi)
+    Route::resource('discount-groups', DiscountGroupController::class)->except('show');
+    Route::patch('discount-groups/{discountGroup}/auto-save', [DiscountGroupController::class, 'autoSave'])->name('discount-groups.autoSave');
 
     // Mystery Box management
     Route::get('mystery-box-content', [MysteryBoxContentController::class, 'edit'])->name('mystery-box-content.edit');

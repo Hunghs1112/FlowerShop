@@ -49,13 +49,19 @@ class PlaceOrderAction
                     $variant = $variantId
                         ? ProductVariant::query()->lockForUpdate()->where('product_id', $product->id)->whereKey($variantId)->where('is_active', true)->firstOrFail()
                         : null;
+                    if ($variant) {
+                        // Reuse the locked product instance so the discount lookup does not query again
+                        $variant->setRelation('product', $product);
+                    }
                     $stockOwner = $variant ?: $product;
                     if ($stockOwner->stock < $quantity) {
                         throw new RuntimeException("Sản phẩm {$product->name} không đủ số lượng");
                     }
                     $stockOwner->decrement('stock', $quantity);
 
-                    $price = (float) ($variant?->price ?? $product->price);
+                    $price = $variant
+                        ? $variant->discountedPrice()
+                        : $product->discountedPrice();
 
                     return [
                         'product_id' => $product->id,

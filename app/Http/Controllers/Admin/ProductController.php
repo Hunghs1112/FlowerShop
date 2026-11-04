@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
+use App\Models\DiscountGroup;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Subcategory;
@@ -74,6 +75,16 @@ class ProductController extends Controller
             'season_id' => 'nullable|string|max:20',
             'arrival_status' => 'required|in:landed,flying,pre',
         ];
+
+        // Discount group lives on the pivot table, not on the product row
+        if ($field === 'discount_group_id') {
+            $validated = $request->validate([
+                'value' => 'nullable|integer|exists:discount_groups,id',
+            ]);
+            DiscountGroup::assignProduct($product->id, $validated['value'] ? (int) $validated['value'] : null);
+
+            return response()->json(['success' => true, 'value' => $validated['value']]);
+        }
 
         // Use AjaxFieldService for standardized handling
         return $this->ajaxFieldService->handleAjaxFieldUpdate(
@@ -407,7 +418,7 @@ class ProductController extends Controller
             'is_active' => $request->input('is_active'),
         ];
 
-        $query = Product::with(['category', 'productImages']);
+        $query = Product::with(['category', 'productImages', 'discountGroup']);
 
         if ($filters['search']) {
             $query->where(function ($q) use ($filters) {
@@ -517,8 +528,9 @@ class ProductController extends Controller
 
         $categories = Category::active()->orderBy('name')->get();
         $maxImages = (int) config('upload.limits.product_images.max_count', 10);
+        $discountGroups = DiscountGroup::active()->orderBy('sort_order')->get(['id', 'name', 'discount_percent']);
 
-        return view('admin.products.edit', compact('product', 'categories', 'subcategories', 'maxImages'));
+        return view('admin.products.edit', compact('product', 'categories', 'subcategories', 'maxImages', 'discountGroups'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
@@ -543,6 +555,11 @@ class ProductController extends Controller
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_new_arrival'] = $request->boolean('is_new_arrival');
         $validated['is_bestseller'] = $request->boolean('is_bestseller');
+
+        // Discount group lives on the pivot table, not on the product row
+        $hasDiscountGroup = array_key_exists('discount_group_id', $validated);
+        $discountGroupId = $validated['discount_group_id'] ?? null;
+        unset($validated['discount_group_id']);
 
         $deletedPaths = [];
         $newPaths = [];
@@ -606,6 +623,11 @@ class ProductController extends Controller
         // Clean up deleted image files after transaction commits
         foreach ($deletedPaths as $path) {
             $this->images->delete($path);
+        }
+
+        // Assign to a discount group (single source of truth on the model)
+        if ($hasDiscountGroup) {
+            DiscountGroup::assignProduct($product->id, $discountGroupId);
         }
 
         return redirect()->route('admin.catalog.index', ['tab' => 'products'])

@@ -210,6 +210,16 @@
                 </li>
 
                 <li class="admin-nav-item">
+                    <a href="{{ route('admin.discount-groups.index') }}"
+                       class="admin-nav-link {{ request()->routeIs('admin.discount-groups.*') ? 'active' : '' }}">
+                        <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-5 5a2 2 0 01-2.828 0l-7-7A2 2 0 014 10V7a1 1 0 011-1zM9 17a3 3 0 100-6 3 3 0 000 6z"/>
+                        </svg>
+                        <span class="admin-nav-text">Ưu Đãi</span>
+                    </a>
+                </li>
+
+                <li class="admin-nav-item">
                     <a href="{{ route('admin.gallery-images.index') }}"
                        class="admin-nav-link {{ request()->routeIs('admin.gallery-images.*') ? 'active' : '' }}">
                         <svg class="admin-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -44,6 +44,7 @@ class UpdateProductRequest extends FormRequest
             'is_bestseller' => 'boolean',
             'season_id' => 'nullable|string|max:20',
             'arrival_status' => 'required|in:landed,flying,pre',
+            'discount_group_id' => 'nullable|integer|exists:discount_groups,id',
             'images' => "nullable|array|max:{$maxCnt}",
             'images.*' => "file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
             'delete_images' => 'nullable|array',

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
@@ -97,6 +98,33 @@ class Product extends Model
     {
         return $this->belongsToMany(ProductCollection::class, 'collection_product', 'product_id', 'collection_id')
             ->withPivot('sort_order');
+    }
+
+    public function discountGroup(): BelongsToMany
+    {
+        return $this->belongsToMany(DiscountGroup::class, 'discount_group_product', 'product_id', 'discount_group_id');
+    }
+
+    // The discount group currently applied to this product (or null)
+    public function activeDiscountGroup(): ?DiscountGroup
+    {
+        return $this->discountGroup->firstWhere('is_active', true) ?: null;
+    }
+
+    public function discountPercent(): int
+    {
+        return (int) ($this->activeDiscountGroup()?->discount_percent ?? 0);
+    }
+
+    public function applyDiscount(float $basePrice): float
+    {
+        $percent = $this->discountPercent();
+        return $percent > 0 ? round($basePrice * (1 - $percent / 100), 2) : $basePrice;
+    }
+
+    public function discountedPrice(): float
+    {
+        return $this->applyDiscount((float) $this->price);
     }
 
     // Scopes

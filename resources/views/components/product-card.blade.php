@@ -33,6 +33,10 @@
             @endif
 
             <div class="product-card__badges">
+                @php $discountPercent = $product->discountPercent(); @endphp
+                @if($discountPercent > 0)
+                    <span class="product-card__badge product-card__badge--discount">-{{ $discountPercent }}%</span>
+                @endif
                 @if($product->isSoldOut())
                     <span class="product-card__badge product-card__badge--sold-out">{{ __('storefront.sold_out') }}</span>
                 @endif
@@ -77,9 +81,14 @@
             </h3>
 
             <div class="product-card__price-row">
-                <span class="product-card__price">
-                    {{ number_format($product->price, 0, ',', '.') }}đ
-                </span>
+                @if($discountPercent > 0)
+                    <span class="product-card__price product-card__price--original">{{ number_format($product->price, 0, ',', '.') }}đ</span>
+                    <span class="product-card__price product-card__price--sale">{{ number_format($product->discountedPrice(), 0, ',', '.') }}đ</span>
+                @else
+                    <span class="product-card__price">
+                        {{ number_format($product->price, 0, ',', '.') }}đ
+                    </span>
+                @endif
             </div>
         </div>
     </a>

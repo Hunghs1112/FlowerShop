@@ -324,6 +324,40 @@
                 </div>
             </div>
 
+            {{-- Discount Group --}}
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h2 class="admin-card-title">
+                        <div class="admin-card-title-icon">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-5 5a2 2 0 01-2.828 0l-7-7A2 2 0 014 10V7a1 1 0 011-1zM9 17a3 3 0 100-6 3 3 0 000 6z"/>
+                            </svg>
+                        </div>
+                        Ưu Đãi
+                    </h2>
+                </div>
+                <div class="admin-card-body">
+                    @php $currentGroupId = old('discount_group_id', $product->discountGroup->first()?->id); @endphp
+                    <select name="discount_group_id"
+                            id="discountGroupSelect"
+                            class="auto-save-select"
+                            data-entity="products"
+                            data-id="{{ $product->id }}"
+                            data-save-url="{{ route('admin.products.updateField', $product) }}"
+                            style="display:block;width:100%;height:44px;padding:0 12px;border:1px solid var(--admin-border);border-radius:var(--admin-radius-md);">
+                        <option value="">Không có ưu đãi</option>
+                        @foreach($discountGroups as $group)
+                            <option value="{{ $group->id }}" {{ (int) $currentGroupId === (int) $group->id ? 'selected' : '' }}>
+                                {{ $group->name }} (-{{ $group->discount_percent }}%)
+                            </option>
+                        @endforeach
+                    </select>
+                    <small style="display: block; margin-top: 6px; color: var(--admin-text-muted);">
+                        Mỗi sản phẩm chỉ thuộc một nhóm ưu đãi. Giá hiển thị và giá trong đơn hàng sẽ được áp dụng % giảm của nhóm.
+                    </small>
+                </div>
+            </div>
+
             {{-- Status --}}
             <div class="admin-card">
                 <div class="admin-card-header">

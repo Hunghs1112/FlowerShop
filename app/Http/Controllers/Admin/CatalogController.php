@@ -73,7 +73,7 @@ class CatalogController extends Controller
 
     protected function getProducts(Request $request)
     {
-        $query = Product::with(['category', 'subcategory', 'productImages']);
+        $query = Product::with(['category', 'subcategory', 'productImages', 'discountGroup']);
 
         if ($s = $request->input('search')) {
             $query->where(function ($q) use ($s) {

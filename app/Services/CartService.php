@@ -30,7 +30,13 @@ class CartService
         $identifier = $this->getCartIdentifier();
 
         $items = CartItem::where($identifier)
-            ->with(['product.productImages', 'product.vipLevels', 'variant.images'])
+            ->with([
+                'product.productImages',
+                'product.vipLevels',
+                'product.discountGroup',
+                'variant.images',
+                'variant.product.discountGroup',
+            ])
             ->get();
 
         // CRITICAL: Filter out products user doesn't have access to

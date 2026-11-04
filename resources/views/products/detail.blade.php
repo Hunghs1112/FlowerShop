@@ -76,8 +76,9 @@
                     </video>
 
                     {{-- Discount badge --}}
-                    @if($product->discount_percent)
-                        <span class="discount-badge">-{{ $product->discount_percent }}%</span>
+                    @php $discountPercent = $product->discountPercent(); @endphp
+                    @if($discountPercent > 0)
+                        <span class="discount-badge">-{{ $discountPercent }}%</span>
                     @endif
                 </div>
 
@@ -118,8 +119,8 @@
             <div class="product-info">
 
                 {{-- Discount badge --}}
-                @if($product->discount_percent)
-                    <div class="info-badge">-{{ $product->discount_percent }}%</div>
+                @if($discountPercent > 0)
+                    <div class="info-badge info-badge--discount">-{{ $discountPercent }}%</div>
                 @elseif($product->is_featured)
                     <div class="info-badge">{{ content('product_featured_badge', __('customer.messages.new')) }}</div>
                 @endif
@@ -130,16 +131,22 @@
                 {{-- Price --}}
                 <div class="price-section">
                     <div class="price-row">
-                        <span class="price-sale">{{ number_format($product->sale_price ?? $product->price, 0, ',', '.') }} đ</span>
-                        @if($product->original_price && $product->original_price > ($product->sale_price ?? $product->price))
-                            <span class="price-original">{{ number_format($product->original_price, 0, ',', '.') }} đ</span>
+                        <span class="price-sale">{{ number_format($product->discountedPrice(), 0, ',', '.') }} đ</span>
+                        @if($discountPercent > 0)
+                            <span class="price-original">{{ number_format($product->price, 0, ',', '.') }} đ</span>
                         @endif
                     </div>
-                    @if($product->original_price && $product->original_price > ($product->sale_price ?? $product->price))
+                    @if($discountPercent > 0)
                         <div class="price-saved">
-                            {{ __('ui.product_save', ['amount' => number_format($product->original_price - ($product->sale_price ?? $product->price), 0, ',', '.')]) }}
+                            {{ __('ui.product_save', ['amount' => number_format($product->price - $product->discountedPrice(), 0, ',', '.')]) }}
                         </div>
                     @endif
+                </div>
+
+                {{-- Member discount note --}}
+                <div class="member-discount-note">
+                    {{ __('ui.member_discount_note') }}
+                    <a href="{{ localized_route('register') }}">{{ __('ui.member_discount_link') }}</a>
                 </div>
 
                 {{-- Variants Selector --}}
@@ -159,6 +166,7 @@
                                         data-variant-sku="{{ $variant->sku }}"
                                         data-variant-name="{{ $variant->name ?? $variant->sku }}"
                                         data-variant-price="{{ $variant->price ?? $product->price }}"
+                                        data-variant-discount="{{ $discountPercent }}"
                                         data-variant-stock="{{ $variant->stock ?? $product->stock }}"
                                         data-variant-images="{{ json_encode($variantImageUrls) }}"
                                         onclick="selectVariant(this)">
@@ -339,9 +347,32 @@
         document.getElementById('variantIdInput').value = variantId;
         
         // Update price display
+        const variantDiscount = parseInt(button.dataset.variantDiscount || '0', 10);
+        const discountPrice = variantDiscount > 0
+            ? Math.round(variantPrice * (1 - variantDiscount / 100))
+            : variantPrice;
+        const formatPrice = (v) => new Intl.NumberFormat('vi-VN').format(v);
+
         const priceElement = document.querySelector('.price-sale');
         if (priceElement) {
-            priceElement.textContent = new Intl.NumberFormat('vi-VN').format(variantPrice) + ' đ';
+            priceElement.textContent = formatPrice(discountPrice) + ' đ';
+        }
+
+        const saveLabel = @json(str_replace(':amount', '{amount}', __('ui.product_save')));
+        const originalElement = document.querySelector('.price-original');
+        const savedElement = document.querySelector('.price-saved');
+        if (discountPrice < variantPrice) {
+            if (originalElement) {
+                originalElement.textContent = formatPrice(variantPrice) + ' đ';
+                originalElement.style.display = '';
+            }
+            if (savedElement) {
+                savedElement.textContent = saveLabel.replace('{amount}', formatPrice(variantPrice - discountPrice));
+                savedElement.style.display = '';
+            }
+        } else {
+            if (originalElement) originalElement.style.display = 'none';
+            if (savedElement) savedElement.style.display = 'none';
         }
         
         // Update stock display and controls

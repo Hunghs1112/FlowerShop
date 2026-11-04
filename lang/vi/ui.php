@@ -116,6 +116,8 @@ return [
 
     // Product detail
     'product_save' => 'Tiết kiệm :amount đ',
+    'member_discount_note' => 'Đăng ký thành viên LNT để nhận giá ưu đãi đặc biệt.',
+    'member_discount_link' => 'Đăng ký ngay',
     'product_choose_variant' => 'Chọn phiên bản',
     'product_volume_label' => 'Dung tích',
     'product_b2b_note' => '<strong>ĐẶC QUYỀN ĐỐI TÁC:</strong> Mức giá hiển thị là giá bán lẻ. Đăng ký để khám phá hệ thống đặc quyền và chính sách giá dành riêng cho đối tác LNT.',

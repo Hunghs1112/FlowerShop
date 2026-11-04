@@ -36,11 +36,22 @@ class CartItem extends Model
     }
 
     // Helpers
+    public function getUnitPrice(): float
+    {
+        // Discounted price: variant price (or product price) with the group discount applied
+        return $this->variant
+            ? $this->variant->discountedPrice()
+            : $this->product->discountedPrice();
+    }
+
+    public function getOriginalUnitPrice(): float
+    {
+        return $this->variant ? (float) $this->variant->getDisplayPrice() : (float) $this->product->price;
+    }
+
     public function getSubtotal(): float
     {
-        // Use variant price if variant is specified, otherwise use product price
-        $price = $this->variant ? $this->variant->price : $this->product->price;
-        return $price * $this->quantity;
+        return $this->getUnitPrice() * $this->quantity;
     }
     
     public function getDisplayName(): string

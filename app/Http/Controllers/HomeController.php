@@ -26,7 +26,7 @@ class HomeController extends Controller
         $bestsellingProducts = $this->productService->getBestSellingProducts(8, null, $user);
         $newArrivalProducts = $this->productService->getNewArrivalProducts(8, null, $user);
         if ($newArrivalProducts->isEmpty()) {
-            $query = Product::active()->with(['productImages', 'category', 'subcategory'])->inStock();
+            $query = Product::active()->with(['productImages', 'category', 'subcategory', 'discountGroup'])->inStock();
             if ($user) {
                 $query->visibleToUser($user);
             }

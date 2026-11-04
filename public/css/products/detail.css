@@ -191,6 +191,10 @@
     margin-bottom: var(--space-3);
 }
 
+.info-badge--discount {
+    background-color: var(--color-error);
+}
+
 .product-title {
     font-family: var(--font-serif);
     font-size: 2.5rem;
@@ -245,6 +249,22 @@
     font-size: var(--text-sm);
     color: var(--color-error);
     font-weight: 600;
+}
+
+.member-discount-note {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-sage);
+    border-left: 3px solid var(--color-secondary);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.member-discount-note a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 700;
 }
 
 /* Product Options */

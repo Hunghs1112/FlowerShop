@@ -17,7 +17,7 @@ class ProductService
     {
         $query = Product::active()
             ->featured()
-            ->with(['productImages', 'category', 'subcategory'])
+            ->with(['productImages', 'category', 'subcategory', 'discountGroup'])
             ->inStock();
 
         // CRITICAL: Backend VIP filtering
@@ -37,7 +37,7 @@ class ProductService
     {
         $query = Product::active()
             ->bestSelling()
-            ->with(['productImages', 'category', 'subcategory'])
+            ->with(['productImages', 'category', 'subcategory', 'discountGroup'])
             ->inStock();
 
         if ($categoryId) {
@@ -59,7 +59,7 @@ class ProductService
     {
         $query = Product::active()
             ->newArrival()
-            ->with(['productImages', 'category', 'subcategory'])
+            ->with(['productImages', 'category', 'subcategory', 'discountGroup'])
             ->inStock();
 
         if ($categoryId) {
@@ -81,7 +81,7 @@ class ProductService
     {
         $query = Product::active()
             ->where('category_id', $categoryId)
-            ->with(['productImages', 'category', 'subcategory'])
+            ->with(['productImages', 'category', 'subcategory', 'discountGroup'])
             ->inStock();
 
         // CRITICAL: Backend VIP filtering
@@ -110,7 +110,7 @@ class ProductService
     public function filterProducts(array $filters = []): LengthAwarePaginator
     {
         $query = Product::active()
-            ->with(['productImages', 'category', 'subcategory']);
+            ->with(['productImages', 'category', 'subcategory', 'discountGroup']);
 
         // VIP Level filtering - CRITICAL: Backend enforcement
         if (isset($filters['user'])) {
@@ -218,7 +218,7 @@ class ProductService
         $query = Product::active()
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
-            ->with(['productImages'])
+            ->with(['productImages', 'discountGroup'])
             ->inStock();
 
         // CRITICAL: Backend VIP filtering
@@ -250,7 +250,7 @@ class ProductService
 
         $builder = Product::active()
             ->search($query)
-            ->with(['productImages', 'category']);
+            ->with(['productImages', 'category', 'discountGroup']);
 
         // CRITICAL: Backend VIP filtering
         if ($user) {
@@ -332,7 +332,7 @@ class ProductService
         return Product::active()
             ->inStock()
             ->featured()
-            ->with(['productImages'])
+            ->with(['productImages', 'discountGroup'])
             ->limit($limit)
             ->get();
     }

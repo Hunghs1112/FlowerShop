@@ -13,7 +13,7 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-        $favorites = Favorite::with('product.productImages', 'product.category')
+        $favorites = Favorite::with('product.productImages', 'product.category', 'product.discountGroup')
             ->where('user_id', Auth::id())
             ->latest()
             ->paginate(12);

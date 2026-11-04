@@ -62,6 +62,17 @@ class ProductVariant extends Model
         return $this->price ?? $this->product->price;
     }
 
+    public function discountPercent(): int
+    {
+        return $this->product?->discountPercent() ?? 0;
+    }
+
+    // Discount is applied on the variant's effective price (falls back to product price)
+    public function discountedPrice(): float
+    {
+        return $this->product->applyDiscount($this->getDisplayPrice());
+    }
+
     public function getDisplayStock(): int
     {
         return $this->stock ?? $this->product->stock;

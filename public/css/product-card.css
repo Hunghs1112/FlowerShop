@@ -92,6 +92,12 @@
     color: var(--color-white);
 }
 
+.product-card__badge--discount {
+    background: var(--color-error);
+    color: var(--color-white);
+    text-transform: none;
+}
+
 .product-card--sold-out .product-card__image { filter: grayscale(.35); opacity: .72; }
 
 /* Route badge — boarding-pass ribbon, xoay 8° ở góc phải-trên */
@@ -193,6 +199,17 @@
     font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
+}
+
+.product-card__price--original {
+    color: var(--color-text-muted, #9ca3af);
+    font-size: .8125rem;
+    font-weight: 400;
+    text-decoration: line-through;
+}
+
+.product-card__price--sale {
+    color: var(--color-error);
 }
 
 /* === MOBILE === */

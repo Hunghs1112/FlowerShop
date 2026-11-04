@@ -52,7 +52,10 @@
                                 @endif
                             </div>
                             <div class="cart-item-price">
-                                {{ number_format($item->variant ? $item->variant->price : $item->product->price, 0, ',', '.') }}₫
+                                @if($item->getUnitPrice() < $item->getOriginalUnitPrice())
+                                    <span class="cart-item-price-original">{{ number_format($item->getOriginalUnitPrice(), 0, ',', '.') }}₫</span>
+                                @endif
+                                {{ number_format($item->getUnitPrice(), 0, ',', '.') }}₫
                             </div>
                             <div class="cart-item-quantity">
                                 <form action="{{ localized_route('cart.update', $item->id) }}" method="POST" class="quantity-form">

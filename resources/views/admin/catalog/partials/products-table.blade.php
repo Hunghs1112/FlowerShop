@@ -49,12 +49,16 @@
                     @endif
                 </td>
                 <td data-label="Giá">
-                    <div style="font-weight: 600; color: var(--admin-color-primary);">
-                        {{ number_format($product->price, 0, ',', '.') }}₫
-                    </div>
-                    @if($product->sale_price && $product->sale_price < $product->price)
+                    @if($product->discountPercent() > 0)
                         <div style="font-size: 0.8125rem; color: var(--admin-text-muted); text-decoration: line-through;">
-                            {{ number_format($product->sale_price, 0, ',', '.') }}₫
+                            {{ number_format($product->price, 0, ',', '.') }}₫
+                        </div>
+                        <div style="font-weight: 600; color: var(--admin-error);">
+                            -{{ $product->discountPercent() }}%
+                        </div>
+                    @else
+                        <div style="font-weight: 600; color: var(--admin-color-primary);">
+                            {{ number_format($product->price, 0, ',', '.') }}₫
                         </div>
                     @endif
                 </td>

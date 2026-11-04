@@ -1922,6 +1922,12 @@ label, .label {
     color: var(--color-white);
 }
 
+.product-card__badge--discount {
+    background: var(--color-error);
+    color: var(--color-white);
+    text-transform: none;
+}
+
 .product-card--sold-out .product-card__image { filter: grayscale(.35); opacity: .72; }
 
 /* Route badge — boarding-pass ribbon, xoay 8° ở góc phải-trên */
@@ -2023,6 +2029,17 @@ label, .label {
     font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
+}
+
+.product-card__price--original {
+    color: var(--color-text-muted, #9ca3af);
+    font-size: .8125rem;
+    font-weight: 400;
+    text-decoration: line-through;
+}
+
+.product-card__price--sale {
+    color: var(--color-error);
 }
 
 /* === MOBILE === */
@@ -6341,6 +6358,10 @@ a.navbar-nav-link.shimmer-text.active {
     margin-bottom: var(--space-3);
 }
 
+.info-badge--discount {
+    background-color: var(--color-error);
+}
+
 .product-title {
     font-family: var(--font-serif);
     font-size: 2.5rem;
@@ -6395,6 +6416,22 @@ a.navbar-nav-link.shimmer-text.active {
     font-size: var(--text-sm);
     color: var(--color-error);
     font-weight: 600;
+}
+
+.member-discount-note {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-sage);
+    border-left: 3px solid var(--color-secondary);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.member-discount-note a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 700;
 }
 
 /* Product Options */

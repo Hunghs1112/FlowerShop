@@ -84,7 +84,7 @@ class ProductController extends Controller
         // Suggestion collections (theo màu / tiêu chí) hiển thị dưới grid
         $suggestionCollections = ProductCollection::active()
             ->with(['products' => function ($q) {
-                $q->active()->with('productImages')
+                $q->active()->with(['productImages', 'discountGroup'])
                     ->orderBy('collection_product.sort_order')
                     ->limit(8);
             }])
@@ -121,7 +121,7 @@ class ProductController extends Controller
                 ->orWhere('slug_en', $identifier);
         })
             ->active()
-            ->with(['productImages', 'category', 'subcategory.category', 'variants' => function ($query) {
+            ->with(['productImages', 'category', 'subcategory.category', 'discountGroup', 'variants' => function ($query) {
                 $query->where('is_active', true)->with('images');
             }])
             ->firstOrFail();
@@ -146,7 +146,7 @@ class ProductController extends Controller
                         ->orWhere('is_featured', true);
                 }
             })
-            ->with('productImages');
+            ->with(['productImages', 'discountGroup']);
 
         // Apply VIP filtering to recommended products
         if ($user) {
@@ -159,7 +159,7 @@ class ProductController extends Controller
         $recentlyViewed = Product::active()
             ->inStock()
             ->where('id', '!=', $product->id)
-            ->with('productImages')
+            ->with(['productImages', 'discountGroup'])
             ->inRandomOrder()
             ->limit(4)
             ->get();

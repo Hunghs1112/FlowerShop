@@ -116,6 +116,8 @@ return [
 
     // Product detail
     'product_save' => 'Save :amount đ',
+    'member_discount_note' => 'Register as an LNT member to receive exclusive discounts.',
+    'member_discount_link' => 'Register now',
     'product_choose_variant' => 'Choose a variant',
     'product_volume_label' => 'Volume',
     'product_b2b_note' => '<strong>PARTNER EXCLUSIVE:</strong> The price shown is the retail price. Register to discover our exclusive partner system and pricing policy.',
