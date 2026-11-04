@@ -23,13 +23,17 @@ class LibreTranslateTest extends TestCase
 
     public function test_translation_success(): void
     {
-        Http::fake(['*/translate' => Http::response(['translatedText' => 'Red rose'])]);
+        Http::fake(['*/api/chat' => Http::response(['message' => ['content' => 'Red rose']])]);
 
         $this->postJson('/_test/admin/translate', [
             'text' => 'Hồng đỏ',
             'source' => 'vi',
             'target' => 'en',
         ])->assertOk()->assertJson(['success' => true, 'translated' => 'Red rose']);
+
+        Http::assertSent(fn ($request) => $request['model'] === 'flowershop-translator'
+            && $request['think'] === false
+            && $request['messages'][1]['content'] === 'Hồng đỏ');
     }
 
     public function test_translation_is_admin_only(): void
@@ -45,7 +49,7 @@ class LibreTranslateTest extends TestCase
 
     public function test_translation_http_error_is_safe(): void
     {
-        Http::fake(['*/translate' => Http::response(['error' => 'failure'], 500)]);
+        Http::fake(['*/api/chat' => Http::response(['error' => 'failure'], 500)]);
 
         $this->postJson('/_test/admin/translate', [
             'text' => 'Hồng đỏ',

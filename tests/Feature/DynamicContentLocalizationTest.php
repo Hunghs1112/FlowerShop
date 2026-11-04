@@ -147,4 +147,15 @@ class DynamicContentLocalizationTest extends TestCase
             ])
             ->assertSessionHasErrors('slug_en');
     }
+
+    public function test_admin_can_open_product_collection_edit_page(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $collection = ProductCollection::create(['name' => 'Seasonal flowers']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.product-collections.edit', $collection))
+            ->assertOk()
+            ->assertSee('Seasonal flowers');
+    }
 }

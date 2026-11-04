@@ -13,7 +13,7 @@ class BackfillTranslationsTest extends TestCase
     public function test_backfill_keeps_existing_english_and_makes_unique_slugs(): void
     {
         Http::fake(fn ($request) => Http::response([
-            'translatedText' => mb_strtolower($request['q']) === 'hoa hồng' ? 'English Rose' : 'EN:'.$request['q'],
+            'message' => ['content' => mb_strtolower($request['messages'][1]['content']) === 'hoa hồng' ? 'English Rose' : 'EN:'.$request['messages'][1]['content']],
         ]));
 
         $categoryId = DB::table('categories')->insertGetId([
@@ -45,9 +45,9 @@ class BackfillTranslationsTest extends TestCase
     public function test_backfill_splits_long_html_without_sending_markup_or_oversized_requests(): void
     {
         Http::fake(function ($request) {
-            $this->assertLessThanOrEqual(9000, mb_strlen($request['q']));
+            $this->assertLessThanOrEqual(9000, mb_strlen($request['messages'][1]['content']));
 
-            return Http::response(['translatedText' => 'EN:'.$request['q']]);
+            return Http::response(['message' => ['content' => 'EN:'.$request['messages'][1]['content']]]);
         });
 
         $categoryId = DB::table('categories')->insertGetId([
@@ -67,16 +67,16 @@ class BackfillTranslationsTest extends TestCase
         $translated = DB::table('products')->value('description_en');
         $this->assertStringStartsWith('<p>EN:', $translated);
         $this->assertStringEndsWith('</p>', $translated);
-        Http::assertSent(fn ($request) => ! str_contains($request['q'], '<p>') && ! str_contains($request['q'], '</p>'));
-        $contentRequests = Http::recorded()->filter(fn ($pair) => str_contains($pair[0]['q'], 'florxyz'));
+        Http::assertSent(fn ($request) => ! str_contains($request['messages'][1]['content'], '<p>') && ! str_contains($request['messages'][1]['content'], '</p>'));
+        $contentRequests = Http::recorded()->filter(fn ($pair) => str_contains($pair[0]['messages'][1]['content'], 'florxyz'));
         $this->assertCount(3, $contentRequests);
     }
 
     public function test_backfill_continues_after_a_record_translation_fails(): void
     {
-        Http::fake(fn ($request) => $request['q'] === 'Fail Trigger'
+        Http::fake(fn ($request) => $request['messages'][1]['content'] === 'Fail Trigger'
             ? Http::response(['error' => 'failure'], 500)
-            : Http::response(['translatedText' => 'English']));
+            : Http::response(['message' => ['content' => 'English']]));
 
         $categoryId = DB::table('categories')->insertGetId([
             'name' => 'Hoa', 'slug' => 'hoa', 'created_at' => now(), 'updated_at' => now(),
@@ -101,7 +101,7 @@ class BackfillTranslationsTest extends TestCase
 
     public function test_backfill_keeps_page_json_valid_and_preserves_non_text_values(): void
     {
-        Http::fake(fn ($request) => Http::response(['translatedText' => 'English']));
+        Http::fake(fn ($request) => Http::response(['message' => ['content' => 'English']]));
         DB::table('pages')->insert([
             'title' => 'Tuyá»ƒn dá»¥ng',
             'slug' => 'backfill-json-test',
@@ -120,7 +120,7 @@ class BackfillTranslationsTest extends TestCase
 
     public function test_backfill_translates_popup_text_and_bullets(): void
     {
-        Http::fake(fn ($request) => Http::response(['translatedText' => 'EN:'.$request['q']]));
+        Http::fake(fn ($request) => Http::response(['message' => ['content' => 'EN:'.$request['messages'][1]['content']]]));
         $popup = Popup::create([
             'id_key' => 'tet-popup',
             'title' => 'Hoa Tết',

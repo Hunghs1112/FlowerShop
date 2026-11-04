@@ -43,10 +43,11 @@ class ProductCollectionController extends Controller
 
     public function edit(ProductCollection $productCollection): View
     {
+        $collection = $productCollection;
         $allProducts = $this->getAllProducts();
         $selectedIds = $productCollection->products()->pluck('products.id')->all();
 
-        return view('admin.product-collections.edit', compact('productCollection', 'allProducts', 'selectedIds'));
+        return view('admin.product-collections.edit', compact('productCollection', 'collection', 'allProducts', 'selectedIds'));
     }
 
     public function update(Request $request, ProductCollection $productCollection)
