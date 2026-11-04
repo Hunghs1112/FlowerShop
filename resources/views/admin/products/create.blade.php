@@ -208,10 +208,12 @@
                         </div>
 
                         <div>
-                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Số Lượng <span style="color: var(--admin-error);">*</span></label>
-                            <input type="number" name="stock" value="{{ old('stock', 0) }}" 
-                                   style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Số Lượng <span style="color: var(--admin-error);" id="stockRequiredMark">*</span></label>
+                            <input type="number" name="stock" value="{{ old('stock', 0) }}"
+                                   id="stockInput"
+                                   style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;"
                                    required min="0">
+                            <small style="display: none; margin-top: 6px; color: var(--admin-text-muted); font-size: 12px;" id="stockPreOrderNote">Sản phẩm mở đặt trước — tồn kho không áp dụng.</small>
                         </div>
                     </div>
                 </div>
@@ -295,6 +297,28 @@ function previewImages(input) {
         });
     }
 }
+
+// Pre-order products are not stock-tracked: disable the stock field.
+(function() {
+    const statusSelect = document.querySelector('select[name="arrival_status"]');
+    const stockInput = document.getElementById('stockInput');
+    const stockMark = document.getElementById('stockRequiredMark');
+    const stockNote = document.getElementById('stockPreOrderNote');
+    if (!statusSelect || !stockInput) return;
+
+    const sync = () => {
+        const isPre = statusSelect.value === 'pre';
+        stockInput.disabled = isPre;
+        stockInput.readOnly = isPre;
+        stockInput.required = !isPre;
+        stockInput.style.background = isPre ? 'var(--admin-bg-muted, #f5f5f5)' : '';
+        if (stockMark) stockMark.style.display = isPre ? 'none' : '';
+        if (stockNote) stockNote.style.display = isPre ? 'block' : 'none';
+    };
+
+    statusSelect.addEventListener('change', sync);
+    sync();
+})();
 </script>
 @endpush
 @endsection

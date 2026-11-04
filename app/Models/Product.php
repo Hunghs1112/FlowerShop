@@ -135,7 +135,10 @@ class Product extends Model
 
     public function scopeInStock($query)
     {
-        return $query->where('stock', '>', 0);
+        // Pre-order products are orderable regardless of stock
+        return $query->where(function (Builder $q) {
+            $q->where('stock', '>', 0)->orWhere('arrival_status', 'pre');
+        });
     }
 
     public function scopeFeatured($query)
@@ -325,7 +328,20 @@ class Product extends Model
 
     public function isSoldOut(): bool
     {
+        if ($this->isPreOrder()) {
+            return false;
+        }
+
         return (int) $this->stock <= 0;
+    }
+
+    /**
+     * Pre-order products ("Mở đặt trước") are not limited by stock:
+     * they show no stock figure and their stock is never decremented.
+     */
+    public function isPreOrder(): bool
+    {
+        return $this->arrival_status === 'pre';
     }
 
     public function hasNewArrivalBadge(): bool

@@ -86,7 +86,9 @@ class ProductRepository extends BaseRepository
      */
     public function inStock(): self
     {
-        return $this->setQuery($this->newQuery()->where('stock', '>', 0));
+        return $this->setQuery($this->newQuery()->where(function ($q) {
+            $q->where('stock', '>', 0)->orWhere('arrival_status', 'pre');
+        }));
     }
 
     /**

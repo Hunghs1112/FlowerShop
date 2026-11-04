@@ -76,6 +76,14 @@ class ProductController extends Controller
             'arrival_status' => 'required|in:landed,flying,pre',
         ];
 
+        // Pre-order products are not stock-tracked: their stock cannot be edited.
+        if ($field === 'stock' && $product->isPreOrder()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sản phẩm đang mở đặt trước — không thay đổi được tồn kho.',
+            ], 422);
+        }
+
         // Discount group lives on the pivot table, not on the product row
         if ($field === 'discount_group_id') {
             $validated = $request->validate([
@@ -555,6 +563,11 @@ class ProductController extends Controller
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_new_arrival'] = $request->boolean('is_new_arrival');
         $validated['is_bestseller'] = $request->boolean('is_bestseller');
+
+        // Pre-order products are not stock-tracked — keep the current stock untouched.
+        if (($validated['arrival_status'] ?? $product->arrival_status) === 'pre') {
+            unset($validated['stock']);
+        }
 
         // Discount group lives on the pivot table, not on the product row
         $hasDiscountGroup = array_key_exists('discount_group_id', $validated);

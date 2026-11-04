@@ -41,6 +41,7 @@ return [
     'cart_items_title' => 'Sản phẩm trong giỏ (:count)',
     'cart_out_of_stock' => 'Hết hàng',
     'cart_low_stock' => 'Chỉ còn :count',
+    'cart_preorder' => 'Mở đặt trước',
     'cart_remove' => 'Xóa',
     'cart_continue_shopping' => 'Tiếp tục mua sắm',
     'cart_clear' => 'Xóa giỏ hàng',
@@ -116,6 +117,8 @@ return [
 
     // Product detail
     'product_save' => 'Tiết kiệm :amount đ',
+    'product_preorder_note' => 'Sản phẩm mở đặt trước — không giới hạn số lượng',
+    'product_preorder_cta' => 'Đặt trước',
     'member_discount_note' => 'Đăng ký thành viên LNT để nhận giá ưu đãi đặc biệt.',
     'member_discount_link' => 'Đăng ký ngay',
     'product_choose_variant' => 'Chọn phiên bản',

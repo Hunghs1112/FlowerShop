@@ -79,10 +79,12 @@ class CartService
 
         $newQuantity = $cartItem ? $cartItem->quantity + $quantity : $quantity;
 
-        // Check stock availability (use variant stock if available)
-        $availableStock = $variant ? $variant->stock : $product->stock;
-        if ($availableStock < $newQuantity) {
-            throw new \Exception('Sản phẩm không đủ số lượng (còn '.$availableStock.')');
+        // Check stock availability (pre-order products are not stock-limited)
+        if (! $product->isPreOrder()) {
+            $availableStock = $variant ? $variant->stock : $product->stock;
+            if ($availableStock < $newQuantity) {
+                throw new \Exception('Sản phẩm không đủ số lượng (còn '.$availableStock.')');
+            }
         }
 
         if ($cartItem) {
@@ -118,7 +120,7 @@ class CartService
             }
 
             $stock = $cartItem->variant?->stock ?? $cartItem->product?->stock ?? 0;
-            if ($quantity > $stock) {
+            if (! $cartItem->product?->isPreOrder() && $quantity > $stock) {
                 throw new \RuntimeException('Số lượng vượt quá tồn kho (còn '.$stock.')');
             }
             $cartItem->quantity = $quantity;
@@ -186,7 +188,8 @@ class CartService
 
             if ($userItem) {
                 $stock = $guestItem->variant?->stock ?? $guestItem->product?->stock ?? 0;
-                $userItem->quantity = min($userItem->quantity + $guestItem->quantity, $stock);
+                $stockLimit = $guestItem->product?->isPreOrder() ? PHP_INT_MAX : $stock;
+                $userItem->quantity = min($userItem->quantity + $guestItem->quantity, $stockLimit);
                 if ($userItem->quantity < 1) {
                     $guestItem->delete();
 

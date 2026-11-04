@@ -147,14 +147,18 @@
 
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-2">
-                        Tồn kho <span class="text-red-400">*</span>
+                        Tồn kho @if(!$product->isPreOrder())<span class="text-red-400">*</span>@endif
                     </label>
-                    <input type="number" 
-                           name="stock" 
+                    <input type="number"
+                           name="stock"
                            value="{{ old('stock', $variant->stock) }}"
-                           required
+                           @if(!$product->isPreOrder()) required @endif
+                           @if($product->isPreOrder()) disabled readonly @endif
                            min="0"
                            class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                    @if($product->isPreOrder())
+                        <p class="mt-1 text-sm text-slate-400">Sản phẩm mở đặt trước — tồn kho không áp dụng.</p>
+                    @endif
                     @error('stock')
                         <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                     @enderror

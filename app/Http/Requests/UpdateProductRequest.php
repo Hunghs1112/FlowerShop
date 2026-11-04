@@ -26,7 +26,8 @@ class UpdateProductRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0|max:999999999',
-            'stock' => 'required|integer|min:0|max:999999',
+            // Pre-order products are not stock-tracked — stock is optional for them
+            'stock' => $this->isPreOrder() ? 'nullable|integer|min:0|max:999999' : 'required|integer|min:0|max:999999',
             'description' => 'nullable|string',
             'description_en' => 'nullable|string',
             'short_description' => 'nullable|string|max:500',
@@ -51,6 +52,18 @@ class UpdateProductRequest extends FormRequest
             'delete_images.*' => 'exists:product_images,id',
             'primary_image' => 'nullable|exists:product_images,id',
         ];
+    }
+
+    /**
+     * Pre-order ("Mở đặt trước") products are not stock-tracked, so their stock
+     * is left untouched and not required by the form.
+     */
+    protected function isPreOrder(): bool
+    {
+        // The submitted status wins: switching back from pre-order should allow stock again.
+        $status = $this->input('arrival_status', $this->route('product')?->arrival_status);
+
+        return $status === 'pre';
     }
 
     public function messages(): array

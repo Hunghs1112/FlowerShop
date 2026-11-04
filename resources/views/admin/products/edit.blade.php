@@ -309,16 +309,20 @@
                         </div>
 
                         <div>
-                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Số Lượng <span style="color: var(--admin-error);">*</span></label>
-                            <input type="number" 
-                                   name="stock" 
-                                   value="{{ old('stock', $product->stock) }}" 
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--admin-text-primary); margin-bottom: 6px;">Số Lượng <span style="color: var(--admin-error);" @if(old('arrival_status', $product->arrival_status) === 'pre') style="display:none" @endif>*</span></label>
+                            <input type="number"
+                                   name="stock"
+                                   value="{{ old('stock', $product->stock) }}"
                                    class="auto-save-input"
                                    data-entity="products"
                                    data-id="{{ $product->id }}"
                                    data-save-url="{{ route('admin.products.updateField', $product) }}"
-                                   style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px;" 
-                                   required min="0">
+                                   @if(old('arrival_status', $product->arrival_status) === 'pre') disabled readonly @endif
+                                   style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--admin-border); border-radius: var(--admin-radius-md); font-size: 14px; {{ old('arrival_status', $product->arrival_status) === 'pre' ? 'background: var(--admin-bg-muted, #f5f5f5); color: var(--admin-text-secondary);' : '' }}"
+                                   @if(old('arrival_status', $product->arrival_status) !== 'pre') required min="0" @endif>
+                            @if(old('arrival_status', $product->arrival_status) === 'pre')
+                                <small style="display: block; margin-top: 6px; color: var(--admin-text-muted); font-size: 12px;">Sản phẩm mở đặt trước — tồn kho không áp dụng.</small>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -450,6 +454,24 @@ function previewImages(input) {
         });
     }
 }
+
+// Pre-order products are not stock-tracked: lock/unlock the stock field.
+(function() {
+    const statusSelect = document.querySelector('select[name="arrival_status"]');
+    const stockInput = document.querySelector('input[name="stock"]');
+    if (!statusSelect || !stockInput) return;
+
+    const sync = () => {
+        const isPre = statusSelect.value === 'pre';
+        stockInput.disabled = isPre;
+        stockInput.readOnly = isPre;
+        stockInput.required = !isPre;
+        stockInput.style.background = isPre ? 'var(--admin-bg-muted, #f5f5f5)' : '';
+    };
+
+    statusSelect.addEventListener('change', sync);
+    sync();
+})();
 
 // Set primary image
 window.setPrimaryProductImage = async function(productId, imageId, button) {

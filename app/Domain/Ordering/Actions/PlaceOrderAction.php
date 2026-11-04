@@ -54,10 +54,12 @@ class PlaceOrderAction
                         $variant->setRelation('product', $product);
                     }
                     $stockOwner = $variant ?: $product;
-                    if ($stockOwner->stock < $quantity) {
-                        throw new RuntimeException("Sản phẩm {$product->name} không đủ số lượng");
+                    if (! $product->isPreOrder()) {
+                        if ($stockOwner->stock < $quantity) {
+                            throw new RuntimeException("Sản phẩm {$product->name} không đủ số lượng");
+                        }
+                        $stockOwner->decrement('stock', $quantity);
                     }
-                    $stockOwner->decrement('stock', $quantity);
 
                     $price = $variant
                         ? $variant->discountedPrice()

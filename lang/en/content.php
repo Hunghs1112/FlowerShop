@@ -13,6 +13,8 @@ return [
     'filter_chips_label' => 'Active filters',
     'filter_clear_all' => 'Clear all',
     'product_add_to_cart' => 'Add to cart',
+    'product_preorder_cta' => 'Pre-order',
+    'product_preorder_note' => 'Pre-order — unlimited quantity',
     'product_buy_now' => 'Buy now',
     'product_featured_badge' => 'Featured',
     'product_qty_decrease' => 'Decrease quantity',

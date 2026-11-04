@@ -43,6 +43,7 @@ class DashboardController extends Controller
 
         $lowStockProducts = Product::where('stock', '<=', 5)
             ->where('stock', '>', 0)
+            ->where('arrival_status', '!=', 'pre')
             ->with('category')
             ->get();
 

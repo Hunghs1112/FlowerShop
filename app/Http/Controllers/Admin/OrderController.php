@@ -57,7 +57,10 @@ class OrderController extends Controller
                 }
 
                 if ($validated['status'] === 'cancelled') {
-                    ($item->variant ?: $item->product)?->increment('stock', $item->quantity);
+                    $stockOwner = $item->variant ?: $item->product;
+                    if ($stockOwner && ! $item->product?->isPreOrder()) {
+                        $stockOwner->increment('stock', $item->quantity);
+                    }
                 }
             }
 
@@ -104,7 +107,10 @@ class OrderController extends Controller
                         $item->product->increment('sales_count', $item->quantity);
                     }
                     if ($validated['value'] === 'cancelled') {
-                        ($item->variant ?: $item->product)?->increment('stock', $item->quantity);
+                        $stockOwner = $item->variant ?: $item->product;
+                        if ($stockOwner && ! $item->product?->isPreOrder()) {
+                            $stockOwner->increment('stock', $item->quantity);
+                        }
                     }
                 }
 

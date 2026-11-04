@@ -37,7 +37,9 @@
                 @if($discountPercent > 0)
                     <span class="product-card__badge product-card__badge--discount">-{{ $discountPercent }}%</span>
                 @endif
-                @if($product->isSoldOut())
+                @if($product->isPreOrder())
+                    <span class="product-card__badge product-card__badge--preorder">{{ __('ui.cart_preorder') }}</span>
+                @elseif($product->isSoldOut())
                     <span class="product-card__badge product-card__badge--sold-out">{{ __('storefront.sold_out') }}</span>
                 @endif
                 @if($product->hasNewArrivalBadge() || $showNewArrival)

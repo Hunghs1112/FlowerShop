@@ -167,7 +167,7 @@
                                         data-variant-name="{{ $variant->name ?? $variant->sku }}"
                                         data-variant-price="{{ $variant->price ?? $product->price }}"
                                         data-variant-discount="{{ $discountPercent }}"
-                                        data-variant-stock="{{ $variant->stock ?? $product->stock }}"
+                                        data-variant-stock="{{ $isPreOrder ? 999 : ($variant->stock ?? $product->stock) }}"
                                         data-variant-images="{{ json_encode($variantImageUrls) }}"
                                         onclick="selectVariant(this)">
                                     {{ $variant->name ?? $variant->sku }}
@@ -199,7 +199,12 @@
                 </div>
 
                 {{-- Stock --}}
-                <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', __('customer.messages.in_stock')) }}</div>
+                @php $isPreOrder = $product->isPreOrder(); @endphp
+                @if($isPreOrder)
+                    <div class="product-stock product-stock--preorder">{{ __('ui.product_preorder_note') }}</div>
+                @else
+                    <div class="product-stock">{{ $product->stock }} {{ content('product_stock_suffix', __('customer.messages.in_stock')) }}</div>
+                @endif
 
                 {{-- Quantity + Add to Cart --}}
                 <form action="{{ localized_route('cart.add') }}" method="POST" class="cart-form" id="cartForm">
@@ -209,20 +214,20 @@
                     <div class="cart-actions">
                         <div class="quantity-selector">
                             <button type="button" class="qty-btn" onclick="decreaseQty()" aria-label="{{ content('product_qty_decrease', __('ui.filter_reset')) }}">−</button>
-                            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $product->stock }}" readonly>
-                            <button type="button" class="qty-btn" onclick="increaseQty({{ $product->stock }})" aria-label="{{ content('product_qty_increase', '+') }}">+</button>
+                            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $isPreOrder ? '999' : $product->stock }}" readonly>
+                            <button type="button" class="qty-btn" onclick="increaseQty({{ $isPreOrder ? 999 : $product->stock }})" aria-label="{{ content('product_qty_increase', '+') }}">+</button>
                         </div>
-                        <button type="submit" class="btn-add-cart" id="addToCartBtn" {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                        <button type="submit" class="btn-add-cart" id="addToCartBtn" {{ ! $isPreOrder && $product->stock <= 0 ? 'disabled' : '' }}>
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
-                            {{ content('product_add_to_cart', __('customer.messages.order_now')) }}
+                            {{ $isPreOrder ? content('product_preorder_cta', __('customer.messages.order_now')) : content('product_add_to_cart', __('customer.messages.order_now')) }}
                         </button>
                     </div>
                 </form>
 
                 {{-- Buy Now --}}
-                <button type="submit" form="cartForm" name="buy_now" value="1" class="btn-buy-now" {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                <button type="submit" form="cartForm" name="buy_now" value="1" class="btn-buy-now" {{ ! $isPreOrder && $product->stock <= 0 ? 'disabled' : '' }}>
                     {{ content('product_buy_now', __('ui.cart_checkout')) }}
                 </button>
 
@@ -302,7 +307,7 @@
 
 @push('scripts')
 <script>
-    let currentStock = {{ $product->stock }};
+    let currentStock = {{ $isPreOrder ? 999 : $product->stock }};
     let currentVariantImages = [];
     let originalImages = [];
     
@@ -378,24 +383,25 @@
         // Update stock display and controls
         currentStock = variantStock;
         const stockElement = document.querySelector('.product-stock');
-        if (stockElement) {
+        if (stockElement && !stockElement.classList.contains('product-stock--preorder')) {
             stockElement.textContent = variantStock + ' {{ content("product_stock_suffix", __("customer.messages.in_stock")) }}';
         }
-        
+
         // Update quantity max
         const qtyInput = document.getElementById('quantity');
+        const effectiveStock = {{ $isPreOrder ? 999 : 'variantStock' }};
         if (qtyInput) {
-            qtyInput.max = variantStock;
-            if (parseInt(qtyInput.value) > variantStock) {
-                qtyInput.value = Math.max(1, variantStock);
+            qtyInput.max = effectiveStock;
+            if (parseInt(qtyInput.value) > effectiveStock) {
+                qtyInput.value = Math.max(1, effectiveStock);
             }
         }
-        
+
         // Update add to cart button state
         const addToCartBtn = document.getElementById('addToCartBtn');
         const buyNowBtn = document.querySelector('.btn-buy-now');
         if (addToCartBtn) {
-            if (variantStock <= 0) {
+            if (effectiveStock <= 0) {
                 addToCartBtn.disabled = true;
                 if (buyNowBtn) buyNowBtn.disabled = true;
             } else {

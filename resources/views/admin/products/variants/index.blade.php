@@ -141,11 +141,15 @@
                             Tồn kho
                         </div>
                         <div class="variant-detail-value">
-                            {{ $variant->stock }}
-                            @if($variant->stock < 10)
-                                <span class="stock-warning low">Thấp</span>
-                            @elseif($variant->stock > 50)
-                                <span class="stock-warning high">Cao</span>
+                            @if($product->isPreOrder())
+                                <span class="stock-warning low">Đặt trước</span>
+                            @else
+                                {{ $variant->stock }}
+                                @if($variant->stock < 10)
+                                    <span class="stock-warning low">Thấp</span>
+                                @elseif($variant->stock > 50)
+                                    <span class="stock-warning high">Cao</span>
+                                @endif
                             @endif
                         </div>
                     </div>

@@ -43,9 +43,12 @@
                                     <p class="cart-item-variant">{{ $item->variant->name ?? $item->variant->sku }}</p>
                                 @endif
                                 @php
-                                    $availableStock = $item->variant ? $item->variant->stock : $item->product->stock;
+                                    $isPreOrder = $item->product->isPreOrder();
+                                    $availableStock = $isPreOrder ? PHP_INT_MAX : ($item->variant ? $item->variant->stock : $item->product->stock);
                                 @endphp
-                                @if($availableStock <= 0)
+                                @if($isPreOrder)
+                                    <span class="badge badge-info">{{ __('ui.cart_preorder') }}</span>
+                                @elseif($availableStock <= 0)
                                     <span class="badge badge-error">{{ __('ui.cart_out_of_stock') }}</span>
                                 @elseif($availableStock < $item->quantity)
                                     <span class="badge badge-warning">{{ __('ui.cart_low_stock', ['count' => $availableStock]) }}</span>
@@ -63,8 +66,8 @@
                                     @method('PATCH')
                                     <div class="cart-item-controls">
                                         <button type="button" class="cart-item-quantity-btn" onclick="updateCartQty(this, -1)">-</button>
-                                        <input type="number" name="quantity" value="{{ $item->quantity }}" 
-                                               min="1" max="{{ $availableStock }}" 
+                                        <input type="number" name="quantity" value="{{ $item->quantity }}"
+                                               min="1" max="{{ $isPreOrder ? 999 : $availableStock }}"
                                                class="cart-item-quantity-input" onchange="this.form.submit()">
                                         <button type="button" class="cart-item-quantity-btn" onclick="updateCartQty(this, 1)">+</button>
                                     </div>

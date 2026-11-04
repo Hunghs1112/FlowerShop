@@ -1922,6 +1922,12 @@ label, .label {
     color: var(--color-white);
 }
 
+/* Pre-order badge — sản phẩm mở đặt trước, không giới hạn tồn kho */
+.product-card__badge--preorder {
+    background: #C78E66;
+    color: var(--color-white);
+}
+
 .product-card__badge--discount {
     background: var(--color-error);
     color: var(--color-white);
@@ -6495,6 +6501,11 @@ a.navbar-nav-link.shimmer-text.active {
     color: var(--color-success);
     font-weight: 500;
     margin-bottom: var(--space-5);
+}
+
+/* Pre-order: không hiển thị số lượng tồn kho */
+.product-stock--preorder {
+    color: #C78E66;
 }
 
 /* Cart Form */

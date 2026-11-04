@@ -41,6 +41,7 @@ return [
     'cart_items_title' => 'Items in cart (:count)',
     'cart_out_of_stock' => 'Out of stock',
     'cart_low_stock' => 'Only :count left',
+    'cart_preorder' => 'Pre-order',
     'cart_remove' => 'Remove',
     'cart_continue_shopping' => 'Continue shopping',
     'cart_clear' => 'Clear cart',
@@ -116,6 +117,8 @@ return [
 
     // Product detail
     'product_save' => 'Save :amount đ',
+    'product_preorder_note' => 'Pre-order — unlimited quantity',
+    'product_preorder_cta' => 'Pre-order',
     'member_discount_note' => 'Register as an LNT member to receive exclusive discounts.',
     'member_discount_link' => 'Register now',
     'product_choose_variant' => 'Choose a variant',

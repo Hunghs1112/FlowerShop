@@ -75,6 +75,11 @@ class ProductVariantController extends Controller
         $validated['is_active'] = $request->boolean('is_active', false);
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
+        // Pre-order products are not stock-tracked
+        if ($product->isPreOrder()) {
+            unset($validated['stock']);
+        }
+
         $variant = $this->variants->create($validated);
 
         // Handle images
@@ -133,6 +138,11 @@ class ProductVariantController extends Controller
 
         $validated = $request->validated();
         $validated['is_active'] = $request->boolean('is_active', false);
+
+        // Pre-order products are not stock-tracked
+        if ($product->isPreOrder()) {
+            unset($validated['stock']);
+        }
 
         $variant->update($validated);
 

@@ -13,6 +13,8 @@ return [
     'filter_chips_label' => 'Bộ lọc đang áp dụng',
     'filter_clear_all' => 'Xóa tất cả',
     'product_add_to_cart' => 'Thêm vào giỏ hàng',
+    'product_preorder_cta' => 'Đặt trước',
+    'product_preorder_note' => 'Sản phẩm mở đặt trước — không giới hạn số lượng',
     'product_buy_now' => 'Mua ngay',
     'product_featured_badge' => 'Nổi bật',
     'product_qty_decrease' => 'Giảm số lượng',

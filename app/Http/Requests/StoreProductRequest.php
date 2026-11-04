@@ -25,7 +25,8 @@ class StoreProductRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0|max:999999999',
-            'stock' => 'required|integer|min:0|max:999999',
+            // Pre-order products are not stock-tracked
+            'stock' => $this->input('arrival_status') === 'pre' ? 'nullable|integer|min:0|max:999999' : 'required|integer|min:0|max:999999',
             'description' => 'nullable|string',
             'description_en' => 'nullable|string',
             'short_description' => 'nullable|string|max:500',
