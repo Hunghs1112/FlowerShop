@@ -153,7 +153,9 @@ class Product extends Model
 
     public function scopeNewArrival($query)
     {
+        // Pre-order stock has not landed yet, so it never counts as a new arrival.
         return $query->whereNotNull('latest_arrival_date')
+            ->where('arrival_status', '!=', 'pre')
             ->orderBy('latest_arrival_date', 'desc');
     }
 
@@ -346,6 +348,11 @@ class Product extends Model
 
     public function hasNewArrivalBadge(): bool
     {
+        // Pre-order stock has not landed yet, so it can never be "new arrival".
+        if ($this->isPreOrder()) {
+            return false;
+        }
+
         $arrivalDate = $this->latest_arrival_date ?? $this->created_at;
 
         return (bool) $this->is_new_arrival

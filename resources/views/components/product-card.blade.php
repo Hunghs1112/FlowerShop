@@ -42,7 +42,7 @@
                 @elseif($product->isSoldOut())
                     <span class="product-card__badge product-card__badge--sold-out">{{ __('storefront.sold_out') }}</span>
                 @endif
-                @if($product->hasNewArrivalBadge() || $showNewArrival)
+                @if(! $product->isPreOrder() && ($product->hasNewArrivalBadge() || $showNewArrival))
                     <span class="product-card__badge product-card__badge--new">{{ __('storefront.new_arrival') }}</span>
                 @endif
                 @if($product->hasBestsellerBadge())

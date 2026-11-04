@@ -27,6 +27,8 @@ class HomeController extends Controller
         $newArrivalProducts = $this->productService->getNewArrivalProducts(8, null, $user);
         if ($newArrivalProducts->isEmpty()) {
             $query = Product::active()->with(['productImages', 'category', 'subcategory', 'discountGroup'])->inStock();
+            // Pre-order stock has not landed yet — it never belongs in the "new arrivals" row.
+            $query->where('arrival_status', '!=', 'pre');
             if ($user) {
                 $query->visibleToUser($user);
             }

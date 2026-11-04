@@ -456,9 +456,11 @@ function previewImages(input) {
 }
 
 // Pre-order products are not stock-tracked: lock/unlock the stock field.
+// Pre-order stock has not landed yet: lock the "new arrival" tag too.
 (function() {
     const statusSelect = document.querySelector('select[name="arrival_status"]');
     const stockInput = document.querySelector('input[name="stock"]');
+    const newArrivalCheckbox = document.querySelector('input[name="is_new_arrival"]');
     if (!statusSelect || !stockInput) return;
 
     const sync = () => {
@@ -467,6 +469,11 @@ function previewImages(input) {
         stockInput.readOnly = isPre;
         stockInput.required = !isPre;
         stockInput.style.background = isPre ? 'var(--admin-bg-muted, #f5f5f5)' : '';
+        if (newArrivalCheckbox) {
+            newArrivalCheckbox.disabled = isPre;
+            if (isPre) newArrivalCheckbox.checked = false;
+            newArrivalCheckbox.parentElement.style.opacity = isPre ? '.5' : '';
+        }
     };
 
     statusSelect.addEventListener('change', sync);

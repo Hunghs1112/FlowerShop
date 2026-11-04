@@ -188,7 +188,7 @@ class PageController extends Controller
             'img' => $p->getPrimaryImageUrl(),
             'link' => localized_route('products.show', $p->display_slug),
             'price' => number_format($p->price, 0, ',', '.').'đ',
-            'badge' => $p->is_new_arrival ? __('customer.messages.new') : ($p->is_bestseller ? __('customer.messages.bestseller') : ''),
+            'badge' => ($p->isPreOrder() ? '' : ($p->is_new_arrival ? __('customer.messages.new') : ($p->is_bestseller ? __('customer.messages.bestseller') : ''))),
         ])->values()->all();
 
         // Inject DB products into season config

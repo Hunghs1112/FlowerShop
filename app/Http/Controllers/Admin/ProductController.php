@@ -84,6 +84,14 @@ class ProductController extends Controller
             ], 422);
         }
 
+        // Pre-order stock has not landed yet, so it can never be tagged "new arrival".
+        if ($field === 'is_new_arrival' && $product->isPreOrder()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sản phẩm đang mở đặt trước — không thể gắn tag mới về.',
+            ], 422);
+        }
+
         // Discount group lives on the pivot table, not on the product row
         if ($field === 'discount_group_id') {
             $validated = $request->validate([
@@ -111,6 +119,16 @@ class ProductController extends Controller
                                 'category_id' => $subcategory->category_id,
                             ]);
                         }
+                    }
+                },
+                'arrival_status' => function ($product, $value) {
+                    $product->update(['arrival_status' => $value]);
+
+                    // Pre-order stock has not landed yet, so it can never carry the
+                    // "new arrival" tag — clear it when switching to pre-order and
+                    // when coming back out of it.
+                    if ($value === 'pre' || $product->is_new_arrival) {
+                        $product->update(['is_new_arrival' => false]);
                     }
                 },
             ]
@@ -485,6 +503,11 @@ class ProductController extends Controller
         $validated['is_new_arrival'] = $request->boolean('is_new_arrival', false);
         $validated['is_bestseller'] = $request->boolean('is_bestseller', false);
 
+        // Pre-order stock has not landed yet, so it can never carry the "new arrival" tag.
+        if (($validated['arrival_status'] ?? null) === 'pre') {
+            $validated['is_new_arrival'] = false;
+        }
+
         $product = null;
 
         try {
@@ -567,6 +590,10 @@ class ProductController extends Controller
         // Pre-order products are not stock-tracked — keep the current stock untouched.
         if (($validated['arrival_status'] ?? $product->arrival_status) === 'pre') {
             unset($validated['stock']);
+
+            // Pre-order stock has not landed yet, so it can never carry the
+            // "new arrival" tag.
+            $validated['is_new_arrival'] = false;
         }
 
         // Discount group lives on the pivot table, not on the product row
