@@ -36,6 +36,7 @@ class HomeController extends Controller
         }
         $categories = $this->categoryService->getActiveCategories();
         $latestPosts = Post::published()->displayOrder()->limit(3)->get();
+        $todayDeliveries = $this->getTodayDeliveries($user);
         $banners = collect();
         $siteSettings = $this->settingService->getSiteInfo();
         $galleryImages = GalleryImage::active()->orderBy('sort_order')->get();
@@ -49,7 +50,7 @@ class HomeController extends Controller
             'Những đoá hoa được tuyển chọn từ chín vùng đất trên thế giới, bay về Hà Nội và được chăm chút để đến với không gian của bạn.'
         );
         $homeData = [
-            'products' => $newArrivalProducts->take(4)->map(fn ($product) => [
+            'products' => $todayDeliveries->map(fn ($product) => [
                 'name' => $product->display_name,
                 'origin' => $product->display_origin ?: __('customer.messages.imported_flowers'),
                 'url' => localized_route('products.show', $product->display_slug),
@@ -94,6 +95,38 @@ class HomeController extends Controller
             ],
         ];
 
-        return view('home.index', compact('bestsellingProducts', 'newArrivalProducts', 'categories', 'latestPosts', 'banners', 'siteSettings', 'homeData', 'homeHeroDescription', 'galleryImages'));
+        return view('home.index', compact('bestsellingProducts', 'newArrivalProducts', 'todayDeliveries', 'categories', 'latestPosts', 'banners', 'siteSettings', 'homeData', 'homeHeroDescription', 'galleryImages'));
+    }
+
+    /**
+     * Products shown on the "Các chuyến hoa hôm nay" hero board.
+     *
+     * Pre-order stock is featured first — it is the stock customers are
+     * actively waiting to land, so it deserves the top slot. Capped so the
+     * board stays varied rather than showing only pre-order items.
+     */
+    protected function getTodayDeliveries($user): \Illuminate\Support\Collection
+    {
+        $preOrderLimit = 2;
+
+        $base = fn () => Product::active()
+            ->with(['productImages', 'category', 'subcategory', 'discountGroup'])
+            ->inStock()
+            ->when($user, fn ($q) => $q->visibleToUser($user));
+
+        $preOrder = $base()
+            ->where('arrival_status', 'pre')
+            ->orderByDesc('created_at')
+            ->limit($preOrderLimit)
+            ->get();
+
+        $rest = $base()
+            ->where('arrival_status', '!=', 'pre')
+            ->orderByDesc('latest_arrival_date')
+            ->orderByDesc('created_at')
+            ->limit(4 - $preOrder->count())
+            ->get();
+
+        return $preOrder->concat($rest)->values();
     }
 }

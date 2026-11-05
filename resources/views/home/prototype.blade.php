@@ -167,7 +167,7 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
   <div class="center"><p class="eyebrow">{{ __('ui.home_arrivals_eyebrow') }}</p><h2 class="t">{{ __('ui.home_arrivals_heading') }}</h2><p class="sub">{{ __('ui.home_arrivals_sub') }}</p></div>
     <div class="prods">
     @foreach($newArrivalProducts->take(4)->values() as $index => $product)
-      <x-product-card :product="$product" :show-new-arrival="true" :route-label="($homeData['products'][$index]['code'] ?? 'LNT') . ' → HAN'" />
+      <x-product-card :product="$product" :show-new-arrival="true" :route-label="(Str::upper(Str::substr((string) preg_replace('/[^A-Za-z0-9]/', '', $product->sku), 0, 3)) ?: 'LNT') . ' → HAN'" />
     @endforeach
   </div>
 </div>
