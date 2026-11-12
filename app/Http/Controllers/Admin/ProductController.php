@@ -92,10 +92,12 @@ class ProductController extends Controller
         }
 
         // Pre-order stock has not landed yet, so it can never be tagged "new arrival".
-        if ($field === 'is_new_arrival' && $product->isPreOrder()) {
+        if ($field === 'is_new_arrival' && ($product->isPreOrder() || $product->isSoldOut())) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sản phẩm đang mở đặt trước — không thể gắn tag mới về.',
+                'message' => $product->isPreOrder()
+                    ? 'Sản phẩm đang mở đặt trước — không thể gắn tag mới về.'
+                    : 'Sản phẩm đã hết hàng — không thể gắn tag mới về.',
             ], 422);
         }
 
@@ -138,7 +140,7 @@ class ProductController extends Controller
                     // Pre-order stock has not landed yet, so it can never carry the
                     // "new arrival" tag — clear it when switching to pre-order and
                     // when coming back out of it.
-                    if ($value === 'pre' || $product->is_new_arrival) {
+                    if (in_array($value, ['pre', 'sold_out'], true) || $product->is_new_arrival) {
                         $product->update(['is_new_arrival' => false]);
                     }
                 },
@@ -516,6 +518,7 @@ class ProductController extends Controller
 
         if (($validated['arrival_status'] ?? null) === 'sold_out') {
             $validated['stock'] = 0;
+            $validated['is_new_arrival'] = false;
         }
 
         // Pre-order stock has not landed yet, so it can never carry the "new arrival" tag.
@@ -604,6 +607,7 @@ class ProductController extends Controller
 
         if (($validated['arrival_status'] ?? $product->arrival_status) === 'sold_out') {
             $validated['stock'] = 0;
+            $validated['is_new_arrival'] = false;
         }
 
         // Pre-order products are not stock-tracked — keep the current stock untouched.

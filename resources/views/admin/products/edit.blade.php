@@ -474,9 +474,9 @@ function previewImages(input) {
         stockInput.required = !isPre;
         stockInput.style.background = isPre ? 'var(--admin-bg-muted, #f5f5f5)' : '';
         if (newArrivalCheckbox) {
-            newArrivalCheckbox.disabled = isPre;
-            if (isPre) newArrivalCheckbox.checked = false;
-            newArrivalCheckbox.parentElement.style.opacity = isPre ? '.5' : '';
+            newArrivalCheckbox.disabled = isPre || isSoldOut;
+            if (isPre || isSoldOut) newArrivalCheckbox.checked = false;
+            newArrivalCheckbox.parentElement.style.opacity = (isPre || isSoldOut) ? '.5' : '';
         }
     };
 

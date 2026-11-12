@@ -320,9 +320,9 @@ function previewImages(input) {
         if (stockMark) stockMark.style.display = isPre ? 'none' : '';
         if (stockNote) stockNote.style.display = isPre ? 'block' : 'none';
         if (newArrivalCheckbox) {
-            newArrivalCheckbox.disabled = isPre;
-            if (isPre) newArrivalCheckbox.checked = false;
-            newArrivalCheckbox.parentElement.style.opacity = isPre ? '.5' : '';
+            newArrivalCheckbox.disabled = isPre || isSoldOut;
+            if (isPre || isSoldOut) newArrivalCheckbox.checked = false;
+            newArrivalCheckbox.parentElement.style.opacity = (isPre || isSoldOut) ? '.5' : '';
         }
     };
 

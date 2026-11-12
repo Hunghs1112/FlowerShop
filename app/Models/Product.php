@@ -352,8 +352,9 @@ class Product extends Model
 
     public function hasNewArrivalBadge(): bool
     {
-        // Pre-order stock has not landed yet, so it can never be "new arrival".
-        if ($this->isPreOrder()) {
+        // Pre-order and sold-out products must never show the "new arrival"
+        // badge, even when legacy flag/date data is still present.
+        if ($this->isPreOrder() || $this->isSoldOut()) {
             return false;
         }
 
