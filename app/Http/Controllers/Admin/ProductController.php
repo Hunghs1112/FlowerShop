@@ -73,7 +73,7 @@ class ProductController extends Controller
             'is_new_arrival' => 'boolean',
             'is_bestseller' => 'boolean',
             'season_id' => 'nullable|string|max:20',
-            'arrival_status' => 'required|in:landed,flying,pre',
+            'arrival_status' => 'required|in:landed,flying,pre,sold_out',
         ];
 
         // Pre-order products are not stock-tracked: their stock cannot be edited.
@@ -81,6 +81,13 @@ class ProductController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Sản phẩm đang mở đặt trước — không thay đổi được tồn kho.',
+            ], 422);
+        }
+
+        if ($field === 'stock' && $product->arrival_status === 'sold_out') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sản phẩm đang ở trạng thái hết hàng — hãy đổi trạng thái trước khi cập nhật tồn kho.',
             ], 422);
         }
 
@@ -122,7 +129,11 @@ class ProductController extends Controller
                     }
                 },
                 'arrival_status' => function ($product, $value) {
-                    $product->update(['arrival_status' => $value]);
+                    $updates = ['arrival_status' => $value];
+                    if ($value === 'sold_out') {
+                        $updates['stock'] = 0;
+                    }
+                    $product->update($updates);
 
                     // Pre-order stock has not landed yet, so it can never carry the
                     // "new arrival" tag — clear it when switching to pre-order and
@@ -503,6 +514,10 @@ class ProductController extends Controller
         $validated['is_new_arrival'] = $request->boolean('is_new_arrival', false);
         $validated['is_bestseller'] = $request->boolean('is_bestseller', false);
 
+        if (($validated['arrival_status'] ?? null) === 'sold_out') {
+            $validated['stock'] = 0;
+        }
+
         // Pre-order stock has not landed yet, so it can never carry the "new arrival" tag.
         if (($validated['arrival_status'] ?? null) === 'pre') {
             $validated['is_new_arrival'] = false;
@@ -586,6 +601,10 @@ class ProductController extends Controller
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_new_arrival'] = $request->boolean('is_new_arrival');
         $validated['is_bestseller'] = $request->boolean('is_bestseller');
+
+        if (($validated['arrival_status'] ?? $product->arrival_status) === 'sold_out') {
+            $validated['stock'] = 0;
+        }
 
         // Pre-order products are not stock-tracked — keep the current stock untouched.
         if (($validated['arrival_status'] ?? $product->arrival_status) === 'pre') {

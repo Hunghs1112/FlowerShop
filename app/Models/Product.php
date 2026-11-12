@@ -135,9 +135,13 @@ class Product extends Model
 
     public function scopeInStock($query)
     {
-        // Pre-order products are orderable regardless of stock
+        // Pre-order products are orderable regardless of stock. Products
+        // explicitly marked sold out must never be returned by this scope.
         return $query->where(function (Builder $q) {
-            $q->where('stock', '>', 0)->orWhere('arrival_status', 'pre');
+            $q->where(function (Builder $available) {
+                $available->where('stock', '>', 0)
+                    ->orWhere('arrival_status', 'pre');
+            })->where('arrival_status', '!=', 'sold_out');
         });
     }
 
@@ -334,7 +338,7 @@ class Product extends Model
             return false;
         }
 
-        return (int) $this->stock <= 0;
+        return $this->arrival_status === 'sold_out' || (int) $this->stock <= 0;
     }
 
     /**

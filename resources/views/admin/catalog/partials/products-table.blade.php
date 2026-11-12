@@ -65,7 +65,7 @@
                 <td data-label="Tồn Kho">
                     @if($product->isPreOrder())
                         <span class="badge badge-info">Đặt trước</span>
-                    @elseif($product->stock > 0)
+                    @elseif(!$product->isSoldOut())
                         <span class="badge badge-success">{{ $product->stock }}</span>
                     @else
                         <span class="badge badge-danger">Hết hàng</span>

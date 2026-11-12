@@ -238,6 +238,7 @@
                                 <option value="landed" {{ old('arrival_status', 'landed') === 'landed' ? 'selected' : '' }}>Đã hạ cánh</option>
                                 <option value="flying" {{ old('arrival_status') === 'flying' ? 'selected' : '' }}>Đang bay</option>
                                 <option value="pre" {{ old('arrival_status') === 'pre' ? 'selected' : '' }}>Mở đặt trước</option>
+                                <option value="sold_out" {{ old('arrival_status') === 'sold_out' ? 'selected' : '' }}>Hết hàng</option>
                             </select>
                         </label>
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
@@ -310,8 +311,10 @@ function previewImages(input) {
 
     const sync = () => {
         const isPre = statusSelect.value === 'pre';
+        const isSoldOut = statusSelect.value === 'sold_out';
+        if (isSoldOut) stockInput.value = '0';
         stockInput.disabled = isPre;
-        stockInput.readOnly = isPre;
+        stockInput.readOnly = isPre || isSoldOut;
         stockInput.required = !isPre;
         stockInput.style.background = isPre ? 'var(--admin-bg-muted, #f5f5f5)' : '';
         if (stockMark) stockMark.style.display = isPre ? 'none' : '';

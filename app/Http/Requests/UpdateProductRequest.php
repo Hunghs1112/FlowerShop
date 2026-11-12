@@ -27,7 +27,7 @@ class UpdateProductRequest extends FormRequest
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0|max:999999999',
             // Pre-order products are not stock-tracked — stock is optional for them
-            'stock' => $this->isPreOrder() ? 'nullable|integer|min:0|max:999999' : 'required|integer|min:0|max:999999',
+            'stock' => $this->isStockOptional() ? 'nullable|integer|min:0|max:999999' : 'required|integer|min:0|max:999999',
             'description' => 'nullable|string',
             'description_en' => 'nullable|string',
             'short_description' => 'nullable|string|max:500',
@@ -44,7 +44,7 @@ class UpdateProductRequest extends FormRequest
             'is_new_arrival' => 'boolean',
             'is_bestseller' => 'boolean',
             'season_id' => 'nullable|string|max:20',
-            'arrival_status' => 'required|in:landed,flying,pre',
+            'arrival_status' => 'required|in:landed,flying,pre,sold_out',
             'discount_group_id' => 'nullable|integer|exists:discount_groups,id',
             'images' => "nullable|array|max:{$maxCnt}",
             'images.*' => "file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
@@ -64,6 +64,13 @@ class UpdateProductRequest extends FormRequest
         $status = $this->input('arrival_status', $this->route('product')?->arrival_status);
 
         return $status === 'pre';
+    }
+
+    protected function isStockOptional(): bool
+    {
+        $status = $this->input('arrival_status', $this->route('product')?->arrival_status);
+
+        return in_array($status, ['pre', 'sold_out'], true);
     }
 
     public function messages(): array

@@ -79,6 +79,12 @@ class CartService
 
         $newQuantity = $cartItem ? $cartItem->quantity + $quantity : $quantity;
 
+        // An explicit sold-out status always wins, even if stale stock data
+        // still contains a positive value.
+        if ($product->isSoldOut()) {
+            throw new \Exception('Sản phẩm đã hết hàng');
+        }
+
         // Check stock availability (pre-order products are not stock-limited)
         if (! $product->isPreOrder()) {
             $availableStock = $variant ? $variant->stock : $product->stock;

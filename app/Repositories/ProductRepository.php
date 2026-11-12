@@ -87,7 +87,9 @@ class ProductRepository extends BaseRepository
     public function inStock(): self
     {
         return $this->setQuery($this->newQuery()->where(function ($q) {
-            $q->where('stock', '>', 0)->orWhere('arrival_status', 'pre');
+            $q->where(function ($available) {
+                $available->where('stock', '>', 0)->orWhere('arrival_status', 'pre');
+            })->where('arrival_status', '!=', 'sold_out');
         }));
     }
 
@@ -96,7 +98,9 @@ class ProductRepository extends BaseRepository
      */
     public function outOfStock(): self
     {
-        return $this->setQuery($this->newQuery()->where('stock', '<=', 0));
+        return $this->setQuery($this->newQuery()->where(function ($q) {
+            $q->where('stock', '<=', 0)->orWhere('arrival_status', 'sold_out');
+        })->where('arrival_status', '!=', 'pre'));
     }
 
     /**

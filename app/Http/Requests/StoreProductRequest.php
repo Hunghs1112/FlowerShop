@@ -26,7 +26,9 @@ class StoreProductRequest extends FormRequest
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'price' => 'required|numeric|min:0|max:999999999',
             // Pre-order products are not stock-tracked
-            'stock' => $this->input('arrival_status') === 'pre' ? 'nullable|integer|min:0|max:999999' : 'required|integer|min:0|max:999999',
+            'stock' => in_array($this->input('arrival_status'), ['pre', 'sold_out'], true)
+                ? 'nullable|integer|min:0|max:999999'
+                : 'required|integer|min:0|max:999999',
             'description' => 'nullable|string',
             'description_en' => 'nullable|string',
             'short_description' => 'nullable|string|max:500',
@@ -43,7 +45,7 @@ class StoreProductRequest extends FormRequest
             'is_new_arrival' => 'boolean',
             'is_bestseller' => 'boolean',
             'season_id' => 'nullable|string|max:20',
-            'arrival_status' => 'required|in:landed,flying,pre',
+            'arrival_status' => 'required|in:landed,flying,pre,sold_out',
             'images' => "nullable|array|max:{$maxCnt}",
             'images.*' => "file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
         ];
