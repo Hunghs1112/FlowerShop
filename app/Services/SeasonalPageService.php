@@ -367,21 +367,27 @@ class SeasonalPageService
         $season['theme'] = 'autumn';
         $season['code'] = Str::upper(trim((string) ($attributes['code'] ?? '')) ?: 'LNT');
         $season['name'] = $name;
+        $season['name_en'] = trim((string) ($attributes['name_en'] ?? '')) ?: $name;
         $season['tagline'] = trim((string) ($attributes['tagline'] ?? ''));
+        $season['tagline_en'] = trim((string) ($attributes['tagline_en'] ?? '')) ?: $season['tagline'];
         $season['status'] = trim((string) ($attributes['status'] ?? '')) ?: 'Đang chuẩn bị';
+        $season['status_en'] = trim((string) ($attributes['status_en'] ?? '')) ?: 'Preparing';
         $season['date'] = $attributes['date'] ?? '';
         $season['intro'] = trim((string) ($attributes['intro'] ?? ''));
+        $season['intro_en'] = trim((string) ($attributes['intro_en'] ?? '')) ?: $season['intro'];
         $season['palette'] = $season['palette'] ?? [];
         $season['labels'] = [];
         $season['gallery'] = [];
         $season['cta'] = [
             'label' => trim((string) ($attributes['cta_label'] ?? '')) ?: 'Xem bộ sưu tập',
+            'label_en' => trim((string) ($attributes['cta_label_en'] ?? '')) ?: 'View collection',
             'link' => trim((string) ($attributes['cta_link'] ?? '')) ?: localized_route('products.index'),
         ];
 
         if (filled($attributes['extra_label'] ?? null)) {
             $season['extra'] = [
                 'label' => trim((string) $attributes['extra_label']),
+                'label_en' => trim((string) ($attributes['extra_label_en'] ?? '')) ?: trim((string) $attributes['extra_label']),
                 'link' => trim((string) ($attributes['extra_link'] ?? '')),
             ];
         } else {
@@ -565,12 +571,17 @@ class SeasonalPageService
             }
 
             if ($key === 'labels') {
-                $labels = collect(is_array($value) ? $value : [])
-                    ->map(fn ($label) => trim((string) $label))
-                    ->filter(fn ($label) => $label !== '')
-                    ->all();
+                $labels = [];
+                foreach ((array) $value as $labelKey => $labelValue) {
+                    $labelValue = trim((string) $labelValue);
+                    if ($labelValue !== '') {
+                        $labels[$labelKey] = $labelValue;
+                    }
+                }
 
-                $result['labels'] = $labels;
+                if ($labels !== []) {
+                    $result['labels'] = $labels;
+                }
 
                 continue;
             }

@@ -112,8 +112,16 @@
                     </div>
                     @endif
                     <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Tên Trang (English)</label>
+                        <input type="text" name="data[name_en]" value="{{ $data['name_en'] ?? '' }}" class="form-input" placeholder="English page name" style="width: 100%;">
+                    </div>
+                    <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Tagline</label>
                         <input type="text" name="data[tagline]" value="{{ $data['tagline'] ?? '' }}" class="form-input" placeholder="VD: Chuyến bay mùa lá đỏ" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Tagline (English)</label>
+                        <input type="text" name="data[tagline_en]" value="{{ $data['tagline_en'] ?? '' }}" class="form-input" placeholder="English tagline" style="width: 100%;">
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                         <div>
@@ -125,6 +133,10 @@
                             <input type="text" name="data[status]" value="{{ $data['status'] ?? '' }}" class="form-input" placeholder="VD: Đang bay" style="width: 100%;">
                         </div>
                         <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Trạng Thái (English)</label>
+                            <input type="text" name="data[status_en]" value="{{ $data['status_en'] ?? '' }}" class="form-input" placeholder="Pre-order open" style="width: 100%;">
+                        </div>
+                        <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Ngày</label>
                             <input type="date" name="data[date]" value="{{ $data['date'] ?? '' }}" class="form-input" style="width: 100%;">
                         </div>
@@ -132,6 +144,10 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Giới Thiệu</label>
                         <textarea name="data[intro]" rows="3" class="form-input" placeholder="Mô tả ngắn về trang..." style="width: 100%; resize: vertical;">{{ $data['intro'] ?? '' }}</textarea>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Giới Thiệu (English)</label>
+                        <textarea name="data[intro_en]" rows="3" class="form-input" placeholder="English page introduction" style="width: 100%; resize: vertical;">{{ $data['intro_en'] ?? '' }}</textarea>
                     </div>
                 </div>
             </div>
@@ -155,6 +171,17 @@
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Thư Viện Ảnh</label>
                             <input type="text" name="data[labels][gallery]" value="{{ $data['labels']['gallery'] ?? '' }}" class="form-input" placeholder="KHOẢNH KHẮC MÙA LỄ" style="width: 100%;">
+                        </div>
+                        <div>
+                            <input type="text" name="data[labels][palette_en]" value="{{ $data['labels']['palette_en'] ?? '' }}" class="form-input" placeholder="PALETTE" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Bộ Sưu Tập (English)</label>
+                            <input type="text" name="data[labels][collection_en]" value="{{ $data['labels']['collection_en'] ?? '' }}" class="form-input" placeholder="COLLECTION" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Thư Viện Ảnh (English)</label>
+                            <input type="text" name="data[labels][gallery_en]" value="{{ $data['labels']['gallery_en'] ?? '' }}" class="form-input" placeholder="GALLERY" style="width: 100%;">
                         </div>
                     </div>
                 </div>
@@ -202,6 +229,10 @@
                         <input type="text" name="data[cta][label]" value="{{ $data['cta']['label'] ?? '' }}" class="form-input" placeholder="VD: Xem bộ sưu tập" style="width: 100%;">
                     </div>
                     <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Nhãn Nút (English)</label>
+                        <input type="text" name="data[cta][label_en]" value="{{ $data['cta']['label_en'] ?? '' }}" class="form-input" placeholder="View collection" style="width: 100%;">
+                    </div>
+                    <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Liên Kết</label>
                         <input type="text" name="data[cta][link]" value="{{ $data['cta']['link'] ?? '' }}" class="form-input" placeholder="/san-pham" style="width: 100%;">
                     </div>
@@ -209,6 +240,7 @@
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Link Bổ Sung</label>
                         <input type="text" name="data[extra][label]" value="{{ $data['extra']['label'] ?? '' }}" class="form-input" placeholder="Nhãn link" style="width: 100%; margin-bottom: 6px;">
+                        <input type="text" name="data[extra][label_en]" value="{{ $data['extra']['label_en'] ?? '' }}" class="form-input" placeholder="English link label" style="width: 100%; margin-bottom: 6px;">
                         <input type="text" name="data[extra][link]" value="{{ $data['extra']['link'] ?? '' }}" class="form-input" placeholder="/bai-viet" style="width: 100%;">
                     </div>
                     @endif
@@ -354,6 +386,8 @@
                         <div style="width: 36px; height: 36px; border-radius: 8px; background: {{ $color[1] ?? '#ccc' }}; border: 1px solid var(--admin-border); flex-shrink: 0;"></div>
                         <input type="text" name="data[palette][{{ $i }}][0]" value="{{ $color[0] ?? '' }}" class="form-input" placeholder="Tên màu" style="flex: 1;">
                         <input type="color" name="data[palette][{{ $i }}][1]" value="{{ $color[1] ?? '#000000' }}" style="width: 36px; height: 38px; padding: 2px; border: 1px solid var(--admin-border); border-radius: 6px; cursor: pointer;">
+                        <input type="text" name="data[palette_en][{{ $i }}][0]" value="{{ $data['palette_en'][$i][0] ?? $color[0] ?? '' }}" class="form-input" placeholder="English color name" style="flex: 1;">
+                        <input type="hidden" name="data[palette_en][{{ $i }}][1]" value="{{ $data['palette_en'][$i][1] ?? $color[1] ?? '#000000' }}">
                     </div>
                     @endforeach
                 </div>

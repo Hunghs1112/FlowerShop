@@ -59,13 +59,36 @@
                     <label class="season-label">Tagline</label>
                     <input type="text" name="tagline" class="form-input" maxlength="255" placeholder="VD: Chuyến bay mùa yêu thương" value="{{ old('tagline') }}">
                 </div>
+
+                    <input type="text" name="name_en" class="form-input" maxlength="150" placeholder="VD: Valentine Festival" value="{{ old('name_en') }}">
+                </div>
+                <div>
+                    <label class="season-label">Tagline (English)</label>
+                    <input type="text" name="tagline_en" class="form-input" maxlength="255" placeholder="VD: A flight of love" value="{{ old('tagline_en') }}">
+                </div>
+                <div>
+                    <label class="season-label">Trạng Thái (English)</label>
+                    <input type="text" name="status_en" class="form-input" maxlength="100" placeholder="VD: Pre-order open" value="{{ old('status_en') }}">
+                </div>
                 <div style="grid-column: 1 / -1;">
                     <label class="season-label">Giới Thiệu</label>
                     <textarea name="intro" rows="2" class="form-input" maxlength="2000" placeholder="Mô tả ngắn hiển thị dưới tiêu đề trang">{{ old('intro') }}</textarea>
                 </div>
+                <div style="grid-column: 1 / -1;">
+                    <label class="season-label">Giới Thiệu (English)</label>
+                    <textarea name="intro_en" rows="2" class="form-input" maxlength="2000" placeholder="English introduction shown below the page title">{{ old('intro_en') }}</textarea>
+                </div>
                 <div>
                     <label class="season-label">Nhãn Nút</label>
                     <input type="text" name="cta_label" class="form-input" maxlength="150" placeholder="Xem bộ sưu tập" value="{{ old('cta_label') }}">
+                </div>
+                <div>
+                    <label class="season-label">Nhãn Nút (English)</label>
+                    <input type="text" name="cta_label_en" class="form-input" maxlength="150" placeholder="View collection" value="{{ old('cta_label_en') }}">
+                </div>
+                <div>
+                    <label class="season-label">Link Bổ Sung — Nhãn (English)</label>
+                    <input type="text" name="extra_label_en" class="form-input" maxlength="255" placeholder="Read on LNT Journal →" value="{{ old('extra_label_en') }}">
                 </div>
                 <div>
                     <label class="season-label">Liên Kết Nút</label>
@@ -79,6 +102,7 @@
                     <label class="season-label">Link Bổ Sung — Liên Kết</label>
                     <input type="text" name="extra_link" class="form-input" maxlength="500" placeholder="/bai-viet" value="{{ old('extra_link') }}">
                 </div>
+
             </div>
 
             @if($errors->any())
