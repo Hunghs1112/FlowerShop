@@ -6,6 +6,7 @@ return [
         'days_remaining' => 'còn :count ngày · :date', 'days_until' => 'còn :count ngày đến :name · :date',
         'flight_board' => 'LỊCH BAY MÙA LỄ', 'book_flight' => 'Lên chuyến bay →', 'back_to_flights' => '← Lịch bay mùa lễ',
         'zalo_advice' => 'Tư vấn qua Zalo', 'season_palette' => 'BẢNG MÀU MÙA', 'collection' => 'BỘ SƯU TẬP', 'view_details' => 'Xem chi tiết',
+        'gallery' => 'KHOẢNH KHẮC MÙA LỄ',
         'touch_to_flip' => 'Chạm để lật', 'choose_box' => 'Chọn hộp :name →', 'tree_height_aria' => 'Cây cao :height cm so với người cao 1,7 m',
         'price_contact' => 'Liên hệ báo giá', 'qty_group' => 'Số lượng :name', 'qty_remove' => 'Bớt', 'qty_add' => 'Thêm', 'package_prefix' => 'Bộ ',
         'accessories' => 'PHỤ KIỆN & ĐỒ TRANG TRÍ', 'finish_tree' => 'Hoàn thiện cây thông của bạn', 'back_to_order' => '↑ Về phiếu đặt trước',

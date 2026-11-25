@@ -37,13 +37,15 @@ function hub(){
 /* ---------- SEASON ---------- */
 function season(s){
   VIEW=s.id;root.dataset.seasonTheme=s.theme;
+  const lbl=(key,fallback)=>s.labels&&s.labels[key]?s.labels[key]:fallback;
   const d=days(s.date), st=ST(s.status);
   let h=`<section class="shero"><div class="wrap sgrid"><div><a class="back" href="${esc(C.hub.url)}">${esc(T.back_to_flights)}</a><p class="eyebrow">${esc(s.code)} → HAN · ${esc(s.status).toUpperCase()}</p><h1>${esc(s.name)}</h1><p class="tag2">${esc(s.tagline)}</p><p class="lead">${esc(s.intro)}</p>
   <div class="ctas"><a class="btn primary" href="${esc(safe(s.cta.link))}">${esc(s.cta.label)}</a><a class="btn ghost" href="https://zalo.me/${esc(C.contact.zalo)}" target="_blank" rel="noopener">${esc(T.zalo_advice)}</a></div>
   ${d!=null&&d>=0?`<div class="cd" data-date="${esc(s.date)}"><b>${d}</b><span>${esc(tr('days_until',{count:d,name:s.name,date:fmt(s.date)}))}</span></div>`:''}</div>
   <div class="hv">${img(s.img)?`<img src="${esc(img(s.img))}" alt="${esc(s.name)}">`:`<div class="treeart">${treeSVG(210,true)}</div>`}</div></div>${s.theme==='nordic'&&!red?'<div class="snow" aria-hidden="true"></div>':''}</section>`;
-  if(s.palette) h+=`<section class="wrap blk"><p class="eyebrow">${esc(T.season_palette)}</p><div class="pal">${s.palette.map(p=>`<span><i style="background:${esc(p[1])}"></i>${esc(p[0])}</span>`).join('')}</div></section>`;
-  if(s.products&&s.products.length) h+=`<section class="wrap blk"><p class="eyebrow">${esc(T.collection)}</p><div class="prods">${s.products.map(product).join('')}</div></section>`;
+  if(s.palette) h+=`<section class="wrap blk"><p class="eyebrow">${esc(lbl('palette',T.season_palette))}</p><div class="pal">${s.palette.map(p=>`<span><i style="background:${esc(p[1])}"></i>${esc(p[0])}</span>`).join('')}</div></section>`;
+  if(s.products&&s.products.length) h+=`<section class="wrap blk"><p class="eyebrow">${esc(lbl('collection',T.collection))}</p><div class="prods">${s.products.map(product).join('')}</div></section>`;
+  if(s.gallery&&s.gallery.length) h+=`<section class="wrap blk"><p class="eyebrow">${esc(lbl('gallery',T.gallery))}</p><div class="gal">${s.gallery.map(g=>`<figure><img src="${esc(img(g))}" alt="" loading="lazy"></figure>`).join('')}</div></section>`;
   if(s.trickTreat){const t=s.trickTreat;h+=`<section class="wrap blk"><div class="tt"><div><p class="eyebrow">MYSTERY BOX</p><h2>${esc(t.title)}</h2><p class="lead">${esc(t.intro)}</p></div><div class="cards2">
    ${['trick','treat'].map(k=>`<button type="button" class="flip" aria-pressed="false"><span class="fr"><b>${esc(t[k].label)}</b><small>${esc(T.touch_to_flip)}</small></span><span class="bk"><b>${esc(t[k].title)}</b><small>${esc(t[k].desc)}</small><a href="${esc(safe(t.link))}">${esc(tr('choose_box',{name:t[k].label}))}</a></span></button>`).join('')}</div></div></section>`}
   if(s.tree) h+=treeBlock(s);

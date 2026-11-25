@@ -3,66 +3,66 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Page;
 use App\Models\Product;
-use App\Repositories\SettingRepository;
 use App\Services\ImageStorageService;
+use App\Services\SeasonalPageService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SeasonalPageController extends Controller
 {
-    public const SEASONS = [
-        'thu' => [
-            'label' => 'Hội Mùa Thu',
-            'name' => 'autumn',
-            'json' => 'autumn.json',
-        ],
-        'halloween' => [
-            'label' => 'Halloween',
-            'name' => 'halloween',
-            'json' => 'halloween.json',
-        ],
-        'thong' => [
-            'label' => 'Cây Thông Đan Mạch',
-            'name' => 'danish-tree',
-            'json' => 'danish-tree.json',
-        ],
-    ];
-
     public function __construct(
         protected ImageStorageService $images,
-        protected SettingRepository $settings,
+        protected SeasonalPageService $seasonal,
     ) {}
 
     public function index(): View
     {
         return view('admin.seasonal-pages.index', [
-            'seasons' => self::SEASONS,
+            'seasons' => $this->seasonal->listForAdmin(),
+            'layoutLabels' => SeasonalPageService::LAYOUT_LABELS,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:150',
+            'slug' => 'nullable|string|max:150',
+            'code' => 'nullable|string|max:10',
+            'tagline' => 'nullable|string|max:255',
+            'status' => 'nullable|string|max:100',
+            'date' => 'nullable|date',
+            'intro' => 'nullable|string|max:2000',
+            'cta_label' => 'nullable|string|max:150',
+            'cta_link' => 'nullable|string|max:500',
+            'extra_label' => 'nullable|string|max:255',
+            'extra_link' => 'nullable|string|max:500',
+            'product_ids' => 'nullable|array',
+            'product_ids.*' => 'integer|exists:products,id',
+        ]);
+
+        $season = $this->seasonal->create($validated);
+
+        if (! empty($validated['product_ids'])) {
+            $this->seasonal->syncProducts($season['id'], $validated['product_ids']);
+        }
+
+        $message = 'Đã thêm trang lễ hội mới.';
+
+        return $request->expectsJson()
+            ? response()->json(['success' => true, 'message' => $message, 'redirect' => route('admin.seasonal-pages.edit', $season['id'])])
+            : redirect()->route('admin.seasonal-pages.edit', $season['id'])->with('success', $message);
     }
 
     public function edit(string $seasonId): View
     {
-        abort_unless(isset(self::SEASONS[$seasonId]), 404);
+        $meta = $this->seasonal->findForAdmin($seasonId);
+        abort_unless($meta, 404);
 
-        $season = self::SEASONS[$seasonId];
-        $defaultData = $this->loadDefaultJson($season['json']);
-        $page = Page::where('slug', 'mua-le-hoi')->active()->first();
-
-        // Load stored content from page
-        $storedContent = [];
-        if ($page) {
-            $stored = json_decode($page->content, true);
-            $storedSeasons = $stored['seasons'] ?? [];
-            $storedSeason = collect($storedSeasons)->firstWhere('id', $seasonId);
-            if ($storedSeason) {
-                $storedContent = $storedSeason;
-            }
-        }
-
-        // Merge default + stored (stored overrides default)
-        $data = $this->mergeSeasonData($defaultData, $storedContent);
+        $data = $meta['custom']
+            ? $this->seasonal->customSeason($seasonId)
+            : $this->seasonal->builtIn($seasonId);
 
         // Get products for this season
         $seasonProducts = Product::with('productImages')
@@ -70,21 +70,18 @@ class SeasonalPageController extends Controller
             ->orderBy('name')
             ->get();
 
-        // All products for selection modal
+        // All products for selection
         $allProducts = Product::with('productImages')
             ->active()
             ->orderBy('name')
             ->get();
 
-        // Hero image from settings
-        $heroImage = $this->images->url($this->settings->getByKey('seasonal_'.$seasonId.'_hero'));
-
         return view('admin.seasonal-pages.edit', [
             'seasonId' => $seasonId,
-            'season' => $season,
-            'data' => $data,
-            'page' => $page,
-            'heroImage' => $heroImage,
+            'season' => $meta,
+            'data' => $data ?? [],
+            'heroImage' => $this->seasonal->heroUrl($seasonId),
+            'gallery' => $this->seasonal->gallery($seasonId),
             'seasonProducts' => $seasonProducts,
             'allProducts' => $allProducts,
         ]);
@@ -92,58 +89,53 @@ class SeasonalPageController extends Controller
 
     public function update(Request $request, string $seasonId)
     {
-        abort_unless(isset(self::SEASONS[$seasonId]), 404);
+        $meta = $this->seasonal->findForAdmin($seasonId);
+        abort_unless($meta, 404);
 
-        $validated = $request->validate([
+        $rules = [
             'data' => 'required|array',
             'product_ids' => 'nullable|array',
             'product_ids.*' => 'nullable|exists:products,id',
             'hero_image' => 'nullable|string',
-        ]);
+        ];
 
-        $page = Page::where('slug', 'mua-le-hoi')->first();
-        abort_unless($page, 404);
-
-        // Update product season assignments
-        Product::where('season_id', $seasonId)->update(['season_id' => null]);
-        if (! empty($validated['product_ids'])) {
-            Product::whereIn('id', $validated['product_ids'])->update(['season_id' => $seasonId]);
+        if ($meta['custom']) {
+            $rules['data.slug'] = 'nullable|string|max:150';
         }
 
-        // Merge data into page content
-        $stored = json_decode($page->content, true) ?: [];
-        $storedSeasons = $stored['seasons'] ?? [];
-        $seasonIndex = collect($storedSeasons)->search(fn ($s) => ($s['id'] ?? '') === $seasonId);
+        $validated = $request->validate($rules);
 
-        // Update or insert season data
-        $seasonData = $this->normalizeSeasonData($validated['data'], $seasonId);
-        if ($seasonIndex !== false) {
-            $storedSeasons[$seasonIndex] = array_merge($storedSeasons[$seasonIndex], $seasonData);
-        } else {
-            $storedSeasons[] = $seasonData;
-        }
-        $stored['seasons'] = $storedSeasons;
+        $this->seasonal->updateSeason($seasonId, $validated['data']);
+        $this->seasonal->syncProducts($seasonId, $validated['product_ids'] ?? []);
 
-        $page->update(['content' => json_encode($stored, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)]);
-
-        // Save hero image to settings
         if (! empty($validated['hero_image'])) {
-            $this->settings->setSetting('seasonal_'.$seasonId.'_hero', $validated['hero_image'], 'image');
+            \App\Models\Setting::set($this->seasonal->heroKey($seasonId), $validated['hero_image'], 'image');
         }
 
         return response()->json(['success' => true, 'message' => 'Đã lưu thay đổi']);
     }
 
+    public function destroy(string $seasonId)
+    {
+        abort_unless($this->seasonal->deleteCustom($seasonId), 403, 'Không thể xóa trang lễ hội gốc.');
+
+        $message = 'Đã xóa trang lễ hội.';
+
+        return request()->expectsJson()
+            ? response()->json(['success' => true, 'message' => $message, 'redirect' => route('admin.seasonal-pages.index')])
+            : redirect()->route('admin.seasonal-pages.index')->with('success', $message);
+    }
+
     public function uploadHero(Request $request, string $seasonId)
     {
-        abort_unless(isset(self::SEASONS[$seasonId]), 404);
+        abort_unless($this->seasonal->findForAdmin($seasonId), 404);
 
         $maxKb = (int) config('upload.limits.banner.max_size', 4096);
         $request->validate([
             'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
         ]);
 
-        $oldPath = $this->settings->getByKey('seasonal_'.$seasonId.'_hero');
+        $oldPath = \App\Models\Setting::get($this->seasonal->heroKey($seasonId));
 
         $path = $this->images->upload(
             $request->file('file'),
@@ -152,7 +144,7 @@ class SeasonalPageController extends Controller
             'seasonal_hero_'.$seasonId
         );
 
-        $this->settings->setSetting('seasonal_'.$seasonId.'_hero', $path, 'image');
+        \App\Models\Setting::set($this->seasonal->heroKey($seasonId), $path, 'image');
 
         return response()->json([
             'success' => true,
@@ -163,54 +155,49 @@ class SeasonalPageController extends Controller
 
     public function destroyHero(string $seasonId)
     {
-        abort_unless(isset(self::SEASONS[$seasonId]), 404);
+        abort_unless($this->seasonal->findForAdmin($seasonId), 404);
 
-        $oldPath = $this->settings->getByKey('seasonal_'.$seasonId.'_hero');
+        $oldPath = \App\Models\Setting::get($this->seasonal->heroKey($seasonId));
         if ($oldPath) {
             $this->images->delete($oldPath);
-            $this->settings->deleteByKey('seasonal_'.$seasonId.'_hero');
+            \App\Models\Setting::where('key', $this->seasonal->heroKey($seasonId))->delete();
         }
 
         return response()->json(['success' => true, 'message' => 'Đã xóa ảnh hero']);
     }
 
-    protected function loadDefaultJson(string $file): array
+    /**
+     * Extra images shown in the season gallery section (admin-managed).
+     */
+    public function uploadGallery(Request $request, string $seasonId)
     {
-        $path = resource_path("data/seasonal/{$file}");
-        if (file_exists($path)) {
-            return json_decode(file_get_contents($path), true);
-        }
+        abort_unless($this->seasonal->findForAdmin($seasonId), 404);
 
-        return [];
+        $maxKb = (int) config('upload.limits.banner.max_size', 4096);
+        $request->validate([
+            'file' => "required|file|mimes:jpg,jpeg,png,gif,webp|max:{$maxKb}",
+        ]);
+
+        $url = $this->seasonal->addGalleryImage($seasonId, $request->file('file'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã thêm ảnh',
+            'imageUrl' => $url,
+            'images' => $this->seasonal->gallery($seasonId),
+        ]);
     }
 
-    protected function mergeSeasonData(array $defaults, array $stored): array
+    public function destroyGallery(string $seasonId, int $index)
     {
-        foreach ($stored as $key => $value) {
-            if (is_array($value) && isset($defaults[$key]) && is_array($defaults[$key])) {
-                $defaults[$key] = $this->mergeSeasonData($defaults[$key], $value);
-            } else {
-                $defaults[$key] = $value;
-            }
-        }
+        abort_unless($this->seasonal->findForAdmin($seasonId), 404);
 
-        return $defaults;
-    }
+        $this->seasonal->removeGalleryImage($seasonId, $index);
 
-    protected function normalizeSeasonData(array $data, string $seasonId): array
-    {
-        // Clean up data before saving
-        $result = [];
-        foreach ($data as $key => $value) {
-            if (in_array($key, ['products'])) {
-                continue;
-            } // products handled separately
-            if ($value === '' || $value === null) {
-                continue;
-            }
-            $result[$key] = $value;
-        }
-
-        return $result;
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa ảnh',
+            'images' => $this->seasonal->gallery($seasonId),
+        ]);
     }
 }

@@ -6,6 +6,7 @@ return [
         'days_remaining' => ':count days remaining · :date', 'days_until' => ':count days until :name · :date',
         'flight_board' => 'SEASONAL FLIGHT SCHEDULE', 'book_flight' => 'Board this flight →', 'back_to_flights' => '← Seasonal flights',
         'zalo_advice' => 'Ask us on Zalo', 'season_palette' => 'SEASON PALETTE', 'collection' => 'COLLECTION', 'view_details' => 'View details',
+        'gallery' => 'SEASON MOMENTS',
         'touch_to_flip' => 'Tap to flip', 'choose_box' => 'Choose :name →', 'tree_height_aria' => ':height cm tree compared with a person 1.7 m tall',
         'price_contact' => 'Contact us for a quote', 'qty_group' => 'Quantity: :name', 'qty_remove' => 'Remove one', 'qty_add' => 'Add one', 'package_prefix' => 'Set ',
         'accessories' => 'ACCESSORIES & DECOR', 'finish_tree' => 'Complete your tree', 'back_to_order' => '↑ Back to pre-order form',

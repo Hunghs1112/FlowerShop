@@ -7,9 +7,9 @@ use App\Models\FlowerOrigin;
 use App\Models\Inquiry;
 use App\Models\Page;
 use App\Models\Product;
-use App\Models\Setting;
 use App\Services\ImageStorageService;
 use App\Services\NotificationService;
+use App\Services\SeasonalPageService;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -22,6 +22,7 @@ class PageController extends Controller
         protected SettingService $settingService,
         protected ImageStorageService $images,
         protected NotificationService $notifications,
+        protected SeasonalPageService $seasonal,
     ) {}
 
     public function about()
@@ -146,7 +147,7 @@ class PageController extends Controller
     public function seasonHub()
     {
         return view('pages.seasonal.hub', [
-            'seasonConfig' => $this->seasonalConfig('mua-le-hoi'),
+            'seasonConfig' => $this->seasonal->config('mua-le-hoi'),
         ]);
     }
 
@@ -167,9 +168,21 @@ class PageController extends Controller
         return $this->seasonalPage('thong', 'pages.seasonal.danish-tree', $sourceSlug);
     }
 
+    /**
+     * A season created from the admin. These reuse the autumn template, so only
+     * the content differs — the layout stays identical to Hội Mùa Thu.
+     */
+    public function seasonCustom(string $slug)
+    {
+        $seasonId = $this->seasonal->customIdBySlug($slug);
+        abort_unless($seasonId, 404);
+
+        return $this->seasonalPage($seasonId, 'pages.seasonal.autumn');
+    }
+
     private function seasonalPage(string $seasonId, string $view, string $sourceSlug = 'mua-le-hoi')
     {
-        $config = $this->seasonalConfig($sourceSlug);
+        $config = $this->seasonal->config($sourceSlug);
         $season = collect($config['seasons'])->firstWhere('id', $seasonId);
         abort_unless($season, 404);
 
@@ -202,11 +215,8 @@ class PageController extends Controller
 
         if ($randomProductImg) {
             $season['img'] = asset('storage/'.$randomProductImg);
-        } else {
-            $heroSetting = Setting::where('key', 'seasonal_'.$seasonId.'_hero')->value('value');
-            if ($heroSetting) {
-                $season['img'] = $this->images->url($heroSetting);
-            }
+        } elseif ($heroImage = $this->seasonal->heroUrl($seasonId)) {
+            $season['img'] = $heroImage;
         }
 
         return view($view, [
@@ -216,127 +226,7 @@ class PageController extends Controller
 
     private function seasonalConfig(string $slug): array
     {
-        $page = Page::where('slug', $slug)->active()->firstOrFail();
-        $stored = json_decode($page->content, true, flags: JSON_THROW_ON_ERROR);
-        $defaults = $this->seasonalFile('hub');
-        $defaults['seasons'] = [
-            $this->seasonalFile('autumn'),
-            $this->seasonalFile('halloween'),
-            $this->seasonalFile('danish-tree'),
-        ];
-
-        $storedSeasons = $stored['seasons'] ?? [];
-        $heroImages = $this->settingService->getMultiple([
-            'seasonal_thu_hero',
-            'seasonal_halloween_hero',
-            'seasonal_thong_hero',
-        ]);
-        unset($stored['seasons']);
-        $config = $this->mergeSeasonalData($defaults, $stored);
-        $config['seasons'] = collect($defaults['seasons'])->map(function ($season) use ($storedSeasons, $heroImages) {
-            $override = collect($storedSeasons)->firstWhere('id', $season['id']);
-            $season = $override ? $this->mergeSeasonalData($season, $override) : $season;
-
-            if ($heroImage = $heroImages['seasonal_'.$season['id'].'_hero'] ?? null) {
-                $season['img'] = $this->images->url($heroImage);
-            }
-
-            if (isset($season['tree'])) {
-                $tree = &$season['tree'];
-                $tree['addons'] = collect($tree['addons'] ?? [])->map(
-                    fn ($item) => is_array($item) ? $item : ['name' => $item, 'price' => '']
-                )->all();
-                if (isset($tree['accessories'][0]) && is_string($tree['accessories'][0])) {
-                    $tree['accessories'] = [[
-                        'group' => 'Phụ kiện & đồ trang trí',
-                        'items' => collect($tree['accessories'])->map(
-                            fn ($item) => ['name' => $item, 'desc' => '', 'icon' => 'hop', 'price' => '', 'img' => '']
-                        )->all(),
-                    ]];
-                }
-                $tree['faq'] = collect($tree['faq'] ?? [])->map(fn ($item) => [
-                    'q' => $item['q'] ?? $item['question'] ?? '',
-                    'q_en' => $item['q_en'] ?? $item['question_en'] ?? $item['q'] ?? $item['question'] ?? '',
-                    'a' => $item['a'] ?? $item['answer'] ?? '',
-                    'a_en' => $item['a_en'] ?? $item['answer_en'] ?? $item['a'] ?? $item['answer'] ?? '',
-                ])->all();
-            }
-
-            $season['url'] = match ($season['id']) {
-                'thu' => localized_route('season.autumn'),
-                'halloween' => localized_route('season.halloween'),
-                'thong' => localized_route('season.danish-tree'),
-                default => '#',
-            };
-
-            return $season;
-        })->all();
-        $config['hub']['url'] = localized_route('season.mua-le-hoi');
-        $config['orderEndpoint'] = localized_route('season.preorder');
-        $config['csrfToken'] = csrf_token();
-        $config['seasonSlug'] = $slug;
-
-        return $this->localizeSeasonalData($config);
-    }
-
-    private function seasonalFile(string $file): array
-    {
-        return json_decode(file_get_contents(resource_path("data/seasonal/{$file}.json")), true, flags: JSON_THROW_ON_ERROR);
-    }
-
-    private function mergeSeasonalData(array $defaults, array $stored): array
-    {
-        foreach ($stored as $key => $value) {
-            $defaults[$key] = is_array($value)
-                && ! array_is_list($value)
-                && isset($defaults[$key])
-                && is_array($defaults[$key])
-                && ! array_is_list($defaults[$key])
-                    ? $this->mergeSeasonalData($defaults[$key], $value)
-                    : $value;
-        }
-
-        return $defaults;
-    }
-
-    /**
-     * Walk a JSON-decoded array and replace every "key" with "key_en" value
-     * when the current locale is English and a "key_en" sibling exists.
-     */
-    private function localizeSeasonalData(array $data): array
-    {
-        if (app()->getLocale() !== 'en') {
-            return $data;
-        }
-
-        $result = [];
-        foreach ($data as $key => $value) {
-            // Skip _en keys themselves — they will replace their base key below
-            if (str_ends_with((string) $key, '_en')) {
-                continue;
-            }
-
-            $enKey = $key . '_en';
-            if (array_key_exists($enKey, $data)) {
-                // Override with English value
-                $enValue = $data[$enKey];
-                $result[$key] = is_array($enValue) ? $this->localizeSeasonalData($enValue) : $enValue;
-            } elseif (is_array($value)) {
-                if (array_is_list($value)) {
-                    // Recurse into each list item
-                    $result[$key] = array_map(
-                        fn ($item) => is_array($item) ? $this->localizeSeasonalData($item) : $item,
-                        $value
-                    );
-                } else {
-                    $result[$key] = $this->localizeSeasonalData($value);
-                }
-            } else {
-                $result[$key] = $value;
-            }
-        }
-
-        return $result;
+        return $this->seasonal->config($slug);
     }
 
     public function seasonPreorder(Request $request)

@@ -172,6 +172,10 @@ footer .gate{display:inline-block;font-size:.66rem;font-weight:600;color:#fff;ba
 .pal{display:flex;flex-wrap:wrap;gap:.8rem}.pal span{display:flex;align-items:center;gap:.5rem;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem .4rem .45rem;font-size:.9rem}
 .pal i{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
 .blk .prods{margin-top:.6rem}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:clamp(.7rem,1.6vw,1.1rem);margin-top:.8rem}
+.gal figure{margin:0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--paper);aspect-ratio:1;box-shadow:0 20px 40px -32px var(--shadow)}
+.gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.gal figure:hover img{transform:scale(1.04)}
 .tt{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:2rem;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:clamp(1.3rem,3vw,2.2rem)}
 .tt h2{margin:0;color:var(--copper);text-transform:uppercase;font-size:1.6rem}
 .cards2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;perspective:900px}

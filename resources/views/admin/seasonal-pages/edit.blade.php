@@ -13,7 +13,9 @@
             </a>
             <div>
                 <h1 class="admin-page-title">{{ $season['label'] }}</h1>
-                <p class="admin-page-subtitle">Cập nhật nội dung và sản phẩm hiển thị</p>
+                <p class="admin-page-subtitle">
+                    {{ $season['layout_label'] }} · <a href="{{ url('/mua-le-hoi/'.$season['slug']) }}" target="_blank" rel="noopener" style="color: inherit;">/mua-le-hoi/{{ $season['slug'] }}</a>
+                </p>
             </div>
         </div>
     </div>
@@ -26,6 +28,12 @@
         </button>
     </div>
 </div>
+
+@if($season['custom'])
+<div class="admin-alert success" style="margin-bottom: 16px;">
+    Trang này dùng <strong>giao diện mẫu Hội Mùa Thu</strong>. Mọi nội dung bên dưới — tên, đề mục, bảng màu, ảnh và sản phẩm — đều hiển thị trực tiếp trên trang.
+</div>
+@endif
 
 <form id="seasonalForm" method="POST" action="{{ route('admin.seasonal-pages.update', $seasonId) }}">
     @csrf
@@ -83,15 +91,35 @@
                     <h2 class="admin-card-title">Thông Tin Cơ Bản</h2>
                 </div>
                 <div class="admin-card-body" style="display: flex; flex-direction: column; gap: 16px;">
+                    @if($season['custom'])
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Tên Trang</label>
+                            <input type="text" name="data[name]" value="{{ $data['name'] ?? '' }}" class="form-input" placeholder="VD: Hội Mùa Thu" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Đường Dẫn (slug)</label>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 12px; color: var(--admin-text-muted); white-space: nowrap;">/mua-le-hoi/</span>
+                                <input type="text" name="data[slug]" value="{{ $data['slug'] ?? '' }}" class="form-input" placeholder="hoi-mua-thu" style="width: 100%;">
+                            </div>
+                        </div>
+                    </div>
+                    @else
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Tên Trang</label>
                         <input type="text" name="data[name]" value="{{ $data['name'] ?? '' }}" class="form-input" placeholder="VD: Hội Mùa Thu" style="width: 100%;">
                     </div>
+                    @endif
                     <div>
                         <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Tagline</label>
                         <input type="text" name="data[tagline]" value="{{ $data['tagline'] ?? '' }}" class="form-input" placeholder="VD: Chuyến bay mùa lá đỏ" style="width: 100%;">
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Mã Chuyến Bay</label>
+                            <input type="text" name="data[code]" value="{{ $data['code'] ?? '' }}" class="form-input" placeholder="VD: AUT" maxlength="10" style="width: 100%;">
+                        </div>
                         <div>
                             <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Trạng Thái</label>
                             <input type="text" name="data[status]" value="{{ $data['status'] ?? '' }}" class="form-input" placeholder="VD: Đang bay" style="width: 100%;">
@@ -105,6 +133,60 @@
                         <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Giới Thiệu</label>
                         <textarea name="data[intro]" rows="3" class="form-input" placeholder="Mô tả ngắn về trang..." style="width: 100%; resize: vertical;">{{ $data['intro'] ?? '' }}</textarea>
                     </div>
+                </div>
+            </div>
+
+            {{-- Section headings --}}
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h2 class="admin-card-title">Tiêu Đề Các Đề Mục</h2>
+                </div>
+                <div class="admin-card-body" style="display: flex; flex-direction: column; gap: 16px;">
+                    <p style="font-size: 12px; color: var(--admin-text-muted); margin: 0;">Để trống sẽ dùng tiêu đề mặc định của giao diện.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Bảng Màu</label>
+                            <input type="text" name="data[labels][palette]" value="{{ $data['labels']['palette'] ?? '' }}" class="form-input" placeholder="BẢNG MÀU MÙA" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Bộ Sưu Tập</label>
+                            <input type="text" name="data[labels][collection]" value="{{ $data['labels']['collection'] ?? '' }}" class="form-input" placeholder="BỘ SƯU TẬP" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Thư Viện Ảnh</label>
+                            <input type="text" name="data[labels][gallery]" value="{{ $data['labels']['gallery'] ?? '' }}" class="form-input" placeholder="KHOẢNH KHẮC MÙA LỄ" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Gallery images --}}
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h2 class="admin-card-title">Ảnh Trong Trang</h2>
+                </div>
+                <div class="admin-card-body">
+                    <div id="galleryGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px;">
+                        @foreach(($data['gallery'] ?? []) as $index => $image)
+                            <div class="gallery-item" data-index="{{ $index }}" style="position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--admin-border); aspect-ratio: 1;">
+                                <img src="{{ $image }}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                                <button type="button" class="gallery-remove" data-index="{{ $index }}" title="Xóa ảnh" style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,.6); color: #fff; border: 0; border-radius: 6px; width: 24px; height: 24px; cursor: pointer; line-height: 1;">×</button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <p id="galleryEmpty" style="font-size: 12px; color: var(--admin-text-muted); margin: 12px 0 0; {{ ($data['gallery'] ?? []) ? 'display:none;' : '' }}">Chưa có ảnh nào.</p>
+                    <div style="margin-top: 12px;">
+                        <label>
+                            <span class="btn btn-secondary" style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                Thêm ảnh
+                                <input type="file" accept="image/*" id="galleryUpload" style="display: none;" multiple>
+                            </span>
+                        </label>
+                    </div>
+                    <p style="font-size: 12px; color: var(--admin-text-muted); margin: 8px 0 0;">Ảnh này hiển thị ở đề mục “Thư Viện Ảnh” bên dưới bộ sưu tập sản phẩm.</p>
                 </div>
             </div>
 
@@ -261,7 +343,7 @@
             @endif
 
             {{-- Palette (Autumn only) --}}
-            @if($seasonId === 'thu' && isset($data['palette']))
+            @if(($season['layout'] ?? null) === 'autumn' && isset($data['palette']))
             <div class="admin-card">
                 <div class="admin-card-header">
                     <h2 class="admin-card-title">Bảng Màu</h2>

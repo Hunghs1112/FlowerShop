@@ -116,6 +116,10 @@ $customerRoutes = function (): void {
     Route::get('/mua-le-hoi/halloween', [PageController::class, 'seasonHalloween'])->name('season.halloween');
     Route::get('/mua-le-hoi/cay-thong-dan-mach', [PageController::class, 'seasonDanishTree'])->name('season.danish-tree');
     Route::get('/trang/mua-le-hoi', fn () => redirect(localized_route('season.mua-le-hoi')));
+    // Seasons created from the admin (they share the autumn layout).
+    Route::get('/mua-le-hoi/{slug}', [PageController::class, 'seasonCustom'])
+        ->where('slug', '^(?!hoi-mua-thu$|halloween$|cay-thong-dan-mach$)[a-z0-9\-]+$')
+        ->name('season.page');
     Route::post('/mua-le-hoi/dat-truoc', [PageController::class, 'seasonPreorder'])
         ->middleware('throttle:5,1')
         ->name('season.preorder');
@@ -308,20 +312,31 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')-
     Route::delete('settings/editorial', [SettingController::class, 'deleteEditorialImage'])->name('settings.deleteEditorial');
     Route::get('page-banners', [SettingController::class, 'index'])->name('page-banners.index');
 
-    // Seasonal Pages (Mùa lễ hội: Hội Mùa Thu, Halloween, Cây Thông Đan Mạch)
+    // Seasonal Pages (Mùa lễ hội: Hội Mùa Thu, Halloween, Cây Thông Đan Mạch + trang tự tạo)
     Route::get('seasonal-pages', [SeasonalPageController::class, 'index'])->name('seasonal-pages.index');
+    Route::post('seasonal-pages', [SeasonalPageController::class, 'store'])->name('seasonal-pages.store');
     Route::get('seasonal-pages/{seasonId}/edit', [SeasonalPageController::class, 'edit'])
-        ->where('seasonId', 'thu|halloween|thong')
+        ->where('seasonId', '[A-Za-z0-9]+')
         ->name('seasonal-pages.edit');
     Route::put('seasonal-pages/{seasonId}', [SeasonalPageController::class, 'update'])
-        ->where('seasonId', 'thu|halloween|thong')
+        ->where('seasonId', '[A-Za-z0-9]+')
         ->name('seasonal-pages.update');
+    Route::delete('seasonal-pages/{seasonId}', [SeasonalPageController::class, 'destroy'])
+        ->where('seasonId', '[A-Za-z0-9]+')
+        ->name('seasonal-pages.destroy');
     Route::post('seasonal-pages/{seasonId}/hero', [SeasonalPageController::class, 'uploadHero'])
-        ->where('seasonId', 'thu|halloween|thong')
+        ->where('seasonId', '[A-Za-z0-9]+')
         ->name('seasonal-pages.uploadHero');
     Route::delete('seasonal-pages/{seasonId}/hero', [SeasonalPageController::class, 'destroyHero'])
-        ->where('seasonId', 'thu|halloween|thong')
+        ->where('seasonId', '[A-Za-z0-9]+')
         ->name('seasonal-pages.destroyHero');
+    Route::post('seasonal-pages/{seasonId}/gallery', [SeasonalPageController::class, 'uploadGallery'])
+        ->where('seasonId', '[A-Za-z0-9]+')
+        ->name('seasonal-pages.uploadGallery');
+    Route::delete('seasonal-pages/{seasonId}/gallery/{index}', [SeasonalPageController::class, 'destroyGallery'])
+        ->where('seasonId', '[A-Za-z0-9]+')
+        ->where('index', '[0-9]+')
+        ->name('seasonal-pages.destroyGallery');
 
     Route::get('career', [CareerPageController::class, 'edit'])->name('career.edit');
     Route::put('career', [CareerPageController::class, 'update'])->name('career.update');
